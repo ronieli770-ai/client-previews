@@ -112,11 +112,7 @@
   /* fan carousel */
   .fan { position: relative; width: 100%; max-width: 1200px; height: 520px; margin: 40px auto 0; touch-action: pan-y; user-select: none; }
   .fan .deal { overflow: visible; position: absolute; left: 50%; top: 30px; width: 400px; min-height: 0; height: 420px; margin-left: -200px; cursor: pointer;
-    transition: transform .7s cubic-bezier(.22,.8,.2,1), opacity .7s ease, filter .7s ease, box-shadow .7s ease; }
-  .fan .deal[data-pos="0"] { transform: translateX(0) translateY(-10px) scale(1.06); z-index: 3; opacity: 1; cursor: default;
-    box-shadow: 0 24px 70px -10px var(--glow), inset 0 0 40px color-mix(in srgb, var(--glow) 30%, transparent); }
-  .fan .deal[data-pos="1"] { transform: translateX(-370px) translateY(40px) rotate(-5deg) scale(.88); z-index: 2; opacity: .8; filter: saturate(.85); }
-  .fan .deal[data-pos="2"] { transform: translateX(370px) translateY(30px) rotate(5deg) scale(.88); z-index: 2; opacity: .8; filter: saturate(.85); }
+    }
   .deal { --glow: #61b1f2; --deep: #2e8bd8; --light: #d6ecff;
     background: radial-gradient(95% 95% at 0% 100%, color-mix(in srgb, var(--glow) 62%, transparent) 0%, color-mix(in srgb, var(--deep) 22%, transparent) 40%, transparent 100%),
                 radial-gradient(60% 60% at 100% 0%, color-mix(in srgb, var(--light) 10%, transparent), transparent), #0b0e14 !important; }
@@ -129,16 +125,21 @@
   .deal .code svg { flex: 0 0 14px; }
   .hot { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 4; white-space: nowrap; font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 13px; color: #fff;
     padding: 7px 16px; border-radius: 999px; background: linear-gradient(90deg, #a99bff, #6c5ce7); box-shadow: 0 6px 18px rgba(140,123,255,.5); }
+  .fan .deal.front { cursor: default; box-shadow: 0 24px 70px -10px var(--glow), inset 0 0 40px color-mix(in srgb, var(--glow) 30%, transparent); }
+  .fan .deal .hot { opacity: 0; transition: opacity .4s; }
+  .fan .deal.front .hot { opacity: 1; }
+  .fan.anim .deal { transition: transform .8s cubic-bezier(.34,1.25,.64,1), opacity .6s ease, filter .6s ease, box-shadow .6s ease; }
+  /* name tabs: equal widths, one indicator that slides between them */
+  .tabs { position: relative; display: grid; grid-template-columns: repeat(3, 150px); padding: 5px; border-radius: 999px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+  .tabs .ind { position: absolute; top: 5px; bottom: 5px; right: 5px; width: 150px; border-radius: 999px; background: var(--tab, #8c7bff);
+    box-shadow: 0 6px 20px -4px var(--tab, #8c7bff); transition: transform .55s cubic-bezier(.22,.8,.2,1), background-color .55s ease, box-shadow .55s ease; }
+  .tabs button { position: relative; z-index: 1; font: 500 14px "Roboto","Fb Reforma",sans-serif; color: rgba(255,255,255,.72); background: none; border: 0; border-radius: 999px; padding: 10px 0; cursor: pointer; transition: color .4s; }
+  .tabs button.on { color: #12161f; }
+  @media (max-width: 560px) { .tabs { grid-template-columns: repeat(3, 104px); } .tabs .ind { width: 104px; } .tabs button { font-size: 13px; } }
   .fan-nav { display: flex; gap: 14px; justify-content: center; align-items: center; margin-top: 8px; }
-  .fan-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.04); color: #fff; cursor: pointer; display: grid; place-items: center; }
-  .dots { display: flex; gap: 8px; }
-  .dots i { width: 8px; height: 8px; border-radius: 99px; background: rgba(255,255,255,.25); transition: all .4s; }
-  .dots i.on { width: 22px; background: #fff; }
   @media (max-width: 900px) {
     .fan { height: 500px; }
     .fan .deal { width: 300px; margin-left: -150px; height: 440px; }
-    .fan .deal[data-pos="1"] { transform: translateX(-210px) translateY(40px) rotate(-6deg) scale(.82); }
-    .fan .deal[data-pos="2"] { transform: translateX(210px) translateY(30px) rotate(6deg) scale(.82); }
   }
 
   /* white section after */
@@ -252,7 +253,7 @@
         <div class="deal-foot"><button class="btn-gray">לפרטי המבצע</button><span class="code"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</span></div>
       </article>
     </div>
-    <div class="fan-nav"><button id="next" aria-label="הבא">→</button><div class="dots" id="dots"><i></i><i></i><i></i></div><button id="prev" aria-label="הקודם">←</button></div>
+    <div class="fan-nav"><div class="tabs" id="tabs"><span class="ind" id="ind"></span></div></div>
     <a class="full-link all" href="#">לכל המבצעים ←</a>
   </section>
 </div>
@@ -301,29 +302,50 @@
   frame();
 
 
-  // fan carousel: center card is the featured one; arrows, dots, click a side card, swipe or trackpad scroll to move
-  const fanCards = [...document.querySelectorAll('#fan .deal')];
-  const dots = [...document.querySelectorAll('#dots i')];
-  let cur = 0;
-  function layoutFan() {
-    const n = fanCards.length;
-    fanCards.forEach((c, i) => {
-      const d = (i - cur + n) % n;                 // 0 = center, 1 = left, 2 = right
-      c.dataset.pos = d;
-    });
-    dots.forEach((d, i) => d.classList.toggle('on', i === cur));
-  }
-  const go = step => { cur = (cur + step + fanCards.length) % fanCards.length; layoutFan(); };
-  document.getElementById('next').onclick = () => go(1);
-  document.getElementById('prev').onclick = () => go(-1);
-  fanCards.forEach((c, i) => c.addEventListener('click', e => { if (c.dataset.pos !== '0' && !e.target.closest('.code')) { cur = i; layoutFan(); } }));
-  let sx = null;
+  // fan carousel: spatial order right-to-left is Apex, Take Profit, Lucid, so the tabs and the cards always agree
   const fan = document.getElementById('fan');
+  const fanCards = [...fan.querySelectorAll('.deal')];             // DOM order: Take Profit, Lucid, Apex
+  const ORDER = [2, 0, 1];                                          // right to left
+  const NAMES = ['Take Profit', 'Lucid Trading', 'Apex'];
+  const COLORS = ['#8c7bff', '#61b1f2', '#3fd8c2'];
+  const tabsEl = document.getElementById('tabs'), ind = document.getElementById('ind');
+  const tabBtns = ORDER.map(i => { const b = document.createElement('button'); b.textContent = NAMES[i]; b.onclick = () => go(i); tabsEl.appendChild(b); return b; });
+  let cur = 0;
+  const step = () => innerWidth < 900 ? 220 : 360;
+  function layoutFan(animate) {
+    fan.classList.toggle('anim', !!animate);
+    const pc = ORDER.indexOf(cur);
+    fanCards.forEach((c, i) => {
+      const d = ORDER.indexOf(i) - pc;                              // + is further left, - is further right
+      const a = Math.abs(d);
+      c.style.transform = `translateX(${-d * step()}px) translateY(${a ? 40 : -10}px) rotate(${-d * 6}deg) scale(${a ? (a > 1 ? .7 : .86) : 1.06})`;
+      c.style.opacity = a > 1 ? 0 : a ? .78 : 1;
+      c.style.zIndex = 3 - a; c.style.pointerEvents = a > 1 ? 'none' : '';
+      c.style.filter = a ? 'saturate(.8) brightness(.9)' : 'none';
+      c.classList.toggle('front', !a);
+    });
+    // tabs: equal widths, the indicator slides to the active one
+    tabBtns.forEach((b, k) => b.classList.toggle('on', k === pc));
+    const w = tabBtns[0].offsetWidth;
+    ind.style.transition = animate ? '' : 'none';          // no slide on first paint or resize
+    ind.style.width = w + 'px';
+    ind.style.transform = `translateX(${-pc * w}px)`;
+    if (!animate) requestAnimationFrame(() => { ind.style.transition = ''; });
+    tabsEl.style.setProperty('--tab', COLORS[cur]);
+  }
+  function go(i) { if (i !== cur) { cur = i; layoutFan(true); } }
+  fanCards.forEach((c, i) => c.addEventListener('click', e => { if (!c.classList.contains('front') && !e.target.closest('.code')) go(i); }));
+  let sx = null;
   fan.addEventListener('pointerdown', e => { sx = e.clientX; });
-  fan.addEventListener('pointerup', e => { if (sx !== null && Math.abs(e.clientX - sx) > 40) go(e.clientX < sx ? -1 : 1); sx = null; });
-  let wheelLock = false;
-  fan.addEventListener('wheel', e => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20 && !wheelLock) { e.preventDefault(); wheelLock = true; go(e.deltaX > 0 ? -1 : 1); setTimeout(() => wheelLock = false, 650); } }, { passive: false });
-  layoutFan();
+  fan.addEventListener('pointerup', e => {
+    if (sx !== null && Math.abs(e.clientX - sx) > 40) {           // drag right brings the card on the left
+      const pc = ORDER.indexOf(cur) + (e.clientX > sx ? 1 : -1);
+      if (pc >= 0 && pc < ORDER.length) go(ORDER[pc]);
+    }
+    sx = null;
+  });
+  addEventListener('resize', () => layoutFan(false));
+  layoutFan(false);
 
   document.querySelectorAll('.code').forEach(c => c.addEventListener('click', () => {
     navigator.clipboard && navigator.clipboard.writeText(c.textContent.trim());

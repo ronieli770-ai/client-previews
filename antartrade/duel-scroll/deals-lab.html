@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - מעבר וניווט בין המבצעים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Roboto", "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Roboto", "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  :root {
+    --bg: #12161f; --card: #0b0e14; --sky: #61b1f2; --sky2: #7dc6ff; --ice: #d6ecff; --blue: #2e8bd8;
+    --ink: #12161f; --white: #fff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  body { font-family: "Roboto", "Fb Reforma", sans-serif; background: #fff; color: var(--ink); overflow-x: hidden; }
+
+  /* white context section above */
+  .context { height: 90vh; display: grid; place-items: center; text-align: center; background: #fff; }
+  .context h2 { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 28px; }
+  .context p { margin-top: 10px; opacity: .55; font-size: 16px; }
+  .hint { margin-top: 28px; font-size: 14px; color: var(--blue); }
+
+  /* stage that holds the growing dark shape */
+  html, body { overflow-x: clip; }
+  .stage { position: relative; }
+  .stage { overflow: clip; }
+  .duel, .deals { position: relative; z-index: 1; }
+  /* the duel's dark arc - one shape that keeps its curve and grows down into the deals */
+  .dark { position: absolute; top: 0; left: 0; width: 100%; height: var(--h, 720px); z-index: 0;
+    background: var(--bg); clip-path: ellipse(85% 100% at 50% 0%); will-change: height; }
+  .deals { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+  /* duel */
+  .duel { padding: 110px 16px 60px; text-align: center; }
+  .title { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: clamp(30px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.01em; margin-top: 14px;
+    background: linear-gradient(90deg, #fff 0%, var(--sky) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { font-family: "Roboto", "Fb Reforma"; font-size: 20px; color: #fff; margin-top: 14px; }
+  .chips { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; margin: 26px 0 50px; }
+  .chips .lab { color: rgba(255,255,255,.7); font-size: 14px; font-family: "Roboto", "Fb Reforma"; }
+  .chip { direction: ltr; font-size: 13px; font-weight: 500; color: #fff; padding: 7px 14px; border-radius: 999px;
+    background: rgba(125,198,255,.08); border: 1px solid rgba(255,255,255,.14); }
+  .chip b { color: var(--sky); font-weight: 700; margin: 0 6px; font-size: 12px; }
+
+  .cards { display: flex; justify-content: center; align-items: center; gap: 75px; position: relative; flex-wrap: wrap; }
+  .vs { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 64px; height: 64px; border-radius: 50%;
+    background: var(--bg); color: #fff; font-weight: 700; font-size: 18px; display: grid; place-items: center; z-index: 2;
+    box-shadow: 0 8px 24px rgba(85,169,235,.35); border: 1.5px solid transparent;
+    background-image: linear-gradient(var(--bg), var(--bg)), linear-gradient(135deg, var(--sky), #fff);
+    background-origin: border-box; background-clip: padding-box, border-box; }
+
+  /* chip-glow card (option 1) */
+  .glow-card {
+    position: relative; overflow: hidden; border-radius: 32px; text-align: right; color: #fff;
+    background:
+      radial-gradient(85% 85% at 0% 100%, rgba(97,177,242,.55) 0%, rgba(46,139,216,.18) 45%, rgba(46,139,216,0) 100%),
+      radial-gradient(60% 60% at 100% 0%, rgba(214,236,255,.10), rgba(214,236,255,0)),
+      var(--card);
+    box-shadow: inset 0 0 36px rgba(125,198,255,.18);
+  }
+  .glow-card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+    background: linear-gradient(135deg, rgba(255,255,255,.55), rgba(97,177,242,.45) 45%, rgba(255,255,255,.08));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+
+  .duel-card { width: 489px; max-width: 100%; height: 565px; padding: 32px 36px; display: flex; flex-direction: column; gap: 20px; }
+  .row-top { display: flex; justify-content: space-between; align-items: center; }
+  .tag { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 13px; color: var(--sky2); background: rgba(97,177,242,.16); padding: 5px 12px; border-radius: 999px; }
+  .btn-outline svg { flex: 0 0 16px; }
+  .btn-outline { line-height: 1; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 7px; font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 14px; color: #fff; background: none; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 9px 16px; cursor: pointer; }
+  .co { display: flex; align-items: center; gap: 14px; }
+  .co .name { font-size: 30px; font-weight: 700; }
+  .co svg, .co img { width: 48px; height: 48px; }
+  .field { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-radius: 16px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+  .field .k { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 13px; opacity: .55; margin-left: 10px; }
+  .field .v { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 14px; }
+  .price .size { font-size: 13px; opacity: .55; font-family: "Roboto", "Fb Reforma"; font-weight: 500; }
+  .price .line { display: flex; align-items: baseline; gap: 10px; margin-top: 4px; }
+  .price .now { font-size: 40px; font-weight: 700; }
+  .price .was { font-size: 20px; opacity: .35; text-decoration: line-through; }
+  .price .per { font-size: 14px; opacity: .55; font-family: "Roboto", "Fb Reforma"; }
+  .divider { height: 1px; background: rgba(255,255,255,.10); }
+  .spec { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .spec:last-child { border-bottom: 0; }
+  .spec .k { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 13px; opacity: .55; }
+  .spec .v { font-family: "Roboto", "Fb Reforma"; font-size: 20px; }
+  .full-link { display: inline-flex; gap: 8px; align-items: center; margin-top: 44px; color: var(--sky2); font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 20px; text-decoration: none; }
+
+  /* deals */
+  .deals { padding: 40px 16px; text-align: center; color: #fff; }
+  .eyebrow { display: inline-block; font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 15px; color: var(--sky2); background: rgba(97,177,242,.14); padding: 6px 14px; border-radius: 999px; }
+  .deals .title { margin-top: 10px; }
+  .deals .sub { opacity: .75; }
+  .deal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 340px)); gap: 24px; justify-content: center; margin-top: 44px; }
+  .deal { padding: 30px; display: flex; flex-direction: column; gap: 18px; min-height: 360px; }
+  .deals > * { opacity: var(--o, 0); transform: translateY(calc((1 - var(--o, 0)) * 40px)); }
+  .deal .co .name { font-size: 22px; }
+  .deal .co svg, .deal .co img { width: 40px; height: 40px; }
+  .pct { font-size: 64px; font-weight: 700; line-height: 1; direction: ltr; text-align: right;
+    background: linear-gradient(90deg, var(--sky) 0%, #fff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .pct small { margin-left: 8px; font-family: "Roboto", "Fb Reforma"; font-size: 18px; font-weight: 500; -webkit-text-fill-color: rgba(255,255,255,.7); margin-right: 8px; }
+  .deal h3 { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 20px; }
+  .deal p { font-family: "Roboto", "Fb Reforma"; font-size: 14px; line-height: 1.6; opacity: .65; }
+  .deal-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .code { direction: ltr; font-weight: 700; font-size: 14px; color: var(--ice); background: rgba(125,198,255,.12); border: 1px dashed rgba(125,198,255,.5); padding: 8px 14px; border-radius: 999px; cursor: pointer; }
+  .btn-gray { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 14px; color: var(--ink); background: #eef1f5; border: 0; border-radius: 999px; padding: 10px 18px; cursor: pointer; }
+  .all { margin-top: 48px; display: inline-block; }
+
+
+  /* fan carousel */
+  .fan { position: relative; width: 100%; max-width: 1200px; height: 520px; margin: 40px auto 0; touch-action: pan-y; user-select: none; }
+  .fan .deal { overflow: visible; position: absolute; left: 50%; top: 30px; width: 400px; min-height: 0; height: 420px; margin-left: -200px; cursor: pointer;
+    transition: transform .7s cubic-bezier(.22,.8,.2,1), opacity .7s ease, filter .7s ease, box-shadow .7s ease; }
+  .fan .deal[data-pos="0"] { transform: translateX(0) translateY(-10px) scale(1.06); z-index: 3; opacity: 1; cursor: default;
+    box-shadow: 0 24px 70px -10px var(--glow), inset 0 0 40px color-mix(in srgb, var(--glow) 30%, transparent); }
+  .fan .deal[data-pos="1"] { transform: translateX(-370px) translateY(40px) rotate(-5deg) scale(.88); z-index: 2; opacity: .8; filter: saturate(.85); }
+  .fan .deal[data-pos="2"] { transform: translateX(370px) translateY(30px) rotate(5deg) scale(.88); z-index: 2; opacity: .8; filter: saturate(.85); }
+  .deal { --glow: #61b1f2; --deep: #2e8bd8; --light: #d6ecff;
+    background: radial-gradient(95% 95% at 0% 100%, color-mix(in srgb, var(--glow) 62%, transparent) 0%, color-mix(in srgb, var(--deep) 22%, transparent) 40%, transparent 100%),
+                radial-gradient(60% 60% at 100% 0%, color-mix(in srgb, var(--light) 10%, transparent), transparent), #0b0e14 !important; }
+  .deal::before { background: linear-gradient(135deg, rgba(255,255,255,.55), color-mix(in srgb, var(--glow) 50%, transparent) 45%, rgba(255,255,255,.08)) !important; }
+  .deal.mint { --glow: #3fd8c2; --deep: #1e9e9a; --light: #b8fff1; }
+  .deal.violet { --glow: #8c7bff; --deep: #5b4bd6; --light: #e2dcff; }
+  .deal .pct { background: linear-gradient(90deg, var(--glow) 0%, #fff 100%); -webkit-background-clip: text; background-clip: text; }
+  .deal .co svg path { fill: var(--glow); }
+  .deal .code { display: inline-flex; align-items: center; gap: 8px; color: var(--light); background: color-mix(in srgb, var(--glow) 12%, transparent); border-color: color-mix(in srgb, var(--glow) 55%, transparent); }
+  .deal .code svg { flex: 0 0 14px; }
+  .hot { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 4; white-space: nowrap; font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 13px; color: #fff;
+    padding: 7px 16px; border-radius: 999px; background: linear-gradient(90deg, #a99bff, #6c5ce7); box-shadow: 0 6px 18px rgba(140,123,255,.5); }
+  .fan-nav { display: flex; gap: 14px; justify-content: center; align-items: center; margin-top: 8px; }
+  .fan-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.04); color: #fff; cursor: pointer; display: grid; place-items: center; }
+  .dots { display: flex; gap: 8px; }
+  .dots i { width: 8px; height: 8px; border-radius: 99px; background: rgba(255,255,255,.25); transition: all .4s; }
+  .dots i.on { width: 22px; background: #fff; }
+  @media (max-width: 900px) {
+    .fan { height: 500px; }
+    .fan .deal { width: 300px; margin-left: -150px; height: 440px; }
+    .fan .deal[data-pos="1"] { transform: translateX(-210px) translateY(40px) rotate(-6deg) scale(.82); }
+    .fan .deal[data-pos="2"] { transform: translateX(210px) translateY(30px) rotate(6deg) scale(.82); }
+  }
+
+  /* white section after */
+  .after { height: 80vh; display: grid; place-items: center; text-align: center; background: #fff; }
+  .after h2 { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 28px; }
+
+  @media (max-width: 1100px) {
+    .deal-grid { grid-template-columns: minmax(0, 420px); }
+    .cards { gap: 90px; }
+    .vs { top: 50%; }
+  }
+  @media (max-width: 560px) {
+    .duel-card { height: auto; padding: 26px 22px; }
+    .co .name { font-size: 24px; }
+    .price .now { font-size: 34px; }
+    .spec .v { font-size: 17px; }
+  }
+</style>
+<style>
+  body { background: var(--bg); color: #fff; }
+  .lab { min-height: 100vh; padding: 70px 16px 190px; text-align: center; }
+  .lab .title { margin-top: 14px; }
+  .stagewrap { position: relative; width: 100%; max-width: 1240px; margin: 46px auto 0; }
+  .fan { margin-top: 0; }
+  .fan .deal { transition: none; }
+  .fan.anim .deal { transition: transform .8s cubic-bezier(.34,1.25,.64,1), opacity .6s ease, filter .6s ease, box-shadow .6s ease; }
+  .fan.t-c { perspective: 1400px; }
+  .fan.t-c .deal { transform-style: preserve-3d; }
+  .fan .deal.front { box-shadow: 0 24px 70px -10px var(--glow), inset 0 0 40px color-mix(in srgb, var(--glow) 30%, transparent); }
+  .fan .deal:not(.front) { cursor: pointer; }
+  .deal .hot { opacity: 0; transition: opacity .4s; }
+  .deal.front .hot { opacity: 1; }
+  /* D: native horizontal scroll */
+  .row { direction: ltr; display: none; overflow-x: auto; scroll-snap-type: x mandatory; gap: 28px; padding: 40px calc(50% - 200px) 50px; scrollbar-width: none; }
+  .row::-webkit-scrollbar { display: none; }
+  .row .deal { direction: rtl; position: relative; flex: 0 0 400px; height: 420px; overflow: visible; scroll-snap-align: center; transition: transform .25s linear, opacity .25s linear; }
+  .mode-d .fan { display: none; } .mode-d .row { display: flex; }
+  /* navigation styles */
+  .nav { margin-top: 18px; display: none; justify-content: center; align-items: center; gap: 14px; }
+  .nav.on { display: flex; }
+  .side-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 6; width: 54px; height: 54px; border-radius: 50%; display: none; place-items: center; cursor: pointer;
+    color: #fff; font-size: 18px; background: rgba(18,22,31,.55); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,.35); transition: background .2s, transform .2s; }
+  .side-arrow:hover { background: rgba(125,198,255,.18); transform: translateY(-50%) scale(1.06); }
+  .side-arrow.r { right: 0; } .side-arrow.l { left: 0; }
+  .n1 .side-arrow { display: grid; }
+  .tabs { display: inline-flex; gap: 4px; padding: 5px; border-radius: 999px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+  .tabs button { font: 500 14px "Roboto","Fb Reforma",sans-serif; color: rgba(255,255,255,.7); background: none; border: 0; border-radius: 999px; padding: 9px 18px; cursor: pointer; transition: all .35s; }
+  .tabs button.on { color: #12161f; background: var(--tab, #7dc6ff); }
+  .progress { display: flex; gap: 10px; }
+  .progress i { width: 46px; height: 4px; border-radius: 9px; background: rgba(255,255,255,.18); overflow: hidden; cursor: pointer; }
+  .progress i b { display: block; height: 100%; width: 0; background: #fff; }
+  .hint { font-size: 14px; color: rgba(255,255,255,.55); font-family: "Roboto","Fb Reforma"; }
+  .switch { position: fixed; z-index: 50; bottom: 16px; left: 50%; transform: translateX(-50%); display: grid; gap: 8px; background: rgba(12,15,22,.94); border: 1px solid rgba(255,255,255,.14);
+    border-radius: 22px; padding: 12px 14px; backdrop-filter: blur(8px); width: max-content; max-width: calc(100% - 32px); }
+  .switch .grp { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  .switch span { color: rgba(255,255,255,.6); font-size: 13px; min-width: 52px; font-family: "Roboto","Fb Reforma"; }
+  .switch button { font: 500 13px "Roboto","Fb Reforma",sans-serif; color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 7px 12px; cursor: pointer; }
+  .switch button.on { background: #7dc6ff; color: #12161f; border-color: #7dc6ff; }
+</style>
+</head>
+<body>
+<section class="lab deals" id="lab" style="--o:1">
+  <span class="eyebrow">מבצעים פעילים</span>
+  <h2 class="title">המבצעים החמים של החודש</h2>
+  <p class="sub">בחרנו את ההנחות הטובות ביותר שאומתו עבור הקוד ANTAR</p>
+
+  <div class="stagewrap" id="wrap">
+    <button class="side-arrow r" id="ar" aria-label="הקודם">→</button>
+    <button class="side-arrow l" id="al" aria-label="הבא">←</button>
+    <div class="fan" id="fan">
+      <article class="glow-card deal violet"><span class="hot">ההטבה הכי שווה עכשיו</span>
+        <div class="co"><svg viewBox="0 0 90 100"><path fill-rule="evenodd" d="M61.1 23.5 61.1 30.3 58.1 30.8 58.1 50.9 61.1 51.3 61.1 88 64.5 88 64.5 51.7 67.5 50.9 67.5 30.8 64.5 29.5 64.5 23.5ZM17.9 23.5 17.9 58.1 15 59 15 79.1 17.9 80.3 18.4 88 20.9 88 21.4 80.3 23.9 79.5 23.9 59 21.4 58.5 21.4 23.5ZM1.7 1.7 1.7 16.2 39.7 16.7 39.7 44.9 36.8 45.7 36.8 65.8 39.7 66.2 39.7 97.9 43.2 97.9 43.2 66.2 46.2 65.8 46.2 45.7 43.2 44.9 43.2 16.7 87.6 16.2 88 2.1Z"/></svg><span class="name">Take Profit</span></div>
+        <div class="pct">40%<small>הנחה</small></div>
+        <h3>חשבון PRO ללא עמלת הפעלה</h3>
+        <p>ללא חוק עקביות בחשבון הממומן, אפשר למשוך בכל יום</p>
+        <div class="deal-foot"><button class="btn-gray">לפרטי המבצע</button><span class="code"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</span></div>
+      </article>
+      <article class="glow-card deal ">
+        <div class="co"><img src="lucid.png" alt="Lucid Trading"><span class="name">Lucid Trading</span></div>
+        <div class="pct">30%<small>הנחה</small></div>
+        <h3>חדש: סטופ סוף יום במבחן ובממומן</h3>
+        <p>חברת Lucid Trading מציגה סטופ סוף יום (EOD) גם במבחן וגם בממומן</p>
+        <div class="deal-foot"><button class="btn-gray">לפרטי המבצע</button><span class="code"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</span></div>
+      </article>
+      <article class="glow-card deal mint">
+        <div class="co"><svg viewBox="0 0 100 50"><path fill-rule="evenodd" d="M99.2 4.5 98 2.6 96.6 1.4 95 0.7 93.5 0.5 91.7 0.7 48.9 20.7 48.4 20.7 46.4 19.1 46 19.1 27.9 6.7 24.3 5.6 21.8 5.6 19.6 6.1 17.6 6.9 15.6 8.3 13.3 11.1 0.5 37.3 1 37.9 1.9 37.3 11.9 24.5 14.4 21.8 14.4 21.4 18.8 15.8 21.2 13.3 37.9 25.7 29.5 29.8 28.4 30.1 26.2 31.4 25.1 31.6 22.8 32.9 18 35 17.4 35.4 17.6 36.1 20.2 35.6 26.5 33.1 30.9 31.7 41.3 27.9 69.2 48.6 72.5 49.7 76 49.3 77.5 48.6 79.3 47.2 81.6 43.6 86.4 33.5 87.8 31.5 90 26.5 93.5 20.1 93.6 19.4 94.1 19 99.2 8.8 99.4 7.8ZM87 11.9 72.7 37 71.8 36.7 53.2 23.9 55.4 22.8 59.8 21.5 61 20.8 64.2 20 64.8 19.5 74.9 16.2 75.5 15.7 85.6 12.4 86.2 11.9Z"/></svg><span class="name">Apex</span></div>
+        <div class="pct">90%<small>הנחה</small></div>
+        <h3>אפקס <bdi>EOD</bdi> - <bdi>90%</bdi> הנחה</h3>
+        <p>קוד ANTAR מעניק 90% הנחה על מבחני EOD Trail.<br>בתוקף עד 1 באוקטובר 2026, 23:59 שעון ניו יורק.</p>
+        <div class="deal-foot"><button class="btn-gray">לפרטי המבצע</button><span class="code"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</span></div>
+      </article>
+    </div>
+    <div class="row" id="row"></div>
+  </div>
+
+  <div class="nav" id="nav2"><div class="tabs" id="tabs"></div></div>
+  <div class="nav" id="nav3"><div class="progress" id="prog"></div></div>
+  <div class="nav" id="nav4"><span class="hint">גררו הצידה או לחצו על כרטיס</span></div>
+</section>
+
+<div class="switch">
+  <div class="grp" id="gT"><span>מעבר:</span>
+    <button data-t="a">A מניפה קפיצית</button><button data-t="b">B דפדוף חפיסה</button><button data-t="c">C תלת מימד</button><button data-t="d">D גלילה הצידה</button></div>
+  <div class="grp" id="gN"><span>ניווט:</span>
+    <button data-n="1">1 חצים בצדדים</button><button data-n="2">2 לשוניות עם שמות</button><button data-n="3">3 פסי התקדמות אוטומטיים</button><button data-n="4">4 בלי כפתורים</button></div>
+</div>
+
+<script>
+  const fan = document.getElementById('fan'), row = document.getElementById('row'), wrap = document.getElementById('wrap'), lab = document.getElementById('lab');
+  const cards = [...fan.querySelectorAll('.deal')];
+  const names = ['Take Profit', 'Lucid Trading', 'Apex'];
+  const colors = ['#8c7bff', '#61b1f2', '#3fd8c2'];
+  const rowCards = cards.map(c => c.cloneNode(true));       // same index as the fan cards
+  [...rowCards].reverse().forEach(c => row.appendChild(c));     // laid out right-to-left: the first deal sits on the right
+  let cur = 0, T = 'a', N = '1', prog = 0, last = 0, hover = false;
+  try { T = localStorage.getItem('dealT') || 'a'; N = localStorage.getItem('dealN') || '1'; } catch (e) {}
+  const W = () => innerWidth < 900 ? 220 : 360;
+
+  function markTabs() {
+    document.querySelectorAll('#tabs button').forEach((b, i) => b.classList.toggle('on', i === cur));
+    document.getElementById('tabs').style.setProperty('--tab', colors[cur]);
+  }
+  function place(animate = true) {
+    fan.classList.toggle('anim', animate);
+    fan.classList.remove('t-a', 't-b', 't-c'); fan.classList.add('t-' + T);
+    cards.forEach((c, i) => {
+      let d = (i - cur + 3) % 3; if (d === 2) d = -1;      // 0 center, 1 left, -1 right (RTL: the next card waits on the left)
+      const a = Math.abs(d); let tf = '', op = 1;
+      if (T === 'a') { tf = `translateX(${-d * W()}px) translateY(${a ? 40 : -10}px) rotate(${-d * 6}deg) scale(${a ? .86 : 1.06})`; op = a ? .78 : 1; }
+      if (T === 'b') { tf = `translateX(${-d * 150}px) translateY(${a * 26}px) rotate(${-d * 3}deg) scale(${a ? .88 : 1.04})`; op = a ? .55 : 1; }
+      if (T === 'c') { tf = `translateX(${-d * (W() - 30)}px) translateZ(${-a * 240}px) rotateY(${d * 38}deg)`; op = a ? .7 : 1; }
+      c.style.transform = tf; c.style.opacity = op; c.style.zIndex = a ? 1 : 3;
+      c.style.filter = a ? 'saturate(.8) brightness(.9)' : 'none';
+      c.classList.toggle('front', !a);
+    });
+    markTabs();
+  }
+  function go(i, instant) {
+    i = (i + 3) % 3; prog = 0;
+    if (T === 'd') { cur = i; const c = rowCards[i]; row.scrollTo({ left: c.offsetLeft - (row.clientWidth - c.offsetWidth) / 2, behavior: instant ? 'auto' : 'smooth' }); markTabs(); return; }
+    if (i === cur) return;
+    if (T === 'b') {                                   // the front card slides out to the side, then tucks behind the pack
+      const out = cards[cur]; fan.classList.add('anim');
+      out.style.transform = 'translateX(460px) translateY(-20px) rotate(10deg) scale(.95)'; out.style.zIndex = 5;
+      setTimeout(() => { cur = i; place(true); }, 320);
+    } else { cur = i; place(true); }
+  }
+  function rowFx() {                                    // D: cards scale with their distance from the center
+    const mid = row.scrollLeft + row.clientWidth / 2; let best = 0, bd = 1e9;
+    rowCards.forEach((c, i) => {
+      const cm = c.offsetLeft + c.offsetWidth / 2, dist = Math.abs(cm - mid), k = Math.min(1, dist / (c.offsetWidth + 28));
+      c.style.transform = `scale(${1.04 - k * .16}) translateY(${k * 24}px)`; c.style.opacity = 1 - k * .4; c.classList.toggle('front', k < .3);
+      if (dist < bd) { bd = dist; best = i; }
+    });
+    if (T === 'd') { cur = best; markTabs(); }
+  }
+  row.addEventListener('scroll', () => requestAnimationFrame(rowFx), { passive: true });
+
+  document.getElementById('al').onclick = () => go(cur + 1);
+  document.getElementById('ar').onclick = () => go(cur - 1);
+  const tabs = document.getElementById('tabs');
+  names.forEach((n, i) => { const b = document.createElement('button'); b.textContent = n; b.onclick = () => go(i); tabs.appendChild(b); });
+  const pg = document.getElementById('prog');
+  names.forEach((n, i) => { const x = document.createElement('i'); x.innerHTML = '<b></b>'; x.onclick = () => go(i); pg.appendChild(x); });
+  cards.forEach((c, i) => c.addEventListener('click', e => { if (!c.classList.contains('front') && !e.target.closest('.code')) go(i); }));
+  rowCards.forEach((c, i) => c.addEventListener('click', e => { if (!c.classList.contains('front') && !e.target.closest('.code')) go(i); }));
+  let sx = null;
+  wrap.addEventListener('pointerdown', e => sx = e.clientX);
+  wrap.addEventListener('pointerup', e => { if (sx !== null && T !== 'd' && Math.abs(e.clientX - sx) > 40) go(cur + (e.clientX > sx ? 1 : -1)); sx = null; });
+  wrap.addEventListener('mouseenter', () => hover = true);
+  wrap.addEventListener('mouseleave', () => hover = false);
+  function tick(t) {
+    const dt = last ? t - last : 0; last = t;
+    if (N === '3' && !hover) { prog += dt / 5000; if (prog >= 1) go(cur + 1); }
+    [...pg.children].forEach((x, i) => x.firstChild.style.width = (i < cur ? 100 : i === cur ? Math.min(100, prog * 100) : 0) + '%');
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  function apply() {
+    lab.classList.toggle('mode-d', T === 'd');
+    wrap.classList.toggle('n1', N === '1');
+    ['nav2', 'nav3', 'nav4'].forEach((id, k) => document.getElementById(id).classList.toggle('on', N === String(k + 2)));
+    document.querySelectorAll('#gT button').forEach(b => b.classList.toggle('on', b.dataset.t === T));
+    document.querySelectorAll('#gN button').forEach(b => b.classList.toggle('on', b.dataset.n === N));
+    try { localStorage.setItem('dealT', T); localStorage.setItem('dealN', N); } catch (e) {}
+    prog = 0;
+    if (T === 'd') requestAnimationFrame(() => { go(cur, true); rowFx(); }); else place(false);
+  }
+  document.querySelectorAll('#gT button').forEach(b => b.onclick = () => { T = b.dataset.t; apply(); });
+  document.querySelectorAll('#gN button').forEach(b => b.onclick = () => { N = b.dataset.n; apply(); });
+  addEventListener('resize', () => T === 'd' ? rowFx() : place(false));
+  apply();
+
+  document.querySelectorAll('.code').forEach(c => c.addEventListener('click', () => {
+    navigator.clipboard && navigator.clipboard.writeText('ANTAR');
+    const h = c.innerHTML; c.textContent = 'הועתק'; setTimeout(() => c.innerHTML = h, 1200);
+  }));
+</script>
+</body>
+</html>
