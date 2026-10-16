@@ -113,12 +113,10 @@
   .fan { position: relative; width: 100%; max-width: 1200px; height: 520px; margin: 40px auto 0; touch-action: pan-y; user-select: none; }
   .fan .deal { overflow: visible; position: absolute; left: 50%; top: 30px; width: 400px; min-height: 0; height: 420px; margin-left: -200px; cursor: pointer;
     }
-  .deal { --glow: #61b1f2; --deep: #2e8bd8; --light: #d6ecff;
+  .deal {
     background: radial-gradient(95% 95% at 0% 100%, color-mix(in srgb, var(--glow) 62%, transparent) 0%, color-mix(in srgb, var(--deep) 22%, transparent) 40%, transparent 100%),
                 radial-gradient(60% 60% at 100% 0%, color-mix(in srgb, var(--light) 10%, transparent), transparent), #0b0e14 !important; }
   .deal::before { background: linear-gradient(135deg, rgba(255,255,255,.55), color-mix(in srgb, var(--glow) 50%, transparent) 45%, rgba(255,255,255,.08)) !important; }
-  .deal.mint { --glow: #3fd8c2; --deep: #1e9e9a; --light: #b8fff1; }
-  .deal.violet { --glow: #8c7bff; --deep: #5b4bd6; --light: #e2dcff; }
   .deal .pct { background: linear-gradient(90deg, var(--glow) 0%, #fff 100%); -webkit-background-clip: text; background-clip: text; }
   .deal .co svg path { fill: var(--glow); }
   .deal .code { display: inline-flex; align-items: center; gap: 8px; color: var(--light); background: color-mix(in srgb, var(--glow) 12%, transparent); border-color: color-mix(in srgb, var(--glow) 55%, transparent); }
@@ -130,12 +128,12 @@
   .fan .deal.front .hot { opacity: 1; }
   .fan.anim .deal { transition: transform .8s cubic-bezier(.34,1.25,.64,1), opacity .6s ease, filter .6s ease, box-shadow .6s ease; }
   /* name tabs: equal widths, one indicator that slides between them */
-  .tabs { position: relative; display: grid; grid-template-columns: repeat(3, 150px); padding: 5px; border-radius: 999px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
-  .tabs .ind { position: absolute; top: 5px; bottom: 5px; right: 5px; width: 150px; border-radius: 999px; background: var(--tab, #8c7bff);
+  .tabs { position: relative; display: grid; grid-template-columns: repeat(5, 132px); padding: 5px; border-radius: 999px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+  .tabs .ind { position: absolute; top: 5px; bottom: 5px; right: 5px; width: 132px; border-radius: 999px; background: var(--tab, #8c7bff);
     box-shadow: 0 6px 20px -4px var(--tab, #8c7bff); transition: transform .55s cubic-bezier(.22,.8,.2,1), background-color .55s ease, box-shadow .55s ease; }
   .tabs button { position: relative; z-index: 1; font: 500 14px "Roboto","Fb Reforma",sans-serif; color: rgba(255,255,255,.72); background: none; border: 0; border-radius: 999px; padding: 10px 0; cursor: pointer; transition: color .4s; }
   .tabs button.on { color: #12161f; }
-  @media (max-width: 560px) { .tabs { grid-template-columns: repeat(3, 104px); } .tabs .ind { width: 104px; } .tabs button { font-size: 13px; } }
+  @media (max-width: 760px) { .tabs { grid-template-columns: repeat(5, 74px); } .tabs .ind { width: 74px; } .tabs button { font-size: 11px; } }
   .fan-nav { display: flex; gap: 14px; justify-content: center; align-items: center; margin-top: 8px; }
   @media (max-width: 900px) {
     .fan { height: 500px; }
@@ -231,25 +229,39 @@
     <p class="sub">בחרנו את ההנחות הטובות ביותר שאומתו עבור הקוד ANTAR</p>
 
     <div class="fan" id="fan">
-      <article class="glow-card deal violet"><span class="hot">ההטבה הכי שווה עכשיו</span>
+      <article class="glow-card deal" data-k="ap" style="--glow:#3fd8c2;--deep:#1e9e9a;--light:#b8fff1">
+        <div class="co"><svg viewBox="0 0 100 50"><path fill-rule="evenodd" d="M99.2 4.5 98 2.6 96.6 1.4 95 0.7 93.5 0.5 91.7 0.7 48.9 20.7 48.4 20.7 46.4 19.1 46 19.1 27.9 6.7 24.3 5.6 21.8 5.6 19.6 6.1 17.6 6.9 15.6 8.3 13.3 11.1 0.5 37.3 1 37.9 1.9 37.3 11.9 24.5 14.4 21.8 14.4 21.4 18.8 15.8 21.2 13.3 37.9 25.7 29.5 29.8 28.4 30.1 26.2 31.4 25.1 31.6 22.8 32.9 18 35 17.4 35.4 17.6 36.1 20.2 35.6 26.5 33.1 30.9 31.7 41.3 27.9 69.2 48.6 72.5 49.7 76 49.3 77.5 48.6 79.3 47.2 81.6 43.6 86.4 33.5 87.8 31.5 90 26.5 93.5 20.1 93.6 19.4 94.1 19 99.2 8.8 99.4 7.8ZM87 11.9 72.7 37 71.8 36.7 53.2 23.9 55.4 22.8 59.8 21.5 61 20.8 64.2 20 64.8 19.5 74.9 16.2 75.5 15.7 85.6 12.4 86.2 11.9Z"/></svg><span class="name">Apex</span></div>
+        <div class="pct">90%<small>הנחה</small></div>
+        <h3>אפקס <bdi>EOD</bdi> - <bdi>90%</bdi> הנחה</h3>
+        <p>קוד ANTAR מעניק 90% הנחה על מבחני EOD Trail.<br>בתוקף עד 1 באוקטובר 2026, 23:59 שעון ניו יורק.</p>
+        <div class="deal-foot"><button class="btn-gray">לפרטי המבצע</button><span class="code"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</span></div>
+      </article>
+      <article class="glow-card deal" data-k="tp" style="--glow:#8c7bff;--deep:#5b4bd6;--light:#e2dcff"><span class="hot">ההטבה הכי שווה עכשיו</span>
         <div class="co"><svg viewBox="0 0 90 100"><path fill-rule="evenodd" d="M61.1 23.5 61.1 30.3 58.1 30.8 58.1 50.9 61.1 51.3 61.1 88 64.5 88 64.5 51.7 67.5 50.9 67.5 30.8 64.5 29.5 64.5 23.5ZM17.9 23.5 17.9 58.1 15 59 15 79.1 17.9 80.3 18.4 88 20.9 88 21.4 80.3 23.9 79.5 23.9 59 21.4 58.5 21.4 23.5ZM1.7 1.7 1.7 16.2 39.7 16.7 39.7 44.9 36.8 45.7 36.8 65.8 39.7 66.2 39.7 97.9 43.2 97.9 43.2 66.2 46.2 65.8 46.2 45.7 43.2 44.9 43.2 16.7 87.6 16.2 88 2.1Z"/></svg><span class="name">Take Profit</span></div>
         <div class="pct">40%<small>הנחה</small></div>
-        <h3>חשבון PRO ללא עמלת הפעלה</h3>
+        <h3>חשבון <bdi>PRO</bdi> ללא עמלת הפעלה</h3>
         <p>ללא חוק עקביות בחשבון הממומן, אפשר למשוך בכל יום</p>
         <div class="deal-foot"><button class="btn-gray">לפרטי המבצע</button><span class="code"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</span></div>
       </article>
-      <article class="glow-card deal ">
+      <article class="glow-card deal" data-k="lu" style="--glow:#61b1f2;--deep:#2e8bd8;--light:#d6ecff">
         <div class="co"><img src="lucid.png" alt="Lucid Trading"><span class="name">Lucid Trading</span></div>
         <div class="pct">30%<small>הנחה</small></div>
         <h3>חדש: סטופ סוף יום במבחן ובממומן</h3>
         <p>חברת Lucid Trading מציגה סטופ סוף יום (EOD) גם במבחן וגם בממומן</p>
         <div class="deal-foot"><button class="btn-gray">לפרטי המבצע</button><span class="code"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</span></div>
       </article>
-      <article class="glow-card deal mint">
-        <div class="co"><svg viewBox="0 0 100 50"><path fill-rule="evenodd" d="M99.2 4.5 98 2.6 96.6 1.4 95 0.7 93.5 0.5 91.7 0.7 48.9 20.7 48.4 20.7 46.4 19.1 46 19.1 27.9 6.7 24.3 5.6 21.8 5.6 19.6 6.1 17.6 6.9 15.6 8.3 13.3 11.1 0.5 37.3 1 37.9 1.9 37.3 11.9 24.5 14.4 21.8 14.4 21.4 18.8 15.8 21.2 13.3 37.9 25.7 29.5 29.8 28.4 30.1 26.2 31.4 25.1 31.6 22.8 32.9 18 35 17.4 35.4 17.6 36.1 20.2 35.6 26.5 33.1 30.9 31.7 41.3 27.9 69.2 48.6 72.5 49.7 76 49.3 77.5 48.6 79.3 47.2 81.6 43.6 86.4 33.5 87.8 31.5 90 26.5 93.5 20.1 93.6 19.4 94.1 19 99.2 8.8 99.4 7.8ZM87 11.9 72.7 37 71.8 36.7 53.2 23.9 55.4 22.8 59.8 21.5 61 20.8 64.2 20 64.8 19.5 74.9 16.2 75.5 15.7 85.6 12.4 86.2 11.9Z"/></svg><span class="name">Apex</span></div>
-        <div class="pct">90%<small>הנחה</small></div>
-        <h3>אפקס <bdi>EOD</bdi> - <bdi>90%</bdi> הנחה</h3>
-        <p>קוד ANTAR מעניק 90% הנחה על מבחני EOD Trail.<br>בתוקף עד 1 באוקטובר 2026, 23:59 שעון ניו יורק.</p>
+      <article class="glow-card deal" data-k="fn" style="--glow:#4f6bff;--deep:#2f45c9;--light:#d4dcff">
+        <div class="co"><svg viewBox="0 0 100 94"><path fill-rule="evenodd" d="M98.4 44.7 95.7 42 91.2 40.4 91.2 41 92.5 41.7 93.9 43.5 93.7 46.7 90.2 51 84.1 56 74.8 61.5 65.1 66.2 64.2 66 63 62.6 61.9 61.2 53.3 76.4 53.3 77.8 69.4 80.5 69.8 80 68.3 76.6 68.3 75.3 83.4 65.3 89.8 60.1 95.7 54.2 98.4 49.4 98.9 47.6ZM72.6 26.3 63.7 34 54 39.9 43.8 43.8 32.7 46.3 37.4 57.6 41.3 70.7 43.3 81.9 43.3 86.4 44.2 92.7 44.7 92.3 45.1 87.1 44.7 73.5 41.5 58 38.8 50.6 49.7 47.2 52.4 45.6 54.9 44.9 61.9 41 69.4 35.4 70.1 35.6 72.3 45.6 73 45.6 73 26.5ZM60.5 22.7 59.6 22.7 57.6 24.7 51 29.3 41 34 29.9 36.7 29.7 37.2 17.5 38.3 16.8 38.8 21.8 44.7 28.3 54.4 33.6 64.6 37.4 74.1 36.7 68.9 32.9 57.6 29.7 50.8 24.9 42.9 25.4 42.4 34.7 41.3 47.4 37.4 53.1 34.7 57.6 32 61 29ZM47.4 1.1 28.8 0.9 27.9 1.6 30.6 5.9 30.4 6.8 21.3 14.7 11.1 24.9 3.4 35.6 0.9 41.5 0.9 44.9 3.2 48.3 7.7 50.3 12.2 50.6 8.8 49 7.5 47.6 6.8 45.6 7.3 42.6 8.2 40.8 12 35.6 20.2 27.9 36.3 16.1 37.4 16.8 40.1 21.5 40.6 21.3 47.4 2.7Z"/></svg><span class="name">FundedNext</span></div>
+        <div class="pct">50%<small>הנחה</small></div>
+        <h3>מסלולי <bdi>Rapid Pro</bdi> ו-<bdi>Rapid Daily</bdi></h3>
+        <p>עד 50% הנחה על מסלולי Rapid Pro ו-Rapid Daily עם הקוד ANTAR.</p>
+        <div class="deal-foot"><button class="btn-gray">לפרטי המבצע</button><span class="code"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</span></div>
+      </article>
+      <article class="glow-card deal" data-k="bx" style="--glow:#d17bff;--deep:#9b45d6;--light:#f3dcff">
+        <div class="co"><svg viewBox="0 0 100 100"><path fill-rule="evenodd" d="M42.1 39.5 47 61.7 61.1 61.7 65.7 58.8 67.1 55.6 66.9 48.7 65.1 45 62.2 42.1 59.7 40.6 55 39.5ZM45.2 1.2 34 3.7 38.9 26.8 39.5 27.4 56.8 27.4 61.1 28.2 67.4 30.8 74.1 36 79 42.9 81.3 51.6 81 58.8 79 64.3 76.9 67.1 73.2 70.9 65.7 74.1 25.4 74.1 25.4 62.2 33.7 61.7 21.9 10.1 13.5 17 6.1 28 2 39.5 1.2 45.5 1.2 54.2 3.2 64.6 6.1 71.8 10.1 78.4 17.6 86.7 25.1 92.2 34 96.3 42.7 98.3 54.2 98.6 65.7 96.3 71.8 93.7 80.1 88.2 88.2 80.1 92.8 73.2 97.1 62.2 98.3 56.2 98.3 43.5 96.3 34.6 92.8 26.5 88.2 19.6 80.1 11.5 71.8 6.1 64.6 3.2 54.5 1.2Z"/></svg><span class="name">Bulenox</span></div>
+        <div class="pct">91%<small>הנחה</small></div>
+        <h3>עד 91% הנחה עם הקוד <bdi>ANTAR</bdi></h3>
+        <p>100% רווח עד $10K, ומסחר בחדשות מותר</p>
         <div class="deal-foot"><button class="btn-gray">לפרטי המבצע</button><span class="code"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</span></div>
       </article>
     </div>
@@ -302,50 +314,79 @@
   frame();
 
 
-  // fan carousel: spatial order right-to-left is Apex, Take Profit, Lucid, so the tabs and the cards always agree
+  // fan carousel: a ring of five deals; tabs and cards share one right-to-left order and the ring wraps around
   const fan = document.getElementById('fan');
-  const fanCards = [...fan.querySelectorAll('.deal')];             // DOM order: Take Profit, Lucid, Apex
-  const ORDER = [2, 0, 1];                                          // right to left
-  const NAMES = ['Take Profit', 'Lucid Trading', 'Apex'];
-  const COLORS = ['#8c7bff', '#61b1f2', '#3fd8c2'];
+  const fanCards = [...fan.querySelectorAll('.deal')];             // already in right-to-left order
+  const N = fanCards.length;
+  const NAMES = fanCards.map(c => c.querySelector('.name').textContent);
   const tabsEl = document.getElementById('tabs'), ind = document.getElementById('ind');
-  const tabBtns = ORDER.map(i => { const b = document.createElement('button'); b.textContent = NAMES[i]; b.onclick = () => go(i); tabsEl.appendChild(b); return b; });
-  let cur = 0;
-  const step = () => innerWidth < 900 ? 220 : 360;
-  function layoutFan(animate) {
-    fan.classList.toggle('anim', !!animate);
-    const pc = ORDER.indexOf(cur);
-    fanCards.forEach((c, i) => {
-      const d = ORDER.indexOf(i) - pc;                              // + is further left, - is further right
-      const a = Math.abs(d);
-      c.style.transform = `translateX(${-d * step()}px) translateY(${a ? 40 : -10}px) rotate(${-d * 6}deg) scale(${a ? (a > 1 ? .7 : .86) : 1.06})`;
-      c.style.opacity = a > 1 ? 0 : a ? .78 : 1;
-      c.style.zIndex = 3 - a; c.style.pointerEvents = a > 1 ? 'none' : '';
-      c.style.filter = a ? 'saturate(.8) brightness(.9)' : 'none';
-      c.classList.toggle('front', !a);
-    });
-    // tabs: equal widths, the indicator slides to the active one
-    tabBtns.forEach((b, k) => b.classList.toggle('on', k === pc));
-    const w = tabBtns[0].offsetWidth;
-    ind.style.transition = animate ? '' : 'none';          // no slide on first paint or resize
-    ind.style.width = w + 'px';
-    ind.style.transform = `translateX(${-pc * w}px)`;
-    if (!animate) requestAnimationFrame(() => { ind.style.transition = ''; });
-    tabsEl.style.setProperty('--tab', COLORS[cur]);
+  const tabBtns = NAMES.map((n, i) => { const b = document.createElement('button'); b.textContent = n; b.onclick = () => go(i); tabsEl.appendChild(b); return b; });
+  let cur = fanCards.findIndex(c => c.querySelector('.hot'));      // start on Noam's "best deal now"
+  const prevD = new Array(N).fill(null);
+  const small = () => innerWidth < 900;
+  function offset(i) { let d = ((i - cur) % N + N) % N; if (d > N / 2) d -= N; return d; }   // -2..2, + is further left
+  function pose(d) {
+    const a = Math.abs(d), st = small() ? 220 : 360;
+    if (a === 0) return { t: 'translateX(0) translateY(-10px) rotate(0) scale(1.06)', o: 1 };
+    if (a === 1) return { t: `translateX(${-d * st}px) translateY(40px) rotate(${-d * 6}deg) scale(.86)`, o: .8 };
+    return { t: `translateX(${-d * st * 1.62}px) translateY(96px) rotate(${-d * 11}deg) scale(.72)`, o: small() ? 0 : .32 };
   }
-  function go(i) { if (i !== cur) { cur = i; layoutFan(true); } }
+  function layoutFan(animate) {
+    fanCards.forEach((c, i) => {
+      const d = offset(i), p = pose(d), a = Math.abs(d);
+      const wrapped = prevD[i] !== null && Math.abs(d - prevD[i]) > 2;   // jumped from one end of the ring to the other
+      if (!animate || wrapped) {
+        c.style.transition = 'none';
+        if (wrapped) { c.style.opacity = 0; c.style.transform = p.t; requestAnimationFrame(() => requestAnimationFrame(() => { c.style.transition = ''; c.style.opacity = p.o; })); }
+        else { c.style.transform = p.t; c.style.opacity = p.o; requestAnimationFrame(() => { c.style.transition = ''; }); }
+      } else { c.style.transition = ''; c.style.transform = p.t; c.style.opacity = p.o; }
+      c.style.zIndex = 5 - a; c.style.pointerEvents = a > 1 && small() ? 'none' : '';
+      c.style.filter = a ? `saturate(.8) brightness(${a > 1 ? .75 : .9})` : 'none';
+      c.classList.toggle('front', !a);
+      prevD[i] = d;
+    });
+    fan.classList.add('anim');
+    tabBtns.forEach((b, k) => b.classList.toggle('on', k === cur));
+    const w = tabBtns[0].offsetWidth;
+    ind.style.transition = animate ? '' : 'none';
+    ind.style.width = w + 'px';
+    ind.style.transform = `translateX(${-cur * w}px)`;
+    if (!animate) requestAnimationFrame(() => { ind.style.transition = ''; });
+    tabsEl.style.setProperty('--tab', getComputedStyle(fanCards[cur]).getPropertyValue('--glow'));
+  }
+  function go(i) { i = ((i % N) + N) % N; if (i !== cur) { cur = i; layoutFan(true); } }
   fanCards.forEach((c, i) => c.addEventListener('click', e => { if (!c.classList.contains('front') && !e.target.closest('.code')) go(i); }));
   let sx = null;
   fan.addEventListener('pointerdown', e => { sx = e.clientX; });
-  fan.addEventListener('pointerup', e => {
-    if (sx !== null && Math.abs(e.clientX - sx) > 40) {           // drag right brings the card on the left
-      const pc = ORDER.indexOf(cur) + (e.clientX > sx ? 1 : -1);
-      if (pc >= 0 && pc < ORDER.length) go(ORDER[pc]);
-    }
-    sx = null;
-  });
+  fan.addEventListener('pointerup', e => { if (sx !== null && Math.abs(e.clientX - sx) > 40) go(cur + (e.clientX > sx ? 1 : -1)); sx = null; });   // drag right brings the card on the left
   addEventListener('resize', () => layoutFan(false));
   layoutFan(false);
+
+
+  // weight balance: inside Hebrew text set in Medium or bolder, English words go one weight lighter (Roboto reads heavier than Reforma)
+  (function balanceLatin() {
+    const HEB = /[֐-׿]/, LAT = /[A-Za-z0-9$%][A-Za-z0-9$%.,:\/\-]*(?:\s+[A-Za-z0-9$%][A-Za-z0-9$%.,:\/\-]*)*/g;
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const todo = [];
+    while (walker.nextNode()) {
+      const n = walker.currentNode, el = n.parentElement;
+      if (!el || el.closest('script,style,svg,.lat,.pct,.price,.name,.code,.vs,.chip')) continue;   // big numbers and pure-English labels keep their weight
+      const block = el.closest('h1,h2,h3,p,span,button,a,div,small,b,bdi') || el;
+      if (!HEB.test(block.textContent) || !/[A-Za-z0-9]/.test(n.nodeValue)) continue;
+      const w = parseInt(getComputedStyle(el).fontWeight, 10);
+      if (w >= 500) todo.push([n, w]);
+    }
+    todo.forEach(([n, w]) => {
+      const frag = document.createDocumentFragment(); let last = 0, m; const txt = n.nodeValue; LAT.lastIndex = 0;
+      while ((m = LAT.exec(txt))) {
+        if (m.index > last) frag.appendChild(document.createTextNode(txt.slice(last, m.index)));
+        const sp = document.createElement('span'); sp.className = 'lat'; sp.style.fontWeight = w - 100; sp.textContent = m[0]; frag.appendChild(sp);
+        last = m.index + m[0].length;
+      }
+      if (last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+      n.replaceWith(frag);
+    });
+  })();
 
   document.querySelectorAll('.code').forEach(c => c.addEventListener('click', () => {
     navigator.clipboard && navigator.clipboard.writeText(c.textContent.trim());
