@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - טבעות תלת מימד</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: #fff; color: #12161f; font-family: "Roboto", "Fb Reforma", sans-serif; overflow: hidden; }
+  body.dark { background: #12161f; }
+  body.checker { background: repeating-conic-gradient(#eef1f5 0 25%, #fff 0 50%) 0 0 / 24px 24px; }
+  #c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  .panel { position: fixed; top: 16px; right: 16px; width: 290px; max-height: calc(100% - 32px); overflow: auto; z-index: 5; color: #fff;
+    background: rgba(12,15,22,.9); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 18px; backdrop-filter: blur(10px); display: grid; gap: 16px; }
+  .panel h1 { font-weight: 500; font-size: 17px; }
+  .grp { display: grid; gap: 8px; }
+  .lab { font-size: 12px; color: rgba(255,255,255,.55); font-weight: 500; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips button { font: 500 13px "Roboto","Fb Reforma",sans-serif; color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 7px 12px; cursor: pointer; }
+  .chips button.on { background: #7dc6ff; color: #12161f; border-color: #7dc6ff; }
+  .pal { display: grid; gap: 6px; }
+  .pal button { display: flex; align-items: center; gap: 10px; font: 500 13px "Roboto","Fb Reforma",sans-serif; color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 7px 10px; cursor: pointer; text-align: right; }
+  .pal button.on { border-color: #7dc6ff; background: rgba(125,198,255,.1); }
+  .pal i { display: flex; gap: 3px; }
+  .pal i b { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); }
+  .own { display: flex; gap: 6px; flex-wrap: wrap; }
+  input[type=color] { width: 34px; height: 28px; border: 1px solid rgba(255,255,255,.2); border-radius: 8px; background: none; padding: 2px; cursor: pointer; }
+  input[type=range] { width: 100%; accent-color: #7dc6ff; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: rgba(255,255,255,.75); }
+  .dl { font: 500 14px "Roboto","Fb Reforma",sans-serif; background: #eef1f5; color: #12161f; border: 0; border-radius: 999px; padding: 11px; cursor: pointer; }
+  .dl.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.22); }
+  .hint { font-size: 12px; color: rgba(255,255,255,.45); line-height: 1.5; }
+  @media (max-width: 640px) { .panel { top: auto; bottom: 12px; right: 12px; left: 12px; width: auto; max-height: 46%; } }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="panel">
+  <h1>טבעות בצבעי Antar</h1>
+
+  <div class="grp"><span class="lab">פלטה</span><div class="pal" id="pal"></div></div>
+
+  <div class="grp"><span class="lab">צבע לכל טבעת</span><div class="own" id="own"></div></div>
+
+  <div class="grp"><span class="lab">גימור</span>
+    <div class="chips" id="fin">
+      <button data-f="gloss">פלסטיק מבריק</button><button data-f="soft">מט רך</button><button data-f="chrome">כרום</button><button data-f="glass">זכוכית</button>
+    </div>
+  </div>
+
+  <div class="grp"><span class="lab">צורה</span>
+    <div class="row">עובי הטבעת <span id="tv"></span></div><input type="range" id="tube" min="0.22" max="0.5" step="0.01" value="0.34">
+  </div>
+
+  <div class="grp"><span class="lab">רקע</span>
+    <div class="chips" id="bgs"><button data-bg="white">לבן</button><button data-bg="dark">כהה</button><button data-bg="none">שקוף</button></div>
+  </div>
+
+  <div class="grp">
+    <div class="row">תנועה עדינה <input type="checkbox" id="float" checked></div>
+    <button class="dl" id="dl">הורדת הקומפוזיציה (PNG)</button>
+    <button class="dl ghost" id="dlEach">הורדת כל טבעת בנפרד (5 קבצים שקופים)</button>
+    <p class="hint">גוררים כדי לסובב את כל הקומפוזיציה. הקבצים הנפרדים יוצאים בלי רקע, מוכנים לפיגמה.</p>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+renderer.setClearColor(0x000000, 0);
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100); camera.position.set(0, 0, 16);
+const controls = new OrbitControls(camera, canvas); controls.enableDamping = true; controls.enablePan = false; controls.enableZoom = false;
+const key = new THREE.DirectionalLight(0xffffff, 2.4); key.position.set(-4, 6, 6); scene.add(key);
+const fill = new THREE.DirectionalLight(0xd6ecff, 0.8); fill.position.set(5, -3, 4); scene.add(fill);
+scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+
+// five rings posed like the reference: face-on, three-quarter, steep, edge-on, lying flat
+const POSES = [
+  { p: [-4.6, 1.3, 0], r: [0.05, 0.1, 0] },
+  { p: [-1.6, -1.9, 0.4], r: [0.35, 0.75, 0.55] },
+  { p: [0.6, 1.4, -0.4], r: [0.2, 1.15, -0.45] },
+  { p: [4.4, 1.5, 0], r: [0.25, 1.38, -0.62] },
+  { p: [2.9, -2.0, 0.3], r: [1.15, 0.15, -0.1] },
+];
+const PALETTES = [
+  { name: 'תכלת של Antar', c: ['#61b1f2', '#61b1f2', '#61b1f2', '#61b1f2', '#61b1f2'] },
+  { name: 'מדרג כחולים', c: ['#d6ecff', '#7dc6ff', '#61b1f2', '#2e8bd8', '#1b5c99'] },
+  { name: 'נייבי ותכלת', c: ['#12161f', '#61b1f2', '#12161f', '#7dc6ff', '#2e8bd8'] },
+  { name: 'לבן ותכלת', c: ['#ffffff', '#d6ecff', '#ffffff', '#7dc6ff', '#ffffff'] },
+  { name: 'כחול עמוק', c: ['#2e8bd8', '#2e8bd8', '#2e8bd8', '#2e8bd8', '#2e8bd8'] },
+  { name: 'צבעי המבצעים', c: ['#3fd8c2', '#8c7bff', '#61b1f2', '#4f6bff', '#d17bff'] },
+];
+const state = { pal: 1, colors: PALETTES[1].c.slice(), finish: 'gloss', tube: 0.34, bg: 'white', float: true };
+try { Object.assign(state, JSON.parse(localStorage.getItem('antarRings') || '{}')); } catch (e) {}
+
+const rings = POSES.map(() => { const m = new THREE.Mesh(); scene.add(m); return m; });
+function mat(hex) {
+  const c = new THREE.Color(hex);
+  switch (state.finish) {
+    case 'gloss': return new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.22, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.1 });
+    case 'soft': return new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.62, metalness: 0, sheen: 0.25, sheenColor: new THREE.Color('#d6ecff'), envMapIntensity: 0.8 });
+    case 'chrome': return new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.12, metalness: 1, clearcoat: 1, envMapIntensity: 1.6 });
+    case 'glass': return new THREE.MeshPhysicalMaterial({ color: '#ffffff', roughness: 0.04, transmission: 1, thickness: 1.2, ior: 1.45, attenuationColor: c, attenuationDistance: 0.8, clearcoat: 1, envMapIntensity: 1.5 });
+  }
+}
+function build() {
+  const geo = new THREE.TorusGeometry(1.25, state.tube, 64, 160);
+  rings.forEach((m, i) => {
+    if (m.geometry) m.geometry.dispose(); if (m.material && m.material.dispose) m.material.dispose();
+    m.geometry = geo; m.material = mat(state.colors[i]);
+    m.position.fromArray(POSES[i].p); m.rotation.set(...POSES[i].r);
+  });
+  document.body.className = state.bg === 'dark' ? 'dark' : state.bg === 'none' ? 'checker' : '';
+  document.getElementById('tv').textContent = state.tube.toFixed(2);
+  document.querySelectorAll('#fin button').forEach(b => b.classList.toggle('on', b.dataset.f === state.finish));
+  document.querySelectorAll('#bgs button').forEach(b => b.classList.toggle('on', b.dataset.bg === state.bg));
+  document.querySelectorAll('#pal button').forEach((b, i) => b.classList.toggle('on', i === state.pal));
+  document.querySelectorAll('#own input').forEach((x, i) => x.value = state.colors[i]);
+  try { localStorage.setItem('antarRings', JSON.stringify(state)); } catch (e) {}
+}
+
+// UI
+const pal = document.getElementById('pal');
+PALETTES.forEach((p, i) => { const b = document.createElement('button'); b.innerHTML = `<i>${p.c.map(c => `<b style="background:${c}"></b>`).join('')}</i>${p.name}`;
+  b.onclick = () => { state.pal = i; state.colors = p.c.slice(); build(); }; pal.appendChild(b); });
+const own = document.getElementById('own');
+for (let i = 0; i < 5; i++) { const x = document.createElement('input'); x.type = 'color'; x.title = 'טבעת ' + (i + 1); x.oninput = e => { state.colors[i] = e.target.value; state.pal = -1; build(); }; own.appendChild(x); }
+document.querySelectorAll('#fin button').forEach(b => b.onclick = () => { state.finish = b.dataset.f; build(); });
+document.querySelectorAll('#bgs button').forEach(b => b.onclick = () => { state.bg = b.dataset.bg; build(); });
+const tube = document.getElementById('tube'); tube.value = state.tube; tube.oninput = e => { state.tube = +e.target.value; build(); };
+const fl = document.getElementById('float'); fl.checked = state.float; fl.onchange = e => { state.float = e.target.checked; build(); };
+
+function save(dataURL, name) { const a = document.createElement('a'); a.href = dataURL; a.download = name; a.click(); }
+function shot(bg) {
+  renderer.render(scene, camera);
+  if (!bg) return canvas.toDataURL('image/png');
+  const t = document.createElement('canvas'); t.width = canvas.width; t.height = canvas.height; const x = t.getContext('2d');
+  x.fillStyle = bg; x.fillRect(0, 0, t.width, t.height); x.drawImage(canvas, 0, 0); return t.toDataURL('image/png');
+}
+document.getElementById('dl').onclick = () => save(shot(state.bg === 'white' ? '#ffffff' : state.bg === 'dark' ? '#12161f' : null), 'antartrade-rings.png');
+document.getElementById('dlEach').onclick = async () => {
+  for (let i = 0; i < rings.length; i++) {
+    rings.forEach((m, k) => m.visible = k === i);
+    // crop to the ring's screen box
+    renderer.render(scene, camera);
+    const box = new THREE.Box3().setFromObject(rings[i]); const pts = [];
+    for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) pts.push(new THREE.Vector3(x, y, z).project(camera));
+    const W = canvas.width, H = canvas.height, pad = 24 * renderer.getPixelRatio();
+    const xs = pts.map(p => (p.x + 1) / 2 * W), ys = pts.map(p => (1 - p.y) / 2 * H);
+    const x0 = Math.max(0, Math.min(...xs) - pad), y0 = Math.max(0, Math.min(...ys) - pad), x1 = Math.min(W, Math.max(...xs) + pad), y1 = Math.min(H, Math.max(...ys) + pad);
+    const t = document.createElement('canvas'); t.width = x1 - x0; t.height = y1 - y0; t.getContext('2d').drawImage(canvas, x0, y0, t.width, t.height, 0, 0, t.width, t.height);
+    save(t.toDataURL('image/png'), `antartrade-ring-${i + 1}.png`);
+    await new Promise(r => setTimeout(r, 350));
+  }
+  rings.forEach(m => m.visible = true);
+};
+
+function resize() {
+  const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h;
+  const avail = w < 640 ? w : w - 320; camera.position.z = Math.max(16, 15 * 1300 / Math.max(avail, 600) * (w / h < 1.4 ? 1.35 : 1));
+  scene.position.x = w < 640 ? 0 : -1.4 * (camera.position.z / 16);
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize); resize();
+const clock = new THREE.Clock();
+function loop() {
+  const t = clock.getElapsedTime();
+  rings.forEach((m, i) => {
+    const b = POSES[i];
+    if (state.float) { m.position.y = b.p[1] + Math.sin(t * 0.8 + i * 1.3) * 0.12; m.rotation.x = b.r[0] + Math.sin(t * 0.5 + i) * 0.06; m.rotation.y = b.r[1] + Math.cos(t * 0.45 + i * 0.7) * 0.06; }
+    else { m.position.y = b.p[1]; m.rotation.x = b.r[0]; m.rotation.y = b.r[1]; }
+  });
+  controls.update(); renderer.render(scene, camera); requestAnimationFrame(loop);
+}
+build(); loop();
+</script>
+</body>
+</html>
