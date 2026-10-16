@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - טבעת בתלת מימד</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  :root { --bg: #12161f; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: #fff; font-family: "Roboto", "Fb Reforma", sans-serif; overflow: hidden; }
+  body.checker { background: repeating-conic-gradient(#20242c 0 25%, #171a21 0 50%) 0 0 / 24px 24px; }
+  body.white { background: #fff; }
+  #c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  .panel { position: fixed; top: 16px; right: 16px; width: 300px; max-height: calc(100% - 32px); overflow: auto; z-index: 5;
+    background: rgba(12,15,22,.88); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 18px; backdrop-filter: blur(10px); display: grid; gap: 16px; }
+  .panel h1 { font-weight: 500; font-size: 17px; }
+  .grp { display: grid; gap: 8px; }
+  .lab { font-size: 12px; color: rgba(255,255,255,.55); font-weight: 500; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips button { font: 500 13px "Roboto","Fb Reforma",sans-serif; color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 7px 12px; cursor: pointer; }
+  .chips button.on { background: #7dc6ff; color: #12161f; border-color: #7dc6ff; }
+  .colors { display: flex; gap: 10px; align-items: center; }
+  .colors label { display: flex; gap: 8px; align-items: center; font-size: 13px; color: rgba(255,255,255,.75); }
+  input[type=color] { width: 38px; height: 30px; border: 1px solid rgba(255,255,255,.2); border-radius: 8px; background: none; padding: 2px; cursor: pointer; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 6px; }
+  .swatches button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); cursor: pointer; }
+  input[type=range] { width: 100%; accent-color: #7dc6ff; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: rgba(255,255,255,.75); }
+  .dl { font: 500 14px "Roboto","Fb Reforma",sans-serif; background: #eef1f5; color: #12161f; border: 0; border-radius: 999px; padding: 11px; cursor: pointer; }
+  .hint { font-size: 12px; color: rgba(255,255,255,.45); line-height: 1.5; }
+  @media (max-width: 640px) { .panel { top: auto; bottom: 12px; right: 12px; left: 12px; width: auto; max-height: 46%; } }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div class="panel">
+  <h1>הטבעת של AntarTrade</h1>
+
+  <div class="grp"><span class="lab">גרסה</span>
+    <div class="chips" id="looks">
+      <button data-look="chrome">1 כרום</button>
+      <button data-look="glass">2 זכוכית</button>
+      <button data-look="neon">3 ניאון</button>
+      <button data-look="gradient">4 גרדיאנט מט</button>
+      <button data-look="iris">5 פנינה</button>
+    </div>
+  </div>
+
+  <div class="grp"><span class="lab">צבעים (מקצה לקצה של הטבעת)</span>
+    <div class="colors">
+      <label>צבע 1 <input type="color" id="c1" value="#61b1f2"></label>
+      <label>צבע 2 <input type="color" id="c2" value="#ffffff"></label>
+    </div>
+    <div class="swatches" id="sw"></div>
+  </div>
+
+  <div class="grp"><span class="lab">צורה</span>
+    <div class="row">עובי <span id="tv"></span></div><input type="range" id="thick" min="0.05" max="0.3" step="0.01" value="0.16">
+    <div class="row">הטיה <span id="av"></span></div><input type="range" id="tilt" min="5" max="80" step="1" value="22">
+    <div class="row">אורך הקשת <span id="lv"></span></div><input type="range" id="arc" min="180" max="350" step="5" value="300">
+  </div>
+
+  <div class="grp"><span class="lab">רקע</span>
+    <div class="chips" id="bgs"><button data-bg="dark">כהה</button><button data-bg="white">לבן</button><button data-bg="none">שקוף</button></div>
+  </div>
+
+  <div class="grp">
+    <div class="row">סיבוב אוטומטי <input type="checkbox" id="spin" checked></div>
+    <button class="dl" id="dl">הורדה כ-PNG</button>
+    <p class="hint">גוררים כדי לסובב, גלגלת כדי להתקרב. ברקע "שקוף" הקובץ יוצא בלי רקע, מוכן לפיגמה.</p>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.setClearColor(0x000000, 0);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+camera.position.set(0, 0.6, 8.5);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.enablePan = false; controls.minDistance = 4; controls.maxDistance = 14;
+
+const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(-3, 4, 5); scene.add(key);
+const rim = new THREE.DirectionalLight(0x7dc6ff, 2.5); rim.position.set(4, -2, -4); scene.add(rim);
+scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.8, 0.4, 0.35);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+// the logo ring: an open orbit that is thick on one side and tapers to fine tips
+function ringGeometry(arcDeg, thick) {
+  const R = 1.9, segs = 360, rad = 40, a0 = THREE.MathUtils.degToRad(-arcDeg / 2 - 70);
+  const span = THREE.MathUtils.degToRad(arcDeg);
+  const pos = [], uv = [], idx = [];
+  for (let i = 0; i <= segs; i++) {
+    const u = i / segs, t = a0 + span * u;
+    const c = new THREE.Vector3(Math.cos(t) * R, 0, Math.sin(t) * R);
+    const tan = new THREE.Vector3(-Math.sin(t), 0, Math.cos(t)).normalize();
+    const nrm = new THREE.Vector3(Math.cos(t), 0, Math.sin(t));
+    const bin = new THREE.Vector3().crossVectors(tan, nrm).normalize();
+    // swelling toward the front, fine at both tips
+    const swell = Math.pow(Math.sin(Math.PI * u), 0.8) * (0.55 + 0.45 * Math.sin(Math.PI * Math.min(1, u * 1.25)));
+    const r = thick * Math.max(0.02, swell);
+    for (let j = 0; j <= rad; j++) {
+      const v = j / rad, p = v * Math.PI * 2;
+      // flattened cross-section, like a ribbon with a round edge
+      const off = nrm.clone().multiplyScalar(Math.cos(p) * r * 1.35).add(bin.clone().multiplyScalar(Math.sin(p) * r * 0.55));
+      pos.push(c.x + off.x, c.y + off.y, c.z + off.z);
+      uv.push(u, v);
+    }
+  }
+  for (let i = 0; i < segs; i++) for (let j = 0; j < rad; j++) {
+    const a = i * (rad + 1) + j, b = a + rad + 1;
+    idx.push(a, b, a + 1, b, b + 1, a + 1);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  g.setIndex(idx); g.computeVertexNormals();
+  return g;
+}
+function paintGradient(g, c1, c2) {
+  const uv = g.attributes.uv, n = uv.count, col = new Float32Array(n * 3), a = new THREE.Color(c1), b = new THREE.Color(c2), m = new THREE.Color();
+  for (let i = 0; i < n; i++) { m.copy(a).lerp(b, uv.getX(i)); col.set([m.r, m.g, m.b], i * 3); }
+  g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+}
+
+const group = new THREE.Group(); scene.add(group);
+let mesh = null;
+const state = { look: 'chrome', c1: '#61b1f2', c2: '#ffffff', thick: 0.16, tilt: 22, arc: 300, bg: 'dark', spin: true };
+try { Object.assign(state, JSON.parse(localStorage.getItem('antarRing') || '{}')); } catch (e) {}
+
+function material() {
+  const c1 = new THREE.Color(state.c1);
+  switch (state.look) {
+    case 'chrome': return new THREE.MeshPhysicalMaterial({ vertexColors: true, metalness: 1, roughness: 0.14, clearcoat: 1, clearcoatRoughness: 0.08, envMapIntensity: 1.5 });
+    case 'glass': return new THREE.MeshPhysicalMaterial({ vertexColors: true, metalness: 0, roughness: 0.05, transmission: 1, thickness: 0.6, ior: 1.45, attenuationColor: c1, attenuationDistance: 0.9, clearcoat: 1, envMapIntensity: 1.6 });
+    case 'neon': return new THREE.MeshStandardMaterial({ vertexColors: true, emissive: 0xffffff, emissiveIntensity: 0, roughness: 0.4, metalness: 0 });
+    case 'gradient': return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.45, metalness: 0.15, envMapIntensity: 0.8 });
+    case 'iris': return new THREE.MeshPhysicalMaterial({ vertexColors: true, metalness: 0.6, roughness: 0.22, iridescence: 1, iridescenceIOR: 2.0, iridescenceThicknessRange: [100, 800], clearcoat: 1, clearcoatRoughness: 0.1, envMapIntensity: 1.4 });
+  }
+}
+function build() {
+  if (mesh) { group.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); }
+  const g = ringGeometry(state.arc, state.thick); paintGradient(g, state.c1, state.c2);
+  const m = material();
+  if (state.look === 'neon') { m.onBeforeCompile = sh => { sh.fragmentShader = sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\n totalEmissiveRadiance = vColor * 1.1;'); }; }
+  mesh = new THREE.Mesh(g, m); group.add(mesh);
+  group.rotation.set(THREE.MathUtils.degToRad(state.tilt), 0, THREE.MathUtils.degToRad(-14));
+  bloom.threshold = state.look === 'neon' ? 0.5 : 0.35;
+  bloom.strength = state.look === 'neon' ? 0.55 : state.look === 'chrome' ? 0.15 : 0.08;
+  document.body.className = state.bg === 'white' ? 'white' : state.bg === 'none' ? 'checker' : '';
+  document.getElementById('tv').textContent = state.thick.toFixed(2);
+  document.getElementById('av').textContent = state.tilt + '°';
+  document.getElementById('lv').textContent = state.arc + '°';
+  document.querySelectorAll('#looks button').forEach(b => b.classList.toggle('on', b.dataset.look === state.look));
+  document.querySelectorAll('#bgs button').forEach(b => b.classList.toggle('on', b.dataset.bg === state.bg));
+  try { localStorage.setItem('antarRing', JSON.stringify(state)); } catch (e) {}
+}
+
+// controls
+const $ = id => document.getElementById(id);
+Object.assign($('c1'), { value: state.c1 }); Object.assign($('c2'), { value: state.c2 });
+$('thick').value = state.thick; $('tilt').value = state.tilt; $('arc').value = state.arc; $('spin').checked = state.spin;
+document.querySelectorAll('#looks button').forEach(b => b.onclick = () => { state.look = b.dataset.look; build(); });
+document.querySelectorAll('#bgs button').forEach(b => b.onclick = () => { state.bg = b.dataset.bg; build(); });
+$('c1').oninput = e => { state.c1 = e.target.value; build(); };
+$('c2').oninput = e => { state.c2 = e.target.value; build(); };
+$('thick').oninput = e => { state.thick = +e.target.value; build(); };
+$('tilt').oninput = e => { state.tilt = +e.target.value; build(); };
+$('arc').oninput = e => { state.arc = +e.target.value; build(); };
+$('spin').onchange = e => { state.spin = e.target.checked; build(); };
+// Antar palette pairs
+const PAIRS = [['#61b1f2', '#ffffff'], ['#2e8bd8', '#7dc6ff'], ['#12161f', '#61b1f2'], ['#7dc6ff', '#d6ecff'], ['#8c7bff', '#61b1f2'], ['#3fd8c2', '#61b1f2'], ['#ffffff', '#d6ecff']];
+PAIRS.forEach(([a, b]) => { const s = document.createElement('button'); s.style.background = `linear-gradient(90deg, ${a}, ${b})`; s.title = a + ' - ' + b;
+  s.onclick = () => { state.c1 = a; state.c2 = b; $('c1').value = a; $('c2').value = b; build(); }; $('sw').appendChild(s); });
+
+$('dl').onclick = () => {
+  const keep = document.body.className; render();
+  const a = document.createElement('a'); a.download = `antartrade-ring-${state.look}.png`;
+  if (state.bg === 'none') { a.href = canvas.toDataURL('image/png'); }
+  else { const t = document.createElement('canvas'); t.width = canvas.width; t.height = canvas.height; const x = t.getContext('2d');
+    x.fillStyle = state.bg === 'white' ? '#ffffff' : '#12161f'; x.fillRect(0, 0, t.width, t.height); x.drawImage(canvas, 0, 0); a.href = t.toDataURL('image/png'); }
+  a.click();
+};
+
+function resize() {
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h, false); composer.setSize(w, h); bloom.resolution.set(w, h);
+  camera.aspect = w / h; camera.position.z = w < 640 ? 11 : 8.5; camera.updateProjectionMatrix();
+  group.position.x = w < 640 ? 0 : -0.75;   // keep the ring centered in the space left of the panel
+}
+addEventListener('resize', resize); resize();
+
+const clock = new THREE.Clock();
+function render() { if (state.bg === 'none') renderer.render(scene, camera); else composer.render(); }   // bloom drops alpha, so the transparent export skips it
+function loop() {
+  const dt = clock.getDelta();
+  if (state.spin) group.rotation.y += dt * 0.35;
+  controls.update(); render(); requestAnimationFrame(loop);
+}
+build(); loop();
+</script>
+</body>
+</html>
