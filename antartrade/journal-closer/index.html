@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - יומן המסחר, מבט מקרוב</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  :root { --ink: #12161f; --sky: #61b1f2; --sky2: #7dc6ff; --ice: #d6ecff; --blue: #2e8bd8;
+    --mint: #3fd8c2; --violet: #8c7bff; --royal: #4f6bff; --orchid: #d17bff; --win: #1faf9a; --loss: #e5566a; --c: #3fd8c2; --cd: #2bbfa9; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #fff; color: var(--ink); font-family: "Roboto", "Fb Reforma", sans-serif; padding: 90px 16px 110px; }
+  .head { text-align: center; max-width: 760px; margin: 0 auto 48px; }
+  .eyebrow { display: inline-block; font-weight: 500; font-size: 15px; color: var(--blue); background: rgba(97,177,242,.14); padding: 6px 14px; border-radius: 999px; }
+  .head h2 { font-weight: 500; font-size: clamp(30px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.01em; margin-top: 14px; }
+  .head p { font-size: 20px; opacity: .7; margin-top: 14px; }
+  .lat { font-weight: 400; }
+  .mono { font-family: "Roboto", sans-serif; direction: ltr; unicode-bidi: isolate; }
+
+  /* the panel: light sibling of the dark cards, glow follows the active feature color */
+  .panel { position: relative; max-width: 1460px; margin: 0 auto; border-radius: 32px; padding: 29px; display: grid; grid-template-columns: 380px 1fr; gap: 29px; align-items: stretch;
+    background: radial-gradient(70% 90% at 0% 100%, color-mix(in srgb, var(--c) 26%, transparent), transparent 60%), radial-gradient(45% 55% at 100% 0%, rgba(214,236,255,.55), transparent), #fff;
+    box-shadow: 0 24px 60px color-mix(in srgb, var(--c) 14%, transparent); transition: background .6s ease, box-shadow .6s ease; }
+  .panel::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; pointer-events: none;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--cd) 75%, transparent), color-mix(in srgb, var(--c) 45%, transparent) 45%, rgba(214,236,255,.6));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; transition: background .6s ease; }
+
+  /* Apple-style pills: collapsed with a plus, the active one opens with its text */
+  .list { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+  .pill { --pc: var(--mint); --pcd: var(--cd); text-align: right; cursor: pointer; border: 0; font: inherit; color: var(--ink); background: #eef1f5; border-radius: 28px; padding: 14px 18px;
+    display: grid; grid-template-columns: 1fr auto; column-gap: 12px; align-items: center; transition: background .4s ease, box-shadow .4s ease; position: relative; }
+  .pill .t { font-weight: 500; font-size: 18px; display: flex; align-items: center; gap: 10px; }
+  .pill .t svg { width: 22px; height: 22px; color: var(--pcd); flex: 0 0 22px; }
+  .pill .plus { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: rgba(18,22,31,.06); color: var(--ink); transition: transform .45s cubic-bezier(.22,.8,.2,1), background .4s, color .4s; }
+  .pill .d { grid-column: 1 / -1; font-size: 15px; line-height: 1.55; opacity: 0; max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.22,.8,.2,1), opacity .35s ease, margin .5s; }
+  .pill.on { background: #fff; box-shadow: 0 10px 30px color-mix(in srgb, var(--pc) 22%, transparent); }
+  .pill.on::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+    background: linear-gradient(135deg, var(--pcd), color-mix(in srgb, var(--pc) 40%, transparent) 60%, rgba(214,236,255,.6));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  .pill.on .plus { transform: rotate(45deg); background: color-mix(in srgb, var(--pc) 18%, transparent); color: var(--pcd); }
+  .pill.on .d { opacity: .7; max-height: 120px; margin-top: 10px; }
+  .pill:not(.on):hover { background: #e6eaf0; }
+  .pill:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+  .cta { align-self: flex-start; margin-top: 8px; display: inline-flex; padding: 6px; border-radius: 999px; background: rgba(85,169,235,.08); border: 1px solid rgba(18,22,31,.1); }
+  .cta a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; font-weight: 500; font-size: 17px; padding: 14px 24px; border-radius: 90px;
+    background: linear-gradient(180deg, #2b4d6a, #1a2d40); box-shadow: inset 0 -8px 26px rgba(18,22,31,1), inset 0 -4px 17px rgba(18,22,31,.25); }
+
+  /* stage: one big scene at a time, scaled up from the micro cards */
+  .stage { position: relative; min-height: 470px; border-radius: 22px; background: #f6f9fc; border: 1px solid rgba(18,22,31,.06); overflow: hidden; }
+  .scene { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transform: scale(.96) translateY(10px); transition: opacity .55s ease, transform .7s cubic-bezier(.22,.8,.2,1); pointer-events: none; }
+  .scene.on { opacity: 1; transform: none; }
+  .art { position: relative; width: 300px; height: 210px; transform: scale(var(--s, 1.9)); transform-origin: center; }
+  .scene:not(.on) * { animation-play-state: paused !important; }
+
+  .ui { position: absolute; background: #fff; border: 1px solid rgba(18,22,31,.07); border-radius: 12px; box-shadow: 0 10px 24px rgba(18,22,31,.08); }
+  .ui-title { font-weight: 500; font-size: 11px; opacity: .55; }
+  /* 1 trade log */
+  .log { inset: 16px 14px auto 14px; padding: 12px; }
+  .log .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .csv { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 500; color: var(--cd); border: 1px dashed color-mix(in srgb, var(--mint) 70%, transparent); border-radius: 999px; padding: 3px 8px; animation: csv 7s ease-in-out infinite; }
+  .row { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; font-size: 12.5px; padding: 9px 0; border-top: 1px solid rgba(18,22,31,.07); opacity: 0; transform: translateX(-14px); animation: row 7s cubic-bezier(.22,.8,.2,1) infinite; }
+  .row:nth-of-type(2) { animation-delay: .9s; } .row:nth-of-type(3) { animation-delay: 1.5s; } .row:nth-of-type(4) { animation-delay: 2.1s; }
+  .sym { font-weight: 700; } .side { font-size: 10.5px; padding: 2px 7px; border-radius: 6px; background: rgba(18,22,31,.05); color: rgba(18,22,31,.7); }
+  .pnl.up { color: var(--win); font-weight: 500; } .pnl.down { color: var(--loss); font-weight: 500; }
+  @keyframes csv { 0% { transform: translateY(-30px); opacity: 0; } 8%, 85% { transform: none; opacity: 1; } 95%, 100% { opacity: 0; } }
+  @keyframes row { 0%, 12% { opacity: 0; transform: translateX(-14px); } 22%, 85% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; } }
+  /* 2 sync */
+  svg.lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lines path { fill: none; stroke: rgba(18,22,31,.16); stroke-width: 1.5; stroke-dasharray: 4 6; }
+  .lines .pulse { stroke: var(--sky); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 18 260; animation: pulse 2.4s linear infinite; }
+  .lines .pulse.b { animation-delay: 1.2s; stroke: var(--violet); }
+  @keyframes pulse { from { stroke-dashoffset: 278; } to { stroke-dashoffset: 0; } }
+  .chip { display: flex; align-items: center; gap: 8px; padding: 8px 12px; font-size: 12.5px; font-weight: 500; }
+  .chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--mint); animation: ping 2.4s ease-out infinite; }
+  .chip.tv { top: 22px; left: 12px; } .chip.td { bottom: 22px; left: 12px; } .chip.td i { animation-delay: 1.2s; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(63,216,194,.6); } 70%, 100% { box-shadow: 0 0 0 8px transparent; } }
+  .hub { right: 14px; top: 50%; transform: translateY(-50%); width: 118px; padding: 14px 10px; text-align: center; }
+  .hub .ring { width: 34px; height: 34px; margin: 0 auto 6px; color: var(--blue); animation: spin 2.4s linear infinite; }
+  .hub .ok { font-size: 12px; font-weight: 500; color: var(--win); display: inline-flex; align-items: center; gap: 4px; }
+  .hub .count { font-size: 11px; opacity: .55; margin-top: 2px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  /* 3 performance */
+  .donut { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 112px; height: 112px; }
+  .donut circle { fill: none; stroke-width: 11; } .donut .track { stroke: rgba(18,22,31,.07); }
+  .donut .val { stroke: url(#g3); stroke-linecap: round; stroke-dasharray: 0 302; animation: draw 6s cubic-bezier(.22,.8,.2,1) infinite; transform: rotate(-90deg); transform-origin: 50% 50%; }
+  @keyframes draw { 0%, 6% { stroke-dasharray: 0 302; } 40%, 86% { stroke-dasharray: 193 302; } 100% { stroke-dasharray: 0 302; } }
+  .donut-label { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 112px; text-align: center; }
+  .donut-label b { display: block; font-size: 24px; font-weight: 700; } .donut-label span { font-size: 11px; opacity: .55; }
+  .bars { position: absolute; left: 20px; bottom: 24px; display: flex; gap: 14px; align-items: flex-end; height: 140px; }
+  .bar { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .bar span { width: 26px; border-radius: 8px 8px 4px 4px; background: linear-gradient(180deg, var(--b1), var(--b2)); height: 0; animation: grow 6s cubic-bezier(.22,.8,.2,1) infinite; }
+  .bar small { font-size: 11px; opacity: .55; }
+  .bar:nth-child(1) span { --b1: var(--sky2); --b2: var(--royal); --h: 62px; animation-delay: .2s; }   /* sessions read right to left: Asia, London, New York */
+  .bar:nth-child(2) span { --b1: #b3a6ff; --b2: var(--violet); --h: 104px; animation-delay: .35s; }
+  .bar:nth-child(3) span { --b1: #8ff0e1; --b2: var(--mint); --h: 84px; animation-delay: .5s; }
+  @keyframes grow { 0%, 6% { height: 0; } 36%, 86% { height: var(--h); } 100% { height: 0; } }
+  /* 4 prop firm */
+  .acct { inset: 14px; padding: 12px; display: flex; flex-direction: column; gap: 9px; }
+  .acct .top { display: flex; justify-content: space-between; align-items: center; }
+  .tag { font-size: 10.5px; font-weight: 500; padding: 3px 8px; border-radius: 999px; background: rgba(209,123,255,.16); color: #a94fe0; }
+  .gauge { position: relative; height: 10px; border-radius: 99px; background: rgba(18,22,31,.07); direction: ltr; }
+  .gauge .fill { position: absolute; inset: 0 auto 0 0; border-radius: 99px; background: linear-gradient(90deg, var(--violet), var(--orchid)); width: 30%; animation: bal 6s ease-in-out infinite; }
+  .gauge .stop { position: absolute; top: -5px; bottom: -5px; left: 8%; width: 2px; background: var(--loss); border-radius: 2px; }
+  @keyframes bal { 0%, 100% { width: 30%; } 35% { width: 64%; } 60% { width: 52%; } 80% { width: 71%; } }
+  .meta { direction: ltr; display: flex; justify-content: space-between; font-size: 10.5px; opacity: .55; }
+  .rules { display: grid; gap: 7px; }
+  .rule { display: flex; align-items: center; gap: 8px; font-size: 12.5px; }
+  .rule .ck { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid rgba(18,22,31,.2); color: transparent; animation: tick 6s ease infinite; }
+  .rule:nth-child(2) .ck { animation-delay: .6s; } .rule:nth-child(3) .ck { animation-delay: 1.2s; }
+  .rule .val { margin-inline-start: auto; opacity: .6; font-size: 12px; }
+  @keyframes tick { 0%, 14% { border-color: rgba(18,22,31,.2); color: transparent; background: transparent; } 22%, 88% { border-color: #2bbfa9; color: var(--win); background: rgba(43,191,169,.14); } 100% { border-color: rgba(18,22,31,.2); color: transparent; } }
+
+  @media (max-width: 980px) { .panel { grid-template-columns: 1fr; } .stage { min-height: 360px; order: -1; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; }
+    .row { opacity: 1; transform: none; } .donut .val { stroke-dasharray: 193 302; } .bar span { height: var(--h); } .rule .ck { border-color: #2bbfa9; color: var(--win); } }
+</style>
+</head>
+<body>
+
+<header class="head">
+  <span class="eyebrow">חינמי · קהילתי · של <span class="lat">AntarTrade</span></span>
+  <h2>יומן המסחר החינמי של <span class="lat">AntarTrade</span></h2>
+  <p>תעדו את העסקאות, נתחו את הביצועים והבינו איפה אתם באמת משתפרים.</p>
+</header>
+
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b3a6ff"/><stop offset=".55" stop-color="#8c7bff"/><stop offset="1" stop-color="#61b1f2"/></linearGradient></defs></svg>
+
+<section class="panel" id="panel">
+  <div class="list" role="tablist" aria-label="יכולות היומן">
+    <button class="pill on" role="tab" aria-selected="true" data-i="0" style="--pc:#3fd8c2;--pcd:#2bbfa9">
+      <span class="t"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4H17C18.1 4 19 4.9 19 6V20L15.5 18L12 20L8.5 18L5 20V6C5 4.9 5.9 4 7 4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 9H15M9 13H13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>תיעוד עסקאות</span>
+      <span class="plus"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      <span class="d">הוספה ידנית או ייבוא קובץ <span class="lat">CSV</span></span>
+    </button>
+    <button class="pill" role="tab" aria-selected="false" data-i="1" style="--pc:#61b1f2;--pcd:#2e8bd8">
+      <span class="t"><svg viewBox="0 0 24 24" fill="none"><path d="M20 12A8 8 0 0 1 6.3 17.7M4 12A8 8 0 0 1 17.7 6.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.5 2.5V6.5H13.5M6.5 21.5V17.5H10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>סנכרון אוטומטי</span>
+      <span class="plus"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      <span class="d">חיבור ל-<span class="lat">Tradovate</span> ול-<span class="lat">TradingView</span></span>
+    </button>
+    <button class="pill" role="tab" aria-selected="false" data-i="2" style="--pc:#8c7bff;--pcd:#6c5ce7">
+      <span class="t"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V4M16 20V13M22 20H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>ניתוח ביצועים</span>
+      <span class="plus"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      <span class="d">מדדים מתקדמים ופילוח לפי סשן מסחר</span>
+    </button>
+    <button class="pill" role="tab" aria-selected="false" data-i="3" style="--pc:#d17bff;--pcd:#a94fe0">
+      <span class="t"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3L4.5 6V11.5C4.5 16 7.7 19.8 12 21C16.3 19.8 19.5 16 19.5 11.5V6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>מעקב מול חברת המימון</span>
+      <span class="plus"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      <span class="d">סטופ וחוקי מבחן לפי החשבון שלכם</span>
+    </button>
+    <div class="cta"><a href="#">פתחו את היומן בחינם <span aria-hidden="true">←</span></a></div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="scene on"><div class="art">
+      <div class="ui log">
+        <div class="top"><span class="ui-title">העסקאות של היום</span><span class="csv"><svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M9 1.5H4.5C3.67 1.5 3 2.17 3 3V13C3 13.83 3.67 14.5 4.5 14.5H11.5C12.33 14.5 13 13.83 13 13V5.5L9 1.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 1.5V5.5H13" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span class="mono">trades.csv</span></span></div>
+        <div class="row"><span class="sym mono">MNQ</span><span class="side mono">Long</span><span class="pnl up mono">+$420</span></div>
+        <div class="row"><span class="sym mono">ES</span><span class="side mono">Short</span><span class="pnl down mono">-$180</span></div>
+        <div class="row"><span class="sym mono">NQ</span><span class="side mono">Long</span><span class="pnl up mono">+$310</span></div>
+      </div>
+    </div></div>
+    <div class="scene"><div class="art">
+      <svg class="lines" viewBox="0 0 300 210" preserveAspectRatio="none">
+        <path d="M118 44 C 150 44, 150 105, 168 105"/><path d="M106 166 C 150 166, 150 105, 168 105"/>
+        <path class="pulse" d="M118 44 C 150 44, 150 105, 168 105"/><path class="pulse b" d="M106 166 C 150 166, 150 105, 168 105"/>
+      </svg>
+      <div class="ui chip tv"><i></i><span class="mono">TradingView</span></div>
+      <div class="ui chip td"><i></i><span class="mono">Tradovate</span></div>
+      <div class="ui hub"><svg class="ring" viewBox="0 0 24 24" fill="none"><path d="M20 12A8 8 0 0 1 6.3 17.7M4 12A8 8 0 0 1 17.7 6.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.5 2.5V6.5H13.5M6.5 21.5V17.5H10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="ok"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>מסונכרן</div>
+        <div class="count"><span class="mono" id="syncN">128</span> עסקאות</div></div>
+    </div></div>
+    <div class="scene"><div class="art">
+      <svg class="donut" viewBox="0 0 112 112"><circle class="track" cx="56" cy="56" r="48"/><circle class="val" cx="56" cy="56" r="48"/></svg>
+      <div class="donut-label"><b class="mono" id="winN">64%</b><span>אחוז הצלחה</span></div>
+      <div class="bars"><div class="bar"><span></span><small>אסיה</small></div><div class="bar"><span></span><small>לונדון</small></div><div class="bar"><span></span><small>ניו יורק</small></div></div>
+    </div></div>
+    <div class="scene"><div class="art">
+      <div class="ui acct">
+        <div class="top"><span class="ui-title">חשבון מבחן <span class="mono">50K</span></span><span class="tag">מרחק מהסטופ <span class="mono">$1,840</span></span></div>
+        <div class="gauge"><span class="fill"></span><span class="stop"></span></div>
+        <div class="meta"><span>סטופ</span><span>יעד רווח</span></div>
+        <div class="rules">
+          <div class="rule"><span class="ck"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>יעד רווח<span class="val mono">62%</span></div>
+          <div class="rule"><span class="ck"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>ימי מסחר<span class="val mono">4/5</span></div>
+          <div class="rule"><span class="ck"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>חוק עקביות<span class="val mono">32%</span></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<script>
+  const panel = document.getElementById('panel'), stage = document.getElementById('stage');
+  const pills = [...document.querySelectorAll('.pill')], scenes = [...document.querySelectorAll('.scene')];
+  function pick(i) {
+    pills.forEach((p, k) => { p.classList.toggle('on', k === i); p.setAttribute('aria-selected', k === i); });
+    scenes.forEach((s, k) => {
+      const on = k === i; s.classList.toggle('on', on);
+      if (on) s.querySelectorAll('*').forEach(el => { el.getAnimations && el.getAnimations().forEach(a => { a.currentTime = 0; }); });   // restart the scene
+    });
+    const p = pills[i];
+    panel.style.setProperty('--c', getComputedStyle(p).getPropertyValue('--pc'));
+    panel.style.setProperty('--cd', getComputedStyle(p).getPropertyValue('--pcd'));
+  }
+  pills.forEach((p, i) => p.addEventListener('click', () => pick(i)));
+  document.querySelector('.list').addEventListener('keydown', e => {
+    const i = pills.findIndex(p => p.classList.contains('on'));
+    if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') { e.preventDefault(); pick((i + 1) % 4); pills[(i + 1) % 4].focus(); }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowRight') { e.preventDefault(); pick((i + 3) % 4); pills[(i + 3) % 4].focus(); }
+  });
+  // scale the micro scenes to fill the stage
+  function fit() { const s = Math.min(stage.clientWidth / 330, stage.clientHeight / 240); stage.style.setProperty('--s', s.toFixed(3)); document.querySelectorAll('.art').forEach(a => a.style.setProperty('--s', s.toFixed(3))); }
+  addEventListener('resize', fit); fit();
+  // counters
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let n = 128; const sn = document.getElementById('syncN');
+  if (!reduce) setInterval(() => { n = n >= 140 ? 128 : n + 1; sn.textContent = n; }, 1200);
+  pick(0);
+</script>
+</body>
+</html>
