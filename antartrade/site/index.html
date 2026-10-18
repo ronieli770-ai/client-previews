@@ -527,7 +527,7 @@
   .s-deals .deal { padding: 28px 30px; display: flex; flex-direction: column; gap: 14px; }
   .s-deals .deal .co .name { font-size: 22px; }
   .s-deals .deal .co svg, .s-deals .deal .co img { width: 40px; height: 40px; }
-  .s-deals .pct { font-size: 64px; font-weight: 700; line-height: 1; direction: ltr; text-align: right;
+  .s-deals .pct { font-size: 64px; font-weight: 700; line-height: 1; direction: rtl; text-align: right;
     background: linear-gradient(90deg, var(--sky) 0%, #fff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .s-deals .pct small { margin-left: 8px; font-family: "Roboto", "Fb Reforma"; font-size: 18px; font-weight: 500; -webkit-text-fill-color: rgba(255,255,255,.7); margin-right: 8px; }
   .s-deals .deal h3 { font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 20px; }
@@ -720,7 +720,7 @@
 .s-platforms .deal img{display:block;flex:0 0 auto}
 .s-platforms .deal .i-gift{width:12px;height:12px}
 .s-platforms .deal .i-tag{width:14px;height:14px}
-.s-platforms .deal span{direction:ltr;font:500 13px/1.2 var(--he)}
+.s-platforms .deal > span{direction:rtl;font:500 13px/1.2 var(--he)}
 .s-platforms .deal .lt{font-size:13px}
 /* halo button */
 .s-platforms .halo{display:inline-flex;padding:6px;border-radius:999px;background:rgba(125,198,255,.08);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-decoration:none}
@@ -1145,7 +1145,7 @@
   .hdr .halo a svg { width: 18px; height: 18px; }
   /* ---------- section rhythm and titles ---------- */
   .s-duel, .s-deals, .s-academy, .s-platforms .p-inner, .s-next { padding-top: 72px !important; padding-bottom: 80px !important; }
-  html body .split, html body .g-title { font-size: 32px !important; line-height: 1.15 !important; }
+  html body .split, html body .g-title { font-size: 32px !important; line-height: 1.05 !important; }
   /* ---------- hero: centred on the grid, photo fills the section under an overlay that opens at the bottom ---------- */
   .s-hero { padding: 118px 16px 100px !important; min-height: 0 !important; }
   .s-hero .s-hero__trader { top: 138px !important; left: 74px !important; right: 74px !important; bottom: 0 !important; width: auto !important; height: auto !important; opacity: 1 !important; transform: none !important; mix-blend-mode: normal; }
@@ -1156,9 +1156,9 @@
   .s-hero .s-hero__content { width: 100%; max-width: 100%; align-items: flex-start; text-align: right; margin: 0 auto; translate: none !important; gap: 22px; }
   .s-hero .s-hero__head + .s-hero__sub { margin-top: -10px; }
   .s-hero .s-hero__title { font-size: 28px; text-align: right; width: 100%; }
-  .s-hero .s-hero__title .s-hero__l1 { font-size: 46px; line-height: 1.08; }
+  .s-hero .s-hero__title .s-hero__l1 { font-size: 46px; line-height: 1; }
   .s-hero .s-hero__title .m-br { display: block; }
-  .s-hero .s-hero__title .s-hero__l2 { font-size: 28px; line-height: 1.25; margin-top: 4px; }
+  .s-hero .s-hero__title .s-hero__l2 { font-size: 28px; line-height: 1.1; margin-top: 4px; }
   .s-hero .s-hero__sub { justify-content: flex-start; text-align: right; font-size: 16px; color: rgba(255,255,255,.88); }
   /* three equal tiles in one row (after schooliner): same width, label on two centred lines */
   .s-hero .s-hero__btns { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%; }
@@ -1201,7 +1201,7 @@
   .s-table .t-wrap { padding: 0 16px; }
   .s-table .t-card { border-radius: 28px; }
   .s-table .t-frame { padding: 22px 0 14px !important; }
-  .s-table .t-title { font-size: 24px !important; line-height: 1.2; padding: 0 16px 20px !important; border-bottom: 0 !important; }
+  .s-table .t-title { font-size: 24px !important; line-height: 1.1; padding: 0 16px 20px !important; border-bottom: 0 !important; }
   .s-table .t-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: none; position: relative; }
   .s-table .t-scroll::-webkit-scrollbar { display: none; }
   .s-table .t-grid { min-width: 1080px; padding-inline: 0 16px; }
@@ -1290,14 +1290,14 @@
   .s-platforms .p-row::-webkit-scrollbar { display: none; }
   /* tighter: header to group title, group title to its cards, card name to its text */
   .s-platforms .p-inner { gap: 32px !important; }
-  .s-platforms .p-group { gap: 2px; }
+  .s-platforms .p-group { gap: 14px; }   /* label to its swipe row */
   .s-platforms .card-name + .card-desc { margin-top: -6px; }
   .s-platforms .p-row > .card { flex: 0 0 78%; scroll-snap-align: start; min-height: 320px; }
 
   /* ---------- journal: no overlap with the platforms curve ---------- */
   .s-journal { margin-top: -60px; background: linear-gradient(transparent 60px, #fff 60px); padding-bottom: 80px; }
   .s-journal .panel { padding: 28px 18px !important; border-radius: 32px !important; gap: 24px; }
-  .s-journal .copy h2 { font-size: 32px !important; line-height: 1.15 !important; }   /* the global phone title, like every other section */
+  .s-journal .copy h2 { font-size: 32px !important; line-height: 1.05 !important; }   /* the global phone title, like every other section */
   /* features in a 2 x 2 grid, so a tap shows its animation right below without scrolling */
   .s-journal .copy p + .opts { margin-top: 20px; }
   .s-journal .opts { grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -1307,7 +1307,7 @@
   .s-journal .opt .dot { display: none; }
   .s-journal .card { width: 100% !important; min-height: 0 !important; }
   .s-journal .stage { height: 210px !important; display: grid; place-items: center; }
-  .s-journal .art { transform: scale(var(--fit, .78)) !important; flex: none; }   /* scaled to the stage width by script, so every scene fits whole */
+  .s-journal .art { position: absolute !important; left: 50%; top: 50%; margin: -105px 0 0 -150px !important; transform: scale(var(--fit, .78)) !important; transform-origin: center !important; }   /* pinned to the stage centre, not to its right edge */   /* scaled to the stage width by script, so every scene fits whole */
 
   /* ---------- community ---------- */
   .s-community .banner { border-radius: 28px !important; }
@@ -2304,7 +2304,7 @@
   ];
   const layer = document.createElement('div');
   layer.className = 'rings'; layer.setAttribute('aria-hidden', 'true');
-  layer.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:0;z-index:3;pointer-events:none';
+  layer.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:0;z-index:3;pointer-events:none;overflow-x:clip';   // rings hang off the edge without a side scroll
   document.body.appendChild(layer);
   const rings = RINGS.map(([src, a, cx, cy, w, h, rot, blur]) => {
     const el = document.createElement('img'); el.src = 'img/' + src; el.alt = '';
@@ -2312,20 +2312,21 @@
     layer.appendChild(el); return { el, a: document.querySelector(a), cx, cy, w, h, rot, blur, y: 0 };
   }).filter(r => r.a);
   function placeRings() {
-    const vw = document.documentElement.clientWidth, off = Math.max(0, (vw - 1728) / 2), small = vw < 760;
+    const vw = document.documentElement.clientWidth, off = Math.max(0, (vw - 1728) / 2), k = vw < 760 ? .42 : 1;   // phones get the same rings, smaller
     rings.forEach(r => {
       // rings on the right half stick to the right edge, the rest to the left edge
-      const x = r.cx > 864 ? vw - off - (1728 - r.cx) : off + r.cx;
-      r.y = r.a.getBoundingClientRect().top + scrollY + r.cy;
-      r.el.style.left = (x - r.w / 2) + 'px'; r.el.style.top = (r.y - r.h / 2) + 'px';
-      r.el.style.display = small ? 'none' : '';
+      const w = r.w * k, h = r.h * k, out = k < 1 ? w * .3 : 0;   // on phones they hang further off the edge, clear of the text
+      const x = r.cx > 864 ? vw - off - (1728 - r.cx) * k + out : off + r.cx * k - out;
+      r.y = r.a.getBoundingClientRect().top + scrollY + r.cy * k; r.k = k;
+      r.el.style.width = w + 'px'; r.el.style.height = h + 'px';
+      r.el.style.left = (x - w / 2) + 'px'; r.el.style.top = (r.y - h / 2) + 'px';
     });
   }
   function spinRings() {
     rings.forEach(r => {
       const p = Math.max(-1, Math.min(1, (r.y - scrollY - innerHeight / 2) / innerHeight));
-      r.el.style.transform = `translateY(${(p * 90).toFixed(1)}px) rotate(${(r.rot - p * 22).toFixed(2)}deg) scale(${(1 - Math.abs(p) * .06).toFixed(3)})`;
-      r.el.style.filter = `blur(${(r.blur * (.7 + Math.abs(p) * .5)).toFixed(2)}px)`;
+      r.el.style.transform = `translateY(${(p * 90 * r.k).toFixed(1)}px) rotate(${(r.rot - p * 22).toFixed(2)}deg) scale(${(1 - Math.abs(p) * .06).toFixed(3)})`;
+      r.el.style.filter = `blur(${(r.blur * r.k * (.7 + Math.abs(p) * .5)).toFixed(2)}px)`;
     });
   }
 
