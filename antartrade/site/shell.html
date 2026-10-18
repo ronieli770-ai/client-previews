@@ -69,6 +69,9 @@
     -webkit-mask: url(img/bot-brain.png) center / contain no-repeat; mask: url(img/bot-brain.png) center / contain no-repeat;
     transition: background-color .55s cubic-bezier(.22,.61,.36,1), transform .3s ease; animation: bot-float 3s ease-in-out infinite; }
   .bot-fab.light { background: #12161f; }
+  /* on phones the bot waits until the visitor starts scrolling, so the first screen stays clean */
+  .bot-fab.away { opacity: 0; pointer-events: none; scale: .6; }
+  .bot-fab { transition: background-color .55s cubic-bezier(.22,.61,.36,1), transform .3s ease, opacity .35s ease, scale .35s ease; }
   .bot-fab:hover { transform: scale(1.08); }
   @keyframes bot-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }
   .bot-panel { position: fixed; right: 24px; bottom: 88px; z-index: 61; width: min(380px, calc(100vw - 32px)); border-radius: 24px; overflow: hidden; color: #12161f; background: #fff;
@@ -353,7 +356,7 @@
   panel.querySelector('form').addEventListener('submit', e => { e.preventDefault(); if (pin.value.trim()) { ask(pin.value.trim()); pin.value = ''; } });
   document.querySelectorAll('.s-hero__search, .s-hero__search input, .s-hero__search button').forEach(el => el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); openBot(); }));
   // colour follows the section under the button, like the header
-  const botTheme = () => { const y = innerHeight - 48; const sec = sections.find(s => { const b = s.getBoundingClientRect(); return b.top <= y && b.bottom > y; }); fab.classList.toggle('light', !!sec && sec.dataset.theme === 'light'); };
+  const botTheme = () => { const y = innerHeight - 48; const sec = sections.find(s => { const b = s.getBoundingClientRect(); return b.top <= y && b.bottom > y; }); fab.classList.toggle('light', !!sec && sec.dataset.theme === 'light'); fab.classList.toggle('away', innerWidth <= 760 && scrollY < 60 && !panel.classList.contains('open')); };
   const frameBot = frame; frame = function () { frameBot(); botTheme(); }; botTheme();
 
   // weight balance, as set in Figma, everywhere (also in the bot): Latin inside Hebrew is set in Roboto at the weight of the Hebrew around it (Regular stays Regular, Medium stays Medium); only SemiBold and bolder Hebrew drops one step
