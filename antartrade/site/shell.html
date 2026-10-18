@@ -122,7 +122,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
 <script>
 (function () {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]static/.test(location.search);   // ?static = no motion (used for review captures)
 
   // ---------- scroll-linked motion, after Enigma (GSAP ScrollTrigger + SplitText, scrubbed to the scroll) ----------
   const G = window.gsap && window.ScrollTrigger && !reduce;
