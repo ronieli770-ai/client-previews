@@ -2497,7 +2497,7 @@
     const size = () => { cv.width = about.offsetWidth * K; cv.height = about.offsetHeight * K; };
     size(); addEventListener('resize', size); new ResizeObserver(size).observe(about);   // the section grows as images load; a stale size stretched the strokes into ovals
     if (fine) about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now() }); });
-    const LIFE = fine ? 1800 : 10400;   // touch: a long line, four times the old tail
+    const LIFE = fine ? 1800 : 26000;   // touch: a very long line, ten times the old tail
     // touch: an invisible point drifts on a slow random path (mixed sine waves with random phases), painting while the section is on screen
     // touch: the point moves at one steady speed along a gently turning heading and bounces off the edges, so the line never jumps
     let lastPush = 0, px = Math.random() * 150, py = Math.random() * 150, hd = Math.random() * 6.28, prevT = performance.now();
@@ -2514,7 +2514,7 @@
         px += Math.cos(hd) * .032 * dt; py += Math.sin(hd) * .032 * dt;
         if (px < 0 || px > cv.width) { hd = Math.PI - hd; px = Math.max(0, Math.min(cv.width, px)); }
         if (py < 0 || py > cv.height) { hd = -hd; py = Math.max(0, Math.min(cv.height, py)); }
-        if (now - lastPush > 30) { lastPush = now; pts.push({ x: px, y: py, t: now }); }   // the tail fades out on its own as the points age
+        if (now - lastPush > 60) { lastPush = now; pts.push({ x: px, y: py, t: now }); }   // the tail fades out on its own as the points age
       }
       const textTop = !fine && aboutText ? (aboutText.getBoundingClientRect().top - about.getBoundingClientRect().top) * K : 1e9;
       ctx.clearRect(0, 0, cv.width, cv.height);
