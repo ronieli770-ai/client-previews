@@ -445,6 +445,7 @@
 @media (prefers-reduced-motion:reduce){.s-duel .s-duel__price,.s-duel .s-duel__dr{opacity:1;transform:none;transition:none}}
 
 .s-duel .s-duel__cmp{display:none}
+.s-duel .s-duel__pick{display:none}
 </style>
 <style>
   .s-deals {
@@ -1249,7 +1250,25 @@
   .s-duel .s-duel__swap { border: 0; padding: 4px 6px; font-size: 13px; color: #2e8bd8; gap: 5px; background: none; }
   .s-duel .s-duel__swap svg path { stroke: #2e8bd8; }
   .s-duel .s-duel__swap svg { width: 13px; height: 13px; }
-  .s-duel .s-duel__swapwrap .s-duel__menu { width: 200px; bottom: calc(100% + 6px); top: auto; }
+  .s-duel .s-duel__swapwrap .s-duel__menu { display: none !important; }   /* the firm list opens under the cards instead */
+  /* the switch panel under the two cards: side switch + firm toggles */
+  .s-duel .s-duel__pick { display: grid; grid-template-rows: 0fr; width: 100%; transition: grid-template-rows .45s cubic-bezier(.22,1,.36,1), margin .45s; margin-top: 0; }
+  .s-duel.picking .s-duel__pick { grid-template-rows: 1fr; margin-top: 12px; }
+  .s-duel .s-duel__pick-in { overflow: hidden; min-height: 0; }
+  .s-duel .s-duel__pick-in > * { margin-inline: 1px; }
+  .s-duel .p-head { display: flex; align-items: center; gap: 8px; margin: 1px 1px 12px; }
+  .s-duel .p-sides { flex: 1; display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 16px; background: #eef4fa; }
+  .s-duel .p-sides button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 6px; border: 0; border-radius: 12px; background: none; font: 500 14px "Roboto", "Fb Reforma", sans-serif; color: #12161f; cursor: pointer; transition: background .3s, box-shadow .3s; }
+  .s-duel .p-sides button small { font: 400 12px "Fb Reforma", sans-serif; opacity: .55; }
+  .s-duel .p-sides button.on { background: #fff; box-shadow: 0 4px 14px rgba(85,169,235,.18); }
+  .s-duel .p-close { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 50%; background: #eef4fa; color: #12161f; cursor: pointer; }
+  .s-duel .p-close svg { width: 18px; height: 18px; }
+  .s-duel .p-firms { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding-bottom: 2px; }
+  .s-duel .p-firm { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 12px; border-radius: 999px; border: 1px solid rgba(18,22,31,.1); background: #fff; font: 500 14px "Roboto", sans-serif; color: #12161f; cursor: pointer; transition: background .25s, border-color .25s; }
+  .s-duel .p-firm img { width: 20px; height: 20px; object-fit: contain; }
+  .s-duel .p-firm.on { background: rgba(125,198,255,.16); border-color: #7DC6FF; }
+  .s-duel .p-firm:disabled { opacity: .35; cursor: default; }
+  .s-duel[data-pick="0"] .s-duel__card[data-side="0"], .s-duel[data-pick="1"] .s-duel__card[data-side="1"] { box-shadow: 0 0 0 2px #7DC6FF, 0 14px 34px rgba(85,169,235,.18) !important; }
   .s-duel .s-duel__card[data-side="1"] .s-duel__swapwrap .s-duel__menu { left: -6px; right: auto; }
   .s-duel .s-duel__card[data-side="0"] .s-duel__swapwrap .s-duel__menu { right: -6px; left: auto; }
   .s-duel .s-duel__co { flex-direction: column; align-items: center; gap: 6px; min-height: 0; }
@@ -1601,6 +1620,7 @@
         <article class="s-duel__card" data-side="1"></article>
 
       </div>
+      <div class="s-duel__pick" aria-label="החלפת חברה"><div class="s-duel__pick-in"></div></div>
       <div class="s-duel__cmp" aria-label="השוואה שורה מול שורה"></div>
 
       <a class="s-duel__halo" href="#">
@@ -1685,6 +1705,16 @@
       cmp.innerHTML = L.map(([l, x, y, best], r) => `<div class="c-row" style="--r:${r}"><div class="c-lbl">${l}</div><div class="c-vals"><span class="${best === 0 ? 'best' : ''}">${x}</span><span class="${best === 1 ? 'best' : ''}">${y}</span></div><div class="c-bars"><i class="${best === 0 ? 'on' : ''}"></i><i class="${best === 1 ? 'on' : ''}"></i></div></div>`).join('');
     }
   }
+  // phones: "החלף חברה" opens a panel under the two cards, with a side switch and one toggle per firm
+  const pick = S.querySelector('.s-duel__pick-in'); let pickSide = 0;
+  function renderPick() {
+    if (!pick) return;
+    S.dataset.pick = S.classList.contains('picking') ? pickSide : '';
+    pick.innerHTML = `<div class="p-head"><div class="p-sides" role="tablist">${[0, 1].map(k => `<button type="button" role="tab" data-pside="${k}" class="${k === pickSide ? 'on' : ''}"><small>${k ? 'צד ב׳' : 'צד א׳'}</small>${F[state[k].f].n}</button>`).join('')}</div>`
+      + `<button type="button" class="p-close" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>`
+      + `<div class="p-firms">${Object.entries(F).map(([k, x]) => { const mine = state[pickSide].f === k, other = state[1 - pickSide].f === k;
+          return `<button type="button" class="p-firm${mine ? ' on' : ''}" data-pfirm="${k}" aria-pressed="${mine}"${other ? ' disabled' : ''}><img src="${x.logo}" alt="">${x.n}</button>`; }).join('')}</div>`;
+  }
   function render(i) { cards[i].innerHTML = cardHTML(i); }
   function replay() { S.classList.remove('play'); void S.offsetWidth; setTimeout(() => S.classList.add('play'), 40); }
   function renderAll() { render(0); render(1); judge(); if (seen) replay(); }
@@ -1692,6 +1722,14 @@
   new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { seen = true; replay(); o.disconnect(); } }), { threshold: .35 }).observe(S.querySelector('.s-duel__row'));
   S.addEventListener('click', e => {
     const card = e.target.closest('.s-duel__card'), i = card ? +card.dataset.side : -1;
+    const sw = e.target.closest('.s-duel__swap');
+    if (sw && pick && innerWidth <= 760) { const open = !(S.classList.contains('picking') && pickSide === i); pickSide = i; S.classList.toggle('picking', open); renderPick(); return; }
+    const ps = e.target.closest('[data-pside]'); if (ps) { pickSide = +ps.dataset.pside; renderPick(); return; }
+    if (e.target.closest('.p-close')) { S.classList.remove('picking'); renderPick(); return; }
+    const pf = e.target.closest('[data-pfirm]');
+    if (pf && !pf.disabled) { state[pickSide] = { f: pf.dataset.pfirm, p: 0 }; S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.remove('on'));
+      cards[pickSide].querySelector('.s-duel__body').classList.add('fade'); renderPick();
+      setTimeout(() => { render(0); render(1); judge(); replay(); }, 180); return; }
     const li = e.target.closest('.s-duel__menu li');
     if (li && card) {
       if (li.dataset.plan) state[i].p = +li.dataset.plan;
@@ -1704,11 +1742,11 @@
     if (opener) (opener.classList.contains('s-duel__swap') ? opener.parentElement : opener).classList.toggle('open');
     const chip = e.target.closest('.s-duel__chip');
     if (chip) { e.preventDefault(); const [a, b] = chip.dataset.pair.split(','); state[0] = { f: a, p: 0 }; state[1] = { f: b, p: 0 };
-      S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.toggle('on', c === chip)); renderAll(); }
+      S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.toggle('on', c === chip)); renderAll(); renderPick(); }
   });
   document.addEventListener('click', e => { if (!e.target.closest('.s-duel')) S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
   S.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('s-duel__route')) { e.preventDefault(); e.target.classList.toggle('open'); } if (e.key === 'Escape') S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
-  renderAll();
+  renderAll(); renderPick();
 })();
 </script>
 

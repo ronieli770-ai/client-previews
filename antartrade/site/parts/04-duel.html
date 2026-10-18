@@ -142,6 +142,7 @@
 @media (prefers-reduced-motion:reduce){.s-duel .s-duel__price,.s-duel .s-duel__dr{opacity:1;transform:none;transition:none}}
 
 .s-duel .s-duel__cmp{display:none}
+.s-duel .s-duel__pick{display:none}
 </style>
 
 <section class="s-duel" id="duel" data-theme="light">
@@ -168,6 +169,7 @@
         <article class="s-duel__card" data-side="1"></article>
 
       </div>
+      <div class="s-duel__pick" aria-label="החלפת חברה"><div class="s-duel__pick-in"></div></div>
       <div class="s-duel__cmp" aria-label="השוואה שורה מול שורה"></div>
 
       <a class="s-duel__halo" href="#">
@@ -252,6 +254,16 @@
       cmp.innerHTML = L.map(([l, x, y, best], r) => `<div class="c-row" style="--r:${r}"><div class="c-lbl">${l}</div><div class="c-vals"><span class="${best === 0 ? 'best' : ''}">${x}</span><span class="${best === 1 ? 'best' : ''}">${y}</span></div><div class="c-bars"><i class="${best === 0 ? 'on' : ''}"></i><i class="${best === 1 ? 'on' : ''}"></i></div></div>`).join('');
     }
   }
+  // phones: "החלף חברה" opens a panel under the two cards, with a side switch and one toggle per firm
+  const pick = S.querySelector('.s-duel__pick-in'); let pickSide = 0;
+  function renderPick() {
+    if (!pick) return;
+    S.dataset.pick = S.classList.contains('picking') ? pickSide : '';
+    pick.innerHTML = `<div class="p-head"><div class="p-sides" role="tablist">${[0, 1].map(k => `<button type="button" role="tab" data-pside="${k}" class="${k === pickSide ? 'on' : ''}"><small>${k ? 'צד ב׳' : 'צד א׳'}</small>${F[state[k].f].n}</button>`).join('')}</div>`
+      + `<button type="button" class="p-close" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>`
+      + `<div class="p-firms">${Object.entries(F).map(([k, x]) => { const mine = state[pickSide].f === k, other = state[1 - pickSide].f === k;
+          return `<button type="button" class="p-firm${mine ? ' on' : ''}" data-pfirm="${k}" aria-pressed="${mine}"${other ? ' disabled' : ''}><img src="${x.logo}" alt="">${x.n}</button>`; }).join('')}</div>`;
+  }
   function render(i) { cards[i].innerHTML = cardHTML(i); }
   function replay() { S.classList.remove('play'); void S.offsetWidth; setTimeout(() => S.classList.add('play'), 40); }
   function renderAll() { render(0); render(1); judge(); if (seen) replay(); }
@@ -259,6 +271,14 @@
   new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { seen = true; replay(); o.disconnect(); } }), { threshold: .35 }).observe(S.querySelector('.s-duel__row'));
   S.addEventListener('click', e => {
     const card = e.target.closest('.s-duel__card'), i = card ? +card.dataset.side : -1;
+    const sw = e.target.closest('.s-duel__swap');
+    if (sw && pick && innerWidth <= 760) { const open = !(S.classList.contains('picking') && pickSide === i); pickSide = i; S.classList.toggle('picking', open); renderPick(); return; }
+    const ps = e.target.closest('[data-pside]'); if (ps) { pickSide = +ps.dataset.pside; renderPick(); return; }
+    if (e.target.closest('.p-close')) { S.classList.remove('picking'); renderPick(); return; }
+    const pf = e.target.closest('[data-pfirm]');
+    if (pf && !pf.disabled) { state[pickSide] = { f: pf.dataset.pfirm, p: 0 }; S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.remove('on'));
+      cards[pickSide].querySelector('.s-duel__body').classList.add('fade'); renderPick();
+      setTimeout(() => { render(0); render(1); judge(); replay(); }, 180); return; }
     const li = e.target.closest('.s-duel__menu li');
     if (li && card) {
       if (li.dataset.plan) state[i].p = +li.dataset.plan;
@@ -271,10 +291,10 @@
     if (opener) (opener.classList.contains('s-duel__swap') ? opener.parentElement : opener).classList.toggle('open');
     const chip = e.target.closest('.s-duel__chip');
     if (chip) { e.preventDefault(); const [a, b] = chip.dataset.pair.split(','); state[0] = { f: a, p: 0 }; state[1] = { f: b, p: 0 };
-      S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.toggle('on', c === chip)); renderAll(); }
+      S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.toggle('on', c === chip)); renderAll(); renderPick(); }
   });
   document.addEventListener('click', e => { if (!e.target.closest('.s-duel')) S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
   S.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('s-duel__route')) { e.preventDefault(); e.target.classList.toggle('open'); } if (e.key === 'Escape') S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
-  renderAll();
+  renderAll(); renderPick();
 })();
 </script>
