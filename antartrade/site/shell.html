@@ -289,7 +289,7 @@
     const size = () => { cv.width = about.offsetWidth * K; cv.height = about.offsetHeight * K; };
     size(); addEventListener('resize', size); new ResizeObserver(size).observe(about);   // the section grows as images load; a stale size stretched the strokes into ovals
     if (fine) about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now() }); });
-    const LIFE = fine ? 1800 : 2600;
+    const LIFE = fine ? 1800 : 10400;   // touch: a long line, four times the old tail
     // touch: an invisible point drifts on a slow random path (mixed sine waves with random phases), painting while the section is on screen
     // touch: the point moves at one steady speed along a gently turning heading and bounces off the edges, so the line never jumps
     let lastPush = 0, px = Math.random() * 150, py = Math.random() * 150, hd = Math.random() * 6.28, prevT = performance.now();
