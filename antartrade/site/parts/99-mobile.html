@@ -22,60 +22,20 @@
   .m-menu nav a svg { width: 14px; height: 10px; opacity: .5; }
   .m-menu .m-cta { margin-top: auto; display: flex; justify-content: center; }
   body.menu-open { overflow: hidden; }
-  .m-menu .mi, .m-menu .mn, .m-menu .m-social, .m-scrim { display: none; }
 
-  /* ---------- menu review options (?mm=a|b|c) ---------- */
-  /* A: the menu grows out of the hamburger as a circle; big numbered links rise in out of a blur */
-  .mm-a .m-menu { opacity: 1; clip-path: circle(0 at calc(100% - 40px) 36px); transition: clip-path .75s cubic-bezier(.7,0,.2,1), visibility .75s;
-    background: radial-gradient(90% 55% at 100% 0%, rgba(97,177,242,.30), transparent 65%), radial-gradient(70% 40% at 0% 100%, rgba(140,123,255,.18), transparent 70%), #0b0e14; }
-  .mm-a .m-menu.open { clip-path: circle(160% at calc(100% - 40px) 36px); }
-  .mm-a .m-menu nav { margin-top: 36px; }
-  .mm-a .m-menu nav a { justify-content: flex-start; gap: 14px; padding: 9px 0; border: 0; font-size: 36px; line-height: 1.1; translate: 0 36px; filter: blur(8px); transition: opacity .5s ease, translate .7s cubic-bezier(.22,1,.36,1), filter .6s ease; transition-delay: calc(var(--i) * 60ms + 260ms); }
-  .mm-a .m-menu.open nav a { filter: blur(0); }
-  .mm-a .m-menu nav a > svg { display: none; }
-  .mm-a .m-menu .mn { display: inline; font: 500 13px "Roboto", sans-serif; color: #7dc6ff; opacity: .8; min-width: 22px; translate: 0 -10px; }
-  .mm-a .m-menu nav a.cur .ml { background: linear-gradient(90deg, #61B1F2, #fff 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .mm-a .m-menu .m-social { display: flex; gap: 10px; justify-content: center; margin: auto 0 18px; }
-  .mm-a .m-menu .m-cta { margin-top: 0; }
-
-  /* B: bento tiles with icons that pop in; the deals tile spans the full width and glows */
-  .mm-b .m-menu { background: radial-gradient(80% 50% at 50% 0%, rgba(97,177,242,.16), transparent 70%), #0b0e14; }
-  .mm-b .m-menu nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-  .mm-b .m-menu nav a { flex-direction: column; align-items: flex-start; justify-content: space-between; height: 108px; padding: 16px; border: 1px solid rgba(255,255,255,.09); border-radius: 22px;
-    background: rgba(255,255,255,.04); font-size: 18px; translate: 0 0; scale: .8; transition: opacity .35s ease, scale .6s cubic-bezier(.34,1.56,.64,1), background .3s; transition-delay: calc(var(--i) * 50ms + 100ms); }
-  .mm-b .m-menu.open nav a { scale: 1; }
-  .mm-b .m-menu nav a:active { background: rgba(125,198,255,.12); }
-  .mm-b .m-menu nav a > svg { display: none; }
-  .mm-b .m-menu .mi { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: rgba(125,198,255,.12); color: #7dc6ff; }
-  .mm-b .m-menu .mi svg { width: 22px; height: 22px; }
-  .mm-b .m-menu nav a.deal { grid-column: 1 / -1; order: -1; flex-direction: row; align-items: center; justify-content: flex-start; gap: 14px; height: 84px; color: #fff; border-color: rgba(140,123,255,.5);
-    background: radial-gradient(120% 140% at 0% 100%, rgba(140,123,255,.55), transparent 60%), radial-gradient(80% 120% at 100% 0%, rgba(97,177,242,.35), transparent 60%), #141826; box-shadow: 0 14px 40px -12px rgba(140,123,255,.6); }
-  .mm-b .m-menu nav a.deal .mi { background: rgba(255,255,255,.14); color: #fff; }
-  .mm-b .m-menu nav a.cur { border-color: rgba(125,198,255,.55); }
-
-  /* C: a bottom sheet over the blurred page, with a handle, icon rows and quick links */
-  .mm-c .m-scrim { display: block; position: fixed; inset: 0; z-index: 69; background: rgba(6,8,12,.45); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); opacity: 0; visibility: hidden; transition: opacity .4s, visibility .4s; }
-  .mm-c .m-scrim.open { opacity: 1; visibility: visible; }
-  .mm-c .m-menu { top: auto; max-height: 90vh; border-radius: 30px 30px 0 0; padding: 10px 16px 26px; opacity: 1; translate: 0 100%; transition: translate .6s cubic-bezier(.22,1,.36,1), visibility .6s;
-    background: #12161f; box-shadow: 0 -24px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08); }
-  .mm-c .m-menu.open { translate: 0 0; }
-  .mm-c .m-menu .m-top { flex-wrap: wrap; height: auto; padding-top: 18px; position: relative; }
-  .mm-c .m-menu .m-top::before { content: ""; position: absolute; top: 0; left: 50%; width: 42px; height: 5px; margin-left: -21px; border-radius: 9px; background: rgba(255,255,255,.22); }
-  .mm-c .m-menu .m-top .logo { width: 128px; height: 28px; }
-  .mm-c .m-menu nav { margin-top: 10px; }
-  .mm-c .m-menu nav a { justify-content: flex-start; gap: 14px; padding: 10px 2px; font-size: 18px; border: 0; }
-  .mm-c .m-menu nav a > svg { margin-inline-start: auto; }
-  .mm-c .m-menu .mi { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,.06); color: #7dc6ff; flex: none; }
-  .mm-c .m-menu .mi svg { width: 20px; height: 20px; }
-  .mm-c .m-menu nav a.deal .mi { background: linear-gradient(135deg, #8c7bff, #61b1f2); color: #fff; }
-  .mm-c .m-menu .m-social { display: flex; gap: 10px; margin: 16px 0 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.08); }
-  .mm-c .m-menu .m-social a { flex: 1; }
-  .mm-c .m-menu .m-cta .btn-halo { width: 100%; }
-  .mm-c .m-menu .m-cta .btn-halo > span { width: 100%; justify-content: center; }
-  /* shared: round quick links */
+  /* the menu grows out of the hamburger as a circle; big links rise in out of a blur */
+  .m-menu { opacity: 1; clip-path: circle(0 at calc(100% - 40px) 36px); transition: clip-path .75s cubic-bezier(.7,0,.2,1), visibility .75s;
+    background: radial-gradient(90% 55% at 100% 0%, rgba(97,177,242,.26), transparent 65%), #12161f; }
+  .m-menu.open { clip-path: circle(160% at calc(100% - 40px) 36px); }
+  .m-menu nav { margin-top: 36px; }
+  .m-menu nav a { justify-content: flex-start; gap: 14px; padding: 9px 0; border: 0; font-size: 36px; line-height: 1.1; translate: 0 36px; filter: blur(8px); transition: opacity .5s ease, translate .7s cubic-bezier(.22,1,.36,1), filter .6s ease; transition-delay: calc(var(--i) * 60ms + 260ms); }
+  .m-menu.open nav a { filter: blur(0); }
+  .m-menu nav a > svg { display: none; }
+  .m-menu nav a.cur .ml { background: linear-gradient(90deg, #61B1F2, #fff 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .m-menu .m-social { display: flex; gap: 10px; justify-content: center; margin: auto 0 18px; }
+  .m-menu .m-cta { margin-top: 0; }
   .m-menu .m-social a { display: grid; place-items: center; height: 48px; min-width: 48px; border-radius: 999px; background: rgba(255,255,255,.06); }
   .m-menu .m-social img { width: 20px; height: 20px; }
-  .no-tr .m-menu, .no-tr .m-menu *, .no-tr .m-scrim { transition: none !important; }
 }
 
 @media (max-width: 760px) {
@@ -314,30 +274,13 @@
   b.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M4 7H20M4 12H20M10 17H20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
   wrap.appendChild(b);
   const m = document.createElement('div'); m.className = 'm-menu'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-label', 'תפריט');
-  // outline, rounded icons per menu link
-  const SV = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
-  const ICONS = {
-    '#top': '<path d="M4 11L12 4L20 11V19C20 19.6 19.6 20 19 20H15V14H9V20H5C4.4 20 4 19.6 4 19Z"/>',
-    '#compare': '<path d="M4 20H20M6 20V10M10 20V10M14 20V10M18 20V10M3 10L12 4L21 10Z"/>',
-    '#duel': '<path d="M4 8H18M14 4L18 8L14 12M20 16H6M10 12L6 16L10 20"/>',
-    '#deals': '<path d="M12.5 3.5H19C19.8 3.5 20.5 4.2 20.5 5V11.5L11.5 20.5L3.5 12.5Z"/><circle cx="16" cy="8" r="1.4"/>',
-    '#academy': '<path d="M2.5 9L12 4.5L21.5 9L12 13.5Z"/><path d="M6.5 11V16C8 17.5 10 18.3 12 18.3C14 18.3 16 17.5 17.5 16V11"/>',
-    '#journal': '<path d="M7 4H17C18.1 4 19 4.9 19 6V20L15.5 18L12 20L8.5 18L5 20V6C5 4.9 5.9 4 7 4Z"/><path d="M9 9H15M9 13H13"/>',
-    '#about': '<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20C5.8 16.6 8.6 14.5 12 14.5C15.4 14.5 18.2 16.6 19 20"/>',
-  };
-  const ICON = h => SV(ICONS[h] || ICONS['#top']);
   const ARROW = '<svg viewBox="0 0 12 8" fill="none"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   m.innerHTML = '<div class="m-top"><span class="logo"></span><button class="m-close" type="button" aria-label="סגירת תפריט"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>'
-    + '<nav>' + [...nav.querySelectorAll('a')].map((a, i) => `<a href="${a.getAttribute('href')}" class="${a.className}" style="--i:${i}"><span class="mi">${ICON(a.getAttribute('href'))}</span><span class="mn">0${i + 1}</span><span class="ml">${a.textContent.trim()}</span>${ARROW}</a>`).join('') + '</nav>'
+    + '<nav>' + [...nav.querySelectorAll('a')].map((a, i) => `<a href="${a.getAttribute('href')}" class="${a.className}" style="--i:${i}"><span class="ml">${a.textContent.trim()}</span>${ARROW}</a>`).join('') + '</nav>'
     + '<div class="m-social"><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/foot-whatsapp.svg" alt=""></a><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" alt=""></a><a href="https://www.instagram.com/noam_antar/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" alt=""></a><a href="mailto:antartradepro@gmail.com" aria-label="Mail"><img src="img/foot-mail.svg" alt=""></a></div>'
     + '<div class="m-cta"><a class="btn-halo sky" href="#academy"><span>לכל הקורסים' + ARROW + '</span></a></div>';
   document.body.appendChild(m);
-  const scrim = document.createElement('div'); scrim.className = 'm-scrim'; document.body.appendChild(scrim);
-  scrim.addEventListener('click', () => open(false));
-  const open = v => { m.classList.toggle('open', v); scrim.classList.toggle('open', v); document.body.classList.toggle('menu-open', v); b.setAttribute('aria-expanded', v); };
-  // menu review options: ?mm=a|b|c (&open opens it, &shot freezes transitions for captures)
-  const mmQ = new URLSearchParams(location.search), mmOpt = mmQ.get('mm');
-  if (/^[abc]$/.test(mmOpt || '')) { document.documentElement.classList.add('mm-' + mmOpt); if (mmQ.has('shot')) document.documentElement.classList.add('no-tr'); if (mmQ.has('open')) setTimeout(() => open(true), 900); }
+  const open = v => { m.classList.toggle('open', v); document.body.classList.toggle('menu-open', v); b.setAttribute('aria-expanded', v); };
   b.addEventListener('click', () => open(true));
   m.querySelector('.m-close').addEventListener('click', () => open(false));
   m.querySelectorAll('a').forEach(a => a.addEventListener('click', () => open(false)));
