@@ -2460,7 +2460,8 @@
 
   // ---------- "נעים להכיר": the cursor paints the section's blurred sky lines (like the Figma background: thick #7DC6FF strokes, heavy blur) ----------
   const about = document.querySelector('.s-about');
-  if (about && !reduce && matchMedia('(pointer: fine)').matches) {
+  if (about && !reduce) {
+    const fine = matchMedia('(pointer: fine)').matches;   // touch screens get a slow, wandering painter instead of the cursor
     const cv = document.createElement('canvas'); cv.setAttribute('aria-hidden', 'true');
     cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;mix-blend-mode:screen';
     about.prepend(cv);
@@ -2468,10 +2469,17 @@
     let pts = [];
     const size = () => { cv.width = about.offsetWidth * K; cv.height = about.offsetHeight * K; };
     size(); addEventListener('resize', size);
-    about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now() }); });
-    const LIFE = 1800;
+    if (fine) about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now() }); });
+    const LIFE = fine ? 1800 : 3200;
+    // touch: an invisible point drifts on a slow random path (mixed sine waves with random phases), painting while the section is on screen
+    let inView = false, lastPush = 0;
+    const ph = [0, 0, 0, 0].map(() => Math.random() * 6.28);
+    if (!fine) new IntersectionObserver(es => { inView = es[0].isIntersecting; }).observe(about);
     (function draw() {
       const now = performance.now(); pts = pts.filter(p => now - p.t < LIFE);
+      if (!fine && inView && now - lastPush > 40) { lastPush = now;
+        pts.push({ x: cv.width * (.5 + .36 * Math.sin(now * .00021 + ph[0]) + .1 * Math.sin(now * .00047 + ph[1])),
+                   y: cv.height * (.45 + .36 * Math.sin(now * .00015 + ph[2]) + .08 * Math.sin(now * .00039 + ph[3])), t: now }); }
       ctx.clearRect(0, 0, cv.width, cv.height);
       if (pts.length > 2) {
         ctx.filter = `blur(${46 * K}px)`; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
