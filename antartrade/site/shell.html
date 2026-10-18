@@ -153,7 +153,7 @@
       });
       // containers: rise from 5em below while going from blurred to sharp, one after another
       const groups = [
-        ['.s-table', '.s-table > *'],
+        ...(innerWidth > 760 ? [['.s-table', '.s-table > *']] : []),
         ['.s-duel__row', '.s-duel__card'],
         ['.s-academy .grid', '.s-academy .card'],
         ['.s-platforms', '.s-platforms .card'],

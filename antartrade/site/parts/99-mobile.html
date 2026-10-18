@@ -87,7 +87,9 @@
   .s-logos .s-logos__set img { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
   /* comparison table logos: no transform on the pinned cell (it can blank its images in Safari); a plain white cell is enough */
   .s-table .t-row > :first-child { transform: none !important; }
-  .s-table .t-row > :first-child .logo img { -webkit-backface-visibility: hidden; }
+  .s-table .t-row > :first-child .logo img { display: none !important; }
+  .s-table .t-row > :first-child .logo { background: center / contain no-repeat; }
+  .s-table .t-scroll { -webkit-transform: translate3d(0,0,0); transform: translate3d(0,0,0); }
   /* logos: only the carousel, close under the hero so it shows before scrolling */
   .s-logos { padding: 12px 16px 40px !important; }
   .s-logos .s-logos__head { display: none; }
@@ -224,6 +226,9 @@
   const ts = document.querySelector('.s-table .t-scroll');
   if (ts) { const h = document.createElement('div'); h.className = 't-hint'; h.innerHTML = '<svg viewBox="0 0 18 10" fill="none"><path d="M17 5H1M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>החליקו שמאלה לעוד נתונים';
     if (innerWidth <= 760) ts.after(h); ts.addEventListener('scroll', () => { if (Math.abs(ts.scrollLeft) > 30) h.style.opacity = 0; }, { passive: true }); h.style.transition = 'opacity .4s'; }
+
+  // table logos in the pinned column are painted as backgrounds of their cell (iOS keeps those while the row scrolls)
+  document.querySelectorAll('.s-table .t-row > :first-child .logo img').forEach(i => { i.parentElement.style.backgroundImage = `url("${i.getAttribute('src')}")`; });
 
   // footer groups open and close on phones
   document.querySelectorAll('.s-footer__col h3').forEach(h => h.addEventListener('click', () => { if (innerWidth <= 760) h.parentElement.classList.toggle('open'); }));
