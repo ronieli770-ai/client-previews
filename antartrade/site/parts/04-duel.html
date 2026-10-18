@@ -14,7 +14,7 @@
 .s-duel__content{display:flex;flex-direction:column;align-items:center;gap:30px;width:100%}
 .s-duel__chips{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px}
 .s-duel__chips-label{font-size:14px;line-height:1.2;color:rgba(18,22,31,.6)}
-.s-duel__chip{direction:ltr;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:rgba(18,22,31,.04);border:1px solid rgba(18,22,31,.1);color:var(--navy);text-decoration:none;font-family:"Roboto",sans-serif;font-size:13px;font-weight:500;white-space:nowrap;transition:background .2s,border-color .2s}
+.s-duel__chip{direction:rtl;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:rgba(18,22,31,.04);border:1px solid rgba(18,22,31,.1);color:var(--navy);text-decoration:none;font-family:"Roboto",sans-serif;font-size:13px;font-weight:500;white-space:nowrap;transition:background .2s,border-color .2s}
 .s-duel__chip b{color:var(--blue);font-size:12px;font-weight:700}
 .s-duel__chip:hover{background:rgba(97,177,242,.1);border-color:rgba(46,139,216,.35)}
 
@@ -156,9 +156,9 @@
     <div class="s-duel__content">
       <div class="s-duel__chips">
         <span class="s-duel__chips-label">דו קרבים פופולריים:</span>
-        <a class="s-duel__chip on" role="button" data-pair="tp,lucid">Take Profit Trader <b>vs</b> Lucid Trading</a>
-        <a class="s-duel__chip" role="button" data-pair="apex,bulenox">Apex Trader Funding <b>vs</b> Bulenox</a>
-        <a class="s-duel__chip" role="button" data-pair="fn,topstep">FundedNext Futures <b>vs</b> Topstep</a>
+        <a class="s-duel__chip on" role="button" data-pair="tp,lucid"><bdi>Take Profit Trader</bdi> <b>vs</b> <bdi>Lucid Trading</bdi></a>
+        <a class="s-duel__chip" role="button" data-pair="apex,bulenox"><bdi>Apex Trader Funding</bdi> <b>vs</b> <bdi>Bulenox</bdi></a>
+        <a class="s-duel__chip" role="button" data-pair="fn,topstep"><bdi>FundedNext Futures</bdi> <b>vs</b> <bdi>Topstep</bdi></a>
       </div>
 
       <div class="s-duel__row" data-reveal>

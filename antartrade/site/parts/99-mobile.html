@@ -180,15 +180,28 @@
   .s-academy .tabs button { flex: 1; width: auto; }
 
   /* ---------- platforms & tools: a sideways swipe row per group ---------- */
-  .s-platforms .p-row, .s-platforms .p-row.five { display: flex !important; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; margin-inline: -16px; padding: 4px 16px 18px; scrollbar-width: none; }
+  .s-platforms .p-row, .s-platforms .p-row.five { display: flex !important; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; margin: -16px -16px 0; padding: 20px 16px 18px; scrollbar-width: none; }
   .s-platforms .p-row::-webkit-scrollbar { display: none; }
+  /* tighter: header to group title, group title to its cards, card name to its text */
+  .s-platforms .p-inner { gap: 32px !important; }
+  .s-platforms .p-group { gap: 2px; }
+  .s-platforms .card-name + .card-desc { margin-top: -6px; }
   .s-platforms .p-row > .card { flex: 0 0 78%; scroll-snap-align: start; min-height: 320px; }
 
   /* ---------- journal: no overlap with the platforms curve ---------- */
   .s-journal { margin-top: -60px; background: linear-gradient(transparent 60px, #fff 60px); padding-bottom: 80px; }
   .s-journal .panel { padding: 28px 18px !important; border-radius: 32px !important; gap: 24px; }
-  .s-journal .copy h2 { font-size: 30px !important; line-height: 1.15 !important; }
+  .s-journal .copy h2 { font-size: 32px !important; line-height: 1.15 !important; }   /* the global phone title, like every other section */
+  /* features in a 2 x 2 grid, so a tap shows its animation right below without scrolling */
+  .s-journal .copy p + .opts { margin-top: 20px; }
+  .s-journal .opts { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .s-journal .opt { height: auto !important; min-height: 52px; padding: 8px 12px !important; justify-content: flex-start !important; }
+  .s-journal .opt .lbl { font-size: 15px !important; gap: 8px; line-height: 1.2; text-align: right; }
+  .s-journal .opt .lbl svg { width: 18px; height: 18px; flex-basis: 18px; }
+  .s-journal .opt .dot { display: none; }
   .s-journal .card { width: 100% !important; min-height: 0 !important; }
+  .s-journal .stage { height: 214px !important; }
+  .s-journal .art { transform: scale(.88) !important; }   /* the whole mock fits the stage, nothing cut on the left */
 
   /* ---------- community ---------- */
   .s-community .banner { border-radius: 28px !important; }
