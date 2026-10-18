@@ -86,49 +86,66 @@
   .s-table .t-wrap { padding: 0 16px; }
   .s-table .t-card { border-radius: 28px; }
   .s-table .t-frame { padding: 22px 0 14px !important; }
-  .s-table .t-title { font-size: 24px !important; line-height: 1.2; padding: 0 16px; }
+  .s-table .t-title { font-size: 24px !important; line-height: 1.2; padding: 0 16px 20px !important; border-bottom: 0 !important; }
   .s-table .t-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: none; position: relative; }
   .s-table .t-scroll::-webkit-scrollbar { display: none; }
   .s-table .t-grid { min-width: 1080px; padding-inline: 0 16px; }
   .s-table .t-row { grid-template-columns: 150px 70px 86px 200px 84px 190px 200px 230px; column-gap: 14px; }
-  .s-table .t-row > :first-child { position: sticky; right: 0; z-index: 2; background: #fff; padding: 10px 16px 10px 10px; margin-block: -10px; box-shadow: -10px 0 14px -10px rgba(18,22,31,.18); }
+  .s-table .t-row > :first-child { position: sticky; right: 0; z-index: 2; background: #fff; padding: 10px 16px 10px 10px; margin-block: -10px; transform: translateZ(0); }
+  /* logos stay painted while the row scrolls (Safari drops absolutely placed images inside sticky cells) */
+  .s-table .t-row > :first-child .logo { position: relative; flex: 0 0 32px; width: 32px; height: 32px; }
+  .s-table .t-row > :first-child .logo img { position: static !important; width: 100% !important; height: 100% !important; object-fit: contain; inset: auto !important; }
   .s-table .t-head > :first-child { background: #fff; }
   .s-table .firm-name { font-size: 15px; }
   /* swipe hint under the table */
   .s-table .t-hint { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font: 400 13px "Fb Reforma", sans-serif; color: rgba(18,22,31,.5); }
   .s-table .t-hint svg { width: 18px; height: 10px; animation: t-nudge 1.6s ease-in-out infinite; }
   @keyframes t-nudge { 0%, 100% { translate: 0 0; } 50% { translate: -6px 0; } }
-  /* ---------- duel: the two firms side by side, one against the other, VS on the seam ---------- */
+  /* ---------- duel (after payless): two short cards side by side, the data in one shared list below, value against value ---------- */
   .s-duel__chips { gap: 8px; }
   .s-duel__chips-label { width: 100%; text-align: center; }
-  html body .s-duel .s-duel__row { grid-template-columns: minmax(0,1fr) 0 minmax(0,1fr) !important; column-gap: 8px; max-width: none; margin: 0; }
+  html body .s-duel .s-duel__row { grid-template-columns: minmax(0,1fr) 0 minmax(0,1fr) !important; column-gap: 10px; max-width: none; margin: 0; }
   html body .s-duel .s-duel__row > .s-duel__card { margin: 0 !important; }
   .s-duel .s-duel__vs-cell { height: auto; z-index: 3; }
-  .s-duel .s-duel__vs { width: 34px; height: 34px; font-size: 12px; position: absolute; top: 132px; left: 50%; translate: -50% 0; }
-  .s-duel .s-duel__card { padding: 26px 10px 14px; border-radius: 20px; gap: 12px; }
-  .s-duel .s-duel__body { gap: 12px; }
-  .s-duel .s-duel__top { flex-direction: column-reverse; align-items: stretch; gap: 8px; }
-  .s-duel .s-duel__side { align-self: flex-start; font-size: 13px !important; padding: 3px 8px; }
-  .s-duel .s-duel__swap { justify-content: center; padding: 7px 8px; font-size: 12px; gap: 4px; }
-  .s-duel .s-duel__swap svg { width: 12px; height: 12px; }
-  .s-duel .s-duel__swapwrap .s-duel__menu { width: 200px; }
-  .s-duel .s-duel__card[data-side="1"] .s-duel__swapwrap .s-duel__menu { left: 0; right: auto; }
-  .s-duel .s-duel__card[data-side="0"] .s-duel__swapwrap .s-duel__menu { right: 0; left: auto; }
-  .s-duel .s-duel__co { flex-direction: column; align-items: flex-start; gap: 6px; min-height: 0; }
-  .s-duel .s-duel__logo img, .s-duel .s-duel__logo svg { width: 30px; height: 30px; }
-  .s-duel .s-duel__co-name { font-size: 17px; line-height: 1.15; }
-  .s-duel .s-duel__route { padding: 8px 8px; }
-  .s-duel .s-duel__route-txt { flex-direction: column; align-items: flex-start; gap: 2px; font-size: 13px; }
-  .s-duel .s-duel__route .s-duel__menu { min-width: 150px; }
-  .s-duel .s-duel__price { min-height: 0; }
-  .s-duel .s-duel__now { font-size: 24px; }
-  .s-duel .s-duel__was { font-size: 13px; }
+  .s-duel .s-duel__vs { width: 36px; height: 36px; font-size: 12px; position: absolute; top: 34px; left: 50%; translate: -50% 0; }
+  .s-duel .s-duel__card { padding: 18px 12px 14px; border-radius: 22px; gap: 10px; text-align: center; }
+  .s-duel .s-duel__body { gap: 10px; align-items: center; }
+  .s-duel .s-duel__data, .s-duel .s-duel__hr { display: none !important; }
+  .s-duel .s-duel__top { display: contents; }
+  .s-duel .s-duel__side { display: none; }
+  .s-duel .s-duel__swapwrap { order: 9; align-self: center; }
+  .s-duel .s-duel__swap { border: 0; padding: 4px 6px; font-size: 13px; color: #2e8bd8; gap: 5px; background: none; }
+  .s-duel .s-duel__swap svg path { stroke: #2e8bd8; }
+  .s-duel .s-duel__swap svg { width: 13px; height: 13px; }
+  .s-duel .s-duel__swapwrap .s-duel__menu { width: 200px; bottom: calc(100% + 6px); top: auto; }
+  .s-duel .s-duel__card[data-side="1"] .s-duel__swapwrap .s-duel__menu { left: -6px; right: auto; }
+  .s-duel .s-duel__card[data-side="0"] .s-duel__swapwrap .s-duel__menu { right: -6px; left: auto; }
+  .s-duel .s-duel__co { flex-direction: column; align-items: center; gap: 6px; min-height: 0; }
+  .s-duel .s-duel__logo img, .s-duel .s-duel__logo svg { width: 34px; height: 34px; }
+  .s-duel .s-duel__co-name { font-size: 16px; line-height: 1.15; }
+  .s-duel .s-duel__route { width: 100%; padding: 8px 10px; }
+  .s-duel .s-duel__route-txt { gap: 4px; font-size: 13px; }
+  .s-duel .s-duel__route .s-duel__lbl { display: none; }
+  .s-duel .s-duel__price { min-height: 0; align-items: center; }
+  .s-duel .s-duel__size { display: none; }
+  .s-duel .s-duel__now { font-size: 22px; }
+  .s-duel .s-duel__was { font-size: 12px; }
   .s-duel .s-duel__per { display: none; }
-  .s-duel .s-duel__dr { flex-direction: column; align-items: flex-start; gap: 3px; min-height: 66px; padding: 8px 0; }
-  .s-duel .s-duel__dr dt { font-size: 12px; }
-  .s-duel .s-duel__dr dd { white-space: normal; text-align: right; font-size: 14px; line-height: 1.25; }
   .s-duel .s-duel__badge { font-size: 12px !important; padding: 4px 9px; top: -12px; }
   .s-duel .s-duel__badge svg { width: 12px !important; height: 12px !important; }
+  /* the shared list */
+  .s-duel .s-duel__cmp { display: block; width: 100%; margin-top: 14px; padding: 6px 16px; border-radius: 22px; background: #fff; box-shadow: 0 0 0 1px #e3eef9, 0 14px 34px rgba(85,169,235,.10); }
+  .s-duel .c-row { padding: 14px 0; border-bottom: 1px solid #eef4fa; opacity: 0; translate: 0 8px; transition: opacity .4s, translate .5s; transition-delay: calc(var(--r) * 180ms); }
+  .s-duel.play .c-row { opacity: 1; translate: 0 0; }
+  .s-duel .c-row:last-child { border-bottom: 0; }
+  .s-duel .c-lbl { text-align: center; font: 500 14px "Fb Reforma", sans-serif; color: #12161f; margin-bottom: 8px; }
+  .s-duel .c-vals { display: flex; justify-content: space-between; gap: 12px; font: 400 15px "Fb Reforma", sans-serif; color: #12161f; }
+  .s-duel .c-vals span { flex: 1; font-size: 15px !important; }
+  .s-duel .c-vals span:last-child { text-align: left; }
+  .s-duel .c-vals span.best { color: #B07A0C; font-weight: 500; }
+  .s-duel .c-bars { display: flex; gap: 12px; margin-top: 8px; }
+  .s-duel .c-bars i { flex: 1; height: 3px; border-radius: 3px; background: #eef1f5; transition: background .4s; transition-delay: calc(var(--r) * 180ms + 250ms); }
+  .s-duel.play .c-bars i.on { background: linear-gradient(90deg, #F7C65A, #E0A325); }
 
   /* ---------- deals: swipe carousel with the tabs above it ---------- */
   .s-deals .fan-nav { flex-direction: column-reverse; gap: 18px; }

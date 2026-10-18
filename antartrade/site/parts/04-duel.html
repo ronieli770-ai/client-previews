@@ -140,6 +140,8 @@
 .s-duel .s-duel__badge{transition-delay:1.25s}
 .s-duel:not(.play) .s-duel__badge{opacity:0}
 @media (prefers-reduced-motion:reduce){.s-duel .s-duel__price,.s-duel .s-duel__dr{opacity:1;transform:none;transition:none}}
+
+.s-duel .s-duel__cmp{display:none}
 </style>
 
 <section class="s-duel" id="duel" data-theme="light">
@@ -166,6 +168,7 @@
         <article class="s-duel__card" data-side="1"></article>
 
       </div>
+      <div class="s-duel__cmp" aria-label="השוואה שורה מול שורה"></div>
 
       <a class="s-duel__halo" href="#">
         <span class="s-duel__halo-in">
@@ -241,6 +244,13 @@
     });
     let w = score[0] === score[1] ? (a.now === b.now ? -1 : (a.now < b.now ? 0 : 1)) : (score[0] > score[1] ? 0 : 1);
     cards.forEach((c, i) => c.classList.toggle('win', i === w));
+    // phones: the rows live in one shared list under the two short cards, value against value
+    const cmp = S.querySelector('.s-duel__cmp');
+    if (cmp) {
+      const L = [['מחיר החל מ-', money(a.now), money(b.now), a.now === b.now ? -1 : (a.now < b.now ? 0 : 1)], ['סוג הסטופ בממומן', a.stop[0], b.stop[0], a.stop[1] === b.stop[1] ? -1 : (a.stop[1] < b.stop[1] ? 0 : 1)],
+        ['חוק עקביות בממומן', a.cons[0], b.cons[0], a.cons[1] === b.cons[1] ? -1 : (a.cons[1] < b.cons[1] ? 0 : 1)], ['תקרת משיכה', a.cap[0], b.cap[0], a.cap[1] === b.cap[1] ? -1 : (a.cap[1] < b.cap[1] ? 0 : 1)]];
+      cmp.innerHTML = L.map(([l, x, y, best], r) => `<div class="c-row" style="--r:${r}"><div class="c-lbl">${l}</div><div class="c-vals"><span class="${best === 0 ? 'best' : ''}">${x}</span><span class="${best === 1 ? 'best' : ''}">${y}</span></div><div class="c-bars"><i class="${best === 0 ? 'on' : ''}"></i><i class="${best === 1 ? 'on' : ''}"></i></div></div>`).join('');
+    }
   }
   function render(i) { cards[i].innerHTML = cardHTML(i); }
   function replay() { S.classList.remove('play'); void S.offsetWidth; setTimeout(() => S.classList.add('play'), 40); }
