@@ -247,7 +247,12 @@
       else if (leave < 0) { y = leave * 90; o = 1 + leave * 3; bl = -leave * 12; }
       else { y = 0; o = 1; bl = 0; }
     } else { y = p > 0 ? p * 160 : p * 90; o = p > 0 ? 1 - p * 1.6 : 1 + p * 1.4; bl = p > 0 ? p * 6 : -p * 12; }
-    aboutText.style.transform = `translateY(${y.toFixed(1)}px)`; aboutText.style.opacity = Math.max(0, Math.min(1, o)).toFixed(3); aboutText.style.filter = `blur(${Math.max(0, bl).toFixed(2)}px)`;
+    // at rest nothing is left on the block: on iPhone a filter or opacity on it (even blur(0)) delays painting the button's backdrop blur,
+    // so phones get no blur at all and every style is cleared once the block is in place
+    const op = Math.max(0, Math.min(1, o));
+    aboutText.style.transform = Math.abs(y) < .5 ? '' : `translateY(${y.toFixed(1)}px)`;
+    aboutText.style.opacity = op > .995 ? '' : op.toFixed(3);
+    aboutText.style.filter = bl > .05 && innerWidth > 760 ? `blur(${bl.toFixed(2)}px)` : '';
     aboutText.classList.add('in');
   }
   // ---------- journal panel: rises in while scrolling, starting slightly blurred and turning sharp ----------
