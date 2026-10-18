@@ -289,7 +289,7 @@
     const size = () => { cv.width = about.offsetWidth * K; cv.height = about.offsetHeight * K; };
     size(); addEventListener('resize', size);
     if (fine) about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now() }); });
-    const LIFE = fine ? 1800 : 3200;
+    const LIFE = fine ? 1800 : 2600;
     // touch: an invisible point drifts on a slow random path (mixed sine waves with random phases), painting while the section is on screen
     let inView = false, lastPush = 0;
     const ph = [0, 0, 0, 0].map(() => Math.random() * 6.28);
@@ -297,22 +297,25 @@
     // iPhone Safari ignores the canvas blur filter, so on touch the whole canvas is blurred with css instead (heavy, like the Figma lines),
     // and the strokes skip noam's figure so they never show through the clear parts of the cut-out photo
     const photo = about.querySelector('.portrait');
-    if (!fine) cv.style.filter = 'blur(38px)';
+    if (!fine) cv.style.filter = 'blur(18px)';   // enough to soften, light enough that the strokes still read as lines
     (function draw() {
       const now = performance.now(); pts = pts.filter(p => now - p.t < LIFE);
-      if (!fine && inView && now - lastPush > 40) { lastPush = now;
-        pts.push({ x: cv.width * (.5 + .36 * Math.sin(now * .00021 + ph[0]) + .1 * Math.sin(now * .00047 + ph[1])),
-                   y: cv.height * (.45 + .36 * Math.sin(now * .00015 + ph[2]) + .08 * Math.sin(now * .00039 + ph[3])), t: now }); }
+      // the point travels fast enough to leave a long curved line behind it (a slow one piles up into a round blot)
+      if (!fine && inView && now - lastPush > 30) { lastPush = now;
+        pts.push({ x: cv.width * (.5 + .5 * Math.sin(now * .00055 + ph[0]) + .12 * Math.sin(now * .0013 + ph[1])),
+                   y: cv.height * (.5 + .42 * Math.sin(now * .00037 + ph[2]) + .1 * Math.sin(now * .0011 + ph[3])), t: now }); }
+      const textTop = !fine && aboutText ? (aboutText.getBoundingClientRect().top - about.getBoundingClientRect().top) * K : 1e9;
       ctx.clearRect(0, 0, cv.width, cv.height);
       if (pts.length > 2) {
         ctx.filter = fine ? `blur(${46 * K}px)` : 'none'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
         ctx.save();
         if (!fine && photo) { const ar = about.getBoundingClientRect(), r = photo.getBoundingClientRect();
-          ctx.beginPath(); ctx.rect(0, 0, cv.width, cv.height); ctx.rect((r.left - ar.left) * K, (r.top - ar.top) * K, r.width * K, r.height * .72 * K); ctx.clip('evenodd'); }
+          ctx.beginPath(); ctx.rect(0, 0, cv.width, cv.height); ctx.rect((r.left - ar.left + r.width * .14) * K, (r.top - ar.top) * K, r.width * .72 * K, r.height * .72 * K); ctx.clip('evenodd'); }
         for (let i = 1; i < pts.length - 1; i++) {
           const a = pts[i - 1], b = pts[i], c = pts[i + 1], age = (now - b.t) / LIFE;
-          ctx.strokeStyle = `rgba(125,198,255,${(.5 * (1 - age) * (1 - age)).toFixed(3)})`;
-          ctx.lineWidth = (120 - age * 50) * K;
+          const dim = b.y > textTop ? .4 : 1;   // behind the text the lines stay dark enough to read over
+          ctx.strokeStyle = `rgba(125,198,255,${(.5 * dim * (1 - age) * (1 - age)).toFixed(3)})`;
+          ctx.lineWidth = (fine ? 120 - age * 50 : 46 - age * 20) * K;
           ctx.beginPath(); ctx.moveTo((a.x + b.x) / 2, (a.y + b.y) / 2); ctx.quadraticCurveTo(b.x, b.y, (b.x + c.x) / 2, (b.y + c.y) / 2); ctx.stroke();
         }
         ctx.restore();
