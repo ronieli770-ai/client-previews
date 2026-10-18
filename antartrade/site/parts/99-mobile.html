@@ -72,6 +72,9 @@
   .s-hero .s-hero__halo { padding: 0; border-radius: 16px; min-width: 0; display: flex; }
   .s-hero .s-hero__halo-in { flex: 1; width: 100% !important; height: 68px !important; padding: 0 16px !important; border-radius: 15px; font-size: 16px !important; font-weight: 500; line-height: 1.15 !important; white-space: normal !important; text-align: center; gap: 0; }
   .s-hero .s-hero__halo-in img { display: none; }
+  /* frames swapped: the outlined tiles take the full sky line, the search the softer one, so the buttons read first */
+  .s-hero .s-hero__halo:not(.s-hero__halo--primary) .s-hero__halo-in { border-color: #61B1F2 !important; }
+  .s-hero .s-hero__search { border-color: rgba(97,177,242,.5) !important; }
   .s-hero .s-hero__search { width: 100%; }
   /* hero photo options for review: ?mh=b|c|d (default = a) */
   .mh-b .s-hero .s-hero__trader { top: auto !important; height: 46% !important; }
