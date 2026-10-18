@@ -302,7 +302,7 @@
       const now = performance.now(); pts = pts.filter(p => now - p.t < LIFE);
       if (!fine) {
         const dt = Math.min(60, now - prevT); prevT = now;
-        hd += (Math.sin(now * .0007 + ph[0]) * .0011 + Math.sin(now * .00031 + ph[1]) * .0007) * dt;
+        hd += (Math.sin(now * .00023 + ph[0]) * .00016 + Math.sin(now * .00011 + ph[1]) * .0001) * dt;   // turns at most ~15° a second: wide sweeps, never small loops
         px += Math.cos(hd) * .032 * dt; py += Math.sin(hd) * .032 * dt;
         if (px < 0 || px > cv.width) { hd = Math.PI - hd; px = Math.max(0, Math.min(cv.width, px)); }
         if (py < 0 || py > cv.height) { hd = -hd; py = Math.max(0, Math.min(cv.height, py)); }
