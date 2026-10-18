@@ -287,19 +287,19 @@
     const ctx = cv.getContext('2d'), K = .5;   // drawn at half resolution: it is all blur anyway
     let pts = [];
     const size = () => { cv.width = about.offsetWidth * K; cv.height = about.offsetHeight * K; };
-    size(); addEventListener('resize', size);
+    size(); addEventListener('resize', size); new ResizeObserver(size).observe(about);   // the section grows as images load; a stale size stretched the strokes into ovals
     if (fine) about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now() }); });
     const LIFE = fine ? 1800 : 2600;
     // touch: an invisible point drifts on a slow random path (mixed sine waves with random phases), painting while the section is on screen
     let inView = false, lastPush = 0;
     const ph = [0, 0, 0, 0].map(() => Math.random() * 6.28);
-    if (!fine) new IntersectionObserver(es => { inView = es[0].isIntersecting; }).observe(about);
     // iPhone Safari ignores the canvas blur filter, so on touch the whole canvas is blurred with css instead (heavy, like the Figma lines),
     // and the strokes skip noam's figure so they never show through the clear parts of the cut-out photo
     const photo = about.querySelector('.portrait');
     if (!fine) cv.style.filter = 'blur(18px)';   // enough to soften, light enough that the strokes still read as lines
     (function draw() {
       const now = performance.now(); pts = pts.filter(p => now - p.t < LIFE);
+      if (!fine) { const vr = about.getBoundingClientRect(); inView = vr.bottom > 0 && vr.top < innerHeight; }
       // the point travels fast enough to leave a long curved line behind it (a slow one piles up into a round blot)
       if (!fine && inView && now - lastPush > 30) { lastPush = now;
         pts.push({ x: cv.width * (.5 + .5 * Math.sin(now * .00055 + ph[0]) + .12 * Math.sin(now * .0013 + ph[1])),

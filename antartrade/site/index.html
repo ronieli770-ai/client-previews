@@ -1209,6 +1209,8 @@
   @keyframes s-logos-loop-3d { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
   .s-logos .s-logos__set { gap: 40px; padding-right: 40px; }
   .s-logos .s-logos__set img { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+  .s-logos.drag .s-logos__track { animation: none !important; }   /* phones: the strip is moved by script, so a finger can drag it */
+  .s-logos.drag .s-logos__carousel { touch-action: pan-y; cursor: grab; }
   /* logos: only the carousel, close under the hero so it shows before scrolling */
   .s-logos { padding: 12px 16px 40px !important; }
   .s-logos .s-logos__head { display: none; }
@@ -2299,6 +2301,28 @@
   if (ts) { const h = document.createElement('div'); h.className = 't-hint'; h.innerHTML = '<svg viewBox="0 0 18 10" fill="none"><path d="M17 5H1M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>החליקו שמאלה לעוד נתונים';
     if (innerWidth <= 760) ts.after(h); ts.addEventListener('scroll', () => { if (Math.abs(ts.scrollLeft) > 30) h.style.opacity = 0; }, { passive: true }); h.style.transition = 'opacity .4s'; }
 
+  // logo strip: keeps gliding on its own, and a finger can drag it either way (with a little momentum on release)
+  const lg = document.querySelector('.s-logos'), lc = lg && lg.querySelector('.s-logos__carousel'), lt = lg && lg.querySelector('.s-logos__track');
+  if (lc && lt && innerWidth <= 760) {
+    lg.classList.add('drag');
+    const setW = () => lt.querySelector('.s-logos__set').offsetWidth;
+    let x = 0, v = 0, drag = false, sx = 0, lastX = 0, lastT = 0, moved = 0, prev = performance.now();
+    const auto = () => -setW() / 24000;   // one set every 24s, leftwards like before
+    (function tick(now) {
+      const dt = Math.min(50, now - prev); prev = now;
+      if (!drag) { v += (auto() - v) * .04; x += v * dt; }   // momentum eases back to the gliding speed
+      const w = setW(); if (w) { while (x <= -w) x += w; while (x > 0) x -= w; }
+      lt.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
+      requestAnimationFrame(tick);
+    })(prev);
+    lc.addEventListener('pointerdown', e => { drag = true; sx = lastX = e.clientX; lastT = performance.now(); moved = 0; lc.setPointerCapture(e.pointerId); });
+    lc.addEventListener('pointermove', e => { if (!drag) return; const t = performance.now(), dx = e.clientX - lastX; x += dx; moved = Math.max(moved, Math.abs(e.clientX - sx));
+      v = dx / Math.max(1, t - lastT); lastX = e.clientX; lastT = t; });
+    const end = () => { drag = false; };
+    lc.addEventListener('pointerup', end); lc.addEventListener('pointercancel', end);
+    lc.addEventListener('click', e => { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } }, true);   // a drag is not a tap on a logo
+  }
+
   // footer groups open and close on phones
   document.querySelectorAll('.s-footer__col h3').forEach(h => h.addEventListener('click', () => { if (innerWidth <= 760) h.parentElement.classList.toggle('open'); }));
 })();
@@ -2471,19 +2495,19 @@
     const ctx = cv.getContext('2d'), K = .5;   // drawn at half resolution: it is all blur anyway
     let pts = [];
     const size = () => { cv.width = about.offsetWidth * K; cv.height = about.offsetHeight * K; };
-    size(); addEventListener('resize', size);
+    size(); addEventListener('resize', size); new ResizeObserver(size).observe(about);   // the section grows as images load; a stale size stretched the strokes into ovals
     if (fine) about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now() }); });
     const LIFE = fine ? 1800 : 2600;
     // touch: an invisible point drifts on a slow random path (mixed sine waves with random phases), painting while the section is on screen
     let inView = false, lastPush = 0;
     const ph = [0, 0, 0, 0].map(() => Math.random() * 6.28);
-    if (!fine) new IntersectionObserver(es => { inView = es[0].isIntersecting; }).observe(about);
     // iPhone Safari ignores the canvas blur filter, so on touch the whole canvas is blurred with css instead (heavy, like the Figma lines),
     // and the strokes skip noam's figure so they never show through the clear parts of the cut-out photo
     const photo = about.querySelector('.portrait');
     if (!fine) cv.style.filter = 'blur(18px)';   // enough to soften, light enough that the strokes still read as lines
     (function draw() {
       const now = performance.now(); pts = pts.filter(p => now - p.t < LIFE);
+      if (!fine) { const vr = about.getBoundingClientRect(); inView = vr.bottom > 0 && vr.top < innerHeight; }
       // the point travels fast enough to leave a long curved line behind it (a slow one piles up into a round blot)
       if (!fine && inView && now - lastPush > 30) { lastPush = now;
         pts.push({ x: cv.width * (.5 + .5 * Math.sin(now * .00055 + ph[0]) + .12 * Math.sin(now * .0013 + ph[1])),
