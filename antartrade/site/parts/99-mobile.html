@@ -76,6 +76,17 @@
   .s-hero .s-hero__trader img { inset: 0; width: 100% !important; height: 100% !important; object-fit: cover; object-position: 74% 38%; filter: none !important;
     transform: rotateX(16deg) rotateY(-14deg) rotateZ(-6deg) scale(1.55) !important; transform-origin: 70% 40% !important; border-radius: 18px; }
   .s-hero .s-hero__trader::after { background: linear-gradient(180deg, #12161f 0%, #12161f 6%, rgba(18,22,31,.55) 30%, rgba(18,22,31,0) 58%), linear-gradient(90deg, rgba(18,22,31,.55), rgba(18,22,31,0) 30%, rgba(18,22,31,0) 70%, rgba(18,22,31,.55)) !important; }
+  /* logo carousel on iOS: a CSS mask on a moving track makes Safari drop the logos while scrolling; fade the edges with overlays instead and keep the track on its own layer */
+  .s-logos .s-logos__carousel { -webkit-mask-image: none !important; mask-image: none !important; }
+  .s-logos .s-logos__carousel::before, .s-logos .s-logos__carousel::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40px; z-index: 2; pointer-events: none; }
+  .s-logos .s-logos__carousel::before { left: 0; background: linear-gradient(90deg, #fff, rgba(255,255,255,0)); }
+  .s-logos .s-logos__carousel::after { right: 0; background: linear-gradient(270deg, #fff, rgba(255,255,255,0)); }
+  .s-logos .s-logos__track { -webkit-backface-visibility: hidden; backface-visibility: hidden; transform: translate3d(0,0,0); animation-name: s-logos-loop-3d !important; }
+  @keyframes s-logos-loop-3d { from { transform: translate3d(0,0,0); } to { transform: translate3d(-33.3333%,0,0); } }
+  .s-logos .s-logos__set img { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+  /* comparison table logos: no transform on the pinned cell (it can blank its images in Safari); a plain white cell is enough */
+  .s-table .t-row > :first-child { transform: none !important; }
+  .s-table .t-row > :first-child .logo img { -webkit-backface-visibility: hidden; }
   /* logos: only the carousel, close under the hero so it shows before scrolling */
   .s-logos { padding: 12px 16px 40px !important; }
   .s-logos .s-logos__head { display: none; }
