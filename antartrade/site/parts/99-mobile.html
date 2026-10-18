@@ -85,11 +85,6 @@
   @keyframes s-logos-loop-3d { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
   .s-logos .s-logos__set { gap: 40px; padding-right: 40px; }
   .s-logos .s-logos__set img { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-  /* comparison table logos: no transform on the pinned cell (it can blank its images in Safari); a plain white cell is enough */
-  .s-table .t-row > :first-child { transform: none !important; }
-  .s-table .t-row > :first-child .logo img { display: none !important; }
-  .s-table .t-row > :first-child .logo { background: center / contain no-repeat; }
-  .s-table .t-scroll { -webkit-transform: translate3d(0,0,0); transform: translate3d(0,0,0); }
   /* logos: only the carousel, close under the hero so it shows before scrolling */
   .s-logos { padding: 12px 16px 40px !important; }
   .s-logos .s-logos__head { display: none; }
@@ -105,11 +100,13 @@
   .s-table .t-scroll::-webkit-scrollbar { display: none; }
   .s-table .t-grid { min-width: 1080px; padding-inline: 0 16px; }
   .s-table .t-row { grid-template-columns: 150px 70px 86px 200px 84px 190px 200px 230px; column-gap: 14px; }
-  .s-table .t-row > :first-child { position: sticky; right: 0; z-index: 2; background: #fff; padding: 10px 16px 10px 10px; margin-block: -10px; transform: translateZ(0); }
-  /* logos stay painted while the row scrolls (Safari drops absolutely placed images inside sticky cells) */
-  .s-table .t-row > :first-child .logo { position: relative; flex: 0 0 32px; width: 32px; height: 32px; }
-  .s-table .t-row > :first-child .logo img { position: static !important; width: 100% !important; height: 100% !important; object-fit: contain; inset: auto !important; }
-  .s-table .t-head > :first-child { background: #fff; }
+  /* the firm column is not sticky: a copy of it sits beside the scroller and never moves (iOS blanks sticky cells while they scroll) */
+  .s-table .t-scroll-wrap { position: relative; }
+  .s-table .has-fix .t-row > :first-child { visibility: hidden; }
+  .s-table .t-fix { position: absolute; top: 0; right: 0; width: 164px; z-index: 2; }
+  .s-table .t-fix > div { position: absolute; right: 0; left: 0; box-sizing: border-box; display: flex; align-items: center; padding: 0 16px 0 8px; background: #fff; }
+  .s-table .c-firm .logo { position: relative; flex: 0 0 32px; width: 32px; height: 32px; }
+  .s-table .c-firm .logo img { position: static !important; width: 100% !important; height: 100% !important; object-fit: contain; inset: auto !important; }
   .s-table .firm-name { font-size: 15px; }
   /* swipe hint under the table */
   .s-table .t-hint { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font: 400 13px "Fb Reforma", sans-serif; color: rgba(18,22,31,.5); }
@@ -162,9 +159,17 @@
   .s-duel.play .c-bars i.on { background: linear-gradient(90deg, #F7C65A, #E0A325); }
 
   /* ---------- deals: swipe carousel with the tabs above it ---------- */
-  .s-deals .fan-nav { flex-direction: column-reverse; gap: 18px; }
-  .s-deals .tabs { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
-  .s-deals .tabs::-webkit-scrollbar { display: none; }
+  .s-deals .tabs { width: 100%; max-width: 100%; margin: 26px auto 0; grid-template-columns: repeat(5, 1fr) !important; }
+  .s-deals .tabs button { font-size: 12px !important; white-space: nowrap; }
+  .s-deals .fan { margin-top: 20px !important; }
+  .s-deals .deal-foot { gap: 8px; }
+  .s-deals .deal .btn-gray { white-space: nowrap; padding: 10px 14px; }
+  .s-deals .deal .code { padding: 8px 12px; }
+  .s-deals .fan .deal { width: 272px !important; margin-left: -136px !important; padding: 22px !important; gap: 10px !important; }
+  .s-deals .pct { font-size: 50px; }
+  .s-deals .deal .co .name { font-size: 20px; }
+  .s-deals .deal h3 { font-size: 18px; }
+  .s-deals .fan-nav { margin-top: 0 !important; }
 
   /* ---------- academy ---------- */
   .s-academy .card { padding: 18px; }
@@ -222,13 +227,26 @@
   m.querySelectorAll('a').forEach(a => a.addEventListener('click', () => open(false)));
   addEventListener('keydown', e => { if (e.key === 'Escape') open(false); });
 
+  // comparison table: the firm column is copied beside the scroller, row for row, so it stays put without position: sticky
+  const tsx = document.querySelector('.s-table .t-scroll');
+  if (tsx && innerWidth <= 760) {
+    const wrap = document.createElement('div'); wrap.className = 't-scroll-wrap'; tsx.before(wrap); wrap.appendChild(tsx);
+    const fix = document.createElement('div'); fix.className = 't-fix'; wrap.appendChild(fix);
+    const rows = [...tsx.querySelectorAll('.t-row')];
+    const cells = rows.map(r => { const d = document.createElement('div'); if (r.classList.contains('t-head')) d.className = 't-head'; d.appendChild(r.firstElementChild.cloneNode(true)); fix.appendChild(d); return d; });
+    tsx.classList.add('has-fix');
+    const place = () => { const top = wrap.getBoundingClientRect().top; rows.forEach((r, i) => { const b = r.getBoundingClientRect(), s = cells[i].style; s.top = (b.top - top) + 'px'; s.height = b.height + 'px'; s.borderBottom = getComputedStyle(r).borderBottom; }); };
+    place(); addEventListener('resize', place); addEventListener('load', place); if (document.fonts) document.fonts.ready.then(place);
+  }
+
+  // deals: the firm filter sits above the cards on phones
+  const dTabs = document.getElementById('deal-tabs'), dFan = document.getElementById('fan');
+  if (dTabs && dFan && innerWidth <= 760) { dFan.before(dTabs); dTabs.querySelectorAll('button').forEach(b => { b.textContent = b.textContent.replace(' Trading', ''); }); dispatchEvent(new Event('resize')); }
+
   // comparison table: swipe hint under the table, hidden once the visitor has scrolled it
   const ts = document.querySelector('.s-table .t-scroll');
   if (ts) { const h = document.createElement('div'); h.className = 't-hint'; h.innerHTML = '<svg viewBox="0 0 18 10" fill="none"><path d="M17 5H1M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>החליקו שמאלה לעוד נתונים';
     if (innerWidth <= 760) ts.after(h); ts.addEventListener('scroll', () => { if (Math.abs(ts.scrollLeft) > 30) h.style.opacity = 0; }, { passive: true }); h.style.transition = 'opacity .4s'; }
-
-  // table logos in the pinned column are painted as backgrounds of their cell (iOS keeps those while the row scrolls)
-  document.querySelectorAll('.s-table .t-row > :first-child .logo img').forEach(i => { i.parentElement.style.backgroundImage = `url("${i.getAttribute('src')}")`; });
 
   // footer groups open and close on phones
   document.querySelectorAll('.s-footer__col h3').forEach(h => h.addEventListener('click', () => { if (innerWidth <= 760) h.parentElement.classList.toggle('open'); }));

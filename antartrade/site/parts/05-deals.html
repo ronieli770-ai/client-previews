@@ -232,7 +232,7 @@
     fanCards.forEach(c => { c.style.height = 'auto'; });
     const h = Math.max(...fanCards.map(c => c.offsetHeight));
     fanCards.forEach(c => { c.style.height = h + 'px'; });
-    fan.style.height = (h + 130) + 'px';
+    fan.style.height = (h + (innerWidth <= 760 ? 64 : 130)) + 'px';
   }
   function go(i) { i = ((i % N) + N) % N; if (i !== cur) { cur = i; layoutFan(true); } }
   fanCards.forEach((c, i) => c.addEventListener('click', e => { if (!c.classList.contains('front') && !e.target.closest('.code')) go(i); }));
