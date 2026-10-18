@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade menu options</title>
+<style>
+  :root { --bg: #e9edf2; --ink: #12161f; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 500 18px system-ui, sans-serif; }
+  .row { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; padding: 28px 16px; }
+  figure { margin: 0; text-align: center; }
+  figcaption { margin-bottom: 12px; }
+  figcaption small { display: block; font-weight: 400; font-size: 14px; opacity: .6; margin-top: 4px; }
+  iframe { width: 390px; max-width: calc(100vw - 32px); height: 844px; border: 0; border-radius: 34px; background: #12161f; box-shadow: 0 20px 50px rgba(0,0,0,.15); }
+  .again { display: block; margin: 0 auto 24px; padding: 12px 22px; border: 0; border-radius: 999px; background: #12161f; color: #fff; font: inherit; cursor: pointer; }
+</style></head><body>
+<div class="row">
+  <figure><figcaption>א - מעגל שנפתח מההמבורגר<small>קישורים גדולים וממוספרים שעולים מטשטוש</small></figcaption><iframe src="index.html?mm=a&open"></iframe></figure>
+  <figure><figcaption>ב - אריחי בנטו<small>אריחים עם אייקונים שקופצים פנימה, אריח מבצעים זוהר</small></figcaption><iframe src="index.html?mm=b&open"></iframe></figure>
+  <figure><figcaption>ג - מגירה מלמטה<small>נפתחת מעל האתר המטושטש, עם ידית וקישורים מהירים</small></figcaption><iframe src="index.html?mm=c&open"></iframe></figure>
+</div>
+<button class="again" onclick="document.querySelectorAll('iframe').forEach(f => f.src = f.src)">להפעיל שוב את האנימציות</button>
+</body></html>
