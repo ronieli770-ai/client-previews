@@ -157,16 +157,16 @@
         ['.s-duel__row', '.s-duel__card'],
         ['.s-academy .grid', '.s-academy .card'],
         ['.s-platforms', '.s-platforms .card'],
-        ['.s-community .cards', '.s-community .item'],   // icon and card move together as one group
+        ['.s-community .cards', '.s-community .item', 'top 100%', 'top 72%'],   // icon and card move together as one group; in early, while the banner is still on screen
         ['.s-community', '.s-community .banner'],
         ['.s-next__cards', '.s-next__card'],
       ];
-      groups.forEach(([wrap, items]) => {
+      groups.forEach(([wrap, items, start = 'top 90%', end = 'top 35%']) => {
         const w = document.querySelector(wrap), els = [...document.querySelectorAll(items)];
         if (!w || !els.length) return;
         els.forEach(el => el.classList.add('rise'));
         gsap.fromTo(els, { '--ry': '5em', filter: 'blur(4px)', opacity: .4 }, { '--ry': '0em', filter: 'blur(0px)', opacity: 1, stagger: .1, ease: 'none',
-          scrollTrigger: { trigger: w, start: 'top 90%', end: 'top 35%', scrub: 1 }, onComplete: () => els.forEach(el => el.style.filter = '') });
+          scrollTrigger: { trigger: w, start, end, scrub: 1 }, onComplete: () => els.forEach(el => el.style.filter = '') });
       });
       ScrollTrigger.refresh();
     });
