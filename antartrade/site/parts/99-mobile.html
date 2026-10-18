@@ -247,7 +247,8 @@
   /* ---------- about ---------- */
   .s-about .copy { font-size: 18px !important; }
   /* noam on top, centred; the text sits over the faded bottom of the photo, centred */
-  .s-about .wrap { padding-top: 40px !important; }
+  .s-about .wrap { padding-top: 40px !important; padding-bottom: 72px !important; }
+  .s-about::after { z-index: 1 !important; height: 140px !important; }   /* the bottom fade stays under the text and button (it hid the button on phones) */
   .s-about .portrait { order: -1; width: min(330px, 92%) !important; margin: 0 auto !important; -webkit-mask-image: linear-gradient(#000 50%, transparent 94%); mask-image: linear-gradient(#000 50%, transparent 94%); }
   .s-about .text { margin-top: -200px !important; align-items: center !important; text-align: center; }
   .s-about .text h2, .s-about .copy { text-align: center !important; }
