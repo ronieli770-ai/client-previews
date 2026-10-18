@@ -200,8 +200,8 @@
   .s-journal .opt .lbl svg { width: 18px; height: 18px; flex-basis: 18px; }
   .s-journal .opt .dot { display: none; }
   .s-journal .card { width: 100% !important; min-height: 0 !important; }
-  .s-journal .stage { height: 214px !important; }
-  .s-journal .art { transform: scale(.88) !important; }   /* the whole mock fits the stage, nothing cut on the left */
+  .s-journal .stage { height: 210px !important; display: grid; place-items: center; }
+  .s-journal .art { transform: scale(var(--fit, .78)) !important; flex: none; }   /* scaled to the stage width by script, so every scene fits whole */
 
   /* ---------- community ---------- */
   .s-community .banner { border-radius: 28px !important; }
@@ -258,6 +258,10 @@
   // deals: the firm filter sits above the cards on phones
   const dTabs = document.getElementById('deal-tabs'), dFan = document.getElementById('fan');
   if (dTabs && dFan && innerWidth <= 760) { dFan.before(dTabs); dTabs.querySelectorAll('button').forEach(b => { b.textContent = b.textContent.replace(' Trading', ''); }); dispatchEvent(new Event('resize')); }
+
+  // journal: the 300 x 210 mock is scaled to whatever width the stage has on this phone, with a margin for the moving parts
+  const jStage = document.querySelector('.s-journal .stage');
+  if (jStage) { const fit = () => { if (innerWidth <= 760) jStage.style.setProperty('--fit', Math.min((jStage.clientWidth - 28) / 300, (jStage.clientHeight - 28) / 210).toFixed(3)); }; fit(); addEventListener('resize', fit); }
 
   // comparison table: swipe hint under the table, hidden once the visitor has scrolled it
   const ts = document.querySelector('.s-table .t-scroll');
