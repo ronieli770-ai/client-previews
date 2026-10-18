@@ -207,6 +207,11 @@
 
   /* ---------- community ---------- */
   .s-community .banner { border-radius: 28px !important; }
+  /* the three cards under the banner: one row of three, text aligned to the same top edge */
+  .s-community .cards { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; margin-top: 52px !important; max-width: none !important; }
+  .s-community .icon { width: 44px !important; height: 44px !important; top: -22px !important; }
+  .s-community .card { min-height: 0 !important; padding: 34px 8px 16px !important; border-radius: 20px !important; align-items: flex-start !important; }
+  .s-community .card p { font-size: 15px !important; line-height: 1.25 !important; }
 
   /* ---------- about ---------- */
   .s-about .copy { font-size: 18px !important; }
