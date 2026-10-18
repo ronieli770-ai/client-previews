@@ -1202,12 +1202,37 @@
   .s-table .t-hint { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font: 400 13px "Fb Reforma", sans-serif; color: rgba(18,22,31,.5); }
   .s-table .t-hint svg { width: 18px; height: 10px; animation: t-nudge 1.6s ease-in-out infinite; }
   @keyframes t-nudge { 0%, 100% { translate: 0 0; } 50% { translate: -6px 0; } }
-  /* ---------- duel: sides stacked, VS between them ---------- */
+  /* ---------- duel: the two firms side by side, one against the other, VS on the seam ---------- */
   .s-duel__chips { gap: 8px; }
   .s-duel__chips-label { width: 100%; text-align: center; }
-  .s-duel .s-duel__card { padding: 24px 18px; border-radius: 26px; }
-  .s-duel .s-duel__dr dd { white-space: normal; text-align: left; font-size: 16px; }
-  .s-duel .s-duel__co-name { font-size: 24px; }
+  html body .s-duel .s-duel__row { grid-template-columns: minmax(0,1fr) 0 minmax(0,1fr) !important; column-gap: 8px; max-width: none; margin: 0; }
+  html body .s-duel .s-duel__row > .s-duel__card { margin: 0 !important; }
+  .s-duel .s-duel__vs-cell { height: auto; z-index: 3; }
+  .s-duel .s-duel__vs { width: 34px; height: 34px; font-size: 12px; position: absolute; top: 132px; left: 50%; translate: -50% 0; }
+  .s-duel .s-duel__card { padding: 26px 10px 14px; border-radius: 20px; gap: 12px; }
+  .s-duel .s-duel__body { gap: 12px; }
+  .s-duel .s-duel__top { flex-direction: column-reverse; align-items: stretch; gap: 8px; }
+  .s-duel .s-duel__side { align-self: flex-start; font-size: 13px !important; padding: 3px 8px; }
+  .s-duel .s-duel__swap { justify-content: center; padding: 7px 8px; font-size: 12px; gap: 4px; }
+  .s-duel .s-duel__swap svg { width: 12px; height: 12px; }
+  .s-duel .s-duel__swapwrap .s-duel__menu { width: 200px; }
+  .s-duel .s-duel__card[data-side="1"] .s-duel__swapwrap .s-duel__menu { left: 0; right: auto; }
+  .s-duel .s-duel__card[data-side="0"] .s-duel__swapwrap .s-duel__menu { right: 0; left: auto; }
+  .s-duel .s-duel__co { flex-direction: column; align-items: flex-start; gap: 6px; min-height: 0; }
+  .s-duel .s-duel__logo img, .s-duel .s-duel__logo svg { width: 30px; height: 30px; }
+  .s-duel .s-duel__co-name { font-size: 17px; line-height: 1.15; }
+  .s-duel .s-duel__route { padding: 8px 8px; }
+  .s-duel .s-duel__route-txt { flex-direction: column; align-items: flex-start; gap: 2px; font-size: 13px; }
+  .s-duel .s-duel__route .s-duel__menu { min-width: 150px; }
+  .s-duel .s-duel__price { min-height: 0; }
+  .s-duel .s-duel__now { font-size: 24px; }
+  .s-duel .s-duel__was { font-size: 13px; }
+  .s-duel .s-duel__per { display: none; }
+  .s-duel .s-duel__dr { flex-direction: column; align-items: flex-start; gap: 3px; min-height: 66px; padding: 8px 0; }
+  .s-duel .s-duel__dr dt { font-size: 12px; }
+  .s-duel .s-duel__dr dd { white-space: normal; text-align: right; font-size: 14px; line-height: 1.25; }
+  .s-duel .s-duel__badge { font-size: 12px !important; padding: 4px 9px; top: -12px; }
+  .s-duel .s-duel__badge svg { width: 12px !important; height: 12px !important; }
 
   /* ---------- deals: swipe carousel with the tabs above it ---------- */
   .s-deals .fan-nav { flex-direction: column-reverse; gap: 18px; }
