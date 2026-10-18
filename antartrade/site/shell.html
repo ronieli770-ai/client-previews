@@ -206,8 +206,8 @@
   ];
   const layer = document.createElement('div');
   layer.className = 'rings'; layer.setAttribute('aria-hidden', 'true');
-  layer.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:0;z-index:3;pointer-events:none;overflow-x:clip';   // rings hang off the edge without a side scroll
-  document.body.appendChild(layer);
+  layer.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:0;z-index:0;pointer-events:none;overflow-x:clip';   // behind: first in the page at level 0, so every positioned container paints over the rings   // rings hang off the edge without a side scroll
+  document.body.prepend(layer);
   const rings = RINGS.map(([src, a, cx, cy, w, h, rot, blur]) => {
     const el = document.createElement('img'); el.src = 'img/' + src; el.alt = '';
     el.style.cssText = `position:absolute;width:${w}px;height:${h}px;object-fit:contain;will-change:transform,filter`;

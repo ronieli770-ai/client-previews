@@ -210,11 +210,17 @@
   /* the three cards under the banner: one row of three, text aligned to the same top edge */
   .s-community .cards { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; margin-top: 52px !important; max-width: none !important; }
   .s-community .icon { width: 44px !important; height: 44px !important; top: -22px !important; }
-  .s-community .card { min-height: 0 !important; padding: 34px 8px 16px !important; border-radius: 20px !important; align-items: flex-start !important; }
+  .s-community .card { min-height: 0 !important; padding: 40px 12px 24px !important; border-radius: 20px !important; align-items: flex-start !important; }
   .s-community .card p { font-size: 15px !important; line-height: 1.25 !important; }
 
   /* ---------- about ---------- */
   .s-about .copy { font-size: 18px !important; }
+  /* noam on top, centred; the text sits over the faded bottom of the photo, centred */
+  .s-about .wrap { padding-top: 40px !important; }
+  .s-about .portrait { order: -1; width: min(330px, 92%) !important; margin: 0 auto !important; -webkit-mask-image: linear-gradient(#000 50%, transparent 94%); mask-image: linear-gradient(#000 50%, transparent 94%); }
+  .s-about .text { margin-top: -200px !important; align-items: center !important; text-align: center; }
+  .s-about .text h2, .s-about .copy { text-align: center !important; }
+  .s-about .text h2 { margin-inline: auto !important; }
 
   /* ---------- footer: link groups open and close ---------- */
   .s-footer .s-footer__cols { display: flex !important; flex-direction: column; gap: 0 !important; width: 100%; }
@@ -224,6 +230,39 @@
   .s-footer .s-footer__col.open h3::after { rotate: 135deg; translate: 0 3px; }
   .s-footer .s-footer__col ul { display: grid; gap: 12px; max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .4s ease; padding: 0; }
   .s-footer .s-footer__col.open ul { max-height: 320px; padding: 0 0 16px; }
+
+  /* ---------- footer review options (?ft=a|b|c), the default stays the accordion ---------- */
+  /* A: everything centred */
+  .ft-a .s-footer .s-footer__brand { align-items: center; text-align: center; width: 100%; }
+  .ft-a .s-footer .s-footer__row { align-items: center !important; text-align: center; }
+  .ft-a .s-footer .s-footer__legal { justify-content: center; }
+  .ft-a .s-footer .s-footer__legal .copy { text-align: center !important; }
+  /* B: open links in two columns, logo and icons on one line */
+  .ft-b .s-footer .s-footer__brand { display: grid !important; grid-template-columns: 1fr auto; align-items: center; gap: 16px 12px; width: 100%; }
+  .ft-b .s-footer .s-footer__tag { grid-column: 1 / -1; grid-row: 2; }
+  .ft-b .s-footer .s-footer__community { grid-column: 1 / -1; justify-content: center; padding: 14px; border-radius: 14px; }
+  .ft-b .s-footer .s-footer__cols { display: grid !important; grid-template-columns: 1fr 1fr; gap: 28px 20px !important; }
+  .ft-b .s-footer .s-footer__col { border: 0; }
+  .ft-b .s-footer .s-footer__col:last-child { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.08); }
+  .ft-b .s-footer .s-footer__col:last-child ul { display: flex !important; flex-direction: row !important; flex-wrap: wrap; gap: 10px 22px !important; }
+  .ft-b .s-footer .s-footer__col h3 { padding: 0 0 14px; cursor: default; font-size: 14px; color: rgba(255,255,255,.5); }
+  .ft-b .s-footer .s-footer__col h3::after { display: none; }
+  .ft-b .s-footer .s-footer__col ul { max-height: none !important; padding: 0 !important; }
+  /* C: brand in a card, links as chips */
+  .ft-c .s-footer .s-footer__brand { align-items: center; text-align: center; width: 100%; padding: 28px 20px 22px; border-radius: 24px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+  .ft-c .s-footer .s-footer__social { gap: 10px; }
+  .ft-c .s-footer .s-footer__social a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.06); }
+  .ft-c .s-footer .s-footer__community { width: 100%; justify-content: center; padding: 14px; border-radius: 14px; background: #7dc6ff; color: #fff; }
+  .ft-c .s-footer .s-footer__cols { gap: 22px !important; }
+  .ft-c .s-footer .s-footer__col li { width: auto; }
+  .ft-c .s-footer .s-footer__col { border: 0; }
+  .ft-c .s-footer .s-footer__col h3 { padding: 0 0 10px; cursor: default; font-size: 14px; color: rgba(255,255,255,.5); }
+  .ft-c .s-footer .s-footer__col h3::after { display: none; }
+  .ft-c .s-footer .s-footer__col ul { display: flex !important; flex-direction: row !important; flex-wrap: wrap; gap: 8px !important; max-height: none !important; padding: 0 !important; }
+  .ft-c .s-footer .s-footer__col li a { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.06); font-size: 14px; }
+  .ft-c .s-footer .s-footer__row { align-items: center !important; text-align: center; }
+  .ft-c .s-footer .s-footer__legal { justify-content: center; }
+  .ft-c .s-footer .s-footer__legal .copy { text-align: center !important; }
 
   /* ---------- touch targets and the floating bot ---------- */
   .bot-fab { right: 14px; bottom: 14px; width: 60px; height: 40px; }
@@ -274,6 +313,9 @@
   const ts = document.querySelector('.s-table .t-scroll');
   if (ts) { const h = document.createElement('div'); h.className = 't-hint'; h.innerHTML = '<svg viewBox="0 0 18 10" fill="none"><path d="M17 5H1M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>החליקו שמאלה לעוד נתונים';
     if (innerWidth <= 760) ts.after(h); ts.addEventListener('scroll', () => { if (Math.abs(ts.scrollLeft) > 30) h.style.opacity = 0; }, { passive: true }); h.style.transition = 'opacity .4s'; }
+
+  // footer review options: ?ft=a|b|c
+  const ftOpt = new URLSearchParams(location.search).get('ft'); if (/^[abc]$/.test(ftOpt || '')) { document.documentElement.classList.add('ft-' + ftOpt); setTimeout(() => scrollTo(0, document.documentElement.scrollHeight), 1200); }
 
   // footer groups open and close on phones
   document.querySelectorAll('.s-footer__col h3').forEach(h => h.addEventListener('click', () => { if (innerWidth <= 760) h.parentElement.classList.toggle('open'); }));
