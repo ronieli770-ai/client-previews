@@ -1,0 +1,61 @@
+<style>
+.s-next{background:#12161F;padding:120px 0;direction:rtl;font-family:"Fb Reforma",sans-serif;color:#fff;overflow:hidden}
+.s-next .s-next__in{width:min(1171px,100% - 32px);margin:0 auto}
+.s-next .s-next__head{display:flex;flex-direction:column;align-items:center;gap:15px;text-align:center;margin-bottom:56px}
+.s-next .s-next__title{margin:0;font-weight:500;font-size:clamp(30px,2.6vw + 10px,45px);line-height:.956;background:linear-gradient(to right,#61B1F2 0%,#fff 78.365%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.s-next .s-next__sub{margin:0;font-weight:400;font-size:20px;line-height:1.2;color:#fff}
+.s-next .s-next__cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;list-style:none;margin:0;padding:0}
+.s-next .s-next__card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:23px;padding:24px;background:#000;border-radius:32px;color:inherit;text-decoration:none;transition:transform .3s ease}
+.s-next .s-next__card:hover{transform:translateY(-4px)}
+.s-next .s-next__icon{display:block;width:32px;height:32px;flex-shrink:0}
+.s-next .s-next__text{display:flex;flex-direction:column;gap:4px;width:100%;padding-left:44px;box-sizing:border-box;line-height:1.2;text-align:right}
+.s-next .s-next__name{font-weight:500;font-size:28px;color:#fff}
+.s-next .s-next__desc{font-weight:400;font-size:20px}
+.s-next .s-next__arrow{position:absolute;left:24px;top:89px;width:36px;height:36px;transition:transform .3s ease}
+.s-next .s-next__card:hover .s-next__arrow{transform:translateX(-4px)}
+.s-next .c-sky{color:#7DC6FF}
+.s-next .c-violet{color:#8C7BFF}
+.s-next .c-teal{color:#3FD8C2}
+@media (max-width:980px){
+  .s-next{padding:96px 0}
+  .s-next .s-next__cards{grid-template-columns:1fr;max-width:560px;margin:0 auto;gap:16px}
+}
+@media (max-width:620px){
+  .s-next{padding:72px 0}
+  .s-next .s-next__head{margin-bottom:36px}
+  .s-next .s-next__sub{font-size:17px}
+  .s-next .s-next__card{border-radius:24px;padding:20px;gap:18px}
+  .s-next .s-next__name{font-size:24px}
+  .s-next .s-next__desc{font-size:17px}
+  .s-next .s-next__arrow{left:20px;top:auto;bottom:24px}
+}
+
+/* round arrow sits on the line of the bottom text (the coloured subtitle), not floating in the middle */
+.s-next .s-next__arrow{top:auto;bottom:calc(24px + (1.2em - 36px) / 2)}
+.s-next .s-next__card{font-size:20px}
+</style>
+<section class="s-next" data-theme="dark">
+  <div class="s-next__in">
+    <div class="s-next__head" data-reveal>
+      <h2 class="s-next__title split g-title g-center">רוצים להמשיך מכאן?</h2>
+      <p class="s-next__sub">בחרו את הצעד הבא שמתאים לכם.</p>
+    </div>
+    <ul class="s-next__cards" data-reveal>
+      <li><a class="s-next__card" href="#">
+        <img class="s-next__icon" src="img/next-icon-compare.svg" width="32" height="32" alt="">
+        <span class="s-next__text"><span class="s-next__name">השוואת חברות</span><span class="s-next__desc c-sky">כל התנאים בטבלה אחת</span></span>
+        <img class="s-next__arrow" src="img/next-arrow.svg" width="36" height="36" alt="">
+      </a></li>
+      <li><a class="s-next__card" href="#">
+        <img class="s-next__icon" src="img/next-icon-academy.svg" width="32" height="32" alt="">
+        <span class="s-next__text"><span class="s-next__name">האקדמיה</span><span class="s-next__desc c-violet">מהבסיס ועד חשבון ממומן</span></span>
+        <img class="s-next__arrow" src="img/next-arrow.svg" width="36" height="36" alt="">
+      </a></li>
+      <li><a class="s-next__card" href="#">
+        <img class="s-next__icon" src="img/next-icon-courses.svg" width="32" height="32" alt="">
+        <span class="s-next__text"><span class="s-next__name">קורסים</span><span class="s-next__desc c-teal">ללמוד מסוחרים שכבר שם</span></span>
+        <img class="s-next__arrow" src="img/next-arrow.svg" width="36" height="36" alt="">
+      </a></li>
+    </ul>
+  </div>
+</section>

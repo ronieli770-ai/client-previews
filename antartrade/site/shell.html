@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AntarTrade - דף הבית</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=IBM+Plex+Sans+Hebrew:wght@400&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
+  @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+  @property --sx { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  @property --sy { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  @property --ga { syntax: "<number>"; inherits: true; initial-value: 0; }
+  :root { --navy: #12161f; --card: #0b0e14; --sky: #7dc6ff; --sky2: #61b1f2; --ice: #d6ecff; --blue: #2e8bd8; --fade: .55s cubic-bezier(.22,.61,.36,1); --ease: cubic-bezier(.22,.61,.36,1); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  html, body { overflow-x: clip; }
+  body { position: relative; font-family: "Fb Reforma", sans-serif; background: #fff; color: var(--navy); -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; }
+  input, textarea { font-family: "IBM Plex Sans Hebrew", sans-serif; }
+  .lat { font-family: "Roboto", sans-serif; }
+
+  /* ---------- header: full width, takes the colour of the section under it once scrolling starts ---------- */
+  .hdr { --bg: rgba(18,22,31,0); --fg: #fff; --deal: #d6ecff; --ring: rgba(255,255,255,.14); --ringbg: rgba(85,169,235,.05); --pill: #fff; --pillfg: #000;
+    position: fixed; inset: 0 0 auto 0; z-index: 50; background: var(--bg); color: var(--fg); transition: background-color var(--fade), color var(--fade); }
+  .hdr.on.dark  { --bg: #12161f; }
+  .hdr.on.light { --bg: #fff; --fg: #12161f; --deal: #2e8bd8; --ring: rgba(18,22,31,.10); --ringbg: rgba(18,22,31,.03); --pill: #12161f; --pillfg: #fff; }
+  .hdr .wrap { max-width: 1460px; margin: 0 auto; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+  .hdr .logo { width: 195px; height: 43px; flex: 0 0 auto; background: var(--fg); transition: background-color var(--fade);
+    -webkit-mask: url(img/logo-mark.webp) right center / contain no-repeat; mask: url(img/logo-mark.webp) right center / contain no-repeat; }
+  .hdr nav { display: flex; align-items: center; gap: 25px; font-size: 18px; }
+  .hdr nav a { padding: 10px; color: var(--fg); text-decoration: none; white-space: nowrap; transition: color var(--fade); display: inline-flex; align-items: center; gap: 6px; }
+  .hdr nav a.cur { font-weight: 500; }
+  .hdr nav a.deal { font-weight: 500; color: var(--deal); }
+  .hdr nav svg { width: 16px; height: 16px; }
+  .hdr .halo { flex: 0 0 auto; padding: 6px; border-radius: 999px; background: var(--ringbg); box-shadow: inset 0 0 0 1px var(--ring); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transition: background-color var(--fade), box-shadow var(--fade); }
+  .hdr .halo a { display: inline-flex; align-items: center; gap: 7px; height: 50px; padding: 0 25px; border-radius: 90px; background: var(--pill); color: var(--pillfg); font: 500 20px "Fb Reforma", sans-serif; text-decoration: none; transition: background-color var(--fade), color var(--fade); }
+  .hdr .halo svg { width: 16px; height: 16px; }
+  @media (max-width: 1180px) { .hdr nav { display: none; } }
+  @media (max-width: 620px) { .hdr .logo { width: 150px; height: 33px; } .hdr .halo a { height: 42px; padding: 0 18px; font-size: 17px; } }
+
+  /* ---------- shared halo buttons: sky on dark sections, dark on white sections ---------- */
+  /* global halo button, 1:1 with Figma "Button / halo" (לכל המבצעים): ring 6px, 8% sky fill, 12% white stroke, 12px background blur;
+     pill 50 high, padding 25, gap 7, sky fill with two inner shadows, white 20px Medium label and a 10px white arrow */
+  .btn-halo.btn-halo { display: inline-flex; padding: 6px; border-radius: 999px; text-decoration: none; background: rgba(125,198,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .btn-halo.btn-halo > span { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 50px; padding: 0 25px; border-radius: 90px; font: 500 20px/.915 "Fb Reforma", sans-serif; white-space: nowrap; color: #fff; transition: filter .25s ease; }
+  .btn-halo.sky > span { background: #7dc6ff; box-shadow: inset 0 -8px 26.4px rgba(0,0,0,.25), inset 0 -4px 17.6px #fff; }
+  .btn-halo.dark { background: rgba(18,22,31,.03); box-shadow: inset 0 0 0 1px rgba(18,22,31,.10); }
+  .btn-halo.dark > span { background: #2b4d6a; box-shadow: inset 0 -4px 17.6px rgba(18,22,31,.25), inset 0 -8px 26.4px #12161f; }
+  /* hover from the steel-blue hero: the inner glow follows the cursor inside the pill */
+  .btn-halo > span, .s-hero .s-hero__halo-in { transition: --sx .35s ease-out, --sy .35s ease-out, --ga .35s ease-out, background-color .25s ease; }
+  html body .btn-halo.sky > span, html body .s-hero .s-hero__halo--primary .s-hero__halo-in { box-shadow: inset var(--sx) calc(-4px + var(--sy)) 17.6px #fff, inset 0 -8px 26.4px rgba(0,0,0,.25); }
+  html body .s-hero .s-hero__halo:not(.s-hero__halo--primary) .s-hero__halo-in { box-shadow: inset var(--sx) var(--sy) 14px rgba(97,177,242,calc(var(--ga) * .55)); }
+  html body .s-duel .s-duel__halo-in { transition: --sx .35s ease-out, --sy .35s ease-out, --ga .35s ease-out; box-shadow: inset var(--sx) var(--sy) 14px rgba(125,198,255,calc(var(--ga) * .45)), inset 0 -4px 17.6px rgba(18,22,31,.25), inset 0 -8px 26.4px #12161f; }
+  html body .btn-halo.dark > span { box-shadow: inset var(--sx) var(--sy) 14px rgba(125,198,255,calc(var(--ga) * .45)), inset 0 -4px 17.6px rgba(18,22,31,.25), inset 0 -8px 26.4px #12161f; }
+  html body .s-hero .s-hero__halo:hover .s-hero__halo-in { background-color: transparent; }
+  html body .s-hero .s-hero__halo--primary:hover .s-hero__halo-in { background-color: #7dc6ff; }
+  .btn-halo, .s-duel .s-duel__halo { transition: transform .25s ease, border-color .25s ease; }
+  .btn-halo:hover, .s-duel .s-duel__halo:hover { transform: translateY(-2px); }
+  .btn-halo svg { width: 12px; height: 8px; flex: none; transition: transform .4s var(--ease); }
+  .btn-halo:hover svg { transform: translateX(-4px); }
+
+  /* ---------- bot button (from antartrade.co.il, no shadow): white on dark sections, navy on light ones, switches like the header ---------- */
+  .bot-fab { position: fixed; right: 24px; bottom: 24px; z-index: 60; width: 72px; height: 48px; border: 0; padding: 0; cursor: pointer; background: #fff;
+    -webkit-mask: url(img/bot-brain.png) center / contain no-repeat; mask: url(img/bot-brain.png) center / contain no-repeat;
+    transition: background-color .55s cubic-bezier(.22,.61,.36,1), transform .3s ease; animation: bot-float 3s ease-in-out infinite; }
+  .bot-fab.light { background: #12161f; }
+  .bot-fab:hover { transform: scale(1.08); }
+  @keyframes bot-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+  .bot-panel { position: fixed; right: 24px; bottom: 88px; z-index: 61; width: min(380px, calc(100vw - 32px)); border-radius: 24px; overflow: hidden; color: #12161f; background: #fff;
+    box-shadow: 0 0 0 1px rgba(18,22,31,.08), 0 30px 60px -20px rgba(18,22,31,.35); opacity: 0; translate: 0 12px; pointer-events: none; transition: opacity .3s, translate .35s cubic-bezier(.22,.61,.36,1); }
+  .bot-panel.open { opacity: 1; translate: 0 0; pointer-events: auto; }
+  .bot-panel header { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; background: #12161f; color: #fff; font: 500 16px "Fb Reforma", sans-serif; }
+  .bot-panel header button { background: none; border: 0; color: #fff; cursor: pointer; width: 28px; height: 28px; }
+  .bot-panel .msgs { padding: 18px; display: grid; gap: 10px; max-height: 320px; overflow: auto; }
+  .bot-panel .m { padding: 10px 14px; border-radius: 16px; font: 400 15px/1.45 "Fb Reforma", sans-serif; max-width: 85%; }
+  .bot-panel .m.bot { background: #f2f6fb; justify-self: start; }
+  .bot-panel .m.me { background: #7dc6ff; color: #12161f; justify-self: end; font-family: "IBM Plex Sans Hebrew", sans-serif; }
+  .bot-panel .chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 12px; }
+  .bot-panel .chips button { border: 1px solid #dcebf7; background: #fff; border-radius: 999px; padding: 7px 12px; font: 400 14px "Fb Reforma", sans-serif; cursor: pointer; }
+  .bot-panel form { display: flex; gap: 8px; padding: 12px 14px; border-top: 1px solid #eef2f6; }
+  .bot-panel input { flex: 1; border: 1px solid #dcebf7; border-radius: 12px; padding: 10px 12px; font: 400 15px "IBM Plex Sans Hebrew", sans-serif; outline: none; }
+  .bot-panel input:focus { border-color: #7dc6ff; }
+  .bot-panel form button { border: 0; border-radius: 12px; background: #12161f; color: #fff; padding: 0 16px; font: 500 15px "Fb Reforma", sans-serif; cursor: pointer; }
+
+  /* ---------- global typography: small RT = card descriptions (Reforma Regular 16) ---------- */
+  :root { --small-rt: 400 16px/1.35 "Fb Reforma", sans-serif; --tag: 500 16px/1.2 "Fb Reforma", sans-serif; --btn-card: 500 16px/1.2 "Fb Reforma", sans-serif; }
+  html body .small-rt.small-rt { font: var(--small-rt); }
+
+  /* ---------- global tag size: every tag, pill and badge outside the tables is 16px ---------- */
+  html body .s-duel .s-duel__pill, html body .s-duel .s-duel__side, html body .s-duel .s-duel__badge,
+  html body .s-deals .eyebrow, html body .s-deals .hot,
+  html body .s-academy .pill, html body .s-academy .tag, html body .s-academy .dur,
+  html body .s-platforms .pill, html body .s-platforms .card .deal span,
+  html body .s-about .pill, html body .s-next .pill, html body .s-community .pill { font: var(--tag); }
+  /* card buttons ("לפרטים", "לפרטי המבצע") use the global card button type */
+  html body .s-platforms .btn-more, html body .s-deals .btn-gray { font: var(--btn-card); padding: 10px 18px; }
+  html body .s-duel .s-duel__badge svg { width: 16px; height: 16px; }
+
+  /* ---------- one title gradient for the whole site, the same as the hero headline: #61B1F2 on the left to white at 78% ---------- */
+  .g-title.g-title, .g-title.g-title * { background: linear-gradient(90deg, #61B1F2 0%, #fff 78.365%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+  .g-title.g-title * { background: none; -webkit-text-fill-color: inherit; }
+  .g-title.g-title { width: fit-content; max-width: 100%; }
+  .g-title.g-center { margin-inline: auto; }
+
+  /* ---------- light motion (inspired by React Bits: fade-in on scroll, word-by-word title, magnet buttons) ---------- */
+  /* scroll-linked motion (Enigma style): containers rise through --ry so their own hover transforms keep working */
+  .rise { translate: 0 var(--ry, 0); }
+  .split .word { display: inline-block; }
+</style>
+<!--PART-STYLES-->
+</head>
+<body>
+<!--PARTS-->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script>
+(function () {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- scroll-linked motion, after Enigma (GSAP ScrollTrigger + SplitText, scrubbed to the scroll) ----------
+  const G = window.gsap && window.ScrollTrigger && !reduce;
+  if (G) {
+    gsap.registerPlugin(ScrollTrigger, window.SplitText ? SplitText : undefined);
+    const isGrad = el => [el, ...el.querySelectorAll('*')].some(n => { const c = getComputedStyle(n); return (c.webkitBackgroundClip || c.backgroundClip) === 'text'; });
+    const skip = el => el.closest('.s-hero, .s-logos, .s-about');   // hero and logos are visible on arrival; "נעים להכיר" has its own scroll
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+      // titles (option B, linear with the scroll): every word rises out of its own mask line.
+      // Gradient titles keep one continuous gradient: each word carries a slice of it, sized to the whole title.
+      document.querySelectorAll('.split').forEach(h => {
+        if (skip(h) || !window.SplitText) return;
+        const grad = isGrad(h);
+        const sp = new SplitText(h, { type: 'words', wordsClass: 'word', mask: 'words' });
+        if (grad) {
+          const paint = () => { const hr = h.getBoundingClientRect(), bg = 'linear-gradient(90deg, #61B1F2 0%, #fff 78.365%)';
+            sp.words.forEach(w => { const r = (w.parentElement || w).getBoundingClientRect();   // the mask is never moved, so it gives the true spot
+              w.style.backgroundImage = bg; w.style.backgroundSize = hr.width + 'px ' + hr.height + 'px';
+              w.style.backgroundPosition = (hr.left - r.left) + 'px ' + (hr.top - r.top) + 'px'; w.style.backgroundRepeat = 'no-repeat';
+              w.style.webkitBackgroundClip = 'text'; w.style.backgroundClip = 'text'; w.style.color = 'transparent'; w.style.webkitTextFillColor = 'transparent'; }); };
+          paint(); h.style.backgroundImage = 'none'; addEventListener('resize', paint);
+        }
+        gsap.from(sp.words, { yPercent: 110, stagger: .12, ease: 'none', scrollTrigger: { trigger: h, start: 'top 90%', end: 'top 55%', scrub: true } });
+      });
+      // containers: rise from 5em below while going from blurred to sharp, one after another
+      const groups = [
+        ['.s-table', '.s-table > *'],
+        ['.s-duel__row', '.s-duel__card'],
+        ['.s-academy .grid', '.s-academy .card'],
+        ['.s-platforms', '.s-platforms .card'],
+        ['.s-community .cards', '.s-community .item'],   // icon and card move together as one group
+        ['.s-community', '.s-community .banner'],
+        ['.s-next__cards', '.s-next__card'],
+      ];
+      groups.forEach(([wrap, items]) => {
+        const w = document.querySelector(wrap), els = [...document.querySelectorAll(items)];
+        if (!w || !els.length) return;
+        els.forEach(el => el.classList.add('rise'));
+        gsap.fromTo(els, { '--ry': '5em', filter: 'blur(4px)', opacity: .4 }, { '--ry': '0em', filter: 'blur(0px)', opacity: 1, stagger: .1, ease: 'none',
+          scrollTrigger: { trigger: w, start: 'top 90%', end: 'top 35%', scrub: 1 }, onComplete: () => els.forEach(el => el.style.filter = '') });
+      });
+      ScrollTrigger.refresh();
+    });
+  }
+  // anything still marked for the old one-shot reveal simply shows
+  document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('in'));
+
+  // header takes the colour of the section under it
+  const hdr = document.getElementById('hdr');
+  const sections = [...document.querySelectorAll('[data-theme]')].filter(s => s !== hdr);
+  let last = '';
+  function header() {
+    const y = scrollY, probe = hdr.offsetHeight / 2;
+    const under = sections.find(s => { const b = s.getBoundingClientRect(); return b.top <= probe && b.bottom > probe; }) || sections[0];
+    const theme = under ? under.dataset.theme : 'dark', state = (y > 8 ? 'on ' : '') + theme;
+    if (state !== last) { hdr.classList.toggle('on', y > 8); hdr.classList.toggle('dark', theme === 'dark'); hdr.classList.toggle('light', theme === 'light'); last = state; }
+  }
+
+
+  let frame = function () { header(); };
+  if (window.Lenis && !reduce) { const lenis = new Lenis({ lerp: 0.08 }); window.__lenis = lenis; lenis.on('scroll', () => { frame(); if (window.ScrollTrigger) ScrollTrigger.update(); }); (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(performance.now()); }
+  else addEventListener('scroll', () => frame(), { passive: true });
+  addEventListener('resize', () => frame()); frame();
+
+
+
+  // ---------- 3D rings from the Figma page: placed by section, they turn a little and play with blur while scrolling ----------
+  // [image, anchor, centre x on the 1728 frame, centre y from the anchor top, w, h, base rotation, base blur]
+  const RINGS = [
+    // exported from the Figma page without effects; size, rotation and blur are the Figma values
+    ['fring-5.png', '.s-duel__head', 1662, 132, 457, 338, 0, 12.4],
+    ['fring-3.png', '.s-duel__head', 31, 700, 511, 902, 116, 7.3],
+    ['fring-a1.png', '.s-academy', 1660, 357, 282, 348, 0, 4],
+    ['fring-a2.png', '.s-academy', 32, 948, 235, 290, 104, 16.1],
+    ['fring-2.png', '.s-community .banner', 56, 49, 439, 468, 0, 9.1],
+    ['fring-4.png', '.s-about', 1677, -158, 239, 531, -93, 4],
+  ];
+  const layer = document.createElement('div');
+  layer.className = 'rings'; layer.setAttribute('aria-hidden', 'true');
+  layer.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:0;z-index:3;pointer-events:none';
+  document.body.appendChild(layer);
+  const rings = RINGS.map(([src, a, cx, cy, w, h, rot, blur]) => {
+    const el = document.createElement('img'); el.src = 'img/' + src; el.alt = '';
+    el.style.cssText = `position:absolute;width:${w}px;height:${h}px;object-fit:contain;will-change:transform,filter`;
+    layer.appendChild(el); return { el, a: document.querySelector(a), cx, cy, w, h, rot, blur, y: 0 };
+  }).filter(r => r.a);
+  function placeRings() {
+    const vw = document.documentElement.clientWidth, off = Math.max(0, (vw - 1728) / 2), small = vw < 760;
+    rings.forEach(r => {
+      // rings on the right half stick to the right edge, the rest to the left edge
+      const x = r.cx > 864 ? vw - off - (1728 - r.cx) : off + r.cx;
+      r.y = r.a.getBoundingClientRect().top + scrollY + r.cy;
+      r.el.style.left = (x - r.w / 2) + 'px'; r.el.style.top = (r.y - r.h / 2) + 'px';
+      r.el.style.display = small ? 'none' : '';
+    });
+  }
+  function spinRings() {
+    rings.forEach(r => {
+      const p = Math.max(-1, Math.min(1, (r.y - scrollY - innerHeight / 2) / innerHeight));
+      r.el.style.transform = `translateY(${(p * 90).toFixed(1)}px) rotate(${(r.rot - p * 22).toFixed(2)}deg) scale(${(1 - Math.abs(p) * .06).toFixed(3)})`;
+      r.el.style.filter = `blur(${(r.blur * (.7 + Math.abs(p) * .5)).toFixed(2)}px)`;
+    });
+  }
+
+  // ---------- "נעים להכיר": the text rises in from below, then lifts away with a blur after passing the middle of the screen ----------
+  const aboutText = document.querySelector('[data-scroll-text]');
+  function aboutScroll() {
+    if (!aboutText) return;
+    const b = aboutText.getBoundingClientRect(), p = (b.top + b.height / 2 - innerHeight / 2) / innerHeight;
+    const y = p > 0 ? p * 160 : p * 90, o = p > 0 ? 1 - p * 1.6 : 1 + p * 1.4, bl = p > 0 ? p * 6 : -p * 12;
+    aboutText.style.transform = `translateY(${y.toFixed(1)}px)`; aboutText.style.opacity = Math.max(0, Math.min(1, o)).toFixed(3); aboutText.style.filter = `blur(${Math.max(0, bl).toFixed(2)}px)`;
+    aboutText.classList.add('in');
+  }
+  // ---------- journal panel: rises in while scrolling, starting slightly blurred and turning sharp ----------
+  const risers = [...document.querySelectorAll('[data-scroll-rise]')];
+  function rise() {
+    risers.forEach(el => {
+      const top = el.getBoundingClientRect().top - (parseFloat(el.style.getPropertyValue('--ty')) || 0);
+      const p = Math.max(0, Math.min(1, (innerHeight - top) / (innerHeight * .65)));
+      const e = 1 - Math.pow(1 - p, 3);
+      el.style.setProperty('--ty', ((1 - e) * 160).toFixed(1) + 'px');
+      el.style.transform = `translateY(${((1 - e) * 160).toFixed(1)}px) scale(${(.96 + .04 * e).toFixed(4)})`;
+      el.style.filter = e > .995 ? 'none' : `blur(${((1 - e) * 10).toFixed(2)}px)`;
+      el.style.opacity = (.35 + .65 * e).toFixed(3);
+    });
+  }
+  const baseFrame = frame;
+  frame = function () { baseFrame(); placeRings(); spinRings(); aboutScroll(); if (!reduce) rise(); };
+  if (window.ResizeObserver) new ResizeObserver(() => frame()).observe(document.body);
+  addEventListener('load', () => { placeRings(); frame(); });
+  addEventListener('resize', () => { placeRings(); frame(); });
+  placeRings(); frame();
+
+  // ---------- "נעים להכיר": the cursor paints the section's blurred sky lines (like the Figma background: thick #7DC6FF strokes, heavy blur) ----------
+  const about = document.querySelector('.s-about');
+  if (about && !reduce && matchMedia('(pointer: fine)').matches) {
+    const cv = document.createElement('canvas'); cv.setAttribute('aria-hidden', 'true');
+    cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;mix-blend-mode:screen';
+    about.prepend(cv);
+    const ctx = cv.getContext('2d'), K = .5;   // drawn at half resolution: it is all blur anyway
+    let pts = [];
+    const size = () => { cv.width = about.offsetWidth * K; cv.height = about.offsetHeight * K; };
+    size(); addEventListener('resize', size);
+    about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now() }); });
+    const LIFE = 1800;
+    (function draw() {
+      const now = performance.now(); pts = pts.filter(p => now - p.t < LIFE);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      if (pts.length > 2) {
+        ctx.filter = `blur(${46 * K}px)`; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        for (let i = 1; i < pts.length - 1; i++) {
+          const a = pts[i - 1], b = pts[i], c = pts[i + 1], age = (now - b.t) / LIFE;
+          ctx.strokeStyle = `rgba(125,198,255,${(.5 * (1 - age) * (1 - age)).toFixed(3)})`;
+          ctx.lineWidth = (120 - age * 50) * K;
+          ctx.beginPath(); ctx.moveTo((a.x + b.x) / 2, (a.y + b.y) / 2); ctx.quadraticCurveTo(b.x, b.y, (b.x + c.x) / 2, (b.y + c.y) / 2); ctx.stroke();
+        }
+      }
+      requestAnimationFrame(draw);
+    })();
+  }
+
+  // ---------- everything clickable: in-page links glide, the rest open the matching page on antartrade.co.il ----------
+  const SITE = 'https://antartrade.co.il';
+  const MAP = [
+    [/השוואת חברות|השוואה מהירה|לכל החברות/, '/comparison'], [/דו קרב/, '/comparison/head-to-head'], [/מבצע/, '/promotions'],
+    [/קורס הנוסטרו/, '/nostro-course'], [/קורס המבוא|קורס חינמי/, '/free-course'], [/המסלול המלא/, '/full-course'], [/Order Flow/, '/orderflow-course'], [/האקדמיה|אקדמיה/, '/academy'], [/קורסים/, '/courses'],
+    [/סרטון|ספריית הווידאו|לצפייה/, '/academy/videos'], [/מאמר|לקריאה|בלוג/, '/blog'],
+    [/NinjaTrader|נינג/, '/ninjatrader-guide'], [/TradingView/, '/tradingview-guide'], [/ATAS/, '/atas-guide'], [/DeepCharts/, '/deepcharts-guide'], [/Bookmap/, '/bookmap-guide'],
+    [/TradeZella/, '/tradezella-guide'], [/TradeSyncer/, '/tradesyncer-guide'], [/Replikanto/, '/replikanto-guide'], [/FX Replay/, '/fxreplay-guide'], [/פלטפורמות/, '/platforms'],
+    [/Take ?Profit|טייק/, '/take-profit'], [/Apex|אפקס/, '/apex'], [/Bulenox/, '/bulenox'], [/Lucid/, '/lucid'], [/Funded ?Next/, '/funded-next'], [/Top ?step/i, '/top-step'],
+    [/יומן/, 'https://journal.antartrade.co.il'], [/שאלון/, '/matching-quiz'], [/שאלות ותשובות/, '/faq'], [/אודות|עוד עליי/, '/about'], [/צור קשר/, '/contact'],
+    [/נגישות/, '/accessibility'], [/פרטיות/, '/privacy-policy'], [/תנאי שימוש/, '/terms'], [/קרא עוד/, '/legal-disclaimer'], [/קהילה|קהילת/, 'https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj'],
+  ];
+  document.querySelectorAll('a[href="#"], a:not([href]):not([data-pair])').forEach(a => {
+    const scope = a.closest('article, .card, .glow-card, tr, li') || a, own = a.textContent, ctxTxt = scope.textContent.replace(/\s+/g, ' ');
+    const hit = MAP.find(([re]) => re.test(own)) || MAP.find(([re]) => re.test(ctxTxt));
+    const url = hit ? hit[1] : '/';
+    a.href = url.startsWith('http') ? url : SITE + url; a.target = '_blank'; a.rel = 'noopener';
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href'); if (id.length < 2) return; const t = document.querySelector(id); if (!t) return;
+    e.preventDefault(); window.__lenis ? window.__lenis.scrollTo(t, { offset: -80 }) : t.scrollIntoView({ behavior: 'smooth' });
+  }));
+  // buttons without their own action
+  document.querySelectorAll('button').forEach(b => {
+    if (b.closest('.s-duel, .tabs, .opts, #deal-tabs, #ac-tabs, .fan') || b.dataset.f || b.dataset.i) return;
+    b.addEventListener('click', () => {
+      const t = b.textContent.trim();
+      if (b.closest('[role="search"]')) { const q = b.parentElement.querySelector('input'); if (q && q.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(q.value.trim()), '_blank'); else q && q.focus(); return; }
+      if (/להשוואה/.test(t)) { const on = b.dataset.on !== '1'; b.dataset.on = on ? '1' : ''; b.textContent = on ? 'נוסף להשוואה ✓' : 'הוסף להשוואה'; b.style.background = on ? 'rgba(125,198,255,.22)' : ''; return; }
+      const link = b.closest('article, tr, .card'); const a = link && link.querySelector('a[href]');
+      if (a) { open(a.href, a.target || '_self'); return; }
+      open(SITE + ((MAP.find(([re]) => re.test(t + ' ' + (link ? link.textContent : ''))) || [0, '/'])[1].replace(SITE, '')), '_blank');
+    });
+  });
+  document.querySelectorAll('[role="search"] input').forEach(i => i.addEventListener('keydown', e => { if (e.key === 'Enter' && i.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(i.value.trim()), '_blank'); }));
+  document.querySelectorAll('[class*="code"], [class*="chip"]').forEach(c => { if (c.closest('.s-deals, .s-duel') || !/ANTAR/.test(c.textContent)) return; c.style.cursor = 'pointer';
+    c.addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText('ANTAR'); const h = c.innerHTML; c.textContent = 'הקוד הועתק'; setTimeout(() => c.innerHTML = h, 1200); }); });
+
+  // inner glow follows the cursor inside the global buttons
+  document.querySelectorAll('.btn-halo > span, .s-hero__halo-in, .s-duel__halo-in').forEach(b => {
+    b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect();
+      b.style.setProperty('--sx', (-((e.clientX - r.left) / r.width - .5) * 16).toFixed(1) + 'px');
+      b.style.setProperty('--sy', (-((e.clientY - r.top) / r.height - .5) * 12).toFixed(1) + 'px');
+      b.style.setProperty('--ga', 1); });
+    b.addEventListener('mouseleave', () => { b.style.setProperty('--sx', '0px'); b.style.setProperty('--sy', '0px'); b.style.setProperty('--ga', 0); });
+  });
+
+  // ---------- bot: floating button + chat panel; the hero search field opens it ----------
+  const fab = document.createElement('button'); fab.className = 'bot-fab'; fab.type = 'button'; fab.setAttribute('aria-label', 'פתח צ׳אט'); document.body.appendChild(fab);
+  const panel = document.createElement('div'); panel.className = 'bot-panel'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'העוזר של AntarTrade');
+  panel.innerHTML = '<header><span>העוזר החכם של AntarTrade</span><button type="button" aria-label="סגירה">✕</button></header>'
+    + '<div class="msgs"><div class="m bot">היי! אני כאן כדי לעזור לבחור חברת מימון, להבין חוקים ולמצוא מבצעים. מה תרצו לדעת?</div></div>'
+    + '<div class="chips"><button type="button">מהו חוק העקביות באפקס?</button><button type="button">איזו חברה הכי משתלמת עכשיו?</button><button type="button">מה ההבדל בין EOD ל־Intraday?</button></div>'
+    + '<form><input type="text" autocomplete="off" placeholder="כתבו שאלה..." aria-label="שאלה"><button type="submit">שליחה</button></form>';
+  document.body.appendChild(panel);
+  const msgs = panel.querySelector('.msgs'), pin = panel.querySelector('input');
+  const openBot = q => { panel.classList.add('open'); if (q) ask(q); setTimeout(() => pin.focus(), 50); };
+  const closeBot = () => panel.classList.remove('open');
+  function ask(q) {
+    const me = document.createElement('div'); me.className = 'm me'; me.textContent = q; msgs.appendChild(me);
+    const a = document.createElement('div'); a.className = 'm bot'; a.textContent = 'שאלה מצוינת! באתר המלא אני עונה עם נתונים חיים מהמאגר. זו תצוגה של העיצוב בלבד.'; setTimeout(() => { msgs.appendChild(a); msgs.scrollTop = msgs.scrollHeight; }, 500);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  fab.addEventListener('click', () => panel.classList.contains('open') ? closeBot() : openBot());
+  panel.querySelector('header button').addEventListener('click', closeBot);
+  panel.querySelectorAll('.chips button').forEach(b => b.addEventListener('click', () => ask(b.textContent)));
+  panel.querySelector('form').addEventListener('submit', e => { e.preventDefault(); if (pin.value.trim()) { ask(pin.value.trim()); pin.value = ''; } });
+  document.querySelectorAll('.s-hero__search, .s-hero__search input, .s-hero__search button').forEach(el => el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); openBot(); }));
+  // colour follows the section under the button, like the header
+  const botTheme = () => { const y = innerHeight - 48; const sec = sections.find(s => { const b = s.getBoundingClientRect(); return b.top <= y && b.bottom > y; }); fab.classList.toggle('light', !!sec && sec.dataset.theme === 'light'); };
+  const frameBot = frame; frame = function () { frameBot(); botTheme(); }; botTheme();
+
+  // weight balance, as set in Figma, everywhere (also in the bot): Latin inside Hebrew is set in Roboto at the weight of the Hebrew around it (Regular stays Regular, Medium stays Medium); only SemiBold and bolder Hebrew drops one step
+  (function balanceLatin() {
+    const HEB = /[֐-׿]/, LAT = /[A-Za-z0-9$%][A-Za-z0-9$%.,:\/\-]*(?:\s+[A-Za-z0-9$%][A-Za-z0-9$%.,:\/\-]*)*/g;
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), todo = [];
+    while (walker.nextNode()) {
+      const n = walker.currentNode, el = n.parentElement;
+      if (!el || el.closest('script,style,svg,.lat,.pct,.price,.name,.code,.vs,.chip,.n,.dur,[dir=ltr]')) continue;
+      const block = el.closest('h1,h2,h3,p,span,button,a,div,small,b,bdi') || el;
+      if (!HEB.test(block.textContent) || !/[A-Za-z0-9]/.test(n.nodeValue)) continue;
+      const w = parseInt(getComputedStyle(el).fontWeight, 10);
+      todo.push([n, w]);
+    }
+    todo.forEach(([n, w]) => {
+      const frag = document.createDocumentFragment(); let lastI = 0, m; const t = n.nodeValue; LAT.lastIndex = 0;
+      while ((m = LAT.exec(t))) { if (m.index > lastI) frag.appendChild(document.createTextNode(t.slice(lastI, m.index))); const sp = document.createElement('span'); sp.className = 'lat'; sp.style.fontFamily = '"Roboto", sans-serif'; sp.style.fontWeight = w >= 600 ? w - 100 : w; sp.textContent = m[0]; frag.appendChild(sp); lastI = m.index + m[0].length; }
+      if (lastI < t.length) frag.appendChild(document.createTextNode(t.slice(lastI)));
+      n.replaceWith(frag);
+    });
+  })();
+})();
+</script>
+</body>
+</html>
