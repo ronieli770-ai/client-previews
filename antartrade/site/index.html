@@ -1209,8 +1209,10 @@
   /* the firm column is not sticky: a copy of it sits beside the scroller and never moves (iOS blanks sticky cells while they scroll) */
   .s-table .t-scroll-wrap { position: relative; }
   .s-table .has-fix .t-row > :first-child { visibility: hidden; }
-  .s-table .t-fix { position: absolute; top: 0; right: 0; width: 164px; z-index: 2; }
-  .s-table .t-fix > div { position: absolute; right: 0; left: 0; box-sizing: border-box; display: flex; align-items: center; padding: 0 16px 0 8px; background: #fff; }
+  /* no white cover: the scroller itself is masked out under the column, so the card's own background shows through, and touches pass through the column to the scroller */
+  .s-table .has-fix { -webkit-mask-image: linear-gradient(to left, transparent 164px, #000 164px); mask-image: linear-gradient(to left, transparent 164px, #000 164px); }
+  .s-table .t-fix { position: absolute; top: 0; right: 0; width: 164px; z-index: 2; pointer-events: none; }
+  .s-table .t-fix > div { position: absolute; right: 0; left: 0; box-sizing: border-box; display: flex; align-items: center; padding: 0 16px 0 8px; }
   .s-table .c-firm .logo { position: relative; flex: 0 0 32px; width: 32px; height: 32px; }
   .s-table .c-firm .logo img { position: static !important; width: 100% !important; height: 100% !important; object-fit: contain; inset: auto !important; }
   .s-table .firm-name { font-size: 15px; }
