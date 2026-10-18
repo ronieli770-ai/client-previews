@@ -1185,31 +1185,23 @@
   .s-logos .s-logos__head { display: none; }
   .btn-halo.btn-halo > span { font-size: 18px; height: 46px; padding: 0 20px; }
 
-  /* ---------- comparison table becomes one card per firm ---------- */
-  .s-table { padding: 40px 16px 56px; }
+  /* ---------- comparison table: the full table, swiped sideways (to the left) to see more columns; the firm column stays pinned ---------- */
+  .s-table { padding: 40px 0 56px; }
+  .s-table .t-wrap { padding: 0 16px; }
   .s-table .t-card { border-radius: 28px; }
-  .s-table .t-frame { padding: 22px 16px !important; }
-  .s-table .t-title { font-size: 24px !important; line-height: 1.2; }
-  .s-table .t-scroll { overflow: visible; }
-  .s-table .t-grid { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
-  .s-table .t-head { display: none; }
-  .s-table .t-row { grid-template-columns: 1fr auto; grid-template-areas: "firm rate" "price acc" "hl hl" "tags tags" "deal deal" "act act";
-    gap: 12px 10px; padding: 16px; border: 1px solid #e3eef9; border-radius: 20px; background: #fff; box-shadow: 0 10px 28px rgba(85,169,235,.10); }
-  .s-table .t-row:last-child { border-bottom: 1px solid #e3eef9; }
-  .s-table .c-firm { grid-area: firm; }
-  .s-table .c-rate { grid-area: rate; justify-self: end; }
-  .s-table .c-price { grid-area: price; }
-  .s-table .c-acc { grid-area: acc; justify-self: end; }
-  .s-table .c-acc::before { content: "חשבונות במקביל: "; font: 400 13px "Fb Reforma", sans-serif; color: rgba(0,0,0,.5); margin-inline-end: 4px; }
-  .s-table .c-price::before { content: "החל מ- "; font: 400 13px "Fb Reforma", sans-serif; color: rgba(0,0,0,.5); margin-inline-end: 4px; }
-  .s-table .c-price, .s-table .c-acc { display: flex; align-items: baseline; }
-  .s-table .hl { grid-area: hl; padding-top: 10px; border-top: 1px solid #eef4fa; }
-  .s-table .tags { grid-area: tags; }
-  .s-table .c-deal { grid-area: deal; }
-  .s-table .c-act { grid-area: act; }
-  .s-table .c-act .btn { flex: 1; justify-content: center; min-height: 44px; }
-  .s-table .firm-name { font-size: 18px; }
-
+  .s-table .t-frame { padding: 22px 0 14px !important; }
+  .s-table .t-title { font-size: 24px !important; line-height: 1.2; padding: 0 16px; }
+  .s-table .t-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: none; position: relative; }
+  .s-table .t-scroll::-webkit-scrollbar { display: none; }
+  .s-table .t-grid { min-width: 1080px; padding-inline: 0 16px; }
+  .s-table .t-row { grid-template-columns: 150px 70px 86px 200px 84px 190px 200px 230px; column-gap: 14px; }
+  .s-table .t-row > :first-child { position: sticky; right: 0; z-index: 2; background: #fff; padding: 10px 16px 10px 10px; margin-block: -10px; box-shadow: -10px 0 14px -10px rgba(18,22,31,.18); }
+  .s-table .t-head > :first-child { background: #fff; }
+  .s-table .firm-name { font-size: 15px; }
+  /* swipe hint under the table */
+  .s-table .t-hint { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font: 400 13px "Fb Reforma", sans-serif; color: rgba(18,22,31,.5); }
+  .s-table .t-hint svg { width: 18px; height: 10px; animation: t-nudge 1.6s ease-in-out infinite; }
+  @keyframes t-nudge { 0%, 100% { translate: 0 0; } 50% { translate: -6px 0; } }
   /* ---------- duel: sides stacked, VS between them ---------- */
   .s-duel__chips { gap: 8px; }
   .s-duel__chips-label { width: 100%; text-align: center; }
@@ -2108,6 +2100,11 @@
   m.querySelector('.m-close').addEventListener('click', () => open(false));
   m.querySelectorAll('a').forEach(a => a.addEventListener('click', () => open(false)));
   addEventListener('keydown', e => { if (e.key === 'Escape') open(false); });
+
+  // comparison table: swipe hint under the table, hidden once the visitor has scrolled it
+  const ts = document.querySelector('.s-table .t-scroll');
+  if (ts) { const h = document.createElement('div'); h.className = 't-hint'; h.innerHTML = '<svg viewBox="0 0 18 10" fill="none"><path d="M17 5H1M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>החליקו שמאלה לעוד נתונים';
+    if (innerWidth <= 760) ts.after(h); ts.addEventListener('scroll', () => { if (Math.abs(ts.scrollLeft) > 30) h.style.opacity = 0; }, { passive: true }); h.style.transition = 'opacity .4s'; }
 
   // footer groups open and close on phones
   document.querySelectorAll('.s-footer__col h3').forEach(h => h.addEventListener('click', () => { if (innerWidth <= 760) h.parentElement.classList.toggle('open'); }));
