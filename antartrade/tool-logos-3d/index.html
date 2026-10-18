@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - לוגואים בתלת מימד</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;font-family:Roboto,sans-serif;background:#fff;color:#12161f;padding:40px 16px}
+  .row{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;max-width:1200px;margin:0 auto}
+  .t{width:200px;border-radius:24px;padding:18px;text-align:center;background:#f6f9fc;border:1px solid #e3eef8}
+  .dark .t{background:#12161f;border-color:#232a38;color:#fff}
+  .t img{width:140px;height:140px;display:block;margin:0 auto 10px}
+  .t span{font-size:14px;font-weight:500}.t small{display:block;opacity:.55;font-size:12px;margin-top:4px}
+  section{margin-bottom:40px}.dark{background:#0c0f16;padding:30px 0;border-radius:24px}
+</style></head><body>
+<section><div class="row" id="a"></div></section>
+<section class="dark"><div class="row" id="b"></div></section>
+<script>
+const L=[['ninjatrader','NinjaTrader'],['atas','ATAS'],['tradingview','TradingView'],['deepcharts','DeepCharts'],['bookmap','Bookmap'],['tradezella','TradeZella'],['tradesyncer','TradeSyncer'],['replikanto','Replikanto'],['fxreplay','FX Replay']];
+for(const id of ['a','b']) document.getElementById(id).innerHTML=L.map(([f,n])=>`<div class="t"><img src="${f}.webp" alt="${n}"><span>${n}</span><small>${f}.webp</small></div>`).join('');
+</script></body></html>
