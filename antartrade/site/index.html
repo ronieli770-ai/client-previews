@@ -2505,7 +2505,7 @@
     // iPhone Safari ignores the canvas blur filter, so on touch the whole canvas is blurred with css instead (heavy, like the Figma lines),
     // and the strokes skip noam's figure so they never show through the clear parts of the cut-out photo
     const photo = about.querySelector('.portrait');
-    if (!fine) cv.style.filter = 'blur(18px)';   // enough to soften, light enough that the strokes still read as lines
+    if (!fine) cv.style.filter = 'blur(30px)';   // enough to soften, light enough that the strokes still read as lines
     (function draw() {
       const now = performance.now(); pts = pts.filter(p => now - p.t < LIFE);
       if (!fine) {
