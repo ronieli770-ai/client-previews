@@ -107,7 +107,7 @@
   // depth: photo, glow and text drift at different speeds with the cursor, as in the earlier hero
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || !matchMedia('(pointer: fine)').matches) return;
   const hero = document.querySelector('.s-hero');
-  const layers = [['.s-hero__trader .in', -14, -10, .08], ['.s-hero__glow', 40, 30, .05], ['.s-hero__content', 6, 4, .07]]
+  const layers = [['.s-hero__trader .in', -7, -5, .08], ['.s-hero__glow', 20, 15, .05], ['.s-hero__content', 3, 2, .07]]
     .map(([s, ax, ay, k]) => ({ el: hero.querySelector(s), ax, ay, k, x: 0, y: 0 })).filter(l => l.el);
   let nx = 0, ny = 0;
   addEventListener('mousemove', e => { nx = e.clientX / innerWidth - .5; ny = e.clientY / innerHeight - .5; });

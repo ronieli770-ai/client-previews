@@ -165,7 +165,7 @@
         const w = document.querySelector(wrap), els = [...document.querySelectorAll(items)];
         if (!w || !els.length) return;
         els.forEach(el => el.classList.add('rise'));
-        gsap.fromTo(els, { '--ry': '5em', filter: 'blur(4px)', opacity: .4 }, { '--ry': '0em', filter: 'blur(0px)', opacity: 1, stagger: .1, ease: 'none',
+        gsap.fromTo(els, { '--ry': '2.5em', filter: 'blur(2px)', opacity: .6 }, { '--ry': '0em', filter: 'blur(0px)', opacity: 1, stagger: .1, ease: 'none',
           scrollTrigger: { trigger: w, start, end, scrub: 1 }, onComplete: () => els.forEach(el => el.style.filter = '') });
       });
       ScrollTrigger.refresh();
@@ -227,8 +227,8 @@
   function spinRings() {
     rings.forEach(r => {
       const p = Math.max(-1, Math.min(1, (r.y - scrollY - innerHeight / 2) / innerHeight));
-      r.el.style.transform = `translateY(${(p * 90 * r.k).toFixed(1)}px) rotate(${(r.rot - p * 22).toFixed(2)}deg) scale(${(1 - Math.abs(p) * .06).toFixed(3)})`;
-      r.el.style.filter = `blur(${(r.blur * r.k * (.7 + Math.abs(p) * .5)).toFixed(2)}px)`;
+      r.el.style.transform = `translateY(${(p * 45 * r.k).toFixed(1)}px) rotate(${(r.rot - p * 10).toFixed(2)}deg) scale(${(1 - Math.abs(p) * .03).toFixed(3)})`;
+      r.el.style.filter = `blur(${(r.blur * r.k * (.85 + Math.abs(p) * .25)).toFixed(2)}px)`;
     });
   }
 
@@ -248,7 +248,7 @@
       if (enter > 0) { y = enter * 80; o = 1 - enter; bl = enter * 6; }
       else if (leave < 0) { y = leave * 90; o = 1 + leave * 3; bl = -leave * 12; }
       else { y = 0; o = 1; bl = 0; }
-    } else { y = p > 0 ? p * 160 : p * 90; o = p > 0 ? 1 - p * 1.6 : 1 + p * 1.4; bl = p > 0 ? p * 6 : -p * 12; }
+    } else { y = p > 0 ? p * 90 : p * 50; o = p > 0 ? 1 - p * 1.6 : 1 + p * 1.4; bl = p > 0 ? p * 3 : -p * 6; }
     // at rest nothing is left on the block: on iPhone a filter or opacity on it (even blur(0)) delays painting the button's backdrop blur,
     // so phones get no blur at all and every style is cleared once the block is in place
     const op = Math.max(0, Math.min(1, o));
@@ -264,10 +264,10 @@
       const top = el.getBoundingClientRect().top - (parseFloat(el.style.getPropertyValue('--ty')) || 0);
       const p = Math.max(0, Math.min(1, (innerHeight - top) / (innerHeight * .65)));
       const e = 1 - Math.pow(1 - p, 3);
-      el.style.setProperty('--ty', ((1 - e) * 160).toFixed(1) + 'px');
-      el.style.transform = `translateY(${((1 - e) * 160).toFixed(1)}px) scale(${(.96 + .04 * e).toFixed(4)})`;
-      el.style.filter = e > .995 ? 'none' : `blur(${((1 - e) * 10).toFixed(2)}px)`;
-      el.style.opacity = (.35 + .65 * e).toFixed(3);
+      el.style.setProperty('--ty', ((1 - e) * 80).toFixed(1) + 'px');
+      el.style.transform = `translateY(${((1 - e) * 80).toFixed(1)}px) scale(${(.98 + .02 * e).toFixed(4)})`;
+      el.style.filter = e > .995 ? 'none' : `blur(${((1 - e) * 4).toFixed(2)}px)`;
+      el.style.opacity = (.6 + .4 * e).toFixed(3);
     });
   }
   const baseFrame = frame;
