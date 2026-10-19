@@ -2510,7 +2510,11 @@
     let pts = [];
     const size = () => { cv.width = about.offsetWidth * K; cv.height = about.offsetHeight * K; };
     size(); addEventListener('resize', size); new ResizeObserver(size).observe(about);   // the section grows as images load; a stale size stretched the strokes into ovals
-    if (fine) about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now() }); });
+    // desktop: over the text or the button, or close to them, the trail turns faint so it never gets in the way of reading
+    const nearText = (cx, cy) => { const tr = aboutText ? aboutText.getBoundingClientRect() : null; if (!tr) return 1;
+      const dx = Math.max(tr.left - cx, 0, cx - tr.right), dy = Math.max(tr.top - cy, 0, cy - tr.bottom), d = Math.hypot(dx, dy);
+      return d < 60 ? .18 : d > 180 ? 1 : .18 + (d - 60) / 120 * .82; };
+    if (fine) about.addEventListener('pointermove', e => { const r = about.getBoundingClientRect(); pts.push({ x: (e.clientX - r.left) * K, y: (e.clientY - r.top) * K, t: performance.now(), d: nearText(e.clientX, e.clientY) }); });
     const LIFE = fine ? 1800 : 20000;   // touch: a long tail, two thirds of the loop
     // touch: an invisible point drifts on a slow random path (mixed sine waves with random phases), painting while the section is on screen
     // touch: the point traces one large, slow infinity sign (∞) across the section behind noam, a full loop every 30s, so the motion is calm and never jumps
@@ -2533,7 +2537,7 @@
         for (let i = 1; i < pts.length - 1; i++) {
           const a = pts[i - 1], b = pts[i], c = pts[i + 1], age = (now - b.t) / LIFE;
           const dim = b.y > textTop ? .2 : 1;   // behind the text the lines stay dark enough to read over
-          ctx.strokeStyle = `rgba(125,198,255,${(.5 * dim * (1 - age) * (1 - age)).toFixed(3)})`;
+          ctx.strokeStyle = `rgba(125,198,255,${(.5 * dim * (b.d || 1) * (1 - age) * (1 - age)).toFixed(3)})`;
           ctx.lineWidth = (fine ? 120 - age * 50 : 46 - age * 20) * K;
           ctx.beginPath(); ctx.moveTo((a.x + b.x) / 2, (a.y + b.y) / 2); ctx.quadraticCurveTo(b.x, b.y, (b.x + c.x) / 2, (b.y + c.y) / 2); ctx.stroke();
         }
