@@ -1,0 +1,141 @@
+<style>
+.s-hero{box-sizing:border-box;position:relative;isolation:isolate;min-height:711px;padding:217px 16px 186px;color:#fff;overflow:hidden;font-family:"Fb Reforma",sans-serif;direction:rtl}
+.s-hero *{box-sizing:border-box}
+.s-hero .s-hero__bg{position:absolute;inset:0;z-index:-1;pointer-events:none}
+/* dark curved shape (Figma Rectangle 52): ends 15px above the section bottom */
+.s-hero .s-hero__shape{position:absolute;top:-138px;bottom:15px;left:-74px;right:-74px;background:#12161F;
+  -webkit-mask-image:linear-gradient(#000,#000),url("img/hero-shape.svg");mask-image:linear-gradient(#000,#000),url("img/hero-shape.svg");
+  -webkit-mask-size:100% calc(100% - 700px),100% 834px;mask-size:100% calc(100% - 700px),100% 834px;
+  -webkit-mask-position:top,bottom;mask-position:top,bottom;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+/* glow (Figma Vector 1), clipped by the hero shape mask which sits 15px lower than the dark shape */
+.s-hero .s-hero__glowclip{position:absolute;top:-138px;bottom:15px;left:-74px;right:-74px;
+  -webkit-mask-image:linear-gradient(#000,#000),url("img/hero-shape.svg");mask-image:linear-gradient(#000,#000),url("img/hero-shape.svg");
+  -webkit-mask-size:100% calc(100% - 700px),100% 834px;mask-size:100% calc(100% - 700px),100% 834px;
+  -webkit-mask-position:top,bottom;mask-position:top,bottom;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.s-hero .s-hero__glow{position:absolute;top:-282px;right:-225.4px;width:1210.81px;height:1428.92px;max-width:none;display:block}
+/* trader photo: the final hero version (v16, steel blue): smaller crop, fading into the navy at its edges */
+.s-hero .s-hero__trader{mix-blend-mode:lighten;position:absolute;top:30px;left:max(110px,calc(50% - 828px));width:760px;height:738px;overflow:hidden}
+.s-hero .s-hero__trader .in{position:absolute;inset:0;will-change:transform}
+.s-hero .s-hero__trader img{position:absolute;left:-.05%;top:0;width:100.1%;height:138.02%;max-width:none;display:block}
+.s-hero .s-hero__trader::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to left,#12161f 0%,rgba(18,22,31,0) 22%),linear-gradient(to right,#12161f 0%,rgba(18,22,31,0) 12%),linear-gradient(to top,#12161f 0%,rgba(18,22,31,0) 30%)}
+.s-hero .s-hero__glow,.s-hero .s-hero__content{will-change:transform}
+
+.s-hero .s-hero__wrap{position:relative;max-width:1460px;margin:0 auto}
+.s-hero .s-hero__content{width:666px;max-width:100%;display:flex;flex-direction:column;align-items:stretch;gap:20px;text-align:right}
+.s-hero .s-hero__title{margin:0;font-size:55px;font-weight:400;color:transparent;
+  background:linear-gradient(90deg,#61B1F2 0%,#fff 78.365%);-webkit-background-clip:text;background-clip:text}
+.s-hero .s-hero__title .s-hero__l1{display:block;font-weight:500;line-height:53px}
+.s-hero .s-hero__title .s-hero__l2{display:block;font-weight:400;line-height:54px}
+.s-hero .s-hero__sub{margin:0;font-size:20px;line-height:1.2;min-height:31px;display:flex;align-items:center;color:rgba(255,255,255,.7)}
+
+.s-hero .s-hero__btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-start}
+.s-hero .s-hero__halo{display:inline-flex;padding:6px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(85,169,235,.05);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-decoration:none;color:#fff;transition:transform .25s ease,border-color .25s ease}
+.s-hero .s-hero__halo-in{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:50px;padding:0 25px;border-radius:90px;
+  border:1px solid rgba(97,177,242,.5);font-size:20px;font-weight:500;line-height:.915;white-space:nowrap;transition:background-color .25s ease}
+.s-hero .s-hero__halo-in img{width:16px;height:16px;flex:none;display:block}
+.s-hero .s-hero__halo:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.24)}
+.s-hero .s-hero__halo:hover .s-hero__halo-in{background-color:rgba(97,177,242,.12)}
+.s-hero .s-hero__halo--primary{background:rgba(125,198,255,.08);border-color:rgba(255,255,255,.12)}
+.s-hero .s-hero__halo--primary .s-hero__halo-in{border:0;background:#7DC6FF;
+  box-shadow:inset 0 -4px 17.6px 0 #fff,inset 0 -8px 26.4px 0 rgba(0,0,0,.25)}
+.s-hero .s-hero__halo--primary:hover .s-hero__halo-in{background:#61B1F2}
+.s-hero .s-hero__halo:focus-visible{outline:2px solid #7DC6FF;outline-offset:3px}
+
+.s-hero .s-hero__search{display:flex;align-items:center;gap:10px;height:45px;padding:0 20px;border:1px solid #61B1F2;border-radius:10px;margin:0;
+  transition:border-color .2s ease,box-shadow .2s ease}
+.s-hero .s-hero__search:focus-within{border-color:#7DC6FF;box-shadow:0 0 0 3px rgba(125,198,255,.18)}
+.s-hero .s-hero__search img{width:20px;height:20px;flex:none;display:block}
+.s-hero .s-hero__search input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:#fff;text-align:right;direction:rtl;
+  font-family:"IBM Plex Sans Hebrew",sans-serif;font-size:16px;padding:0}
+.s-hero .s-hero__search input::placeholder{color:#fff;opacity:1;font-family:"Fb Reforma",sans-serif;font-size:16px}
+.s-hero .s-hero__search button{display:flex;align-items:center;justify-content:center;flex:none;padding:0;border:0;background:none;cursor:pointer}
+
+@media (max-width:980px){
+  .s-hero{min-height:0;padding:170px 16px 150px}
+  .s-hero .s-hero__trader{left:-170px;opacity:.4}
+  .s-hero .s-hero__content{width:100%;max-width:620px;margin-inline-start:0}
+  .s-hero .s-hero__title{font-size:46px}
+  .s-hero .s-hero__title .s-hero__l1,.s-hero .s-hero__title .s-hero__l2{line-height:1.05}
+}
+@media (max-width:620px){
+  .s-hero{padding:140px 16px 120px}
+  .s-hero .s-hero__trader{left:50%;width:520px;height:505px;transform:translateX(-50%);top:-40px;opacity:.28}
+  .s-hero .s-hero__glow{right:-520px}
+  .s-hero .s-hero__title{font-size:34px}
+  .s-hero .s-hero__sub{font-size:17px}
+  .s-hero .s-hero__btns{flex-direction:column;align-items:stretch}
+  .s-hero .s-hero__halo-in{width:100%;font-size:18px;height:46px;padding:0 18px}
+}
+@media (prefers-reduced-motion:reduce){.s-hero .s-hero__halo,.s-hero .s-hero__halo-in{transition:none}}
+
+/* rotating questions type into the empty search field; typed text uses IBM Plex */
+.s-hero .s-hero__search input::placeholder{font-family:"IBM Plex Sans Hebrew",sans-serif}
+
+/* shorter hero so the partner logos are visible on arrival */
+@media (min-width:981px){.s-hero{--hp:clamp(150px,20vh,217px);min-height:0;padding:var(--hp) 16px calc(var(--hp) * .857)}}
+</style>
+<section class="s-hero" id="top" data-theme="dark">
+  <div class="s-hero__bg" aria-hidden="true">
+    <div class="s-hero__shape"></div>
+    <div class="s-hero__glowclip">
+      <img class="s-hero__glow" src="img/hero-glow.svg" alt="">
+      <div class="s-hero__trader"><div class="in"><img src="img/hero-trader-steel.jpg" alt=""></div></div>
+    </div>
+  </div>
+  <div class="s-hero__wrap">
+    <div class="s-hero__content">
+      <div class="s-hero__head" data-reveal>
+        <h1 class="s-hero__title split"><span class="s-hero__l1">השווה בין חברות <span class="m-br">מימון למסחר</span></span><span class="s-hero__l2">בחר את החשבון שמתאים לך</span></h1>
+      </div>
+      <p class="s-hero__sub" data-reveal>מחירים, כללים, מבצעים ותנאי משיכה של חברות המימון המובילות - במקום אחד.</p>
+      <div class="s-hero__btns" data-reveal>
+        <a class="s-hero__halo s-hero__halo--primary" href="#compare"><span class="s-hero__halo-in">להשוואת החברות<img src="img/icon-compare.svg" alt=""></span></a>
+        <a class="s-hero__halo" href="#deals"><span class="s-hero__halo-in">למבצעים נוספים<img src="img/icon-pricetag.svg" alt=""></span></a>
+        <a class="s-hero__halo" href="#academy"><span class="s-hero__halo-in">אני רוצה ללמוד<img src="img/icon-school.svg" alt=""></span></a>
+      </div>
+      <div class="s-hero__search" role="search" data-reveal>
+        <button type="button" aria-label="חיפוש"><img src="img/icon-search.svg" alt=""></button>
+        <input type="text" name="q" autocomplete="off" readonly placeholder="מהו חוק העקביות באפקס?" aria-label="חיפוש">
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  // depth: photo, glow and text drift at different speeds with the cursor, as in the earlier hero
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !matchMedia('(pointer: fine)').matches) return;
+  const hero = document.querySelector('.s-hero');
+  const layers = [['.s-hero__trader .in', -14, -10, .08], ['.s-hero__glow', 40, 30, .05], ['.s-hero__content', 6, 4, .07]]
+    .map(([s, ax, ay, k]) => ({ el: hero.querySelector(s), ax, ay, k, x: 0, y: 0 })).filter(l => l.el);
+  let nx = 0, ny = 0;
+  addEventListener('mousemove', e => { nx = e.clientX / innerWidth - .5; ny = e.clientY / innerHeight - .5; });
+  (function tick() {
+    if (hero.getBoundingClientRect().bottom > 0) layers.forEach(l => { l.x += (nx * l.ax - l.x) * l.k; l.y += (ny * l.ay - l.y) * l.k; l.el.style.translate = `${l.x.toFixed(2)}px ${l.y.toFixed(2)}px`; });
+    requestAnimationFrame(tick);
+  })();
+})();
+</script>
+
+<script>
+(function () {
+  // real questions from Noam's site, typed one after another while the field is empty
+  const Q = ['מהו חוק העקביות באפקס?', 'מה ההבדל בין מסלול Intraday למסלול EOD?', 'כמה חשבונות ממומנים מותר להחזיק במקביל?', 'כמה זמן לוקח לקבל משיכה מ־Lucid Trading?', 'מותר לסחור בזמן חדשות?', 'מה הסכום המינימלי למשיכה?', 'מה זה דלתא בפוטפרינט?'];
+  const input = document.querySelector('.s-hero__search input'); if (!input) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { input.placeholder = Q[0]; return; }
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  let paused = false;
+  input.addEventListener('focus', () => { paused = true; input.placeholder = 'חפשו שאלה, חברה או מדריך'; });
+  input.addEventListener('blur', () => { if (!input.value) paused = false; });
+  (async function loop() {
+    for (let i = 0; ; i = (i + 1) % Q.length) {
+      let txt = '';
+      for (const ch of Q[i]) { while (paused) await wait(300); txt += ch; input.placeholder = txt + '|'; await wait(55 + Math.random() * 45); }
+      for (let k = 0; k < 6; k++) { if (!paused) input.placeholder = txt + (k % 2 ? '|' : ''); await wait(320); }
+      while (txt.length) { while (paused) await wait(300); txt = txt.slice(0, -1); input.placeholder = txt + '|'; await wait(22); }
+      await wait(250);
+    }
+  })();
+})();
+</script>

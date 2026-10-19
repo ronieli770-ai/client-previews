@@ -1,0 +1,364 @@
+<style>
+/* ================= mobile layer (≤ 760px): structure decisions approved by Roni ================= */
+.hdr .burger { display: none; }
+.m-menu { display: none; }
+@media (max-width: 1180px) {
+  /* header: logo, courses button and a hamburger that opens a full-screen menu */
+  .hdr .burger { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: var(--fg); cursor: pointer; flex: 0 0 auto; transition: color var(--fade); }
+  .hdr .burger svg { width: 24px; height: 24px; }
+  .hdr .wrap { gap: 12px; }
+  .hdr .halo { margin-inline-start: auto; }
+  .m-menu { display: flex; position: fixed; inset: 0; z-index: 70; flex-direction: column; padding: 18px 20px 32px; background: #12161f; color: #fff;
+    opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility .35s; }
+  .m-menu.open { opacity: 1; visibility: visible; }
+  .m-menu .m-top { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  .m-menu .m-top .logo { width: 150px; height: 33px; background: #fff; -webkit-mask: url(img/logo-mark.webp) right center / contain no-repeat; mask: url(img/logo-mark.webp) right center / contain no-repeat; }
+  .m-menu .m-close { width: 44px; height: 44px; border: 0; background: none; color: #fff; cursor: pointer; }
+  .m-menu nav { display: flex; flex-direction: column; margin-top: 28px; }
+  .m-menu nav a { display: flex; align-items: center; justify-content: space-between; padding: 18px 4px; font: 500 24px "Fb Reforma", sans-serif; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.08);
+    opacity: 0; translate: 0 14px; transition: opacity .4s ease, translate .5s cubic-bezier(.22,.61,.36,1); transition-delay: calc(var(--i) * 45ms + 80ms); }
+  .m-menu.open nav a { opacity: 1; translate: 0 0; }
+  .m-menu nav a.deal { color: #7dc6ff; }
+  .m-menu nav a svg { width: 14px; height: 10px; opacity: .5; }
+  .m-menu .m-cta { margin-top: auto; display: flex; justify-content: center; }
+  body.menu-open { overflow: hidden; }
+
+  /* the menu grows out of the hamburger as a circle; big links rise in out of a blur */
+  .m-menu { opacity: 1; clip-path: circle(0 at calc(100% - 40px) 36px); transition: clip-path .75s cubic-bezier(.7,0,.2,1), visibility .75s;
+    background: radial-gradient(90% 55% at 100% 0%, rgba(97,177,242,.26), transparent 65%), #12161f; }
+  .m-menu.open { clip-path: circle(160% at calc(100% - 40px) 36px); }
+  .m-menu nav { margin-top: 36px; }
+  .m-menu nav a { justify-content: flex-start; gap: 14px; padding: 9px 0; border: 0; font-size: 36px; line-height: 1.1; translate: 0 36px; filter: blur(8px); transition: opacity .5s ease, translate .7s cubic-bezier(.22,1,.36,1), filter .6s ease; transition-delay: calc(var(--i) * 60ms + 260ms); }
+  .m-menu.open nav a { filter: blur(0); }
+  .m-menu nav a > svg { display: none; }
+  .m-menu nav a.cur .ml { background: linear-gradient(90deg, #61B1F2, #fff 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .m-menu .m-social { display: flex; gap: 10px; justify-content: center; margin: auto 0 18px; }
+  .m-menu .m-cta { margin-top: 0; }
+  .m-menu .m-social a { display: grid; place-items: center; height: 48px; min-width: 48px; border-radius: 999px; background: rgba(255,255,255,.06); }
+  .m-menu .m-social img { width: 20px; height: 20px; }
+}
+
+@media (max-width: 760px) {
+  /* ---------- header (after schooliner): round menu button at the right, the logo on its own next to it, courses as a pill at the left ---------- */
+  .hdr { --chip: rgba(255,255,255,.08); }
+  .hdr.on.light { --chip: rgba(18,22,31,.06); }
+  .hdr .wrap { padding: 12px 16px; gap: 8px; }
+  .hdr .burger { order: -1; width: 48px; height: 48px; background: var(--chip); transition: background-color var(--fade), color var(--fade); }
+  .hdr .logo { order: 0; width: 168px; height: 48px; background: none; -webkit-mask: none; mask: none; position: relative; margin-right: 4px; }   /* the logo on its own, no pill */
+  .hdr .logo::after { content: ""; position: absolute; inset: 5px 0; background: var(--fg); transition: background-color var(--fade);
+    -webkit-mask: url(img/logo-mark.webp) right center / contain no-repeat; mask: url(img/logo-mark.webp) right center / contain no-repeat; }
+  .hdr .halo { order: 1; margin-inline-start: auto; padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .hdr .halo a { height: 48px; padding: 0 18px; font-size: 16px; background: var(--chip); color: var(--fg); gap: 8px; }
+  .hdr .halo a svg { width: 18px; height: 18px; }
+  /* ---------- section rhythm and titles ---------- */
+  .s-duel, .s-deals, .s-academy, .s-platforms .p-inner, .s-next { padding-top: 72px !important; padding-bottom: 80px !important; }
+  html body .split, html body .g-title { font-size: 32px !important; line-height: 1.05 !important; }
+  /* ---------- hero: centred on the grid, photo fills the section under an overlay that opens at the bottom ---------- */
+  .s-hero { padding: 118px 16px 100px !important; min-height: 0 !important; }
+  .s-hero .s-hero__trader { top: 138px !important; left: 74px !important; right: 74px !important; bottom: 0 !important; width: auto !important; height: auto !important; opacity: 1 !important; transform: none !important; mix-blend-mode: normal; }
+  .s-hero .s-hero__trader .in { translate: none !important; }
+  .s-hero .s-hero__trader img { inset: 0; width: 100% !important; height: 100% !important; object-fit: cover; object-position: 72% 40%; filter: blur(1.2px); transform: scale(1.6); transform-origin: 72% 45%; }
+  .s-hero .s-hero__trader::after { background: linear-gradient(180deg, rgba(18,22,31,.9) 0%, rgba(18,22,31,.72) 40%, rgba(18,22,31,.3) 72%, rgba(18,22,31,0) 100%) !important; }
+  .s-hero .s-hero__glow { display: none; }
+  .s-hero .s-hero__content { width: 100%; max-width: 100%; align-items: flex-start; text-align: right; margin: 0 auto; translate: none !important; gap: 22px; }
+  .s-hero .s-hero__head + .s-hero__sub { margin-top: -10px; }
+  .s-hero .s-hero__title { font-size: 28px; text-align: right; width: 100%; }
+  .s-hero .s-hero__title .s-hero__l1 { font-size: 46px; line-height: 1; }
+  .s-hero .s-hero__title .m-br { display: block; }
+  .s-hero .s-hero__title .s-hero__l2 { font-size: 28px; line-height: 1.1; margin-top: 4px; }
+  .s-hero .s-hero__sub { justify-content: flex-start; text-align: right; font-size: 16px; color: rgba(255,255,255,.88); }
+  /* three equal tiles in one row (after schooliner): same width, label on two centred lines */
+  .s-hero .s-hero__btns { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%; }
+  .s-hero .s-hero__halo { padding: 0; border-radius: 16px; min-width: 0; display: flex; }
+  .s-hero .s-hero__halo-in { flex: 1; width: 100% !important; height: 68px !important; padding: 0 16px !important; border-radius: 15px; font-size: 16px !important; font-weight: 500; line-height: 1.15 !important; white-space: normal !important; text-align: center; gap: 0; }
+  .s-hero .s-hero__halo-in img { display: none; }
+  /* frames swapped: the outlined tiles take the full sky line, the search the softer one, so the buttons read first */
+  .s-hero .s-hero__halo:not(.s-hero__halo--primary) .s-hero__halo-in { border-color: #61B1F2 !important; }
+  .s-hero .s-hero__search { border-color: rgba(97,177,242,.5) !important; }
+  .s-hero .s-hero__search { width: 100%; }
+  /* hero photo options for review: ?mh=b|c|d (default = a) */
+  .mh-b .s-hero .s-hero__trader { top: auto !important; height: 46% !important; }
+  .mh-b .s-hero .s-hero__trader img { transform: scale(1.15); transform-origin: 70% 40%; filter: none; object-position: 70% 35%; }
+  .mh-b .s-hero .s-hero__trader::after { background: linear-gradient(180deg, #12161f 0%, rgba(18,22,31,.4) 40%, rgba(18,22,31,0) 100%) !important; }
+  .mh-c .s-hero .s-hero__trader img { transform: none; filter: none; object-position: 22% 30%; }
+  .mh-c .s-hero .s-hero__trader::after { background: linear-gradient(180deg, rgba(18,22,31,.95) 0%, rgba(18,22,31,.8) 45%, rgba(18,22,31,.35) 75%, rgba(18,22,31,.15) 100%) !important; }
+  .mh-d .s-hero .s-hero__trader img { transform: scale(1.3); transform-origin: 70% 45%; filter: blur(6px) saturate(1.2); opacity: .55; }
+  .mh-d .s-hero .s-hero__trader::after { background: radial-gradient(70% 50% at 50% 85%, rgba(46,139,216,.35), transparent 70%), linear-gradient(180deg, rgba(18,22,31,.6), rgba(18,22,31,0)) !important; }
+  /* ---------- hero, mobile layout after OpticOdds: short text on top, the trading screen below it in a tilted view, cut by the curve ---------- */
+  .s-hero { padding: 92px 16px 222px !important; }
+  /* the search field under the three tiles (it opens the bot); the hero gives back the room so the logos still show above the Safari bar */
+  .s-hero .s-hero__search { position: relative; z-index: 2; height: 42px; margin-top: -12px !important; border-radius: 12px; background: rgba(255,255,255,.08) !important; -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3); }
+  .s-hero .s-hero__trader { top: auto !important; bottom: 0 !important; height: 312px !important; left: 74px !important; right: 74px !important; overflow: hidden; }
+  .s-hero .s-hero__trader .in { position: absolute; inset: 0; perspective: 900px; }
+  .s-hero .s-hero__trader img { inset: 0; width: 100% !important; height: 100% !important; object-fit: cover; object-position: 74% 38%; filter: none !important;
+    transform: rotateX(16deg) rotateY(-14deg) rotateZ(-6deg) scale(1.55) !important; transform-origin: 70% 40% !important; border-radius: 18px; }
+  .s-hero .s-hero__trader::after { background: linear-gradient(180deg, #12161f 0%, #12161f 6%, rgba(18,22,31,.55) 30%, rgba(18,22,31,0) 58%), linear-gradient(90deg, rgba(18,22,31,.55), rgba(18,22,31,0) 30%, rgba(18,22,31,0) 70%, rgba(18,22,31,.55)) !important; }
+  /* logo carousel on iOS: a CSS mask on a moving track makes Safari drop the logos while scrolling; fade the edges with overlays instead and keep the track on its own layer */
+  .s-logos .s-logos__carousel { -webkit-mask-image: none !important; mask-image: none !important; }
+  .s-logos .s-logos__carousel::before, .s-logos .s-logos__carousel::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40px; z-index: 2; pointer-events: none; }
+  .s-logos .s-logos__carousel::before { left: 0; background: linear-gradient(90deg, #fff, rgba(255,255,255,0)); }
+  .s-logos .s-logos__carousel::after { right: 0; background: linear-gradient(270deg, #fff, rgba(255,255,255,0)); }
+  .s-logos .s-logos__track { -webkit-backface-visibility: hidden; backface-visibility: hidden; transform: translate3d(0,0,0); animation-name: s-logos-loop-3d !important; }
+  @keyframes s-logos-loop-3d { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+  .s-logos .s-logos__set { gap: 40px; padding-right: 40px; }
+  .s-logos .s-logos__set img { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+  .s-logos.drag .s-logos__track { animation: none !important; }   /* phones: the strip is moved by script, so a finger can drag it */
+  .s-logos.drag .s-logos__carousel { touch-action: pan-y; cursor: grab; }
+  /* logos: only the carousel, close under the hero so it shows before scrolling */
+  .s-logos { padding: 12px 16px 40px !important; }
+  .s-logos .s-logos__head { display: none; }
+  .btn-halo.btn-halo > span { font-size: 18px; height: 46px; padding: 0 20px; }
+
+  /* ---------- comparison table: the full table, swiped sideways (to the left) to see more columns; the firm column stays pinned ---------- */
+  .s-table { padding: 40px 0 56px; }
+  .s-table .t-wrap { padding: 0 16px; }
+  .s-table .t-card { border-radius: 28px; }
+  .s-table .t-frame { padding: 22px 0 14px !important; }
+  .s-table .t-title { font-size: 24px !important; line-height: 1.1; padding: 0 16px 20px !important; border-bottom: 0 !important; }
+  .s-table .t-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: none; position: relative; }
+  .s-table .t-scroll::-webkit-scrollbar { display: none; }
+  .s-table .t-grid { min-width: 1080px; padding-inline: 0 16px; }
+  .s-table .t-row { grid-template-columns: 150px 70px 86px 200px 84px 190px 200px 230px; column-gap: 14px; }
+  /* the firm column is not sticky: a copy of it sits beside the scroller and never moves (iOS blanks sticky cells while they scroll) */
+  .s-table .t-scroll-wrap { position: relative; }
+  .s-table .has-fix .t-row > :first-child { visibility: hidden; }
+  /* no white cover: the scroller itself is masked out under the column, so the card's own background shows through, and touches pass through the column to the scroller */
+  .s-table .has-fix { -webkit-mask-image: linear-gradient(to left, transparent 164px, #000 164px); mask-image: linear-gradient(to left, transparent 164px, #000 164px); }
+  .s-table .t-fix { position: absolute; top: 0; right: 0; width: 164px; z-index: 2; pointer-events: none; }
+  .s-table .t-fix > div { position: absolute; right: 0; left: 0; box-sizing: border-box; display: flex; align-items: center; padding: 0 16px 0 8px; }
+  .s-table .c-firm .logo { position: relative; flex: 0 0 32px; width: 32px; height: 32px; }
+  .s-table .c-firm .logo img { position: static !important; width: 100% !important; height: 100% !important; object-fit: contain; inset: auto !important; }
+  .s-table .firm-name { font-size: 15px; }
+  /* swipe hint under the table */
+  .s-table .t-hint { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font: 400 13px "Fb Reforma", sans-serif; color: rgba(18,22,31,.5); }
+  .s-table .t-hint svg { width: 18px; height: 10px; animation: t-nudge 1.6s ease-in-out infinite; }
+  @keyframes t-nudge { 0%, 100% { translate: 0 0; } 50% { translate: -6px 0; } }
+  /* ---------- duel (after payless): two short cards side by side, the data in one shared list below, value against value ---------- */
+  .s-duel__chips { gap: 8px; }
+  .s-duel__chips-label { width: 100%; text-align: center; }
+  html body .s-duel .s-duel__row { grid-template-columns: minmax(0,1fr) 0 minmax(0,1fr) !important; column-gap: 10px; max-width: none; margin: 0; }
+  html body .s-duel .s-duel__row > .s-duel__card { margin: 0 !important; }
+  .s-duel .s-duel__vs-cell { height: auto !important; align-self: stretch !important; z-index: 3; }
+  .s-duel .s-duel__vs { width: 36px; height: 36px; font-size: 12px; position: absolute; top: 50%; left: 50%; translate: -50% -50%; }   /* centred between the two cards, both ways */
+  .s-duel .s-duel__card { padding: 18px 12px 14px; border-radius: 22px; gap: 10px; text-align: center; }
+  .s-duel .s-duel__body { gap: 10px; align-items: center; }
+  .s-duel .s-duel__data, .s-duel .s-duel__hr { display: none !important; }
+  .s-duel .s-duel__top { display: contents; }
+  .s-duel .s-duel__side { display: none; }
+  .s-duel .s-duel__swapwrap { order: 9; align-self: center; }
+  .s-duel .s-duel__swap { border: 0; padding: 4px 6px; font-size: 13px; color: #2e8bd8; gap: 5px; background: none; }
+  .s-duel .s-duel__swap svg path { stroke: #2e8bd8; }
+  .s-duel .s-duel__swap svg { width: 13px; height: 13px; }
+  .s-duel .s-duel__swapwrap .s-duel__menu { display: none !important; }   /* the firm list opens under the cards instead */
+  /* the switch panel under the two cards: side switch + firm toggles */
+  .s-duel .s-duel__pick { display: grid; grid-template-rows: 0fr; width: 100%; transition: grid-template-rows .45s cubic-bezier(.22,1,.36,1), margin .45s; margin-top: 0; }
+  .s-duel.picking .s-duel__pick { grid-template-rows: 1fr; margin-top: 12px; }
+  .s-duel .s-duel__pick-in { overflow: hidden; min-height: 0; }
+  .s-duel .s-duel__pick-in > * { margin-inline: 1px; }
+  .s-duel .p-head { display: flex; align-items: center; gap: 8px; margin: 1px 1px 12px; }
+  .s-duel .p-sides { flex: 1; display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 16px; background: #eef4fa; }
+  .s-duel .p-sides button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 6px; border: 0; border-radius: 12px; background: none; font: 500 14px "Roboto", "Fb Reforma", sans-serif; color: #12161f; cursor: pointer; transition: background .3s, box-shadow .3s; }
+  .s-duel .p-sides button small { font: 400 12px "Fb Reforma", sans-serif; opacity: .55; }
+  .s-duel .p-sides button.on { background: #fff; box-shadow: 0 4px 14px rgba(85,169,235,.18); }
+  .s-duel .p-close { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 50%; background: #eef4fa; color: #12161f; cursor: pointer; }
+  .s-duel .p-close svg { width: 18px; height: 18px; }
+  .s-duel .p-firms { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding-bottom: 2px; }
+  .s-duel .p-firm { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 12px; border-radius: 999px; border: 1px solid rgba(18,22,31,.1); background: #fff; font: 500 14px "Roboto", sans-serif; color: #12161f; cursor: pointer; transition: background .25s, border-color .25s; }
+  .s-duel .p-firm img { width: 20px; height: 20px; object-fit: contain; }
+  .s-duel .p-firm.on { background: rgba(125,198,255,.16); border-color: #7DC6FF; }
+  .s-duel .p-firm:disabled { opacity: .35; cursor: default; }
+  .s-duel[data-pick="0"] .s-duel__card[data-side="0"], .s-duel[data-pick="1"] .s-duel__card[data-side="1"] { box-shadow: 0 0 0 2px #7DC6FF, 0 14px 34px rgba(85,169,235,.18) !important; }
+  .s-duel .s-duel__card[data-side="1"] .s-duel__swapwrap .s-duel__menu { left: -6px; right: auto; }
+  .s-duel .s-duel__card[data-side="0"] .s-duel__swapwrap .s-duel__menu { right: -6px; left: auto; }
+  .s-duel .s-duel__co { flex-direction: column; align-items: center; gap: 6px; min-height: 0; }
+  .s-duel .s-duel__logo img, .s-duel .s-duel__logo svg { width: 34px; height: 34px; }
+  .s-duel .s-duel__co-name { font-size: 16px; line-height: 1.15; }
+  .s-duel .s-duel__route { width: 100%; padding: 8px 10px; }
+  .s-duel .s-duel__route-txt { gap: 4px; font-size: 13px; }
+  .s-duel .s-duel__route .s-duel__lbl { display: none; }
+  .s-duel .s-duel__price { min-height: 0; align-items: center; }
+  .s-duel .s-duel__size { display: none; }
+  .s-duel .s-duel__now { font-size: 22px; }
+  .s-duel .s-duel__was { font-size: 12px; }
+  .s-duel .s-duel__per { display: none; }
+  .s-duel .s-duel__badge { font-size: 12px !important; padding: 4px 9px; top: -12px; }
+  .s-duel .s-duel__badge svg { width: 12px !important; height: 12px !important; }
+  /* the shared list */
+  .s-duel .s-duel__cmp { display: block; width: 100%; margin-top: 14px; padding: 6px 16px; border-radius: 22px; background: #fff; box-shadow: 0 0 0 1px #e3eef9, 0 14px 34px rgba(85,169,235,.10); }
+  .s-duel .c-row { padding: 14px 0; border-bottom: 1px solid #eef4fa; opacity: 0; translate: 0 8px; transition: opacity .4s, translate .5s; transition-delay: calc(var(--r) * 180ms); }
+  .s-duel.play .c-row { opacity: 1; translate: 0 0; }
+  .s-duel .c-row:last-child { border-bottom: 0; }
+  .s-duel .c-lbl { text-align: center; font: 500 14px "Fb Reforma", sans-serif; color: #12161f; margin-bottom: 8px; }
+  .s-duel .c-vals { display: flex; justify-content: space-between; gap: 12px; font: 400 15px "Fb Reforma", sans-serif; color: #12161f; }
+  .s-duel .c-vals span { flex: 1; font-size: 15px !important; }
+  .s-duel .c-vals span:last-child { text-align: left; }
+  .s-duel .c-vals span.best { color: #B07A0C; font-weight: 500; }
+  .s-duel .c-bars { display: flex; gap: 12px; margin-top: 8px; }
+  .s-duel .c-bars i { flex: 1; height: 3px; border-radius: 3px; background: #eef1f5; transition: background .4s; transition-delay: calc(var(--r) * 180ms + 250ms); }
+  .s-duel.play .c-bars i.on { background: linear-gradient(90deg, #F7C65A, #E0A325); }
+
+  /* ---------- deals: swipe carousel with the tabs above it ---------- */
+  .s-deals .tabs { width: 100%; max-width: 100%; margin: 26px auto 0; grid-template-columns: repeat(5, 1fr) !important; }
+  .s-deals .tabs button { font-size: 12px !important; white-space: nowrap; }
+  .s-deals .fan { margin-top: 44px !important; }
+  .s-deals .deal-foot { gap: 8px; }
+  .s-deals .deal .btn-gray { white-space: nowrap; padding: 10px 14px; }
+  .s-deals .deal .code { padding: 8px 12px; }
+  .s-deals .fan .deal { width: 272px !important; margin-left: -136px !important; padding: 22px !important; gap: 10px !important; }
+  .s-deals .pct { font-size: 50px; }
+  .s-deals .deal .co .name { font-size: 20px; }
+  .s-deals .deal h3 { font-size: 18px; }
+  .s-deals .fan-nav { margin-top: 0 !important; }
+
+  /* ---------- academy ---------- */
+  /* every title on phones: line height 110% */
+  h1, h2, h1 *, h2 * { line-height: 1.1 !important; }
+  .s-academy .card { padding: 18px; }
+  .s-academy .grid > .card:nth-child(n+5) { display: none; }   /* four cards at most on phones, in every tab */
+  .s-academy .tabs { width: 100%; }
+  .s-academy .tabs button { flex: 1; width: auto; }
+
+  /* ---------- platforms & tools: a sideways swipe row per group ---------- */
+  .s-platforms .p-row, .s-platforms .p-row.five { display: flex !important; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; margin: -16px -16px 0; padding: 20px 16px 18px; scrollbar-width: none; }
+  .s-platforms .p-row::-webkit-scrollbar { display: none; }
+  /* tighter: header to group title, group title to its cards, card name to its text */
+  .s-platforms .p-inner { gap: 32px !important; }
+  .s-platforms .p-group { gap: 14px; }   /* label to its swipe row */
+  .s-platforms .card-name + .card-desc { margin-top: -6px; }
+  .s-platforms .p-row > .card { flex: 0 0 78%; scroll-snap-align: start; min-height: 320px; }
+
+  /* ---------- journal: no overlap with the platforms curve ---------- */
+  .s-journal { margin-top: -60px; background: linear-gradient(transparent 60px, #fff 60px); padding-bottom: 80px; }
+  .s-journal .panel { padding: 28px 18px !important; border-radius: 32px !important; gap: 24px; }
+  .s-journal .copy h2 { font-size: 32px !important; line-height: 1.05 !important; }   /* the global phone title, like every other section */
+  /* features in a 2 x 2 grid, so a tap shows its animation right below without scrolling */
+  .s-journal .copy p + .opts { margin-top: 20px; }
+  .s-journal .opts { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .s-journal .opt { height: auto !important; min-height: 52px; padding: 8px 12px !important; justify-content: flex-start !important; }
+  .s-journal .opt .lbl { font-size: 15px !important; gap: 8px; line-height: 1.2; text-align: right; }
+  .s-journal .opt .lbl svg { width: 18px; height: 18px; flex-basis: 18px; }
+  .s-journal .opt .dot { display: none; }
+  .s-journal .card { width: 100% !important; min-height: 0 !important; }
+  .s-journal .stage { height: 210px !important; display: grid; place-items: center; }
+  .s-journal .art { position: absolute !important; left: 50%; top: 50%; margin: -105px 0 0 -150px !important; transform: scale(var(--fit, .78)) !important; transform-origin: center !important; }   /* pinned to the stage centre, not to its right edge */   /* scaled to the stage width by script, so every scene fits whole */
+
+  /* ---------- community ---------- */
+  .s-community .banner { border-radius: 28px !important; }
+  /* the three cards under the banner: one row of three, text aligned to the same top edge */
+  .s-community .cards { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; margin-top: 52px !important; max-width: none !important; }
+  .s-community .icon { width: 44px !important; height: 44px !important; top: -22px !important; }
+  .s-community .card { min-height: 0 !important; padding: 40px 12px 24px !important; border-radius: 20px !important; align-items: flex-start !important; }
+  .s-community .card p { font-size: 15px !important; line-height: 1.25 !important; }
+
+  /* ---------- about ---------- */
+  .s-about .copy { font-size: 18px !important; }
+  /* noam on top, centred; the text sits over the faded bottom of the photo, centred */
+  .s-about .wrap { padding-top: 40px !important; padding-bottom: 72px !important; }
+  .s-about::after { z-index: 1 !important; height: 140px !important; }   /* the bottom fade stays under the text and button (it hid the button on phones) */
+  .s-about .portrait { order: -1; width: min(330px, 92%) !important; margin: 0 auto !important; -webkit-mask-image: linear-gradient(#000 50%, transparent 94%); mask-image: linear-gradient(#000 50%, transparent 94%); }
+  .s-about .text { margin-top: -200px !important; align-items: center !important; text-align: center; }
+  .s-about .text h2, .s-about .copy { text-align: center !important; }
+  .s-about .text h2 { margin-inline: auto !important; }
+
+  /* ---------- footer: link groups open and close ---------- */
+  .s-footer .s-footer__cols { display: flex !important; flex-direction: column; gap: 0 !important; width: 100%; }
+  .s-footer .s-footer__col { width: 100%; gap: 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .s-footer .s-footer__col h3 { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 16px 0; font-size: 16px; cursor: pointer; }
+  .s-footer .s-footer__col h3::after { content: ""; width: 9px; height: 9px; border-left: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; rotate: -45deg; translate: 0 -3px; transition: rotate .3s, translate .3s; opacity: .7; }
+  .s-footer .s-footer__col.open h3::after { rotate: 135deg; translate: 0 3px; }
+  .s-footer .s-footer__col ul { display: grid; gap: 12px; max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .4s ease; padding: 0; }
+  .s-footer .s-footer__col.open ul { max-height: 320px; padding: 0 0 16px; }
+
+  /* ---------- footer (option C): the brand in a card, round icons, links as chips ---------- */
+  .s-footer .s-footer__brand { align-items: center; text-align: center; width: 100%; padding: 28px 20px 22px; border-radius: 24px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+  .s-footer .s-footer__social { gap: 10px; }
+  .s-footer .s-footer__social a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.06); }
+  .s-footer .s-footer__community { width: 100%; justify-content: center; padding: 14px; border-radius: 14px; background: #7dc6ff; color: #fff; }
+  .s-footer .s-footer__cols { gap: 22px !important; }
+  .s-footer .s-footer__col li { width: auto; }
+  .s-footer .s-footer__col { border: 0; }
+  .s-footer .s-footer__col h3 { padding: 0 0 10px; cursor: default; font-size: 14px; color: rgba(255,255,255,.5); }
+  .s-footer .s-footer__col h3::after { display: none; }
+  .s-footer .s-footer__col ul { display: flex !important; flex-direction: row !important; flex-wrap: wrap; gap: 8px !important; max-height: none !important; padding: 0 !important; }
+  .s-footer .s-footer__col li a { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.06); font-size: 14px; }
+  .s-footer .s-footer__row { align-items: center !important; text-align: center; }
+  .s-footer .s-footer__legal { justify-content: center; }
+  .s-footer .s-footer__legal .copy { text-align: center !important; }
+
+  /* ---------- touch targets and the floating bot ---------- */
+  .bot-fab { right: 14px; bottom: 14px; width: 60px; height: 40px; }
+  .bot-panel { right: 12px; left: 12px; width: auto; bottom: 66px; }
+}
+</style>
+<script>
+(function () {
+  // hamburger + full-screen menu built from the header's own links
+  const hdr = document.getElementById('hdr'); if (!hdr) return;
+  const wrap = hdr.querySelector('.wrap'), nav = hdr.querySelector('nav');
+  const b = document.createElement('button'); b.className = 'burger'; b.type = 'button'; b.setAttribute('aria-label', 'פתיחת תפריט'); b.setAttribute('aria-expanded', 'false');
+  b.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M4 7H20M4 12H20M10 17H20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  wrap.appendChild(b);
+  const m = document.createElement('div'); m.className = 'm-menu'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-label', 'תפריט');
+  const ARROW = '<svg viewBox="0 0 12 8" fill="none"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  m.innerHTML = '<div class="m-top"><span class="logo"></span><button class="m-close" type="button" aria-label="סגירת תפריט"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>'
+    + '<nav>' + [...nav.querySelectorAll('a')].map((a, i) => `<a href="${a.getAttribute('href')}" class="${a.className}" style="--i:${i}"><span class="ml">${a.textContent.trim()}</span>${ARROW}</a>`).join('') + '</nav>'
+    + '<div class="m-social"><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/foot-whatsapp.svg" alt=""></a><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" alt=""></a><a href="https://www.instagram.com/noam_antar/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" alt=""></a><a href="mailto:antartradepro@gmail.com" aria-label="Mail"><img src="img/foot-mail.svg" alt=""></a></div>'
+    + '<div class="m-cta"><a class="btn-halo sky" href="#academy"><span>לכל הקורסים' + ARROW + '</span></a></div>';
+  document.body.appendChild(m);
+  const open = v => { m.classList.toggle('open', v); document.body.classList.toggle('menu-open', v); b.setAttribute('aria-expanded', v); };
+  b.addEventListener('click', () => open(true));
+  m.querySelector('.m-close').addEventListener('click', () => open(false));
+  m.querySelectorAll('a').forEach(a => a.addEventListener('click', () => open(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape') open(false); });
+
+  // comparison table: the firm column is copied beside the scroller, row for row, so it stays put without position: sticky
+  const tsx = document.querySelector('.s-table .t-scroll');
+  if (tsx && innerWidth <= 760) {
+    const wrap = document.createElement('div'); wrap.className = 't-scroll-wrap'; tsx.before(wrap); wrap.appendChild(tsx);
+    const fix = document.createElement('div'); fix.className = 't-fix'; wrap.appendChild(fix);
+    const rows = [...tsx.querySelectorAll('.t-row')];
+    const cells = rows.map(r => { const d = document.createElement('div'); if (r.classList.contains('t-head')) d.className = 't-head'; d.appendChild(r.firstElementChild.cloneNode(true)); fix.appendChild(d); return d; });
+    tsx.classList.add('has-fix');
+    const place = () => { const top = wrap.getBoundingClientRect().top; rows.forEach((r, i) => { const b = r.getBoundingClientRect(), s = cells[i].style; s.top = (b.top - top) + 'px'; s.height = b.height + 'px'; s.borderBottom = getComputedStyle(r).borderBottom; }); };
+    place(); addEventListener('resize', place); addEventListener('load', place); if (document.fonts) document.fonts.ready.then(place);
+  }
+
+  // deals: the firm filter sits above the cards on phones
+  const dTabs = document.getElementById('deal-tabs'), dFan = document.getElementById('fan');
+  if (dTabs && dFan && innerWidth <= 760) { dFan.before(dTabs); dTabs.querySelectorAll('button').forEach(b => { b.textContent = b.textContent.replace(' Trading', ''); }); dispatchEvent(new Event('resize')); }
+
+  // journal: the 300 x 210 mock is scaled to whatever width the stage has on this phone, with a margin for the moving parts
+  const jStage = document.querySelector('.s-journal .stage');
+  if (jStage) { const fit = () => { if (innerWidth <= 760) jStage.style.setProperty('--fit', Math.min((jStage.clientWidth - 28) / 300, (jStage.clientHeight - 28) / 210).toFixed(3)); }; fit(); addEventListener('resize', fit); }
+
+  // comparison table: swipe hint under the table, hidden once the visitor has scrolled it
+  const ts = document.querySelector('.s-table .t-scroll');
+  if (ts) { const h = document.createElement('div'); h.className = 't-hint'; h.innerHTML = '<svg viewBox="0 0 18 10" fill="none"><path d="M17 5H1M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>החליקו שמאלה לעוד נתונים';
+    if (innerWidth <= 760) ts.after(h); ts.addEventListener('scroll', () => { if (Math.abs(ts.scrollLeft) > 30) h.style.opacity = 0; }, { passive: true }); h.style.transition = 'opacity .4s'; }
+
+  // logo strip: keeps gliding on its own, and a finger can drag it either way (with a little momentum on release)
+  const lg = document.querySelector('.s-logos'), lc = lg && lg.querySelector('.s-logos__carousel'), lt = lg && lg.querySelector('.s-logos__track');
+  if (lc && lt && innerWidth <= 760) {
+    lg.classList.add('drag');
+    const setW = () => lt.querySelector('.s-logos__set').offsetWidth;
+    let x = 0, v = 0, drag = false, sx = 0, lastX = 0, lastT = 0, moved = 0, prev = performance.now();
+    const auto = () => -setW() / 24000;   // one set every 24s, leftwards like before
+    (function tick(now) {
+      const dt = Math.min(50, now - prev); prev = now;
+      if (!drag) { v += (auto() - v) * .04; x += v * dt; }   // momentum eases back to the gliding speed
+      const w = setW(); if (w) { while (x <= -w) x += w; while (x > 0) x -= w; }
+      lt.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
+      requestAnimationFrame(tick);
+    })(prev);
+    lc.addEventListener('pointerdown', e => { drag = true; sx = lastX = e.clientX; lastT = performance.now(); moved = 0; lc.setPointerCapture(e.pointerId); });
+    lc.addEventListener('pointermove', e => { if (!drag) return; const t = performance.now(), dx = e.clientX - lastX; x += dx; moved = Math.max(moved, Math.abs(e.clientX - sx));
+      v = dx / Math.max(1, t - lastT); lastX = e.clientX; lastT = t; });
+    const end = () => { drag = false; };
+    lc.addEventListener('pointerup', end); lc.addEventListener('pointercancel', end);
+    lc.addEventListener('click', e => { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } }, true);   // a drag is not a tap on a logo
+  }
+
+  // footer groups open and close on phones
+  document.querySelectorAll('.s-footer__col h3').forEach(h => h.addEventListener('click', () => { if (innerWidth <= 760) h.parentElement.classList.toggle('open'); }));
+})();
+</script>

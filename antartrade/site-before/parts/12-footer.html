@@ -1,0 +1,121 @@
+<style>
+.s-footer{background:#12161F;padding-top:96px;direction:rtl;font-family:"Fb Reforma",sans-serif;color:#fff;overflow:hidden}
+.s-footer .s-footer__in{width:min(1460px,100% - 64px);margin:0 auto;display:flex;flex-direction:column;gap:56px}
+.s-footer a{color:inherit;text-decoration:none;transition:color .2s ease,opacity .2s ease}
+.s-footer .s-footer__top{display:flex;justify-content:space-between;align-items:flex-start;gap:48px}
+.s-footer .s-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.s-footer .s-footer__logo{display:block;width:195px;height:43px}
+.s-footer .s-footer__logo img{display:block;width:100%;height:100%;object-fit:contain}
+.s-footer .s-footer__tag{margin:0;font-size:14px;line-height:1.2;color:rgba(255,255,255,.6)}
+.s-footer .s-footer__social{display:flex;align-items:center;gap:18px;margin:0;padding:0;list-style:none}
+.s-footer .s-footer__social a{display:block;width:20px;height:20px}
+.s-footer .s-footer__social a:hover{opacity:.7}
+.s-footer .s-footer__social img{display:block;width:20px;height:20px}
+.s-footer .s-footer__community{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;background:#0B0E14;border-radius:12px;font-weight:500;font-size:13px;line-height:1.2;color:rgba(255,255,255,.85);white-space:nowrap}
+.s-footer .s-footer__community:hover{color:#fff}
+.s-footer .s-footer__community .wa{width:16px;height:16px;display:block}
+.s-footer .s-footer__community .ar{width:12px;height:12px;display:block;transition:transform .2s ease}
+.s-footer .s-footer__community:hover .ar{transform:translateX(-3px)}
+.s-footer .s-footer__cols{display:flex;align-items:flex-start;gap:96px}
+.s-footer .s-footer__col{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.s-footer .s-footer__col h3{margin:0;font-weight:500;font-size:13px;line-height:1.2;color:#fff}
+.s-footer .s-footer__col ul{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin:0;padding:0;list-style:none;font-size:14px;line-height:1.2;color:rgba(255,255,255,.6);white-space:nowrap}
+.s-footer .s-footer__col a:hover{color:#fff}
+.s-footer .s-footer__col .lat{font-family:"Roboto",sans-serif;font-weight:400;line-height:normal}
+.s-footer .s-footer__bottom{display:flex;flex-direction:column;gap:18px}
+.s-footer .s-footer__line{height:1px;background:rgba(255,255,255,.08)}
+.s-footer .s-footer__row{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.s-footer .s-footer__risk{margin:0;font-size:14px;line-height:1.2;color:rgba(255,255,255,.45)}
+.s-footer .s-footer__risk b{font-weight:500;font-size:13px;color:rgba(245,194,107,.75)}
+.s-footer .s-footer__risk a{color:rgba(125,198,255,.9)}
+.s-footer .s-footer__risk a:hover{color:#7DC6FF}
+.s-footer .s-footer__legal{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:0;padding:0;list-style:none;font-size:14px;line-height:1.2;color:rgba(255,255,255,.45);white-space:nowrap}
+.s-footer .s-footer__legal a:hover{color:rgba(255,255,255,.8)}
+.s-footer .s-footer__legal .copy{font-family:"Roboto",sans-serif;font-weight:400;font-size:13px;line-height:normal;direction:ltr}
+.s-footer .s-footer__mark{margin-top:max(36px,min(56px,.234em));height:.51em;overflow:hidden;display:flex;justify-content:center;font-size:min(239px,15.6vw);direction:ltr}
+.s-footer .s-footer__mark span{display:block;font-family:"Roboto",sans-serif;font-weight:700;line-height:.8;letter-spacing:-.03em;white-space:nowrap;background:linear-gradient(to bottom,rgba(125,198,255,.28) 0%,rgba(125,198,255,0) 85%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;user-select:none}
+@media (max-width:980px){
+  .s-footer{padding-top:72px}
+  .s-footer .s-footer__in{width:min(1460px,100% - 48px);gap:44px}
+  .s-footer .s-footer__top{flex-direction:column;gap:44px}
+  .s-footer .s-footer__cols{gap:56px;flex-wrap:wrap}
+  .s-footer .s-footer__row{flex-direction:column;align-items:flex-start;gap:16px}
+}
+@media (max-width:620px){
+  .s-footer{padding-top:56px}
+  .s-footer .s-footer__in{width:calc(100% - 32px);gap:36px}
+  .s-footer .s-footer__tag{white-space:normal}
+  .s-footer .s-footer__cols{display:grid;grid-template-columns:1fr 1fr;gap:36px 24px;width:100%}
+  .s-footer .s-footer__legal{gap:12px 18px}
+  .s-footer .s-footer__legal .copy{flex-basis:100%;text-align:right}
+}
+</style>
+<footer class="s-footer" data-theme="dark">
+  <div class="s-footer__in">
+    <div class="s-footer__top" data-reveal>
+      <div class="s-footer__brand">
+        <a class="s-footer__logo" href="#" aria-label="AntarTrade">
+          <picture><source srcset="img/logo.webp" type="image/webp"><img src="img/logo.png" width="195" height="43" alt="AntarTrade"></picture>
+        </a>
+        <p class="s-footer__tag">המקום המקצועי ביותר להשוואת חברות מימון</p>
+        <ul class="s-footer__social">
+          <li><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" width="20" height="20" alt=""></a></li>
+          <li><a href="https://www.instagram.com/noam_antar/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" width="20" height="20" alt=""></a></li>
+          <li><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/foot-whatsapp.svg" width="20" height="20" alt=""></a></li>
+          <li><a href="mailto:antartradepro@gmail.com" aria-label="Mail"><img src="img/foot-mail.svg" width="20" height="20" alt=""></a></li>
+        </ul>
+        <a class="s-footer__community" href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener">
+          <img class="wa" src="img/foot-whatsapp-sm.svg" width="16" height="16" alt="">
+          <span>הצטרפו לקהילת הסוחרים</span>
+          <img class="ar" src="img/foot-arrow.svg" width="12" height="12" alt="">
+        </a>
+      </div>
+      <nav class="s-footer__cols" aria-label="ניווט תחתון">
+        <div class="s-footer__col">
+          <h3>ניווט מהיר</h3>
+          <ul>
+            <li><a href="#">שאלון התאמה</a></li>
+            <li><a href="#">שאלות ותשובות</a></li>
+            <li><a href="#">בלוג</a></li>
+            <li><a href="#">קורס חינמי</a></li>
+            <li><a href="#">יומן מסחר</a></li>
+            <li><a href="#">אודותי</a></li>
+          </ul>
+        </div>
+        <div class="s-footer__col">
+          <h3>חברות מימון</h3>
+          <ul>
+            <li><a class="lat" href="#">TakeProfit</a></li>
+            <li><a class="lat" href="#">Apex</a></li>
+            <li><a class="lat" href="#">Bulenox</a></li>
+            <li><a class="lat" href="#">Lucid Trading</a></li>
+            <li><a class="lat" href="#">Top Step</a></li>
+          </ul>
+        </div>
+        <div class="s-footer__col">
+          <h3>צור קשר</h3>
+          <ul>
+            <li><a href="#">צור קשר</a></li>
+            <li><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener">וואטסאפ</a></li>
+            <li><a href="mailto:antartradepro@gmail.com">מייל</a></li>
+            <li><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener">קהילת הסוחרים</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="s-footer__bottom">
+      <div class="s-footer__line"></div>
+      <div class="s-footer__row">
+        <p class="s-footer__risk"><b>אזהרת סיכון:</b> המידע באתר אינו מהווה ייעוץ השקעות. מסחר ממונף טומן סיכון משמעותי. <a href="#">קרא עוד</a></p>
+        <ul class="s-footer__legal">
+          <li><a href="#">פרטיות</a></li>
+          <li><a href="#">תנאי שימוש</a></li>
+          <li><a href="#">נגישות</a></li>
+          <li><a href="#">הגדרות עוגיות</a></li>
+          <li class="copy">© 2026 AntarTrade</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="s-footer__mark" aria-hidden="true"><span>ANTARTRADE</span></div>
+</footer>

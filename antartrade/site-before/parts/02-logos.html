@@ -1,0 +1,42 @@
+<style>
+.s-logos{--k:1;box-sizing:border-box;position:relative;background:#fff;color:#12161F;padding:48px 16px 80px;font-family:"Fb Reforma",sans-serif;direction:rtl;overflow:hidden}
+.s-logos *{box-sizing:border-box}
+.s-logos .s-logos__wrap{max-width:1460px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:15px}
+.s-logos .s-logos__head{display:flex;flex-direction:column;align-items:center;gap:15px;text-align:center;width:100%}
+.s-logos .s-logos__title{margin:0;font-size:45px;font-weight:500;line-height:53px;color:#12161F;min-height:33px;display:flex;align-items:center;justify-content:center}
+.s-logos .s-logos__sub{margin:0;font-size:20px;font-weight:400;line-height:1.2;color:rgba(0,0,0,.7)}
+/* carousel: identical sets with one equal gap between every logo; the track moves by exactly one set and repeats */
+.s-logos .s-logos__carousel{position:relative;width:1196px;max-width:100%;overflow:hidden;direction:ltr;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.s-logos .s-logos__track{display:flex;width:max-content;animation:s-logos-loop 24s linear infinite}
+.s-logos .s-logos__carousel:hover .s-logos__track{animation-play-state:paused}
+.s-logos .s-logos__set{display:flex;align-items:center;gap:calc(var(--k)*96px);padding-right:calc(var(--k)*96px);height:calc(var(--k)*74px);flex:none}
+.s-logos .s-logos__set img{display:block;width:auto;max-width:none;user-select:none;-webkit-user-drag:none}
+.s-logos .s-logos__set a{display:flex;align-items:center;opacity:.85;transition:opacity .3s}
+.s-logos .s-logos__set a:hover{opacity:1}
+@keyframes s-logos-loop{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (max-width:980px){
+  .s-logos{--k:.85;padding:40px 16px 64px}
+  .s-logos .s-logos__title{font-size:38px;line-height:1.2}
+}
+@media (max-width:620px){
+  .s-logos{--k:.7;padding:32px 16px 56px}
+  .s-logos .s-logos__title{font-size:30px}
+  .s-logos .s-logos__sub{font-size:17px}
+  .s-logos .s-logos__track{animation-duration:28s}
+}
+
+/* logos sit right under the hero and show at once, without the scroll reveal */
+@media (min-width:981px){.s-logos{padding-top:24px}}
+</style>
+<section class="s-logos" data-theme="light">
+  <div class="s-logos__wrap">
+    <div class="s-logos__head">
+      <h2 class="s-logos__title split">השותפים שלנו בעולם המסחר</h2>
+      <p class="s-logos__sub">חברות מימון, פלטפורמות וכלים שאנחנו עובדים איתם</p>
+    </div>
+    <div class="s-logos__carousel">
+      <div class="s-logos__track"><div class="s-logos__set"><a href="https://apextraderfunding.com" target="_blank" rel="noopener"><img src="img/partner-apex.png" alt="Apex Trader Funding" style="height:calc(var(--k)*48px)"></a><a href="https://www.topstep.com" target="_blank" rel="noopener"><img src="img/partner-topstep.png" alt="Topstep" style="height:calc(var(--k)*38px)"></a><a href="https://lucidtrading.com" target="_blank" rel="noopener" style="position:relative"><img src="img/partner-lucid-icon.png" alt="" style="height:calc(var(--k)*44px);position:absolute;left:calc(var(--k)*-4px)"><img src="img/partner-lucid.png" alt="Lucid Trading" style="height:calc(var(--k)*46px)"></a><a href="https://bulenox.com" target="_blank" rel="noopener"><img src="img/partner-bulenox.png" alt="Bulenox" style="height:calc(var(--k)*46px)"></a><a href="https://fundednext.com" target="_blank" rel="noopener"><img src="img/partner-fundednext.png" alt="FundedNext" style="height:calc(var(--k)*35px)"></a><a href="https://takeprofittrader.com" target="_blank" rel="noopener"><img src="img/partner-takeprofit.png" alt="Take Profit Trader" style="height:calc(var(--k)*42px)"></a></div><div class="s-logos__set" aria-hidden="true"><a href="https://apextraderfunding.com" target="_blank" rel="noopener" tabindex="-1"><img src="img/partner-apex.png" alt="" style="height:calc(var(--k)*48px)"></a><a href="https://www.topstep.com" target="_blank" rel="noopener" tabindex="-1"><img src="img/partner-topstep.png" alt="" style="height:calc(var(--k)*38px)"></a><a href="https://lucidtrading.com" target="_blank" rel="noopener" tabindex="-1" style="position:relative"><img src="img/partner-lucid-icon.png" alt="" style="height:calc(var(--k)*44px);position:absolute;left:calc(var(--k)*-4px)"><img src="img/partner-lucid.png" alt="" style="height:calc(var(--k)*46px)"></a><a href="https://bulenox.com" target="_blank" rel="noopener" tabindex="-1"><img src="img/partner-bulenox.png" alt="" style="height:calc(var(--k)*46px)"></a><a href="https://fundednext.com" target="_blank" rel="noopener" tabindex="-1"><img src="img/partner-fundednext.png" alt="" style="height:calc(var(--k)*35px)"></a><a href="https://takeprofittrader.com" target="_blank" rel="noopener" tabindex="-1"><img src="img/partner-takeprofit.png" alt="" style="height:calc(var(--k)*42px)"></a></div></div>
+    </div>
+  </div>
+</section>
