@@ -2416,10 +2416,14 @@
   layer.className = 'rings'; layer.setAttribute('aria-hidden', 'true');
   layer.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:0;z-index:0;pointer-events:none;overflow-x:clip';   // behind: first in the page at level 0, so every positioned container paints over the rings   // rings hang off the edge without a side scroll
   document.body.prepend(layer);
+  // the community ring hangs above its banner into the section before it, so it gets its own layer one level up
+  // (over the previous section, which otherwise cut its top while scrolling) and the community content is lifted above it
+  const upper = layer.cloneNode(); upper.style.zIndex = '3'; document.body.prepend(upper);   // the journal section above sits at level 2
+  const cw = document.querySelector('.s-community .wrap'); if (cw) { cw.style.position = 'relative'; cw.style.zIndex = '4'; }
   const rings = RINGS.map(([src, a, cx, cy, w, h, rot, blur]) => {
     const el = document.createElement('img'); el.src = 'img/' + src; el.alt = '';
     el.style.cssText = `position:absolute;width:${w}px;height:${h}px;object-fit:contain;will-change:transform,filter`;
-    layer.appendChild(el); return { el, a: document.querySelector(a), cx, cy, w, h, rot, blur, y: 0 };
+    (a === '.s-community .banner' ? upper : layer).appendChild(el); return { el, a: document.querySelector(a), cx, cy, w, h, rot, blur, y: 0 };
   }).filter(r => r.a);
   function placeRings() {
     const vw = document.documentElement.clientWidth, off = Math.max(0, (vw - 1728) / 2), k = vw < 760 ? .42 : 1;   // phones get the same rings, smaller
