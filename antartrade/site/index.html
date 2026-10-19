@@ -2433,8 +2433,8 @@
   document.body.prepend(layer);
   // the community ring hangs above its banner into the section before it, so it gets its own layer one level up
   // (over the previous section, which otherwise cut its top while scrolling) and the community content is lifted above it
-  const upper = layer.cloneNode(); upper.style.zIndex = '1'; document.body.prepend(upper);
-  const cw = document.querySelector('.s-community .wrap'); if (cw) { cw.style.position = 'relative'; cw.style.zIndex = '2'; }
+  const upper = layer.cloneNode(); upper.style.zIndex = '3'; document.body.prepend(upper);   // the journal section above sits at level 2
+  const cw = document.querySelector('.s-community .wrap'); if (cw) { cw.style.position = 'relative'; cw.style.zIndex = '4'; }
   const rings = RINGS.map(([src, a, cx, cy, w, h, rot, blur]) => {
     const el = document.createElement('img'); el.src = 'img/' + src; el.alt = '';
     el.style.cssText = `position:absolute;width:${w}px;height:${h}px;object-fit:contain;will-change:transform,filter`;
