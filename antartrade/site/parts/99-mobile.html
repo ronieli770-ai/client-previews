@@ -102,6 +102,8 @@
   @keyframes s-logos-loop-3d { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
   .s-logos .s-logos__set { gap: 40px; padding-right: 40px; }
   .s-logos .s-logos__set img { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+  .s-logos .lg-ic { width: 38px; height: 38px; }
+  .s-logos .lg-nm { font-size: 13px; }
   .s-logos.drag .s-logos__track { animation: none !important; }   /* phones: the strip is moved by script, so a finger can drag it */
   .s-logos.drag .s-logos__carousel { touch-action: pan-y; cursor: grab; }
   /* logos: only the carousel, close under the hero so it shows before scrolling */
@@ -303,7 +305,7 @@
   m.innerHTML = '<div class="m-top"><span class="logo"></span><button class="m-close" type="button" aria-label="סגירת תפריט"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>'
     + '<nav>' + [...nav.querySelectorAll('a')].map((a, i) => `<a href="${a.getAttribute('href')}" class="${a.className}" style="--i:${i}"><span class="ml">${a.textContent.trim()}</span>${ARROW}</a>`).join('') + '</nav>'
     + '<div class="m-social"><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/foot-whatsapp.svg" alt=""></a><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" alt=""></a><a href="https://www.instagram.com/noam_antar/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" alt=""></a><a href="mailto:antartradepro@gmail.com" aria-label="Mail"><img src="img/foot-mail.svg" alt=""></a></div>'
-    + '<div class="m-cta"><a class="btn-halo sky" href="#academy"><span>לכל הקורסים' + ARROW + '</span></a></div>';
+    + '<div class="m-cta"><a class="btn-halo sky" href="#academy"><span>לאקדמיה' + ARROW + '</span></a></div>';
   document.body.appendChild(m);
   const open = v => { m.classList.toggle('open', v); document.body.classList.toggle('menu-open', v); b.setAttribute('aria-expanded', v); };
   b.addEventListener('click', () => open(true));

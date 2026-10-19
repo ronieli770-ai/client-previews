@@ -40,10 +40,10 @@
   .glow-card {
     position: relative; overflow: hidden; border-radius: 32px; text-align: right; color: #fff;
     background:
-      radial-gradient(85% 85% at 0% 100%, rgba(97,177,242,.55) 0%, rgba(46,139,216,.18) 45%, rgba(46,139,216,0) 100%),
+      radial-gradient(85% 85% at 0% 100%, rgba(97,177,242,.34) 0%, rgba(46,139,216,.12) 45%, rgba(46,139,216,0) 100%),
       radial-gradient(60% 60% at 100% 0%, rgba(214,236,255,.10), rgba(214,236,255,0)),
       var(--card);
-    box-shadow: inset 0 0 36px rgba(125,198,255,.18);
+    box-shadow: inset 0 0 36px rgba(125,198,255,.1);
   }
   .s-deals .glow-card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
     background: linear-gradient(135deg, rgba(255,255,255,.55), rgba(97,177,242,.45) 45%, rgba(255,255,255,.08));
@@ -93,7 +93,7 @@
   .s-deals .fan .deal { overflow: visible; position: absolute; left: 50%; top: 30px; width: 400px; min-height: 0; height: 420px; margin-left: -200px; cursor: pointer;
     }
   .s-deals .deal {
-    background: radial-gradient(95% 95% at 0% 100%, color-mix(in srgb, var(--glow) 62%, transparent) 0%, color-mix(in srgb, var(--deep) 22%, transparent) 40%, transparent 100%),
+    background: radial-gradient(95% 95% at 0% 100%, color-mix(in srgb, var(--glow) 36%, transparent) 0%, color-mix(in srgb, var(--deep) 14%, transparent) 40%, transparent 100%),
                 radial-gradient(60% 60% at 100% 0%, color-mix(in srgb, var(--light) 10%, transparent), transparent), #0b0e14 !important; }
   .s-deals .deal::before { background: linear-gradient(135deg, rgba(255,255,255,.55), color-mix(in srgb, var(--glow) 50%, transparent) 45%, rgba(255,255,255,.08)) !important; }
   .s-deals .deal .pct { background: linear-gradient(90deg, var(--glow) 0%, #fff 100%); -webkit-background-clip: text; background-clip: text; }
@@ -102,7 +102,7 @@
   .s-deals .deal .code svg { flex: 0 0 14px; }
   .s-deals .hot { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 4; white-space: nowrap; font-family: "Roboto", "Fb Reforma"; font-weight: 500; font-size: 13px; color: #fff;
     padding: 7px 16px; border-radius: 999px; background: linear-gradient(90deg, #a99bff, #6c5ce7); box-shadow: 0 6px 18px rgba(140,123,255,.5); }
-  .s-deals .fan .deal.front { cursor: default; box-shadow: 0 24px 70px -10px var(--glow), inset 0 0 40px color-mix(in srgb, var(--glow) 30%, transparent); }
+  .s-deals .fan .deal.front { cursor: default; box-shadow: 0 18px 44px -18px color-mix(in srgb, var(--glow) 55%, transparent), inset 0 0 24px color-mix(in srgb, var(--glow) 14%, transparent); }
   .s-deals .fan .deal .hot { opacity: 0; transition: opacity .4s; }
   .s-deals .fan .deal.front .hot { opacity: 1; }
   .s-deals .fan.anim .deal { transition: transform .8s cubic-bezier(.34,1.25,.64,1), opacity .6s ease, filter .6s ease, box-shadow .6s ease; }
