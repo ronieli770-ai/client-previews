@@ -137,20 +137,7 @@
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
       // titles (option B, linear with the scroll): every word rises out of its own mask line.
       // Gradient titles keep one continuous gradient: each word carries a slice of it, sized to the whole title.
-      document.querySelectorAll('.split').forEach(h => {
-        if (skip(h) || !window.SplitText) return;
-        const grad = isGrad(h);
-        const sp = new SplitText(h, { type: 'words', wordsClass: 'word', mask: 'words' });
-        if (grad) {
-          const paint = () => { const hr = h.getBoundingClientRect(), bg = 'linear-gradient(90deg, #61B1F2 0%, #fff 78.365%)';
-            sp.words.forEach(w => { const r = (w.parentElement || w).getBoundingClientRect();   // the mask is never moved, so it gives the true spot
-              w.style.backgroundImage = bg; w.style.backgroundSize = hr.width + 'px ' + hr.height + 'px';
-              w.style.backgroundPosition = (hr.left - r.left) + 'px ' + (hr.top - r.top) + 'px'; w.style.backgroundRepeat = 'no-repeat';
-              w.style.webkitBackgroundClip = 'text'; w.style.backgroundClip = 'text'; w.style.color = 'transparent'; w.style.webkitTextFillColor = 'transparent'; }); };
-          paint(); h.style.backgroundImage = 'none'; addEventListener('resize', paint);
-        }
-        gsap.from(sp.words, { yPercent: 110, stagger: .12, ease: 'none', scrollTrigger: { trigger: h, start: 'top 90%', end: 'top 55%', scrub: true } });
-      });
+      // titles: no animation, they show at once so a visitor sees what each section is before scrolling (Noam, 2026-10-20)
       // containers: rise from 5em below while going from blurred to sharp, one after another
       const groups = [
         ...(innerWidth > 760 ? [['.s-table', '.s-table > *']] : []),
@@ -196,13 +183,12 @@
   // ---------- 3D rings from the Figma page: placed by section, they turn a little and play with blur while scrolling ----------
   // [image, anchor, centre x on the 1728 frame, centre y from the anchor top, w, h, base rotation, base blur]
   const RINGS = [
-    // exported from the Figma page without effects; size, rotation and blur are the Figma values
-    ['fring-5.png', '.s-duel__head', 1662, 132, 457, 338, 0, 12.4],
-    ['fring-3.png', '.s-duel__head', 31, 700, 511, 902, 116, 7.3],
-    ['fring-a1.png', '.s-academy', 1660, 357, 282, 348, 0, 4],
-    ['fring-a2.png', '.s-academy', 32, 948, 235, 290, 104, 16.1],
-    ['fring-2.png', '.s-community .banner', 56, 49, 439, 468, 0, 9.1],
-    ['fring-4.png', '.s-about', 1677, -158, 239, 531, -93, 4],
+    // Noam's brain mark and a big WhatsApp mark replace the rings (Figma, 2026-10-20); size, rotation and blur are the Figma values
+    ['bg-brain-light.svg', '.s-duel__head', 1679, 193, 375, 468, 8, 21],
+    ['bg-brain-light.svg', '.s-duel__head', 90, 745, 261, 325, -13, 25.6],
+    ['bg-brain-dark.svg', '.s-academy', 1725, 396, 394, 491, 32, 13.6],
+    ['bg-brain-dark.svg', '.s-academy', 49, 1138, 266, 331, -18, 24],
+    ['bg-wa.svg', '.s-community .banner', 225, 47, 392, 394, 0, 7.8],
   ];
   const layer = document.createElement('div');
   layer.className = 'rings'; layer.setAttribute('aria-hidden', 'true');
