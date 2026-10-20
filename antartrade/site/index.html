@@ -2409,7 +2409,7 @@
     rings.forEach(r => {
       const p = Math.max(-1, Math.min(1, (r.y - scrollY - innerHeight / 2) / innerHeight));
       r.el.style.transform = `translateY(${(p * 45 * r.k).toFixed(1)}px) rotate(${(r.rot - p * 10).toFixed(2)}deg) scale(${(1 - Math.abs(p) * .03).toFixed(3)})`;
-      r.el.style.filter = `blur(${(r.blur * r.k * (.85 + Math.abs(p) * .25)).toFixed(2)}px)`;
+      r.el.style.filter = `blur(${(r.blur * .5 * r.k * (.85 + Math.abs(p) * .25)).toFixed(2)}px)`;   // Figma's layer blur reads about twice a css blur
     });
   }
 
