@@ -154,6 +154,14 @@ html.jr-a body .s-journal .copy h2, html.jr-a body .s-journal .copy h2 * { color
 .jr-a .s-journal .stage { background: color-mix(in srgb, var(--c) 18%, #12161f) !important; border-color: rgba(255,255,255,.08) !important; }
 .jr-a .s-journal .ttl { color: #fff; }
 .jr-a .s-journal .dsc { color: rgba(255,255,255,.65) !important; opacity: 1; }
+/* the animation mock-ups on the dark panel: their white windows keep dark text, and lines, tracks and labels turn light */
+.jr-a .s-journal .ui { color: #12161f; }
+.jr-a .s-journal .lines path { stroke: rgba(255,255,255,.22); }
+.jr-a .s-journal .lines .pulse { stroke: var(--sky); }
+.jr-a .s-journal .lines .pulse.b { stroke: var(--violet); }
+.jr-a .s-journal .donut .track { stroke: rgba(255,255,255,.12); }
+.jr-a .s-journal .donut-label, .jr-a .s-journal .bar small { color: #fff; }
+.jr-a .s-journal .donut-label span, .jr-a .s-journal .bar small { opacity: .7; }
 /* C: tabs across the top, the animation big and centred below */
 @media (min-width: 761px) {
   .jr-c .s-journal .panel { grid-template-columns: 1fr !important; justify-items: center; text-align: center; padding: 64px 80px !important; gap: 36px; }
