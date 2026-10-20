@@ -185,7 +185,8 @@
     ['bg-brain-light.svg', '.s-duel__head', 90, 745, 261, 325, -13, 25.6],
     ['bg-brain-dark.svg', '.s-academy', 1725, 396, 394, 491, 32, 13.6],
     ['bg-brain-dark.svg', '.s-academy', 49, 1138, 266, 331, -18, 24],
-    ['bg-wa.svg', '.s-community .banner', 225, 47, 392, 394, 0, 7.8],
+    ['bg-wa.svg', '.s-community .banner', 225, 62, 392, 400, 0, 7.8],
+    ['bg-glow.svg', '.s-community .banner', 1728, 666, 582, 582, 0, 95.9],   // the soft sky circle on the right edge (Figma Ellipse 8), behind everything
   ];
   const layer = document.createElement('div');
   layer.className = 'rings'; layer.setAttribute('aria-hidden', 'true');
@@ -198,7 +199,7 @@
   const rings = RINGS.map(([src, a, cx, cy, w, h, rot, blur]) => {
     const el = document.createElement('img'); el.src = 'img/' + src; el.alt = '';
     el.style.cssText = `position:absolute;width:${w}px;height:${h}px;object-fit:contain;will-change:transform,filter`;
-    (a === '.s-community .banner' ? upper : layer).appendChild(el); return { el, a: document.querySelector(a), cx, cy, w, h, rot, blur, y: 0 };
+    (src === 'bg-wa.svg' ? upper : layer).appendChild(el); return { el, a: document.querySelector(a), cx, cy, w, h, rot, blur, y: 0 };
   }).filter(r => r.a);
   function placeRings() {
     const vw = document.documentElement.clientWidth, off = Math.max(0, (vw - 1728) / 2), k = vw < 760 ? .42 : 1;   // phones get the same rings, smaller
