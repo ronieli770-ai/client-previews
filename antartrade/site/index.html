@@ -1128,15 +1128,42 @@
 .s-journal .panel { --c: #3fd8c2; background: color-mix(in srgb, var(--c) 6%, #fff) !important; transition: background .55s ease; }
 .s-journal .card { background: color-mix(in srgb, var(--c) 14%, #fff) !important; }
 .s-journal .stage { background: color-mix(in srgb, var(--c) 26%, #fff) !important; border-color: color-mix(in srgb, var(--c) 34%, transparent) !important; transition: background .55s ease; }
-/* the feature buttons filled with their own colour instead of grey: the open one in its full colour, the rest a clear tint of theirs */
-.s-journal .opt:not(.on) { background: color-mix(in srgb, var(--pc) 24%, #fff) !important; }
-.s-journal .opt:not(.on):hover { background: color-mix(in srgb, var(--pc) 34%, #fff) !important; }
-.s-journal .opt.on { background: var(--pc) !important; box-shadow: 0 10px 26px color-mix(in srgb, var(--pc) 35%, transparent) !important; }
-.s-journal .opt.on::before { display: none !important; }
-.s-journal .opt .lbl svg { color: var(--pcd) !important; }
-.s-journal .opt.on .lbl, .s-journal .opt.on .lbl svg { color: #12161f !important; }
-.s-journal .opt:not(.on) .dot { background: color-mix(in srgb, var(--pcd) 60%, transparent) !important; }
-.s-journal .opt.on .dot { background: #fff !important; box-shadow: 0 0 0 4px rgba(255,255,255,.35) !important; }
+
+/* ---------- journal looks for review (?jr=a|b|c|d); the default stays the coloured-tint look (b) ---------- */
+/* A: the dark panel, like the comparison cards: navy, the feature buttons as dark inset rows, the card a lighter navy */
+.jr-a .s-journal .panel { background: #12161f !important; color: #fff; }
+.jr-a .s-journal .panel::before { opacity: .5; }
+html.jr-a body .s-journal .copy h2, html.jr-a body .s-journal .copy h2 * { color: #fff !important; -webkit-text-fill-color: #fff !important; background: none !important; }
+.jr-a .s-journal .copy p { color: rgba(255,255,255,.7) !important; opacity: 1; }
+.jr-a .s-journal .opt { background: rgba(255,255,255,.05) !important; color: #fff !important; }
+.jr-a .s-journal .opt .lbl { color: #fff !important; }
+.jr-a .s-journal .opt.on { background: rgba(255,255,255,.1) !important; box-shadow: inset 0 0 0 1.5px var(--pc) !important; }
+.jr-a .s-journal .opt.on::before { display: none; }
+.jr-a .s-journal .card { background: #1a1f2b !important; box-shadow: none !important; }
+.jr-a .s-journal .stage { background: color-mix(in srgb, var(--c) 18%, #12161f) !important; border-color: rgba(255,255,255,.08) !important; }
+.jr-a .s-journal .ttl { color: #fff; }
+.jr-a .s-journal .dsc { color: rgba(255,255,255,.65) !important; opacity: 1; }
+/* C: tabs across the top, the animation big and centred below */
+@media (min-width: 761px) {
+  .jr-c .s-journal .panel { grid-template-columns: 1fr !important; justify-items: center; text-align: center; padding: 64px 80px !important; gap: 36px; }
+  .jr-c .s-journal .copy { display: flex; flex-direction: column; align-items: center; }
+  .jr-c .s-journal .copy h2 { max-width: none; text-align: center; }
+  .jr-c .s-journal .opts { display: flex !important; flex-wrap: wrap; justify-content: center; gap: 10px !important; }
+  .jr-c .s-journal .opt { width: auto !important; padding: 0 20px; border-radius: 999px !important; gap: 10px; }
+  .jr-c .s-journal .opt .dot { display: none; }
+  .jr-c .s-journal .card { width: min(720px, 100%) !important; }
+  .jr-c .s-journal .stage { height: 340px; }
+  .jr-c .s-journal .art { transform: scale(1.45); }
+}
+/* D: no box at all - the section itself is the wash, features as a quiet list with a coloured line, the card carries the colour */
+.jr-d .s-journal .panel { background: none !important; box-shadow: none !important; }
+.jr-d .s-journal .panel::before { display: none !important; }
+html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !important; background: color-mix(in srgb, #7DC6FF 7%, #fff) !important; }
+.jr-d .s-journal .opt { background: transparent !important; border-radius: 0 !important; box-shadow: none !important; border-right: 3px solid color-mix(in srgb, var(--pc) 25%, transparent) !important; }
+.jr-d .s-journal .opt.on { background: transparent !important; border-right-color: var(--pc) !important; }
+.jr-d .s-journal .opt.on::before { display: none; }
+.jr-d .s-journal .opt .dot { display: none; }
+.jr-d .s-journal .card { background: color-mix(in srgb, var(--c) 16%, #fff) !important; }
 </style>
 <style>
 .s-community{background:#fff;color:#12161F;font-family:"Fb Reforma",sans-serif;direction:rtl;padding:80px 0 160px;overflow:hidden}
@@ -2336,6 +2363,9 @@
 <script>(function(){
   const DATA = [{"t": "תיעוד עסקאות", "d": "הוספה ידנית או ייבוא קובץ <span class=\"lat\">CSV</span>", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M7 4H17C18.1 4 19 4.9 19 6V20L15.5 18L12 20L8.5 18L5 20V6C5 4.9 5.9 4 7 4Z\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"M9 9H15M9 13H13\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>"}, {"t": "סנכרון אוטומטי", "d": "חיבור ל-<span class=\"lat\">Tradovate</span> ול-<span class=\"lat\">TradingView</span>", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M20 12A8 8 0 0 1 6.3 17.7M4 12A8 8 0 0 1 17.7 6.3\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><path d=\"M17.5 2.5V6.5H13.5M6.5 21.5V17.5H10.5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"}, {"t": "ניתוח ביצועים", "d": "מדדים מתקדמים ופילוח לפי סשן מסחר", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 20V10M10 20V4M16 20V13M22 20H2\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>"}, {"t": "מעקב מול חברת המימון", "d": "סטופ וחוקי מבחן לפי החשבון שלכם", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3L4.5 6V11.5C4.5 16 7.7 19.8 12 21C16.3 19.8 19.5 16 19.5 11.5V6L12 3Z\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"M9 12L11 14L15 10\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"}];
   const card = document.getElementById('jr-card'), ttl = document.getElementById('jr-ttl'), dsc = document.getElementById('jr-dsc');
+  // journal look for review: ?jr=a|c|d (b, the coloured tints, is the default)
+  { const jr = new URLSearchParams(location.search).get('jr'); if (/^[acd]$/.test(jr || '')) { document.documentElement.classList.add('jr-' + jr); setTimeout(() => { const t = document.querySelector('.s-journal .panel'); window.__lenis ? window.__lenis.scrollTo(t, { immediate: true, offset: -80 }) : scrollTo(0, t.getBoundingClientRect().top + scrollY - 80); }, 900); }
+    if (jr === 'b') setTimeout(() => { const t = document.querySelector('.s-journal .panel'); window.__lenis ? window.__lenis.scrollTo(t, { immediate: true, offset: -80 }) : scrollTo(0, t.getBoundingClientRect().top + scrollY - 80); }, 900); }
   const opts = [...document.querySelectorAll('.s-journal .opt')], scenes = [...document.querySelectorAll('.s-journal .scene')];
   let cur = 0;
   function pick(i) {
