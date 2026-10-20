@@ -1084,13 +1084,18 @@
 .s-footer .s-footer__legal .copy{font-family:"Roboto",sans-serif;font-weight:400;font-size:13px;line-height:normal;direction:ltr}
 .s-footer .s-footer__mark{margin-top:max(36px,min(56px,.234em));height:.51em;overflow:hidden;display:flex;justify-content:center;font-size:min(239px,15.6vw);direction:ltr}
 .s-footer .s-footer__mark span{display:block;font-family:"Roboto",sans-serif;font-weight:700;line-height:.8;letter-spacing:-.03em;white-space:nowrap;background:linear-gradient(to bottom,rgba(125,198,255,.28) 0%,rgba(125,198,255,0) 85%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;user-select:none}
-/* option D (chosen 2026-10-20): compact, no giant wordmark, tighter columns - desktop and tablet */
+/* option C (chosen 2026-10-20): the brand row across the top (logo and line on the right, socials and community on the left),
+   a divider, the link columns spread over the full width, then the legal row and the giant wordmark - desktop and tablet */
 @media (min-width:761px){
-  .s-footer{padding-top:64px;padding-bottom:40px}
-  .s-footer .s-footer__in{gap:40px}
-  .s-footer .s-footer__cols{gap:72px}
-  .s-footer .s-footer__brand{gap:14px}
-  .s-footer .s-footer__mark{display:none}
+  .s-footer{padding-top:72px}
+  .s-footer .s-footer__in{gap:48px}
+  .s-footer .s-footer__top{flex-direction:column;gap:48px}
+  .s-footer .s-footer__brand{display:grid;grid-template-columns:auto 1fr auto auto;column-gap:24px;row-gap:12px;align-items:center;width:100%;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .s-footer .s-footer__logo{grid-column:1;grid-row:1}
+  .s-footer .s-footer__tag{grid-column:1;grid-row:2}
+  .s-footer .s-footer__social{grid-column:3;grid-row:1 / span 2}
+  .s-footer .s-footer__community{grid-column:4;grid-row:1 / span 2}
+  .s-footer .s-footer__cols{display:grid;grid-template-columns:repeat(3,1fr);width:100%;gap:0}
 }
 @media (max-width:980px){
   .s-footer{padding-top:72px}
@@ -2172,7 +2177,7 @@
         <p class="s-footer__tag">המקום המקצועי ביותר להשוואת חברות מימון</p>
         <ul class="s-footer__social">
           <li><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" width="20" height="20" alt=""></a></li>
-          <li><a href="https://www.instagram.com/noam_antar/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" width="20" height="20" alt=""></a></li>
+          <li><a href="https://www.instagram.com/antar.trade/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" width="20" height="20" alt=""></a></li>
           <li><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/foot-whatsapp.svg" width="20" height="20" alt=""></a></li>
           <li><a href="mailto:antartradepro@gmail.com" aria-label="Mail"><img src="img/foot-mail.svg" width="20" height="20" alt=""></a></li>
         </ul>
@@ -2245,7 +2250,7 @@
   const ARROW = '<svg viewBox="0 0 12 8" fill="none"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   m.innerHTML = '<div class="m-top"><span class="logo"></span><button class="m-close" type="button" aria-label="סגירת תפריט"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>'
     + '<nav>' + [...nav.querySelectorAll('a')].map((a, i) => `<a href="${a.getAttribute('href')}" class="${a.className}" style="--i:${i}"><span class="ml">${a.textContent.trim()}</span>${ARROW}</a>`).join('') + '</nav>'
-    + '<div class="m-social"><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/foot-whatsapp.svg" alt=""></a><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" alt=""></a><a href="https://www.instagram.com/noam_antar/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" alt=""></a><a href="mailto:antartradepro@gmail.com" aria-label="Mail"><img src="img/foot-mail.svg" alt=""></a></div>'
+    + '<div class="m-social"><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/foot-whatsapp.svg" alt=""></a><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" alt=""></a><a href="https://www.instagram.com/antar.trade/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" alt=""></a><a href="mailto:antartradepro@gmail.com" aria-label="Mail"><img src="img/foot-mail.svg" alt=""></a></div>'
     + '<div class="m-cta"><a class="btn-halo sky" href="#academy"><span>לאקדמיה' + ARROW + '</span></a></div>';
   document.body.appendChild(m);
   const open = v => { m.classList.toggle('open', v); document.body.classList.toggle('menu-open', v); b.setAttribute('aria-expanded', v); };
