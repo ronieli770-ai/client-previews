@@ -343,6 +343,21 @@
   .tc-c .s-table .fc-id::before{content:"";display:block}
   .tc-c .s-table .fc-name{font-size:19px}
 }
+
+/* dark variations for review: B2 each card glows in its firm's colour with a top line; B3 two wide cards, big sky-gradient price;
+   B4 the numbers sit in an inner glass panel and the main action is the site's sky halo button */
+.tc-b2 .s-table .fc{background:radial-gradient(80% 50% at 50% 0%,color-mix(in srgb,var(--c) 40%,transparent),transparent 70%),#12161f;border-top:3px solid color-mix(in srgb,var(--c) 70%,#7dc6ff)}
+.tc-b2 .s-table .fc-deal{border-color:color-mix(in srgb,var(--c) 60%,#7dc6ff);background:color-mix(in srgb,var(--c) 18%,transparent)}
+@media (min-width:981px){.tc-b3 .s-table .fc-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}}
+.tc-b3 .s-table .fc-stats{grid-template-columns:1fr 1fr 1.6fr}
+.tc-b3 .s-table .fc-plat{grid-column:auto}
+.tc-b3 .s-table .fc-top{flex-wrap:nowrap}
+.tc-b3 .s-table .fc-deal{width:auto}
+.tc-b3 .s-table .fc-stats > div:first-child .fc-big{font-size:34px;background:linear-gradient(90deg,#61B1F2,#fff 80%);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (max-width:760px){.tc-b3 .s-table .fc-stats{grid-template-columns:1fr 1fr}.tc-b3 .s-table .fc-plat{grid-column:1 / -1}.tc-b3 .s-table .fc-top{flex-wrap:wrap}.tc-b3 .s-table .fc-deal{width:100%}}
+.tc-b4 .s-table .fc-stats{margin:16px 18px 0;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
+.tc-b4 .s-table .fc-main{border-radius:999px;background:#7dc6ff;color:#fff;box-shadow:0 0 0 6px rgba(125,198,255,.1),inset 0 -6px 18px rgba(0,0,0,.25),inset 0 -3px 12px #fff}
+.tc-b4 .s-table .fc-line{border-radius:999px}
 @media (max-width:980px){.s-table .fc-grid{grid-template-columns:minmax(0,1fr)}.s-table .fc-head h2{font-size:36px}}
 @media (max-width:760px){
   .s-table{padding:56px 16px 64px}
@@ -1658,7 +1673,7 @@
 <script>
 (function () {
   // card look for review: ?tc=a|b|c
-  const tc = new URLSearchParams(location.search).get('tc'); if (/^[abc]$/.test(tc || '')) { document.documentElement.classList.add('tc-' + tc); setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
+  const tc = new URLSearchParams(location.search).get('tc'); if (/^(a|b|c|b2|b3|b4)$/.test(tc || '')) { document.documentElement.classList.add('tc-' + tc); if (/^b\d$/.test(tc)) document.documentElement.classList.add('tc-b'); setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
   // phones: three firms first, the rest one tap away
   const g = document.querySelector('.s-table .fc-grid'), b = document.querySelector('.s-table .fc-more');
   if (g && b) b.addEventListener('click', () => { const open = g.classList.toggle('short'); b.textContent = open ? 'להצגת כל החברות' : 'להצגת פחות חברות'; b.setAttribute('aria-expanded', !open); });
