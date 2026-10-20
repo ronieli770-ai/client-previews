@@ -451,6 +451,44 @@
 .tc-e .s-table .fc-main{background:#7dc6ff;color:#12161f}
 .tc-e .s-table .fc-main:hover{background:#a6d9ff}
 .tc-e .s-table .fc-line{background:transparent;color:#fff;border-color:rgba(255,255,255,.18)}
+
+/* F: control-panel cards after paneliner's calculator - a navy panel, the facts in dark inset fields with a small label above,
+   platforms as a chip strip, the deal as a big sky number with the code in an outlined pill, round buttons */
+.tc-f .s-table .fc-grid{counter-reset:firm;gap:18px}
+@media (min-width:981px){.tc-f .s-table .fc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tc-f .s-table .fc{counter-increment:firm;display:grid;grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"logo id rank" "stats stats stats" "hl hl hl" "deal deal deal" "act act act";column-gap:12px;align-items:center;
+  padding:22px;background:#1a1f2b;border:1px solid rgba(255,255,255,.06);border-radius:20px;box-shadow:0 16px 40px rgba(18,22,31,.18);color:#fff}
+.tc-f .s-table .fc:hover{transform:translateY(-3px);border-color:rgba(125,198,255,.35)}
+.tc-f .s-table .fc::before{content:"#" counter(firm);grid-area:rank;align-self:start;font:500 13px var(--lat);color:#7dc6ff;background:rgba(125,198,255,.12);padding:4px 10px;border-radius:999px}
+.tc-f .s-table .fc-top{display:contents}
+.tc-f .s-table .fc-logo{grid-area:logo;width:44px;height:44px;border-radius:12px;background:#fff;border:0}
+.tc-f .s-table .fc-logo img{width:28px;height:28px}
+.tc-f .s-table .fc-id{grid-area:id}
+.tc-f .s-table .fc-name{color:#fff;font-size:19px}
+.tc-f .s-table .fc-rate{color:rgba(255,255,255,.5)}
+.tc-f .s-table .fc-rate b{color:rgba(255,255,255,.85)}
+.tc-f .s-table .fc-stats{grid-area:stats;display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;margin:18px 0 0;padding:0}
+.tc-f .s-table .fc-stats dt{margin:0 0 6px;font-size:13px;color:rgba(255,255,255,.55)}
+.tc-f .s-table .fc-stats dd{background:#12161f;border-radius:12px;padding:10px 14px;min-height:44px;display:flex;align-items:center}
+.tc-f .s-table .fc-big{justify-content:flex-end;font:500 18px var(--lat);color:#fff}
+.tc-f .s-table .fc-plat{grid-column:1 / -1}
+.tc-f .s-table .fc-plat dd{gap:6px;padding:6px}
+.tc-f .s-table .fc-tag{background:transparent;color:rgba(255,255,255,.75);border-radius:8px;padding:6px 10px;font-size:13px}
+.tc-f .s-table .fc-tag:first-child{background:#7dc6ff;color:#12161f}
+.tc-f .s-table .fc-hl{grid-area:hl;padding:14px 0 0;gap:6px}
+.tc-f .s-table .fc-hl li{font-size:15px;color:rgba(255,255,255,.8)}
+.tc-f .s-table .fc-hl svg{color:#7dc6ff}
+.tc-f .s-table .fc-deal{grid-area:deal;margin-top:16px;border:0;border-top:1px solid rgba(255,255,255,.07);background:none;border-radius:0;padding-top:14px;justify-content:space-between;align-items:center}
+.tc-f .s-table .fc-off{padding:0;color:rgba(255,255,255,.7);font-size:15px}
+.tc-f .s-table .fc-off b{font:600 30px var(--lat);color:#7dc6ff}
+.tc-f .s-table .fc-code{border:1px solid rgba(255,255,255,.15);border-radius:999px;color:#fff;padding:8px 14px}
+.tc-f .s-table .fc-code small{color:rgba(255,255,255,.55)}
+.tc-f .s-table .fc-deal.none .fc-off{color:rgba(255,255,255,.45)}
+.tc-f .s-table .fc-act{grid-area:act;padding:16px 0 0;margin:0}
+.tc-f .s-table .fc-btn{height:44px;border-radius:999px}
+.tc-f .s-table .fc-main{background:#7dc6ff;color:#12161f}
+.tc-f .s-table .fc-main:hover{background:#a6d9ff}
+.tc-f .s-table .fc-line{background:transparent;color:#fff;border-color:rgba(255,255,255,.15)}
 @media (max-width:980px){.s-table .fc-grid{grid-template-columns:minmax(0,1fr)}.s-table .fc-head h2{font-size:36px}}
 @media (max-width:760px){
   .s-table{padding:56px 16px 64px}
@@ -1767,8 +1805,8 @@
 <script>
 (function () {
   // card look for review: ?tc=a|b|c
-  const tcQ = new URLSearchParams(location.search).get('tc'), tc = tcQ || 'e';   // E: a dark card per firm in the style of Roni's reference table (D, the one-panel table, stays at ?tc=d)
-  if (/^(a|b|c|d|e|b2|b3|b4)$/.test(tc)) { document.documentElement.classList.add('tc-' + tc); if (/^b\d$/.test(tc)) document.documentElement.classList.add('tc-b'); if (tcQ) setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
+  const tcQ = new URLSearchParams(location.search).get('tc'), tc = tcQ || 'f';   // E: a dark card per firm in the style of Roni's reference table (D, the one-panel table, stays at ?tc=d)
+  if (/^(a|b|c|d|e|f|b2|b3|b4)$/.test(tc)) { document.documentElement.classList.add('tc-' + tc); if (/^b\d$/.test(tc)) document.documentElement.classList.add('tc-b'); if (tcQ) setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
   // phones: three firms first, the rest one tap away
   const g = document.querySelector('.s-table .fc-grid'), b = document.querySelector('.s-table .fc-more');
   if (g && b) b.addEventListener('click', () => { const open = g.classList.toggle('short'); b.textContent = open ? 'להצגת כל החברות' : 'להצגת פחות חברות'; b.setAttribute('aria-expanded', !open); });
