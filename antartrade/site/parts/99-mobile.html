@@ -111,30 +111,10 @@
   .s-logos .s-logos__head { display: none; }
   .btn-halo.btn-halo > span { font-size: 18px; height: 46px; padding: 0 20px; }
 
-  /* ---------- comparison table: the full table, swiped sideways (to the left) to see more columns; the firm column stays pinned ---------- */
-  .s-table { padding: 40px 0 56px; }
-  .s-table .t-wrap { padding: 0 16px; }
-  .s-table .t-card { border-radius: 28px; }
-  .s-table .t-frame { padding: 22px 0 14px !important; }
-  .s-table .t-title { font-size: 24px !important; line-height: 1.1; padding: 0 16px 20px !important; border-bottom: 0 !important; }
-  .s-table .t-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: none; position: relative; }
-  .s-table .t-scroll::-webkit-scrollbar { display: none; }
-  .s-table .t-grid { min-width: 1080px; padding-inline: 0 16px; }
-  .s-table .t-row { grid-template-columns: 150px 70px 86px 200px 84px 190px 200px 230px; column-gap: 14px; }
+  /* comparison: firm cards, styled in their own part */
   /* the firm column is not sticky: a copy of it sits beside the scroller and never moves (iOS blanks sticky cells while they scroll) */
-  .s-table .t-scroll-wrap { position: relative; }
-  .s-table .has-fix .t-row > :first-child { visibility: hidden; }
   /* no white cover: the scroller itself is masked out under the column, so the card's own background shows through, and touches pass through the column to the scroller */
-  .s-table .has-fix { -webkit-mask-image: linear-gradient(to left, transparent 164px, #000 164px); mask-image: linear-gradient(to left, transparent 164px, #000 164px); }
-  .s-table .t-fix { position: absolute; top: 0; right: 0; width: 164px; z-index: 2; pointer-events: none; }
-  .s-table .t-fix > div { position: absolute; right: 0; left: 0; box-sizing: border-box; display: flex; align-items: center; padding: 0 16px 0 8px; }
-  .s-table .c-firm .logo { position: relative; flex: 0 0 32px; width: 32px; height: 32px; }
-  .s-table .c-firm .logo img { position: static !important; width: 100% !important; height: 100% !important; object-fit: contain; inset: auto !important; }
-  .s-table .firm-name { font-size: 15px; }
   /* swipe hint under the table */
-  .s-table .t-hint { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font: 400 13px "Fb Reforma", sans-serif; color: rgba(18,22,31,.5); }
-  .s-table .t-hint svg { width: 18px; height: 10px; animation: t-nudge 1.6s ease-in-out infinite; }
-  @keyframes t-nudge { 0%, 100% { translate: 0 0; } 50% { translate: -6px 0; } }
   /* ---------- duel (after payless): two short cards side by side, the data in one shared list below, value against value ---------- */
   .s-duel__chips { gap: 8px; }
   .s-duel__chips-label { width: 100%; text-align: center; }

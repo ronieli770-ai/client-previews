@@ -1,183 +1,158 @@
 <style>
-.s-table{--he:"Fb Reforma",sans-serif;--heebo:"Fb Reforma",sans-serif;--lat:"Roboto",sans-serif;background:#fff;padding:80px 16px;direction:rtl;color:#000}
+/* comparison as firm cards (after pipback.com, Noam's reference): name, rating and deal on top, the numbers, the highlights, two actions */
+.s-table{--lat:"Roboto",sans-serif;background:#eef4fa;padding:88px 16px 96px;direction:rtl;color:#12161f}
 .s-table *{box-sizing:border-box}
-.s-table .t-wrap{max-width:1460px;margin:0 auto}
-.s-table .t-card{position:relative;border-radius:65px;padding:24px;box-shadow:0 24px 60px rgba(85,169,235,.09);
-  background:
-    radial-gradient(45% 45% at 100% 0,rgba(214,236,255,.55) 0%,rgba(214,236,255,0) 100%),
-    radial-gradient(55% 55% at 0 100%,rgba(97,177,242,.42) 0%,rgba(125,198,255,.16) 40%,rgba(214,236,255,0) 100%),
-    #fff}
-.s-table .t-card::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;pointer-events:none;
-  background:linear-gradient(100deg,rgba(46,139,216,.75) 0%,rgba(46,139,216,.55) 45%,rgba(125,198,255,.35) 100%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-.s-table .t-frame{border-radius:22px;padding:28px 28px 12px;overflow:hidden}
-.s-table .t-title{margin:0;padding-bottom:18px;border-bottom:1px solid #dceaf7;font:500 28px/1.2 var(--he);color:#000;text-align:right}
-.s-table .t-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.s-table .t-grid{min-width:1180px}
-.s-table .t-row{display:grid;grid-template-columns:minmax(120px,1fr) 76px 96px minmax(120px,1fr) 84px minmax(120px,1fr) 210px 250px;column-gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid #eaf2fa}
-.s-table .t-row:last-child{border-bottom:0}
-.s-table .t-head{padding:14px 0 8px;border-bottom:0}
-.s-table .t-head span{font:500 13px/1.2 var(--he);color:rgba(0,0,0,.5);text-align:right}
-.s-table .c-firm{display:flex;align-items:center;gap:12px;min-width:0}
-.s-table .logo{position:relative;flex:0 0 36px;width:36px;height:36px}
-.s-table .logo img{position:absolute;display:block;width:auto;height:auto;max-width:none}
-.s-table .logo .i-tp{inset:8.33% 12.5%;width:75%;height:83.34%}
-.s-table .logo .i-apex{inset:29.17% 8.33%;width:83.34%;height:41.66%}
-.s-table .logo .i-bul{inset:8.33%;width:83.34%;height:83.34%}
-.s-table .logo .i-lucid{inset:0;width:100%;height:100%;object-fit:contain}
-.s-table .logo .i-fn{inset:10.83% 8.33%;width:83.34%;height:78.34%}
-.s-table .logo .i-ts{inset:8.33% 32.08%;width:35.84%;height:83.34%}
-.s-table .firm-name{flex:1 1 0;min-width:0;font:600 16px/1.4 var(--lat);color:#000;text-align:right}
-.s-table .rating{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:8px;background:rgba(97,177,242,.16);direction:ltr}
-.s-table .rating b{font:700 15px/normal var(--lat);color:#2e8bd8}
-.s-table .rating img{width:14px;height:14px;display:block}
-.s-table .price{display:inline-flex;gap:1px;align-items:baseline;direction:ltr;font:700 20px/normal var(--lat);color:#000;white-space:nowrap}
-.s-table .c-price,.s-table .c-rate,.s-table .c-acc{display:flex;justify-content:flex-start}
-.s-table .hl{display:flex;flex-direction:column;gap:6px}
-.s-table .hl li{display:flex;gap:8px;align-items:flex-start;list-style:none}
-.s-table .hl ul{margin:0;padding:0;display:contents}
-.s-table .hl img{flex:0 0 18px;width:18px;height:18px;margin-top:1px;display:block}
-.s-table .hl p{flex:1 1 0;min-width:0;margin:0;font:400 14px/1.2 var(--he);color:rgba(0,0,0,.72);text-align:right}
-.s-table .hl .lt{font-family:var(--lat);font-weight:400}
-.s-table .acc{font:600 18px/1.4 var(--lat);color:#000}
-.s-table .tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-start}
-.s-table .tag{padding:4px 8px;border-radius:6px;background:rgba(0,0,0,.05);font:500 12px/normal var(--lat);color:rgba(0,0,0,.6);white-space:nowrap;direction:ltr}
-.s-table .c-deal{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.s-table .disc{display:flex;gap:4px;align-items:baseline;white-space:nowrap;line-height:normal}
-.s-table .disc .w{font:500 13px/normal var(--he);color:rgba(0,0,0,.5)}
-.s-table .disc .w.hb{font-family:var(--heebo)}
-.s-table .disc .n{font:700 20px/normal var(--lat);color:#2e8bd8;direction:ltr}
-.s-table .code{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px dashed rgba(46,139,216,.3);background:rgba(46,139,216,.08);color:#2e8bd8;white-space:nowrap;cursor:pointer;font:600 14px/normal var(--heebo)}
-.s-table .code .lt{font:500 14px/normal var(--lat)}
-.s-table .code img{width:14px;height:14px;display:block}
-.s-table .no-deal{margin:0;font:400 14px/1.4 var(--heebo);color:rgba(0,0,0,.5);text-align:right}
-.s-table .c-act{display:flex;gap:8px;align-items:center;justify-content:flex-start}
-.s-table .btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 16px;border-radius:999px;font:400 14px/normal var(--he);color:#12161f;white-space:nowrap;text-decoration:none;transition:background .2s,border-color .2s}
-.s-table .btn-gray{background:#eef1f5;font-weight:500}
-.s-table .btn-gray:hover{background:#e2e7ee}
-.s-table .btn-line{border:1px solid rgba(18,22,31,.14);padding:8px 15px;background:transparent}
-.s-table .btn-line:hover{border-color:rgba(18,22,31,.35)}
-@media (max-width:980px){
-  .s-table{padding:64px 16px}
-  .s-table .t-card{border-radius:40px;padding:16px}
-  .s-table .t-frame{padding:22px 18px 8px}
-  .s-table .t-title{font-size:24px}
+.s-table .fc-wrap{max-width:1180px;margin:0 auto}
+.s-table .fc-head{text-align:center;margin-bottom:36px}
+.s-table .fc-head h2{margin:0;font-weight:500;font-size:45px;line-height:1.18}
+.s-table .fc-head p{margin:12px 0 0;font-size:20px;color:rgba(18,22,31,.65)}
+.s-table .fc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.s-table .fc{display:flex;flex-direction:column;background:#fff;border-radius:24px;border:1px solid color-mix(in srgb,var(--c) 18%,#e3ecf5);box-shadow:0 14px 34px rgba(18,22,31,.05);overflow:hidden;transition:transform .25s,box-shadow .25s}
+.s-table .fc:hover{transform:translateY(-3px);box-shadow:0 20px 44px rgba(18,22,31,.09)}
+.s-table .fc-top{display:flex;align-items:center;gap:14px;padding:20px 22px;background:linear-gradient(120deg,color-mix(in srgb,var(--c) 12%,#fff),#fff 70%);border-bottom:1px solid #edf2f7}
+.s-table .fc-logo{flex:0 0 52px;height:52px;border-radius:14px;background:#fff;border:1px solid #e6edf4;display:grid;place-items:center}
+.s-table .fc-logo img{width:34px;height:34px;object-fit:contain}
+.s-table .fc-id{flex:1;min-width:0}
+.s-table .fc-name{margin:0;font:500 21px/1.15 var(--lat);color:#12161f}
+.s-table .fc-rate{display:inline-flex;align-items:center;gap:5px;margin-top:5px;font-size:14px;color:rgba(18,22,31,.6)}
+.s-table .fc-rate svg{width:14px;height:14px;color:#f5b301}
+.s-table .fc-rate b{font:500 14px var(--lat);color:#12161f}
+.s-table .fc-deal{display:flex;align-items:stretch;border-radius:12px;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);background:color-mix(in srgb,var(--c) 7%,#fff);overflow:hidden;flex:none}
+.s-table .fc-off{display:flex;align-items:center;gap:4px;padding:8px 12px;font-size:15px;color:var(--c);white-space:nowrap}
+.s-table .fc-off b{font:600 19px var(--lat)}
+.s-table .fc-off .up{font-size:13px}
+.s-table .fc-code{display:flex;align-items:center;gap:6px;padding:8px 12px;border-right:1px solid color-mix(in srgb,var(--c) 30%,transparent);cursor:pointer;color:#12161f}
+.s-table .fc-code small{font-size:12px;color:rgba(18,22,31,.55)}
+.s-table .fc-code .lt{font:600 15px var(--lat)}
+.s-table .fc-code svg{width:14px;height:14px;opacity:.6}
+.s-table .fc-deal.none{border-color:#e3ecf5;background:#f6f9fc}
+.s-table .fc-deal.none .fc-off{color:rgba(18,22,31,.5)}
+.s-table .fc-stats{display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:12px;margin:0;padding:18px 22px 4px}
+.s-table .fc-stats dt{font-size:14px;color:rgba(18,22,31,.55);margin-bottom:6px}
+.s-table .fc-stats dd{margin:0}
+.s-table .fc-big{display:flex;gap:1px;align-items:baseline;direction:ltr;justify-content:flex-end;font:600 26px/1 var(--lat)}
+.s-table .fc-plat dd{display:flex;flex-wrap:wrap;gap:6px}
+.s-table .fc-tag{direction:ltr;unicode-bidi:isolate;font:500 13px var(--lat);padding:4px 9px;border-radius:8px;background:#f1f5f9;color:#12161f}
+.s-table .fc-hl{list-style:none;margin:0;padding:14px 22px 0;display:grid;gap:8px}
+.s-table .fc-hl li{display:flex;gap:8px;align-items:flex-start;font-size:16px;line-height:1.35}
+.s-table .fc-hl svg{flex:0 0 16px;width:16px;height:16px;margin-top:3px;color:#1f9d62}
+.s-table .fc-act{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:auto;padding:18px 22px 22px}
+.s-table .fc-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;font:500 16px "Fb Reforma",sans-serif;text-decoration:none;cursor:pointer}
+.s-table .fc-btn svg{width:12px;height:8px}
+.s-table .fc-main{background:#12161f;color:#fff;border:0}
+.s-table .fc-main:hover{background:#2b4d6a}
+.s-table .fc-line{background:#fff;color:#12161f;border:1px solid #d9e3ee}
+.s-table .fc-line:hover{border-color:#7dc6ff}
+.s-table .fc-more{display:none}
+@media (max-width:980px){.s-table .fc-grid{grid-template-columns:minmax(0,1fr)}.s-table .fc-head h2{font-size:36px}}
+@media (max-width:760px){
+  .s-table{padding:56px 16px 64px}
+  .s-table .fc-head{margin-bottom:24px}.s-table .fc-head h2{font-size:32px;line-height:1.1}.s-table .fc-head p{font-size:17px}
+  .s-table .fc-top{flex-wrap:wrap;padding:16px}
+  .s-table .fc-deal{width:100%}.s-table .fc-off{flex:1}
+  .s-table .fc-stats{grid-template-columns:1fr 1fr;padding:16px 16px 0}
+  .s-table .fc-plat{grid-column:1 / -1}
+  .s-table .fc-hl{padding:12px 16px 0}.s-table .fc-act{padding:16px}
+  .s-table .fc-grid.short .fc:nth-child(n+4){display:none}
+  .s-table .fc-more{display:flex;margin:20px auto 0;height:48px;padding:0 24px;border-radius:999px;border:1px solid #cfdbe7;background:#fff;font:500 16px "Fb Reforma",sans-serif;color:#12161f;cursor:pointer}
 }
-@media (max-width:620px){
-  .s-table{padding:48px 16px}
-  .s-table .t-card{border-radius:28px;padding:10px}
-  .s-table .t-frame{padding:18px 12px 6px;border-radius:18px}
-  .s-table .t-title{font-size:21px;padding-bottom:14px}
-}
-
-/* discount cell: a fixed slot for "עד" keeps every percentage on the same line start, whether the word is there or not */
-.s-table .disc{display:grid;grid-template-columns:20px auto auto;align-items:baseline;column-gap:4px}
-.s-table .disc .w.hb{grid-column:1;text-align:right}
-.s-table .disc .n{grid-column:2;text-align:right}
-.s-table .disc .n + .w{grid-column:3}
 </style>
-<section class="s-table" id="compare" data-theme="light" id="compare">
-  <div class="t-wrap">
-    <div class="t-card" data-reveal>
-      <div class="t-frame">
-        <h2 class="t-title">השוואה מהירה בין חברות מימון</h2>
-        <div class="t-scroll">
-          <div class="t-grid" role="table" aria-label="השוואה מהירה בין חברות מימון">
-            <div class="t-row t-head" role="row">
-              <span role="columnheader">חברה</span>
-              <span role="columnheader">דירוג</span>
-              <span role="columnheader">מחיר החל מ-</span>
-              <span role="columnheader">יתרונות מרכזיים</span>
-              <span role="columnheader">חשבונות במקביל</span>
-              <span role="columnheader">פלטפורמות</span>
-              <span role="columnheader">מבצע + קוד</span>
-              <span role="columnheader">פעולות</span>
-            </div>
-
-            <div class="t-row" role="row">
-              <div class="c-firm"><span class="logo"><img class="i-tp" src="img/firm-takeprofit.svg" alt=""></span><span class="firm-name">Take Profit Trader</span></div>
-              <div class="c-rate"><span class="rating"><b>4.4</b><img src="img/icon-star.svg" alt=""></span></div>
-              <div class="c-price"><span class="price"><span>90</span><span>$</span></span></div>
-              <div class="hl"><ul>
-                <li><img src="img/icon-check.svg" alt=""><p>משיכות יומיות מהיום הראשון</p></li>
-                <li><img src="img/icon-check.svg" alt=""><p>ללא מגבלת הפסד יומית</p></li>
-              </ul></div>
-              <div class="c-acc"><span class="acc">5</span></div>
-              <div class="tags"><span class="tag">NinjaTrader</span><span class="tag">TradingView</span><span class="tag">ATAS</span><span class="tag">+11</span></div>
-              <div class="c-deal"><span class="disc"><span class="n">40%</span><span class="w">הנחה</span></span><span class="code"><span>קוד: <span class="lt">ANTAR</span></span><img src="img/icon-copy.svg" alt=""></span></div>
-              <div class="c-act"><a class="btn btn-gray" href="#">לדף החברה</a><a class="btn btn-line" href="#">הוסף להשוואה</a></div>
-            </div>
-
-            <div class="t-row" role="row">
-              <div class="c-firm"><span class="logo"><img class="i-apex" src="img/firm-apex.svg" alt=""></span><span class="firm-name">Apex Trader Funding</span></div>
-              <div class="c-rate"><span class="rating"><b>4.2</b><img src="img/icon-star.svg" alt=""></span></div>
-              <div class="c-price"><span class="price"><span>16.70</span><span>$</span></span></div>
-              <div class="hl"><ul>
-                <li><img src="img/icon-check.svg" alt=""><p>עד 20 חשבונות ממומנים</p></li>
-                <li><img src="img/icon-check.svg" alt=""><p>רווח של 100% במסלולי <span class="lt">EOD</span> וגם <span class="lt">Intraday</span></p></li>
-              </ul></div>
-              <div class="c-acc"><span class="acc">20</span></div>
-              <div class="tags"><span class="tag">NinjaTrader</span><span class="tag">TradingView</span><span class="tag">ATAS</span><span class="tag">+11</span></div>
-              <div class="c-deal"><span class="disc"><span class="w hb">עד</span><span class="n">90%</span><span class="w">הנחה</span></span><span class="code"><span>קוד: <span class="lt">ANTAR</span></span><img src="img/icon-copy.svg" alt=""></span></div>
-              <div class="c-act"><a class="btn btn-gray" href="#">לדף החברה</a><a class="btn btn-line" href="#">הוסף להשוואה</a></div>
-            </div>
-
-            <div class="t-row" role="row">
-              <div class="c-firm"><span class="logo"><img class="i-bul" src="img/firm-bulenox.svg" alt=""></span><span class="firm-name">Bulenox</span></div>
-              <div class="c-rate"><span class="rating"><b>4.7</b><img src="img/icon-star.svg" alt=""></span></div>
-              <div class="c-price"><span class="price"><span>13.05</span><span>$</span></span></div>
-              <div class="hl"><ul>
-                <li><img src="img/icon-check.svg" alt=""><p>רווח של 100% עד <span class="lt">10K$</span></p></li>
-                <li><img src="img/icon-check.svg" alt=""><p>מסחר בחדשות מותר</p></li>
-              </ul></div>
-              <div class="c-acc"><span class="acc">5</span></div>
-              <div class="tags"><span class="tag">NinjaTrader</span><span class="tag">ATAS</span><span class="tag">Bookmap</span><span class="tag">+18</span></div>
-              <div class="c-deal"><span class="disc"><span class="w hb">עד</span><span class="n">91%</span><span class="w">הנחה</span></span><span class="code"><span>קוד: <span class="lt">ANTAR</span></span><img src="img/icon-copy.svg" alt=""></span></div>
-              <div class="c-act"><a class="btn btn-gray" href="#">לדף החברה</a><a class="btn btn-line" href="#">הוסף להשוואה</a></div>
-            </div>
-
-            <div class="t-row" role="row">
-              <div class="c-firm"><span class="logo"><img class="i-lucid" src="img/lucid-fig-light.png" alt=""></span><span class="firm-name">Lucid Trading</span></div>
-              <div class="c-rate"><span class="rating"><b>4.4</b><img src="img/icon-star.svg" alt=""></span></div>
-              <div class="c-price"><span class="price"><span>50.30</span><span>$</span></span></div>
-              <div class="hl"><ul>
-                <li><img src="img/icon-check.svg" alt=""><p>מגוון רחב של מסלולים לסוגי סוחרים שונים</p></li>
-              </ul></div>
-              <div class="c-acc"><span class="acc">5</span></div>
-              <div class="tags"><span class="tag">NinjaTrader</span><span class="tag">TradingView</span><span class="tag">ATAS</span><span class="tag">+9</span></div>
-              <div class="c-deal"><span class="disc"><span class="n">30%</span><span class="w">הנחה</span></span><span class="code"><span>קוד: <span class="lt">ANTAR</span></span><img src="img/icon-copy.svg" alt=""></span></div>
-              <div class="c-act"><a class="btn btn-gray" href="#">לדף החברה</a><a class="btn btn-line" href="#">הוסף להשוואה</a></div>
-            </div>
-
-            <div class="t-row" role="row">
-              <div class="c-firm"><span class="logo"><img class="i-fn" src="img/firm-fundednext.svg" alt=""></span><span class="firm-name">FundedNext Futures</span></div>
-              <div class="c-rate"><span class="rating"><b>4.5</b><img src="img/icon-star.svg" alt=""></span></div>
-              <div class="c-price"><span class="price"><span>71.01</span><span>$</span></span></div>
-              <div class="hl"><ul>
-                <li><img src="img/icon-check.svg" alt=""><p>עד 95% מהרווחים לסוחר במסלול <span class="lt">Flex</span></p></li>
-                <li><img src="img/icon-check.svg" alt=""><p>ללא חוק עקביות בחשבון הממומן במסלול <span class="lt">Flex</span></p></li>
-              </ul></div>
-              <div class="c-acc"><span class="acc">5</span></div>
-              <div class="tags"><span class="tag">NinjaTrader</span><span class="tag">TradingView</span><span class="tag">Tradovate</span></div>
-              <div class="c-deal"><span class="disc"><span class="w hb">עד</span><span class="n">50%</span><span class="w">הנחה</span></span><span class="code"><span>קוד: <span class="lt">ANTAR</span></span><img src="img/icon-copy.svg" alt=""></span></div>
-              <div class="c-act"><a class="btn btn-gray" href="#">לדף החברה</a><a class="btn btn-line" href="#">הוסף להשוואה</a></div>
-            </div>
-
-            <div class="t-row" role="row">
-              <div class="c-firm"><span class="logo"><img class="i-ts" src="img/firm-topstep.svg" alt=""></span><span class="firm-name">Topstep</span></div>
-              <div class="c-rate"><span class="rating"><b>3.6</b><img src="img/icon-star.svg" alt=""></span></div>
-              <div class="c-price"><span class="price"><span>49</span><span>$</span></span></div>
-              <div class="hl"><ul>
-                <li><img src="img/icon-check.svg" alt=""><p>המסחר מתבצע בפלטפורמת <span class="lt">TopstepX</span></p></li>
-              </ul></div>
-              <div class="c-acc"><span class="acc">5</span></div>
-              <div class="tags"><span class="tag">TopstepX</span></div>
-              <div class="c-deal"><p class="no-deal">אין מבצע פעיל</p></div>
-              <div class="c-act"><a class="btn btn-gray" href="#">לדף החברה</a><a class="btn btn-line" href="#">הוסף להשוואה</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
+<section class="s-table" id="compare" data-theme="light">
+  <div class="fc-wrap">
+    <div class="fc-head"><h2>השוואה מהירה בין חברות מימון</h2><p>מחירים, יתרונות ומבצעים במבט אחד</p></div>
+    <div class="fc-grid short">
+      <article class="fc" style="--c:#1f9d62">
+        <header class="fc-top">
+          <span class="fc-logo"><img src="img/brand-takeprofit.png" alt=""></span>
+          <div class="fc-id"><h3 class="fc-name">Take Profit Trader</h3><span class="fc-rate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4.1 4.5.5-3.3 3.1.9 4.4L8 11.5l-4 2.2.9-4.4L1.6 6.2l4.5-.5z" fill="currentColor"/></svg><b>4.4</b> דירוג גולשים</span></div>
+          <div class="fc-deal"><span class="fc-off"><b>40%</b> הנחה</span><span class="code fc-code"><small>קוד</small><span class="lt">ANTAR</span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span></div>
+        </header>
+        <dl class="fc-stats">
+          <div><dt>מחיר החל מ-</dt><dd class="fc-big"><span>90</span><span>$</span></dd></div>
+          <div><dt>חשבונות במקביל</dt><dd class="fc-big">5</dd></div>
+          <div class="fc-plat"><dt>פלטפורמות</dt><dd><span class="fc-tag">NinjaTrader</span><span class="fc-tag">TradingView</span><span class="fc-tag">ATAS</span><span class="fc-tag">+11</span></dd></div>
+        </dl>
+        <ul class="fc-hl"><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>משיכות יומיות מהיום הראשון</span></li><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ללא מגבלת הפסד יומית</span></li></ul>
+        <div class="fc-act"><a class="fc-btn fc-main" href="#">לדף החברה<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><button class="fc-btn fc-line" type="button">הוסף להשוואה</button></div>
+      </article>
+      <article class="fc" style="--c:#2f4fe0">
+        <header class="fc-top">
+          <span class="fc-logo"><img src="img/brand-apex.png" alt=""></span>
+          <div class="fc-id"><h3 class="fc-name">Apex Trader Funding</h3><span class="fc-rate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4.1 4.5.5-3.3 3.1.9 4.4L8 11.5l-4 2.2.9-4.4L1.6 6.2l4.5-.5z" fill="currentColor"/></svg><b>4.2</b> דירוג גולשים</span></div>
+          <div class="fc-deal"><span class="fc-off"><span class="up">עד</span><b>90%</b> הנחה</span><span class="code fc-code"><small>קוד</small><span class="lt">ANTAR</span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span></div>
+        </header>
+        <dl class="fc-stats">
+          <div><dt>מחיר החל מ-</dt><dd class="fc-big"><span>16.70</span><span>$</span></dd></div>
+          <div><dt>חשבונות במקביל</dt><dd class="fc-big">20</dd></div>
+          <div class="fc-plat"><dt>פלטפורמות</dt><dd><span class="fc-tag">NinjaTrader</span><span class="fc-tag">TradingView</span><span class="fc-tag">ATAS</span><span class="fc-tag">+11</span></dd></div>
+        </dl>
+        <ul class="fc-hl"><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>עד 20 חשבונות ממומנים</span></li><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>רווח של 100% במסלולי <span class="lt">EOD</span> וגם <span class="lt">Intraday</span></span></li></ul>
+        <div class="fc-act"><a class="fc-btn fc-main" href="#">לדף החברה<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><button class="fc-btn fc-line" type="button">הוסף להשוואה</button></div>
+      </article>
+      <article class="fc" style="--c:#0e3f66">
+        <header class="fc-top">
+          <span class="fc-logo"><img src="img/brand-bulenox.png" alt=""></span>
+          <div class="fc-id"><h3 class="fc-name">Bulenox</h3><span class="fc-rate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4.1 4.5.5-3.3 3.1.9 4.4L8 11.5l-4 2.2.9-4.4L1.6 6.2l4.5-.5z" fill="currentColor"/></svg><b>4.7</b> דירוג גולשים</span></div>
+          <div class="fc-deal"><span class="fc-off"><span class="up">עד</span><b>91%</b> הנחה</span><span class="code fc-code"><small>קוד</small><span class="lt">ANTAR</span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span></div>
+        </header>
+        <dl class="fc-stats">
+          <div><dt>מחיר החל מ-</dt><dd class="fc-big"><span>13.05</span><span>$</span></dd></div>
+          <div><dt>חשבונות במקביל</dt><dd class="fc-big">5</dd></div>
+          <div class="fc-plat"><dt>פלטפורמות</dt><dd><span class="fc-tag">NinjaTrader</span><span class="fc-tag">ATAS</span><span class="fc-tag">Bookmap</span><span class="fc-tag">+18</span></dd></div>
+        </dl>
+        <ul class="fc-hl"><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>רווח של 100% עד <span class="lt">10K$</span></span></li><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>מסחר בחדשות מותר</span></li></ul>
+        <div class="fc-act"><a class="fc-btn fc-main" href="#">לדף החברה<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><button class="fc-btn fc-line" type="button">הוסף להשוואה</button></div>
+      </article>
+      <article class="fc" style="--c:#4b5a78">
+        <header class="fc-top">
+          <span class="fc-logo"><img src="img/brand-lucid.png" alt=""></span>
+          <div class="fc-id"><h3 class="fc-name">Lucid Trading</h3><span class="fc-rate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4.1 4.5.5-3.3 3.1.9 4.4L8 11.5l-4 2.2.9-4.4L1.6 6.2l4.5-.5z" fill="currentColor"/></svg><b>4.4</b> דירוג גולשים</span></div>
+          <div class="fc-deal"><span class="fc-off"><b>30%</b> הנחה</span><span class="code fc-code"><small>קוד</small><span class="lt">ANTAR</span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span></div>
+        </header>
+        <dl class="fc-stats">
+          <div><dt>מחיר החל מ-</dt><dd class="fc-big"><span>50.30</span><span>$</span></dd></div>
+          <div><dt>חשבונות במקביל</dt><dd class="fc-big">5</dd></div>
+          <div class="fc-plat"><dt>פלטפורמות</dt><dd><span class="fc-tag">NinjaTrader</span><span class="fc-tag">TradingView</span><span class="fc-tag">ATAS</span><span class="fc-tag">+9</span></dd></div>
+        </dl>
+        <ul class="fc-hl"><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>מגוון רחב של מסלולים לסוגי סוחרים שונים</span></li></ul>
+        <div class="fc-act"><a class="fc-btn fc-main" href="#">לדף החברה<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><button class="fc-btn fc-line" type="button">הוסף להשוואה</button></div>
+      </article>
+      <article class="fc" style="--c:#6c5ce7">
+        <header class="fc-top">
+          <span class="fc-logo"><img src="img/brand-fundednext.png" alt=""></span>
+          <div class="fc-id"><h3 class="fc-name">FundedNext Futures</h3><span class="fc-rate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4.1 4.5.5-3.3 3.1.9 4.4L8 11.5l-4 2.2.9-4.4L1.6 6.2l4.5-.5z" fill="currentColor"/></svg><b>4.5</b> דירוג גולשים</span></div>
+          <div class="fc-deal"><span class="fc-off"><span class="up">עד</span><b>50%</b> הנחה</span><span class="code fc-code"><small>קוד</small><span class="lt">ANTAR</span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span></div>
+        </header>
+        <dl class="fc-stats">
+          <div><dt>מחיר החל מ-</dt><dd class="fc-big"><span>71.01</span><span>$</span></dd></div>
+          <div><dt>חשבונות במקביל</dt><dd class="fc-big">5</dd></div>
+          <div class="fc-plat"><dt>פלטפורמות</dt><dd><span class="fc-tag">NinjaTrader</span><span class="fc-tag">TradingView</span><span class="fc-tag">Tradovate</span></dd></div>
+        </dl>
+        <ul class="fc-hl"><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>עד 95% מהרווחים לסוחר במסלול <span class="lt">Flex</span></span></li><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ללא חוק עקביות בחשבון הממומן במסלול <span class="lt">Flex</span></span></li></ul>
+        <div class="fc-act"><a class="fc-btn fc-main" href="#">לדף החברה<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><button class="fc-btn fc-line" type="button">הוסף להשוואה</button></div>
+      </article>
+      <article class="fc" style="--c:#12161f">
+        <header class="fc-top">
+          <span class="fc-logo"><img src="img/firm-topstep.svg" alt="" style="filter:brightness(0)"></span>
+          <div class="fc-id"><h3 class="fc-name">Topstep</h3><span class="fc-rate"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4.1 4.5.5-3.3 3.1.9 4.4L8 11.5l-4 2.2.9-4.4L1.6 6.2l4.5-.5z" fill="currentColor"/></svg><b>3.6</b> דירוג גולשים</span></div>
+          <div class="fc-deal none"><span class="fc-off">אין מבצע פעיל</span></div>
+        </header>
+        <dl class="fc-stats">
+          <div><dt>מחיר החל מ-</dt><dd class="fc-big"><span>49</span><span>$</span></dd></div>
+          <div><dt>חשבונות במקביל</dt><dd class="fc-big">5</dd></div>
+          <div class="fc-plat"><dt>פלטפורמות</dt><dd><span class="fc-tag">TopstepX</span></dd></div>
+        </dl>
+        <ul class="fc-hl"><li><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>המסחר מתבצע בפלטפורמת <span class="lt">TopstepX</span></span></li></ul>
+        <div class="fc-act"><a class="fc-btn fc-main" href="#">לדף החברה<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><button class="fc-btn fc-line" type="button">הוסף להשוואה</button></div>
+      </article>
     </div>
+    <button class="fc-more" type="button" aria-expanded="false">להצגת כל החברות</button>
   </div>
 </section>
+<script>
+(function () {
+  // phones: three firms first, the rest one tap away
+  const g = document.querySelector('.s-table .fc-grid'), b = document.querySelector('.s-table .fc-more');
+  if (g && b) b.addEventListener('click', () => { const open = g.classList.toggle('short'); b.textContent = open ? 'להצגת כל החברות' : 'להצגת פחות חברות'; b.setAttribute('aria-expanded', !open); });
+})();
+</script>
