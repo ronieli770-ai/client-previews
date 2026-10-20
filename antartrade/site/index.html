@@ -2569,13 +2569,10 @@
       // Gradient titles keep one continuous gradient: each word carries a slice of it, sized to the whole title.
       // titles: no animation, they show at once so a visitor sees what each section is before scrolling (Noam, 2026-10-20)
       // containers: rise from 5em below while going from blurred to sharp, one after another
+      // containers rise in only at a few moments (Noam: not in every section) - the academy cards and the closing next-step cards;
+      // the journal panel has its own rise (data-scroll-rise)
       const groups = [
-        ...(innerWidth > 760 ? [['.s-table', '.s-table > *']] : []),
-        ['.s-duel__row', '.s-duel__card'],
         ['.s-academy .grid', '.s-academy .card'],
-        ['.s-platforms', '.s-platforms .card'],
-        ['.s-community .cards', '.s-community .item', 'top 100%', 'top 72%'],   // icon and card move together as one group; in early, while the banner is still on screen
-        ['.s-community', '.s-community .banner'],
         ['.s-next__cards', '.s-next__card'],
       ];
       groups.forEach(([wrap, items, start = 'top 90%', end = 'top 35%']) => {
