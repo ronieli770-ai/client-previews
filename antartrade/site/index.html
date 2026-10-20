@@ -1128,6 +1128,11 @@
 .s-journal .panel { --c: #3fd8c2; background: color-mix(in srgb, var(--c) 6%, #fff) !important; transition: background .55s ease; }
 .s-journal .card { background: color-mix(in srgb, var(--c) 14%, #fff) !important; }
 .s-journal .stage { background: color-mix(in srgb, var(--c) 26%, #fff) !important; border-color: color-mix(in srgb, var(--c) 34%, transparent) !important; transition: background .55s ease; }
+/* the feature buttons each in their own colour instead of grey; the open one stays white with its coloured frame */
+.s-journal .opt:not(.on) { background: color-mix(in srgb, var(--pc) 13%, #fff) !important; }
+.s-journal .opt:not(.on):hover { background: color-mix(in srgb, var(--pc) 20%, #fff) !important; }
+.s-journal .opt .lbl svg { color: var(--pcd) !important; }
+.s-journal .opt:not(.on) .dot { background: color-mix(in srgb, var(--pc) 55%, transparent) !important; }
 </style>
 <style>
 .s-community{background:#fff;color:#12161F;font-family:"Fb Reforma",sans-serif;direction:rtl;padding:80px 0 160px;overflow:hidden}

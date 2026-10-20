@@ -139,6 +139,11 @@
 .s-journal .panel { --c: #3fd8c2; background: color-mix(in srgb, var(--c) 6%, #fff) !important; transition: background .55s ease; }
 .s-journal .card { background: color-mix(in srgb, var(--c) 14%, #fff) !important; }
 .s-journal .stage { background: color-mix(in srgb, var(--c) 26%, #fff) !important; border-color: color-mix(in srgb, var(--c) 34%, transparent) !important; transition: background .55s ease; }
+/* the feature buttons each in their own colour instead of grey; the open one stays white with its coloured frame */
+.s-journal .opt:not(.on) { background: color-mix(in srgb, var(--pc) 13%, #fff) !important; }
+.s-journal .opt:not(.on):hover { background: color-mix(in srgb, var(--pc) 20%, #fff) !important; }
+.s-journal .opt .lbl svg { color: var(--pcd) !important; }
+.s-journal .opt:not(.on) .dot { background: color-mix(in srgb, var(--pc) 55%, transparent) !important; }
 </style>
 <section class="s-journal" id="journal" data-theme="light">
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b3a6ff"/><stop offset=".55" stop-color="#8c7bff"/><stop offset="1" stop-color="#61b1f2"/></linearGradient></defs></svg>
