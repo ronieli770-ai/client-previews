@@ -416,6 +416,41 @@
   .tc-d .s-table .fc-code{border-top:0;border-right:1px solid rgba(74,222,128,.2)}
   .tc-d .s-table .fc-act{grid-column:2 / -1;grid-row:4;grid-template-columns:1fr 1fr}
 }
+
+/* E: a navy card per firm in the reference's language - rank, round logo, the facts as ruled rows, green tinted badges */
+.tc-e .s-table .fc-grid{counter-reset:firm;gap:20px}
+@media (min-width:981px){.tc-e .s-table .fc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tc-e .s-table .fc{counter-increment:firm;display:grid;grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"logo id rank" "stats stats stats" "hl hl hl" "deal deal deal" "act act act";column-gap:12px;align-items:center;
+  padding:22px 22px 20px;background:#12161f;border:0;border-radius:25px;box-shadow:0 4px 50px rgba(142,175,255,.25);color:#fff}
+.tc-e .s-table .fc:hover{transform:translateY(-3px);box-shadow:0 8px 56px rgba(142,175,255,.35)}
+.tc-e .s-table .fc::before{content:"#" counter(firm);grid-area:rank;align-self:start;font:400 16px var(--lat);color:rgba(255,255,255,.45)}
+.tc-e .s-table .fc-top{display:contents}
+.tc-e .s-table .fc-logo{grid-area:logo;width:44px;height:44px;border-radius:50%;background:#fff;border:0}
+.tc-e .s-table .fc-logo img{width:28px;height:28px}
+.tc-e .s-table .fc-id{grid-area:id}
+.tc-e .s-table .fc-name{color:#fff;font-size:19px}
+.tc-e .s-table .fc-rate{color:rgba(255,255,255,.5)}
+.tc-e .s-table .fc-rate b{color:rgba(255,255,255,.85)}
+.tc-e .s-table .fc-stats{grid-area:stats;display:block;margin:16px 0 0;padding:0}
+.tc-e .s-table .fc-stats > div{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid rgba(255,255,255,.07)}
+.tc-e .s-table .fc-stats dt{margin:0;font-size:15px;color:rgba(255,255,255,.5)}
+.tc-e .s-table .fc-big{font:500 18px var(--lat);color:#fff}
+.tc-e .s-table .fc-plat dd{justify-content:flex-end;gap:5px}
+.tc-e .s-table .fc-tag{background:rgba(255,255,255,.07);color:#fff;font-size:12px}
+.tc-e .s-table .fc-hl{grid-area:hl;padding:12px 0 0;border-top:1px solid rgba(255,255,255,.07);gap:6px}
+.tc-e .s-table .fc-hl li{font-size:15px;color:rgba(255,255,255,.8)}
+.tc-e .s-table .fc-hl svg{color:#4ade80}
+.tc-e .s-table .fc-deal{grid-area:deal;margin-top:16px;border:1px solid rgba(74,222,128,.25);background:rgba(34,197,94,.12);border-radius:12px}
+.tc-e .s-table .fc-off{flex:1;color:#4ade80}
+.tc-e .s-table .fc-code{color:#fff;border-right-color:rgba(74,222,128,.2)}
+.tc-e .s-table .fc-code small{color:rgba(255,255,255,.5)}
+.tc-e .s-table .fc-deal.none{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08)}
+.tc-e .s-table .fc-deal.none .fc-off{color:rgba(255,255,255,.45)}
+.tc-e .s-table .fc-act{grid-area:act;padding:14px 0 0;margin:0}
+.tc-e .s-table .fc-btn{height:42px}
+.tc-e .s-table .fc-main{background:#7dc6ff;color:#12161f}
+.tc-e .s-table .fc-main:hover{background:#a6d9ff}
+.tc-e .s-table .fc-line{background:transparent;color:#fff;border-color:rgba(255,255,255,.18)}
 @media (max-width:980px){.s-table .fc-grid{grid-template-columns:minmax(0,1fr)}.s-table .fc-head h2{font-size:36px}}
 @media (max-width:760px){
   .s-table{padding:56px 16px 64px}
@@ -1732,8 +1767,8 @@
 <script>
 (function () {
   // card look for review: ?tc=a|b|c
-  const tcQ = new URLSearchParams(location.search).get('tc'), tc = tcQ || 'd';   // D (the dark panel, a row per firm) is the chosen look, 2026-10-20
-  if (/^(a|b|c|d|b2|b3|b4)$/.test(tc)) { document.documentElement.classList.add('tc-' + tc); if (/^b\d$/.test(tc)) document.documentElement.classList.add('tc-b'); if (tcQ) setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
+  const tcQ = new URLSearchParams(location.search).get('tc'), tc = tcQ || 'e';   // E: a dark card per firm in the style of Roni's reference table (D, the one-panel table, stays at ?tc=d)
+  if (/^(a|b|c|d|e|b2|b3|b4)$/.test(tc)) { document.documentElement.classList.add('tc-' + tc); if (/^b\d$/.test(tc)) document.documentElement.classList.add('tc-b'); if (tcQ) setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
   // phones: three firms first, the rest one tap away
   const g = document.querySelector('.s-table .fc-grid'), b = document.querySelector('.s-table .fc-more');
   if (g && b) b.addEventListener('click', () => { const open = g.classList.toggle('short'); b.textContent = open ? 'להצגת כל החברות' : 'להצגת פחות חברות'; b.setAttribute('aria-expanded', !open); });
