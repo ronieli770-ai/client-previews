@@ -119,7 +119,7 @@
   /* dropdown menus: one dark box under the header that resizes and slides between menus */
   .hdr nav a .chev { width: 10px; height: 10px; opacity: .55; transition: transform .35s var(--ease), opacity .25s; }
   .hdr nav a.open .chev { transform: rotate(180deg); opacity: 1; }
-  .hdr.menu-open { --bg: rgba(12,15,22,.94); --fg: #fff; --deal: #d6ecff; --ring: rgba(255,255,255,.14); --ringbg: rgba(85,169,235,.05); --pill: #fff; --pillfg: #000; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .hdr.menu-open:not(.light) { --bg: rgba(12,15,22,.94); --fg: #fff; --deal: #d6ecff; --ring: rgba(255,255,255,.14); --ringbg: rgba(85,169,235,.05); --pill: #fff; --pillfg: #000; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
   .mega-dim { position: fixed; inset: 0; z-index: 49; background: rgba(6,9,14,.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .35s var(--ease); }
   .mega-dim.on { opacity: 1; }
   .hdr .wrap { position: relative; }
@@ -161,6 +161,25 @@
   .mega .prev .act { margin-top: auto; display: flex; gap: 10px; align-items: center; }
   .mega .prev .btn { height: 40px; padding: 0 18px; border-radius: 999px; background: #fff; color: var(--navy); font-weight: 500; display: inline-flex; align-items: center; font-size: 15px; }
   .mega .swap { animation: mega-swap .35s var(--ease); } @keyframes mega-swap { from { opacity: 0; transform: translateY(8px); } }
+  /* compare: the four ways to compare */
+  .mega .cmp { display: grid; grid-template-columns: repeat(2, 270px); gap: 12px; }
+  .mega .cmp a { border-radius: 18px; padding: 18px; display: grid; gap: 6px; justify-items: start; background: #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.16); transition: background-color .25s, transform .3s var(--ease); }
+  .mega .cmp a:hover { background: #111725; transform: translateY(-3px); }
+  .mega .cmp .tile { background: radial-gradient(70% 70% at 0% 100%, rgba(46,139,216,.5), transparent 70%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.25); margin-bottom: 6px; }
+  .mega .cmp .tile svg { width: 22px; height: 22px; color: var(--sky); }
+  .mega .cmp b { font-size: 18px; font-weight: 500; }
+  /* deals: the two pages on the left, the hottest deal on its own */
+  .mega .dl { display: grid; grid-template-columns: 300px 300px; gap: 12px; }
+  .mega .dl .cmp { grid-template-columns: 300px; }
+  .mega .hot { position: relative; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 8px; justify-content: flex-end; min-height: 100%;
+    background: radial-gradient(95% 95% at 0% 100%, rgba(140,123,255,.55), transparent 65%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(140,123,255,.45); }
+  .mega .hot .eb { align-self: flex-start; font-size: 13px; font-weight: 500; padding: 5px 12px; border-radius: 999px; background: rgba(140,123,255,.2); color: #e2dcff; }
+  .mega .hot .head { display: flex; align-items: center; gap: 10px; margin-top: auto; }
+  .mega .hot .head b { font-size: 16px; font-weight: 500; }
+  .mega .hot .n { font: 700 64px/1 "Roboto", sans-serif; background: linear-gradient(90deg, #8c7bff, #fff); -webkit-background-clip: text; background-clip: text; color: transparent; direction: ltr; text-align: right; }
+  .mega .hot h4 { font-size: 18px; font-weight: 500; line-height: 1.3; }
+  .mega .hot .act { display: flex; gap: 10px; align-items: center; margin-top: 6px; }
+  .mega .hot .btn { height: 38px; padding: 0 16px; border-radius: 999px; background: #fff; color: var(--navy); font-weight: 500; display: inline-flex; align-items: center; font-size: 14px; }
   /* deals: mini deal cards in each deal's own colour */
   .mega .deals { display: grid; grid-template-columns: repeat(5, 150px); gap: 10px; }
   .mega .dc { border-radius: 18px; padding: 16px 12px; display: grid; gap: 6px; justify-items: center; text-align: center;
@@ -169,12 +188,50 @@
   .mega .dc .n { font: 700 34px/1 "Roboto", sans-serif; background: linear-gradient(90deg, var(--c), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .mega .dc b { font-size: 15px; font-weight: 500; }
   .mega .foot { display: flex; justify-content: space-between; align-items: center; padding: 14px 6px 2px; }
+  /* tools: two groups of 3D tool logos, with each tool's deal */
+  .mega .tools { display: grid; grid-template-columns: 360px 360px; gap: 6px 18px; }
+  .mega .tools .grp { grid-column: span 1; font-size: 13px; color: rgba(255,255,255,.45); padding: 4px 10px 2px; }
+  .mega .tools .col { display: grid; gap: 2px; align-content: start; }
+  .mega .tl { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 14px; transition: background-color .2s; }
+  .mega .tl:hover { background: rgba(125,198,255,.08); }
+  .mega .tl img { width: 40px; height: 40px; object-fit: contain; flex: none; filter: drop-shadow(0 6px 10px rgba(0,0,0,.5)); }
+  .mega .tl .t { flex: 1; display: grid; gap: 1px; min-width: 0; }
+  .mega .tl b { font: 500 16px "Roboto", sans-serif; direction: ltr; text-align: right; }
+  .mega .tl .sub { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mega .tl .badge { flex: none; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; color: #3fd8c2; background: rgba(63,216,194,.12); white-space: nowrap; }
   /* academy: the new covers */
   .mega .acad { display: grid; grid-template-columns: repeat(3, 200px); gap: 12px; }
   .mega .acad a { border-radius: 16px; overflow: hidden; background: #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.14); transition: transform .35s var(--ease); }
   .mega .acad a:hover { transform: translateY(-4px); }
   .mega .acad img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
   .mega .acad span { display: block; padding: 10px 12px 12px; font-size: 14px; font-weight: 500; line-height: 1.3; }
+  /* light version: when the header sits over a white section, the menu goes light with it */
+  .hdr.light.menu-open { --bg: rgba(255,255,255,.96); --fg: #12161f; --deal: #2e8bd8; --ring: rgba(18,22,31,.10); --ringbg: rgba(18,22,31,.03); --pill: #12161f; --pillfg: #fff; }
+  .mega-dim.lite { background: rgba(18,22,31,.18); }
+  .hdr.light .mega { color: #12161f; background: rgba(255,255,255,.98); box-shadow: inset 0 0 0 1px rgba(18,22,31,.08), 0 40px 80px -30px rgba(18,22,31,.35); }
+  .hdr.light .mega::before { background: linear-gradient(90deg, transparent, var(--blue), transparent); }
+  .hdr.light .mega .tile { box-shadow: inset 0 0 0 1px rgba(18,22,31,.08), 0 6px 14px -8px rgba(18,22,31,.35); }
+  .hdr.light .mega .sub { color: rgba(18,22,31,.55); }
+  .hdr.light .mega .more { color: var(--blue); }
+  .hdr.light .mega .code { color: var(--blue); background: rgba(46,139,216,.08); box-shadow: inset 0 0 0 1px rgba(46,139,216,.3); }
+  .hdr.light .mega .code:hover { background: rgba(46,139,216,.16); }
+  .hdr.light .mega .code.done { color: #fff; background: #12a08e; box-shadow: none; }
+  .hdr.light .mega .it.on, .hdr.light .mega .tl:hover { background: rgba(46,139,216,.07); }
+  .hdr.light .mega .prev { background: radial-gradient(90% 70% at 0% 100%, var(--gl, rgba(46,139,216,.18)), transparent 62%), #f4f8fc; box-shadow: inset 0 0 0 1px rgba(18,22,31,.07); }
+  .hdr.light .mega .prev .eb { color: var(--blue); }
+  .hdr.light .mega .prev .big, .hdr.light .mega .hot .n { background: linear-gradient(90deg, var(--gc, #2e8bd8), #12161f); -webkit-background-clip: text; background-clip: text; }
+  .hdr.light .mega .prev p { color: rgba(18,22,31,.65); }
+  .hdr.light .mega .prev .btn, .hdr.light .mega .hot .btn { background: #12161f; color: #fff; }
+  .hdr.light .mega .cmp a { background: #fff; box-shadow: inset 0 0 0 1px rgba(18,22,31,.08); }
+  .hdr.light .mega .cmp a:hover { background: #f4f8fc; }
+  .hdr.light .mega .cmp .tile { background: radial-gradient(70% 70% at 0% 100%, rgba(46,139,216,.18), transparent 70%), #fff; }
+  .hdr.light .mega .cmp .tile svg { color: var(--blue); }
+  .hdr.light .mega .hot { --gc: #6b5ae0; background: radial-gradient(95% 95% at 0% 100%, rgba(140,123,255,.28), transparent 65%), #f6f4ff; box-shadow: inset 0 0 0 1px rgba(140,123,255,.35); }
+  .hdr.light .mega .hot .eb { background: rgba(140,123,255,.16); color: #5b4bd6; }
+  .hdr.light .mega .tools .grp { color: rgba(18,22,31,.45); }
+  .hdr.light .mega .tl img { filter: drop-shadow(0 6px 10px rgba(18,22,31,.2)); }
+  .hdr.light .mega .tl .badge { color: #0f8a7a; background: rgba(63,216,194,.16); }
+  .hdr.light .mega .acad a { background: #fff; box-shadow: inset 0 0 0 1px rgba(18,22,31,.08), 0 10px 24px -14px rgba(18,22,31,.3); }
   @media (max-width: 1180px) { .mega, .mega-dim { display: none; } }
 </style>
 <style>
@@ -1202,7 +1259,7 @@ html.jr-a body .s-journal .copy h2, html.jr-a body .s-journal .copy h2 * { color
 .jr-a .s-journal .opt.on { background: rgba(255,255,255,.1) !important; box-shadow: inset 0 0 0 1.5px var(--pc) !important; }
 .jr-a .s-journal .opt.on::before { display: none; }
 .jr-a .s-journal .card { background: #1a1f2b !important; box-shadow: none !important; }
-.jr-a .s-journal .stage { background: color-mix(in srgb, var(--c) 18%, #12161f) !important; border-color: rgba(255,255,255,.08) !important; }
+.jr-a .s-journal .stage { background: color-mix(in srgb, var(--c) 18%, #12161f) !important; border: 0 !important; }   /* no frame around the animation itself */
 .jr-a .s-journal .ttl { color: #fff; }
 .jr-a .s-journal .dsc { color: rgba(255,255,255,.65) !important; opacity: 1; }
 /* the animation mock-ups on the dark panel: their white windows keep dark text, and lines, tracks and labels turn light */
@@ -1746,13 +1803,13 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
     <nav id="hdr-nav">
       <a class="cur" href="#top">דף הבית</a>
       <a data-m="firms" href="#compare">חברות מימון<svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      <a href="#duel">השוואת חברות</a>
+      <a data-m="compare" href="#compare">השוואת חברות<svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <a data-m="deals" class="deal" href="#deals">מבצעים והגרלות<svg viewBox="0 0 16 16" fill="none"><path transform="translate(1.5 1.5)" d="M12.1 0H8.26C8.14 0 8.03.05 7.94.13L.26 7.81C.09 7.98 0 8.21 0 8.45s.09.47.26.64l3.66 3.66c.17.17.4.26.64.26s.47-.09.64-.26l7.67-7.68c.09-.08.13-.2.13-.32V.9A.9.9 0 0 0 12.1 0Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="4" r=".875" fill="currentColor"/></svg><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      <a data-m="academy" href="#academy">מרכז הידע<svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a data-m="tools" href="#platforms">כלי מסחר<svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <a href="#journal">יומן מסחר</a>
       <a href="#about">אודות</a>
     </nav>
-    <div class="halo"><a href="#academy">אקדמיה<svg viewBox="0 0 16 16" fill="none"><path transform="translate(1 2)" d="M0 4L7 0L14 4L7 8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path transform="translate(3.5 6)" d="M0 1.5V5.5L4.5 8M4.5 8L9 5.5V1.5M4.5 8V4M11.5 5.5V0" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+    <div class="halo"><a data-m="academy" href="#academy">אקדמיה<svg viewBox="0 0 16 16" fill="none"><path transform="translate(1 2)" d="M0 4L7 0L14 4L7 8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path transform="translate(3.5 6)" d="M0 1.5V5.5L4.5 8M4.5 8L9 5.5V1.5M4.5 8V4M11.5 5.5V0" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
     <div class="mega" id="mega"></div>
   </div>
 </header>
@@ -1772,9 +1829,32 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   const ACAD = [['full.webp', 'המסלול המלא למסחר בחוזים'], ['intro.webp', 'קורס המבוא החינמי'], ['nostro.webp', 'קורס הנוסטרו החינמי'], ['v-apex.jpg', 'מדריך לאפקס'], ['v-tp.jpg', 'החוקים של טייק פרופיט'], ['a-footprint.jpg', 'מה זה פוטפרינט?']];
   const code = () => `<span class="code" data-copy>${COPY}<span class="lt">ANTAR</span></span>`;
   const prev = f => `<div class="swap" style="display:contents"><span class="eb">${f.n}</span><span class="big" style="--gc:${f.c}">${f.pct}</span><h4>${f.h}</h4><p>${f.p}</p><div class="act"><a class="btn" href="#compare">לביקורת המלאה</a>${code()}</div></div>`;
+  const tl = ([img, n, d, deal]) => `<a class="tl" href="#platforms"><img src="${IMG + img}" alt=""><span class="t"><b>${n}</b><span class="sub">${d}</span></span>${deal ? `<span class="badge">${deal}</span>` : ''}</a>`;
   const PANES = {
     firms: `<div class="firms"><div class="list">${FIRMS.map((f, i) => `<a class="it${i ? '' : ' on'}" data-f="${i}" href="#compare"><span class="tile"><img src="${IMG + f.logo}" alt=""></span><b class="lt">${f.n}</b><span class="pct" style="color:${f.c}">${f.pct}</span>${code()}</a>`).join('')}<a class="more" href="#compare">לכל חברות המימון ${ARROW}</a></div><div class="prev" id="mega-prev">${prev(FIRMS[0])}</div></div>`,
-    deals: `<div class="deals">${FIRMS.map(f => `<a class="dc" href="#deals" style="--c:${f.c}"><span class="tile"><img src="${IMG + f.logo}" alt=""></span><span class="n">${f.pct}</span><b class="lt">${f.s}</b>${code()}</a>`).join('')}</div><div class="foot"><span class="sub">קוד אחד, <span class="lt">ANTAR</span>, עובד בכל החברות</span><a class="more" href="#deals">לכל המבצעים ${ARROW}</a></div>`,
+    compare: `<div class="cmp">${[
+      ['#compare', '<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M9 10v10"/>', 'טבלת השוואה', 'כל החברות, כל המחירים והכללים'],
+      ['#duel', '<path d="M4 7h11M11 3l4 4-4 4"/><path d="M20 17H9M13 13l-4 4 4 4"/>', 'דו-קרב חברות', 'שתי חברות ראש בראש'],
+      ['#compare', '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7"/><circle cx="12" cy="17" r=".6"/>', 'שאלון התאמה', 'איזו חברת מימון מתאימה לך'],
+      ['#compare', '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/>', 'מרכז המחשבונים', 'סיכויי מעבר וחוק העקביות']
+    ].map(([h, i, t, d]) => `<a href="${h}"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${i}</svg></span><b>${t}</b><span class="sub">${d}</span></a>`).join('')}</div>`,
+    deals: `<div class="dl"><div class="cmp">${[
+      ['#deals', '<path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8"/><rect x="2.5" y="7" width="19" height="5" rx="1"/><path d="M12 21V7M12 7H8.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h3.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/>', 'הטבות בלעדיות', 'קודי הנחה שיש רק כאן, בכל חברות המימון'],
+      ['#deals', '<circle cx="12" cy="9" r="6"/><path d="M8.5 14.2L7 22l5-3 5 3-1.5-7.8"/><path d="M12 6.5l.8 1.6 1.7.2-1.2 1.2.3 1.7-1.6-.8-1.6.8.3-1.7-1.2-1.2 1.7-.2z"/>', 'מועדון הנקודות וההגרלות', 'כל רכישה עם הקוד צוברת נקודות ונכנסת להגרלה']
+    ].map(([h, i, t, d]) => `<a href="${h}"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${i}</svg></span><b>${t}</b><span class="sub">${d}</span></a>`).join('')}</div>
+      <a class="hot" href="#deals"><span class="eb">ההטבה הכי שווה עכשיו</span><span class="head"><span class="tile"><img src="${IMG}brand-takeprofit.png" alt=""></span><b class="lt">Take Profit Trader</b></span><span class="n">40%</span><h4>חשבון PRO ללא עמלת הפעלה</h4><div class="act"><span class="btn">לפרטי המבצע</span>${code()}</div></a></div>`,
+    tools: `<div class="tools"><div class="col"><div class="grp">פלטפורמות מסחר</div>${[
+      ['ninjatrader.webp', 'NinjaTrader', 'פלטפורמת מסחר עם ATM ו-Order Flow', ''],
+      ['atas.webp', 'ATAS', 'Order Flow, Footprint ועומק שוק', '14 ימי ניסיון'],
+      ['tradingview-light.webp', 'TradingView', 'גרפים וניתוח טכני בזמן אמת', ''],
+      ['deepcharts-light.webp', 'DeepCharts', 'גרפים ו-DOM מתקדמים', '']
+    ].map(tl).join('')}</div><div class="col"><div class="grp">כלי מסחר</div>${[
+      ['bookmap.webp', 'Bookmap', 'נזילות ו-Order Book', ''],
+      ['tradezella.webp', 'TradeZella', 'יומן מסחר וסטטיסטיקות', '20% הנחה'],
+      ['tradesyncer.webp', 'TradeSyncer', 'העתקת עסקאות בין חשבונות', '30% הנחה'],
+      ['replikanto.webp', 'Replikanto', 'שכפול עסקאות ב-NinjaTrader', ''],
+      ['fxreplay.webp', 'FX Replay', 'תרגול על נתוני עבר בסימולציה', '']
+    ].map(tl).join('')}</div></div><div class="foot"><a class="more" href="#platforms">לכל הכלים והמדריכים ${ARROW}</a><a class="more" href="#platforms">לוח שנה כלכלי ${ARROW}</a></div>`,
     academy: `<div class="acad">${ACAD.map(([img, t]) => `<a href="#academy"><img src="${IMG + img}" alt=""><span>${t}</span></a>`).join('')}</div><div class="foot"><span class="sub">קורסים, סרטונים ומאמרים</span><a class="more" href="#academy">לכל האקדמיה ${ARROW}</a></div>`,
   };
   const hdr = document.getElementById('hdr'), nav = document.getElementById('hdr-nav'), mega = document.getElementById('mega'), dim = document.getElementById('mega-dim'), keys = Object.keys(PANES);
@@ -1789,25 +1869,26 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
     let center = ar.left + ar.width / 2 - wrap.left; center = Math.max(w / 2 + 16, Math.min(wrap.width - w / 2 - 16, center));
     mega.style.width = w + 'px'; mega.style.height = h + 'px'; mega.style.right = (wrap.width - center - w / 2) + 'px';
     mega.style.setProperty('--ax', (center + w / 2 - (ar.left + ar.width / 2 - wrap.left)) + 'px');
-    mega.classList.add('in'); dim.classList.add('on'); hdr.classList.add('menu-open');
+    mega.classList.add('in'); dim.classList.add('on'); dim.classList.toggle('lite', hdr.classList.contains('light')); hdr.classList.add('menu-open');
   }
   function close() {
     t = setTimeout(() => { cur = null; mega.classList.remove('in'); dim.classList.remove('on'); hdr.classList.remove('menu-open'); nav.querySelectorAll('a').forEach(x => x.classList.remove('open')); }, 180);
   }
   nav.querySelectorAll('a').forEach(a => a.addEventListener('mouseenter', () => a.dataset.m ? open(a) : close()));
   nav.addEventListener('mouseleave', close);
+  const halo = hdr.querySelector('.halo a'); halo.addEventListener('mouseenter', () => open(halo)); halo.addEventListener('mouseleave', close);
   mega.addEventListener('mouseenter', () => clearTimeout(t));
   mega.addEventListener('mouseleave', close);
   // hovering a firm swaps the preview card
   mega.addEventListener('mouseover', e => { const it = e.target.closest('.it'); if (!it || it.classList.contains('on')) return;
     it.parentElement.querySelectorAll('.it').forEach(x => x.classList.toggle('on', x === it));
-    const f = FIRMS[+it.dataset.f], pv = document.getElementById('mega-prev'); pv.style.setProperty('--g', f.c + '73'); pv.innerHTML = prev(f); });
+    const f = FIRMS[+it.dataset.f], pv = document.getElementById('mega-prev'); pv.style.setProperty('--g', f.c + '73'); pv.style.setProperty('--gl', f.c + '33'); pv.style.setProperty('--gc', f.c); pv.innerHTML = prev(f); });
   // the coupon copies itself
   mega.addEventListener('click', e => { const c = e.target.closest('[data-copy]'); if (!c) return; e.preventDefault(); e.stopPropagation();
     navigator.clipboard && navigator.clipboard.writeText('ANTAR').catch(() => {});
     c.classList.add('done'); c.lastChild.textContent = 'הועתק'; setTimeout(() => { c.classList.remove('done'); c.lastChild.textContent = 'ANTAR'; }, 1400); });
   // ?menu=firms opens a menu directly (for checking)
-  const q = new URLSearchParams(location.search).get('menu'); if (q) addEventListener('load', () => { mega.style.transition = 'none'; mega.querySelectorAll('.pane').forEach(p => p.style.transition = 'none'); open(nav.querySelector(`[data-m="${q}"]`)); });
+  const q = new URLSearchParams(location.search).get('menu'); if (q) addEventListener('load', () => {  mega.style.transition = 'none'; mega.querySelectorAll('.pane').forEach(p => p.style.transition = 'none'); open(hdr.querySelector(`[data-m="${q}"]`)); });
 })();</script>
 
 <!-- 01-hero.html -->
