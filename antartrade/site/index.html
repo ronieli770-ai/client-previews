@@ -1114,6 +1114,30 @@
 }
 </style>
 <style>
+/* ---------- page rhythm (Noam's notes, 2026-10-20): about a third less air between sections, and a pale sky tint
+   (the site's #7DC6FF) on every other light section so white never runs twice in a row ---------- */
+:root { --sky-tint: color-mix(in srgb, #7DC6FF 13%, #fff); }
+.s-table { background: var(--sky-tint) !important; }
+.s-journal { background: linear-gradient(transparent 170px, var(--sky-tint) 170px) !important; }
+@media (min-width: 761px) {
+  .s-table { padding-top: 64px !important; padding-bottom: 72px !important; }
+  .s-duel { padding-top: 72px !important; padding-bottom: 80px !important; }
+  .s-deals { padding-top: 72px !important; padding-bottom: 88px !important; }
+  .s-academy { padding-top: 80px !important; padding-bottom: 96px !important; }
+  .s-platforms .p-inner { padding-top: 72px !important; padding-bottom: 48px !important; }
+  .s-journal { padding-bottom: 104px !important; }
+  .s-community { padding-top: 56px !important; padding-bottom: 104px !important; }
+  .s-next { padding-top: 80px !important; padding-bottom: 80px !important; }
+}
+@media (max-width: 760px) {
+  .s-journal { background: linear-gradient(transparent 60px, var(--sky-tint) 60px) !important; padding-bottom: 60px !important; }
+  .s-duel, .s-deals, .s-academy, .s-platforms .p-inner, .s-next { padding-top: 56px !important; padding-bottom: 60px !important; }
+  .s-community { padding-top: 40px !important; padding-bottom: 64px !important; }
+}
+.hdr .halo .h-short { display: none; }
+@media (max-width: 760px) { .hdr .halo .h-full { display: none; } .hdr .halo .h-short { display: inline; } }   /* the header row is too narrow on phones for the long label */
+</style>
+<style>
 /* ================= mobile layer (≤ 760px): structure decisions approved by Roni ================= */
 .hdr .burger { display: none; }
 .m-menu { display: none; }
@@ -1394,15 +1418,15 @@
   <div class="wrap">
     <a class="logo" href="#top" aria-label="AntarTrade"></a>
     <nav>
-      <a class="cur" href="#top">דף הבית</a>
-      <a href="#compare">חברות מימון</a>
-      <a href="#duel">השוואת חברות</a>
+      <a href="#compare">השוואת חברות</a>
+      <a href="#duel">דו קרב</a>
       <a class="deal" href="#deals">מבצעים והגרלות<svg viewBox="0 0 16 16" fill="none"><path transform="translate(1.5 1.5)" d="M12.1 0H8.26C8.14 0 8.03.05 7.94.13L.26 7.81C.09 7.98 0 8.21 0 8.45s.09.47.26.64l3.66 3.66c.17.17.4.26.64.26s.47-.09.64-.26l7.67-7.68c.09-.08.13-.2.13-.32V.9A.9.9 0 0 0 12.1 0Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="4" r=".875" fill="currentColor"/></svg></a>
-      <a href="#academy">מרכז הידע</a>
+      <a href="#academy">אקדמיה</a>
+      <a href="#platforms">כלי מסחר</a>
       <a href="#journal">יומן מסחר</a>
       <a href="#about">אודות</a>
     </nav>
-    <div class="halo"><a href="#academy">אקדמיה<svg viewBox="0 0 16 16" fill="none"><path transform="translate(1 2)" d="M0 4L7 0L14 4L7 8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path transform="translate(3.5 6)" d="M0 1.5V5.5L4.5 8M4.5 8L9 5.5V1.5M4.5 8V4M11.5 5.5V0" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+    <div class="halo"><a href="#compare"><span class="h-full">להשוואת חברות</span><span class="h-short">השוואה</span><svg viewBox="0 0 16 16" fill="none"><path d="M2.5 5H13M10 2L13 5L10 8M13.5 11H3M6 8L3 11L6 14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
   </div>
 </header>
 
@@ -2236,6 +2260,9 @@
   </div>
   <div class="s-footer__mark" aria-hidden="true"><span>ANTARTRADE</span></div>
 </footer>
+
+<!-- 98-rhythm.html -->
+
 
 <!-- 99-mobile.html -->
 <script>

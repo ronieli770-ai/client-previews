@@ -1,0 +1,24 @@
+<style>
+/* ---------- page rhythm (Noam's notes, 2026-10-20): about a third less air between sections, and a pale sky tint
+   (the site's #7DC6FF) on every other light section so white never runs twice in a row ---------- */
+:root { --sky-tint: color-mix(in srgb, #7DC6FF 13%, #fff); }
+.s-table { background: var(--sky-tint) !important; }
+.s-journal { background: linear-gradient(transparent 170px, var(--sky-tint) 170px) !important; }
+@media (min-width: 761px) {
+  .s-table { padding-top: 64px !important; padding-bottom: 72px !important; }
+  .s-duel { padding-top: 72px !important; padding-bottom: 80px !important; }
+  .s-deals { padding-top: 72px !important; padding-bottom: 88px !important; }
+  .s-academy { padding-top: 80px !important; padding-bottom: 96px !important; }
+  .s-platforms .p-inner { padding-top: 72px !important; padding-bottom: 48px !important; }
+  .s-journal { padding-bottom: 104px !important; }
+  .s-community { padding-top: 56px !important; padding-bottom: 104px !important; }
+  .s-next { padding-top: 80px !important; padding-bottom: 80px !important; }
+}
+@media (max-width: 760px) {
+  .s-journal { background: linear-gradient(transparent 60px, var(--sky-tint) 60px) !important; padding-bottom: 60px !important; }
+  .s-duel, .s-deals, .s-academy, .s-platforms .p-inner, .s-next { padding-top: 56px !important; padding-bottom: 60px !important; }
+  .s-community { padding-top: 40px !important; padding-bottom: 64px !important; }
+}
+.hdr .halo .h-short { display: none; }
+@media (max-width: 760px) { .hdr .halo .h-full { display: none; } .hdr .halo .h-short { display: inline; } }   /* the header row is too narrow on phones for the long label */
+</style>
