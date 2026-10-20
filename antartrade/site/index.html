@@ -480,14 +480,23 @@
 .tc-f .s-table .fc-deal{grid-area:deal;margin-top:16px;border:0;border-top:1px solid rgba(255,255,255,.07);background:none;border-radius:0;padding-top:14px;justify-content:space-between;align-items:center}
 .tc-f .s-table .fc-off{padding:0;color:rgba(255,255,255,.7);font-size:15px}
 .tc-f .s-table .fc-off b{font:600 30px var(--lat);color:#7dc6ff}
-.tc-f .s-table .fc-code{border:1px solid rgba(255,255,255,.15);border-radius:999px;color:#fff;padding:8px 14px}
+
 .tc-f .s-table .fc-code small{color:rgba(255,255,255,.55)}
 .tc-f .s-table .fc-deal.none .fc-off{color:rgba(255,255,255,.45)}
-.tc-f .s-table .fc-act{grid-area:act;padding:16px 0 0;margin:0}
-.tc-f .s-table .fc-btn{height:44px;border-radius:999px}
-.tc-f .s-table .fc-main{background:#7dc6ff;color:#12161f}
-.tc-f .s-table .fc-main:hover{background:#a6d9ff}
-.tc-f .s-table .fc-line{background:transparent;color:#fff;border-color:rgba(255,255,255,.15)}
+.tc-f .s-table .fc-act{grid-area:act;padding:16px 0 0;margin:0;display:flex;gap:10px;justify-content:flex-start}
+/* buttons in the language of the site's other cards: the deals card's light pill and its dashed code chip */
+.tc-f .s-table .fc-btn{height:auto;padding:10px 18px;border-radius:999px;font:500 14px "Roboto","Fb Reforma",sans-serif}
+.tc-f .s-table .fc-btn svg{display:none}
+.tc-f .s-table .fc-main{background:#eef1f5;color:#12161f}
+.tc-f .s-table .fc-main:hover{background:#fff}
+.tc-f .s-table .fc-line{background:transparent;color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.18)}
+.tc-f .s-table .fc-line:hover{border-color:rgba(255,255,255,.4)}
+.tc-f .s-table .fc-code{direction:ltr;border:1px dashed rgba(125,198,255,.5);background:rgba(125,198,255,.12);border-radius:999px;color:#d6ecff;padding:8px 14px}
+.tc-f .s-table .fc-code .lt{font-weight:700;font-size:14px}
+
+
+
+
 @media (max-width:980px){.s-table .fc-grid{grid-template-columns:minmax(0,1fr)}.s-table .fc-head h2{font-size:36px}}
 @media (max-width:760px){
   .s-table{padding:56px 16px 64px}
