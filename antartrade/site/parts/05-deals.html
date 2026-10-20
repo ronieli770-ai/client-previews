@@ -202,7 +202,7 @@
     const a = Math.abs(d), st = small() ? 220 : 360;
     if (a === 0) return { t: 'translateX(0) translateY(-10px) rotate(0) scale(1.06)', o: 1 };
     if (a === 1) return { t: `translateX(${-d * st}px) translateY(40px) rotate(${-d * 6}deg) scale(.86)`, o: .8 };
-    return { t: `translateX(${-d * st * 1.62}px) translateY(96px) rotate(${-d * 11}deg) scale(.72)`, o: small() ? 0 : .32 };
+    return { t: `translateX(${-d * st * 1.62}px) translateY(96px) rotate(${-d * 11}deg) scale(.72)`, o: 0 };   // only three cards show; the outer two waited at the screen edges on wide screens
   }
   function layoutFan(animate) {
     fanCards.forEach((c, i) => {
@@ -213,7 +213,7 @@
         if (wrapped) { c.style.opacity = 0; c.style.transform = p.t; requestAnimationFrame(() => requestAnimationFrame(() => { c.style.transition = ''; c.style.opacity = p.o; })); }
         else { c.style.transform = p.t; c.style.opacity = p.o; requestAnimationFrame(() => { c.style.transition = ''; }); }
       } else { c.style.transition = ''; c.style.transform = p.t; c.style.opacity = p.o; }
-      c.style.zIndex = 5 - a; c.style.pointerEvents = a > 1 && small() ? 'none' : '';
+      c.style.zIndex = 5 - a; c.style.pointerEvents = a > 1 ? 'none' : '';
       c.style.filter = a ? `saturate(.8) brightness(${a > 1 ? .75 : .9})` : 'none';
       c.classList.toggle('front', !a);
       prevD[i] = d;

@@ -74,6 +74,12 @@
 
 /* shorter hero so the partner logos are visible on arrival */
 @media (min-width:981px){.s-hero{--hp:clamp(150px,20vh,217px);min-height:0;padding:var(--hp) 16px calc(var(--hp) * .857)}}
+
+/* wide screens: the photo dissolves on every side instead of ending in a hard-edged box */
+@media (min-width:981px){
+  .s-hero .s-hero__trader{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 24%,#000 70%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%,#000 68%,transparent 100%);-webkit-mask-composite:source-in;
+    mask-image:linear-gradient(to right,transparent 0,#000 24%,#000 70%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%,#000 68%,transparent 100%);mask-composite:intersect}
+}
 </style>
 <section class="s-hero" id="top" data-theme="dark">
   <div class="s-hero__bg" aria-hidden="true">

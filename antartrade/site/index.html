@@ -135,7 +135,7 @@
   .mega .tile img { width: 26px; height: 26px; object-fit: contain; }
   .mega .lt { font-family: "Roboto", sans-serif; direction: ltr; unicode-bidi: isolate; }
   .mega .pct { font: 700 15px "Roboto", sans-serif; }
-  .mega .code { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; font: 500 13px "Roboto", sans-serif; letter-spacing: 1px; cursor: pointer; white-space: nowrap;
+  .mega .code { display: inline-flex; align-items: center; gap: 6px; height: 39px; padding: 0 16px; border-radius: 999px; font: 500 13px "Roboto", sans-serif; letter-spacing: 1px; cursor: pointer; white-space: nowrap;
     color: var(--ice); background: rgba(125,198,255,.1); box-shadow: inset 0 0 0 1px rgba(125,198,255,.35); transition: background-color .2s; }
   .mega .code:hover { background: rgba(125,198,255,.22); }
   .mega .code svg { width: 13px; height: 13px; }
@@ -159,7 +159,8 @@
   .mega .prev h4 { font-size: 20px; font-weight: 500; line-height: 1.3; }
   .mega .prev p { font-size: 14px; color: rgba(255,255,255,.65); line-height: 1.5; }
   .mega .prev .act { margin-top: auto; display: flex; gap: 10px; align-items: center; }
-  .mega .prev .btn { height: 40px; padding: 0 18px; border-radius: 999px; background: #fff; color: var(--navy); font-weight: 500; display: inline-flex; align-items: center; font-size: 15px; }
+  .mega .prev .btn, .mega .hot .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 18px; border-radius: 999px; background: #eef1f5; color: #12161f; font: var(--btn-card); white-space: nowrap; transition: background-color .2s; }
+  .mega .prev .btn:hover, .mega .hot .btn:hover { background: #fff; }
   .mega .swap { animation: mega-swap .35s var(--ease); } @keyframes mega-swap { from { opacity: 0; transform: translateY(8px); } }
   /* compare: the four ways to compare */
   .mega .cmp { display: grid; grid-template-columns: repeat(2, 270px); gap: 12px; }
@@ -179,8 +180,7 @@
   .mega .hot .n { font: 700 64px/1 "Roboto", sans-serif; background: linear-gradient(90deg, #8c7bff, #fff); -webkit-background-clip: text; background-clip: text; color: transparent; direction: ltr; text-align: right; }
   .mega .hot h4 { font-size: 18px; font-weight: 500; line-height: 1.3; }
   .mega .hot .act { display: flex; gap: 10px; align-items: center; margin-top: 6px; }
-  .mega .hot .btn { height: 38px; padding: 0 16px; border-radius: 999px; background: #fff; color: var(--navy); font-weight: 500; display: inline-flex; align-items: center; font-size: 14px; }
-  /* deals: mini deal cards in each deal's own colour */
+    /* deals: mini deal cards in each deal's own colour */
   .mega .deals { display: grid; grid-template-columns: repeat(5, 150px); gap: 10px; }
   .mega .dc { border-radius: 18px; padding: 16px 12px; display: grid; gap: 6px; justify-items: center; text-align: center;
     background: radial-gradient(95% 95% at 0% 100%, color-mix(in srgb, var(--c) 40%, transparent), transparent 70%), #0b0e14; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 45%, transparent); transition: transform .3s var(--ease); }
@@ -198,7 +198,9 @@
   .mega .tl .t { flex: 1; display: grid; gap: 1px; min-width: 0; }
   .mega .tl b { font: 500 16px "Roboto", sans-serif; direction: ltr; text-align: right; }
   .mega .tl .sub { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .mega .tl .badge { flex: none; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; color: #3fd8c2; background: rgba(63,216,194,.12); white-space: nowrap; }
+  .mega .tl .badge { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; white-space: nowrap; color: #fff; font: 500 13px/1.2 "Fb Reforma", sans-serif;
+    background: linear-gradient(90deg, #f261e6 0%, #a061f2 25%, #422ed8 50%, #6161f2 75%, #2b9df9 100%); }
+  .mega .tl .badge img { width: 13px; height: 13px; flex: none; }
   /* academy: the new covers */
   .mega .acad { display: grid; grid-template-columns: repeat(3, 200px); gap: 12px; }
   .mega .acad a { border-radius: 16px; overflow: hidden; background: #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.14); transition: transform .35s var(--ease); }
@@ -221,8 +223,7 @@
   .hdr.light .mega .prev .eb { color: var(--blue); }
   .hdr.light .mega .prev .big, .hdr.light .mega .hot .n { background: linear-gradient(90deg, var(--gc, #2e8bd8), #12161f); -webkit-background-clip: text; background-clip: text; }
   .hdr.light .mega .prev p { color: rgba(18,22,31,.65); }
-  .hdr.light .mega .prev .btn, .hdr.light .mega .hot .btn { background: #12161f; color: #fff; }
-  .hdr.light .mega .cmp a { background: #fff; box-shadow: inset 0 0 0 1px rgba(18,22,31,.08); }
+    .hdr.light .mega .cmp a { background: #fff; box-shadow: inset 0 0 0 1px rgba(18,22,31,.08); }
   .hdr.light .mega .cmp a:hover { background: #f4f8fc; }
   .hdr.light .mega .cmp .tile { background: radial-gradient(70% 70% at 0% 100%, rgba(46,139,216,.18), transparent 70%), #fff; }
   .hdr.light .mega .cmp .tile svg { color: var(--blue); }
@@ -230,8 +231,7 @@
   .hdr.light .mega .hot .eb { background: rgba(140,123,255,.16); color: #5b4bd6; }
   .hdr.light .mega .tools .grp { color: rgba(18,22,31,.45); }
   .hdr.light .mega .tl img { filter: drop-shadow(0 6px 10px rgba(18,22,31,.2)); }
-  .hdr.light .mega .tl .badge { color: #0f8a7a; background: rgba(63,216,194,.16); }
-  .hdr.light .mega .acad a { background: #fff; box-shadow: inset 0 0 0 1px rgba(18,22,31,.08), 0 10px 24px -14px rgba(18,22,31,.3); }
+    .hdr.light .mega .acad a { background: #fff; box-shadow: inset 0 0 0 1px rgba(18,22,31,.08), 0 10px 24px -14px rgba(18,22,31,.3); }
   @media (max-width: 1180px) { .mega, .mega-dim { display: none; } }
 </style>
 <style>
@@ -310,6 +310,12 @@
 
 /* shorter hero so the partner logos are visible on arrival */
 @media (min-width:981px){.s-hero{--hp:clamp(150px,20vh,217px);min-height:0;padding:var(--hp) 16px calc(var(--hp) * .857)}}
+
+/* wide screens: the photo dissolves on every side instead of ending in a hard-edged box */
+@media (min-width:981px){
+  .s-hero .s-hero__trader{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 24%,#000 70%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%,#000 68%,transparent 100%);-webkit-mask-composite:source-in;
+    mask-image:linear-gradient(to right,transparent 0,#000 24%,#000 70%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%,#000 68%,transparent 100%);mask-composite:intersect}
+}
 </style>
 <style>
 .s-logos{--k:1;box-sizing:border-box;position:relative;background:#fff;color:#12161F;padding:48px 16px 80px;font-family:"Fb Reforma",sans-serif;direction:rtl;overflow:hidden}
@@ -1829,7 +1835,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   const ACAD = [['full.webp', 'המסלול המלא למסחר בחוזים'], ['intro.webp', 'קורס המבוא החינמי'], ['nostro.webp', 'קורס הנוסטרו החינמי'], ['v-apex.jpg', 'מדריך לאפקס'], ['v-tp.jpg', 'החוקים של טייק פרופיט'], ['a-footprint.jpg', 'מה זה פוטפרינט?']];
   const code = () => `<span class="code" data-copy>${COPY}<span class="lt">ANTAR</span></span>`;
   const prev = f => `<div class="swap" style="display:contents"><span class="eb">${f.n}</span><span class="big" style="--gc:${f.c}">${f.pct}</span><h4>${f.h}</h4><p>${f.p}</p><div class="act"><a class="btn" href="#compare">לביקורת המלאה</a>${code()}</div></div>`;
-  const tl = ([img, n, d, deal]) => `<a class="tl" href="#platforms"><img src="${IMG + img}" alt=""><span class="t"><b>${n}</b><span class="sub">${d}</span></span>${deal ? `<span class="badge">${deal}</span>` : ''}</a>`;
+  const tl = ([img, n, d, deal]) => `<a class="tl" href="#platforms"><img src="${IMG + img}" alt=""><span class="t"><b>${n}</b><span class="sub">${d}</span></span>${deal ? `<span class="badge"><img src="${IMG}${/ניסיון/.test(deal) ? 'icon-gift' : 'icon-pricetag'}.svg" alt="">${deal}</span>` : ''}</a>`;
   const PANES = {
     firms: `<div class="firms"><div class="list">${FIRMS.map((f, i) => `<a class="it${i ? '' : ' on'}" data-f="${i}" href="#compare"><span class="tile"><img src="${IMG + f.logo}" alt=""></span><b class="lt">${f.n}</b><span class="pct" style="color:${f.c}">${f.pct}</span>${code()}</a>`).join('')}<a class="more" href="#compare">לכל חברות המימון ${ARROW}</a></div><div class="prev" id="mega-prev">${prev(FIRMS[0])}</div></div>`,
     compare: `<div class="cmp">${[
@@ -2289,7 +2295,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
     const a = Math.abs(d), st = small() ? 220 : 360;
     if (a === 0) return { t: 'translateX(0) translateY(-10px) rotate(0) scale(1.06)', o: 1 };
     if (a === 1) return { t: `translateX(${-d * st}px) translateY(40px) rotate(${-d * 6}deg) scale(.86)`, o: .8 };
-    return { t: `translateX(${-d * st * 1.62}px) translateY(96px) rotate(${-d * 11}deg) scale(.72)`, o: small() ? 0 : .32 };
+    return { t: `translateX(${-d * st * 1.62}px) translateY(96px) rotate(${-d * 11}deg) scale(.72)`, o: 0 };   // only three cards show; the outer two waited at the screen edges on wide screens
   }
   function layoutFan(animate) {
     fanCards.forEach((c, i) => {
@@ -2300,7 +2306,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
         if (wrapped) { c.style.opacity = 0; c.style.transform = p.t; requestAnimationFrame(() => requestAnimationFrame(() => { c.style.transition = ''; c.style.opacity = p.o; })); }
         else { c.style.transform = p.t; c.style.opacity = p.o; requestAnimationFrame(() => { c.style.transition = ''; }); }
       } else { c.style.transition = ''; c.style.transform = p.t; c.style.opacity = p.o; }
-      c.style.zIndex = 5 - a; c.style.pointerEvents = a > 1 && small() ? 'none' : '';
+      c.style.zIndex = 5 - a; c.style.pointerEvents = a > 1 ? 'none' : '';
       c.style.filter = a ? `saturate(.8) brightness(${a > 1 ? .75 : .9})` : 'none';
       c.classList.toggle('front', !a);
       prevD[i] = d;
