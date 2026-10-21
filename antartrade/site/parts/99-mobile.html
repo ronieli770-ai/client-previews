@@ -14,27 +14,53 @@
   .m-menu .m-top { display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; height: 48px; }
   .m-menu .m-top .logo { width: 150px; height: 39px; background: #fff; -webkit-mask: url(img/logo-new-white.png) left center / contain no-repeat; mask: url(img/logo-new-white.png) left center / contain no-repeat; }
   .m-menu .m-close { width: 48px; height: 48px; border: 0; border-radius: 50%; background: rgba(255,255,255,.08); color: #fff; cursor: pointer; display: grid; place-items: center; }
-  .m-menu nav { display: flex; flex-direction: column; margin-top: 28px; }
-  .m-menu nav a { display: flex; align-items: center; justify-content: space-between; padding: 18px 4px; font: 500 24px "Fb Reforma", sans-serif; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.08);
-    opacity: 0; translate: 0 14px; transition: opacity .4s ease, translate .5s cubic-bezier(.22,.61,.36,1); transition-delay: calc(var(--i) * 45ms + 80ms); }
-  .m-menu.open nav a { opacity: 1; translate: 0 0; }
-  .m-menu nav a.deal { color: #7dc6ff; }
-  .m-menu nav a svg { width: 14px; height: 10px; opacity: .5; }
   .m-menu .m-cta { margin-top: auto; display: flex; justify-content: center; }
   body.menu-open { overflow: hidden; }
 
-  /* the menu grows out of the hamburger as a circle; big links rise in out of a blur */
-  .m-menu { opacity: 1; clip-path: circle(0 at calc(100% - 40px) 36px); transition: clip-path .75s cubic-bezier(.7,0,.2,1), visibility .75s;
-    background: radial-gradient(90% 55% at 100% 0%, rgba(97,177,242,.26), transparent 65%), #12161f; }
+  /* the menu grows out of the hamburger as a circle */
+  .m-menu { opacity: 1; clip-path: circle(0 at calc(100% - 40px) 36px); transition: clip-path .75s cubic-bezier(.7,0,.2,1), visibility .75s; overflow-y: auto; overscroll-behavior: contain;
+    background: radial-gradient(90% 40% at 100% 0%, rgba(97,177,242,.22), transparent 65%), #12161f; }
   .m-menu.open { clip-path: circle(160% at calc(100% - 40px) 36px); }
-  .m-menu nav { margin-top: 36px; }
-  .m-menu nav a { justify-content: flex-start; gap: 14px; padding: 9px 0; border: 0; font-size: 36px; line-height: 1.1; translate: 0 36px; filter: blur(8px); transition: opacity .5s ease, translate .7s cubic-bezier(.22,1,.36,1), filter .6s ease; transition-delay: calc(var(--i) * 60ms + 260ms); }
-  .m-menu.open nav a { filter: blur(0); }
-  .m-menu nav a > svg { display: none; }
-  .m-menu nav a.cur .ml { background: linear-gradient(90deg, #61B1F2, #fff 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .m-menu .m-social { display: flex; gap: 10px; justify-content: center; margin: auto 0 18px; }
-  .m-menu .m-cta { margin-top: 0; }
-  .m-menu .m-social a { display: grid; place-items: center; height: 48px; min-width: 48px; border-radius: 999px; background: rgba(255,255,255,.06); }
+  /* search, like the hero field: opens the assistant */
+  .m-menu .m-search { display: flex; align-items: center; gap: 10px; width: 100%; height: 46px; margin-top: 18px; padding: 0 16px; border-radius: 14px; border: 1px solid rgba(97,177,242,.45); background: rgba(255,255,255,.05);
+    color: rgba(255,255,255,.65); font: 400 15px "IBM Plex Sans Hebrew", sans-serif; text-align: right; cursor: pointer; flex: none; }
+  .m-menu .m-search svg { width: 20px; height: 20px; color: #7dc6ff; flex: none; }
+  /* sections as an accordion */
+  .m-menu .m-acc { display: block; margin-top: 10px; }
+  .m-menu .m-it { border-bottom: 1px solid rgba(255,255,255,.07); opacity: 0; translate: 0 16px; transition: opacity .45s ease, translate .6s cubic-bezier(.22,1,.36,1); transition-delay: calc(var(--i) * 45ms + 250ms); }
+  .m-menu.open .m-it { opacity: 1; translate: 0 0; }
+  .m-menu .m-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 15px 2px; border: 0; background: none; color: #fff; font: 500 18px "Fb Reforma", sans-serif; text-decoration: none; text-align: right; cursor: pointer; }
+  .m-menu .m-row .ml { flex: 1; }
+  .m-menu .m-ic { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; background: rgba(125,198,255,.1); color: #7dc6ff; flex: none; }
+  .m-menu .m-ic svg { width: 19px; height: 19px; }
+  .m-menu .m-chev svg { width: 18px; height: 18px; color: rgba(255,255,255,.5); transition: transform .35s ease; display: block; }
+  .m-menu .m-it.open .m-chev svg { transform: rotate(180deg); }
+  .m-menu .m-it.open .m-ic { background: #7dc6ff; color: #12161f; }
+  .m-menu .m-sub { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s cubic-bezier(.22,1,.36,1); }
+  .m-menu .m-it.open .m-sub { grid-template-rows: 1fr; }
+  .m-menu .m-sub-in { overflow: hidden; min-height: 0; display: grid; gap: 2px; }
+  .m-menu .m-it.open .m-sub-in { padding: 0 0 12px; }
+  .m-menu .m-sub a { display: flex; align-items: center; gap: 10px; padding: 9px 10px 9px 6px; margin-right: 48px; border-radius: 12px; color: rgba(255,255,255,.85); text-decoration: none; font: 400 16px "Fb Reforma", sans-serif; }
+  .m-menu .m-sub a:active { background: rgba(125,198,255,.1); }
+  .m-menu .m-sub a > span:not(.m-tile) { flex: 1; }
+  .m-menu .m-tile { width: 30px; height: 30px; border-radius: 9px; background: #fff; display: grid; place-items: center; flex: none; }
+  .m-menu .m-tile img { width: 20px; height: 20px; object-fit: contain; }
+  .m-menu .m-d { font: 700 14px "Roboto", sans-serif; color: #7dc6ff; direction: ltr; }
+  /* live deals at the bottom, as small cards in each deal's colour */
+  .m-menu .m-deals { margin-top: 22px; flex: none; }
+  .m-menu .m-deals-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font: 500 15px "Fb Reforma", sans-serif; color: rgba(255,255,255,.7); }
+  .m-menu .m-code { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px dashed rgba(125,198,255,.5); background: rgba(125,198,255,.12); color: #d6ecff; font: 400 13px "Fb Reforma", sans-serif; cursor: pointer; }
+  .m-menu .m-code b { font: 700 13px "Roboto", sans-serif; letter-spacing: 1px; }
+  .m-menu .m-code svg { width: 13px; height: 13px; }
+  .m-menu .m-code.done { background: #3fd8c2; color: #12161f; border-color: transparent; }
+  .m-menu .m-deals-row { display: flex; gap: 8px; overflow-x: auto; margin-inline: -16px; padding: 2px 16px 6px; scrollbar-width: none; }
+  .m-menu .m-deals-row::-webkit-scrollbar { display: none; }
+  .m-menu .m-dc { flex: 0 0 104px; display: grid; justify-items: center; gap: 6px; padding: 14px 8px; border-radius: 16px; text-decoration: none; color: #fff;
+    background: radial-gradient(95% 95% at 0% 100%, color-mix(in srgb, var(--c) 38%, transparent), transparent 70%), #0b0e14; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 45%, transparent); }
+  .m-menu .m-dc b { font: 500 13px "Roboto", sans-serif; }
+  .m-menu .m-pct { font: 700 24px/1 "Roboto", sans-serif; direction: ltr; background: linear-gradient(90deg, var(--c), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .m-menu .m-social { display: flex; gap: 10px; justify-content: center; margin: 22px 0 6px; flex: none; }
+  .m-menu .m-social a { display: grid; place-items: center; height: 46px; min-width: 46px; border-radius: 999px; background: rgba(255,255,255,.06); }
   .m-menu .m-social img { width: 20px; height: 20px; }
 }
 
@@ -286,15 +312,53 @@
   wrap.appendChild(b);
   const m = document.createElement('div'); m.className = 'm-menu'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-label', 'תפריט');
   const ARROW = '<svg viewBox="0 0 12 8" fill="none"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  // phone menu after Payless: search on top, sections as an accordion with their pages, live deals at the bottom - in the site's own navy and sky
+  const SV = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  const N = 'https://antartrade.co.il';
+  const MENU = [
+    { t: 'דף הבית', h: '#top', ic: '<path d="M4 11L12 4L20 11V19C20 19.6 19.6 20 19 20H15V14H9V20H5C4.4 20 4 19.6 4 19Z"/>' },
+    { t: 'חברות מימון', ic: '<path d="M4 20H20M6 20V10M10 20V10M14 20V10M18 20V10M3 10L12 4L21 10Z"/>', sub: [
+      { t: 'Take Profit Trader', h: N + '/take-profit', img: 'brand-takeprofit.png', d: '40%' }, { t: 'Apex Trader Funding', h: N + '/apex', img: 'brand-apex.png', d: '90%' },
+      { t: 'Bulenox', h: N + '/bulenox', img: 'brand-bulenox.png', d: '91%' }, { t: 'Lucid Trading', h: N + '/lucid', img: 'brand-lucid.png', d: '30%' },
+      { t: 'FundedNext', h: N + '/funded-next', img: 'brand-fundednext.png', d: '50%' }, { t: 'Topstep', h: N + '/top-step', img: 'firm-topstep.svg' },
+      { t: 'Alpha Futures', h: N + '/alpha-futures', img: 'brand-alpha.png' }, { t: 'FTMO', h: N + '/ftmo', img: 'brand-ftmo.png' } ] },
+    { t: 'השוואת חברות', ic: '<path d="M4 8H18M14 4L18 8L14 12M20 16H6M10 12L6 16L10 20"/>', sub: [
+      { t: 'השוואה מהירה', h: '#compare' }, { t: 'דו קרב חברות', h: '#duel' }, { t: 'טבלת ההשוואה המלאה', h: N + '/comparison' }, { t: 'שאלון התאמה', h: N + '/matching-quiz' } ] },
+    { t: 'מבצעים והגרלות', h: '#deals', ic: '<path d="M12.5 3.5H19C19.8 3.5 20.5 4.2 20.5 5V11.5L11.5 20.5L3.5 12.5Z"/><circle cx="16" cy="8" r="1.4"/>' },
+    { t: 'מרכז הידע', ic: '<path d="M2.5 9L12 4.5L21.5 9L12 13.5Z"/><path d="M6.5 11V16C8 17.5 10 18.3 12 18.3C14 18.3 16 17.5 17.5 16V11"/>', sub: [
+      { t: 'קורס המבוא החינמי', h: N + '/free-course' }, { t: 'קורס הנוסטרו החינמי', h: N + '/nostro-course' }, { t: 'המסלול המלא', h: N + '/full-course' },
+      { t: 'קורס Order Flow', h: N + '/orderflow-course' }, { t: 'סרטונים', h: N + '/academy/videos' }, { t: 'בלוג ומאמרים', h: N + '/blog' } ] },
+    { t: 'כלי מסחר', ic: '<path d="M14.5 6.5L17.5 9.5M4 20L9 15M13 4L20 11L15 16L8 9Z"/>', sub: [
+      { t: 'NinjaTrader', h: N + '/ninjatrader-guide', img: 'flat-ninjatrader.png' }, { t: 'TradingView', h: N + '/tradingview-guide', img: 'flat-tradingview.png' },
+      { t: 'ATAS', h: N + '/atas-guide', img: 'flat-atas.png' }, { t: 'Bookmap', h: N + '/bookmap-guide', img: 'flat-bookmap.svg' },
+      { t: 'TradeZella', h: N + '/tradezella-guide', img: 'flat-tradezella.png' }, { t: 'TradeSyncer', h: N + '/tradesyncer-guide', img: 'flat-tradesyncer.png' },
+      { t: 'Replikanto', h: N + '/replikanto-guide', img: 'flat-replikanto.png' } ] },
+    { t: 'יומן מסחר', h: '#journal', ic: '<path d="M7 4H17C18.1 4 19 4.9 19 6V20L15.5 18L12 20L8.5 18L5 20V6C5 4.9 5.9 4 7 4Z"/><path d="M9 9H15M9 13H13"/>' },
+    { t: 'אודות', h: '#about', ic: '<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20C5.8 16.6 8.6 14.5 12 14.5C15.4 14.5 18.2 16.6 19 20"/>' },
+  ];
+  const DEALS = [
+    { n: 'Bulenox', p: '91%', img: 'brand-bulenox.png', c: '#d17bff' }, { n: 'Apex', p: '90%', img: 'brand-apex.png', c: '#3fd8c2' },
+    { n: 'FundedNext', p: '50%', img: 'brand-fundednext.png', c: '#4f6bff' }, { n: 'Take Profit', p: '40%', img: 'brand-takeprofit.png', c: '#8c7bff' },
+    { n: 'Lucid', p: '30%', img: 'brand-lucid.png', c: '#61b1f2' } ];
+  const COPY = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
   m.innerHTML = '<div class="m-top"><span class="logo"></span><button class="m-close" type="button" aria-label="סגירת תפריט"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>'
-    + '<nav>' + [...nav.querySelectorAll('a')].map((a, i) => `<a href="${a.getAttribute('href')}" class="${a.className}" style="--i:${i}"><span class="ml">${a.textContent.trim()}</span>${ARROW}</a>`).join('') + '</nav>'
-    + '<div class="m-social"><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/foot-whatsapp.svg" alt=""></a><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" alt=""></a><a href="https://www.instagram.com/antar.trade/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" alt=""></a><a href="mailto:antartradepro@gmail.com" aria-label="Mail"><img src="img/foot-mail.svg" alt=""></a></div>'
-    + '<div class="m-cta"><a class="btn-halo sky" href="#academy"><span>לאקדמיה' + ARROW + '</span></a></div>';
+    + '<button class="m-search" type="button"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M16 16L20 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>חיפוש חברה, כלי או מושג</span></button>'
+    + '<nav class="m-acc">' + MENU.map((it, i) => it.sub
+        ? `<div class="m-it" style="--i:${i}"><button type="button" class="m-row" aria-expanded="false"><span class="m-ic">${SV(it.ic)}</span><span class="ml">${it.t}</span><span class="m-chev">${SV('<path d="M7 10L12 15L17 10"/>')}</span></button><div class="m-sub"><div class="m-sub-in">${it.sub.map(x => `<a href="${x.h}"${x.h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${x.img ? `<span class="m-tile"><img src="img/${x.img}" alt=""></span>` : ''}<span>${x.t}</span>${x.d ? `<b class="m-d">${x.d}</b>` : ''}</a>`).join('')}</div></div></div>`
+        : `<div class="m-it" style="--i:${i}"><a class="m-row" href="${it.h}"><span class="m-ic">${SV(it.ic)}</span><span class="ml">${it.t}</span></a></div>`).join('') + '</nav>'
+    + '<div class="m-deals"><div class="m-deals-h"><span>מבצעים פעילים</span><span class="m-code" role="button" tabindex="0">קוד <b>ANTAR</b>' + COPY + '</span></div><div class="m-deals-row">'
+    + DEALS.map(d => `<a class="m-dc" href="#deals" style="--c:${d.c}"><span class="m-tile"><img src="img/${d.img}" alt=""></span><b>${d.n}</b><span class="m-pct">${d.p}</span></a>`).join('') + '</div></div>'
+    + '<div class="m-social"><a href="https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/foot-whatsapp.svg" alt=""></a><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" alt=""></a><a href="https://www.instagram.com/noam_antar/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" alt=""></a><a href="mailto:antartradepro@gmail.com" aria-label="Mail"><img src="img/foot-mail.svg" alt=""></a></div>';
   document.body.appendChild(m);
   const open = v => { m.classList.toggle('open', v); document.body.classList.toggle('menu-open', v); b.setAttribute('aria-expanded', v); };
   b.addEventListener('click', () => open(true));
   m.querySelector('.m-close').addEventListener('click', () => open(false));
   m.querySelectorAll('a').forEach(a => a.addEventListener('click', () => open(false)));
+  m.querySelectorAll('.m-it > button.m-row').forEach(r => r.addEventListener('click', () => { const it = r.parentElement, on = !it.classList.contains('open');
+    m.querySelectorAll('.m-it.open').forEach(o => { o.classList.remove('open'); o.querySelector('.m-row').setAttribute('aria-expanded', 'false'); });
+    it.classList.toggle('open', on); r.setAttribute('aria-expanded', on); }));
+  m.querySelector('.m-search').addEventListener('click', () => { open(false); const f = document.querySelector('.bot-fab'); if (f) setTimeout(() => f.click(), 250); });
+  const mc = m.querySelector('.m-code'); mc.addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText('ANTAR').catch(() => {}); mc.classList.add('done'); setTimeout(() => mc.classList.remove('done'), 1400); });
   addEventListener('keydown', e => { if (e.key === 'Escape') open(false); });
 
   // comparison table: the firm column is copied beside the scroller, row for row, so it stays put without position: sticky
