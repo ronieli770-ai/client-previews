@@ -8,12 +8,12 @@
   .hdr .burger svg { width: 24px; height: 24px; }
   .hdr .wrap { gap: 12px; }
   .hdr .halo { margin-inline-start: auto; }
-  .m-menu { display: flex; position: fixed; inset: 0; z-index: 70; flex-direction: column; padding: 18px 20px 32px; background: #12161f; color: #fff;
+  .m-menu { display: flex; position: fixed; inset: 0; z-index: 70; flex-direction: column; padding: 12px 16px 32px; background: #12161f; color: #fff;
     opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility .35s; }
   .m-menu.open { opacity: 1; visibility: visible; }
-  .m-menu .m-top { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-  .m-menu .m-top .logo { width: 150px; height: 33px; background: #fff; -webkit-mask: url(img/logo-mark.webp) right center / contain no-repeat; mask: url(img/logo-mark.webp) right center / contain no-repeat; }
-  .m-menu .m-close { width: 44px; height: 44px; border: 0; background: none; color: #fff; cursor: pointer; }
+  .m-menu .m-top { display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; height: 48px; }
+  .m-menu .m-top .logo { width: 150px; height: 33px; background: #fff; -webkit-mask: url(img/logo-mark.webp) left center / contain no-repeat; mask: url(img/logo-mark.webp) left center / contain no-repeat; }
+  .m-menu .m-close { width: 48px; height: 48px; border: 0; border-radius: 50%; background: rgba(255,255,255,.08); color: #fff; cursor: pointer; display: grid; place-items: center; }
   .m-menu nav { display: flex; flex-direction: column; margin-top: 28px; }
   .m-menu nav a { display: flex; align-items: center; justify-content: space-between; padding: 18px 4px; font: 500 24px "Fb Reforma", sans-serif; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.08);
     opacity: 0; translate: 0 14px; transition: opacity .4s ease, translate .5s cubic-bezier(.22,.61,.36,1); transition-delay: calc(var(--i) * 45ms + 80ms); }
@@ -69,8 +69,8 @@
   .s-hero .s-hero__sub { justify-content: flex-start; text-align: right; font-size: 16px; color: rgba(255,255,255,.88); }
   /* three equal tiles in one row (after schooliner): same width, label on two centred lines */
   .s-hero .s-hero__btns { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
-  .s-hero .s-hero__halo { padding: 0; border-radius: 16px; min-width: 0; display: flex; }
-  .s-hero .s-hero__halo-in { flex: 1; width: 100% !important; height: 68px !important; padding: 0 16px !important; border-radius: 15px; font-size: 16px !important; font-weight: 500; line-height: 1.15 !important; white-space: normal !important; text-align: center; gap: 0; }
+  .s-hero .s-hero__halo { padding: 5px; border-radius: 999px; min-width: 0; display: flex; }
+  .s-hero .s-hero__halo-in { flex: 1; width: 100% !important; height: 46px !important; padding: 0 12px !important; border-radius: 999px; font-size: 16px !important; font-weight: 500; line-height: 1 !important; white-space: nowrap !important; text-align: center; gap: 0; }
   .s-hero .s-hero__halo-in img { display: none; }
   /* frames swapped: the outlined tiles take the full sky line, the search the softer one, so the buttons read first */
   .s-hero .s-hero__halo:not(.s-hero__halo--primary) .s-hero__halo-in { border-color: #61B1F2 !important; }
@@ -195,6 +195,10 @@
   /* ---------- academy ---------- */
   /* every title on phones: line height 110% */
   h1, h2, h1 *, h2 * { line-height: 1.1 !important; }
+  html body .s-hero .s-hero__title, html body .s-hero .s-hero__title * { line-height: 1.2 !important; }   /* hero title at 120% */
+  /* titles in a narrower measure, balanced over their lines */
+  h2 { text-wrap: balance; }
+  .s-table .fc-head h2, .s-duel h2, .s-deals h2, .s-academy h2, .s-platforms h2, .s-next h2 { max-width: 300px; margin-inline: auto !important; }
   .s-academy .card { padding: 18px; }
   .s-academy .grid > .card:nth-child(n+5) { display: none; }   /* four cards at most on phones, in every tab */
   .s-academy .tabs { width: 100%; }
