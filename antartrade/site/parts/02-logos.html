@@ -58,12 +58,12 @@
 .ls-a .s-logos .s-logos__track .lg-sep{display:none}
 .ls-a .s-logos .s-logos__track.row2{display:flex;margin-top:calc(var(--k)*26px);animation-direction:reverse}
 .ls-a .s-logos .s-logos__track.row1 .lg.tool,.ls-a .s-logos .s-logos__track.row2 .lg.firm{display:none}
-/* D: the label carries a double chevron pointing at its group (the strip runs left, so a group sits to the right of its label) */
+/* D: each label carries the site's own arrow (the in-card button arrow), turned to the group it names (the strip runs left, so a group sits to the right of its label) */
 .ls-d .s-logos .lg-sep{display:flex}
-.ls-d .s-logos .lg-sep small{display:inline-flex;align-items:center;gap:calc(var(--k)*6px);direction:rtl}
-.ls-d .s-logos .lg-sep small::before{content:"";order:-1;width:calc(var(--k)*14px);height:calc(var(--k)*10px);background:currentColor;
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 1l4 4-4 4M8 1l4 4-4 4'/%3E%3C/svg%3E") center/contain no-repeat;
-  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 1l4 4-4 4M8 1l4 4-4 4'/%3E%3C/svg%3E") center/contain no-repeat}
+.ls-d .s-logos .lg-sep small{display:inline-flex;align-items:center;gap:calc(var(--k)*7px);direction:rtl}
+.ls-d .s-logos .lg-sep small::before{content:"";order:-1;width:calc(var(--k)*12px);height:calc(var(--k)*8px);background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23000' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 4H11M8 1L11 4L8 7'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23000' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 4H11M8 1L11 4L8 7'/%3E%3C/svg%3E") center/contain no-repeat}
 /* E: two rows, each with its name standing still at the reading edge while its logos run */
 .ls-e .s-logos .s-logos__track .lg-sep{display:none}
 .ls-e .s-logos .s-logos__track.row2{display:flex;margin-top:calc(var(--k)*26px);animation-direction:reverse}
@@ -93,7 +93,7 @@
     </div>
   </div>
 </section>
-<script>(function(){ const q = new URLSearchParams(location.search).get('ls'), ls = /^[a-f]$/.test(q || '') ? q : 'c';   /* the labelled marker is the chosen look; d, e, f are the options for Noam's arrows note */
+<script>(function(){ const q = new URLSearchParams(location.search).get('ls'), ls = /^[a-f]$/.test(q || '') ? q : 'd';   /* chosen: the label with the site's arrow (d); c, e, f stay for review */
   document.documentElement.classList.add('ls-' + ls);
   if (ls !== 'f') return;
   document.querySelectorAll('.s-logos__set').forEach(set => { let g = null;
