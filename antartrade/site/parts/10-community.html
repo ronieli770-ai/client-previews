@@ -1,5 +1,7 @@
 <style>
-.s-community{background:#fff;color:#12161F;font-family:"Fb Reforma",sans-serif;direction:rtl;padding:80px 0 160px;overflow:hidden}
+.s-community{position:relative;background:#fff;color:#12161F;font-family:"Fb Reforma",sans-serif;direction:rtl;padding:200px 0 140px;overflow:hidden}
+/* the soft sky circle on the right edge (Figma Ellipse 8): inside the section, so it never spills into the next one */
+.s-community::before{content:"";position:absolute;z-index:0;right:-260px;bottom:110px;width:520px;height:520px;background:url("img/bg-glow.svg") center/contain no-repeat;filter:blur(48px);pointer-events:none}
 .s-community *{box-sizing:border-box}
 .s-community .wrap{width:min(1171px,calc(100% - 48px));margin-inline:auto}
 .s-community .en{font-family:"Roboto",sans-serif;font-weight:500;font-variation-settings:"wdth" 100}
@@ -42,6 +44,7 @@
   .s-community .sub{font-size:18px;margin-top:8px}
   .s-community .cards{margin-top:88px;grid-template-columns:1fr;gap:64px;max-width:480px;margin-inline:auto}
 }
+@media (max-width:760px){.s-community::before{width:300px;height:300px;right:-150px;top:auto;bottom:120px;filter:blur(30px)}}
 @media (max-width:620px){
   .s-community{padding:48px 0 88px}
   .s-community .wrap{width:calc(100% - 32px)}

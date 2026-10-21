@@ -1433,7 +1433,9 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
 .s-about::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 260px; background: linear-gradient(rgba(18,22,31,0), #12161f 85%); pointer-events: none; z-index: 3; }
 </style>
 <style>
-.s-community{background:#fff;color:#12161F;font-family:"Fb Reforma",sans-serif;direction:rtl;padding:80px 0 160px;overflow:hidden}
+.s-community{position:relative;background:#fff;color:#12161F;font-family:"Fb Reforma",sans-serif;direction:rtl;padding:200px 0 140px;overflow:hidden}
+/* the soft sky circle on the right edge (Figma Ellipse 8): inside the section, so it never spills into the next one */
+.s-community::before{content:"";position:absolute;z-index:0;right:-260px;bottom:110px;width:520px;height:520px;background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1ODIgNTgyIj48Y2lyY2xlIGN4PSIyOTEiIGN5PSIyOTEiIHI9IjI5MSIgZmlsbD0iI0Q2RUNGRiIvPjwvc3ZnPgo=") center/contain no-repeat;filter:blur(48px);pointer-events:none}
 .s-community *{box-sizing:border-box}
 .s-community .wrap{width:min(1171px,calc(100% - 48px));margin-inline:auto}
 .s-community .en{font-family:"Roboto",sans-serif;font-weight:500;font-variation-settings:"wdth" 100}
@@ -1476,6 +1478,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   .s-community .sub{font-size:18px;margin-top:8px}
   .s-community .cards{margin-top:88px;grid-template-columns:1fr;gap:64px;max-width:480px;margin-inline:auto}
 }
+@media (max-width:760px){.s-community::before{width:300px;height:300px;right:-150px;top:auto;bottom:120px;filter:blur(30px)}}
 @media (max-width:620px){
   .s-community{padding:48px 0 88px}
   .s-community .wrap{width:calc(100% - 32px)}
@@ -1597,7 +1600,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   .s-academy { padding-top: 80px !important; padding-bottom: 96px !important; }
   .s-platforms .p-inner { padding-top: 72px !important; padding-bottom: 48px !important; }
   .s-journal { padding-bottom: 104px !important; }
-  .s-community { padding-top: 56px !important; padding-bottom: 104px !important; }
+  .s-community { padding-top: 200px !important; padding-bottom: 140px !important; }   /* room above the banner for the whole WhatsApp mark (2026-10-21) */
   .s-next { padding-top: 80px !important; padding-bottom: 80px !important; }
 }
 @media (max-width: 760px) {
@@ -3090,7 +3093,6 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
     ['bg-brain-dark.svg', '.s-academy', 1725, 396, 394, 491, 32, 13.6],
     ['bg-brain-dark.svg', '.s-academy', 49, 1138, 266, 331, -18, 24],
     ['bg-wa.svg', '.s-community .banner', 225, 62, 392, 400, 0, 7.8],
-    ['bg-glow.svg', '.s-community .banner', 1728, 666, 582, 582, 0, 95.9],   // the soft sky circle on the right edge (Figma Ellipse 8), behind everything
   ];
   const layer = document.createElement('div');
   layer.className = 'rings'; layer.setAttribute('aria-hidden', 'true');
