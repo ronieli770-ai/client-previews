@@ -203,7 +203,7 @@
   .mega .tl b { font: 500 16px "Roboto", sans-serif; direction: ltr; text-align: right; }
   .mega .tl .sub { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .mega .tl .badge { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; white-space: nowrap; color: #fff; font: 500 13px/1.2 "Fb Reforma", sans-serif;
-    background: linear-gradient(90deg, #f261e6 0%, #a061f2 25%, #422ed8 50%, #6161f2 75%, #2b9df9 100%); }
+    background: #7DC6FF; }   /* flat sky of the hero's main button, no glow */
   .mega .tl .badge img { width: 13px; height: 13px; flex: none; }
   /* academy: its five sections on the right, the newest covers beside them */
   .mega .acadw { display: grid; grid-template-columns: 250px auto; gap: 14px; }
@@ -275,6 +275,9 @@
   -webkit-mask-size:100% calc(100% - 700px),100% 834px;mask-size:100% calc(100% - 700px),100% 834px;
   -webkit-mask-position:top,bottom;mask-position:top,bottom;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 .s-hero .s-hero__glow{opacity:.7;position:absolute;top:-282px;right:-225.4px;width:1210.81px;height:1428.92px;max-width:none;display:block}
+/* wide screens: the same dim sky glow mirrored on the left, so the empty black beside the narrow content isn't a void */
+.s-hero .s-hero__glow-l{display:none;opacity:.45;position:absolute;top:-282px;left:-225.4px;width:1210.81px;height:1428.92px;max-width:none;transform:scaleX(-1)}
+@media (min-width:1700px){.s-hero .s-hero__glow-l{display:block}}
 /* trader photo: the final hero version (v16, steel blue): smaller crop, fading into the navy at its edges */
 .s-hero .s-hero__trader{mix-blend-mode:lighten;position:absolute;top:30px;left:max(110px,calc(50% - 828px));width:760px;height:738px;overflow:hidden}
 .s-hero .s-hero__trader .in{position:absolute;inset:0;will-change:transform}
@@ -288,6 +291,12 @@
   background:linear-gradient(90deg,#61B1F2 0%,#fff 78.365%);-webkit-background-clip:text;background-clip:text}
 .s-hero .s-hero__title .s-hero__l1{display:block;font-weight:500;line-height:53px}
 .s-hero .s-hero__title .s-hero__l2{display:block;font-weight:400;line-height:54px}
+/* desktop: the promise in two big lines, the choice line under it smaller */
+@media (min-width:761px){
+  .s-hero .s-hero__title .m-br{display:block}
+  .s-hero .s-hero__title .s-hero__l1{font-size:78px;line-height:.98}
+  .s-hero .s-hero__title .s-hero__l2{font-size:44px;line-height:1.1;margin-top:8px}
+}
 .s-hero .s-hero__sub{margin:0;font-size:20px;line-height:1.2;min-height:31px;display:flex;align-items:center;color:rgba(255,255,255,.7)}
 
 .s-hero .s-hero__btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-start}
@@ -403,6 +412,28 @@
 .ls-a .s-logos .s-logos__track .lg-sep{display:none}
 .ls-a .s-logos .s-logos__track.row2{display:flex;margin-top:calc(var(--k)*26px);animation-direction:reverse}
 .ls-a .s-logos .s-logos__track.row1 .lg.tool,.ls-a .s-logos .s-logos__track.row2 .lg.firm{display:none}
+/* D: the label carries a double chevron pointing at its group (the strip runs left, so a group sits to the right of its label) */
+.ls-d .s-logos .lg-sep{display:flex}
+.ls-d .s-logos .lg-sep small{display:inline-flex;align-items:center;gap:calc(var(--k)*6px);direction:rtl}
+.ls-d .s-logos .lg-sep small::before{content:"";order:-1;width:calc(var(--k)*14px);height:calc(var(--k)*10px);background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 1l4 4-4 4M8 1l4 4-4 4'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 1l4 4-4 4M8 1l4 4-4 4'/%3E%3C/svg%3E") center/contain no-repeat}
+/* E: two rows, each with its name standing still at the reading edge while its logos run */
+.ls-e .s-logos .s-logos__track .lg-sep{display:none}
+.ls-e .s-logos .s-logos__track.row2{display:flex;margin-top:calc(var(--k)*26px);animation-direction:reverse}
+.ls-e .s-logos .s-logos__track.row1 .lg.tool,.ls-e .s-logos .s-logos__track.row2 .lg.firm{display:none}
+.ls-e .s-logos .s-logos__carousel{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%);mask-image:linear-gradient(90deg,transparent,#000 8%)}
+.s-logos .row-lb{display:none}
+.ls-e .s-logos .row-lb{display:flex;align-items:center;justify-content:flex-start;gap:calc(var(--k)*10px);position:absolute;right:0;z-index:2;width:calc(var(--k)*200px);height:calc(var(--k)*84px);padding-right:2px;direction:rtl;
+  background:linear-gradient(to left,#fff 72%,rgba(255,255,255,0));font:500 calc(var(--k)*15px)/1 "Fb Reforma",sans-serif;color:#2e8bd8}
+.ls-e .s-logos .row-lb::before{content:"";width:3px;height:calc(var(--k)*28px);border-radius:3px;background:#7dc6ff}
+.ls-e .s-logos .row-lb.r1{top:0}.ls-e .s-logos .row-lb.r2{top:calc(var(--k)*110px)}
+/* F: each group under a thin sky line that starts with its name, like a bracket over the logos it covers */
+.ls-f .s-logos .lg-sep{display:none}
+.ls-f .s-logos .s-logos__set{height:calc(var(--k)*124px);align-items:flex-end;padding-bottom:calc(var(--k)*4px)}
+.s-logos .grp{display:flex;align-items:center;gap:calc(var(--k)*72px);position:relative;padding-top:calc(var(--k)*36px)}
+.s-logos .grp::before{content:attr(data-label);position:absolute;top:0;left:0;direction:rtl;font:500 calc(var(--k)*13px)/1 "Fb Reforma",sans-serif;color:#2e8bd8;padding:calc(var(--k)*5px) calc(var(--k)*11px);border-radius:999px;background:rgba(125,198,255,.14);white-space:nowrap}
+.s-logos .grp::after{content:"";position:absolute;top:calc(var(--k)*11px);left:calc(var(--k)*120px);right:0;height:1px;background:linear-gradient(90deg,rgba(46,139,216,.45),rgba(46,139,216,0))}
 </style>
 <style>
 /* comparison as firm cards (after pipback.com, Noam's reference): name, rating and deal on top, the numbers, the highlights, two actions */
@@ -1099,7 +1130,7 @@
 .s-platforms .card-bot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;direction:ltr}
 .s-platforms .btn-more{display:inline-flex;align-items:center;justify-content:center;padding:9px 16px;border-radius:999px;background:#eef1f5;color:#12161f;font:600 14px/normal var(--heebo);white-space:nowrap;text-decoration:none;direction:rtl;transition:background .2s}
 .s-platforms .btn-more:hover{background:#fff}
-.s-platforms .deal{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;white-space:nowrap;color:#fff;background:linear-gradient(90deg,#f261e6 0%,#a061f2 25%,#422ed8 50%,#6161f2 75%,#2b9df9 100%)}
+.s-platforms .deal{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;white-space:nowrap;color:#fff;background:#7DC6FF}
 .s-platforms .deal img{display:block;flex:0 0 auto}
 .s-platforms .deal .i-gift{width:12px;height:12px}
 .s-platforms .deal .i-tag{width:14px;height:14px}
@@ -1341,6 +1372,59 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
 .jr-d .s-journal .card { background: color-mix(in srgb, var(--c) 16%, #fff) !important; }
 </style>
 <style>
+.s-about{position:relative;overflow:hidden;background:#12161F;color:#fff;font-family:"Fb Reforma",sans-serif;direction:rtl}
+.s-about *{box-sizing:border-box}
+.s-about .en{font-family:"Roboto",sans-serif;font-weight:400;font-variation-settings:"wdth" 100}
+.s-about .wrap{position:relative;width:min(1171px,calc(100% - 48px));margin-inline:auto;min-height:934px;padding:300px 0 204px}
+
+/* text - Frame 33 (268:2161), left side of the grid */
+.s-about .text{position:relative;z-index:2;width:min(433px,100%);margin-right:auto;margin-left:0;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.s-about .pill{display:inline-flex;padding:6px 14px;border-radius:999px;background:rgba(97,177,242,.14);color:#7DC6FF;font-weight:500;font-size:13px;line-height:1.2;white-space:nowrap}
+.s-about h2{margin:0;font-weight:500;font-size:45px;line-height:43px;text-align:right;white-space:nowrap;
+  background:linear-gradient(to right,#61B1F2 0%,#fff 78.365%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.s-about .copy{margin:0;font-weight:400;font-size:20px;line-height:1.2;color:rgba(255,255,255,.7);text-align:right}
+
+/* primary sky halo button */
+.s-about .halo{display:inline-flex;padding:6px;border-radius:999px;background:rgba(125,198,255,.08);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-decoration:none}
+.s-about .halo-in{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:50px;padding:0 25px;border-radius:90px;background:#7DC6FF;color:#fff;font-weight:500;font-size:20px;line-height:1;white-space:nowrap;
+  box-shadow:inset 0 -4px 17.6px 0 #fff,inset 0 -8px 26.4px 0 rgba(0,0,0,.25);transition:filter .25s ease}
+.s-about .halo:hover .halo-in{filter:brightness(1.06)}
+.s-about .halo-in svg{width:11px;height:8px;display:block}
+
+/* portrait (305:633), right side, bottom fades into navy */
+.s-about .portrait{position:absolute;z-index:1;top:7px;right:-3.672%;width:60.547%;max-width:709px;height:auto;display:block;pointer-events:none}
+
+@media (max-width:1180px){
+  .s-about .wrap{padding-top:clamp(200px,25.6vw,300px)}
+}
+@media (max-width:980px){
+  .s-about .wrap{min-height:0;padding:96px 0 0;display:flex;flex-direction:column}
+  .s-about .text{width:100%;max-width:560px;margin-inline:auto}
+  .s-about h2{font-size:40px;line-height:40px}
+  .s-about .portrait{position:relative;top:auto;right:auto;width:min(560px,100%);margin:40px auto -12%}
+}
+@media (max-width:620px){
+  .s-about .wrap{width:calc(100% - 32px);padding-top:72px}
+  .s-about h2{font-size:34px;line-height:36px;white-space:normal}
+  .s-about .copy{font-size:18px}
+  .s-about .halo-in{font-size:18px;padding:0 22px}
+  .s-about .portrait{margin-top:32px}
+}
+
+/* text sizes as now set in Figma (frame 268:2161): 20px gaps, title 45/43, copy 28/1.2 at 70% white, first line Medium */
+.s-about .text { gap: 20px; }
+.s-about .text h2 { font-size: 45px; line-height: 43px; margin: 0; }
+.s-about .copy { margin: 0; color: rgba(255,255,255,.7); font-size: 28px; line-height: 1.2; text-align: right; }
+.s-about .copy p { margin: 0; font-weight: 400; }
+.s-about .copy p.lead { font-weight: 500; }
+.s-about .copy .en { font-family: "Roboto", sans-serif; font-weight: 500; }
+@media (max-width: 980px) { .s-about .copy { font-size: 22px; } .s-about .text h2 { font-size: 38px; line-height: 1.1; } }
+@media (max-width: 620px) { .s-about .copy { font-size: 18px; } .s-about .text h2 { font-size: 32px; } }
+
+/* the background lines now come from the cursor only; a soft fade at the bottom melts into the next section */
+.s-about::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 260px; background: linear-gradient(rgba(18,22,31,0), #12161f 85%); pointer-events: none; z-index: 3; }
+</style>
+<style>
 .s-community{background:#fff;color:#12161F;font-family:"Fb Reforma",sans-serif;direction:rtl;padding:80px 0 160px;overflow:hidden}
 .s-community *{box-sizing:border-box}
 .s-community .wrap{width:min(1171px,calc(100% - 48px));margin-inline:auto}
@@ -1394,59 +1478,6 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   .s-community .card{min-height:160px;padding:52px 24px 32px}
   .s-community .card p{font-size:22px}
 }
-</style>
-<style>
-.s-about{position:relative;overflow:hidden;background:#12161F;color:#fff;font-family:"Fb Reforma",sans-serif;direction:rtl}
-.s-about *{box-sizing:border-box}
-.s-about .en{font-family:"Roboto",sans-serif;font-weight:400;font-variation-settings:"wdth" 100}
-.s-about .wrap{position:relative;width:min(1171px,calc(100% - 48px));margin-inline:auto;min-height:934px;padding:300px 0 204px}
-
-/* text - Frame 33 (268:2161), left side of the grid */
-.s-about .text{position:relative;z-index:2;width:min(433px,100%);margin-right:auto;margin-left:0;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
-.s-about .pill{display:inline-flex;padding:6px 14px;border-radius:999px;background:rgba(97,177,242,.14);color:#7DC6FF;font-weight:500;font-size:13px;line-height:1.2;white-space:nowrap}
-.s-about h2{margin:0;font-weight:500;font-size:45px;line-height:43px;text-align:right;white-space:nowrap;
-  background:linear-gradient(to right,#61B1F2 0%,#fff 78.365%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.s-about .copy{margin:0;font-weight:400;font-size:20px;line-height:1.2;color:rgba(255,255,255,.7);text-align:right}
-
-/* primary sky halo button */
-.s-about .halo{display:inline-flex;padding:6px;border-radius:999px;background:rgba(125,198,255,.08);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-decoration:none}
-.s-about .halo-in{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:50px;padding:0 25px;border-radius:90px;background:#7DC6FF;color:#fff;font-weight:500;font-size:20px;line-height:1;white-space:nowrap;
-  box-shadow:inset 0 -4px 17.6px 0 #fff,inset 0 -8px 26.4px 0 rgba(0,0,0,.25);transition:filter .25s ease}
-.s-about .halo:hover .halo-in{filter:brightness(1.06)}
-.s-about .halo-in svg{width:11px;height:8px;display:block}
-
-/* portrait (305:633), right side, bottom fades into navy */
-.s-about .portrait{position:absolute;z-index:1;top:7px;right:-3.672%;width:60.547%;max-width:709px;height:auto;display:block;pointer-events:none}
-
-@media (max-width:1180px){
-  .s-about .wrap{padding-top:clamp(200px,25.6vw,300px)}
-}
-@media (max-width:980px){
-  .s-about .wrap{min-height:0;padding:96px 0 0;display:flex;flex-direction:column}
-  .s-about .text{width:100%;max-width:560px;margin-inline:auto}
-  .s-about h2{font-size:40px;line-height:40px}
-  .s-about .portrait{position:relative;top:auto;right:auto;width:min(560px,100%);margin:40px auto -12%}
-}
-@media (max-width:620px){
-  .s-about .wrap{width:calc(100% - 32px);padding-top:72px}
-  .s-about h2{font-size:34px;line-height:36px;white-space:normal}
-  .s-about .copy{font-size:18px}
-  .s-about .halo-in{font-size:18px;padding:0 22px}
-  .s-about .portrait{margin-top:32px}
-}
-
-/* text sizes as now set in Figma (frame 268:2161): 20px gaps, title 45/43, copy 28/1.2 at 70% white, first line Medium */
-.s-about .text { gap: 20px; }
-.s-about .text h2 { font-size: 45px; line-height: 43px; margin: 0; }
-.s-about .copy { margin: 0; color: rgba(255,255,255,.7); font-size: 28px; line-height: 1.2; text-align: right; }
-.s-about .copy p { margin: 0; font-weight: 400; }
-.s-about .copy p.lead { font-weight: 500; }
-.s-about .copy .en { font-family: "Roboto", sans-serif; font-weight: 500; }
-@media (max-width: 980px) { .s-about .copy { font-size: 22px; } .s-about .text h2 { font-size: 38px; line-height: 1.1; } }
-@media (max-width: 620px) { .s-about .copy { font-size: 18px; } .s-about .text h2 { font-size: 32px; } }
-
-/* the background lines now come from the cursor only; a soft fade at the bottom melts into the next section */
-.s-about::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 260px; background: linear-gradient(rgba(18,22,31,0), #12161f 85%); pointer-events: none; z-index: 3; }
 </style>
 <style>
 .s-next{background:#12161F;padding:120px 0;direction:rtl;font-family:"Fb Reforma",sans-serif;color:#fff;overflow:hidden}
@@ -1518,7 +1549,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
 .s-footer .s-footer__legal{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:0;padding:0;list-style:none;font-size:14px;line-height:1.2;color:rgba(255,255,255,.45);white-space:nowrap}
 .s-footer .s-footer__legal a:hover{color:rgba(255,255,255,.8)}
 .s-footer .s-footer__legal .copy{font-family:"Roboto",sans-serif;font-weight:400;font-size:13px;line-height:normal;direction:ltr}
-.s-footer .s-footer__mark{margin-top:max(36px,min(56px,.234em));height:.51em;overflow:hidden;display:flex;justify-content:center;font-size:min(239px,15.6vw);direction:ltr}
+.s-footer .s-footer__mark{margin-top:max(36px,min(56px,.234em));height:.64em;overflow:hidden;display:flex;justify-content:center;font-size:min(239px,15.6vw);direction:ltr}
 .s-footer .s-footer__mark span{display:block;font-family:"Roboto",sans-serif;font-weight:700;line-height:.8;letter-spacing:-.03em;white-space:nowrap;background:linear-gradient(to bottom,rgba(125,198,255,.28) 0%,rgba(125,198,255,0) 85%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;user-select:none}
 /* option C (chosen 2026-10-20): the brand row across the top (logo and line on the right, socials and community on the left),
    a divider, the link columns spread over the full width, then the legal row and the giant wordmark - desktop and tablet */
@@ -2007,6 +2038,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
     <div class="s-hero__shape"></div>
     <div class="s-hero__glowclip">
       <img class="s-hero__glow" src="img/hero-glow.svg" alt="">
+      <img class="s-hero__glow-l" src="img/hero-glow.svg" alt="">
       <div class="s-hero__trader"><div class="in"><img src="img/hero-trader-steel.jpg" alt=""></div></div>
     </div>
   </div>
@@ -2074,11 +2106,17 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
       <p class="s-logos__sub">חברות מימון, פלטפורמות וכלים שאנחנו עובדים איתם</p>
     </div>
     <div class="s-logos__carousel">
+      <span class="row-lb r1" aria-hidden="true">חברות מימון</span><span class="row-lb r2" aria-hidden="true">כלי מסחר</span>
       <div class="s-logos__track row1"><div class="s-logos__set"><span class="lg-sep" aria-hidden="true"><i></i><small>חברות מימון</small><i></i></span><a class="lg firm" href="https://antartrade.co.il/apex" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-apex.webp" alt=""></span><span class="lg-nm">Apex</span></a><a class="lg firm" href="https://antartrade.co.il/bulenox" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-bulenox.webp" alt=""></span><span class="lg-nm">Bulenox</span></a><a class="lg firm" href="https://antartrade.co.il/take-profit" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-takeprofit.webp" alt=""></span><span class="lg-nm">Take Profit Trader</span></a><a class="lg firm" href="https://antartrade.co.il/lucid" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/lucid-fig-light.png" alt=""></span><span class="lg-nm">Lucid Trading</span></a><a class="lg firm" href="https://antartrade.co.il/top-step" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-topstep.webp" alt=""></span><span class="lg-nm">Topstep</span></a><a class="lg firm" href="https://antartrade.co.il/funded-next" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-fundednext.webp" alt=""></span><span class="lg-nm">FundedNext</span></a><a class="lg firm" href="https://antartrade.co.il/ftmo" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-ftmo.webp" alt=""></span><span class="lg-nm">FTMO</span></a><span class="lg-sep" aria-hidden="true"><i></i><small>כלי מסחר</small><i></i></span><a class="lg tool" href="https://antartrade.co.il/bookmap-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/bookmap.webp" alt=""></span><span class="lg-nm">Bookmap</span></a><a class="lg tool" href="https://antartrade.co.il/atas-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/atas.webp" alt=""></span><span class="lg-nm">ATAS</span></a><a class="lg tool" href="https://antartrade.co.il/replikanto-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/replikanto.webp" alt=""></span><span class="lg-nm">Replikanto</span></a><a class="lg tool" href="https://antartrade.co.il/tradesyncer-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/tradesyncer.webp" alt=""></span><span class="lg-nm">TradeSyncer</span></a><a class="lg tool" href="https://antartrade.co.il/tradezella-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/tradezella.webp" alt=""></span><span class="lg-nm">TradeZella</span></a><a class="lg tool" href="https://antartrade.co.il/tradingview-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/tradingview.webp" alt=""></span><span class="lg-nm">TradingView</span></a><a class="lg tool" href="https://antartrade.co.il/ninjatrader-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/ninjatrader.webp" alt=""></span><span class="lg-nm">NinjaTrader</span></a></div><div class="s-logos__set" aria-hidden="true"><span class="lg-sep" aria-hidden="true"><i></i><small>חברות מימון</small><i></i></span><a class="lg firm" href="https://antartrade.co.il/apex" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-apex.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Apex</span></a><a class="lg firm" href="https://antartrade.co.il/bulenox" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-bulenox.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Bulenox</span></a><a class="lg firm" href="https://antartrade.co.il/take-profit" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-takeprofit.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Take Profit Trader</span></a><a class="lg firm" href="https://antartrade.co.il/lucid" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/lucid-fig-light.png" alt=""></span><span class="lg-nm" aria-hidden="true">Lucid Trading</span></a><a class="lg firm" href="https://antartrade.co.il/top-step" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-topstep.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Topstep</span></a><a class="lg firm" href="https://antartrade.co.il/funded-next" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-fundednext.webp" alt=""></span><span class="lg-nm" aria-hidden="true">FundedNext</span></a><a class="lg firm" href="https://antartrade.co.il/ftmo" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-ftmo.webp" alt=""></span><span class="lg-nm" aria-hidden="true">FTMO</span></a><span class="lg-sep" aria-hidden="true"><i></i><small>כלי מסחר</small><i></i></span><a class="lg tool" href="https://antartrade.co.il/bookmap-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/bookmap.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Bookmap</span></a><a class="lg tool" href="https://antartrade.co.il/atas-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/atas.webp" alt=""></span><span class="lg-nm" aria-hidden="true">ATAS</span></a><a class="lg tool" href="https://antartrade.co.il/replikanto-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/replikanto.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Replikanto</span></a><a class="lg tool" href="https://antartrade.co.il/tradesyncer-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/tradesyncer.webp" alt=""></span><span class="lg-nm" aria-hidden="true">TradeSyncer</span></a><a class="lg tool" href="https://antartrade.co.il/tradezella-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/tradezella.webp" alt=""></span><span class="lg-nm" aria-hidden="true">TradeZella</span></a><a class="lg tool" href="https://antartrade.co.il/tradingview-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/tradingview.webp" alt=""></span><span class="lg-nm" aria-hidden="true">TradingView</span></a><a class="lg tool" href="https://antartrade.co.il/ninjatrader-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/ninjatrader.webp" alt=""></span><span class="lg-nm" aria-hidden="true">NinjaTrader</span></a></div></div><div class="s-logos__track row2" aria-hidden="true"><div class="s-logos__set"><span class="lg-sep" aria-hidden="true"><i></i><small>חברות מימון</small><i></i></span><a class="lg firm" href="https://antartrade.co.il/apex" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-apex.webp" alt=""></span><span class="lg-nm">Apex</span></a><a class="lg firm" href="https://antartrade.co.il/bulenox" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-bulenox.webp" alt=""></span><span class="lg-nm">Bulenox</span></a><a class="lg firm" href="https://antartrade.co.il/take-profit" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-takeprofit.webp" alt=""></span><span class="lg-nm">Take Profit Trader</span></a><a class="lg firm" href="https://antartrade.co.il/lucid" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/lucid-fig-light.png" alt=""></span><span class="lg-nm">Lucid Trading</span></a><a class="lg firm" href="https://antartrade.co.il/top-step" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-topstep.webp" alt=""></span><span class="lg-nm">Topstep</span></a><a class="lg firm" href="https://antartrade.co.il/funded-next" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-fundednext.webp" alt=""></span><span class="lg-nm">FundedNext</span></a><a class="lg firm" href="https://antartrade.co.il/ftmo" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/firm3d-ftmo.webp" alt=""></span><span class="lg-nm">FTMO</span></a><span class="lg-sep" aria-hidden="true"><i></i><small>כלי מסחר</small><i></i></span><a class="lg tool" href="https://antartrade.co.il/bookmap-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/bookmap.webp" alt=""></span><span class="lg-nm">Bookmap</span></a><a class="lg tool" href="https://antartrade.co.il/atas-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/atas.webp" alt=""></span><span class="lg-nm">ATAS</span></a><a class="lg tool" href="https://antartrade.co.il/replikanto-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/replikanto.webp" alt=""></span><span class="lg-nm">Replikanto</span></a><a class="lg tool" href="https://antartrade.co.il/tradesyncer-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/tradesyncer.webp" alt=""></span><span class="lg-nm">TradeSyncer</span></a><a class="lg tool" href="https://antartrade.co.il/tradezella-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/tradezella.webp" alt=""></span><span class="lg-nm">TradeZella</span></a><a class="lg tool" href="https://antartrade.co.il/tradingview-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/tradingview.webp" alt=""></span><span class="lg-nm">TradingView</span></a><a class="lg tool" href="https://antartrade.co.il/ninjatrader-guide" target="_blank" rel="noopener"><span class="lg-ic"><img class="i-sq" src="img/ninjatrader.webp" alt=""></span><span class="lg-nm">NinjaTrader</span></a></div><div class="s-logos__set" aria-hidden="true"><span class="lg-sep" aria-hidden="true"><i></i><small>חברות מימון</small><i></i></span><a class="lg firm" href="https://antartrade.co.il/apex" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-apex.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Apex</span></a><a class="lg firm" href="https://antartrade.co.il/bulenox" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-bulenox.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Bulenox</span></a><a class="lg firm" href="https://antartrade.co.il/take-profit" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-takeprofit.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Take Profit Trader</span></a><a class="lg firm" href="https://antartrade.co.il/lucid" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/lucid-fig-light.png" alt=""></span><span class="lg-nm" aria-hidden="true">Lucid Trading</span></a><a class="lg firm" href="https://antartrade.co.il/top-step" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-topstep.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Topstep</span></a><a class="lg firm" href="https://antartrade.co.il/funded-next" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-fundednext.webp" alt=""></span><span class="lg-nm" aria-hidden="true">FundedNext</span></a><a class="lg firm" href="https://antartrade.co.il/ftmo" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/firm3d-ftmo.webp" alt=""></span><span class="lg-nm" aria-hidden="true">FTMO</span></a><span class="lg-sep" aria-hidden="true"><i></i><small>כלי מסחר</small><i></i></span><a class="lg tool" href="https://antartrade.co.il/bookmap-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/bookmap.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Bookmap</span></a><a class="lg tool" href="https://antartrade.co.il/atas-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/atas.webp" alt=""></span><span class="lg-nm" aria-hidden="true">ATAS</span></a><a class="lg tool" href="https://antartrade.co.il/replikanto-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/replikanto.webp" alt=""></span><span class="lg-nm" aria-hidden="true">Replikanto</span></a><a class="lg tool" href="https://antartrade.co.il/tradesyncer-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/tradesyncer.webp" alt=""></span><span class="lg-nm" aria-hidden="true">TradeSyncer</span></a><a class="lg tool" href="https://antartrade.co.il/tradezella-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/tradezella.webp" alt=""></span><span class="lg-nm" aria-hidden="true">TradeZella</span></a><a class="lg tool" href="https://antartrade.co.il/tradingview-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/tradingview.webp" alt=""></span><span class="lg-nm" aria-hidden="true">TradingView</span></a><a class="lg tool" href="https://antartrade.co.il/ninjatrader-guide" target="_blank" rel="noopener" tabindex="-1"><span class="lg-ic"><img class="i-sq" src="img/ninjatrader.webp" alt=""></span><span class="lg-nm" aria-hidden="true">NinjaTrader</span></a></div></div>
     </div>
   </div>
 </section>
-<script>(function(){ const q = new URLSearchParams(location.search).get('ls'); document.documentElement.classList.add('ls-' + (/^[abc]$/.test(q || '') ? q : 'c')); /* the labelled marker is the chosen look */ })();</script>
+<script>(function(){ const q = new URLSearchParams(location.search).get('ls'), ls = /^[a-f]$/.test(q || '') ? q : 'c';   /* the labelled marker is the chosen look; d, e, f are the options for Noam's arrows note */
+  document.documentElement.classList.add('ls-' + ls);
+  if (ls !== 'f') return;
+  document.querySelectorAll('.s-logos__set').forEach(set => { let g = null;
+    [...set.children].forEach(el => { if (el.classList.contains('lg-sep')) { g = document.createElement('span'); g.className = 'grp'; g.dataset.label = el.textContent.trim(); el.after(g); } else if (g && el.classList.contains('lg')) g.appendChild(el); }); });
+})();</script>
 
 <!-- 03-table.html -->
 <section class="s-table" id="compare" data-theme="light">
@@ -2715,7 +2753,20 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { n = n >= 140 ? 128 : n + 1; sn.textContent = n; }, 1200);
 })();</script>
 
-<!-- 09-community.html -->
+<!-- 09-about.html -->
+<section class="s-about" id="about" data-theme="dark">
+  <div class="wrap">
+    <div class="text" data-scroll-text>
+      <span class="pill">קצת עליי</span>
+      <h2 class="split g-title">נעים להכיר,<br>אני נועם ענתר</h2>
+      <div class="copy"><p class="lead">סוחר חוזים עתידיים ומייסד <span class="en" lang="en" dir="ltr">AntarTrade</span>.</p><p>בניתי כאן מקום אחד שמרכז את החוקים, המחירים והכלים של חברות המימון - בצורה עניינית ומעודכנת, כדי שתוכלו לבחור ולהתקדם בלי לנחש.</p></div>
+      <a class="btn-halo sky" href="#"><span>עוד עליי<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+    </div>
+    <img class="portrait" src="img/noam.png" alt="נועם ענתר" width="709" height="1060">
+  </div>
+</section>
+
+<!-- 10-community.html -->
 <section class="s-community" id="community" data-theme="light">
   <div class="wrap">
     <div class="banner" data-reveal>
@@ -2740,19 +2791,6 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
         <div class="card"><p>תכנים ומדריכים חדשים מהאתר</p></div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- 10-about.html -->
-<section class="s-about" id="about" data-theme="dark">
-  <div class="wrap">
-    <div class="text" data-scroll-text>
-      <span class="pill">קצת עליי</span>
-      <h2 class="split g-title">נעים להכיר,<br>אני נועם ענתר</h2>
-      <div class="copy"><p class="lead">סוחר חוזים עתידיים ומייסד <span class="en" lang="en" dir="ltr">AntarTrade</span>.</p><p>בניתי כאן מקום אחד שמרכז את החוקים, המחירים והכלים של חברות המימון - בצורה עניינית ומעודכנת, כדי שתוכלו לבחור ולהתקדם בלי לנחש.</p></div>
-      <a class="btn-halo sky" href="#"><span>עוד עליי<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-    </div>
-    <img class="portrait" src="img/noam.png" alt="נועם ענתר" width="709" height="1060">
   </div>
 </section>
 

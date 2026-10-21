@@ -13,6 +13,9 @@
   -webkit-mask-size:100% calc(100% - 700px),100% 834px;mask-size:100% calc(100% - 700px),100% 834px;
   -webkit-mask-position:top,bottom;mask-position:top,bottom;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 .s-hero .s-hero__glow{opacity:.7;position:absolute;top:-282px;right:-225.4px;width:1210.81px;height:1428.92px;max-width:none;display:block}
+/* wide screens: the same dim sky glow mirrored on the left, so the empty black beside the narrow content isn't a void */
+.s-hero .s-hero__glow-l{display:none;opacity:.45;position:absolute;top:-282px;left:-225.4px;width:1210.81px;height:1428.92px;max-width:none;transform:scaleX(-1)}
+@media (min-width:1700px){.s-hero .s-hero__glow-l{display:block}}
 /* trader photo: the final hero version (v16, steel blue): smaller crop, fading into the navy at its edges */
 .s-hero .s-hero__trader{mix-blend-mode:lighten;position:absolute;top:30px;left:max(110px,calc(50% - 828px));width:760px;height:738px;overflow:hidden}
 .s-hero .s-hero__trader .in{position:absolute;inset:0;will-change:transform}
@@ -26,6 +29,12 @@
   background:linear-gradient(90deg,#61B1F2 0%,#fff 78.365%);-webkit-background-clip:text;background-clip:text}
 .s-hero .s-hero__title .s-hero__l1{display:block;font-weight:500;line-height:53px}
 .s-hero .s-hero__title .s-hero__l2{display:block;font-weight:400;line-height:54px}
+/* desktop: the promise in two big lines, the choice line under it smaller */
+@media (min-width:761px){
+  .s-hero .s-hero__title .m-br{display:block}
+  .s-hero .s-hero__title .s-hero__l1{font-size:78px;line-height:.98}
+  .s-hero .s-hero__title .s-hero__l2{font-size:44px;line-height:1.1;margin-top:8px}
+}
 .s-hero .s-hero__sub{margin:0;font-size:20px;line-height:1.2;min-height:31px;display:flex;align-items:center;color:rgba(255,255,255,.7)}
 
 .s-hero .s-hero__btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-start}
@@ -86,6 +95,7 @@
     <div class="s-hero__shape"></div>
     <div class="s-hero__glowclip">
       <img class="s-hero__glow" src="img/hero-glow.svg" alt="">
+      <img class="s-hero__glow-l" src="img/hero-glow.svg" alt="">
       <div class="s-hero__trader"><div class="in"><img src="img/hero-trader-steel.jpg" alt=""></div></div>
     </div>
   </div>
