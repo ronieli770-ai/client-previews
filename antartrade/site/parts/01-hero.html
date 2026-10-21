@@ -82,7 +82,15 @@
 .s-hero .s-hero__search input::placeholder{font-family:"IBM Plex Sans Hebrew",sans-serif}
 
 /* shorter hero so the partner logos are visible on arrival */
-@media (min-width:981px){.s-hero{--hp:clamp(100px,13vh,190px);padding:var(--hp) 16px calc(var(--hp) * .62 + 26px);min-height:clamp(540px,calc(100vh - 235px),900px);display:flex;flex-direction:column;justify-content:center}.s-hero .s-hero__wrap{width:100%}/* the hero takes the first screen down to the logo names with 24px to spare, its content centred in it */.s-hero .s-hero__content{gap:14px}}   /* short enough that the logo names under the hero show in the first screen */
+/* desktop: the hero takes the first screen down to the logo names with 24px to spare, its content centred in it;
+   title and line close together, then a clear step to the buttons and a bigger one to the search */
+@media (min-width:981px){
+  .s-hero{--hp:clamp(92px,12vh,190px);padding:var(--hp) 16px calc(var(--hp) * .62 + 26px);min-height:clamp(540px,calc(100vh - 235px),900px);display:flex;flex-direction:column;justify-content:center}
+  .s-hero .s-hero__wrap{width:100%}
+  .s-hero .s-hero__content{gap:16px}
+  .s-hero .s-hero__btns{margin-top:12px}
+  .s-hero .s-hero__search{margin-top:16px}
+}
 
 /* wide screens: the photo dissolves on every side instead of ending in a hard-edged box */
 @media (min-width:981px){
