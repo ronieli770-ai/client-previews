@@ -1579,6 +1579,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   .m-menu .m-sub a { display: flex; align-items: center; gap: 10px; padding: 9px 10px 9px 6px; margin-right: 48px; border-radius: 12px; color: rgba(255,255,255,.85); text-decoration: none; font: 400 16px "Fb Reforma", sans-serif; }
   .m-menu .m-sub a:active { background: rgba(125,198,255,.1); }
   .m-menu .m-sub a > span:not(.m-tile):not(.m-ic):not(.m-3d) { flex: 1; }
+  .m-menu .lt { font-family: "Roboto", sans-serif; font-weight: 400; direction: ltr; unicode-bidi: isolate; }
   .m-menu .m-tile { width: 30px; height: 30px; border-radius: 9px; background: #fff; display: grid; place-items: center; flex: none; }
   .m-menu .m-tile img { width: 20px; height: 20px; object-fit: contain; }
   .m-menu .m-d { color: var(--c, #7dc6ff) !important; font: 700 13px "Roboto", "Fb Reforma", sans-serif; color: #7dc6ff; direction: rtl; unicode-bidi: isolate; white-space: nowrap; }
@@ -2797,6 +2798,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   // phone menu after Payless: search on top, sections as an accordion with their pages, live deals at the bottom - in the site's own navy and sky
   const SV = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
   const N = 'https://antartrade.co.il';
+  const LT = t => t.replace(/[A-Za-z][A-Za-z0-9 .\-]*[A-Za-z0-9]|[A-Za-z]/g, w => `<span class="lt">${w}</span>`);   // English words in Roboto
   const CAP = '<path d="M2.5 9L12 4.5L21.5 9L12 13.5Z"/><path d="M6.5 11V16C8 17.5 10 18.3 12 18.3C14 18.3 16 17.5 17.5 16V11"/>';
   const MENU = [
     { t: 'דף הבית', c: '#7dc6ff', h: '#top', ic: '<path d="M4 11L12 4L20 11V19C20 19.6 19.6 20 19 20H15V14H9V20H5C4.4 20 4 19.6 4 19Z"/>' },
@@ -2833,7 +2835,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   m.innerHTML = '<div class="m-top"><span class="logo"></span><button class="m-close" type="button" aria-label="סגירת תפריט"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>'
     + '<button class="m-search" type="button"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M16 16L20 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>חיפוש חברה, כלי או מושג</span></button>'
     + '<nav class="m-acc">' + MENU.map((it, i) => it.sub
-        ? `<div class="m-it" style="--i:${i};--c:${it.c}"><button type="button" class="m-row" aria-expanded="false"><span class="m-ic">${SV(it.ic)}</span><span class="ml">${it.t}</span><span class="m-chev">${SV('<path d="M7 10L12 15L17 10"/>')}</span></button><div class="m-sub"><div class="m-sub-in">${it.sub.map(x => `<a href="${x.h}"${x.h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${x.img ? `<span class="m-tile"><img src="img/${x.img}" alt=""></span>` : x.i3 ? `<span class="m-3d"><img src="img/${x.i3}" alt=""></span>` : x.ic ? `<span class="m-ic m-ic-s">${SV(x.ic)}</span>` : ''}<span>${x.t}</span>${x.d ? `<b class="m-d">${x.d}</b>` : ''}</a>`).join('')}</div></div></div>`
+        ? `<div class="m-it" style="--i:${i};--c:${it.c}"><button type="button" class="m-row" aria-expanded="false"><span class="m-ic">${SV(it.ic)}</span><span class="ml">${it.t}</span><span class="m-chev">${SV('<path d="M7 10L12 15L17 10"/>')}</span></button><div class="m-sub"><div class="m-sub-in">${it.sub.map(x => `<a href="${x.h}"${x.h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${x.img ? `<span class="m-tile"><img src="img/${x.img}" alt=""></span>` : x.i3 ? `<span class="m-3d"><img src="img/${x.i3}" alt=""></span>` : x.ic ? `<span class="m-ic m-ic-s">${SV(x.ic)}</span>` : ''}<span>${LT(x.t)}</span>${x.d ? `<b class="m-d">${x.d}</b>` : ''}</a>`).join('')}</div></div></div>`
         : `<div class="m-it" style="--i:${i};--c:${it.c}"><a class="m-row" href="${it.h}"><span class="m-ic">${SV(it.ic)}</span><span class="ml">${it.t}</span></a></div>`).join('') + '</nav>'
     + '<div class="m-deals"><div class="m-deals-h"><span>מבצעים פעילים</span><span class="m-code" role="button" tabindex="0">קוד <b>ANTAR</b>' + COPY + '</span></div><div class="m-deals-row">'
     + DEALS.map(d => `<a class="m-dc" href="#deals" style="--c:${d.c}"><span class="m-tile"><img src="img/${d.img}" alt=""></span><b>${d.n}</b><span class="m-pct">${d.p}</span></a>`).join('') + '</div></div>'
