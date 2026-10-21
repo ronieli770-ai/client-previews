@@ -30,8 +30,8 @@
   .hdr.on.dark  { --bg: #12161f; }
   .hdr.on.light { --bg: #fff; --fg: #12161f; --deal: #2e8bd8; --ring: rgba(18,22,31,.10); --ringbg: rgba(18,22,31,.03); --pill: #12161f; --pillfg: #fff; }
   .hdr .wrap { max-width: 1460px; margin: 0 auto; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
-  .hdr .logo { width: 195px; height: 43px; flex: 0 0 auto; background: var(--fg); transition: background-color var(--fade);
-    -webkit-mask: url(img/logo-mark.webp) right center / contain no-repeat; mask: url(img/logo-mark.webp) right center / contain no-repeat; }
+  .hdr .logo { width: 195px; height: 51px; flex: 0 0 auto; background: var(--fg); transition: background-color var(--fade);
+    -webkit-mask: url(img/logo-new-white.png) right center / contain no-repeat; mask: url(img/logo-new-white.png) right center / contain no-repeat; }
   .hdr nav { display: flex; align-items: center; gap: 25px; font-size: 18px; }
   .hdr nav a { padding: 10px; color: var(--fg); text-decoration: none; white-space: nowrap; transition: color var(--fade); display: inline-flex; align-items: center; gap: 6px; }
   .hdr nav a.cur { font-weight: 500; }
@@ -41,7 +41,7 @@
   .hdr .halo a { display: inline-flex; align-items: center; gap: 7px; height: 50px; padding: 0 25px; border-radius: 90px; background: var(--pill); color: var(--pillfg); font: 500 20px "Fb Reforma", sans-serif; text-decoration: none; transition: background-color var(--fade), color var(--fade); }
   .hdr .halo svg { width: 16px; height: 16px; }
   @media (max-width: 1180px) { .hdr nav { display: none; } }
-  @media (max-width: 620px) { .hdr .logo { width: 150px; height: 33px; } .hdr .halo a { height: 42px; padding: 0 18px; font-size: 17px; } }
+  @media (max-width: 620px) { .hdr .logo { width: 150px; height: 39px; } .hdr .halo a { height: 42px; padding: 0 18px; font-size: 17px; } }
 
   /* ---------- shared halo buttons: sky on dark sections, dark on white sections ---------- */
   /* global halo button, 1:1 with Figma "Button / halo" (לכל המבצעים): ring 6px, 8% sky fill, 12% white stroke, 12px background blur;
@@ -65,8 +65,8 @@
   .btn-halo:hover svg { transform: translateX(-4px); }
 
   /* ---------- bot button (from antartrade.co.il, no shadow): white on dark sections, navy on light ones, switches like the header ---------- */
-  .bot-fab { position: fixed; right: 24px; bottom: 24px; z-index: 60; width: 72px; height: 48px; border: 0; padding: 0; cursor: pointer; background: #fff;
-    -webkit-mask: url(img/bot-brain.png) center / contain no-repeat; mask: url(img/bot-brain.png) center / contain no-repeat;
+  .bot-fab { position: fixed; right: 24px; bottom: 24px; z-index: 60; width: 46px; height: 58px; border: 0; padding: 0; cursor: pointer; background: #fff;
+    -webkit-mask: url(img/icon-new-white.png) center / contain no-repeat; mask: url(img/icon-new-white.png) center / contain no-repeat;
     transition: background-color .55s cubic-bezier(.22,.61,.36,1), transform .3s ease; animation: bot-float 3s ease-in-out infinite; }
   .bot-fab.light { background: #12161f; }
   /* on phones the bot waits until the visitor starts scrolling, so the first screen stays clean */
