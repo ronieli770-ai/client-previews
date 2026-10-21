@@ -134,7 +134,7 @@
   .s-logos .s-logos__carousel::after { right: 0; background: linear-gradient(270deg, #fff, rgba(255,255,255,0)); }
   .s-logos .s-logos__track { -webkit-backface-visibility: hidden; backface-visibility: hidden; transform: translate3d(0,0,0); animation-name: s-logos-loop-3d !important; }
   @keyframes s-logos-loop-3d { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
-  .s-logos .s-logos__set { gap: 26px; padding-right: 26px; }
+  .s-logos .s-logos__set { gap: 34px; padding-right: 34px; }
   .s-logos .s-logos__set img { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
   .s-logos .lg-ic { width: 38px; height: 38px; }
   .s-logos .lg-nm { font-size: 13px; }
@@ -414,7 +414,7 @@
     lg.classList.add('drag');
     const setW = () => lt.querySelector('.s-logos__set').offsetWidth;
     let x = 0, v = 0, drag = false, sx = 0, lastX = 0, lastT = 0, moved = 0, prev = performance.now();
-    const auto = () => -setW() / 24000;   // one set every 24s, leftwards like before
+    const auto = () => -setW() / 60000;   // calmer, one set a minute   // one set every 24s, leftwards like before
     (function tick(now) {
       const dt = Math.min(50, now - prev); prev = now;
       if (!drag) { v += (auto() - v) * .04; x += v * dt; }   // momentum eases back to the gliding speed
