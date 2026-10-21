@@ -30,8 +30,12 @@
   .hdr.on.dark  { --bg: #12161f; }
   .hdr.on.light { --bg: #fff; --fg: #12161f; --deal: #2e8bd8; --ring: rgba(18,22,31,.10); --ringbg: rgba(18,22,31,.03); --pill: #12161f; --pillfg: #fff; }
   .hdr .wrap { max-width: 1460px; margin: 0 auto; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
-  .hdr .logo { width: 195px; height: 51px; flex: 0 0 auto; background: var(--fg); transition: background-color var(--fade);
-    -webkit-mask: url(img/logo-new-white.png) right center / contain no-repeat; mask: url(img/logo-new-white.png) right center / contain no-repeat; }
+  /* white logo over dark sections, the full-colour main logo over light ones */
+  .hdr .logo { position: relative; width: 195px; height: 51px; flex: 0 0 auto; }
+  .hdr .logo::before, .hdr .logo::after { content: ""; position: absolute; inset: 0; background: url(img/logo-white.png) right center / contain no-repeat; transition: opacity var(--fade); }
+  .hdr .logo::after { background-image: url(img/logo-main.png); opacity: 0; }
+  .hdr.on.light .logo::before { opacity: 0; }
+  .hdr.on.light .logo::after { opacity: 1; }
   .hdr nav { display: flex; align-items: center; gap: 25px; font-size: 18px; }
   .hdr nav a { padding: 10px; color: var(--fg); text-decoration: none; white-space: nowrap; transition: color var(--fade); display: inline-flex; align-items: center; gap: 6px; }
   .hdr nav a.cur { font-weight: 500; }

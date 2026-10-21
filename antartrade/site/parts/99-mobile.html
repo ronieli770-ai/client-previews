@@ -12,7 +12,7 @@
     opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility .35s; }
   .m-menu.open { opacity: 1; visibility: visible; }
   .m-menu .m-top { display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; height: 48px; }
-  .m-menu .m-top .logo { width: 150px; height: 39px; background: #fff; -webkit-mask: url(img/logo-new-white.png) left center / contain no-repeat; mask: url(img/logo-new-white.png) left center / contain no-repeat; }
+  .m-menu .m-top .logo { width: 150px; height: 39px; background: #fff; -webkit-mask: url(img/logo-white.png) left center / contain no-repeat; mask: url(img/logo-white.png) left center / contain no-repeat; }
   .m-menu .m-close { width: 48px; height: 48px; border: 0; border-radius: 50%; background: rgba(255,255,255,.08); color: #fff; cursor: pointer; display: grid; place-items: center; }
   .m-menu .m-cta { margin-top: auto; display: flex; justify-content: center; }
   body.menu-open { overflow: hidden; }
@@ -78,8 +78,7 @@
   .hdr .wrap { padding: 12px 16px; gap: 8px; }
   .hdr .burger { order: -1; width: 48px; height: 48px; background: var(--chip); transition: background-color var(--fade), color var(--fade); }
   .hdr .logo { order: 0; width: 168px; height: 48px; background: none; -webkit-mask: none; mask: none; position: relative; margin-right: 4px; }   /* the logo on its own, no pill */
-  .hdr .logo::after { content: ""; position: absolute; inset: 5px 0; background: var(--fg); transition: background-color var(--fade);
-    -webkit-mask: url(img/logo-new-white.png) right center / contain no-repeat; mask: url(img/logo-new-white.png) right center / contain no-repeat; }
+  .hdr .logo::before, .hdr .logo::after { inset: 5px 0; }
   .hdr .halo { order: 1; margin-inline-start: auto; padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
   .hdr .halo a { height: 48px; padding: 0 18px; font-size: 16px; background: var(--chip); color: var(--fg); gap: 8px; }
   .hdr .halo a svg { width: 18px; height: 18px; }
