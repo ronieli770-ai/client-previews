@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - אפשרויות לאנימציית כותרות</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html.lenis, html.lenis body { height: auto; }
+  body { font-family: "Fb Reforma", sans-serif; background: #12161f; color: #fff; }
+  .intro { height: 70vh; display: grid; place-items: center; text-align: center; padding: 0 16px; }
+  .intro h1 { font-size: 34px; font-weight: 500; }
+  .intro p { margin-top: 12px; opacity: .6; font-size: 18px; }
+  .opt { min-height: 100vh; display: grid; place-items: center; text-align: center; padding: 120px 16px; border-top: 1px solid rgba(255,255,255,.06); }
+  .opt:nth-child(even) { background: #fff; color: #12161f; }
+  .tag { display: inline-block; font: 500 16px "Fb Reforma", sans-serif; padding: 6px 14px; border-radius: 999px; background: rgba(125,198,255,.14); color: #7dc6ff; margin-bottom: 18px; }
+  .opt:nth-child(even) .tag { color: #2e8bd8; }
+  h2 { font-size: 45px; line-height: 53px; font-weight: 500; }
+  .sub { margin-top: 14px; font-size: 20px; opacity: .7; }
+  .note { margin-top: 26px; font-size: 15px; opacity: .55; max-width: 520px; margin-inline: auto; line-height: 1.5; }
+  .g { background: linear-gradient(90deg, #61B1F2 0%, #fff 78.365%); -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; margin-inline: auto; }
+  .w, .c, .ln { display: inline-block; }
+  .mask { display: block; overflow: hidden; padding-bottom: .08em; }
+  /* option E: a light passes across the title and leaves it lit */
+  .sweep { background: linear-gradient(90deg, #61B1F2 0%, #fff 40%, rgba(255,255,255,.18) 55%, rgba(255,255,255,.18) 100%); background-size: 250% 100%; background-position: var(--bp, 100%) 0; -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; margin-inline: auto; }
+  .opt:nth-child(even) .sweep { background-image: linear-gradient(90deg, #2e8bd8 0%, #12161f 40%, rgba(18,22,31,.15) 55%, rgba(18,22,31,.15) 100%); }
+  .end { height: 60vh; display: grid; place-items: center; opacity: .5; }
+</style>
+</head>
+<body>
+<section class="intro"><div><h1>חמש אפשרויות לאנימציית הכותרות</h1><p>גללו לאט. כל כותרת מונפשת לפי הגלילה ומתהפכת בגלילה למעלה.</p></div></section>
+
+<section class="opt" id="A"><div><span class="tag">א - מילים מהצד (כמו עכשיו)</span>
+  <h2 class="t-a">המבצעים החמים של החודש</h2><p class="sub">בחרנו את ההנחות הטובות ביותר שאומתו עבור הקוד ANTAR</p>
+  <p class="note">כל מילה מחליקה פנימה מהצד, מטשטוש לחדות, אחת אחרי השנייה. בהשראת אניגמה.</p></div></section>
+
+<section class="opt" id="B"><div><span class="tag">ב - עולה מתוך מסכה</span>
+  <h2 class="t-b">דו קרב חברות מימון</h2><p class="sub">השווה בין שתי חברות ובחר את החשבון שמתאים לך</p>
+  <p class="note">כל מילה עולה מלמטה מתוך קו חתוך, כמו באתרים של אפל. נקי, בלי טשטוש.</p></div></section>
+
+<section class="opt" id="C"><div><span class="tag">ג - אותיות נדלקות</span>
+  <h2 class="t-c">טעימה מהאקדמיה</h2><p class="sub">קורסים, סרטונים ומדריכים - כל מה שצריך כדי לסחור חכם יותר.</p>
+  <p class="note">הכותרת כבר במקום, והאותיות נדלקות אחת אחרי השנייה מימין לשמאל, מ־15% לצבע מלא.</p></div></section>
+
+<section class="opt" id="D"><div><span class="tag">ד - פוקוס מתקרב</span>
+  <h2 class="t-d">פלטפורמות וכלי מסחר</h2><p class="sub">כל הכלים שסוחר צריך במקום אחד</p>
+  <p class="note">הכותרת כולה מתחילה גדולה ומטושטשת עם ריווח רחב בין האותיות, ומתכווצת לפוקוס חד.</p></div></section>
+
+<section class="opt" id="E"><div><span class="tag">ה - אור שעובר</span>
+  <h2 class="t-e sweep">רוצים להמשיך מכאן?</h2><p class="sub">בחרו את הצעד הבא שמתאים לכם.</p>
+  <p class="note">הכותרת מתחילה שקופה למחצה, ופס של אור עובר עליה מימין לשמאל ומשאיר אותה בגרדיאנט של ההירו.</p></div></section>
+
+<section class="end">סוף האפשרויות</section>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger, SplitText);
+const lenis = new Lenis({ lerp: .08 }); lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
+const st = el => ({ trigger: el, start: 'top 85%', end: 'top 45%', scrub: 1 });
+document.fonts.ready.then(() => {
+  // A: words slide in from the side, blur to sharp
+  { const h = document.querySelector('.t-a'), s = new SplitText(h, { type: 'words', wordsClass: 'w' });
+    gsap.from(s.words, { opacity: 0, x: '.5em', filter: 'blur(10px)', stagger: .1, scrollTrigger: st(h) }); }
+  // B: words rise out of a mask line
+  { const h = document.querySelector('.t-b'), s = new SplitText(h, { type: 'words', wordsClass: 'w', mask: 'words' });
+    gsap.from(s.words, { yPercent: 110, stagger: .12, ease: 'power3.out', scrollTrigger: st(h) }); }
+  // C: letters light up right to left
+  { const h = document.querySelector('.t-c'), s = new SplitText(h, { type: 'chars', charsClass: 'c' });
+    gsap.from(s.chars, { opacity: .15, stagger: .08, ease: 'none', scrollTrigger: st(h) }); }
+  // D: the whole title focuses in
+  { const h = document.querySelector('.t-d');
+    gsap.from(h, { scale: 1.12, letterSpacing: '.12em', filter: 'blur(14px)', opacity: 0, ease: 'power2.out', scrollTrigger: st(h) }); }
+  // E: a light passes across and leaves the hero gradient
+  { const h = document.querySelector('.t-e');
+    gsap.fromTo(h, { '--bp': '100%' }, { '--bp': '0%', ease: 'none', scrollTrigger: st(h) }); }
+  // subtitles light up word by word in every option
+  document.querySelectorAll('.sub').forEach(p => { const s = new SplitText(p, { type: 'words', wordsClass: 'w' });
+    gsap.from(s.words, { opacity: .2, stagger: .1, scrollTrigger: { trigger: p, start: 'top 85%', end: 'top 60%', scrub: 1 } }); });
+});
+</script>
+</body>
+</html>
