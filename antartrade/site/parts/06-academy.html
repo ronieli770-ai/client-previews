@@ -152,7 +152,7 @@
   };
   const grid = document.getElementById('ac-grid'), tabs = document.getElementById('ac-tabs'), ind = tabs.querySelector('.ind');
   function show(f) { grid.className = 'grid fade ' + VIEWS[f].cls; grid.innerHTML = VIEWS[f].html(); }
-  function place(b) { ind.style.left = b.offsetLeft + 'px'; ind.style.width = b.offsetWidth + 'px'; }
+  function place(b) { ind.style.right = 'auto'; ind.style.left = b.offsetLeft + 'px'; ind.style.width = b.offsetWidth + 'px'; }   // the base rule pins it right; clear that so left can move it
   function pick(b) { tabs.querySelector('.on').classList.remove('on'); b.classList.add('on'); place(b); show(b.dataset.f); }
   tabs.querySelectorAll('button').forEach(b => b.onclick = () => pick(b));
   // ?tab=video opens a tab directly (used for checking)
