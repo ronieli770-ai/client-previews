@@ -256,6 +256,11 @@
 
   /* ---------- community ---------- */
   .s-community .banner { border-radius: 28px !important; }
+  /* the WhatsApp mark lives inside the dark banner on phones: on the right, faint, cut by the banner's edge (the floating one is hidden here) */
+  .s-community .banner { position: relative; overflow: hidden; isolation: isolate; }
+  .s-community .banner::after { content: ""; position: absolute; z-index: -1; pointer-events: none; width: 230px; height: 230px; right: -70px; top: 50%; margin-top: -115px;
+    background: #7DC6FF; opacity: .6; -webkit-mask: url(img/bg-wa.svg) center / contain no-repeat; mask: url(img/bg-wa.svg) center / contain no-repeat; }
+  .rings img[src$="bg-wa.svg"] { display: none; }
   /* the three cards under the banner: one row of three, text aligned to the same top edge */
   .s-community .cards { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; margin-top: 52px !important; max-width: none !important; }
   .s-community .icon { width: 44px !important; height: 44px !important; top: -22px !important; }
