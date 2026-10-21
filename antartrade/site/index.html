@@ -344,7 +344,7 @@
 .s-hero .s-hero__search input::placeholder{font-family:"IBM Plex Sans Hebrew",sans-serif}
 
 /* shorter hero so the partner logos are visible on arrival */
-@media (min-width:981px){.s-hero{--hp:clamp(100px,13vh,190px);padding:var(--hp) 16px calc(var(--hp) * .62 + 26px);min-height:clamp(560px,calc(100vh - 212px),900px);display:flex;flex-direction:column;justify-content:center}.s-hero .s-hero__wrap{width:100%}/* the hero takes the first screen down to the logo names, its content centred in it */.s-hero .s-hero__content{gap:14px}}   /* short enough that the logo names under the hero show in the first screen */
+@media (min-width:981px){.s-hero{--hp:clamp(100px,13vh,190px);padding:var(--hp) 16px calc(var(--hp) * .62 + 26px);min-height:clamp(540px,calc(100vh - 235px),900px);display:flex;flex-direction:column;justify-content:center}.s-hero .s-hero__wrap{width:100%}/* the hero takes the first screen down to the logo names with 24px to spare, its content centred in it */.s-hero .s-hero__content{gap:14px}}   /* short enough that the logo names under the hero show in the first screen */
 
 /* wide screens: the photo dissolves on every side instead of ending in a hard-edged box */
 @media (min-width:981px){
@@ -400,7 +400,7 @@
 }
 
 /* logos sit right under the hero and show at once, without the scroll reveal */
-@media (min-width:981px){.s-logos{padding-top:24px}.s-logos .s-logos__wrap{gap:10px}.s-logos .s-logos__title{line-height:46px}}
+@media (min-width:981px){.s-logos{padding-top:24px}.s-logos .s-logos__wrap{gap:15px}.s-logos .s-logos__head{gap:24px}.s-logos .s-logos__title{line-height:46px}}   /* title, subtitle and logos an even 24px apart */
 
 /* separation looks (?ls=a|b|c): A two rows, firms one way and tools the other; B a wide gap with a small sky dot; C the labelled marker */
 .s-logos .lg-sep{display:none}
