@@ -2996,9 +2996,10 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
       // and goes out only once the block's bottom (the button) passes 30% from the top
       const ph = document.querySelector('.s-about .portrait');
       const top0 = ph ? ph.getBoundingClientRect().top + (aboutText.offsetTop - ph.offsetTop) : b.top;
-      const enter = Math.min(1, Math.max(0, (top0 / innerHeight - .62) / .33)), leave = b.bottom / innerHeight - .3;
+      // once in place, scrolling on lifts it slowly and blurs it: from when its top passes 45% of the screen, over most of a screen height
+      const enter = Math.min(1, Math.max(0, (top0 / innerHeight - .62) / .33)), lift = Math.min(1, Math.max(0, (.45 - top0 / innerHeight) / .8));
       if (enter > 0) { y = enter * 110; o = 1 - enter * .9; bl = enter * 3; }
-      else if (leave < 0) { y = leave * 45; o = 1 + leave * 3; bl = -leave * 6; }
+      else if (lift > 0) { y = -lift * 70; o = 1 - lift * .6; bl = lift * 6; }
       else { y = 0; o = 1; bl = 0; }
     } else { y = p > 0 ? p * 90 : p * 50; o = p > 0 ? 1 - p * 1.6 : 1 + p * 1.4; bl = p > 0 ? p * 3 : -p * 6; }
     // at rest nothing is left on the block: on iPhone a filter or opacity on it (even blur(0)) delays painting the button's backdrop blur,
@@ -3006,7 +3007,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
     const op = Math.max(0, Math.min(1, o));
     aboutText.style.transform = Math.abs(y) < .5 ? '' : `translateY(${y.toFixed(1)}px)`;
     aboutText.style.opacity = op > .995 ? '' : op.toFixed(3);
-    aboutText.style.filter = bl > .05 && innerWidth > 760 ? `blur(${bl.toFixed(2)}px)` : '';
+    aboutText.style.filter = bl > .05 && (innerWidth > 760 || y < 0) ? `blur(${bl.toFixed(2)}px)` : '';   // phones blur only on the way out
     aboutText.classList.add('in');
   }
   // ---------- journal panel: rises in while scrolling, starting slightly blurred and turning sharp ----------
