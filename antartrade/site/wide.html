@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade wide screen</title>
+<style>
+  body { margin: 0; background: #0b0e14; color: #fff; font: 500 15px system-ui, sans-serif; }
+  .bar { display: flex; gap: 8px; justify-content: center; align-items: center; padding: 12px; flex-wrap: wrap; }
+  .bar button { border: 1px solid rgba(255,255,255,.2); background: transparent; color: #fff; border-radius: 999px; padding: 8px 16px; font: inherit; cursor: pointer; }
+  .bar button.on { background: #7dc6ff; color: #12161f; border-color: #7dc6ff; }
+  .stage { display: flex; justify-content: center; }
+  .frame { overflow: hidden; border-radius: 10px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+  iframe { border: 0; transform-origin: top left; display: block; }
+</style></head><body>
+<div class="bar"><span>רוחב מסך:</span>
+  <button data-w="1920" data-h="1080">1920</button><button data-w="2560" data-h="1440" class="on">2560</button><button data-w="3440" data-h="1440">3440 (אולטרה־רחב)</button>
+</div>
+<div class="stage"><div class="frame"><iframe src="index.html"></iframe></div></div>
+<script>
+  // the real page at the chosen screen width, scaled down to fit this window - scroll inside it like on that screen
+  const f = document.querySelector('iframe'), fr = document.querySelector('.frame');
+  function set(w, h) {
+    const k = Math.min(1, (innerWidth - 32) / w, (innerHeight - 80) / h);
+    f.style.width = w + 'px'; f.style.height = h + 'px'; f.style.transform = `scale(${k})`;
+    fr.style.width = w * k + 'px'; fr.style.height = h * k + 'px';
+  }
+  document.querySelectorAll('.bar button').forEach(b => b.onclick = () => { document.querySelectorAll('.bar button').forEach(x => x.classList.toggle('on', x === b)); set(+b.dataset.w, +b.dataset.h); });
+  addEventListener('resize', () => { const b = document.querySelector('.bar .on'); set(+b.dataset.w, +b.dataset.h); });
+  set(2560, 1440);
+</script>
+</body></html>
