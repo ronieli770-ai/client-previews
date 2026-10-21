@@ -140,10 +140,10 @@
   .mega .lt { font-family: "Roboto", sans-serif; direction: ltr; unicode-bidi: isolate; }
   .mega .pct { font: 700 15px "Roboto", sans-serif; }
   .mega .code { display: inline-flex; align-items: center; gap: 6px; height: 39px; padding: 0 16px; border-radius: 999px; font: 500 13px "Roboto", sans-serif; letter-spacing: 1px; cursor: pointer; white-space: nowrap;
-    color: var(--ice); background: rgba(125,198,255,.1); box-shadow: inset 0 0 0 1px rgba(125,198,255,.35); transition: background-color .2s; }
+    color: var(--ice); background: rgba(125,198,255,.12); border: 1px dashed rgba(125,198,255,.5); box-sizing: border-box; transition: background-color .2s; }   /* the dashed coupon chip used across the page */
   .mega .code:hover { background: rgba(125,198,255,.22); }
   .mega .code svg { width: 13px; height: 13px; }
-  .mega .code.done { color: var(--navy); background: #3fd8c2; box-shadow: none; }
+  .mega .code.done { color: var(--navy); background: #3fd8c2; border-color: #3fd8c2; }
   .mega .sub { font-size: 14px; color: rgba(255,255,255,.55); }
   .mega .more { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; color: var(--sky); }
   .mega .more svg { width: 14px; height: 14px; transition: transform .3s var(--ease); }
@@ -203,7 +203,7 @@
   .mega .tl b { font: 500 16px "Roboto", sans-serif; direction: ltr; text-align: right; }
   .mega .tl .sub { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .mega .tl .badge { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; white-space: nowrap; color: #fff; font: 500 13px/1.2 "Fb Reforma", sans-serif;
-    background: #7DC6FF; }   /* flat sky of the hero's main button, no glow */
+    background: linear-gradient(90deg, #2e5474 0%, #55a6e6 100%); }   /* the logo's own gradient: sky at the reading edge into its deep blue */
   .mega .tl .badge img { width: 13px; height: 13px; flex: none; }
   /* academy: its five sections on the right, the newest covers beside them */
   .mega .acadw { display: grid; grid-template-columns: 250px auto; gap: 14px; }
@@ -241,9 +241,9 @@
   .hdr.light .mega .tile { box-shadow: inset 0 0 0 1px rgba(18,22,31,.08), 0 6px 14px -8px rgba(18,22,31,.35); }
   .hdr.light .mega .sub { color: rgba(18,22,31,.55); }
   .hdr.light .mega .more { color: var(--blue); }
-  .hdr.light .mega .code { color: var(--blue); background: rgba(46,139,216,.08); box-shadow: inset 0 0 0 1px rgba(46,139,216,.3); }
+  .hdr.light .mega .code { color: var(--blue); background: rgba(46,139,216,.08); border-color: rgba(46,139,216,.45); }
   .hdr.light .mega .code:hover { background: rgba(46,139,216,.16); }
-  .hdr.light .mega .code.done { color: #fff; background: #12a08e; box-shadow: none; }
+  .hdr.light .mega .code.done { color: #fff; background: #12a08e; border-color: #12a08e; }
   .hdr.light .mega .it.on, .hdr.light .mega .tl:hover { background: rgba(46,139,216,.07); }
   .hdr.light .mega .prev { background: radial-gradient(90% 70% at 0% 100%, var(--gl, rgba(46,139,216,.18)), transparent 62%), #f4f8fc; box-shadow: inset 0 0 0 1px rgba(18,22,31,.07); }
   .hdr.light .mega .prev .eb { color: var(--blue); }
@@ -1130,7 +1130,7 @@
 .s-platforms .card-bot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;direction:ltr}
 .s-platforms .btn-more{display:inline-flex;align-items:center;justify-content:center;padding:9px 16px;border-radius:999px;background:#eef1f5;color:#12161f;font:600 14px/normal var(--heebo);white-space:nowrap;text-decoration:none;direction:rtl;transition:background .2s}
 .s-platforms .btn-more:hover{background:#fff}
-.s-platforms .deal{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;white-space:nowrap;color:#fff;background:#7DC6FF}
+.s-platforms .deal{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;white-space:nowrap;color:#fff;background:linear-gradient(90deg,#2e5474 0%,#55a6e6 100%)}
 .s-platforms .deal img{display:block;flex:0 0 auto}
 .s-platforms .deal .i-gift{width:12px;height:12px}
 .s-platforms .deal .i-tag{width:14px;height:14px}
