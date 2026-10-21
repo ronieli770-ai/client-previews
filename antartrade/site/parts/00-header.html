@@ -84,6 +84,16 @@
   .mega .tl .badge { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; white-space: nowrap; color: #fff; font: 500 13px/1.2 "Fb Reforma", sans-serif;
     background: linear-gradient(90deg, #f261e6 0%, #a061f2 25%, #422ed8 50%, #6161f2 75%, #2b9df9 100%); }
   .mega .tl .badge img { width: 13px; height: 13px; flex: none; }
+  /* academy: its five sections on the right, the newest covers beside them */
+  .mega .acadw { display: grid; grid-template-columns: 250px auto; gap: 14px; }
+  .mega .acl { display: grid; gap: 2px; align-content: start; }
+  .mega .acl a { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 14px; transition: background-color .2s; }
+  .mega .acl a:hover { background: rgba(125,198,255,.08); }
+  .mega .acl .tile { background: radial-gradient(70% 70% at 0% 100%, rgba(209,123,255,.45), transparent 70%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(209,123,255,.35); }
+  .mega .acl .tile svg { width: 20px; height: 20px; color: #d17bff; }
+  .mega .acl b { display: block; font-size: 16px; font-weight: 500; }
+  .mega .acl small { display: block; font-size: 13px; color: rgba(255,255,255,.55); margin-top: 2px; }
+  .mega .acadw .acad { grid-template-columns: repeat(2, 190px); }
   /* academy: the new covers */
   .mega .acad { display: grid; grid-template-columns: repeat(3, 200px); gap: 12px; }
   .mega .acad a { border-radius: 16px; overflow: hidden; background: #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.14); transition: transform .35s var(--ease); }
@@ -175,7 +185,7 @@
       ['replikanto.webp', 'Replikanto', 'שכפול עסקאות ב-NinjaTrader', ''],
       ['fxreplay.webp', 'FX Replay', 'תרגול על נתוני עבר בסימולציה', '']
     ].map(tl).join('')}</div></div><div class="foot"><a class="more" href="#platforms">לכל הכלים והמדריכים ${ARROW}</a><a class="more" href="#platforms">לוח שנה כלכלי ${ARROW}</a></div>`,
-    academy: `<div class="acad">${ACAD.map(([img, t]) => `<a href="#academy"><img src="${IMG + img}" alt=""><span>${t}</span></a>`).join('')}</div><div class="foot"><span class="sub">קורסים, סרטונים ומאמרים</span><a class="more" href="#academy">לכל האקדמיה ${ARROW}</a></div>`,
+    academy: `<div class="acadw"><div class="acl">${[['/courses', '<path d="M2.5 9L12 4.5L21.5 9L12 13.5Z"/><path d="M6.5 11V16C8 17.5 10 18.3 12 18.3C14 18.3 16 17.5 17.5 16V11"/>', 'קורסים', 'מהיסודות ועד המסלול המלא'],['/academy/videos', '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10.5 9.5V14.5L14.5 12Z"/>', 'ספריית וידאו', 'מדריכים לחברות ולפלטפורמות'],['/blog', '<path d="M7 3.5H14L18.5 8V19C18.5 19.8 17.8 20.5 17 20.5H7C6.2 20.5 5.5 19.8 5.5 19V5C5.5 4.2 6.2 3.5 7 3.5Z"/><path d="M13.5 3.5V8.5H18.5M9 12.5H15M9 16H13"/>', 'מאמרים ומדריכים', 'הסברים כתובים צעד אחר צעד'],['/trading-tools', '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/>', 'כלים לסוחרים', 'מחשבונים וכלים שימושיים'],['/academy', '<path d="M5 4.5C5 3.7 5.7 3 6.5 3H19V18H6.5C5.7 18 5 18.7 5 19.5M5 4.5V19.5M5 19.5C5 20.3 5.7 21 6.5 21H19"/><path d="M9.5 13L11.5 7.5L13.5 13M10.2 11.2H12.8"/>', 'מילון מושגים', 'כל המונחים בשפה פשוטה']].map(([u, ic, tt, d]) => `<a href="https://antartrade.co.il${u}" target="_blank" rel="noopener"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ic}</svg></span><span><b>${tt}</b><small>${d}</small></span></a>`).join('')}</div><div class="acad">${ACAD.map(([img, t]) => `<a href="#academy"><img src="${IMG + img}" alt=""><span>${t}</span></a>`).join('')}</div></div><div class="foot"><span class="sub">קורסים, סרטונים ומאמרים</span><a class="more" href="#academy">לכל האקדמיה ${ARROW}</a></div>`,
   };
   const hdr = document.getElementById('hdr'), nav = document.getElementById('hdr-nav'), mega = document.getElementById('mega'), dim = document.getElementById('mega-dim'), keys = Object.keys(PANES);
   mega.innerHTML = keys.map(k => `<div class="pane" data-p="${k}">${PANES[k]}</div>`).join('');
