@@ -1988,7 +1988,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
 <script>
 (function () {
   // real questions from Noam's site, typed one after another while the field is empty
-  const Q = ['מהו חוק העקביות באפקס?', 'מה ההבדל בין מסלול Intraday למסלול EOD?', 'כמה חשבונות ממומנים מותר להחזיק במקביל?', 'כמה זמן לוקח לקבל משיכה מ־Lucid Trading?', 'מותר לסחור בזמן חדשות?', 'מה הסכום המינימלי למשיכה?', 'מה זה דלתא בפוטפרינט?'];
+  const Q = ['מהו חוק העקביות באפקס?', 'מה ההבדל בין מסלול Intraday למסלול EOD?', 'כמה חשבונות ממומנים מותר להחזיק במקביל?', 'כמה זמן לוקח לקבל משיכה מ-Lucid Trading?', 'מותר לסחור בזמן חדשות?', 'מה הסכום המינימלי למשיכה?', 'מה זה דלתא בפוטפרינט?'];
   const input = document.querySelector('.s-hero__search input'); if (!input) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { input.placeholder = Q[0]; return; }
   const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -3154,7 +3154,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   const panel = document.createElement('div'); panel.className = 'bot-panel'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'העוזר של AntarTrade');
   panel.innerHTML = '<header><span>העוזר החכם של AntarTrade</span><button type="button" aria-label="סגירה">✕</button></header>'
     + '<div class="msgs"><div class="m bot">היי! אני כאן כדי לעזור לבחור חברת מימון, להבין חוקים ולמצוא מבצעים. מה תרצו לדעת?</div></div>'
-    + '<div class="chips"><button type="button">מהו חוק העקביות באפקס?</button><button type="button">איזו חברה הכי משתלמת עכשיו?</button><button type="button">מה ההבדל בין EOD ל־Intraday?</button></div>'
+    + '<div class="chips"><button type="button">מהו חוק העקביות באפקס?</button><button type="button">איזו חברה הכי משתלמת עכשיו?</button><button type="button">מה ההבדל בין EOD ל-Intraday?</button></div>'
     + '<form><input type="text" autocomplete="off" placeholder="כתבו שאלה..." aria-label="שאלה"><button type="submit">שליחה</button></form>';
   document.body.appendChild(panel);
   const msgs = panel.querySelector('.msgs'), pin = panel.querySelector('input');
