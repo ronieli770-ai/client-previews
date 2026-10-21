@@ -294,7 +294,7 @@
 /* desktop: the promise in two big lines, the choice line under it smaller */
 @media (min-width:761px){
   .s-hero .s-hero__title .m-br{display:block}
-  .s-hero .s-hero__title .s-hero__l1{font-size:78px;line-height:.98}
+  .s-hero .s-hero__title .s-hero__l1{font-size:74px;line-height:.9}
   .s-hero .s-hero__title .s-hero__l2{font-size:44px;line-height:1.1;margin-top:8px}
 }
 .s-hero .s-hero__sub{margin:0;font-size:20px;line-height:1.2;min-height:31px;display:flex;align-items:center;color:rgba(255,255,255,.7)}
@@ -344,7 +344,7 @@
 .s-hero .s-hero__search input::placeholder{font-family:"IBM Plex Sans Hebrew",sans-serif}
 
 /* shorter hero so the partner logos are visible on arrival */
-@media (min-width:981px){.s-hero{--hp:clamp(150px,20vh,217px);min-height:0;padding:var(--hp) 16px calc(var(--hp) * .857)}}
+@media (min-width:981px){.s-hero{--hp:clamp(100px,13vh,190px);min-height:0;padding:var(--hp) 16px calc(var(--hp) * .62 + 26px)}.s-hero .s-hero__content{gap:14px}}   /* short enough that the logo names under the hero show in the first screen */
 
 /* wide screens: the photo dissolves on every side instead of ending in a hard-edged box */
 @media (min-width:981px){
@@ -400,7 +400,7 @@
 }
 
 /* logos sit right under the hero and show at once, without the scroll reveal */
-@media (min-width:981px){.s-logos{padding-top:24px}}
+@media (min-width:981px){.s-logos{padding-top:24px}.s-logos .s-logos__wrap{gap:10px}.s-logos .s-logos__title{line-height:46px}}
 
 /* separation looks (?ls=a|b|c): A two rows, firms one way and tools the other; B a wide gap with a small sky dot; C the labelled marker */
 .s-logos .lg-sep{display:none}
