@@ -295,10 +295,11 @@
   });
   document.addEventListener('click', e => { if (!e.target.closest('.s-duel')) S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
   S.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('s-duel__route')) { e.preventDefault(); e.target.classList.toggle('open'); } if (e.key === 'Escape') S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
-  // the comparison cards above hand their two picks in here
-  window.__duelSet = (a, b) => { if (!F[a] || (b && !F[b]) || a === b) return;
-    state[0] = { f: a, p: 0 }; if (b) state[1] = { f: b, p: 0 }; else if (state[1].f === a) state[1] = { f: state[0].f === 'tp' ? 'lucid' : 'tp', p: 0 };
-    S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.remove('on')); renderAll(); renderPick(); };
+  // a firm picked in the comparison cards above takes side A; returns what opens side B's chooser once the page lands here
+  window.__duelPick = k => { if (!F[k]) return () => {};
+    if (state[1].f === k) state[1] = state[0]; state[0] = { f: k, p: 0 };
+    S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.remove('on')); renderAll(); renderPick();
+    return () => { if (pick && innerWidth <= 760) { pickSide = 1; S.classList.add('picking'); renderPick(); } else cards[1].querySelector('.s-duel__swapwrap').classList.add('open'); }; };
   renderAll(); renderPick();
 })();
 </script>
