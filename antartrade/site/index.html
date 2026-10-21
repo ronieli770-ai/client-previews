@@ -658,6 +658,10 @@
 .tc-f .s-table .fc-main:hover{background:#fff}
 .tc-f .s-table .fc-line{margin-inline-start:auto;background:transparent;color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.18)}   /* pinned to the card's left edge, inside its padding */
 .tc-f .s-table .fc-line:hover{border-color:rgba(255,255,255,.4)}
+.s-table .fc-line{display:inline-flex;align-items:center;gap:6px;transition:border-color .2s,background-color .2s,color .2s}
+.s-table .fc-line svg{width:12px;height:12px;display:none}
+.s-table .fc-line.on svg{display:block}
+.tc-f .s-table .fc-line.on,.tc-f .s-table .fc-line.on:hover{border-color:rgba(125,198,255,.6);background:rgba(125,198,255,.12);color:#d6ecff}
 .tc-f .s-table .fc-code{direction:rtl;border:1px dashed rgba(125,198,255,.5);background:rgba(125,198,255,.12);border-radius:999px;color:#d6ecff;padding:8px 14px}
 .tc-f .s-table .fc-code .lt{font-weight:700;font-size:14px}
 
@@ -2181,6 +2185,19 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   if (/^(a|b|c|d|e|f|b2|b3|b4)$/.test(tc)) { document.documentElement.classList.add('tc-' + tc); if (/^b\d$/.test(tc)) document.documentElement.classList.add('tc-b'); if (tcQ) setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
   // phones: three firms first, the rest one tap away
   const g = document.querySelector('.s-table .fc-grid'), b = document.querySelector('.s-table .fc-more');
+  // add to compare: two picks fill the head-to-head below, then the page scrolls there
+  const KEYS = ['tp', 'apex', 'bulenox', 'lucid', 'fn', 'topstep'], TICK = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const picks = [], adds = [...document.querySelectorAll('.s-table .fc-line')];
+  adds.forEach((btn, i) => { btn.dataset.firm = KEYS[i]; btn.setAttribute('aria-pressed', 'false'); btn.innerHTML = TICK + '<span>הוסף להשוואה</span>'; });
+  const paint = () => adds.forEach(btn => { const on = picks.includes(btn.dataset.firm); btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', on); btn.lastChild.textContent = on ? 'נבחר להשוואה' : 'הוסף להשוואה'; });
+  adds.forEach(btn => btn.addEventListener('click', () => {
+    const k = btn.dataset.firm, at = picks.indexOf(k);
+    if (at > -1) picks.splice(at, 1); else { picks.push(k); if (picks.length > 2) picks.shift(); }
+    paint();
+    if (!picks.length || !window.__duelSet) return;
+    window.__duelSet(picks[0], picks[1]);
+    if (picks.length === 2 && at < 0) setTimeout(() => { const d = document.getElementById('duel'); if (d) (window.__lenis ? window.__lenis.scrollTo(d, { offset: -80 }) : scrollTo({ top: d.getBoundingClientRect().top + scrollY - 80, behavior: 'smooth' })); }, 450);
+  }));
   if (g && b) b.addEventListener('click', () => { const open = g.classList.toggle('short'); b.textContent = open ? 'להצגת כל החברות' : 'להצגת פחות חברות'; b.setAttribute('aria-expanded', !open); });
 })();
 </script>
@@ -2336,6 +2353,10 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   });
   document.addEventListener('click', e => { if (!e.target.closest('.s-duel')) S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
   S.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('s-duel__route')) { e.preventDefault(); e.target.classList.toggle('open'); } if (e.key === 'Escape') S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
+  // the comparison cards above hand their two picks in here
+  window.__duelSet = (a, b) => { if (!F[a] || (b && !F[b]) || a === b) return;
+    state[0] = { f: a, p: 0 }; if (b) state[1] = { f: b, p: 0 }; else if (state[1].f === a) state[1] = { f: state[0].f === 'tp' ? 'lucid' : 'tp', p: 0 };
+    S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.remove('on')); renderAll(); renderPick(); };
   renderAll(); renderPick();
 })();
 </script>
@@ -3187,7 +3208,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   }));
   // buttons without their own action
   document.querySelectorAll('button').forEach(b => {
-    if (b.closest('.s-duel, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i) return;   // the menu, its close button and toggles have their own job
+    if (b.closest('.s-duel, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i || b.dataset.firm) return;   // the menu, its close button and toggles have their own job
     b.addEventListener('click', () => {
       const t = b.textContent.trim();
       if (b.closest('[role="search"]')) { const q = b.parentElement.querySelector('input'); if (q && q.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(q.value.trim()), '_blank'); else q && q.focus(); return; }

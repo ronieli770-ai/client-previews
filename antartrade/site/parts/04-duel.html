@@ -295,6 +295,10 @@
   });
   document.addEventListener('click', e => { if (!e.target.closest('.s-duel')) S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
   S.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('s-duel__route')) { e.preventDefault(); e.target.classList.toggle('open'); } if (e.key === 'Escape') S.querySelectorAll('.open').forEach(o => o.classList.remove('open')); });
+  // the comparison cards above hand their two picks in here
+  window.__duelSet = (a, b) => { if (!F[a] || (b && !F[b]) || a === b) return;
+    state[0] = { f: a, p: 0 }; if (b) state[1] = { f: b, p: 0 }; else if (state[1].f === a) state[1] = { f: state[0].f === 'tp' ? 'lucid' : 'tp', p: 0 };
+    S.querySelectorAll('.s-duel__chip').forEach(c => c.classList.remove('on')); renderAll(); renderPick(); };
   renderAll(); renderPick();
 })();
 </script>
