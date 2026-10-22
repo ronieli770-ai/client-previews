@@ -76,6 +76,9 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
 
 /* ---------- sticky page nav ---------- */
 .fp-nav .nav-ind { display: none; }
+@keyframes fpFlash { 0% { background: rgba(125,198,255,.35); } 100% { background: transparent; } }
+.fp .flash { animation: fpFlash 1.1s ease-out; border-radius: 6px; }
+.fp .acard.sel.flash .face { animation: fpFlash 1.1s ease-out; }
 .fp-nav { position: sticky; top: var(--hdr-h, 76px); z-index: 30; display: flex; justify-content: center; padding: 10px 0 20px; background: rgba(18,22,31,.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 
 /* ---------- in short ---------- */
@@ -645,7 +648,7 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   }
 
   document.addEventListener('click', function (e) {
-    var b = e.target.closest('#accPick .tg button, #accSize .tg button'); if (b) { var lv = b.parentNode.dataset.lv, i = +b.dataset.i; if (lv === '3') { state.sel = i; state.flip = -1; render(); return; } if (lv === '1') { state.plan = i; state.sub = 0; } else state.sub = i; var L = leafOf(); state.sel = L ? L.sel : 0; state.flip = -1; render(); return; }
+    var b = e.target.closest('#accPick .tg button, #accSize .tg button'); if (b) { var lv = b.parentNode.dataset.lv, i = +b.dataset.i; if (lv === '3') { state.sel = i; state.flip = -1; render(); var sc = document.querySelector('.acard.sel'); if (sc) sc.classList.add('flash'); return; } if (lv === '1') { state.plan = i; state.sub = 0; } else state.sub = i; var L = leafOf(); state.sel = L ? L.sel : 0; state.flip = -1; render(); return; }
     var op = e.target.closest('[data-open-op]'); if (op) { var tx = op.closest('.txt'); tx.classList.toggle('open'); op.textContent = tx.classList.contains('open') ? 'הצג פחות ↑' : 'קרא עוד ↓'; return; }
     var ex = e.target.closest('[data-ex]'); if (ex) { var box = ex.previousElementSibling; box.hidden = !box.hidden; ex.textContent = box.hidden ? ex.dataset.l : 'סגור ↑'; latify(box); return; }
     var fl = e.target.closest('[data-flip]'); if (fl) { var k = +fl.dataset.flip; state.flip = state.flip === k ? -1 : k; render(); return; }
@@ -672,7 +675,7 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
     '150K': { buf: 154100, cap1: 2500, caps: [2500, null, null, null, null, 5000], qual: null } };
   var $$ = function (n) { return '$' + n.toLocaleString('en-US'); };
   function setWd(k) { var v = WD[k]; if (!v) return;
-    var set = function (key, txt) { document.querySelectorAll('[data-w="' + key + '"]').forEach(function (n) { n.textContent = txt; latify(n.parentNode); }); };
+    var set = function (key, txt) { document.querySelectorAll('[data-w="' + key + '"]').forEach(function (n) { n.textContent = txt; latify(n.parentNode); n.classList.remove('flash'); void n.offsetWidth; n.classList.add('flash'); }); };
     var qual = v.qual ? '5 ימים של לפחות ' + $$(v.qual) : '5 ימי רווח מזכים';
     set('buffer', $$(v.buf)); set('minbal', $$(v.buf + 500)); set('cap1', $$(v.cap1)); set('maxbal', $$(v.buf + v.cap1)); set('qual', qual);
     set('p1', 'כדי להיות זכאים למשיכה בחשבון ' + k + ' צריך לצבור ' + (v.qual ? '5 ימי רווח מזכים של לפחות ' + $$(v.qual) + ' בכל יום' : '5 ימי רווח מזכים (הרווח היומי הנדרש משתנה לפי גודל החשבון, בין $100 ל-$350)') + ', ולעמוד בחוק עקביות של 50%. צריך להגיע לפחות ל-' + $$(v.buf + 500) + ' כדי לבקש משיכה.');
