@@ -345,7 +345,7 @@
   }));
   // buttons without their own action
   document.querySelectorAll('button').forEach(b => {
-    if (b.closest('.s-duel, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i || b.dataset.firm) return;   // the menu, its close button and toggles have their own job
+    if (b.closest('.s-duel, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col, .tc-pick') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i || b.dataset.firm) return;   // the menu, its close button and toggles have their own job
     b.addEventListener('click', () => {
       const t = b.textContent.trim();
       if (b.closest('[role="search"]')) { const q = b.parentElement.querySelector('input'); if (q && q.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(q.value.trim()), '_blank'); else q && q.focus(); return; }
