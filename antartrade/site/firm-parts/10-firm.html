@@ -271,7 +271,55 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   .fp-short, .fp-acc, .fp-wd, .fp-rules, .fp-op, .fp-alt, .fp-faq, .fp-ready, .fp-upd, .fp-more { padding: 56px 0 60px; }
   .fp-review .panel, .fp-op .panel { padding: 28px 20px; border-radius: 32px; }
   .fp-op .qm { font-size: 220px; right: 20px; }
-  .fp .tg { max-width: 100%; overflow-x: auto; }
+  .fp .tg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .fp .tg::-webkit-scrollbar { display: none; }
+  .fp .tg button { min-width: 0; padding: 0 16px; flex: none; }
+  .fp .sub { font-size: 17px; }
+  .fp-hero .w { gap: 36px; }
+  .fp-hero .copy { gap: 16px; }
+  .fp-hero .lead { font-size: 17px; }
+  .fp-hero .halo { align-self: stretch; } .fp-hero .halo i { width: 100%; justify-content: center; }
+  .fp .deal { min-height: 0; padding: 24px 22px; }
+  .fp .deal .pct b { font-size: 52px; }
+  /* in short: two facts a row */
+  .fp .facts, .fp .quad { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .fp .fact, .fp .quad .box { padding: 16px; }
+  .fp .fact .v, .fp .fact .v.lat { font-size: 17px !important; }
+  .fp .quad .v, .fp .quad .v.lat { font-size: 22px !important; }
+  .fp .plats .top { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .fp .chip { padding: 6px 14px; font-size: 14px; } .fp .chip img { width: 22px; height: 22px; }
+  .fp-review img { order: -1; }
+  /* accounts: the route toggle fills the width, the cards swipe sideways */
+  .fp-acc .pick .row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .fp-acc .pick .tg { display: flex; } .fp-acc .pick .tg button { flex: 1 0 auto; }
+  .fp-acc .simple { padding: 22px 18px; }
+  .fp-acc .simple h3 { font-size: 22px; }
+  .fp-acc .steps { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .fp-acc .cards { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 22px 16px 6px; scrollbar-width: none; }
+  .fp-acc .cards::-webkit-scrollbar { display: none; }
+  .fp-acc .cards .acard { flex: 0 0 82%; scroll-snap-align: center; }
+  /* withdrawals */
+  .fp-wd .bar { flex-wrap: wrap; gap: 10px; } .fp-wd .bar .tg { order: 3; width: 100%; display: flex; } .fp-wd .bar .tg button { flex: 1; }
+  .fp .plain { padding: 20px 18px; }
+  .fp .caps .top { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .fp .bars { gap: 6px; } .fp .bars b { font-size: 12px; } .fp .bars span { font-size: 12px; text-align: center; }
+  .fp .tri .big { font-size: 36px; }
+  /* rules */
+  .fp-rules .hrow, .fp-alt .hrow { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .fp .rule { min-height: 0; } .fp .rule .lnk { margin-top: 10px; }
+  /* opinion */
+  .fp-op .who { width: 240px; height: 322px; }
+  .fp-op .who .ring { height: 240px; }
+  .fp-op .who .cut { -webkit-mask: radial-gradient(circle 120px at 50% 202px, #000 99.5%, transparent 100%), linear-gradient(#000, #000) top / 100% 202px no-repeat; mask: radial-gradient(circle 120px at 50% 202px, #000 99.5%, transparent 100%), linear-gradient(#000, #000) top / 100% 202px no-repeat; }
+  .fp-op .who .cut img { width: 225px; left: 7px; bottom: -30px; }
+  .fp-op .txt .q { font-size: 22px; } .fp-op .txt .b { font-size: 16px; }
+  .fp-op .sig { flex-direction: column; align-items: flex-start; }
+  /* alternatives, ready, faq */
+  .fp-alt .ac { flex-wrap: wrap; } .fp-alt .ac .bt { width: 100%; } .fp-alt .ac .bt .gbtn { width: 100%; }
+  .fp-alt .ac .tx b { font-size: 20px; }
+  .fp-ready .card { padding: 28px 20px; gap: 18px; } .fp-ready img { align-self: center; order: -1; margin: 0; }
+  .fp-faq details { padding: 16px 18px; } .fp-faq summary { font-size: 17px; }
+  .fp-tpl { bottom: 84px; max-width: calc(100% - 24px); font-size: 12px; } .fp-tpl b { display: none; }
 }
 </style>
 
