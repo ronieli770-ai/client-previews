@@ -704,6 +704,61 @@
 
 
 
+/* ---------- round 3 looks (?tc=g|h|i|j): F's layout with lighter surfaces, so the section isn't a wall of dark nor plain white ----------
+   all keep the site's type, the dashed code chip, the navy main pill and the outline second button */
+.tc-lt .s-table .fc{color:#12161f;border:1px solid #dfe9f3;box-shadow:0 14px 34px rgba(18,22,31,.07)}
+.tc-lt .s-table .fc:hover{border-color:rgba(46,139,216,.4)}
+.tc-lt .s-table .fc::before{color:#2e8bd8;background:rgba(125,198,255,.16)}
+.tc-lt .s-table .fc-logo{box-shadow:0 0 0 1px #e3ecf5}
+.tc-lt .s-table .fc-name{color:#12161f}
+.tc-lt .s-table .fc-rate{color:rgba(18,22,31,.55)}
+.tc-lt .s-table .fc-rate b{color:#12161f}
+.tc-lt .s-table .fc-stats dt{color:rgba(18,22,31,.55)}
+.tc-lt .s-table .fc-stats dd{background:#fff;box-shadow:inset 0 0 0 1px #e3ecf5}
+.tc-lt .s-table .fc-big{color:#12161f}
+.tc-lt .s-table .fc-tag{background:#eef4fa;color:#12161f}
+.tc-lt .s-table .fc-hl li{color:rgba(18,22,31,.8)}
+.tc-lt .s-table .fc-hl svg{color:#2e8bd8}
+.tc-lt .s-table .fc-deal{border-top-color:#e3ecf5}
+.tc-lt .s-table .fc-off{color:rgba(18,22,31,.6)}
+.tc-lt .s-table .fc-off b{color:#2e8bd8}
+.tc-lt .s-table .fc-deal.none .fc-off{color:rgba(18,22,31,.45)}
+.tc-lt .s-table .fc-code{border:1px dashed rgba(46,139,216,.45);background:rgba(125,198,255,.14);color:#1f5f94}
+.tc-lt .s-table .fc-code small{color:rgba(31,95,148,.7)}
+.tc-lt .s-table .fc-main{background:#12161f;color:#fff}
+.tc-lt .s-table .fc-main:hover{background:#2b4d6a}
+.tc-lt .s-table .fc-line{background:transparent;color:#12161f;border:1px solid #cfdbe7}
+.tc-lt .s-table .fc-line:hover{border-color:#7dc6ff}
+/* G mist: a pale sky section, cards a shade lighter than it, facts in white fields */
+.tc-g .s-table{background:#f6f9fc}
+.tc-g .s-table .fc{background:linear-gradient(160deg,#e9f2fb,#dfeaf6);border-color:#d3e2f1;box-shadow:none}
+/* H two-tone: the firm's name on a navy band (the site's dark), the facts on a light body */
+.tc-h .s-table{background:#f3f7fb}
+.tc-h .s-table .fc{background:linear-gradient(#12161f 0 92px,#fbfdff 92px);border:0}
+.tc-h .s-table .fc-stats{margin-top:34px}
+.tc-h .s-table .fc-name{color:#fff}
+.tc-h .s-table .fc-rate{color:rgba(255,255,255,.55)}
+.tc-h .s-table .fc-rate b{color:rgba(255,255,255,.9)}
+.tc-h .s-table .fc::before{color:#7dc6ff;background:rgba(125,198,255,.14)}
+.tc-h .s-table .fc-logo{box-shadow:none}
+/* I brand light: each card catches a little of its own firm's colour in the top corner */
+.tc-i .s-table{background:#f6f9fc}
+.tc-i .s-table .fc{background:radial-gradient(130% 70% at 100% 0%,color-mix(in srgb,var(--c) 15%,#fff),#fff 62%);border-color:color-mix(in srgb,var(--c) 22%,#e3ecf5)}
+.tc-i .s-table .fc::before{color:var(--c);background:color-mix(in srgb,var(--c) 12%,transparent)}
+/* J light on navy: the section in the site's dark, the cards light, so they read like lit panels */
+.tc-j .s-table{background:#12161f}
+.tc-j .s-table .fc-head h2{color:#fff}
+.tc-j .s-table .fc-head p{color:rgba(255,255,255,.65)}
+.tc-j .s-table .fc{background:#f4f8fc;border:0;box-shadow:0 18px 44px rgba(0,0,0,.35)}
+.tc-j .s-table .fc-more{background:transparent;color:#fff;border-color:rgba(255,255,255,.25)}
+
+/* review switcher (?cards): a pill bar at the bottom of the screen that swaps the card look in place */
+.tc-pick{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;display:flex;gap:4px;padding:5px;border-radius:999px;background:rgba(18,22,31,.92);box-shadow:0 12px 30px rgba(0,0,0,.3);direction:rtl;font:500 14px "Fb Reforma",sans-serif;max-width:calc(100% - 24px);overflow-x:auto}
+.tc-pick button{flex:none;border:0;border-radius:999px;padding:9px 14px;background:transparent;color:rgba(255,255,255,.75);font:inherit;cursor:pointer;white-space:nowrap}
+.tc-pick button:hover{color:#fff}
+.tc-pick button.on{background:#7dc6ff;color:#12161f}
+@media (max-width:760px){.tc-pick{bottom:84px}}   /* clear of the floating bot button */
+
 /* RTL: Latin bits inside Hebrew lines keep their own direction and the site's Latin face at the line's size */
 .s-table .fc .lt{font-family:"Roboto",sans-serif;font-size:inherit;direction:ltr;unicode-bidi:isolate}
 .s-table .fc-rate{direction:rtl}
@@ -2226,8 +2281,21 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
 <script>
 (function () {
   // card look for review: ?tc=a|b|c
-  const tcQ = new URLSearchParams(location.search).get('tc'), tc = tcQ || 'f';   // E: a dark card per firm in the style of Roni's reference table (D, the one-panel table, stays at ?tc=d)
-  if (/^(a|b|c|d|e|f|b2|b3|b4)$/.test(tc)) { document.documentElement.classList.add('tc-' + tc); if (/^b\d$/.test(tc)) document.documentElement.classList.add('tc-b'); if (tcQ) setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
+  const tcQ = new URLSearchParams(location.search).get('tc'), tc = tcQ || 'f';
+  if (/^[g-j]$/.test(tc)) document.documentElement.classList.add('tc-f', 'tc-lt');   /* g..j are F's layout with lighter surfaces */   // E: a dark card per firm in the style of Roni's reference table (D, the one-panel table, stays at ?tc=d)
+  if (/^(a|b|c|d|e|f|g|h|i|j|b2|b3|b4)$/.test(tc)) { document.documentElement.classList.add('tc-' + tc); if (/^b\d$/.test(tc)) document.documentElement.classList.add('tc-b'); if (tcQ) setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
+  // ?cards: a switcher bar to try the looks in place (p is the first light cards, after pipback)
+  if (new URLSearchParams(location.search).has('cards')) {
+    const LOOKS = [['f', 'כהים (היום)'], ['g', 'ערפל'], ['h', 'דו־גוני'], ['i', 'צבע החברה'], ['j', 'בהירים על כהה'], ['p', 'בהירים (pipback)']];
+    const root = document.documentElement, bar = document.createElement('div'); bar.className = 'tc-pick';
+    const set = k => { [...root.classList].filter(c => /^tc-/.test(c)).forEach(c => root.classList.remove(c));
+      if (k !== 'p') root.classList.add('tc-' + k); if (/^[g-j]$/.test(k)) root.classList.add('tc-f', 'tc-lt');
+      bar.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === k));
+      const u = new URL(location.href); u.searchParams.set('tc', k); history.replaceState(null, '', u); };
+    bar.innerHTML = LOOKS.map(([k, n]) => `<button type="button" data-k="${k}">${n}</button>`).join('');
+    bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) set(b.dataset.k); });
+    document.body.appendChild(bar); set(/^[fghijp]$/.test(tc) ? tc : 'f');
+  }
   // phones: three firms first, the rest one tap away
   const g = document.querySelector('.s-table .fc-grid'), b = document.querySelector('.s-table .fc-more');
   // add to compare: the firm goes into the head-to-head below, the page scrolls there and opens the second firm's chooser
