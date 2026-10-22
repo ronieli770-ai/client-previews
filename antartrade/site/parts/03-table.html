@@ -307,6 +307,18 @@
 .tc-j .s-table .fc{background:#f4f8fc;border:0;box-shadow:0 18px 44px rgba(0,0,0,.35)}
 .tc-j .s-table .fc-more{background:transparent;color:#fff;border-color:rgba(255,255,255,.25)}
 
+/* P (chosen): the light cards after pipback, on a pale sky section, with the site's dashed code chip and round buttons */
+.tc-p .s-table{background:#f3f7fb}
+.tc-p .s-table .fc{border-color:#dfe9f3}
+.tc-p .s-table .fc-deal{border:0;background:none;align-items:center;gap:10px;overflow:visible}
+.tc-p .s-table .fc-off{padding:0}
+.tc-p .s-table .fc-code{border:1px dashed rgba(46,139,216,.45);background:rgba(125,198,255,.14);border-radius:999px;color:#1f5f94;padding:7px 14px}
+.tc-p .s-table .fc-code small{color:rgba(31,95,148,.7)}
+.tc-p .s-table .fc-code svg{opacity:.8}
+.tc-p .s-table .fc-deal.none{background:none}
+.tc-p .s-table .fc-btn{border-radius:999px}
+.tc-p .s-table .fc-line{border-color:#cfdbe7}
+
 /* review switcher (?cards): a pill bar at the bottom of the screen that swaps the card look in place */
 .tc-pick{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;display:flex;gap:4px;padding:5px;border-radius:999px;background:rgba(18,22,31,.92);box-shadow:0 12px 30px rgba(0,0,0,.3);direction:rtl;font:500 14px "Fb Reforma",sans-serif;max-width:calc(100% - 24px);overflow-x:auto}
 .tc-pick button{flex:none;border:0;border-radius:999px;padding:9px 14px;background:transparent;color:rgba(255,255,255,.75);font:inherit;cursor:pointer;white-space:nowrap}
@@ -428,20 +440,21 @@
 <script>
 (function () {
   // card look for review: ?tc=a|b|c
-  const tcQ = new URLSearchParams(location.search).get('tc'), tc = tcQ || 'f';
-  if (/^[g-j]$/.test(tc)) document.documentElement.classList.add('tc-f', 'tc-lt');   /* g..j are F's layout with lighter surfaces */   // E: a dark card per firm in the style of Roni's reference table (D, the one-panel table, stays at ?tc=d)
+  const tcQ = new URLSearchParams(location.search).get('tc'), tc = tcQ || 'p';   /* chosen 2026-10-22: the light cards after pipback (no look class); the rest stay for review */
+  if (/^[g-j]$/.test(tc)) document.documentElement.classList.add('tc-f', 'tc-lt');   /* g..j are F's layout with lighter surfaces */
+  if (tc === 'p') document.documentElement.classList.add('tc-p');   // E: a dark card per firm in the style of Roni's reference table (D, the one-panel table, stays at ?tc=d)
   if (/^(a|b|c|d|e|f|g|h|i|j|b2|b3|b4)$/.test(tc)) { document.documentElement.classList.add('tc-' + tc); if (/^b\d$/.test(tc)) document.documentElement.classList.add('tc-b'); if (tcQ) setTimeout(() => { const t = document.querySelector('.s-table'); (window.__lenis ? window.__lenis.scrollTo(t, { immediate: true }) : scrollTo(0, t.getBoundingClientRect().top + scrollY)); }, 900); }
   // ?cards: a switcher bar to try the looks in place (p is the first light cards, after pipback)
   if (new URLSearchParams(location.search).has('cards')) {
-    const LOOKS = [['f', 'כהים (היום)'], ['g', 'ערפל'], ['h', 'דו־גוני'], ['i', 'צבע החברה'], ['j', 'בהירים על כהה'], ['p', 'בהירים (pipback)']];
+    const LOOKS = [['f', 'כהים'], ['g', 'ערפל'], ['h', 'דו־גוני'], ['i', 'צבע החברה'], ['j', 'בהירים על כהה'], ['p', 'בהירים (נבחר)']];
     const root = document.documentElement, bar = document.createElement('div'); bar.className = 'tc-pick';
     const set = k => { [...root.classList].filter(c => /^tc-/.test(c)).forEach(c => root.classList.remove(c));
-      if (k !== 'p') root.classList.add('tc-' + k); if (/^[g-j]$/.test(k)) root.classList.add('tc-f', 'tc-lt');
+      root.classList.add('tc-' + k); if (/^[g-j]$/.test(k)) root.classList.add('tc-f', 'tc-lt');
       bar.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === k));
       const u = new URL(location.href); u.searchParams.set('tc', k); history.replaceState(null, '', u); };
     bar.innerHTML = LOOKS.map(([k, n]) => `<button type="button" data-k="${k}">${n}</button>`).join('');
     bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) set(b.dataset.k); });
-    document.body.appendChild(bar); set(/^[fghijp]$/.test(tc) ? tc : 'f');
+    document.body.appendChild(bar); set(/^[fghijp]$/.test(tc) ? tc : 'p');
   }
   // phones: three firms first, the rest one tap away
   const g = document.querySelector('.s-table .fc-grid'), b = document.querySelector('.s-table .fc-more');
