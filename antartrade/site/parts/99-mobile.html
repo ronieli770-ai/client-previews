@@ -50,6 +50,16 @@
   .m-menu .m-sub a:active { background: rgba(125,198,255,.1); }
   .m-menu .m-sub a > span:not(.m-tile):not(.m-ic):not(.m-3d) { flex: 1; }
   .m-menu .lt { font-family: "Roboto", sans-serif; font-weight: 400; direction: ltr; unicode-bidi: isolate; }
+  /* firms in the phone menu: flat white marks, no tile */
+  .m-menu .m-mk { width: 26px; height: 26px; flex: none; background: #fff; -webkit-mask: center / contain no-repeat; mask: center / contain no-repeat; }
+  .m-menu .m-mk.mk-firm-takeprofit { -webkit-mask-image: url(img/firm-takeprofit.svg); mask-image: url(img/firm-takeprofit.svg); }
+  .m-menu .m-mk.mk-firm-apex { -webkit-mask-image: url(img/firm-apex.svg); mask-image: url(img/firm-apex.svg); }
+  .m-menu .m-mk.mk-firm-bulenox { -webkit-mask-image: url(img/firm-bulenox.svg); mask-image: url(img/firm-bulenox.svg); }
+  .m-menu .m-mk.mk-flat-lucid-ring { -webkit-mask-image: url(img/flat-lucid-ring.svg); mask-image: url(img/flat-lucid-ring.svg); }
+  .m-menu .m-mk.mk-firm-fundednext { -webkit-mask-image: url(img/firm-fundednext.svg); mask-image: url(img/firm-fundednext.svg); }
+  .m-menu .m-mk.mk-firm-topstep { -webkit-mask-image: url(img/firm-topstep.svg); mask-image: url(img/firm-topstep.svg); }
+  .m-menu .m-mk.mk-firm-alpha { -webkit-mask-image: url(img/firm-alpha.png); mask-image: url(img/firm-alpha.png); }
+  .m-menu .m-mk.mk-firm-ftmo { -webkit-mask-image: url(img/firm-ftmo.png); mask-image: url(img/firm-ftmo.png); }
   .m-menu .m-tile { width: 30px; height: 30px; border-radius: 9px; background: #fff; display: grid; place-items: center; flex: none; }
   .m-menu .m-tile img { width: 20px; height: 20px; object-fit: contain; }
   .m-menu .m-d { color: var(--c, #7dc6ff) !important; font: 700 13px "Roboto", "Fb Reforma", sans-serif; color: #7dc6ff; direction: rtl; unicode-bidi: isolate; white-space: nowrap; }
@@ -366,7 +376,7 @@
   m.innerHTML = '<div class="m-top"><span class="logo"></span><button class="m-close" type="button" aria-label="סגירת תפריט"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>'
     + '<button class="m-search" type="button"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M16 16L20 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>חיפוש חברה, כלי או מושג</span></button>'
     + '<nav class="m-acc">' + MENU.map((it, i) => it.sub
-        ? `<div class="m-it" style="--i:${i};--c:${it.c}"><button type="button" class="m-row" aria-expanded="false"><span class="m-ic">${SV(it.ic)}</span><span class="ml">${it.t}</span><span class="m-chev">${SV('<path d="M7 10L12 15L17 10"/>')}</span></button><div class="m-sub"><div class="m-sub-in">${it.sub.map(x => `<a href="${x.h}"${x.h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${x.img ? `<span class="m-tile"><img src="img/${x.img}" alt=""></span>` : x.i3 ? `<span class="m-3d"><img src="img/${x.i3}" alt=""></span>` : x.ic ? `<span class="m-ic m-ic-s">${SV(x.ic)}</span>` : ''}<span>${LT(x.t)}</span>${x.d ? `<b class="m-d">${x.d}</b>` : ''}</a>`).join('')}</div></div></div>`
+        ? `<div class="m-it" style="--i:${i};--c:${it.c}"><button type="button" class="m-row" aria-expanded="false"><span class="m-ic">${SV(it.ic)}</span><span class="ml">${it.t}</span><span class="m-chev">${SV('<path d="M7 10L12 15L17 10"/>')}</span></button><div class="m-sub"><div class="m-sub-in">${it.sub.map(x => `<a href="${x.h}"${x.h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${x.img ? `<span class="m-mk mk-${{ 'brand-takeprofit.png': 'firm-takeprofit', 'brand-apex.png': 'firm-apex', 'brand-bulenox.png': 'firm-bulenox', 'brand-lucid.png': 'flat-lucid-ring', 'brand-fundednext.png': 'firm-fundednext', 'firm-topstep.svg': 'firm-topstep', 'brand-alpha.png': 'firm-alpha', 'brand-ftmo.png': 'firm-ftmo' }[x.img]}"></span>` : x.i3 ? `<span class="m-3d"><img src="img/${x.i3}" alt=""></span>` : x.ic ? `<span class="m-ic m-ic-s">${SV(x.ic)}</span>` : ''}<span>${LT(x.t)}</span>${x.d ? `<b class="m-d">${x.d}</b>` : ''}</a>`).join('')}</div></div></div>`
         : `<div class="m-it" style="--i:${i};--c:${it.c}"><a class="m-row" href="${it.h}"><span class="m-ic">${SV(it.ic)}</span><span class="ml">${it.t}</span></a></div>`).join('') + '</nav>'
     + '<div class="m-deals"><div class="m-deals-h"><span>מבצעים פעילים</span><span class="m-code" role="button" tabindex="0">קוד <b>ANTAR</b>' + COPY + '</span></div><div class="m-deals-row">'
     + DEALS.map(d => `<a class="m-dc" href="#deals" style="--c:${d.c}"><span class="m-tile"><img src="img/${d.img}" alt=""></span><b>${d.n}</b><span class="m-pct">${d.p}</span></a>`).join('') + '</div></div>'
