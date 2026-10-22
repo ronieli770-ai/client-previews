@@ -110,7 +110,7 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
 .fp-acc .w { display: flex; flex-direction: column; gap: 28px; }
 .fp-acc .pick { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .fp-acc .pick .row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.fp-acc .pick .sizes-m { display: none; }
+.fp-acc .pick .sizes-m, #accSize { display: none; }
 .fp-acc .pick .lbl { font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.6); }
 .fp-acc .simple { padding: 28px 32px; display: flex; flex-direction: column; gap: 22px; background: radial-gradient(60% 90% at 100% 0, rgba(46,139,216,.18), rgba(46,139,216,0) 70%), var(--c); }
 .fp-acc .simple h3 { margin: 0; font: 500 28px/1.2 "Fb Reforma"; }
@@ -322,7 +322,8 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   .fp-acc .cards { display: block; padding-top: 6px; }
   .fp-acc .cards .acard:not(.sel) { display: none; }
   .fp-acc .cards .acard .badge { display: none; }
-  .fp-acc .pick .sizes-m { display: flex; }
+  .fp-acc .pick .sizes-m, #accSize { display: flex; }
+  #accSize { margin-bottom: -12px; }
   #accHint { display: none !important; }
   /* withdrawals */
   .fp-wd .bar { flex-wrap: wrap; gap: 10px; } .fp-wd .bar .tg { order: 3; width: 100%; display: flex; } .fp-wd .bar .tg button { flex: 1; }
@@ -407,6 +408,7 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   <div class="head"><span class="pill">חשבונות</span><h2 class="h2" id="accTitle">בחר מסלול ודפדף בין החשבונות</h2><p class="sub">כל כרטיס הוא חשבון בפני עצמו. הפוך אותו כדי לראות את תנאי החשבון הממומן.</p></div>
   <div class="pick" id="accPick"></div>
   <div class="box simple" id="accSimple"></div>
+  <div class="pick" id="accSize"></div>
   <div class="cards" id="accCards"></div>
   <p class="note" id="accHint">החליקו ימינה ושמאלה לחשבונות נוספים</p>
   <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
@@ -621,7 +623,7 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
     if (f.plans.length > 1) pick += '<div class="row">' + toggle(f.plans.map(function (x) { return x.label; }), state.plan, 'data-lv="1"') + (p.caption ? '<span class="lbl">' + esc(p.caption) + '</span>' : '') + '</div>';
     if (p.sub) pick += '<div class="row"><span class="lbl">' + esc(p.subLabel) + '</span>' + toggle(p.sub.map(function (x) { return x.label; }), state.sub, 'data-lv="2"') + '</div>';
     var L = leafOf();
-    if (L) pick += '<div class="row sizes-m"><span class="lbl">גודל חשבון:</span>' + toggle(L.sizes.map(function (x) { return x.size.replace('$', ''); }), state.sel, 'data-lv="3"') + '</div>';
+    $('#accSize').innerHTML = L ? '<div class="row sizes-m"><span class="lbl">גודל חשבון:</span>' + toggle(L.sizes.map(function (x) { return x.size.replace('$', ''); }), state.sel, 'data-lv="3"') + '</div>' : '';
     $('#accPick').innerHTML = pick; $('#accPick').style.display = pick ? '' : 'none';
     if (!L) { $('#accSimple').innerHTML = '<div class="empty">הנתונים של המסלול הזה יגיעו מהאתר. התבנית זהה למסלול הראשון.</div>'; $('#accCards').innerHTML = ''; $('#accHint').style.display = 'none'; latify($('#accounts')); return; }
     $('#accHint').style.display = '';
@@ -643,7 +645,7 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   }
 
   document.addEventListener('click', function (e) {
-    var b = e.target.closest('#accPick .tg button'); if (b) { var lv = b.parentNode.dataset.lv, i = +b.dataset.i; if (lv === '3') { state.sel = i; state.flip = -1; render(); return; } if (lv === '1') { state.plan = i; state.sub = 0; } else state.sub = i; var L = leafOf(); state.sel = L ? L.sel : 0; state.flip = -1; render(); return; }
+    var b = e.target.closest('#accPick .tg button, #accSize .tg button'); if (b) { var lv = b.parentNode.dataset.lv, i = +b.dataset.i; if (lv === '3') { state.sel = i; state.flip = -1; render(); return; } if (lv === '1') { state.plan = i; state.sub = 0; } else state.sub = i; var L = leafOf(); state.sel = L ? L.sel : 0; state.flip = -1; render(); return; }
     var op = e.target.closest('[data-open-op]'); if (op) { var tx = op.closest('.txt'); tx.classList.toggle('open'); op.textContent = tx.classList.contains('open') ? 'הצג פחות ↑' : 'קרא עוד ↓'; return; }
     var ex = e.target.closest('[data-ex]'); if (ex) { var box = ex.previousElementSibling; box.hidden = !box.hidden; ex.textContent = box.hidden ? ex.dataset.l : 'סגור ↑'; latify(box); return; }
     var fl = e.target.closest('[data-flip]'); if (fl) { var k = +fl.dataset.flip; state.flip = state.flip === k ? -1 : k; render(); return; }
