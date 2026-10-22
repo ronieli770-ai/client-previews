@@ -1211,7 +1211,7 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
     <div class="it"><span class="num">3</span><span data-w="p3">לדוגמה, אם החשבון הגיע ל-$53,000, יש $900 מעל כרית הביטחון ולכן אפשר לבקש בפועל עד $900, גם אם תקרת המשיכה היא $1,500. אחרי כל משיכה מאושרת חוק העקביות מתאפס, ותקרת המשיכה מתקדמת למשיכה הבאה.</span></div>
   </div>
   <div class="tri">
-    <div class="box"><span class="h3">מתי אפשר למשוך</span><div class="rows"><div><span class="k">ימי רווח מזכים</span><span class="v">5 ימים של לפחות $200</span></div><div><span class="k">חוק עקביות</span><span class="v">50%</span></div><div><span class="k">יתרה מינימלית לבקשה</span><span class="v" data-w="minbal">$52,600</span></div></div></div>
+    <div class="box"><span class="h3">מתי אפשר למשוך</span><div class="rows"><div><span class="k">ימי רווח מזכים</span><span class="v" data-w="qual">5 ימים של לפחות $200</span></div><div><span class="k">חוק עקביות</span><span class="v">50%</span></div><div><span class="k">יתרה מינימלית לבקשה</span><span class="v" data-w="minbal">$52,600</span></div></div></div>
     <div class="box"><span class="h3">כמה אפשר למשוך</span><div class="rows"><div><span class="k">מינימום משיכה</span><span class="v">$500</span></div><div><span class="k">תקרה במשיכה הראשונה</span><span class="v" data-w="cap1">$1,500</span></div><div><span class="k">יתרה נדרשת למשיכת המקסימום</span><span class="v" data-w="maxbal">$53,600</span></div></div><span class="n">התקרה משתנה לפי מספר המשיכה.</span></div>
     <div class="box"><span class="h3">כרית הביטחון</span><span class="s">יתרת כרית הביטחון</span><span class="big" data-w="buffer">$52,100</span><span class="s">מושכים רק את הרווח שמעל הקו הזה.</span></div>
   </div>
@@ -1442,10 +1442,24 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   }
 
   /* withdrawals follow the chosen size (Apex Intraday numbers) */
-  var WD = { '25K': ['$26,100', '$26,600', '$1,000', '$27,100'], '50K': ['$52,100', '$52,600', '$1,500', '$53,600'], '100K': ['$103,100', '$103,600', '$2,000', '$105,100'], '150K': ['$154,100', '$154,600', '$2,500', '$156,600'] };
-  var CAPS = [1500, 2000, 2500, 2500, 3000, 3000];
-  function setWd(k) { var v = WD[k]; if (!v) return; document.querySelectorAll('[data-w="buffer"]').forEach(function (n) { n.textContent = v[0]; }); document.querySelectorAll('[data-w="minbal"]').forEach(function (n) { n.textContent = v[1]; latify(n.parentNode); }); }
-  $('#wdBars').innerHTML = CAPS.map(function (c, i) { return '<div><b>$' + c + '</b><i style="height:' + Math.round(c / 3000 * 160) + 'px"></i><span>משיכה ' + (i + 1) + '</span></div>'; }).join('');
+  /* withdrawals per size. Only 50K is fully shown on the live site; the other sizes use the values the page gives elsewhere (stop lock, first and last cap) */
+  var WD = {
+    '25K': { buf: 26100, cap1: 1000, caps: [1000, null, null, null, null, 1000], qual: null },
+    '50K': { buf: 52100, cap1: 1500, caps: [1500, 2000, 2500, 2500, 3000, 3000], qual: 200 },
+    '100K': { buf: 103100, cap1: 2000, caps: [2000, null, null, null, null, 4000], qual: null },
+    '150K': { buf: 154100, cap1: 2500, caps: [2500, null, null, null, null, 5000], qual: null } };
+  var $$ = function (n) { return '$' + n.toLocaleString('en-US'); };
+  function setWd(k) { var v = WD[k]; if (!v) return;
+    var set = function (key, txt) { document.querySelectorAll('[data-w="' + key + '"]').forEach(function (n) { n.textContent = txt; latify(n.parentNode); }); };
+    var qual = v.qual ? '5 ימים של לפחות ' + $$(v.qual) : '5 ימי רווח מזכים';
+    set('buffer', $$(v.buf)); set('minbal', $$(v.buf + 500)); set('cap1', $$(v.cap1)); set('maxbal', $$(v.buf + v.cap1)); set('qual', qual);
+    set('p1', 'כדי להיות זכאים למשיכה בחשבון ' + k + ' צריך לצבור ' + (v.qual ? '5 ימי רווח מזכים של לפחות ' + $$(v.qual) + ' בכל יום' : '5 ימי רווח מזכים (הרווח היומי הנדרש משתנה לפי גודל החשבון, בין $100 ל-$350)') + ', ולעמוד בחוק עקביות של 50%. צריך להגיע לפחות ל-' + $$(v.buf + 500) + ' כדי לבקש משיכה.');
+    set('p2', 'מינימום המשיכה הוא $500, ובמשיכה הראשונה תקרת המשיכה היא ' + $$(v.cap1) + '. אפשר למשוך רק רווח שנמצא מעל כרית הביטחון של ' + $$(v.buf) + '.');
+    set('p3', 'לדוגמה, אם החשבון הגיע ל-' + $$(v.buf + 900) + ', יש $900 מעל כרית הביטחון ולכן אפשר לבקש בפועל עד $900' + (v.cap1 > 900 ? ', גם אם תקרת המשיכה היא ' + $$(v.cap1) : '') + '. אחרי כל משיכה מאושרת חוק העקביות מתאפס, ותקרת המשיכה מתקדמת למשיכה הבאה.');
+    var mx = Math.max.apply(null, v.caps.filter(Boolean));
+    $('#wdBars').innerHTML = v.caps.map(function (c, i) { return c ? '<div><b>' + $$(c) + '</b><i style="height:' + Math.round(c / mx * 160) + 'px"></i><span>משיכה ' + (i + 1) + '</span></div>' : '<div><b style="opacity:.45">לא צוין</b><i style="height:40px;opacity:.25"></i><span>משיכה ' + (i + 1) + '</span></div>'; }).join('');
+    latify($('#wdBars')); }
+  setWd('50K');
 
   /* rules */
   var R = [['ok', 'מותר', 'מסחר בזמן חדשות', 'News Trading', 'מותר לסחור בזמן חדשות כחלק מאסטרטגיית המסחר הרגילה.', 'צפו בהסבר ←'], ['no', 'אסור', 'החזקת עסקאות ללילה', 'Overnight Holding', 'אסור להשאיר פוזיציות פתוחות מעבר לסגירת השוק.', 'הסבר ←'], ['no', 'אסור', 'Hedging / גידור', 'Hedging', 'אסור להחזיק לונג ושורט במקביל על אותו נכס או על נכסים קורלטיביים.', 'צפו בהסבר ←'],
