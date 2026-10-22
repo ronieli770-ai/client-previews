@@ -1,0 +1,600 @@
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@600&display=swap" rel="stylesheet">
+<style>
+/* ---------- firm page (Figma: דף חברה - אופציה D, all dark) ---------- */
+.fp { --c: #0b0e14; --line: rgba(125,198,255,.14); --row: rgba(255,255,255,.08); direction: rtl; color: #fff; background: #12161f; font-family: "Fb Reforma", sans-serif; }
+.fp * { box-sizing: border-box; }
+.fp .w { width: min(1171px, 100% - 32px); margin: 0 auto; }
+.fp .lat, .fp .en { font-family: "Roboto", sans-serif !important; }
+.fp section { position: relative; }
+.fp .alt { background: #0e121a; }
+/* section head */
+.fp .head { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.fp .head.c { align-items: center; text-align: center; }
+.fp .pill { display: inline-flex; padding: 6px 14px; border-radius: 999px; background: rgba(125,198,255,.14); color: var(--sky); font: 500 16px/1.2 "Fb Reforma"; }
+.fp .h2 { margin: 0; font: 500 45px/1.18 "Fb Reforma"; background: linear-gradient(90deg, #61b1f2 0%, #fff 78.365%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; width: fit-content; max-width: 100%; }
+.fp .h2 .lat { -webkit-text-fill-color: inherit; }
+.fp .sub { margin: 0; font: 400 20px/1.2 "Fb Reforma"; color: rgba(255,255,255,.6); }
+/* boxes: dark card, faint sky line, corner light */
+.fp .box { position: relative; border: 1px solid var(--line); border-radius: 24px; background: radial-gradient(70% 90% at 100% 0, rgba(46,139,216,.2), rgba(46,139,216,0) 70%), var(--c); }
+.fp .rows { display: flex; flex-direction: column; width: 100%; }
+.fp .rows > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--row); }
+.fp .rows dt, .fp .rows .k { font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.6); }
+.fp .rows dd, .fp .rows .v { margin: 0; font: 500 16px/1.2 "Fb Reforma"; color: #fff; text-align: left; }
+.fp .h3 { margin: 0; font: 500 20px/1.2 "Fb Reforma"; color: #fff; }
+.fp .h3.sky { color: var(--sky); }
+.fp .num { width: 32px; height: 32px; flex: none; border-radius: 999px; background: #fff; color: #12161f; display: grid; place-items: center; font: 700 15px/1 "Roboto"; }
+.fp .lnk { font: 500 16px/1.2 "Fb Reforma"; color: var(--sky); text-decoration: none; cursor: pointer; background: none; border: 0; }
+/* buttons */
+.fp .halo { display: inline-flex; padding: 6px; border-radius: 999px; background: rgba(125,198,255,.08); border: 1px solid rgba(255,255,255,.12); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); text-decoration: none; }
+.fp .halo i { position: relative; display: inline-flex; align-items: center; gap: 7px; height: 50px; padding: 0 25px; border-radius: 90px; background: #7dc6ff; box-shadow: inset 0 -8px 26.4px rgba(0,0,0,.25), inset 0 -4px 17.6px #fff; color: #fff; font: 500 20px/.92 "Fb Reforma"; font-style: normal; white-space: nowrap; transition: transform .25s; }
+.fp .halo:hover i { transform: translateY(-1px); }
+.fp .halo.ghost { background: rgba(85,169,235,.05); border-color: rgba(255,255,255,.14); }
+.fp .halo.ghost i { background: none; box-shadow: none; border: 1px solid rgba(97,177,242,.5); }
+.fp .halo svg { width: 12px; height: 10px; flex: none; }
+.fp .gbtn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 18px; border-radius: 999px; background: #eef1f5; color: #12161f; font: 500 16px/1.2 "Fb Reforma"; border: 0; cursor: pointer; text-decoration: none; white-space: nowrap; }
+.fp .gbtn:hover { background: #fff; }
+/* toggles: faint track, light grey active pill (Apple-style) */
+.fp .tg { display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(255,255,255,.07); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.fp .tg button { min-width: 132px; height: 40px; padding: 0 24px; border: 0; border-radius: 999px; background: none; color: rgba(255,255,255,.72); font: 400 16px/1.35 "Fb Reforma"; cursor: pointer; white-space: nowrap; transition: background-color .3s, color .3s; }
+.fp .tg button.on { background: #e8e8ed; color: #12161f; font-weight: 500; }
+.fp .tg.full { display: flex; width: 100%; }
+.fp .tg.full button { flex: 1; min-width: 0; height: 32px; padding: 0 10px; }
+
+/* ---------- hero ---------- */
+.fp-hero { padding: 170px 0 120px; overflow: hidden; background: radial-gradient(960px 406px at 77.8% 22%, rgba(46,139,216,.45), rgba(46,139,216,0) 100%), #12161f; }
+.fp-hero .floor { position: absolute; inset: 0; background: url(img/firm-floor.svg) center top / 1728px 730px no-repeat; opacity: .7; -webkit-mask: linear-gradient(transparent 42%, rgba(0,0,0,.6) 55%, #000 65%, rgba(0,0,0,.45) 80%, transparent 92%); mask: linear-gradient(transparent 42%, rgba(0,0,0,.6) 55%, #000 65%, rgba(0,0,0,.45) 80%, transparent 92%); pointer-events: none; }
+.fp-hero .chart { position: absolute; inset: 0; background: url(img/firm-chart.svg) center top / 1728px 730px no-repeat; -webkit-mask: linear-gradient(90deg, #000 38%, transparent 58%); mask: linear-gradient(90deg, #000 38%, transparent 58%); pointer-events: none; }
+html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, transparent 58%); mask: linear-gradient(90deg, #000 38%, transparent 58%); }
+.fp-hero .w { position: relative; display: flex; gap: 60px; align-items: center; }
+.fp-hero .copy { flex: 1; display: flex; flex-direction: column; gap: 22px; align-items: flex-start; }
+.fp-hero .crumbs { font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.5); }
+.fp-hero h1 { margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.fp-hero h1 .en { font: 700 58px/1.4 "Roboto"; }
+.fp-hero h1 .he { font: 500 28px/1.2 "Fb Reforma"; color: var(--sky); }
+.fp-hero .lead { max-width: 560px; margin: 0; font: 400 20px/1.2 "Fb Reforma"; color: rgba(255,255,255,.7); }
+.fp-hero .meta { display: flex; flex-direction: column; gap: 6px; font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.5); }
+.fp-hero .meta span { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.fp-hero .meta b { font: 700 17px/1.4 "Roboto"; color: var(--sky); }
+.fp-hero .meta .v { color: rgba(255,255,255,.7); }
+/* deal card - the homepage deal card in the site sky (firm page rule) */
+.fp .deal { position: relative; width: 400px; flex: none; margin-inline: 40px; display: flex; flex-direction: column; gap: 14px; padding: 28px 30px; border-radius: 32px; border: 1.5px solid rgba(255,255,255,.55); min-height: 387px;
+  background: radial-gradient(85% 85% at 0 100%, rgba(125,198,255,.34), rgba(125,198,255,.12) 45%, rgba(125,198,255,0)), radial-gradient(60% 60% at 100% 0, rgba(214,236,255,.1), rgba(214,236,255,0)), #0b0e14;
+  box-shadow: 0 18px 44px -18px rgba(125,198,255,.28), inset 0 0 24px rgba(125,198,255,.08); }
+.fp .deal .co { display: flex; align-items: center; gap: 12px; font: 500 22px/1.2 "Roboto"; }
+.fp .deal .co svg { width: 40px; height: 20px; }
+.fp .deal .pct { display: flex; align-items: baseline; gap: 8px; }
+.fp .deal .pct b { font: 700 64px/1 "Roboto"; background: linear-gradient(90deg, #7dc6ff, #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.fp .deal .pct span { font: 500 18px/1.2 "Fb Reforma"; color: rgba(255,255,255,.7); }
+.fp .deal h3 { margin: 0; font: 500 20px/1.2 "Fb Reforma"; }
+.fp .deal p { margin: 0; font: 400 14px/1.6 "Fb Reforma"; color: rgba(255,255,255,.65); }
+.fp .deal .foot { margin-top: auto; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+.fp .code { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1px dashed rgba(125,198,255,.55); background: rgba(125,198,255,.12); color: var(--ice); font: 700 14px/1.2 "Roboto"; cursor: pointer; }
+.fp .code svg { width: 13px; height: 13px; }
+
+/* ---------- sticky page nav ---------- */
+.fp-nav { position: sticky; top: var(--hdr-h, 76px); z-index: 30; display: flex; justify-content: center; padding: 10px 0 20px; background: rgba(18,22,31,.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+
+/* ---------- in short ---------- */
+.fp-short { padding: 70px 0 110px; }
+.fp-short .w { display: flex; flex-direction: column; gap: 32px; }
+.fp .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.fp .fact { padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.fp .fact .ic { padding: 9px; border-radius: 16px; background: rgba(125,198,255,.12); display: flex; }
+.fp .fact .ic svg { width: 24px; height: 24px; }
+.fp .fact .k { font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.55); }
+.fp .fact .v { font: 500 20px/1.2 "Fb Reforma"; }
+.fp .fact .s { font: 400 14px/1.25 "Fb Reforma"; color: rgba(255,255,255,.55); }
+.fp .plats { padding: 22px 26px; display: flex; flex-direction: column; gap: 18px; background: radial-gradient(60% 100% at 100% 0, rgba(46,139,216,.12), rgba(46,139,216,0) 70%), var(--c); }
+.fp .plats .top { display: flex; justify-content: space-between; align-items: center; }
+.fp .chips { display: flex; flex-wrap: wrap; gap: 12px; }
+.fp .chip { display: inline-flex; align-items: center; gap: 10px; padding: 8px 20px; border-radius: 999px; background: rgba(255,255,255,.06); font: 500 16px/1.4 "Roboto"; color: #fff; text-decoration: none; }
+.fp .chip img { width: 28px; height: 28px; object-fit: contain; }
+
+/* ---------- review ---------- */
+.fp-review { padding: 72px 0; }
+.fp-review .panel { display: flex; gap: 56px; align-items: center; padding: 56px 64px; border-radius: 65px; background: #0b0e14; box-shadow: 0 30px 60px rgba(85,169,235,.12); }
+.fp-review .copy { flex: 1; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+.fp-review .copy p { margin: 0; font: 400 18px/1.2 "Fb Reforma"; color: rgba(255,255,255,.65); }
+.fp-review img { width: 520px; height: 293px; object-fit: cover; border-radius: 24px; flex: none; }
+
+/* ---------- accounts (the template) ---------- */
+.fp-acc { padding: 110px 0 120px; }
+.fp-acc .w { display: flex; flex-direction: column; gap: 28px; }
+.fp-acc .pick { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.fp-acc .pick .row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.fp-acc .pick .lbl { font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.6); }
+.fp-acc .simple { padding: 28px 32px; display: flex; flex-direction: column; gap: 22px; background: radial-gradient(60% 90% at 100% 0, rgba(46,139,216,.18), rgba(46,139,216,0) 70%), var(--c); }
+.fp-acc .simple h3 { margin: 0; font: 500 28px/1.2 "Fb Reforma"; }
+.fp-acc .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.fp-acc .cols ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.fp-acc .cols li { display: flex; gap: 10px; align-items: flex-start; font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.8); }
+.fp-acc .cols li::before { content: ""; flex: none; width: 20px; height: 20px; margin-top: 1px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Ccircle cx='10' cy='10' r='8.25' stroke='%237DC6FF' stroke-width='1.5'/%3E%3Cpath d='M6.5 10.2l2.4 2.4 4.6-4.9' stroke='%237DC6FF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
+.fp-acc .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.fp-acc .step { padding: 16px 18px 18px; border-radius: 16px; background: rgba(255,255,255,.04); display: flex; flex-direction: column; gap: 10px; font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.8); }
+.fp-acc .note { margin: 0; font: 400 14px/1.25 "Fb Reforma"; color: rgba(255,255,255,.5); }
+.fp-acc .empty { padding: 40px; text-align: center; font: 400 18px/1.4 "Fb Reforma"; color: rgba(255,255,255,.6); }
+.fp-acc .cards { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 18px; align-items: start; }
+.fp .acard { position: relative; perspective: 1600px; }
+.fp .acard .in { position: relative; transition: transform .7s cubic-bezier(.22,.61,.36,1); transform-style: preserve-3d; }
+.fp .acard.flip .in { transform: rotateY(180deg); }
+.fp .acard .face { padding: 22px 20px 20px; display: flex; flex-direction: column; gap: 14px; align-items: stretch; border-radius: 24px; border: 1px solid var(--line); background: radial-gradient(90% 18% at 95% 4%, rgba(46,139,216,.22), rgba(46,139,216,0) 100%), var(--c); -webkit-backface-visibility: hidden; backface-visibility: hidden; cursor: pointer; }
+.fp .acard .back { position: absolute; inset: 0; transform: rotateY(180deg); overflow: auto; }
+.fp .acard.sel .face { border: 1.5px solid rgba(125,198,255,.6); background: radial-gradient(90% 9% at 95% 4.5%, rgba(46,139,216,.5), rgba(46,139,216,0) 100%), var(--c); cursor: default; }
+.fp .acard .badge { position: absolute; top: -17.5px; left: 28px; z-index: 2; padding: 6px 14px; border-radius: 999px; background: linear-gradient(90deg, #2e5474, #55a6e6); font: 500 16px/1.2 "Fb Reforma"; white-space: nowrap; display: none; }
+.fp .acard.sel .badge { display: block; }
+.fp .acard .top { display: flex; justify-content: space-between; align-items: flex-start; }
+.fp .acard .top .sz { display: flex; flex-direction: column; align-items: flex-start; font: 700 32px/1.4 "Roboto"; }
+.fp .acard .top .sz small { font: 400 13px/1.4 "Roboto"; color: rgba(255,255,255,.5); }
+.fp .acard .tag { padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,.08); font: 500 16px/1.2 "Fb Reforma"; color: rgba(255,255,255,.8); }
+.fp .acard .rows > div { padding: 10px 0; }
+.fp .acard .rows .v { font: 500 15px/1.4 "Roboto"; }
+.fp .acard .rows .v.he { font: 500 16px/1.2 "Fb Reforma"; }
+.fp .acard .price { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.fp .acard .price .l, .fp .acard .price .n { font: 400 14px/1.25 "Fb Reforma"; color: rgba(255,255,255,.55); }
+.fp .acard .price .n { color: rgba(255,255,255,.5); }
+.fp .acard .price .p { display: flex; gap: 10px; align-items: baseline; }
+.fp .acard .price s { font: 400 17px/1.4 "Roboto"; color: rgba(255,255,255,.4); }
+.fp .acard .price b { font: 700 38px/1.4 "Roboto"; background: linear-gradient(90deg, #3f96d8, #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.fp .acard .save { padding: 6px 14px; border-radius: 999px; background: rgba(63,150,216,.14); color: #3f96d8; font: 500 16px/1.2 "Fb Reforma"; }
+.fp .acard .gbtn { width: 100%; }
+.fp .acard .flipl { text-align: center; }
+.fp .acard .bh { font: 500 16px/1.2 "Fb Reforma"; color: rgba(255,255,255,.7); }
+
+/* ---------- withdrawals ---------- */
+.fp-wd { padding: 110px 0; }
+.fp-wd .w { display: flex; flex-direction: column; gap: 28px; }
+.fp-wd .bar { display: flex; align-items: center; justify-content: flex-start; gap: 18px; }
+.fp .quad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.fp .quad .box { padding: 22px 24px; display: flex; flex-direction: column; gap: 6px; }
+.fp .quad .k { font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.55); }
+.fp .quad .v { font: 500 28px/1.2 "Fb Reforma"; }
+.fp .plain { padding: 28px 30px; display: flex; flex-direction: column; gap: 18px; }
+.fp .plain .it { display: flex; gap: 16px; align-items: flex-start; font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.8); }
+.fp .tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.fp .tri .box, .fp .duo .box { padding: 24px 26px; display: flex; flex-direction: column; gap: 12px; }
+.fp .tri .big { font: 700 44px/1.4 "Roboto"; background: linear-gradient(90deg, #7dc6ff, #fff); -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; }
+.fp .tri .s { font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.55); }
+.fp .tri .n { font: 400 14px/1.25 "Fb Reforma"; color: rgba(255,255,255,.5); }
+.fp .caps { padding: 26px 30px; display: flex; flex-direction: column; gap: 18px; }
+.fp .caps .top { display: flex; justify-content: space-between; align-items: center; }
+.fp .bars { display: flex; gap: 16px; align-items: flex-end; flex-direction: row-reverse; }
+.fp .bars > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.fp .bars b { font: 700 15px/1.4 "Roboto"; }
+.fp .bars i { display: block; width: 100%; border-radius: 12px 12px 0 0; background: linear-gradient(#7dc6ff, rgba(46,139,216,.35)); }
+.fp .bars span { font: 400 14px/1.25 "Fb Reforma"; color: rgba(255,255,255,.55); }
+.fp .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+/* ---------- rules ---------- */
+.fp-rules { padding: 110px 0; }
+.fp-rules .w { display: flex; flex-direction: column; gap: 28px; }
+.fp-rules .hrow { display: flex; justify-content: space-between; align-items: flex-end; }
+.fp .rgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.fp .rule { --t: 125,198,255; min-height: 254px; padding: 20px 22px; border-radius: 24px; border: 1px solid rgba(var(--t), .22); background: radial-gradient(80% 60% at 100% 0, rgba(var(--t), .2), rgba(var(--t), 0) 100%), var(--c); display: flex; flex-direction: column; gap: 6px; }
+.fp .rule .hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.fp .rule h3 { margin: 0; font: 500 20px/1.3 "Fb Reforma"; white-space: pre-line; }
+.fp .rule .st { flex: none; padding: 5px 12px; border-radius: 999px; background: rgba(var(--t), .16); color: rgb(var(--t)); font: 500 16px/1.2 "Fb Reforma"; }
+.fp .rule .en2 { font: 400 13px/1.4 "Roboto"; color: rgba(255,255,255,.4); }
+.fp .rule p { margin: 0; font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.7); }
+.fp .rule .lnk { margin-top: auto; }
+.fp .rule.no { --t: 255,93,122; } .fp .rule.lim { --t: 245,184,61; } .fp .rule.ok, .fp .rule.must { --t: 125,198,255; } .fp .rule.na { --t: 160,170,185; }
+
+/* ---------- opinion ---------- */
+.fp-op { padding: 110px 0; }
+.fp-op .w { display: flex; flex-direction: column; gap: 28px; }
+.fp-op .panel { position: relative; display: flex; gap: 64px; align-items: flex-end; padding: 56px; border-radius: 24px; border: 1px solid var(--line); background: radial-gradient(60% 60% at 100% 0, rgba(46,139,216,.2), rgba(46,139,216,0) 70%), var(--c); }
+.fp-op .txt { flex: 1; display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+.fp-op .txt .q { margin: 0; font: 500 28px/1.2 "Fb Reforma"; }
+.fp-op .txt .b { margin: 0; font: 400 18px/1.35 "Fb Reforma"; color: rgba(255,255,255,.75); }
+.fp-op .txt .b + .b { margin-top: -6px; }
+.fp-op .sig { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.fp-op .sig b { font: 500 16px/1.2 "Fb Reforma"; color: var(--sky); }
+.fp-op .sig small { font: 400 14px/1.25 "Fb Reforma"; color: rgba(255,255,255,.45); }
+.fp-op .who { position: relative; width: 320px; height: 430px; flex: none; }
+.fp-op .who .ring { position: absolute; inset: auto 0 0 0; height: 320px; border-radius: 50%; border: 3px solid rgba(255,255,255,.55);
+  background: radial-gradient(42% 42% at 30% 22%, rgba(214,236,255,.55), rgba(214,236,255,0)), linear-gradient(225deg, #7dc6ff 0%, #2e8bd8 55%, #2e5474 100%); box-shadow: 0 20px 70px -10px rgba(85,169,235,.45); }
+.fp-op .who .cut { position: absolute; inset: 0; overflow: hidden; -webkit-mask: radial-gradient(circle 160px at 50% 270px, #000 99.5%, transparent 100%), linear-gradient(#000, #000) top / 100% 270px no-repeat; mask: radial-gradient(circle 160px at 50% 270px, #000 99.5%, transparent 100%), linear-gradient(#000, #000) top / 100% 270px no-repeat; }
+.fp-op .who .cut img { position: absolute; left: 10px; bottom: -40px; width: 300px; }
+.fp-op .qm { position: absolute; left: 76px; top: 24px; font: 700 420px/1 "Roboto"; background: linear-gradient(rgba(125,198,255,.16), rgba(125,198,255,0)); -webkit-background-clip: text; background-clip: text; color: transparent; pointer-events: none; }
+
+/* ---------- alternatives ---------- */
+.fp-alt { padding: 100px 0; }
+.fp-alt .w { display: flex; flex-direction: column; gap: 28px; }
+.fp-alt .hrow { display: flex; justify-content: space-between; align-items: flex-end; }
+.fp-alt .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.fp-alt .ac { padding: 22px 24px; display: flex; gap: 18px; align-items: stretch; }
+.fp-alt .ac .mk { width: 48px; height: 48px; display: grid; place-items: center; flex: none; }
+.fp-alt .ac .mk svg { width: 40px; height: 40px; }
+.fp-alt .ac .tx { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.fp-alt .ac .tx b { font: 700 24px/1.4 "Roboto"; }
+.fp-alt .ac .tx span { font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.6); }
+.fp-alt .ac .tx em { font: 500 16px/1.2 "Fb Reforma"; font-style: normal; color: var(--sky); }
+.fp-alt .ac .bt { display: flex; align-items: flex-end; }
+
+/* ---------- faq ---------- */
+.fp-faq { padding: 110px 0 100px; }
+.fp-faq .w { display: flex; flex-direction: column; gap: 24px; align-items: center; }
+.fp-faq .list { width: min(960px, 100%); display: flex; flex-direction: column; gap: 12px; }
+.fp-faq details { border-radius: 16px; background: #000; border: 1px solid transparent; padding: 20px 26px; }
+.fp-faq details[open] { border-color: rgba(125,198,255,.35); }
+.fp-faq summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; cursor: pointer; font: 500 20px/1.2 "Fb Reforma"; }
+.fp-faq summary::-webkit-details-marker { display: none; }
+.fp-faq summary::after { content: "+"; font: 400 24px/1.5 "Roboto"; color: var(--sky); }
+.fp-faq details[open] summary::after { content: "−"; }
+.fp-faq details p { margin: 12px 0 0; font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.7); }
+
+/* ---------- ready ---------- */
+.fp-ready { padding: 100px 0; }
+.fp-ready .card { display: flex; gap: 40px; align-items: center; padding: 44px 56px 44px 48px; border-radius: 32px; border: 1px solid rgba(125,198,255,.2); background: radial-gradient(420px 90px at 85.7% 14%, rgba(46,139,216,.55), rgba(46,139,216,0)), var(--c); }
+.fp-ready .card > div { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.fp-ready .card p { margin: 0; font: 400 20px/1.2 "Fb Reforma"; color: rgba(255,255,255,.75); }
+.fp-ready img { width: 220px; height: 125px; object-fit: contain; transform: rotate(6deg); }
+
+/* ---------- updates + keep exploring ---------- */
+.fp-upd, .fp-more { padding: 90px 0; }
+.fp-upd .w, .fp-more .w { display: flex; flex-direction: column; gap: 24px; }
+.fp-upd .two, .fp-more .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.fp-upd .box { padding: 24px 26px; display: flex; flex-direction: column; gap: 12px; }
+.fp-upd .src { font: 400 14px/1.4 "Roboto"; color: rgba(125,198,255,.85); direction: ltr; text-align: right; word-break: break-all; }
+.fp-upd .warn { width: fit-content; padding: 6px 14px; border-radius: 999px; background: rgba(245,184,61,.14); color: #f5b83d; font: 500 16px/1.2 "Fb Reforma"; }
+.fp-upd .t { font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.7); }
+.fp-more .box { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.fp-more .ico { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: rgba(125,198,255,.12); }
+.fp-more .ico svg { width: 20px; height: 20px; }
+.fp-more .box p { margin: -8px 0 0; font: 400 16px/1.35 "Fb Reforma"; color: rgba(255,255,255,.6); }
+.fp-more .disc { font: 400 14px/1.25 "Fb Reforma"; color: rgba(255,255,255,.5); }
+
+/* ---------- template switcher (review tool, not part of the page) ---------- */
+.fp-tpl { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 4px; padding: 5px 5px 5px 14px; border-radius: 999px; background: rgba(18,22,31,.92); box-shadow: 0 12px 30px rgba(0,0,0,.35); direction: rtl; font: 500 14px "Fb Reforma"; color: rgba(255,255,255,.6); }
+.fp-tpl b { padding: 0 8px 0 4px; font-weight: 500; }
+.fp-tpl button { border: 0; border-radius: 999px; padding: 9px 14px; background: none; color: rgba(255,255,255,.75); font: 500 14px "Roboto"; cursor: pointer; }
+.fp-tpl button.on { background: #7dc6ff; color: #12161f; }
+
+@media (max-width: 1100px) {
+  .fp-hero .w, .fp-review .panel, .fp-op .panel, .fp-ready .card { flex-direction: column; align-items: stretch; }
+  .fp .deal { width: auto; margin: 0; }
+  .fp .facts, .fp .quad, .fp-acc .steps { grid-template-columns: 1fr 1fr; }
+  .fp-acc .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fp .rgrid, .fp .tri { grid-template-columns: 1fr 1fr; }
+  .fp-review img { width: 100%; height: auto; aspect-ratio: 16/9; }
+  .fp-op .who { align-self: center; }
+}
+@media (max-width: 760px) {
+  .fp .h2 { font-size: 32px; }
+  .fp-hero { padding: 120px 0 72px; }
+  .fp-hero h1 .en { font-size: 40px; }
+  .fp-nav { overflow-x: auto; justify-content: flex-start; padding-inline: 16px; }
+  .fp .facts, .fp .quad, .fp-acc .steps, .fp-acc .cols, .fp .rgrid, .fp .tri, .fp .duo, .fp-alt .two, .fp-upd .two, .fp-more .two, .fp-acc .cards { grid-template-columns: 1fr; }
+  .fp-short, .fp-acc, .fp-wd, .fp-rules, .fp-op, .fp-alt, .fp-faq, .fp-ready, .fp-upd, .fp-more { padding: 56px 0 60px; }
+  .fp-review .panel, .fp-op .panel { padding: 28px 20px; border-radius: 32px; }
+  .fp-op .qm { font-size: 220px; left: 20px; }
+  .fp .tg { max-width: 100%; overflow-x: auto; }
+}
+</style>
+
+<main class="fp" id="fp" data-theme="dark">
+
+<section class="fp-hero" data-theme="dark">
+  <div class="floor"></div><div class="chart"></div>
+  <div class="w">
+    <div class="copy">
+      <div class="crumbs">דף הבית&nbsp;&nbsp;/&nbsp;&nbsp;חברות מימון&nbsp;&nbsp;/&nbsp;&nbsp;<span class="lat" data-k="name">Apex</span></div>
+      <h1><span class="en" data-k="full">Apex Trader Funding</span><span class="he" data-k="he">אפקס טריידר פאנדינג</span></h1>
+      <p class="lead" data-k="lead">חברת מימון לחוזים עתידיים עם בחירה בין סטופ תוך יומי לסטופ סוף יום (EOD), מחירי כניסה תחרותיים ומגוון רחב של פלטפורמות מסחר.</p>
+      <div class="meta">
+        <span><b data-k="rate">★ 4.2 / 5</b><span class="v" data-k="reviews">21,008 ביקורות ב-Trustpilot</span><span data-k="upd">עודכן ב-15.09</span></span>
+        <span><span data-k="rules">חוקי החברה עודכנו ב-14.10.2026</span><a class="lnk" href="#updates">עדכונים ומקורות</a></span>
+      </div>
+      <a class="halo" href="#" data-k="buyHref"><i><svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-k="buy">לרכישה באתר Apex</span></i></a>
+    </div>
+    <article class="deal">
+      <div class="co"><span data-k="name">Apex</span><svg viewBox="0 0 30 15"><path fill="#7DC6FF" fill-rule="evenodd" d="M29.76 1.35L29.4 0.78L28.98 0.42L28.5 0.21L28.05 0.15L27.51 0.21L14.67 6.21H14.52L13.92 5.73H13.8L8.37 2.01L7.29 1.68H6.54L5.88 1.83L5.28 2.07L4.68 2.49L3.99 3.33L0.15 11.19L0.3 11.37L0.57 11.19L3.57 7.35L4.32 6.54V6.42L5.64 4.74L6.36 3.99L11.37 7.71L8.85 8.94L8.52 9.03L7.86 9.42L7.53 9.48L6.84 9.87L5.4 10.5L5.22 10.62L5.28 10.83L6.06 10.68L7.95 9.93L9.27 9.51L12.39 8.37L20.76 14.58L21.75 14.91L22.8 14.79L23.25 14.58L23.79 14.16L24.48 13.08L25.92 10.05L26.34 9.45L27 7.95L28.05 6.03L28.08 5.82L28.23 5.7L29.76 2.64L29.82 2.34L29.76 1.35ZM26.1 3.57L21.81 11.1L21.54 11.01L15.96 7.17L16.62 6.84L17.94 6.45L18.3 6.24L19.26 6L19.44 5.85L22.47 4.86L22.65 4.71L25.68 3.72L25.86 3.57H26.1Z"/></svg></div>
+      <div class="pct"><span>הנחה</span><b data-k="off">90%</b></div>
+      <h3 data-k="dealT">אפקס EOD - 90% הנחה</h3>
+      <p data-k="dealP">קוד ANTAR מעניק 90% הנחה על מבחני EOD Trail. בתוקף עד 1 באוקטובר.</p>
+      <div class="foot"><a class="gbtn" href="#">לפרטי המבצע</a><button class="code" data-copy="ANTAR"><svg viewBox="0 0 16 16" fill="none"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="#D6ECFF" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="#D6ECFF" stroke-width="1.4" stroke-linecap="round"/></svg>ANTAR</button></div>
+    </article>
+  </div>
+</section>
+
+<nav class="fp-nav" aria-label="ניווט בעמוד"><div class="tg" id="fpNav">
+  <button data-go="short" class="on">בקצרה</button><button data-go="accounts">חשבונות</button><button data-go="withdraw">משיכה</button><button data-go="rules">חוקים</button><button data-go="opinion">הדעה שלנו</button><button data-go="faq">שאלות נפוצות</button>
+</div></nav>
+
+<section class="fp-short" id="short" data-theme="dark"><div class="w">
+  <div class="head"><span class="pill">בקצרה</span><h2 class="h2">מה חשוב לדעת על Apex</h2><p class="sub">פלטפורמות מסחר, אמצעי משיכה, מספר חשבונות ופרטים חשובים שכדאי להכיר לפני שבוחרים מסלול.</p></div>
+  <div class="facts">
+    <div class="box fact"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg></span><span class="k">חיבור למסחר</span><span class="v lat" style="font:600 22px/1.4 Roboto">Rithmic · Tradovate</span><span class="s">WealthCharts</span></div>
+    <div class="box fact"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="k">שווקים נתמכים</span><span class="v">חוזים עתידיים</span><span class="s">FX, Metals, Indices, Energy, Crypto, Agricultural Products ועוד</span></div>
+    <div class="box fact"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6"/><path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg></span><span class="k">אמצעי קבלת כספים</span><span class="v">ACH ו-Plane</span></div>
+    <div class="box fact"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></span><span class="k">חשבונות ממומנים במקביל</span><span class="v">עד 20 חשבונות PA</span><span class="s">100% מהרווח לסוחר</span></div>
+  </div>
+  <div class="box plats">
+    <div class="top"><span class="h3">פלטפורמות מסחר נתמכות · 14 פלטפורמות</span><button class="lnk">הצג עוד ↓</button></div>
+    <div class="chips">
+      <span class="chip">NinjaTrader<img src="img/ninjatrader.webp" alt=""></span><span class="chip">TradingView<img src="img/tradingview-light.webp" alt=""></span><span class="chip">ATAS Orderflow Trading<img src="img/atas.webp" alt=""></span><span class="chip">Bookmap<img src="img/bookmap.webp" alt=""></span>
+    </div>
+  </div>
+</div></section>
+
+<section class="fp-review" data-theme="dark"><div class="w"><div class="panel">
+  <div class="copy"><span class="pill">הסקירה שלי</span><h2 class="h2">צפו בסקירה המלאה שלי על Apex</h2><p>למי שרוצה להעמיק לפני בחירת חשבון - סקירה מסודרת על החברה, המסלולים והנקודות החשובות.</p>
+    <a class="halo" href="#"><i><svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>לצפייה בסקירה</i></a></div>
+  <img src="img/v-apex.jpg" alt="התקנת אפקס">
+</div></div></section>
+
+<section class="fp-acc" id="accounts" data-theme="dark"><div class="w">
+  <div class="head"><span class="pill">חשבונות</span><h2 class="h2" id="accTitle">בחר מסלול ודפדף בין החשבונות</h2><p class="sub">כל כרטיס הוא חשבון בפני עצמו. הפוך אותו כדי לראות את תנאי החשבון הממומן.</p></div>
+  <div class="pick" id="accPick"></div>
+  <div class="box simple" id="accSimple"></div>
+  <div class="cards" id="accCards"></div>
+  <p class="note" id="accHint">החליקו ימינה ושמאלה לחשבונות נוספים</p>
+  <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+    <a class="halo ghost" href="#"><i><svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="accCmp">השווה מסלולים וגדלים של Apex</span></i></a>
+    <a class="halo" href="#"><i><svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>השווה מול חברות אחרות</i></a>
+  </div>
+</div></section>
+
+<section class="fp-wd alt" id="withdraw" data-theme="dark"><div class="w">
+  <div class="head"><span class="pill">משיכות</span><h2 class="h2">תנאי משיכה</h2><p class="sub">מתי אפשר למשוך, כמה, ומה קורה אחרי.</p></div>
+  <div class="bar"><span class="bh" style="font:500 16px/1.2 'Fb Reforma';color:rgba(255,255,255,.7)">חשבון נבחר:</span><div class="tg" id="wdSize"><button>25K</button><button class="on">50K</button><button>100K</button><button>150K</button></div><a class="lnk" href="#accounts">השווה בין גדלי החשבון ←</a></div>
+  <div class="quad">
+    <div class="box"><span class="k">תדירות משיכות</span><span class="v">כל 5 ימי רווח</span></div>
+    <div class="box"><span class="k">מינימום משיכה</span><span class="v lat" style="font:700 28px/1.4 Roboto">$500</span></div>
+    <div class="box"><span class="k">תקרת משיכה - במשיכה הראשונה</span><span class="v lat" style="font:700 28px/1.4 Roboto" data-w="cap1">$1,500</span></div>
+    <div class="box"><span class="k">חלוקת רווחים</span><span class="v">100% לסוחר</span></div>
+  </div>
+  <div class="box plain" style="background:radial-gradient(60% 100% at 100% 0,rgba(46,139,216,.3),rgba(46,139,216,0) 70%),var(--c)">
+    <span class="h3">במילים פשוטות</span>
+    <div class="it"><span class="num">1</span><span data-w="p1">כדי להיות זכאים למשיכה בחשבון 50K צריך לצבור 5 ימי רווח מזכים של לפחות $200 בכל יום, ולעמוד בחוק עקביות של 50%. צריך להגיע לפחות ל-$52,600 כדי לבקש משיכה.</span></div>
+    <div class="it"><span class="num">2</span><span data-w="p2">מינימום המשיכה הוא $500, ובמשיכה הראשונה תקרת המשיכה היא $1,500. אפשר למשוך רק רווח שנמצא מעל כרית הביטחון של $52,100.</span></div>
+    <div class="it"><span class="num">3</span><span data-w="p3">לדוגמה, אם החשבון הגיע ל-$53,000, יש $900 מעל כרית הביטחון ולכן אפשר לבקש בפועל עד $900, גם אם תקרת המשיכה היא $1,500. אחרי כל משיכה מאושרת חוק העקביות מתאפס, ותקרת המשיכה מתקדמת למשיכה הבאה.</span></div>
+  </div>
+  <div class="tri">
+    <div class="box"><span class="h3">מתי אפשר למשוך</span><div class="rows"><div><span class="k">ימי רווח מזכים</span><span class="v">5 ימים של לפחות $200</span></div><div><span class="k">חוק עקביות</span><span class="v">50%</span></div><div><span class="k">יתרה מינימלית לבקשה</span><span class="v" data-w="minbal">$52,600</span></div></div></div>
+    <div class="box"><span class="h3">כמה אפשר למשוך</span><div class="rows"><div><span class="k">מינימום משיכה</span><span class="v">$500</span></div><div><span class="k">תקרה במשיכה הראשונה</span><span class="v" data-w="cap1">$1,500</span></div><div><span class="k">יתרה נדרשת למשיכת המקסימום</span><span class="v" data-w="maxbal">$53,600</span></div></div><span class="n">התקרה משתנה לפי מספר המשיכה.</span></div>
+    <div class="box"><span class="h3">כרית הביטחון</span><span class="s">יתרת כרית הביטחון</span><span class="big" data-w="buffer">$52,100</span><span class="s">מושכים רק את הרווח שמעל הקו הזה.</span></div>
+  </div>
+  <div class="box caps" style="background:radial-gradient(60% 100% at 100% 0,rgba(46,139,216,.25),rgba(46,139,216,0) 70%),var(--c)">
+    <div class="top"><span class="h3">תקרת משיכה לפי מספר המשיכה - Intraday</span><button class="lnk">מה זה אומר?</button></div>
+    <div class="bars" id="wdBars"></div>
+  </div>
+  <div class="duo">
+    <div class="box"><span class="h3">מה קורה אחרי המשיכה</span><div class="rows"><div><span class="k">אחרי כל משיכה</span><span class="v">חוק העקביות מתאפס ועוברים לתקרה הבאה</span></div><div><span class="k">לאחר המשיכה השישית</span><span class="v">מחזור החשבון מסתיים</span></div></div></div>
+    <div class="box"><span class="h3">קבלת הכסף</span><div class="rows"><div><span class="k">אמצעי קבלת הכסף</span><span class="v">ACH ו-Plane</span></div><div><span class="k">זמן קבלת הכסף</span><span class="v">עד משיכה אחת בשבוע</span></div></div></div>
+  </div>
+</div></section>
+
+<section class="fp-rules" id="rules" data-theme="dark"><div class="w">
+  <div class="hrow"><div class="head"><span class="pill">חוקים</span><h2 class="h2">חוקי המסחר</h2><p class="sub">אותם חוקים נבדקים בכל חברות המימון, כדי שיהיה קל להבין ולהשוות.</p></div><div class="tg"><button class="on">מבחן</button><button>חשבון ממומן</button></div></div>
+  <div class="rgrid" id="rulesGrid"></div>
+</div></section>
+
+<section class="fp-op alt" id="opinion" data-theme="dark"><div class="w">
+  <div class="head"><span class="pill">הדעה שלנו</span><h2 class="h2">הדעה של AntarTrade</h2></div>
+  <div class="panel">
+    <span class="qm" aria-hidden="true">”</span>
+    <div class="txt">
+      <p class="q">אפקס היא בעיניי אחת האפשרויות הזולות והמהירות ביותר לסוחר שרוצה להתחיל לעבוד עם חברות מימון.</p>
+      <p class="b">אחד היתרונות הגדולים שלה הוא הגמישות: אפשר לבחור בין מסלול עם סטופ תוך יומי, שבו רף ההפסד המקסימלי זז בזמן אמת בהתאם לשיא החשבון, לבין מסלול סוף יום, שבו רף ההפסד מתעדכן רק בסיום יום המסחר. בנוסף, ניתן להחזיק עד 20 חשבונות ממומנים במקביל, יתרון משמעותי מאוד לסוחר שכבר מצליח ורוצה להגדיל את הפעילות שלו.</p>
+      <p class="b">לדעתי אפקס מתאימה גם לסוחרים מתחילים. עלויות הכניסה יחסית נמוכות, וזה משמעותי במיוחד בשלב שבו סוחר עדיין לומד וצפוי לעבור יותר ממבחן אחד. במסלולים הזולים קיימים גם דמי הפעלה לאחר מעבר המבחן, ולכן חשוב לקחת אותם בחשבון כחלק מהעלות הכוללת.</p>
+      <p class="b">באופן אישי, אני חושב שסוחר מתחיל צריך קודם ללמוד לעבוד בצורה עקבית עם עסקאות פשוטות יחסית, לדוגמה סביב יחס סיכוי-סיכון של 1:1, לפני שהוא מנסה לבנות עסקאות עם יעדים גדולים מאוד. בגלל זה, אני לא חושב שמנגנון הסטופ התוך יומי של אפקס הוא בהכרח חיסרון משמעותי למתחיל שעובד בצורה מסודרת ומנהל את הסיכון שלו נכון.</p>
+      <p class="b">מצד שני, אפקס היא חברה עם לא מעט חוקים, וצריך להכיר אותם ולעבוד לפיהם. מי שמחפש חופש מוחלט או לא אוהב לעבוד תחת מגבלות ברורות כנראה ירגיש פחות בנוח.</p>
+      <p class="b">בשורה התחתונה: למתחילים היא יכולה להיות דרך יחסית זולה לצבור ניסיון, ולסוחרים מנוסים היתרון הגדול הוא האפשרות לעבוד עם עד 20 חשבונות ולבחור בין מסלול סטופ תוך יומי למסלול סוף יום, בהתאם לסגנון המסחר שלהם.</p>
+      <div class="sig"><b>- נועם ענתר, מייסד AntarTrade</b><small>*האמור לעיל משקף דעה אישית בלבד ואינו מהווה המלצת השקעה</small></div>
+      <button class="lnk">קרא עוד</button>
+    </div>
+    <div class="who"><span class="ring"></span><span class="cut"><img src="img/noam-cut.png" alt="נועם ענתר"></span></div>
+  </div>
+</div></section>
+
+<section class="fp-alt" data-theme="dark"><div class="w">
+  <div class="hrow"><div class="head"><span class="pill">חלופות</span><h2 class="h2">Apex מול חלופות</h2><p class="sub">לא בטוחים ש-Apex מתאימה לכם? אלה החלופות שכדאי להכיר.</p></div>
+    <a class="halo" href="#"><i><svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>להשוואה המלאה בין כל חברות המימון</i></a></div>
+  <div class="two">
+    <div class="box ac"><span class="mk"><svg viewBox="0 0 27 30"><path fill="#fff" fill-rule="evenodd" d="M18.33 7.05V9.09L17.43 9.24V15.27L18.33 15.39V26.4H19.35V15.51L20.25 15.27V9.24L19.35 8.85V7.05H18.33ZM5.37 7.05V17.43L4.5 17.7V23.73L5.37 24.09L5.52 26.4H6.27L6.42 24.09L7.17 23.85V17.7L6.42 17.55V7.05H5.37ZM0.51 0.51V4.86L11.91 5.01V13.47L11.04 13.71V19.74L11.91 19.86V29.37H12.96V19.86L13.86 19.74V13.71L12.96 13.47V5.01L26.28 4.86L26.4 0.63L0.51 0.51Z"/></svg></span>
+      <div class="tx"><b>Take Profit Trader</b><span>פחות חוקים ותמיכה מצוינת בעברית</span><em>40% הנחה עם ANTAR</em></div><div class="bt"><a class="gbtn" href="?firm=take-profit">לסקירה</a></div></div>
+    <div class="box ac"><span class="mk"><svg viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="12.5" stroke="#fff" stroke-width="2.6"/><path d="M8.2 10.6a8 8 0 0 1 5-4.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+      <div class="tx"><b>Lucid Trading</b><span>מסלולים גמישים יותר וחוקי משיכה נוחים</span><em>30% הנחה עם ANTAR</em></div><div class="bt"><a class="gbtn" href="#">לסקירה</a></div></div>
+  </div>
+</div></section>
+
+<section class="fp-faq alt" id="faq" data-theme="dark"><div class="w">
+  <div class="head c"><span class="pill">שאלות נפוצות</span><h2 class="h2">שאלות נפוצות על Apex Trader Funding</h2></div>
+  <div class="list">
+    <details open><summary>איך עובד שלב המבחן (Evaluation) באפקס?</summary><p>אפקס השיקה לאחרונה תוכניות מבחן חדשות ללא דמי מנוי מתחדשים. כאשר אתם רוכשים מבחן, אתם מקבלים גישה ל-30 ימים קלנדריים רצופים כדי לעמוד ביעד הרווח. אם לא הגעתם ליעד, או שהגעתם להפסד המקסימלי (Drawdown), החשבון נסגר לצמיתות ולא יחויב מחדש.</p></details>
+    <details><summary>איך מחושב ההפסד המקסימלי (Drawdown) באפקס?</summary></details>
+    <details><summary>האם יש חוקי עקביות (Consistency) שעלולים להכשיל אותי?</summary></details>
+    <details><summary>עברתי את המבחן, כמה עולה להפעיל חשבון ממומן (PA)?</summary></details>
+    <details><summary>כמה חשבונות מימון מותר להחזיק במקביל?</summary></details>
+    <details><summary>איך מתבצעת משיכת רווחים וכמה מהם נשארים אצלי?</summary></details>
+    <details><summary>האם מותר לסחור בזמן חדשות (News Trading) ולהשאיר עסקאות פתוחות?</summary></details>
+    <details><summary>באילו פלטפורמות המסחר באפקס תומך (והאם זה מתאים למאק)?</summary></details>
+    <details><summary>האם אפשר לסחור בקריפטו (Bitcoin / Ethereum) דרך אפקס?</summary></details>
+    <details><summary>מה קורה אם לא סחרתי תקופה ארוכה בחשבון הממומן?</summary></details>
+  </div>
+</div></section>
+
+<section class="fp-ready" data-theme="dark"><div class="w"><div class="card">
+  <div><h2 class="h2">מוכנים להתחיל?</h2><p>השתמשו בקוד ANTAR וקבלו 90% הנחה!</p>
+    <a class="halo" href="#"><i><svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>לרכישת מבחן באתר Apex</i></a></div>
+  <img src="img/firm3d-apex.webp" alt="">
+</div></div></section>
+
+<section class="fp-upd alt" id="updates" data-theme="dark"><div class="w">
+  <div class="head"><span class="pill">שקיפות</span><h2 class="h2">עדכונים ומקורות</h2><p class="sub" style="font-size:16px;line-height:1.35">חוקי החברה עודכנו ב-14.10.2026. תאריך העדכון מתייחס לנתונים באתר, ולא לבדיקה מחודשת של כל תנאי החברה.</p></div>
+  <div class="two">
+    <div class="box"><span class="h3">מקורות החברה</span><span class="src">apextraderfunding.com/help-center/performance-accounts-pa/legacy-performance-account-pa-compliance/</span><span class="src">support.apextraderfunding.com/hc/en-us/articles/4406804554779</span><span class="src">apextraderfunding.com/help-center/uncategorized/no-activation-fee-evaluations/</span></div>
+    <div class="box"><span class="h3">שינויים מהותיים</span><span class="warn">תועד באתר ב-19.10.2026 · מחיר בסיס ודמי הפעלה</span><span class="h3">אפשרות No Activation Fee ב-Intraday וב-EOD</span>
+      <span class="t">תועד באתר ב-19.10.2026; מועד הוספת האפשרות לא אומת. חשבונות מבחן שנרכשו באפשרות No Activation Fee מאפשרים הפעלת PA לאחר מעבר במחיר $0. האפשרות קיימת ב-Intraday וב-EOD ואינה מבטלת את דמי ההפעלה במסלולים הרגילים. מחירי מבצע שוטפים אינם מתועדים כאן כשינוי קבוע.</span><a class="lnk" href="#">למקור השינוי ←</a></div>
+  </div>
+</div></section>
+
+<section class="fp-more" data-theme="dark"><div class="w">
+  <div class="head"><span class="pill">המשך</span><h2 class="h2">המשיכו לגלות</h2></div>
+  <div class="two">
+    <div class="box"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M9 10v10"/></svg></span><span class="h3">השוואה בין חברות המימון</span><p>טבלת השוואה מפורטת בין חברות המימון למסחר בחוזים עתידיים</p><a class="gbtn" style="width:fit-content" href="#">להשוואה</a></div>
+    <div class="box"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg></span><span class="h3">שאלון התאמה</span><p>מצאו את החברה המושלמת עבורכם</p><a class="gbtn" style="width:fit-content" href="#">לשאלון</a></div>
+    <div class="box"><span class="h3">חברות דומות</span><div class="chips"><a class="chip" href="?firm=take-profit">Take Profit<img src="img/f3d-takeprofit.png" alt=""></a><span class="chip">Bulenox<img src="img/f3d-bulenox.png" alt=""></span></div></div>
+    <div class="box"><span class="h3">חברות מימון נוספות באתר</span><div class="chips"><span class="chip">TopStep<img src="img/f3d-topstep.png" alt=""></span><span class="chip">Lucid Trading<img src="img/f3d-lucid.png" alt=""></span><span class="chip">FTMO Futures<img src="img/f3d-ftmo.png" alt=""></span><span class="chip">Bulenox<img src="img/f3d-bulenox.png" alt=""></span><a class="chip" href="?firm=take-profit">TakeProfit Trader<img src="img/f3d-takeprofit.png" alt=""></a></div></div>
+  </div>
+  <p class="disc">ייתכנו שינויים בחוקי החברות. מומלץ לבדוק תמיד באתר הרשמי לפני רכישת חשבון.</p>
+</div></section>
+
+<div class="fp-tpl" id="fpTpl"><b>תבנית בחירת חשבון:</b><button data-f="apex">Apex</button><button data-f="take-profit">Take Profit</button><button data-f="funded-next">FundedNext</button></div>
+</main>
+
+<script>
+(function () {
+  /* ---------- data: one shape for every firm. plans -> optional sub-options -> sizes ---------- */
+  var A = 'Apex PA', NS = 'לא צוין';
+  function apexSize(size, target, stop, contracts, was, now, save, pkg, fee, lock) {
+    return { size: size, sub: A, rows: [['יעד מעבר', target], ['סטופ מקסימלי', stop], ['סוג הסטופ', 'סטופ תוך יומי'], ['מגבלת הפסד יומית', 'אין'], ['חוזים מקסימליים', contracts], ['חוק עקביות', 'אין'], ['מינימום ימי מסחר', '1 יום']],
+      toggles: [['עם דמי הפעלה', 'ללא דמי הפעלה'], ['מבחן בודד', 'חבילת 5 ‎' + pkg]], price: { now: now, was: was, note: 'תשלום חד-פעמי · המבחן בתוקף 30 יום', save: save },
+      rows2: [['דמי הפעלת PA', fee], ['איפוס מבחן', NS]], cta: 'רכישה עם קוד ANTAR',
+      funded: { title: 'חשבון ממומן (PA)', rows: [['דמי הפעלה', fee], ['סטופ מקסימלי', stop], ['סוג הסטופ', 'סטופ תוך יומי'], ['נעילת הסטופ', lock], ['מגבלת הפסד יומית', 'לפי תוכנית סקיילינג'], ['חוזים מקסימליים', 'לפי מדרגות חוזים לפי יתרה'], ['חוק עקביות', '50%'], ['חלוקת רווחים', '100% לסוחר'], ['חשבונות ממומנים במקביל', 'עד 20 חשבונות PA'], ['מועד אחרון להפעלת החשבון', '7 ימים ממעבר המבחן']] } };
+  }
+  function tpSize(size, target, stop, contracts, now, was, reset, lock) {
+    return { size: size, sub: 'Take Profit', rows: [['יעד מעבר', target], ['סטופ מקסימלי', stop], ['סוג הסטופ', 'סטופ סוף יום'], ['מגבלת הפסד יומית', 'אין'], ['חוזים מקסימליים', contracts], ['חוק עקביות', '50%'], ['מינימום ימי מסחר', '3 ימים']],
+      price: { now: now, was: was, note: 'תשלום חד-פעמי' }, rows2: [['דמי הפעלת PRO', 'חינם עם ANTAR'], ['איפוס מבחן', reset]], cta: 'רכישה עם קוד ANTAR',
+      funded: { title: 'חשבון PRO', rows: [['דמי הפעלה', 'חינם עם ANTAR'], ['סטופ מקסימלי', stop], ['סוג הסטופ', 'סטופ תוך יומי'], ['נעילת הסטופ', lock], ['מגבלת הפסד יומית', 'אין'], ['חוזים מקסימליים', contracts], ['חוק עקביות', 'אין'], ['חלוקת רווחים', '80% לסוחר / 20% לחברה'], ['דרישת פעילות', 'לפחות יום מסחר אחד בשבוע'], ['איפוס חשבון ממומן', 'עד 3 פעמים']] } };
+  }
+  function fnFlex(size, target, stop, contracts, now, was, reset, save, lock) {
+    return { size: size, sub: 'FundedNext Flex', rows: [['יעד מעבר', target], ['סטופ מקסימלי', stop], ['סוג הסטופ', 'סטופ סוף יום'], ['מגבלת הפסד יומית', 'אין'], ['חוזים מקסימליים', contracts], ['חוק עקביות', '40%'], ['מינימום ימי מסחר', 'אין']],
+      price: { now: now, was: was, note: 'מחיר מבצע ל-2 הרכישות הראשונות', save: save }, rows2: [['דמי הפעלה', 'אין'], ['איפוס מבחן', reset]], cta: 'רכישה עם קוד ANTAR',
+      funded: { title: 'חשבון ממומן', rows: [['דמי הפעלה', 'אין'], ['סטופ מקסימלי', stop], ['סוג הסטופ', 'סטופ סוף יום'], ['נעילת הסטופ', lock], ['מגבלת הפסד יומית', 'אין'], ['חוזים מקסימליים', contracts], ['חוק עקביות', 'אין'], ['חלוקת רווחים', '95% לסוחר / 5% לחברה'], ['חשבונות ממומנים במקביל', 'עד 5 חשבונות פעילים']] } };
+  }
+  function fnRapid(kind, size, target, stop, dll, contracts, now, wmin, wmax) {
+    return { size: size, sub: 'Rapid ' + kind, rows: [['יעד מעבר', target], ['סטופ מקסימלי', stop], ['מגבלת הפסד יומית', dll], ['חוזים מקסימליים', contracts], ['משיכה מינימלית', wmin], ['משיכה מקסימלית', wmax]],
+      price: { now: now, note: 'מחיר טסט כפי שמופיע באתר' }, rows2: [['דמי הפעלה', NS]], cta: 'רכישה עם קוד ANTAR', funded: null };
+  }
+  var DATA = {
+    'apex': { name: 'Apex', full: 'Apex Trader Funding', he: 'אפקס טריידר פאנדינג', title: 'בחר מסלול ודפדף בין החשבונות',
+      plans: [
+        { id: 'intraday', label: 'סטופ תוך יומי (Intraday)', caption: 'הסטופ מתעדכן בזמן אמת תוך כדי המסחר', leaf: {
+          title: 'Apex Intraday - במילים פשוטות',
+          plan: ['זמין בגדלים 25K, 50K, 100K וגם 150K', 'סטופ נגרר תוך יומי גם במבחן וגם בחשבון הממומן', 'אפשר לעבור את המבחן ביום מסחר אחד', 'אפשר לבחור מסלול עם דמי הפעלה לאחר המעבר או מסלול ללא דמי הפעלה'],
+          after: ['בחשבון הממומן חל חוק עקביות של 50%', 'לפני משיכה נדרשים 5 ימי רווח מזכים', 'אפשר למשוך מעל הבאפר, עם מינימום משיכה של $500', '100% מהרווחים נשארים לסוחר', 'לאחר 6 משיכות החשבון נסגר'],
+          steps: ['עוברים את המבחן, אפשר גם ביום אחד', 'מפעילים חשבון ממומן לפי מסלול הרכישה שבחרתם', 'צוברים 5 ימי רווח מזכים', 'מושכים את הרווח שמעל הבאפר, בכפוף לתנאי המשיכה'],
+          note: 'גובה הסטופ, הבאפר, מספר החוזים ותנאי היום המזכה משתנים לפי גודל החשבון.', sel: 1,
+          sizes: [apexSize('$25K', '$26,500', '$1,000', '4 מיני / 40 מיקרו', '$167', '$16.70', 'חיסכון $150 (90%)', '-55%', '$89', '$26,100'),
+                  apexSize('$50K', '$53,000', '$2,000', '6 מיני / 60 מיקרו', '$249', '$24.90', 'חיסכון $224 (90%)', '-62%', '$99', '$52,100'),
+                  apexSize('$100K', '$106,000', '$3,000', '8 מיני / 80 מיקרו', '$790', '$79', 'חיסכון $711 (90%)', '-56%', '$129', '$103,100'),
+                  apexSize('$150K', '$159,000', '$4,000', '12 מיני / 120 מיקרו', '$1,190', '$119', 'חיסכון $1,071 (90%)', '-17%', '$149', '$154,100')] } },
+        { id: 'eod', label: 'סטופ סוף יום (EOD)', caption: 'הסטופ מתעדכן רק בסוף יום המסחר', leaf: null },
+        { id: 'legacy', label: 'Legacy', caption: '', leaf: null }] },
+    'take-profit': { name: 'Take Profit', full: 'Take Profit Trader', he: 'טייק פרופיט טריידר', title: 'בחר גודל ודפדף בין החשבונות',
+      plans: [{ id: 'one', label: '', leaf: {
+        title: 'Take Profit - במילים פשוטות',
+        plan: ['יש סוג חשבון אחד בלבד', 'זמין בגדלים 25K, 50K, 75K, 100K ו-150K', 'אפשר לעבור את המבחן ב-3 ימי מסחר', 'במבחן חל חוק עקביות של 50%'],
+        after: ['עוברים לחשבון PRO ללא דמי הפעלה', 'בחשבון PRO אין חוק עקביות', 'אפשר למשוך בכל יום', 'כל סכום שמעל הבאפר ניתן למשיכה בחלוקה של 80/20', 'אפשר למשוך גם מתוך הבאפר, בחלוקה של 50/50', 'אין מינימום משיכה לארנק של Take Profit'],
+        steps: ['עוברים את המבחן ב-3 ימי מסחר', 'עוברים לחשבון PRO ללא דמי הפעלה', 'סוחרים לפחות יום אחד בשבוע', 'מושכים בכל יום את מה שמעל הבאפר'],
+        note: 'נתונים מהאתר החי של AntarTrade, עודכנו ב-9.10.2026.', sel: 1,
+        sizes: [tpSize('$25K', '$26,500', '$1,500', '3 מיני / 30 מיקרו', '$90', '$150', '$79', '$26,500'),
+                tpSize('$50K', '$53,000', '$2,000', '6 מיני / 60 מיקרו', '$102', '$170', '$99', '$52,000'),
+                tpSize('$75K', '$79,500', '$2,500', '9 מיני / 90 מיקרו', '$147', '$245', '$139', '$77,500'),
+                tpSize('$100K', '$106,000', '$3,000', '12 מיני / 120 מיקרו', '$198', '$330', '$169', '$103,000'),
+                tpSize('$150K', '$159,000', '$4,500', '15 מיני / 150 מיקרו', '$216', '$360', '$199', '$154,500')] } }] },
+    'funded-next': { name: 'FundedNext', full: 'FundedNext Futures', he: 'פאנדד נקסט', title: 'בחר מסלול ודפדף בין החשבונות',
+      plans: [
+        { id: 'flex', label: 'Flex', caption: '95% לסוחר, בלי באפר', leaf: {
+          title: 'FundedNext Flex - במילים פשוטות',
+          plan: ['זמין בגדלים 50K, 100K ו-150K', 'מבחן של שלב אחד עם סטופ נגרר סוף יום (EOD)', 'במבחן חל חוק עקביות של 40%', 'אין מגבלת הפסד יומית'],
+          after: ['עוברים לחשבון ממומן ללא דמי הפעלה', 'בחשבון הממומן אין חוק עקביות ואין באפר', 'לפני כל משיכה צריך 5 ימים מזכים ורווח מינימלי של $500 במחזור', 'מינימום משיכה $250', 'חלוקת הרווחים היא 95% לסוחר', 'אחרי 5 משיכות החשבון נסגר'],
+          steps: ['עוברים מבחן של שלב אחד', 'מקבלים חשבון ממומן בלי דמי הפעלה', 'צוברים 5 ימים מזכים', 'מושכים עד 50% מהרווח, עד התקרה'],
+          note: 'נתונים מהאתר החי של AntarTrade, עודכנו ב-20.10.2026.', sel: 0,
+          sizes: [fnFlex('$50K', '$52,500', '$1,500', '3 חוזים רגילים / 30 מיקרו', '$74.99', '$141.99', '$82.99', 'חיסכון $67 (47%)', '$50,100'),
+                  fnFlex('$100K', '$105,000', '$2,500', '5 חוזים רגילים / 50 מיקרו', '$144.99', '$273.99', '$157.99', 'חיסכון $129 (47%)', '$100,100'),
+                  fnFlex('$150K', '$158,000', '$4,000', '8 חוזים רגילים / 80 מיקרו', '$259.99', '$490.99', '$284.99', 'חיסכון $231 (47%)', '$150,100')] } },
+        { id: 'rapid', label: 'Rapid', caption: 'מסלול משיכות מהיר', subLabel: 'סוג חשבון Rapid:', sub: [
+          { id: 'pro', label: 'Pro', leaf: { title: 'Rapid Pro - במילים פשוטות', plan: ['זמין בגדלים 25K, 50K ו-100K', 'מגבלת הפסד יומית לפי גודל החשבון'], after: ['מינימום משיכה $250', 'תקרת משיכה לפי גודל החשבון'], steps: null,
+            note: 'באתר החי מופיעים לחשבונות Rapid רק נתוני רשימה, בלי כרטיסים מלאים.', sel: 0,
+            sizes: [fnRapid('Pro', '$25K', '$1,500', '$1,000', '$500', '2 חוזים רגילים / 20 מיקרו', '$59.99', '$250', '$800'), fnRapid('Pro', '$50K', '$3,000', '$2,000', '$1,000', '4 חוזים רגילים / 40 מיקרו', '$119.99', '$250', '$1,200'), fnRapid('Pro', '$100K', '$5,000', '$2,500', '$1,250', '6 חוזים רגילים / 60 מיקרו', '$229.99', '$250', '$2,500')] } },
+          { id: 'daily', label: 'Daily', leaf: { title: 'Rapid Daily - במילים פשוטות', plan: ['זמין בגדלים 25K, 50K ו-100K', 'משיכות יומיות'], after: ['מינימום משיכה $250', 'תקרת משיכה לפי גודל החשבון'], steps: null,
+            note: 'באתר החי מופיעים לחשבונות Rapid רק נתוני רשימה, בלי כרטיסים מלאים.', sel: 0,
+            sizes: [fnRapid('Daily', '$25K', '$1,500', '$1,000', '$500', '2 חוזים רגילים / 20 מיקרו', '$79.99', '$250', '$800'), fnRapid('Daily', '$50K', '$3,000', '$2,000', '$1,000', '4 חוזים רגילים / 40 מיקרו', '$169.99', '$250', '$1,200'), fnRapid('Daily', '$100K', '$5,000', '$2,500', '$1,250', '6 חוזים רגילים / 60 מיקרו', '$279.99', '$250', '$2,500')] } }] },
+        { id: 'direct', label: 'Direct', caption: 'ישר לממומן, בלי מבחן', leaf: null }] }
+  };
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var state = { firm: 'apex', plan: 0, sub: 0, sel: 1, flip: -1 };
+
+  /* English words and numbers in Roboto, one weight above the Hebrew around them */
+  var LAT = /([A-Za-z0-9$₪][A-Za-z0-9.,:%$₪&'’+\-\/]*(?:[ ][A-Za-z0-9$₪][A-Za-z0-9.,:%$₪&'’+\-\/]*)*)/g;
+  function latify(root) {
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), list = [], n;
+    while ((n = w.nextNode())) { var p = n.parentElement; if (!p || p.closest('.lat,.en,script,style,svg,.fp-tpl,.code,.src,.big') || !/[A-Za-z0-9]/.test(n.nodeValue)) continue; var f = getComputedStyle(p).fontFamily; if (/Roboto/.test(f) && !/Reforma/.test(f.split(',')[0])) continue; list.push(n); }
+    list.forEach(function (t) { var wgt = parseInt(getComputedStyle(t.parentElement).fontWeight, 10) >= 500 ? 600 : 500; var html = esc(t.nodeValue).replace(LAT, '<span class="lat" style="font-weight:' + wgt + '">$1</span>'); var s = document.createElement('span'); s.innerHTML = html; t.replaceWith(s); /* one wrapper, so flex parents keep the spaces */ });
+  }
+
+  function rows(list, cls) { return '<div class="rows' + (cls || '') + '">' + list.map(function (r) { var num = /^[$\d]/.test(r[1]) && !/[א-ת]/.test(r[1]); return '<div><span class="k">' + esc(r[0]) + '</span><span class="v' + (num ? '' : ' he') + '">' + esc(r[1]) + '</span></div>'; }).join('') + '</div>'; }
+  function toggle(items, on, attr) { return '<div class="tg" ' + attr + '>' + items.map(function (t, i) { return '<button class="' + (i === on ? 'on' : '') + '" data-i="' + i + '">' + esc(t) + '</button>'; }).join('') + '</div>'; }
+
+  function leafOf() { var f = DATA[state.firm], p = f.plans[state.plan]; return p.sub ? p.sub[state.sub].leaf : p.leaf; }
+
+  function render() {
+    var f = DATA[state.firm], p = f.plans[state.plan];
+    $('#accTitle').textContent = f.title; $('#accCmp').textContent = 'השווה מסלולים וגדלים של ' + f.name;
+    /* level 1: only when the firm has more than one plan; level 2: only when the chosen plan has sub-options */
+    var pick = '';
+    if (f.plans.length > 1) pick += '<div class="row">' + toggle(f.plans.map(function (x) { return x.label; }), state.plan, 'data-lv="1"') + (p.caption ? '<span class="lbl">' + esc(p.caption) + '</span>' : '') + '</div>';
+    if (p.sub) pick += '<div class="row"><span class="lbl">' + esc(p.subLabel) + '</span>' + toggle(p.sub.map(function (x) { return x.label; }), state.sub, 'data-lv="2"') + '</div>';
+    $('#accPick').innerHTML = pick; $('#accPick').style.display = pick ? '' : 'none';
+    var L = leafOf();
+    if (!L) { $('#accSimple').innerHTML = '<div class="empty">הנתונים של המסלול הזה יגיעו מהאתר. התבנית זהה למסלול הראשון.</div>'; $('#accCards').innerHTML = ''; $('#accHint').style.display = 'none'; latify($('#accounts')); return; }
+    $('#accHint').style.display = '';
+    $('#accSimple').innerHTML = '<h3>' + esc(L.title) + '</h3><div class="cols"><div><span class="h3 sky">המסלול</span><ul style="margin-top:12px">' + L.plan.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div><div><span class="h3 sky">לאחר מעבר המבחן</span><ul style="margin-top:12px">' + L.after.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div></div>' +
+      (L.steps ? '<span class="h3 sky">התהליך</span><div class="steps">' + L.steps.map(function (t, i) { return '<div class="step"><span class="num">' + (i + 1) + '</span>' + esc(t) + '</div>'; }).join('') + '</div>' : '') + '<p class="note">' + esc(L.note) + '</p>';
+    var cards = $('#accCards'); cards.style.setProperty('--n', Math.min(L.sizes.length, 5));
+    cards.innerHTML = L.sizes.map(function (c, i) {
+      var front = '<div class="face front"><div class="top"><div class="sz">' + esc(c.size) + '<small>' + esc(c.sub) + '</small></div><span class="tag">מבחן</span></div>' + rows(c.rows) +
+        (c.toggles ? c.toggles.map(function (t) { return '<div class="tg full">' + t.map(function (x, j) { return '<button class="' + (j === 0 ? 'on' : '') + '">' + esc(x) + '</button>'; }).join('') + '</div>'; }).join('') : '') +
+        '<div class="price"><span class="l">מחיר המבחן עם קוד ANTAR</span><span class="p">' + (c.price.was ? '<s>' + esc(c.price.was) + '</s>' : '') + '<b>' + esc(c.price.now) + '</b></span><span class="n">' + esc(c.price.note) + '</span>' + (c.price.save ? '<span class="save">' + esc(c.price.save) + '</span>' : '') + '</div>' +
+        rows(c.rows2) + '<a class="gbtn" href="#">' + esc(c.cta) + '</a>' + (c.funded ? '<button class="lnk flipl" data-flip="' + i + '">↻ הצג חשבון ממומן</button>' : '') + '</div>';
+      var back = c.funded ? '<div class="face back"><div class="top"><div class="sz">' + esc(c.size) + '<small>' + esc(c.sub) + '</small></div><span class="tag">' + esc(c.funded.title) + '</span></div><span class="bh">חוקי המסחר בחשבון הממומן</span>' + rows(c.funded.rows) + '<button class="lnk flipl" data-flip="' + i + '">↻ חזור למבחן</button></div>' : '';
+      return '<article class="acard' + (i === state.sel ? ' sel' : '') + (i === state.flip ? ' flip' : '') + '" data-i="' + i + '"><span class="badge">נבחר - הדף מותאם לחשבון זה</span><div class="in">' + front + back + '</div></article>';
+    }).join('');
+    latify($('#accounts'));
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('#accPick .tg button'); if (b) { var lv = b.parentNode.dataset.lv, i = +b.dataset.i; if (lv === '1') { state.plan = i; state.sub = 0; } else state.sub = i; var L = leafOf(); state.sel = L ? L.sel : 0; state.flip = -1; render(); return; }
+    var fl = e.target.closest('[data-flip]'); if (fl) { var k = +fl.dataset.flip; state.flip = state.flip === k ? -1 : k; render(); return; }
+    var tg = e.target.closest('.acard .tg button'); if (tg) { tg.parentNode.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === tg); }); return; }
+    var c = e.target.closest('.acard'); if (c && !e.target.closest('a,button')) { state.sel = +c.dataset.i; render(); return; }
+    var t = e.target.closest('.fp-tpl button'); if (t) { setFirm(t.dataset.f); $('#accounts').scrollIntoView({ behavior: 'smooth' }); return; }
+    var cp = e.target.closest('[data-copy]'); if (cp) { try { navigator.clipboard.writeText(cp.dataset.copy); } catch (x) {} return; }
+    var sz = e.target.closest('#wdSize button, .fp-rules .tg button'); if (sz) { sz.parentNode.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === sz); }); if (sz.closest('#wdSize')) setWd(sz.textContent.trim()); return; }
+  });
+
+  function setFirm(id) {
+    state.firm = DATA[id] ? id : 'apex'; state.plan = 0; state.sub = 0; var L = leafOf(); state.sel = L ? L.sel : 0; state.flip = -1;
+    document.querySelectorAll('.fp-tpl button').forEach(function (b) { b.classList.toggle('on', b.dataset.f === state.firm); });
+    render();
+  }
+
+  /* withdrawals follow the chosen size (Apex Intraday numbers) */
+  var WD = { '25K': ['$26,100', '$26,600', '$1,000', '$27,100'], '50K': ['$52,100', '$52,600', '$1,500', '$53,600'], '100K': ['$103,100', '$103,600', '$2,000', '$105,100'], '150K': ['$154,100', '$154,600', '$2,500', '$156,600'] };
+  var CAPS = [1500, 2000, 2500, 2500, 3000, 3000];
+  function setWd(k) { var v = WD[k]; if (!v) return; document.querySelectorAll('[data-w="buffer"]').forEach(function (n) { n.textContent = v[0]; }); document.querySelectorAll('[data-w="minbal"]').forEach(function (n) { n.textContent = v[1]; latify(n.parentNode); }); }
+  $('#wdBars').innerHTML = CAPS.map(function (c, i) { return '<div><b>$' + c + '</b><i style="height:' + Math.round(c / 3000 * 160) + 'px"></i><span>משיכה ' + (i + 1) + '</span></div>'; }).join('');
+
+  /* rules */
+  var R = [['no', 'אסור', 'Hedging / גידור', 'Hedging', 'אסור להחזיק לונג ושורט במקביל על אותו נכס או על נכסים קורלטיביים.', 'צפו בהסבר ←'], ['no', 'אסור', 'החזקת עסקאות ללילה', 'Overnight Holding', 'אסור להשאיר פוזיציות פתוחות מעבר לסגירת השוק.', 'הסבר ←'], ['ok', 'מותר', 'מסחר בזמן חדשות', 'News Trading', 'מותר לסחור בזמן חדשות כחלק מאסטרטגיית המסחר הרגילה.', 'צפו בהסבר ←'],
+    ['no', 'אסור', 'אוטומציה / Bots / Algo', 'Automated Trading', 'מסחר אוטומטי, אלגוריתמים ובוטים אינם מותרים.', 'הסבר ←'], ['lim', 'מוגבל / בתנאים', 'Copy Trading', 'Copy Trading', 'מותר רק בין החשבונות שלך.', 'הסבר ←'], ['na', 'לא צוין', 'DCA /\nהוספה לפוזיציה', 'DCA / Averaging Down', '', 'מה זה? ←'],
+    ['must', 'חובה', 'חוק עקביות - 50%', 'Consistency Rule', 'היום הרווחי ביותר חייב להיות פחות מ-50% מסך הרווח הרלוונטי למשיכה.', 'צפו בהסבר ←'], ['na', 'לא צוין', 'Micro Scalping', 'Micro Scalping', '', 'מה זה? ←'], ['no', 'אסור', 'HFT', 'High Frequency Trading', 'HFT ופעילות מהירה שנועדה לנצל את סביבת הסימולציה אסורים.', 'הסבר ←'],
+    ['na', 'לא רלוונטי', 'Flipping /\nימי מסחר מלאכותיים', 'Flipping / Artificial Trading Days', 'החוק אינו רלוונטי ל-Apex במסגרת המטריצה הנוכחית.', 'צפו בהסבר ←'], ['lim', 'מוגבל / בתנאים', 'מגבלת שעות מסחר -\n4:59 PM ET', 'Restricted Trading Hours', 'חובה לסגור את כל הפוזיציות לפני סגירת השוק.', 'הסבר ←'], ['must', 'חובה', 'חוסר פעילות', 'Inactivity Rule', 'צריך לפחות 2 ימי מסחר עם רווח נטו של $50 בתוך 30 ימים רצופים.', 'הסבר ←']];
+  $('#rulesGrid').innerHTML = R.map(function (r) { return '<article class="rule ' + r[0] + '"><div class="hd"><h3>' + esc(r[2]) + '</h3><span class="st">' + r[1] + '</span></div><span class="en2">' + esc(r[3]) + '</span>' + (r[4] ? '<p>' + esc(r[4]) + '</p>' : '') + '<a class="lnk" href="#">' + r[5] + '</a></article>'; }).join('');
+
+  /* sticky page nav: jump and follow the reader */
+  var navB = document.querySelectorAll('#fpNav button');
+  navB.forEach(function (b) { b.addEventListener('click', function () { var t = document.getElementById(b.dataset.go); if (t) window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 150, behavior: 'smooth' }); }); });
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) navB.forEach(function (b) { b.classList.toggle('on', b.dataset.go === e.target.id); }); }); }, { rootMargin: '-45% 0px -50% 0px' });
+  navB.forEach(function (b) { var t = document.getElementById(b.dataset.go); if (t) io.observe(t); });
+  var hdr = document.getElementById('hdr'); if (hdr) document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px');
+
+  var q = new URLSearchParams(location.search).get('firm');
+  setFirm(q || 'apex');
+  latify(document.getElementById('fp'));
+})();
+</script>
