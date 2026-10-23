@@ -1,5 +1,9 @@
 # joins the section parts into index.html (styles to the head, markup in order)
 import re, glob, os
+def latin_fallback(html):
+    # Reforma has no Latin letters: any English that slips into a Reforma run falls back to Roboto, never to a system font
+    return re.sub(r'"Fb Reforma"(?!\s*;)(?!\s*,\s*"?Roboto)', '"Fb Reforma", "Roboto"', html)
+
 D = os.path.dirname(os.path.abspath(__file__))
 shell = open(f'{D}/shell.html', encoding='utf-8').read()
 styles, bodies = [], []
@@ -19,5 +23,5 @@ def inline(css):
 shell = inline(shell)
 styles = [inline(s) for s in styles]
 out = shell.replace('<!--PART-STYLES-->', '\n'.join(styles)).replace('<!--PARTS-->', '\n\n'.join(bodies))
-open(f'{D}/index.html', 'w', encoding='utf-8').write(out)
+open(f'{D}/index.html', 'w', encoding='utf-8').write(latin_fallback(out))
 print('built', len(bodies), 'parts')

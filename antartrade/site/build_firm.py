@@ -1,5 +1,9 @@
 # joins the firm page: the homepage shell, header and footer around the firm-page parts, into firm.html
 import re, glob, os
+def latin_fallback(html):
+    # Reforma has no Latin letters: any English that slips into a Reforma run falls back to Roboto, never to a system font
+    return re.sub(r'"Fb Reforma"(?!\s*;)(?!\s*,\s*"?Roboto)', '"Fb Reforma", "Roboto"', html)
+
 D = os.path.dirname(os.path.abspath(__file__))
 import base64
 def inline(css):
@@ -17,5 +21,5 @@ for p in parts:
     bodies.append(f'<!-- {os.path.basename(p)} -->\n' + re.sub(r'<style>.*?</style>', '', s, flags=re.S).strip())
 shell = inline(open(f'{D}/shell.html', encoding='utf-8').read()).replace('<title>AntarTrade - דף הבית</title>', '<title>Apex Trader Funding - AntarTrade</title>')
 out = shell.replace('<!--PART-STYLES-->', '\n'.join(inline(s) for s in styles)).replace('<!--PARTS-->', '\n\n'.join(bodies))
-open(f'{D}/firm.html', 'w', encoding='utf-8').write(out)
+open(f'{D}/firm.html', 'w', encoding='utf-8').write(latin_fallback(out))
 print('built firm.html from', len(parts), 'parts')

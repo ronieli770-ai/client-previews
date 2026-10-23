@@ -6,10 +6,15 @@
 <meta name="robots" content="noindex, nofollow">
 <title>AntarTrade - דף הבית</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=IBM+Plex+Sans+Hebrew:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400&display=swap" rel="stylesheet">
 <style>
   @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
   @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
+  /* Hebrew letters inside anything set in Roboto (code chips, numbers, "הועתק" swaps) render in Reforma, never in a default font */
+  @font-face { font-family: "Roboto"; font-style: normal; font-weight: 400; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; font-display: swap; }
+  @font-face { font-family: "Roboto"; font-style: normal; font-weight: 500; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; font-display: swap; }
+  @font-face { font-family: "Roboto"; font-style: normal; font-weight: 600; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; font-display: swap; }
+  @font-face { font-family: "Roboto"; font-style: normal; font-weight: 700; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); unicode-range: U+0590-05FF, U+FB1D-FB4F; font-display: swap; }
   @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
   @property --sx { syntax: "<length>"; inherits: true; initial-value: 0px; }
   @property --sy { syntax: "<length>"; inherits: true; initial-value: 0px; }
@@ -371,7 +376,7 @@
   // ---------- bot: floating button + chat panel; the hero search field opens it ----------
   const fab = document.createElement('button'); fab.className = 'bot-fab'; fab.type = 'button'; fab.setAttribute('aria-label', 'פתח צ׳אט'); document.body.appendChild(fab);
   const panel = document.createElement('div'); panel.className = 'bot-panel'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'העוזר של AntarTrade');
-  panel.innerHTML = '<header><span>העוזר החכם של AntarTrade</span><button type="button" aria-label="סגירה">✕</button></header>'
+  panel.innerHTML = '<header><span>העוזר החכם של AntarTrade</span><button type="button" aria-label="סגירה"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>'
     + '<div class="msgs"><div class="m bot">היי! אני כאן כדי לעזור לבחור חברת מימון, להבין חוקים ולמצוא מבצעים. מה תרצו לדעת?</div></div>'
     + '<div class="chips"><button type="button">מהו חוק העקביות באפקס?</button><button type="button">איזו חברה הכי משתלמת עכשיו?</button><button type="button">מה ההבדל בין EOD ל-Intraday?</button></div>'
     + '<form><input type="text" autocomplete="off" placeholder="כתבו שאלה..." aria-label="שאלה"><button type="submit">שליחה</button></form>';
