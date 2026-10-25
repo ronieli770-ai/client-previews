@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AntarTrade - קרוסלת מבצעים בתנועה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; unicode-range: U+0590-05FF, U+FB1D-FB4F, U+0020-002F; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; unicode-range: U+0590-05FF, U+FB1D-FB4F, U+0020-002F; }
+  :root { --sky: #7dc6ff; --vio: #8c7bff; --bg: #12161f; --card: #0b0e14; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: #fff; font-family: "Fb Reforma", "Roboto", sans-serif; }
+  .lat { font-family: "Roboto", sans-serif; }
+
+  /* the deals page hero from Figma: text on the right, the running deals on the left */
+  .hero { position: relative; overflow: hidden; min-height: 660px; display: flex; align-items: center;
+    background: radial-gradient(900px 420px at 70% 8%, rgba(46,139,216,.42), rgba(46,139,216,0) 100%), var(--bg); }
+  .hero::before { content: ""; position: absolute; inset: 0; background: url("../../site/img/firm-floor.svg") center top / 1728px 730px no-repeat; opacity: .7;
+    -webkit-mask-image: linear-gradient(transparent 50%, rgba(0,0,0,.6) 60%, #000 70%, rgba(0,0,0,.45) 84%, transparent 96%); mask-image: linear-gradient(transparent 50%, rgba(0,0,0,.6) 60%, #000 70%, rgba(0,0,0,.45) 84%, transparent 96%); }
+  .wrap { position: relative; width: min(1171px, calc(100% - 32px)); margin: 0 auto; display: flex; align-items: center; gap: 60px; }
+  .text { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+  .crumbs { font-size: 16px; color: rgba(255,255,255,.5); display: flex; gap: 8px; } .crumbs b { color: #fff; font-weight: 500; }
+  .tag { padding: 5px 12px; border-radius: 999px; font-weight: 500; font-size: 16px; background: linear-gradient(90deg, #2e5474, #55a6e6); }
+  h1 { margin: 0; font-weight: 500; font-size: 74px; line-height: .9; background: linear-gradient(90deg, #61b1f2 0%, #fff 78%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { margin: 0; font-size: 20px; line-height: 1.2; color: rgba(255,255,255,.7); }
+  .stats { display: flex; gap: 10px; flex-wrap: wrap; }
+  .stats > span { height: 44px; padding: 0 20px; border-radius: 999px; display: inline-flex; align-items: center; background: rgba(255,255,255,.06); color: rgba(255,255,255,.85); font-size: 16px; }
+  .stats > span.hot { background: linear-gradient(90deg, #2e5474, #55a6e6); color: #fff; }
+
+  /* three straight rows, each running the opposite way to the one above; both ends fade out */
+  .runner { width: 560px; height: 400px; flex: none; display: flex; flex-direction: column; justify-content: center; gap: 16px; overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 24%, #000 72%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 24%, #000 72%, transparent 100%); }
+  .row { display: flex; width: max-content; animation: run var(--t, 40s) linear infinite; }
+  .row.back { animation-direction: reverse; }
+  .runner:hover .row { animation-play-state: paused; }
+  .set { display: flex; gap: 16px; padding-left: 16px; }
+  @keyframes run { from { transform: translateX(0); } to { transform: translateX(50%); } }
+  @media (prefers-reduced-motion: reduce) { .row { animation: none; } }
+
+  .deal { width: 210px; height: 118px; flex: none; border-radius: 24px; padding: 20px 24px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 12px;
+    background: radial-gradient(90% 90% at 0% 100%, color-mix(in srgb, var(--c) 26%, transparent), transparent 70%), var(--card);
+    border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); text-decoration: none; color: #fff; transition: transform .25s ease, border-color .25s ease; }
+  .deal:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--c) 60%, transparent); }
+  .deal .top { display: flex; align-items: center; gap: 10px; }
+  .deal .top img { width: 30px; height: 30px; object-fit: contain; }
+  .deal .top b { font: 500 13px/1.2 "Roboto", sans-serif; }
+  .deal .val { display: flex; align-items: baseline; gap: 8px; }
+  .deal .val small { font-size: 16px; font-weight: 500; color: rgba(255,255,255,.7); }
+  .deal .val strong { font: 600 26px/1 "Roboto", sans-serif; color: var(--c); }
+  .sky { --c: var(--sky); } .vio { --c: var(--vio); }
+
+  .note { width: min(1171px, calc(100% - 32px)); margin: 28px auto 60px; color: rgba(255,255,255,.55); font-size: 15px; line-height: 1.6; }
+  @media (max-width: 1100px) { .wrap { flex-direction: column; align-items: stretch; } .runner { width: 100%; } }
+  @media (max-width: 760px) { h1 { font-size: 44px; line-height: .98; } .hero { padding: 110px 0 56px; } .runner { height: 380px; } }
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wrap">
+    <div class="text">
+      <div class="crumbs"><span>דף הבית</span><span>/</span><b>מבצעים</b></div>
+      <span class="tag">מבצעים בלעדיים</span>
+      <h1>מבצעים והנחות<br>לחברות מימון</h1>
+      <p class="sub">כל ההטבות הבלעדיות שלי לסוחרי חברות מימון - במקום אחד</p>
+      <div class="stats"><span><span class="lat">41</span>&nbsp;מבצעים פעילים</span><span><span class="lat">35</span>&nbsp;חברות מימון</span><span class="hot">עד&nbsp;<span class="lat">90%</span>&nbsp;הנחה</span></div>
+    </div>
+    <div class="runner" id="runner" aria-label="המבצעים בתנועה"></div>
+  </div>
+</section>
+<p class="note">הדגמת תנועה לוויזואל של עמוד המבצעים. שלוש שורות רצות בכיוונים מתחלפים ונעצרות כשהעכבר עליהן. בקוד, החברות והכלים והאחוז "עד X%" של כל אחד ייקראו מהנתונים של נועם ויתעדכנו לבד.</p>
+<script>
+  // up to X% per firm or tool (in the real page these come from Noam's live data)
+  const F = { apex: ['Apex', 90, 'sky'], takeprofit: ['Take Profit', 40, 'sky'], lucid: ['Lucid', 40, 'sky'], fundednext: ['FundedNext', 40, 'sky'], bulenox: ['Bulenox', 89, 'sky'],
+    tradesyncer: ['Tradesyncer', 50, 'vio'], tradezella: ['TradeZella', 20, 'vio'], replikanto: ['Replikanto', 20, 'vio'], fxreplay: ['FX Replay', 15, 'vio'] };
+  const ROWS = [['apex', 'takeprofit', 'lucid', 'fundednext', 'bulenox'], ['tradesyncer', 'tradezella', 'replikanto', 'fxreplay'], ['bulenox', 'fundednext', 'apex', 'takeprofit', 'lucid']];
+  const card = k => { const [n, p, c] = F[k]; return `<a class="deal ${c}" href="#"><span class="top"><img src="img/${k}.png" alt=""><b>${n}</b></span><span class="val"><small>עד</small><strong>${p}%</strong></span></a>`; };
+  const runner = document.getElementById('runner');
+  ROWS.forEach((r, i) => {
+    // each set repeats until it is wider than the window, then the set is doubled for a seamless loop
+    let set = r.map(card).join(''); while ((set.match(/class="deal/g) || []).length < 6) set += r.map(card).join('');
+    runner.insertAdjacentHTML('beforeend', `<div class="row${i % 2 ? ' back' : ''}" style="--t:${[42, 50, 46][i]}s"><div class="set">${set}</div><div class="set" aria-hidden="true">${set}</div></div>`);
+  });
+</script>
+</body>
+</html>
