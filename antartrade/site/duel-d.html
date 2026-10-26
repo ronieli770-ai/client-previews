@@ -385,7 +385,7 @@
 .dq-bar .s img { width:26px; height:26px; object-fit:contain; }
 .dq-bar .s.b { justify-content:flex-end; }
 .dq-bar .score { display:flex; align-items:center; gap:10px; font:700 24px "Roboto"; direction:ltr; }
-.dq-bar .score small { font:400 12px "Fb Reforma","Roboto"; color:rgba(255,255,255,.55); }
+.dq-bar .score small { font:400 14px "Fb Reforma","Roboto"; color:rgba(255,255,255,.55); }
 .dq-bar .score .ahead { color:var(--sky); }
 /* rounds */
 .dq-round { position:relative; margin-top:22px; padding:8px 34px 18px; border-radius:32px; border:1px solid transparent;
@@ -1008,12 +1008,12 @@ addEventListener('DOMContentLoaded', () => { const v = document.querySelector('.
 
 <section class="dq-full" id="full" data-theme="light"><div class="w">
   <div class="head">
-    <div><span class="pill">הדו קרב המלא</span><h2>סיבוב אחרי סיבוב</h2><p>כל נתון מול נתון, והיתרון מסומן בצד שמוביל.</p></div>
+    <div><span class="pill">הדו קרב המלא</span><h2>כל הנתונים, נתון מול נתון</h2><p>היתרון מסומן בצד שמוביל בכל נתון.</p></div>
     <div class="dq-tg" role="tablist"><button class="on" data-v="all">כל הפרטים</button><button data-v="diff">רק ההבדלים</button></div>
   </div>
   <div class="dq-bar">
     <div class="s a"><img src="img/firm-takeprofit.svg" alt=""><span>Take Profit 50K</span></div>
-    <div class="score"><span data-tot="0">0</span><small>יתרונות</small><span data-tot="1">0</span></div>
+    <div class="score"><small>מול</small></div>
     <div class="s b"><span>Lucid Trading Pro 50K</span><img src="img/lucid-fig-dark.png" alt=""></div>
   </div>
   <div id="dqRounds"></div>
@@ -1051,14 +1051,11 @@ addEventListener('DOMContentLoaded', () => { const v = document.querySelector('.
   const tot = [0, 0]; window.__dqRounds = [];
   box.innerHTML = R.map(([title, rows], i) => {
     const sc = [0, 0]; rows.forEach(r => { if (r[3] >= 0) sc[r[3]]++; }); tot[0] += sc[0]; tot[1] += sc[1]; window.__dqRounds.push([title, sc]);
-    return `<div class="dq-round"><div class="rh"><span class="nm">Take Profit</span><div class="rt"><small>סיבוב ${i + 1} מתוך ${R.length}</small><h3>${title}</h3>
-      <div class="rs"><span class="${sc[0] > sc[1] ? 'w' : ''}">${sc[0]}</span>:<span class="${sc[1] > sc[0] ? 'w' : ''}">${sc[1]}</span></div></div><span class="nm b">Lucid Trading</span></div>
+    return `<div class="dq-round"><div class="rh"><span class="nm">Take Profit</span><div class="rt"><h3>${title}</h3></div><span class="nm b">Lucid Trading</span></div>
       ${rows.map(([k, a, b, adv, hint, long]) => `<div class="dq-row${a === b ? ' same' : ''}"><div class="v a${adv === 0 ? ' adv' : ''}${long ? ' long' : ''}"><span>${a}</span></div><div class="k">${/^[A-Z]/.test(k) ? L(k) : k}${hint ? `<small>${hint}</small>` : ''}</div><div class="v b${adv === 1 ? ' adv' : ''}${long ? ' long' : ''}"><span>${b}</span></div></div>`).join('')}</div>`;
   }).join('');
   window.__dqTotals = tot;
-  document.querySelectorAll('[data-tot]').forEach(el => el.textContent = tot[+el.dataset.tot]);
   const lead = tot[0] === tot[1] ? -1 : (tot[0] > tot[1] ? 0 : 1);
-  if (lead >= 0) document.querySelector(`[data-tot="${lead}"]`).classList.add('ahead');
   const full = document.querySelector('.dq-full');
   full.querySelectorAll('.dq-tg button').forEach(b => b.addEventListener('click', () => {
     full.querySelectorAll('.dq-tg button').forEach(x => x.classList.toggle('on', x === b));
@@ -1070,7 +1067,7 @@ addEventListener('DOMContentLoaded', () => { const v = document.querySelector('.
   document.querySelectorAll('.dq-chip').forEach(c => c.addEventListener('click', () => document.querySelectorAll('.dq-chip').forEach(x => x.classList.toggle('on', x === c))));
 })();
 </script>
-</main><nav class="dq-ver"><a class="" href="duel-a.html">A<span class="t"> · כפפות</span></a><a class="" href="duel-b.html">B<span class="t"> · זירת לוגואים</span></a><a class="" href="duel-c.html">C<span class="t"> · לוח תוצאות</span></a><a class="on" href="duel-d.html">D<span class="t"> · מסך מפוצל</span></a><a class="" href="duel-e.html">E<span class="t"> · פינות הזירה</span></a><a class="" href="duel-f.html">F<span class="t"> · כפפה לכל צד</span></a></nav>
+</main><nav class="dq-ver"><a class="" href="duel-a.html">A<span class="t"> · כפפות</span></a><a class="" href="duel-b.html">B<span class="t"> · זירת לוגואים</span></a><a class="" href="duel-c.html">C<span class="t"> · לוח תוצאות</span></a><a class="on" href="duel-d.html">D<span class="t"> · מסך מפוצל</span></a><a class="" href="duel-e.html">E<span class="t"> · פינות הזירה</span></a><a class="" href="duel-f.html">F<span class="t"> · כפפה לכל צד</span></a><a class="" href="duel-g.html">G<span class="t"> · קרני אור</span></a><a class="" href="duel-h.html">H<span class="t"> · לוגואים בתלת מימד</span></a><a class="" href="duel-i.html">I<span class="t"> · כרטיסים מתנגשים</span></a></nav>
 
 <footer class="s-footer" data-theme="dark">
   <div class="s-footer__in">
