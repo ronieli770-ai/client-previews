@@ -1,0 +1,67 @@
+<style>
+/* J: the two picker cards lean on one diagonal like a fighting-game select screen (content stays upright); the VS sits in the slanted gap with a thin light line under it that crackles now and then; each firm's 3D logo rises big out of its card and hovers */
+.hj { padding-top:140px; --sk:-7deg; }
+.hj h1 { font-size:56px; }
+.hj .dq-chips { margin-top:20px; }
+.hj .dq-ring { margin-top:196px; grid-template-columns:1fr 110px 1fr; }
+.hj .dq-f { transform:skewX(var(--sk)); }
+.hj .dq-f > * { transform:skewX(calc(var(--sk) * -1)); }
+.hj .dq-f[data-side="0"] { animation:hjA .8s cubic-bezier(.2,.9,.25,1) both; }
+.hj .dq-f[data-side="1"] { animation:hjB .8s cubic-bezier(.2,.9,.25,1) .05s both; }
+@keyframes hjA { from { opacity:0; translate:60px 0; } to { opacity:1; translate:0 0; } }
+@keyframes hjB { from { opacity:0; translate:-60px 0; } to { opacity:1; translate:0 0; } }
+/* the big 3D logo */
+.hj .l3d { position:absolute; top:-176px; left:50%; width:240px; height:240px; margin-left:-120px; z-index:3; pointer-events:none; }
+.hj .l3d img { width:100%; height:100%; object-fit:contain; display:block; filter:drop-shadow(0 30px 34px rgba(0,0,0,.55)); }
+.hj .l3d::after { content:""; position:absolute; left:50%; bottom:6px; width:150px; height:22px; margin-left:-75px; border-radius:50%; background:radial-gradient(closest-side, rgba(125,198,255,.35), transparent); filter:blur(4px); animation:hjShadow 5s ease-in-out infinite; }
+.hj .dq-f[data-side="0"] .l3d img { animation:hjIn .9s cubic-bezier(.2,.9,.25,1) .2s both, hjFloat 5s ease-in-out 1.1s infinite; }
+.hj .dq-f[data-side="1"] .l3d img { animation:hjIn .9s cubic-bezier(.2,.9,.25,1) .3s both, hjFloat 5s ease-in-out 1.6s infinite; }
+@keyframes hjIn { from { opacity:0; transform:translateY(60px) scale(.7); } to { opacity:1; transform:none; } }
+@keyframes hjFloat { 0%, 100% { translate:0 0; rotate:0deg; } 50% { translate:0 -14px; rotate:2deg; } }
+@keyframes hjShadow { 0%, 100% { scale:1; opacity:1; } 50% { scale:.8; opacity:.6; } }
+/* VS + the light line in the slanted gap */
+.hj .dq-vs { z-index:3; flex-direction:column; justify-content:flex-start; padding-top:34px; }
+.hj .dq-vs::before { display:none; }
+.hj .dq-vs i { animation:hjVs .5s cubic-bezier(.2,.9,.25,1.4) .55s both; }
+@keyframes hjVs { from { scale:.3; opacity:0; } to { scale:1; opacity:1; } }
+.hj .bolt { position:absolute; top:104px; bottom:8%; left:50%; width:40px; margin-left:-20px; transform:skewX(var(--sk)); transform-origin:top; pointer-events:none; }
+.hj .bolt svg { width:100%; height:100%; overflow:visible; }
+.hj .bolt .base { stroke:url(#hjFade); stroke-width:1.5; }
+.hj .bolt .zap { stroke:#d6ecff; stroke-width:1.6; fill:none; filter:drop-shadow(0 0 4px #7dc6ff) drop-shadow(0 0 10px rgba(125,198,255,.7)); opacity:0; animation:hjZap 4.2s linear 1.2s infinite; }
+.hj .bolt .zap.b { animation-delay:3.3s; animation-duration:5.6s; }
+@keyframes hjZap { 0%, 100% { opacity:0; } 2% { opacity:1; } 4% { opacity:.2; } 6% { opacity:.9; } 10% { opacity:0; } }
+.hj .bolt .spark { fill:#fff; filter:drop-shadow(0 0 6px #7dc6ff); animation:hjRun 2.6s cubic-bezier(.5,0,.5,1) 1s infinite; }
+@keyframes hjRun { 0% { transform:translateY(0); opacity:0; } 10% { opacity:1; } 85% { opacity:1; } 100% { transform:translateY(var(--h, 300px)); opacity:0; } }
+@media (max-width:979px) {
+  .hj { --sk:-4deg; } .hj .dq-ring { grid-template-columns:1fr; margin-top:150px; }
+  .hj .dq-vs { padding:0; height:70px; justify-content:center; } .hj .bolt { display:none; }
+  .hj .dq-f[data-side="1"] { margin-top:160px !important; }
+}
+@media (max-width:760px) { .hj { padding-top:110px; } .hj h1 { font-size:40px; } .hj .l3d { width:170px; height:170px; margin-left:-85px; top:-128px; } .hj .dq-ring { margin-top:120px; } .hj .dq-f[data-side="1"] { margin-top:130px !important; } }
+@media (prefers-reduced-motion:reduce) { .hj .dq-f, .hj .l3d img, .hj .l3d::after, .hj .dq-vs i, .hj .bolt * { animation:none !important; } }
+</style>
+<section class="dq-hero hj" data-theme="dark"><div class="floor"></div><div class="w">
+  <div class="head">
+    <h1 class="grad">דו קרב חברות מימון</h1>
+    <p class="lead">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+  </div>
+  <!--CHIPS-->
+  <!--FIGHTERS-->
+</div></section>
+<script>
+addEventListener('DOMContentLoaded', () => {
+  const F = { 'Take Profit': ['takeprofit', 'img/firm-takeprofit.svg'], 'Lucid Trading': ['lucid', 'img/lucid-fig-dark.png'], 'Apex': ['apex', 'img/firm-apex.svg'], 'Bulenox': ['bulenox', 'img/firm-bulenox.svg'], 'FundedNext Futures': ['fundednext', 'img/firm-fundednext.svg'], 'Topstep': ['topstep', 'img/firm-topstep.svg'] };
+  const cards = document.querySelectorAll('.hj .dq-f'), vs = document.querySelector('.hj .dq-vs');
+  cards.forEach((c, k) => c.insertAdjacentHTML('afterbegin', `<span class="l3d"><img src="img/firm3d-${k ? 'lucid' : 'takeprofit'}.webp" alt=""></span>`));
+  /* the light line: a faint straight line, two jagged bolts that flash now and then, a spark running down */
+  const zig = (seed) => { let d = 'M20 0', y = 0; while (y < 400) { y += 14 + ((seed = (seed * 9301 + 49297) % 233280) / 233280) * 22; d += ` L${20 + (((seed * 7) % 13) - 6) * 1.3} ${Math.min(y, 400)}`; } return d; };
+  vs.insertAdjacentHTML('beforeend', `<span class="bolt"><svg viewBox="0 0 40 400" preserveAspectRatio="none"><defs><linearGradient id="hjFade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400"><stop offset="0" stop-color="#7dc6ff" stop-opacity=".9"/><stop offset="1" stop-color="#7dc6ff" stop-opacity="0"/></linearGradient></defs>
+    <line class="base" x1="20" y1="0" x2="20" y2="400"/><path class="zap" d="${zig(7)}"/><path class="zap b" d="${zig(31)}"/><circle class="spark" cx="20" cy="0" r="2.2"/></svg></span>`);
+  const bolt = vs.querySelector('.bolt'); const setH = () => bolt.style.setProperty('--h', bolt.getBoundingClientRect().height + 'px'); setH(); addEventListener('resize', setH);
+  const replay = () => document.querySelectorAll('.hj .dq-f, .hj .l3d img, .hj .dq-vs i').forEach(el => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; });
+  document.querySelectorAll('.hj .dq-chip').forEach(chip => chip.addEventListener('click', () => {
+    chip.textContent.split('vs').map(s => s.trim()).forEach((n, k) => { const f = F[n]; if (!f) return; cards[k].querySelector('.l3d img').src = `img/firm3d-${f[0]}.webp`; cards[k].querySelector('.co img').src = f[1]; cards[k].querySelector('.co .n').textContent = n; });
+    replay();
+  }));
+});
+</script>
