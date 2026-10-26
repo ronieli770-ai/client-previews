@@ -278,9 +278,9 @@
    Data = Noam's live /comparison/head-to-head, read per firm, plan and size; the advantage tags follow his headToHeadAdvantage rules */
 .dq { --sky:#7dc6ff; --sky2:#61b1f2; --blue:#2e8bd8; --ice:#d6ecff; --navy:#12161f; background:#12161f; color:#fff; font-family:"Fb Reforma","Roboto",sans-serif; }
 .dq *, .dq *::before, .dq *::after { box-sizing:border-box; }
-.dq .lat { font-family:"Roboto",sans-serif; font-weight:300; }   /* English inside Hebrew text: one weight below the Reforma around it (400 -> 300, 500 -> 400) */
+.dq .lat { font-family:"Roboto",sans-serif; font-weight:500; }   /* English inside Hebrew text: one weight above the Reforma around it (400 -> 500, 500 -> 600) */
 .dq .lat.solo { font-weight:500; }   /* a value that is only numbers / English is not balanced against anything, it keeps its weight */
-.dq-pw h4 .lat, .dq-acc .tg .lat, .dq .btn-halo .lat, .dq-cbtn .lat { font-weight:400; }
+.dq-pw h4 .lat, .dq-acc .tg .lat, .dq .btn-halo .lat, .dq-cbtn .lat { font-weight:600; }
 .dq button { font-family:inherit; }
 .dq .w { width:min(1171px, calc(100% - 32px)); margin:0 auto; position:relative; }
 .dq .grad { background:linear-gradient(90deg,#61b1f2,#fff 78%); -webkit-background-clip:text; background-clip:text; color:transparent; }
@@ -366,7 +366,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 /* coupon: a plain capsule with the site's grey copy button (no dashed frame) */
 .dq-f .code { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:6px 16px 6px 6px; border-radius:999px; background:rgba(255,255,255,.07); }
 .dq-f .code .t { display:flex; align-items:center; gap:10px; font-size:14px; color:rgba(255,255,255,.6); }
-.dq-f .code b { font:600 18px "Roboto"; letter-spacing:.06em; color:var(--sky); }
+.dq-f .code b { font:500 18px "Roboto"; letter-spacing:.06em; color:var(--sky); }
 .dq-f .code button, .dq-copy { display:inline-flex; align-items:center; gap:7px; border:0; background:#eef1f5; color:#12161f; font:500 15px "Fb Reforma","Roboto"; height:39px; padding:0 16px; border-radius:999px; cursor:pointer; }
 .dq-f .code button img { width:15px; height:15px; }
 .dq-f .simple { align-self:flex-start; display:inline-flex; align-items:center; gap:7px; border:0; background:none; padding:0; font:500 15px "Fb Reforma","Roboto"; color:var(--sky); cursor:pointer; }
@@ -421,7 +421,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 
 /* ---------- the full duel (white section) ---------- */
 .dq-full { background:#fff; color:#12161f; padding:110px 0 120px; }
-.dq-full .lat { font-weight:300; } .dq-full .lat.solo { font-weight:500; }
+.dq-full .lat { font-weight:500; }
 .dq-full .head { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:30px; }
 .dq-full .head .pill { background:rgba(97,177,242,.14); color:#2e8bd8; }
 .dq-full h2 { margin:12px 0 0; font:500 45px/1.1 "Fb Reforma","Roboto"; color:#12161f; }
@@ -433,7 +433,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 .dq-bar { position:sticky; top:84px; z-index:5; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; padding:10px 18px; margin-bottom:18px; border-radius:999px; background:#F3F7FB; }
 .dq-bar .s { display:flex; align-items:center; gap:10px; font:600 16px "Roboto"; color:#12161f; }
 .dq-bar .s .ic3d { width:30px; height:30px; }
-.dq-bar .s small { font:400 14px "Fb Reforma","Roboto"; color:rgba(18,22,31,.55); }
+.dq-bar .s small { font:500 14px "Roboto"; color:rgba(18,22,31,.55); }
 .dq-bar .s.b { justify-content:flex-end; }
 .dq-bar .m { font-size:14px; color:rgba(18,22,31,.55); }
 .dq-round { position:relative; margin-top:22px; padding:6px 34px 16px; border-radius:32px; border:1px solid transparent;
@@ -448,12 +448,12 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 .dq-row .v.b { justify-content:flex-end; text-align:left; }
 .dq-row .v > span { min-width:0; }
 .dq-row .v small { display:block; font-size:13px; color:rgba(18,22,31,.55); margin-top:2px; }
-.dq-row .v.adv { font-weight:500; } .dq-row .v.adv .lat { font-weight:400; } .dq-row .v.adv .lat.solo { font-weight:600; }
+.dq-row .v.adv { font-weight:500; } .dq-row .v.adv .lat { font-weight:600; }
 /* the advantage tag always sits to the LEFT of the value */
 .dq-row .v.adv::after { content:"יתרון"; order:2; flex:none; font:500 12px "Fb Reforma","Roboto"; color:#2e8bd8; background:rgba(97,177,242,.14); padding:3px 9px; border-radius:999px; }
 .dq-row .v.long { font-size:15px; }
 .dq-row .k { text-align:center; font-size:15px; color:rgba(18,22,31,.7); }
-.dq-row .k .lat { font-weight:300; } .dq-row .k .lat.solo { font-weight:400; }
+.dq-row .k .lat { font-weight:500; }
 .dq-full.diff .dq-row.same { display:none; }
 .dq-full.diff .dq-round.allsame { display:none; }
 
