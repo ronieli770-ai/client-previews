@@ -1,0 +1,87 @@
+<style>
+/* K: one thin slash of light cuts the arena on the diagonal, brightest at the middle and fading to both ends, with sparks drifting off it; big slanted VS letters sit on the slash. Cards lean on the same diagonal and each firm's 3D logo hovers above its card */
+.hk { padding-top:140px; --sk:-9deg; --tan:-0.158; }
+.hk h1 { font-size:56px; }
+.hk .dq-chips { margin-top:20px; }
+.hk .dq-ring { margin-top:196px; grid-template-columns:1fr 150px 1fr; }
+.hk .dq-f { transform:skewX(var(--sk)); }
+.hk .dq-f > * { transform:skewX(calc(var(--sk) * -1)); }
+.hk .dq-f[data-side="0"] { animation:hkA .8s cubic-bezier(.2,.9,.25,1) .5s both; }
+.hk .dq-f[data-side="1"] { animation:hkB .8s cubic-bezier(.2,.9,.25,1) .55s both; }
+@keyframes hkA { from { opacity:0; translate:50px 0; } to { opacity:1; translate:0 0; } }
+@keyframes hkB { from { opacity:0; translate:-50px 0; } to { opacity:1; translate:0 0; } }
+.hk .l3d { position:absolute; top:-176px; left:50%; width:240px; height:240px; margin-left:-120px; z-index:3; pointer-events:none; }
+.hk .l3d img { width:100%; height:100%; object-fit:contain; display:block; filter:drop-shadow(0 30px 34px rgba(0,0,0,.55)); }
+.hk .l3d::after { content:""; position:absolute; left:50%; bottom:6px; width:150px; height:22px; margin-left:-75px; border-radius:50%; background:radial-gradient(closest-side, rgba(125,198,255,.35), transparent); filter:blur(4px); animation:hkShadow 5s ease-in-out infinite; }
+.hk .dq-f[data-side="0"] .l3d img { animation:hkIn .9s cubic-bezier(.2,.9,.25,1) .8s both, hkFloat 5s ease-in-out 1.7s infinite; }
+.hk .dq-f[data-side="1"] .l3d img { animation:hkIn .9s cubic-bezier(.2,.9,.25,1) .9s both, hkFloat 5s ease-in-out 2.2s infinite; }
+@keyframes hkIn { from { opacity:0; transform:translateY(60px) scale(.7); } to { opacity:1; transform:none; } }
+@keyframes hkFloat { 0%, 100% { translate:0 0; rotate:0deg; } 50% { translate:0 -14px; rotate:2deg; } }
+@keyframes hkShadow { 0%, 100% { scale:1; opacity:1; } 50% { scale:.8; opacity:.6; } }
+/* the slash */
+.hk .dq-vs { z-index:4; }
+.hk .dq-vs::before, .hk .dq-vs > i { display:none; }
+.hk .slash { position:absolute; left:50%; top:-260px; bottom:-120px; width:3px; margin-left:-1.5px; transform:skewX(var(--sk)); pointer-events:none;
+  background:linear-gradient(rgba(214,236,255,0), rgba(125,198,255,.5) 22%, #fff 50%, rgba(125,198,255,.5) 78%, rgba(214,236,255,0));
+  box-shadow:0 0 10px 1px rgba(125,198,255,.8), 0 0 40px 6px rgba(46,139,216,.45); border-radius:3px; animation:hkCut .7s cubic-bezier(.7,0,.2,1) both; }
+@keyframes hkCut { from { clip-path:inset(0 0 100% 0); } to { clip-path:inset(0 0 0 0); } }
+.hk .halo { position:absolute; left:50%; top:50%; width:420px; height:420px; margin:-210px 0 0 -210px; border-radius:50%; pointer-events:none; background:radial-gradient(closest-side, rgba(125,198,255,.28), rgba(46,139,216,.08) 55%, transparent); animation:hkHalo 4s ease-in-out .7s infinite; }
+@keyframes hkHalo { 50% { opacity:.6; scale:.92; } }
+.hk .sparks { position:absolute; left:50%; top:50%; width:520px; height:700px; margin:-350px 0 0 -260px; pointer-events:none; }
+.hk .vs { position:absolute; left:50%; top:50%; translate:-50% -50%; display:flex; align-items:center; font:italic 700 104px/1 "Roboto"; letter-spacing:-.02em; pointer-events:none; direction:ltr;
+  filter:drop-shadow(0 0 18px rgba(125,198,255,.65)) drop-shadow(0 6px 18px rgba(0,0,0,.5)); }
+.hk .vs b { background:linear-gradient(180deg, #fff 8%, #d6ecff 40%, #7dc6ff 62%, #2e8bd8 100%); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:700; padding:0 .14em; margin:0 -.1em; }
+.hk .vs b:first-child { translate:-6px -14px; animation:hkV .5s cubic-bezier(.2,.9,.25,1.3) .55s both; }
+.hk .vs b:last-child { translate:6px 14px; animation:hkS .5s cubic-bezier(.2,.9,.25,1.3) .6s both; }
+@keyframes hkV { from { opacity:0; transform:translate(-40px, -30px); } to { opacity:1; transform:none; } }
+@keyframes hkS { from { opacity:0; transform:translate(40px, 30px); } to { opacity:1; transform:none; } }
+.hk .flash { position:absolute; left:50%; top:50%; width:260px; height:260px; margin:-130px 0 0 -130px; border-radius:50%; pointer-events:none; background:radial-gradient(closest-side, #fff, rgba(125,198,255,.5) 35%, transparent); opacity:0; animation:hkFlash .9s ease-out .5s both; }
+@keyframes hkFlash { 0% { opacity:0; scale:.2; } 25% { opacity:1; scale:1; } 100% { opacity:0; scale:1.6; } }
+@media (max-width:979px) {
+  .hk { --sk:-4deg; --tan:-0.07; } .hk .dq-ring { grid-template-columns:1fr; margin-top:150px; }
+  .hk .dq-vs { height:120px; } .hk .slash { top:-40px; bottom:-40px; } .hk .vs { font-size:72px; } .hk .halo { width:260px; height:260px; margin:-130px 0 0 -130px; }
+  .hk .dq-f[data-side="1"] { margin-top:150px !important; }
+  .hk .slash { transform:rotate(84deg); top:50%; bottom:auto; height:150vw; margin-top:-75vw; }
+}
+@media (max-width:760px) { .hk { padding-top:110px; } .hk h1 { font-size:40px; } .hk .l3d { width:170px; height:170px; margin-left:-85px; top:-128px; } .hk .dq-ring { margin-top:120px; } .hk .dq-f[data-side="1"] { margin-top:120px !important; } }
+@media (prefers-reduced-motion:reduce) { .hk .dq-f, .hk .l3d img, .hk .l3d::after, .hk .slash, .hk .halo, .hk .vs b, .hk .flash { animation:none !important; } }
+</style>
+<section class="dq-hero hk" data-theme="dark"><div class="floor"></div><div class="w">
+  <div class="head">
+    <h1 class="grad">דו קרב חברות מימון</h1>
+    <p class="lead">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+  </div>
+  <!--CHIPS-->
+  <!--FIGHTERS-->
+</div></section>
+<script>
+addEventListener('DOMContentLoaded', () => {
+  const F = { 'Take Profit': ['takeprofit', 'img/firm-takeprofit.svg'], 'Lucid Trading': ['lucid', 'img/lucid-fig-dark.png'], 'Apex': ['apex', 'img/firm-apex.svg'], 'Bulenox': ['bulenox', 'img/firm-bulenox.svg'], 'FundedNext Futures': ['fundednext', 'img/firm-fundednext.svg'], 'Topstep': ['topstep', 'img/firm-topstep.svg'] };
+  const hk = document.querySelector('.hk'), cards = hk.querySelectorAll('.dq-f'), vs = hk.querySelector('.dq-vs');
+  cards.forEach((c, k) => c.insertAdjacentHTML('afterbegin', `<span class="l3d"><img src="img/firm3d-${k ? 'lucid' : 'takeprofit'}.webp" alt=""></span>`));
+  vs.insertAdjacentHTML('beforeend', '<span class="halo"></span><span class="slash"></span><canvas class="sparks"></canvas><span class="flash"></span><span class="vs"><b>V</b><b>S</b></span>');
+  /* sparks: small specks leave the slash near its middle and drift up and outward, then fade */
+  const cv = vs.querySelector('.sparks'), cx = cv.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, 2);
+  const W = 520, H = 700; cv.width = W * dpr; cv.height = H * dpr; cx.scale(dpr, dpr);
+  const tan = () => parseFloat(getComputedStyle(hk).getPropertyValue('--tan')) || -0.158;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let P = [], burst = 0;
+  function spawn(n) { for (let i = 0; i < n; i++) { const y = (Math.random() - .5) * (burst ? 260 : 360); P.push({ x: W / 2 + tan() * y, y: H / 2 + y, vx: (Math.random() - .5) * .9, vy: -(.25 + Math.random() * .9), r: .6 + Math.random() * 1.6, life: 0, max: 60 + Math.random() * 90 }); } }
+  function tick() {
+    cx.clearRect(0, 0, W, H);
+    if (Math.random() < .35) spawn(1);
+    if (burst > 0) { spawn(6); burst--; }
+    P = P.filter(p => p.life < p.max);
+    for (const p of P) { p.life++; p.x += p.vx; p.y += p.vy; p.vy -= .004; const a = Math.sin(Math.PI * p.life / p.max);
+      cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 7); cx.fillStyle = `rgba(214,236,255,${a})`; cx.shadowColor = '#7dc6ff'; cx.shadowBlur = 8; cx.fill(); }
+    requestAnimationFrame(tick);
+  }
+  if (!reduce) { setTimeout(() => { burst = 10; }, 500); tick(); }
+  const replay = () => { hk.querySelectorAll('.dq-f, .l3d img, .slash, .vs b, .flash').forEach(el => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; }); setTimeout(() => { burst = 10; }, 500); };
+  hk.querySelectorAll('.dq-chip').forEach(chip => chip.addEventListener('click', () => {
+    chip.textContent.split('vs').map(s => s.trim()).forEach((n, k) => { const f = F[n]; if (!f) return; cards[k].querySelector('.l3d img').src = `img/firm3d-${f[0]}.webp`; cards[k].querySelector('.co img').src = f[1]; cards[k].querySelector('.co .n').textContent = n; });
+    replay();
+  }));
+  hk.addEventListener('click', e => { if (e.target.closest('.sizes button, .swap')) replay(); });
+});
+</script>
