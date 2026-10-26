@@ -1,0 +1,458 @@
+<style>
+/* duel page, the chosen version (C, scoreboard). A working prototype: every control changes the content.
+   Data = Noam's live /comparison/head-to-head, read per firm, plan and size; the advantage tags follow his headToHeadAdvantage rules */
+.dq { --sky:#7dc6ff; --sky2:#61b1f2; --blue:#2e8bd8; --ice:#d6ecff; --navy:#12161f; background:#12161f; color:#fff; font-family:"Fb Reforma","Roboto",sans-serif; }
+.dq *, .dq *::before, .dq *::after { box-sizing:border-box; }
+.dq .lat { font-family:"Roboto",sans-serif; font-weight:500; }
+.dq button { font-family:inherit; }
+.dq .w { width:min(1171px, calc(100% - 32px)); margin:0 auto; position:relative; }
+.dq .grad { background:linear-gradient(90deg,#61b1f2,#fff 78%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.dq .pill { display:inline-flex; padding:6px 14px; border-radius:999px; background:rgba(97,177,242,.14); color:var(--sky); font-size:13px; font-weight:500; line-height:1.2; }
+.dq .btn-halo > span { gap:8px; }
+.dq .btn-halo svg { width:14px; height:14px; }
+.dq .btn-halo.ghost { background:rgba(85,169,235,.05); box-shadow:inset 0 0 0 1px rgba(255,255,255,.14); }
+.dq .btn-halo.ghost > span { color:#fff; background:none; border:1px solid rgba(97,177,242,.5); }
+.dq .ic3d { object-fit:contain; flex:none; }
+
+/* ---------- hero ---------- */
+.dq-hero { position:relative; overflow:hidden; padding:150px 0 100px; background:radial-gradient(900px 420px at 50% 18%, rgba(46,139,216,.38), rgba(46,139,216,0) 100%), #12161f; }
+.dq-hero .floor { position:absolute; inset:0; background:url(img/firm-floor.svg) center 120px / 1728px 730px no-repeat; opacity:.7; filter:blur(.8px); -webkit-mask:linear-gradient(#000 70%, transparent 96%); mask:linear-gradient(#000 70%, transparent 96%); pointer-events:none; }
+.dq-hero .bulb { position:absolute; pointer-events:none; }
+.dq-hero .bulb.a { width:394px; top:70px; right:max(-120px, calc(50% - 860px)); rotate:32deg; filter:blur(6.8px); }
+.dq-hero .bulb.b { width:266px; top:820px; left:max(-110px, calc(50% - 860px)); rotate:-18deg; filter:blur(12px); }
+.dq-hero .head { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
+.dq-hero h1 { margin:0; font:500 64px/1 "Fb Reforma","Roboto"; }
+.dq-hero .sub { margin:0; max-width:560px; font:400 20px/1.3 "Fb Reforma","Roboto"; color:rgba(255,255,255,.7); }
+.dq-chips { position:relative; z-index:2; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px; margin-top:26px; }
+.dq-chips > span { font-size:14px; color:rgba(255,255,255,.55); }
+.dq-chip { display:inline-flex; align-items:center; gap:7px; height:32px; padding:0 14px; border-radius:999px; background:rgba(255,255,255,.07); color:#fff; font:500 13px "Roboto"; cursor:pointer; border:0; transition:background .2s; direction:ltr; }
+.dq-chip b { color:var(--sky); font-size:12px; }
+.dq-chip.on, .dq-chip:hover { background:rgba(125,198,255,.18); }
+
+/* scoreboard */
+.dq-board { position:relative; z-index:2; margin:130px auto 0; max-width:980px; padding:34px 40px 28px; border-radius:36px; border:1.5px solid transparent;
+  background:radial-gradient(60% 80% at 50% 0, rgba(46,139,216,.3), rgba(46,139,216,0)) padding-box, linear-gradient(#0b0e14,#0b0e14) padding-box, linear-gradient(180deg, rgba(125,198,255,.65), rgba(125,198,255,.06) 60%) border-box;
+  box-shadow:0 40px 90px rgba(0,0,0,.4); }
+.dq-board .gl { position:absolute; top:-92px; width:190px; pointer-events:none; filter:drop-shadow(0 20px 26px rgba(0,0,0,.5)); }
+.dq-board .gl img { width:100%; display:block; }
+.dq-board .gl.l { left:calc(50% - 205px); } .dq-board .gl.r { right:calc(50% - 205px); }
+.dq-board .gl.l img { animation:bdL 1s cubic-bezier(.2,.9,.25,1) both; } .dq-board .gl.r img { animation:bdR 1s cubic-bezier(.2,.9,.25,1) .06s both; }
+@keyframes bdL { 0% { transform:translateX(-80%) rotate(-20deg); opacity:0; } 60% { transform:translateX(14%) rotate(4deg); opacity:1; } 100% { transform:rotate(-6deg); } }
+@keyframes bdR { 0% { transform:translateX(80%) rotate(20deg); opacity:0; } 60% { transform:translateX(-14%) rotate(-4deg); opacity:1; } 100% { transform:rotate(6deg); } }
+.dq-board .fight { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px; }
+.dq-board .fr { display:flex; align-items:center; gap:16px; }
+.dq-board .fr.l { flex-direction:row-reverse; }
+.dq-board .fr .ic3d { width:72px; height:72px; }
+.dq-board .fr .n { display:block; font:700 30px/1.1 "Roboto"; direction:ltr; }
+.dq-board .fr small { display:block; font:400 14px "Fb Reforma","Roboto"; color:rgba(255,255,255,.55); margin-top:4px; }
+.dq-board .fr.l > div { text-align:left; }
+.dq-board .big { display:flex; align-items:center; gap:18px; font:700 92px/1 "Roboto"; }
+.dq-board .big i { font-style:normal; font-size:56px; color:rgba(255,255,255,.3); }
+.dq-board .big span { min-width:70px; text-align:center; transition:color .3s, text-shadow .3s; }
+.dq-board .big span.ahead { color:var(--sky); text-shadow:0 0 34px rgba(125,198,255,.6); }
+.dq-board .rounds { display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; margin-top:28px; }
+.dq-board .rd { padding:14px 10px; border-radius:16px; background:rgba(255,255,255,.04); color:#fff; text-decoration:none; text-align:center; opacity:.35; transition:opacity .4s, background .3s; cursor:pointer; border:0; }
+.dq-board .rd.on { opacity:1; } .dq-board .rd:hover { background:rgba(125,198,255,.1); }
+.dq-board .rd small { display:block; font-size:12px; color:rgba(255,255,255,.55); }
+.dq-board .rd b { display:block; margin:4px 0 6px; font:500 16px "Fb Reforma","Roboto"; }
+.dq-board .rd span { display:inline-flex; gap:6px; font:600 16px "Roboto"; color:rgba(255,255,255,.8); }
+.dq-board .note { margin:16px 0 0; text-align:center; font-size:14px; color:rgba(255,255,255,.55); }
+.dq-ringtitle { margin-top:70px; text-align:center; font:500 24px "Fb Reforma","Roboto"; color:rgba(255,255,255,.85); position:relative; z-index:2; }
+
+/* fighter cards */
+.dq-ring { position:relative; z-index:3; display:grid; grid-template-columns:1fr 90px 1fr; align-items:stretch; margin-top:32px; }
+.dq-f { position:relative; display:flex; flex-direction:column; gap:18px; padding:28px 30px; border-radius:32px; border:1.5px solid transparent;
+  background:radial-gradient(70% 70% at 0 100%, rgba(46,139,216,.32), rgba(46,139,216,0)) padding-box, linear-gradient(#0b0e14,#0b0e14) padding-box, linear-gradient(225deg, rgba(125,198,255,.7), rgba(125,198,255,.08) 45%, rgba(125,198,255,.35)) border-box;
+  box-shadow:0 30px 70px rgba(0,0,0,.35); transition:opacity .2s; }
+.dq-f.fade { opacity:.35; }
+.dq-f .top { display:flex; justify-content:space-between; align-items:center; }
+.dq-f .side { font-size:13px; font-weight:500; color:var(--sky); padding:5px 12px; border-radius:999px; background:rgba(97,177,242,.14); }
+.dq-f .swap { display:inline-flex; align-items:center; gap:7px; padding:8px 15px; border-radius:999px; background:rgba(255,255,255,.07); color:#fff; border:0; font:500 14px "Fb Reforma","Roboto"; cursor:pointer; transition:background .2s; }
+.dq-f .swap:hover, .dq-f .swap.open { background:rgba(125,198,255,.16); }
+.dq-f .swap svg { width:15px; height:15px; }
+.dq-f .co { display:flex; align-items:center; gap:14px; }
+.dq-f .co .ic3d { width:56px; height:56px; }
+.dq-f .co .n { font:700 30px/1.15 "Roboto"; direction:ltr; }
+.dq-f .plan { position:relative; display:flex; justify-content:space-between; align-items:center; width:100%; padding:13px 16px; border-radius:12px; background:rgba(255,255,255,.07); color:#fff; border:0; font:400 15px "Fb Reforma","Roboto"; cursor:pointer; text-align:right; transition:box-shadow .2s; }
+.dq-f .plan:hover, .dq-f .plan.open { box-shadow:inset 0 0 0 1px rgba(125,198,255,.5); }
+.dq-f .plan small { color:rgba(255,255,255,.55); font-size:13px; margin-inline-end:10px; }
+.dq-f .plan > svg { width:16px; height:16px; transition:rotate .25s; } .dq-f .plan.open > svg { rotate:180deg; }
+.dq-f .sizes { display:flex; flex-wrap:wrap; gap:4px; padding:4px; border-radius:999px; background:rgba(255,255,255,.07); width:fit-content; }
+.dq-f .sizes button { border:0; background:none; color:rgba(255,255,255,.72); font:500 14px "Roboto"; padding:7px 13px; border-radius:999px; cursor:pointer; }
+.dq-f .sizes button.on { background:#e9eef4; color:#12161f; }
+.dq-f .meta { font-size:13px; color:rgba(255,255,255,.55); }
+.dq-f .price { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-top:4px; }
+.dq-f .price .now { font:700 44px/1 "Roboto"; direction:ltr; }
+.dq-f .price .was { font:500 20px "Roboto"; color:rgba(255,255,255,.35); text-decoration:line-through; direction:ltr; }
+.dq-f .price .per { font-size:14px; color:rgba(255,255,255,.55); }
+/* coupon: a plain capsule with the site's grey copy button (no dashed frame) */
+.dq-f .code { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:6px 16px 6px 6px; border-radius:999px; background:rgba(255,255,255,.07); }
+.dq-f .code .t { display:flex; align-items:center; gap:10px; font-size:14px; color:rgba(255,255,255,.6); }
+.dq-f .code b { font:600 18px "Roboto"; letter-spacing:.06em; color:var(--sky); }
+.dq-f .code button, .dq-copy { display:inline-flex; align-items:center; gap:7px; border:0; background:#eef1f5; color:#12161f; font:500 15px "Fb Reforma","Roboto"; height:39px; padding:0 16px; border-radius:999px; cursor:pointer; }
+.dq-f .code button img { width:15px; height:15px; }
+.dq-f .simple { align-self:flex-start; display:inline-flex; align-items:center; gap:7px; border:0; background:none; padding:0; font:500 15px "Fb Reforma","Roboto"; color:var(--sky); cursor:pointer; }
+.dq-f .simple svg { width:16px; height:16px; }
+.dq-vs { display:flex; align-items:center; justify-content:center; position:relative; }
+.dq-vs i { width:62px; height:62px; border-radius:50%; display:grid; place-items:center; font:700 20px "Roboto"; font-style:normal; color:#fff; background:#12161f; border:1.5px solid var(--sky2); box-shadow:0 0 0 8px rgba(97,177,242,.08), 0 12px 40px rgba(85,169,235,.45); z-index:2; }
+.dq-vs::before { content:""; position:absolute; top:12%; bottom:12%; width:1px; background:linear-gradient(transparent, rgba(125,198,255,.5), transparent); }
+/* dropdown menus */
+.dq-menu { position:absolute; top:calc(100% + 8px); z-index:30; min-width:240px; padding:6px; margin:0; list-style:none; border-radius:16px; background:#161c26; box-shadow:0 0 0 1px rgba(125,198,255,.2), 0 24px 48px -12px rgba(0,0,0,.6);
+  opacity:0; transform:translateY(-6px) scale(.98); transform-origin:top; pointer-events:none; transition:opacity .2s, transform .25s cubic-bezier(.22,.61,.36,1); }
+.open > .dq-menu, .dq-menu.open { opacity:1; transform:none; pointer-events:auto; }
+.dq-menu li { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; font:500 15px "Roboto"; color:#fff; cursor:pointer; direction:ltr; justify-content:flex-end; }
+.dq-menu li:hover { background:rgba(125,198,255,.1); }
+.dq-menu li.on { background:rgba(125,198,255,.18); }
+.dq-menu li.off { opacity:.35; pointer-events:none; }
+.dq-menu li .ic3d { width:26px; height:26px; }
+.dq-menu .mh { padding:8px 12px 6px; font:400 13px "Fb Reforma","Roboto"; color:rgba(255,255,255,.55); direction:rtl; text-align:right; }
+.dq-swapwrap { position:relative; } .dq-swapwrap .dq-menu { left:0; }
+.dq-planwrap { position:relative; } .dq-planwrap .dq-menu { right:0; left:0; }
+
+/* ---------- plain-words summary (accordion) ---------- */
+.dq-acc { padding:0 0 100px; }
+.dq-acc .box { border-radius:28px; background:rgba(255,255,255,.04); overflow:hidden; }
+.dq-acc .tg { display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; padding:22px 28px; border:0; background:none; color:#fff; cursor:pointer; font:500 20px "Fb Reforma","Roboto"; text-align:right; }
+.dq-acc .tg .l { display:flex; align-items:center; gap:14px; }
+.dq-acc .tg .ic { width:46px; height:46px; border-radius:50%; display:grid; place-items:center; background:rgba(125,198,255,.12); }
+.dq-acc .tg .ic svg { width:22px; height:22px; }
+.dq-acc .tg .chev { width:20px; height:20px; transition:rotate .3s; }
+.dq-acc.open .tg .chev { rotate:180deg; }
+.dq-acc .body { display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s cubic-bezier(.22,.61,.36,1); }
+.dq-acc.open .body { grid-template-rows:1fr; }
+.dq-acc .body > div { overflow:hidden; }
+.dq-acc .inner { padding:4px 28px 28px; display:flex; flex-direction:column; gap:22px; }
+.dq-quick { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; }
+.dq-quick .q { padding:14px 16px; border-radius:16px; background:rgba(255,255,255,.04); }
+.dq-quick .q small { display:block; font-size:13px; color:rgba(255,255,255,.55); margin-bottom:8px; }
+.dq-quick .q div { display:flex; justify-content:space-between; gap:8px; font-size:15px; padding:3px 0; }
+.dq-quick .q div span:first-child { color:rgba(255,255,255,.55); font:500 13px "Roboto"; }
+.dq-pws { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.dq-pw { padding:22px 24px; border-radius:22px; background:#0b0e14; box-shadow:inset 0 0 0 1px rgba(125,198,255,.14); }
+.dq-pw h4 { display:flex; align-items:center; gap:10px; margin:0 0 14px; font:500 18px "Fb Reforma","Roboto"; }
+.dq-pw h4 .ic3d { width:32px; height:32px; }
+.dq-pw ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; }
+.dq-pw li { display:flex; gap:10px; align-items:flex-start; font-size:15px; line-height:1.4; color:rgba(255,255,255,.85); }
+.dq-pw li svg { width:18px; height:18px; flex:none; margin-top:1px; }
+.dq-pw .sub { margin:18px 0 10px; font:500 15px "Fb Reforma","Roboto"; color:var(--sky); }
+.dq-pw ol { list-style:none; margin:0; padding:16px; border-radius:16px; background:rgba(255,255,255,.04); display:flex; flex-direction:column; gap:10px; }
+.dq-pw ol li b { width:24px; height:24px; flex:none; border-radius:50%; background:#fff; color:#12161f; display:grid; place-items:center; font:600 13px "Roboto"; }
+.dq-pw .fine { margin:14px 0 0; font-size:13px; color:rgba(255,255,255,.55); }
+
+/* ---------- the full duel (white section) ---------- */
+.dq-full { background:#fff; color:#12161f; padding:110px 0 120px; }
+.dq-full .lat { font-weight:500; }
+.dq-full .head { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:30px; }
+.dq-full .head .pill { background:rgba(97,177,242,.14); color:#2e8bd8; }
+.dq-full h2 { margin:12px 0 0; font:500 45px/1.1 "Fb Reforma","Roboto"; color:#12161f; }
+.dq-full .head p { margin:8px 0 0; font-size:18px; color:rgba(18,22,31,.7); }
+.dq-tg { display:flex; gap:4px; padding:4px; border-radius:999px; background:rgba(18,22,31,.04); }
+.dq-tg button { border:0; background:none; font:400 16px "Fb Reforma","Roboto"; color:rgba(18,22,31,.7); padding:9px 18px; border-radius:999px; cursor:pointer; }
+.dq-tg button.on { background:#12161f; color:#fff; font-weight:500; }
+/* sticky names: a light capsule, no frame */
+.dq-bar { position:sticky; top:84px; z-index:5; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; padding:10px 18px; margin-bottom:18px; border-radius:999px; background:rgba(243,245,248,.94); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); }
+.dq-bar .s { display:flex; align-items:center; gap:10px; font:600 16px "Roboto"; color:#12161f; }
+.dq-bar .s .ic3d { width:30px; height:30px; }
+.dq-bar .s small { font:400 14px "Fb Reforma","Roboto"; color:rgba(18,22,31,.55); }
+.dq-bar .s.b { justify-content:flex-end; }
+.dq-bar .m { font-size:14px; color:rgba(18,22,31,.55); }
+.dq-round { position:relative; margin-top:22px; padding:6px 34px 16px; border-radius:32px; border:1px solid transparent;
+  background:radial-gradient(45% 60% at 100% 0, rgba(214,236,255,.55), rgba(214,236,255,0)) padding-box, radial-gradient(60% 70% at 0 100%, rgba(97,177,242,.16), rgba(214,236,255,0)) padding-box, linear-gradient(#fff,#fff) padding-box, linear-gradient(45deg,#2e8bd8,#7dc6ff,#d6ecff) border-box;
+  box-shadow:0 24px 60px rgba(85,169,235,.09); scroll-margin-top:170px; }
+.dq-round .rh { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:18px 0 12px; }
+.dq-round .rh .nm { font:500 14px "Roboto"; color:rgba(18,22,31,.55); }
+.dq-round .rh .nm.b { text-align:left; }
+.dq-round h3 { margin:0; font:500 26px "Fb Reforma","Roboto"; }
+.dq-row { display:grid; grid-template-columns:1fr 240px 1fr; align-items:center; gap:16px; padding:14px 0; border-top:1px solid #eaf2fa; }
+.dq-row .v { display:flex; align-items:center; gap:8px; font:400 17px/1.35 "Fb Reforma","Roboto"; color:#12161f; }
+.dq-row .v.b { justify-content:flex-end; text-align:left; }
+.dq-row .v > span { min-width:0; }
+.dq-row .v small { display:block; font-size:13px; color:rgba(18,22,31,.55); margin-top:2px; }
+.dq-row .v.adv { font-weight:500; } .dq-row .v.adv .lat { font-weight:600; }
+/* the advantage tag always sits to the LEFT of the value */
+.dq-row .v.adv::after { content:"יתרון"; order:2; flex:none; font:500 12px "Fb Reforma","Roboto"; color:#2e8bd8; background:rgba(97,177,242,.14); padding:3px 9px; border-radius:999px; }
+.dq-row .v.long { font-size:15px; }
+.dq-row .k { text-align:center; font-size:15px; color:rgba(18,22,31,.7); }
+.dq-row .k .lat { font-weight:500; }
+.dq-full.diff .dq-row.same { display:none; }
+.dq-full.diff .dq-round.allsame { display:none; }
+
+/* ---------- before you choose (dark) ---------- */
+.dq-end { padding:110px 0 120px; background:radial-gradient(800px 380px at 50% 0, rgba(46,139,216,.3), rgba(46,139,216,0)), #12161f; }
+.dq-end .head { text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px; margin-bottom:40px; }
+.dq-end h2 { margin:0; font:500 45px/1.1 "Fb Reforma","Roboto"; }
+.dq-end .head p { margin:0; font-size:18px; color:rgba(255,255,255,.7); }
+.dq-end .two { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.dq-know { display:flex; flex-direction:column; gap:18px; padding:30px; border-radius:32px; border:1.5px solid transparent;
+  background:radial-gradient(70% 70% at 0 100%, rgba(46,139,216,.28), rgba(46,139,216,0)) padding-box, linear-gradient(#0b0e14,#0b0e14) padding-box, linear-gradient(225deg, rgba(125,198,255,.6), rgba(125,198,255,.06) 50%, rgba(125,198,255,.3)) border-box; }
+.dq-know .co { display:flex; align-items:center; gap:12px; }
+.dq-know .co .ic3d { width:44px; height:44px; }
+.dq-know .co .n { font:700 24px "Roboto"; direction:ltr; }
+.dq-know .co .side { margin-inline-start:auto; font-size:13px; font-weight:500; color:var(--sky); padding:5px 12px; border-radius:999px; background:rgba(97,177,242,.14); }
+.dq-know dl { margin:0; }
+.dq-know dl div { display:flex; justify-content:space-between; gap:16px; padding:12px 0; }
+.dq-know dt { font-size:15px; color:rgba(255,255,255,.55); white-space:nowrap; }
+.dq-know dd { margin:0; font-size:15px; text-align:left; color:#fff; }
+.dq-know .btns { display:flex; gap:12px; flex-wrap:wrap; margin-top:auto; }
+.dq-know .btn-halo > span { height:46px; font-size:17px; padding:0 20px; }
+.dq-again { display:flex; justify-content:center; margin-top:44px; }
+
+/* ---------- plain-words dialog ---------- */
+.dq-modal { position:fixed; inset:0; z-index:200; display:grid; place-items:center; padding:16px; background:rgba(6,9,14,.6); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); opacity:0; pointer-events:none; transition:opacity .25s; }
+.dq-modal.open { opacity:1; pointer-events:auto; }
+.dq-modal .card { position:relative; width:min(560px, 100%); max-height:86vh; overflow:auto; transform:translateY(14px) scale(.98); transition:transform .3s cubic-bezier(.22,.61,.36,1); }
+.dq-modal.open .card { transform:none; }
+.dq-modal .x { position:absolute; top:16px; left:16px; width:36px; height:36px; border-radius:50%; border:0; background:rgba(255,255,255,.07); display:grid; place-items:center; cursor:pointer; }
+.dq-modal .x svg { width:12px; height:12px; }
+
+@media (max-width:979px) {
+  .dq-ring { grid-template-columns:1fr; } .dq-vs { height:0; } .dq-ring > .dq-f:first-child { margin-bottom:14px; } .dq-ring > .dq-f:last-child { margin-top:14px; }
+  .dq-end .two, .dq-pws { grid-template-columns:1fr; } .dq-quick { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:760px) {
+  .dq-hero { padding:118px 0 64px; } .dq-hero h1 { font-size:42px; } .dq-hero .sub { font-size:17px; }
+  .dq-hero .floor { background-position:center -40px; opacity:1; filter:blur(.6px); -webkit-mask:linear-gradient(#000 80%, transparent); mask:linear-gradient(#000 80%, transparent); }
+  .dq-hero .bulb.a { width:200px; top:60px; right:-70px; } .dq-hero .bulb.b { display:none; }
+  .dq-board { padding:26px 18px 22px; border-radius:26px; margin-top:110px; }
+  .dq-board .gl { width:120px; top:-70px; } .dq-board .gl.l { left:calc(50% - 130px); } .dq-board .gl.r { right:calc(50% - 130px); }
+  .dq-board .fight { grid-template-columns:1fr 1fr; gap:14px; } .dq-board .big { grid-column:1 / -1; order:3; justify-content:center; font-size:64px; } .dq-board .big i { font-size:40px; }
+  .dq-board .fr, .dq-board .fr.l { flex-direction:column; text-align:center; gap:8px; } .dq-board .fr.l > div { text-align:center; } .dq-board .fr .ic3d { width:52px; height:52px; } .dq-board .fr .n { font-size:20px; }
+  .dq-board .rounds { gap:6px; } .dq-board .rd { padding:10px 4px; } .dq-board .rd b { font-size:12px; } .dq-board .rd small { display:none; } .dq-board .rd span { font-size:13px; }
+  .dq-f { padding:22px 20px; border-radius:24px; } .dq-f .co .n { font-size:24px; } .dq-f .price .now { font-size:36px; }
+  .dq-f .sizes { width:100%; justify-content:space-between; } .dq-f .sizes button { padding:7px 9px; font-size:13px; }
+  .dq-swapwrap .dq-menu { left:auto; right:auto; inset-inline-end:0; }
+  .dq-acc .tg { padding:18px 18px; font-size:17px; } .dq-acc .inner { padding:4px 16px 18px; }
+  .dq-full, .dq-end { padding:72px 0 80px; } .dq-full h2, .dq-end h2 { font-size:32px; }
+  .dq-full .head { flex-direction:column; align-items:stretch; } .dq-tg button { flex:1; }
+  .dq-bar { top:70px; padding:8px 12px; } .dq-bar .s small { display:none; } .dq-bar .s { font-size:14px; gap:6px; } .dq-bar .s .ic3d { width:24px; height:24px; }
+  .dq-round { padding:4px 16px 12px; border-radius:24px; } .dq-round .rh { grid-template-columns:1fr; } .dq-round .rh .nm { display:none; } .dq-round h3 { text-align:center; font-size:22px; }
+  .dq-row { grid-template-columns:1fr 1fr; gap:6px 14px; } .dq-row .k { grid-column:1 / -1; order:-1; }
+  .dq-row .v.b { justify-content:flex-start; text-align:right; }
+  .dq-know { padding:22px 20px; border-radius:24px; } .dq-know .btns .btn-halo { flex:1; } .dq-know .btns .btn-halo > span { width:100%; }
+}
+@media (prefers-reduced-motion:reduce) { .dq-board .gl img { animation:none; } }
+</style>
+
+<main class="dq" id="top">
+<section class="dq-hero" data-theme="dark"><div class="floor"></div>
+  <img class="bulb a" src="img/bg-brain-dark.svg" alt=""><img class="bulb b" src="img/bg-brain-dark.svg" alt="">
+  <div class="w">
+    <div class="head">
+      <span class="pill">דו קרב</span>
+      <h1 class="grad">דו קרב חברות מימון</h1>
+      <p class="sub">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+    </div>
+    <div class="dq-chips" id="dqChips"><span>דו קרבים פופולריים:</span></div>
+    <div class="dq-board">
+      <span class="gl l"><img src="img/glove-sky.webp" alt=""></span><span class="gl r"><img src="img/glove-navy.webp" alt=""></span>
+      <div class="fight">
+        <div class="fr" data-fr="0"></div>
+        <div class="big"><span id="dqA">0</span><i>:</i><span id="dqB">0</span></div>
+        <div class="fr l" data-fr="1"></div>
+      </div>
+      <div class="rounds" id="dqRds"></div>
+      <p class="note">כל יתרון בדו קרב המלא שווה נקודה. לחצו על סיבוב כדי לקפוץ אליו.</p>
+    </div>
+    <div class="dq-ringtitle">בחרו את המתמודדים</div>
+    <div class="dq-ring" id="dqRing">
+      <article class="dq-f" data-side="0"></article>
+      <div class="dq-vs"><i>VS</i></div>
+      <article class="dq-f" data-side="1"></article>
+    </div>
+  </div>
+</section>
+
+<section class="dq-acc" id="dqAcc"><div class="w"><div class="box">
+  <button class="tg" type="button" aria-expanded="false"><span class="l"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M5 6.5h14M5 12h14M5 17.5h9" stroke="#7DC6FF" stroke-width="1.6" stroke-linecap="round"/></svg></span>סיכום הדו קרב במילים פשוטות</span>
+    <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div class="body"><div><div class="inner"><div class="dq-quick" id="dqQuick"></div><div class="dq-pws" id="dqPws"></div></div></div></div>
+</div></div></section>
+
+<section class="dq-full" id="full" data-theme="light"><div class="w">
+  <div class="head">
+    <div><span class="pill">הדו קרב המלא</span><h2>כל הנתונים, נתון מול נתון</h2><p>היתרון מסומן בצד שמוביל בכל נתון.</p></div>
+    <div class="dq-tg" role="tablist"><button class="on" data-v="all">כל הפרטים</button><button data-v="diff">רק ההבדלים</button></div>
+  </div>
+  <div class="dq-bar" id="dqBar"></div>
+  <div id="dqRounds"></div>
+</div></section>
+
+<section class="dq-end" data-theme="dark"><div class="w">
+  <div class="head"><span class="pill">לפני שבוחרים</span><h2 class="grad">מה חשוב לדעת לפני שבוחרים</h2><p>הנתונים שהכי משנים את ההחלטה, בכל צד.</p></div>
+  <div class="two" id="dqKnow"></div>
+  <div class="dq-again"><button class="btn-halo ghost" type="button" id="dqAgain" style="border:0;cursor:pointer"><span>דו קרב אחר<svg viewBox="0 0 16 16" fill="none"><path d="M9.5 1.5L13 5L9.5 8.5M12.4647 5H3M6.5 14.5L3 11L6.5 7.5M3.5625 11H13" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div>
+</div></section>
+
+<div class="dq-modal" id="dqModal" role="dialog" aria-modal="true"><div class="card dq-pw"><button class="x" type="button" aria-label="סגירה"><svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="in"></div></div></div>
+</main>
+
+<script>
+(function () {
+  const D = window.__DUEL; if (!D) return;
+  const DB = D.DB, PW = D.PW;
+  const ORDER = ['Take Profit', 'Apex', 'Bulenox', 'Lucid Trading', 'FundedNext Futures', 'TopStep', 'FTMO'].filter(n => DB[n]);
+  const L3 = { 'Take Profit': 'takeprofit', 'Apex': 'apex', 'Bulenox': 'bulenox', 'Lucid Trading': 'lucid', 'FundedNext Futures': 'fundednext', 'TopStep': 'topstep', 'FTMO': 'ftmo' };
+  const PAGE = { 'Take Profit': '/take-profit', 'Apex': '/apex', 'Bulenox': '/bulenox', 'Lucid Trading': '/lucid-trading', 'FundedNext Futures': '/fundednext', 'TopStep': '/topstep', 'FTMO': '/ftmo' };
+  const ic = (n, cls = '') => `<img class="ic3d ${cls}" src="img/firm3d-${L3[n]}.webp" alt="">`;
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  /* Latin runs (names, numbers, $, %) go to Roboto */
+  const lat = s => esc(s).replace(/([A-Za-z$][A-Za-z0-9$.,/:%()+\-·' ]*[A-Za-z0-9%)]|[$]?\d[\d,.]*%?(?:K)?)/g, '<span class="lat">$1</span>');
+  const SWAP = '<svg viewBox="0 0 16 16" fill="none"><path d="M9.5 1.5L13 5L9.5 8.5M12.4647 5H3M6.5 14.5L3 11L6.5 7.5M3.5625 11H13" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const CHEV = '<svg viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const BOOK = '<svg viewBox="0 0 16 16" fill="none"><path d="M2.5 3.5c1.8-.9 3.7-.9 5.5.3 1.8-1.2 3.7-1.2 5.5-.3v9c-1.8-.9-3.7-.9-5.5.3-1.8-1.2-3.7-1.2-5.5-.3v-9zM8 3.8v9.3" stroke="#7DC6FF" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const CHECK = '<svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="rgba(125,198,255,.16)"/><path d="M5.5 9.2l2.3 2.3 4.7-4.9" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const EXT = '<svg viewBox="0 0 16 16" fill="none"><path d="M9.5 2.5h4v4M7 9l6.3-6.3M12 9.5v3a1 1 0 0 1-1 1H3.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const ARROW = '<svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  /* ---- data access ---- */
+  const plansOf = f => Object.keys(DB[f]);
+  const sizesOf = (f, p) => DB[f][p].sizes;
+  const pick = (f, p, z) => { p = DB[f][p] ? p : plansOf(f)[0]; const s = sizesOf(f, p); z = s.includes(z) ? z : (s.includes('50K') ? '50K' : s[0]); return { f, p, z }; };
+  const col = st => DB[st.f][st.p].by[st.z];
+  const sizeNum = z => { const m = /(\d+)\s*K/i.exec(z); return m ? +m[1] * 1000 : 0; };
+  function cardInfo(st) {
+    const c = col(st).card, i = c.findIndex(x => /החל מ-/.test(x));
+    const money = c.slice(i + 1).filter(x => /^\$[\d,.]+$/.test(x));
+    return { plan: c[2] || st.p, now: money.length > 1 ? money[1] : money[0], was: money.length > 1 ? money[0] : '', per: c.includes('לחודש') ? 'לחודש' : '' };
+  }
+  function plain(f, p) {
+    const L = (PW[f] && PW[f][p] || '').split('\n').map(s => s.trim()).filter(Boolean).filter(s => s !== 'Close' && s !== 'הצג פחות' && s !== 'הצג עוד');
+    const title = L[0] || f; let i = 1; while (L[i] === title) i++;
+    const a = [], b = [], steps = []; let mode = 'a', fine = '';
+    for (; i < L.length; i++) { const s = L[i];
+      if (s === 'לאחר מעבר המבחן') { mode = 'b'; continue; } if (s === 'התהליך') { mode = 's'; continue; }
+      if (mode === 's') { if (/^\d+$/.test(s)) continue; if (/משתנים לפי/.test(s)) { fine = s; continue; } steps.push(s); }
+      else if (/משתנים לפי/.test(s)) fine = s; else (mode === 'a' ? a : b).push(s); }
+    return { title, a, b, steps, fine };
+  }
+
+  /* ---- advantage: Noam's headToHeadAdvantage rules, applied to the displayed values ---- */
+  const none = t => /^(אין|ללא)/.test(t.trim());
+  const num = t => { if (none(t)) return 0; if (/יום אחד/.test(t)) return 1; const m = String(t).replace(/,/g, '').match(/-?\d+(\.\d+)?/); return m ? +m[0] : null; };
+  const nums = t => (String(t).replace(/,/g, '').match(/\d+(\.\d+)?/g) || []).length;
+  const win = (a, b, higher) => a === null || b === null || a === b ? -1 : ((higher ? a > b : a < b) ? 0 : 1);
+  const ratio = (a, b, sa, sb, higher, noneWins) => { if (noneWins && none(a) && !none(b)) return 0; if (noneWins && none(b) && !none(a)) return 1; if (none(a) || none(b)) return -1; const x = num(a), y = num(b); return x === null || y === null ? -1 : win(x / sa, y / sb, higher); };
+  const status = t => /אסור/.test(t) ? 0 : /(בתנאים|מוגבל|מותנה)/.test(t) ? 1 : /מותר/.test(t) ? 2 : null;
+  const ddType = t => /(Intraday|תוך יומי)/.test(t) ? 0 : /(EOD|סוף יום)/.test(t) ? 1 : /(Static|סטטי)/.test(t) ? 2 : null;
+  function adv(label, a, b, sa, sb) {
+    switch (label) {
+      case 'מחיר': return win(num(a), num(b), false);
+      case 'מודל חיוב': return a === b ? -1 : /חד-פעמי/.test(a) ? 0 : /חד-פעמי/.test(b) ? 1 : -1;
+      case 'דמי הפעלה': case 'עלות איפוס': return win(/חינם/.test(a) ? 0 : num(a), /חינם/.test(b) ? 0 : num(b), false);
+      case 'יעד מעבר': return ratio(a, b, sa, sb, false);
+      case 'סטופ מקסימלי במבחן': case 'סטופ מקסימלי': return ratio(a, b, sa, sb, true);
+      case 'מגבלת הפסד יומית במבחן': case 'מגבלת הפסד יומית': return ratio(a, b, sa, sb, true, true);
+      case 'סוג הסטופ במבחן': case 'סוג הסטופ': return win(ddType(a), ddType(b), true);
+      case 'חוק עקביות במבחן': if (none(a) && !none(b)) return 0; if (none(b) && !none(a)) return 1; return nums(a) > 1 || nums(b) > 1 ? -1 : win(num(a), num(b), false);
+      case 'חוק עקביות': if (none(a) && !none(b)) return 0; if (none(b) && !none(a)) return 1; return nums(a) > 1 || nums(b) > 1 ? -1 : win(num(a), num(b), true);
+      case 'מינימום ימי מסחר במבחן': return win(none(a) ? 1 : num(a), none(b) ? 1 : num(b), false);
+      case 'חוזים במבחן': case 'חוזים': return /סקיילינג|scaling/i.test(a + b) ? -1 : win(num(a), num(b), true);
+      case 'חשבונות ממומנים במקביל': return win(num(a), num(b), true);
+      case 'חלוקת רווחים': return nums(a) > 1 || nums(b) > 1 ? -1 : win(num(a), num(b), true);
+      case 'מינימום משיכה': return win(num(a), num(b), false);
+      case 'תקרת משיכה': return /(מדורג|משיכה 1)/.test(a + b) ? -1 : win(num(a), num(b), true);
+      case 'כרית הביטחון': return win(num(a), num(b), false);
+      case 'מסחר בזמן חדשות במבחן': case 'מסחר בזמן חדשות בממומן': case 'החזקה ללילה': case 'Copy Trading': case 'מסחר אוטומטי': return win(status(a), status(b), true);
+      default: return -1;
+    }
+  }
+
+  /* ---- state ---- */
+  const S = [pick('Take Profit', plansOf('Take Profit')[0], '50K'), pick('Lucid Trading', 'Pro', '50K')];
+  const POP = [['Take Profit', 'Lucid Trading'], ['Apex', 'Bulenox'], ['FundedNext Futures', 'TopStep']].filter(([a, b]) => DB[a] && DB[b]);
+  const $ = (q, r = document) => r.querySelector(q), $$ = (q, r = document) => [...r.querySelectorAll(q)];
+  const chips = $('#dqChips');
+  chips.insertAdjacentHTML('beforeend', POP.map(([a, b], i) => `<button class="dq-chip" data-pop="${i}">${a} <b>vs</b> ${b}</button>`).join(''));
+
+  function rows() {
+    const A = col(S[0]).rows, B = col(S[1]).rows, sa = sizeNum(S[0].z), sb = sizeNum(S[1].z), out = [], seen = new Set();
+    A.concat(B).forEach(r => { const key = r.sec + '|' + r.label; if (seen.has(key)) return; seen.add(key);
+      const a = A.find(x => x.label === r.label && x.sec === r.sec), b = B.find(x => x.label === r.label && x.sec === r.sec);
+      const av = a ? a.me : { v: '-', n: '' }, bv = b ? b.me : { v: '-', n: '' };
+      out.push({ sec: r.sec, label: r.label, a: av, b: bv, w: a && b ? adv(r.label, av.v, bv.v, sa, sb) : -1 }); });
+    return out;
+  }
+  const SECS = ['עלויות', 'שלב המבחן', 'חשבון ממומן', 'משיכות', 'חופש במסחר'];
+
+  function cardHTML(i) {
+    const st = S[i], ci = cardInfo(st), other = S[1 - i].f;
+    const firms = ORDER.map(n => `<li class="${n === st.f ? 'on' : ''} ${n === other ? 'off' : ''}" data-firm="${n}">${n}${ic(n)}</li>`).join('');
+    const plans = plansOf(st.f).map(p => { const c = DB[st.f][p].by[DB[st.f][p].sizes[0]].card; return `<li class="${p === st.p ? 'on' : ''}" data-plan="${esc(p)}">${lat(c[2] || p)}</li>`; }).join('');
+    const sizes = sizesOf(st.f, st.p).map(z => `<button type="button" class="${z === st.z ? 'on' : ''}" data-size="${z}">${z}</button>`).join('');
+    return `<div class="top"><span class="side">${i ? 'צד ב׳' : 'צד א׳'}</span>
+        <div class="dq-swapwrap"><button type="button" class="swap" aria-haspopup="listbox">החלף חברה ${SWAP}</button><ul class="dq-menu" role="listbox"><li class="mh">בחרו יריב</li>${firms}</ul></div></div>
+      <div class="co">${ic(st.f)}<span class="n">${st.f}</span></div>
+      <div class="dq-planwrap"><button type="button" class="plan" aria-haspopup="listbox"><span><small>מסלול</small>${lat(ci.plan)}</span>${CHEV}</button><ul class="dq-menu" role="listbox"><li class="mh">מסלולים של ${st.f}</li>${plans}</ul></div>
+      ${sizes ? `<div class="sizes" role="group">${sizes}</div>` : ''}
+      <div><div class="meta"><span class="lat">${st.z}</span> · החל מ-</div><div class="price"><span class="now">${ci.now || '-'}</span>${ci.was ? `<span class="was">${ci.was}</span>` : ''}${ci.per ? `<span class="per">${ci.per}</span>` : ''}</div></div>
+      <div class="code"><span class="t">קוד הנחה <b>ANTAR</b></span><button type="button" data-copy>העתקה <img src="img/icon-copy.svg" alt=""></button></div>
+      <button type="button" class="simple" data-plain="${i}">${BOOK}במילים פשוטות</button>`;
+  }
+  function pwHTML(i, withHead) {
+    const st = S[i], pw = plain(st.f, st.p);
+    return `${withHead ? `<h4>${ic(st.f)}<span>${lat(pw.title)}</span></h4>` : `<h4><span>${lat(pw.title)}</span></h4>`}
+      <ul>${pw.a.map(x => `<li>${CHECK}<span>${lat(x)}</span></li>`).join('')}</ul>
+      ${pw.b.length ? `<div class="sub">לאחר מעבר המבחן</div><ul>${pw.b.map(x => `<li>${CHECK}<span>${lat(x)}</span></li>`).join('')}</ul>` : ''}
+      ${pw.steps.length ? `<div class="sub">התהליך</div><ol>${pw.steps.map((x, k) => `<li><b>${k + 1}</b><span>${lat(x)}</span></li>`).join('')}</ol>` : ''}
+      ${pw.fine ? `<p class="fine">${lat(pw.fine)}</p>` : ''}`;
+  }
+
+  let timers = [];
+  function render(animate) {
+    const R = rows();
+    $$('.dq-f').forEach((c, i) => { c.innerHTML = cardHTML(i); c.classList.remove('fade'); });
+    /* board */
+    $$('.dq-board .fr').forEach((el, i) => { const st = S[i]; el.innerHTML = `${ic(st.f)}<div><span class="n">${st.f}</span><small>${i ? 'צד ב׳' : 'צד א׳'} · <span class="lat">${esc(cardInfo(st).plan)} ${st.z}</span></small></div>`; });
+    const sc = SECS.map(s => { const r = R.filter(x => x.sec === s); return [r.filter(x => x.w === 0).length, r.filter(x => x.w === 1).length]; });
+    const rds = $('#dqRds'); rds.innerHTML = SECS.map((s, i) => `<button type="button" class="rd" data-i="${i}"><small>סיבוב ${i + 1}</small><b>${s}</b><span><span>${sc[i][0]}</span>:<span>${sc[i][1]}</span></span></button>`).join('');
+    const A = $('#dqA'), B = $('#dqB'); timers.forEach(clearTimeout); timers = [];
+    let a = 0, b = 0; A.textContent = B.textContent = 0; A.className = B.className = '';
+    const step = i => { rds.children[i].classList.add('on'); a += sc[i][0]; b += sc[i][1]; A.textContent = a; B.textContent = b; A.classList.toggle('ahead', a > b); B.classList.toggle('ahead', b > a); };
+    if (animate) { $$('.dq-board .gl img').forEach(el => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; }); SECS.forEach((s, i) => timers.push(setTimeout(() => step(i), 900 + i * 450))); }
+    else SECS.forEach((s, i) => step(i));
+    /* summary accordion */
+    const pickRow = l => R.find(x => x.label === l);
+    $('#dqQuick').innerHTML = ['מחיר', 'חלוקת רווחים', 'חוק עקביות', 'חוק עקביות במבחן'].map(l => { const r = pickRow(l); if (!r) return ''; return `<div class="q"><small>${l}</small><div><span>${S[0].f}</span><span>${lat(r.a.v)}</span></div><div><span>${S[1].f}</span><span>${lat(r.b.v)}</span></div></div>`; }).join('');
+    $('#dqPws').innerHTML = [0, 1].map(i => `<div class="dq-pw">${pwHTML(i, true)}</div>`).join('');
+    /* sticky bar + rounds */
+    const nm = i => `${S[i].f} <small>${esc(cardInfo(S[i]).plan)} ${S[i].z}</small>`;
+    $('#dqBar').innerHTML = `<div class="s">${ic(S[0].f)}<span>${nm(0)}</span></div><span class="m">מול</span><div class="s b"><span>${nm(1)}</span>${ic(S[1].f)}</div>`;
+    const cell = (x, isAdv, side, long) => `<div class="v ${side}${isAdv ? ' adv' : ''}${long ? ' long' : ''}"><span>${lat(x.v)}${x.n ? `<small>${lat(x.n)}</small>` : ''}</span></div>`;
+    $('#dqRounds').innerHTML = SECS.map(s => { const r = R.filter(x => x.sec === s); if (!r.length) return '';
+      return `<div class="dq-round${r.every(x => x.a.v === x.b.v) ? ' allsame' : ''}"><div class="rh"><span class="nm">${S[0].f}</span><h3>${s}</h3><span class="nm b">${S[1].f}</span></div>
+        ${r.map(x => { const long = (x.a.v + x.b.v).length > 70; return `<div class="dq-row${x.a.v === x.b.v ? ' same' : ''}">${cell(x.a, x.w === 0, 'a', long)}<div class="k">${lat(x.label)}</div>${cell(x.b, x.w === 1, 'b', long)}</div>`; }).join('')}</div>`; }).join('');
+    /* before you choose */
+    $('#dqKnow').innerHTML = [0, 1].map(i => { const st = S[i];
+      const dl = ['מחיר', 'חלוקת רווחים', 'חוק עקביות', 'חוק עקביות במבחן', 'תנאי זכאות למשיכה'].map(l => { const r = pickRow(l); return r ? `<div><dt>${l}</dt><dd>${lat(i ? r.b.v : r.a.v)}</dd></div>` : ''; }).join('');
+      return `<div class="dq-know"><div class="co">${ic(st.f)}<span class="n">${st.f} ${st.z}</span><span class="side">${i ? 'צד ב׳' : 'צד א׳'}</span></div><dl>${dl}</dl>
+        <div class="btns"><a class="btn-halo sky" href="#" target="_blank" rel="noopener"><span><span>לפתיחת חשבון ב-<span class="lat">${st.f}</span></span>${EXT}</span></a>
+        <a class="btn-halo ghost" href="https://antartrade.co.il${PAGE[st.f]}" target="_blank" rel="noopener"><span><span>לעמוד <span class="lat">${st.f}</span></span>${ARROW}</span></a></div></div>`; }).join('');
+    $$('.dq-chip').forEach(c => { const [a, b] = POP[+c.dataset.pop]; c.classList.toggle('on', S[0].f === a && S[1].f === b); });
+    if (window.__haloBind) window.__haloBind();
+  }
+  function change(i, fn) { const c = $$('.dq-f')[i]; if (c) c.classList.add('fade'); fn(); setTimeout(() => render(true), 160); }
+
+  /* ---- events ---- */
+  document.addEventListener('click', e => {
+    const t = e.target;
+    const opener = t.closest('.dq-f .swap, .dq-f .plan');
+    $$('.dq .open').forEach(o => { if (!opener || o !== opener.parentElement) o.classList.remove('open'); });
+    if (opener) { opener.parentElement.classList.toggle('open'); opener.classList.toggle('open', opener.parentElement.classList.contains('open')); return; }
+    const card = t.closest('.dq-f'), i = card ? +card.dataset.side : -1;
+    const li = t.closest('.dq-menu li[data-firm], .dq-menu li[data-plan]');
+    if (li && card) { if (li.dataset.firm) change(i, () => { S[i] = pick(li.dataset.firm, plansOf(li.dataset.firm)[0], S[i].z); });
+      else change(i, () => { S[i] = pick(S[i].f, li.dataset.plan, S[i].z); }); return; }
+    const sz = t.closest('[data-size]'); if (sz && card) { change(i, () => { S[i] = pick(S[i].f, S[i].p, sz.dataset.size); }); return; }
+    const cp = t.closest('[data-copy]'); if (cp) { try { navigator.clipboard.writeText('ANTAR'); } catch (_) {} const h = cp.innerHTML; cp.textContent = 'הקוד הועתק'; setTimeout(() => cp.innerHTML = h, 1500); return; }
+    const pl = t.closest('[data-plain]'); if (pl) { const m = $('#dqModal'); $('.in', m).innerHTML = pwHTML(+pl.dataset.plain, true); m.classList.add('open'); return; }
+    if (t.closest('#dqModal .x') || t.id === 'dqModal') { $('#dqModal').classList.remove('open'); return; }
+    const chip = t.closest('.dq-chip'); if (chip) { const [a, b] = POP[+chip.dataset.pop]; $$('.dq-f').forEach(c => c.classList.add('fade')); S[0] = pick(a, plansOf(a)[0], '50K'); S[1] = pick(b, plansOf(b)[0], '50K'); setTimeout(() => render(true), 160); return; }
+    const rd = t.closest('.dq-board .rd'); if (rd) { const el = $$('.dq-round')[+rd.dataset.i]; if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+    const tg = t.closest('.dq-tg button'); if (tg) { $$('.dq-tg button').forEach(x => x.classList.toggle('on', x === tg)); $('.dq-full').classList.toggle('diff', tg.dataset.v === 'diff'); return; }
+    const acc = t.closest('#dqAcc .tg'); if (acc) { const o = $('#dqAcc').classList.toggle('open'); acc.setAttribute('aria-expanded', o); return; }
+    if (t.closest('#dqAgain')) { $('#dqRing').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => { const w = $$('.dq-swapwrap')[1]; w.classList.add('open'); $('.swap', w).classList.add('open'); }, 700); return; }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { $('#dqModal').classList.remove('open'); $$('.dq .open').forEach(o => o.classList.remove('open')); } });
+  render(true);
+})();
+</script>

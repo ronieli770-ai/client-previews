@@ -38,7 +38,24 @@ CHIPS = '''<div class="dq-chips"><span>דו קרבים פופולריים:</span
 
 VERS = [('a', 'כפפות'), ('b', 'זירת לוגואים'), ('c', 'לוח תוצאות'), ('d', 'מסך מפוצל'), ('e', 'פינות הזירה'), ('f', 'כפפה לכל צד'), ('g', 'קרני אור'), ('h', 'לוגואים בתלת מימד'), ('i', 'כרטיסים מתנגשים'), ('j', 'אלכסון וברק'), ('k', 'חתך אור')]
 
+def build_final():
+    # the chosen version as a working prototype: duel.html, data from Noam's live duel (duel-parts/duel-data.json)
+    import json
+    data = json.load(open(f'{D}/duel-parts/duel-data.json', encoding='utf-8'))
+    page = '<script>window.__DUEL = ' + json.dumps(data, ensure_ascii=False).replace('</', '<\\/') + ';</script>' + open(f'{D}/duel-parts/final.html', encoding='utf-8').read()
+    parts = [open(f'{D}/parts/00-header.html', encoding='utf-8').read(), page, open(f'{D}/parts/12-footer.html', encoding='utf-8').read(), open(f'{D}/parts/99-mobile.html', encoding='utf-8').read()]
+    styles, bodies = [], []
+    for s in parts:
+        styles += re.findall(r'<style>.*?</style>', s, re.S)
+        bodies.append(re.sub(r'<style>.*?</style>', '', s, flags=re.S).strip())
+    shell = inline(open(f'{D}/shell.html', encoding='utf-8').read()).replace('<title>AntarTrade - דף הבית</title>', '<title>דו קרב חברות מימון - AntarTrade</title>')
+    out = shell.replace('<!--PART-STYLES-->', '\n'.join(inline(s) for s in styles)).replace('<!--PARTS-->', '\n\n'.join(bodies))
+    open(f'{D}/duel.html', 'w', encoding='utf-8').write(latin_fallback(out))
+    print('built duel.html')
+
 if __name__ == '__main__':
+    import sys
+    if 'final' in sys.argv: build_final(); sys.exit()
     common = open(f'{D}/duel-parts/50-common.html', encoding='utf-8').read()
     for v, label in VERS:
         hero = open(f'{D}/duel-parts/hero-{v}.html', encoding='utf-8').read().replace('<!--FIGHTERS-->', FIGHTERS).replace('<!--CHIPS-->', CHIPS)

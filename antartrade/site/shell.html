@@ -204,7 +204,8 @@
   // (over the previous section, which otherwise cut its top while scrolling) and the community content is lifted above it
   const upper = layer.cloneNode(); upper.style.zIndex = '3'; document.body.prepend(upper);   // the journal section above sits at level 2
   const cw = document.querySelector('.s-community .wrap'); if (cw) { cw.style.position = 'relative'; cw.style.zIndex = '4'; }
-  const rings = RINGS.map(([src, a, cx, cy, w, h, rot, blur]) => {
+  // a mark is only made when its section is on the page (the WhatsApp mark belongs to the homepage community banner alone)
+  const rings = RINGS.filter(([, a]) => document.querySelector(a)).map(([src, a, cx, cy, w, h, rot, blur]) => {
     const el = document.createElement('img'); el.src = 'img/' + src; el.alt = '';
     el.style.cssText = `position:absolute;width:${w}px;height:${h}px;object-fit:contain;will-change:transform,filter`;
     (src === 'bg-wa.svg' ? upper : layer).appendChild(el); return { el, src, a: document.querySelector(a), cx, cy, w, h, rot, blur, y: 0 };
@@ -365,13 +366,15 @@
     c.addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText('ANTAR'); const h = c.innerHTML; c.textContent = 'הקוד הועתק'; setTimeout(() => c.innerHTML = h, 1200); }); });
 
   // inner glow follows the cursor inside the global buttons
-  document.querySelectorAll('.btn-halo > span, .s-hero__halo-in, .s-duel__halo-in').forEach(b => {
+  // also callable again by pages that re-render their buttons (the duel prototype)
+  (window.__haloBind = () => document.querySelectorAll('.btn-halo > span, .s-hero__halo-in, .s-duel__halo-in').forEach(b => {
+    if (b.dataset.halo) return; b.dataset.halo = 1;
     b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect();
       b.style.setProperty('--sx', (-((e.clientX - r.left) / r.width - .5) * 16).toFixed(1) + 'px');
       b.style.setProperty('--sy', (-((e.clientY - r.top) / r.height - .5) * 12).toFixed(1) + 'px');
       b.style.setProperty('--ga', 1); });
     b.addEventListener('mouseleave', () => { b.style.setProperty('--sx', '0px'); b.style.setProperty('--sy', '0px'); b.style.setProperty('--ga', 0); });
-  });
+  }))();
 
   // ---------- bot: floating button + chat panel; the hero search field opens it ----------
   const fab = document.createElement('button'); fab.className = 'bot-fab'; fab.type = 'button'; fab.setAttribute('aria-label', 'פתח צ׳אט'); document.body.appendChild(fab);
