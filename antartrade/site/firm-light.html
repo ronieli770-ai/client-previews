@@ -1094,7 +1094,7 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   .cmp-sheet td.isnum, .cmp-sheet td .lat { font-family: "Roboto", sans-serif; font-weight: 600; }
   /* the template switcher is a review tool; it sat on top of the demo switch */
   .fp-tpl { display: none !important; }
-  .wd-cmp { align-self: center; }
+  .wd-cmp { order: 2; margin-inline-start: auto; align-items: center; gap: 6px; border: 0; background: none; padding: 0; cursor: pointer; font: 500 16px/1.2 "Fb Reforma"; color: #2e8bd8; }
 
   /* 3. compare every size: a sheet with the sizes as columns */
   .cmp-sheet { position: fixed; inset: 0; z-index: 10000; display: none; direction: rtl; }
@@ -2185,9 +2185,10 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
     var quad = wd.querySelector('.quad'); quad.parentNode.insertBefore(list, quad);
 
     /* compare every size */
-    var cmpBtn = document.createElement('button'); cmpBtn.type = 'button'; cmpBtn.className = 'btn-halo dark wd-cmp fold-btn';
-    cmpBtn.innerHTML = '<span><span>השוו בין כל הגדלים</span><svg viewBox="0 0 12 10" width="12" height="10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
-    list.parentNode.insertBefore(cmpBtn, list.nextSibling);
+    /* the compare link sits in the sticky size bar, right next to the sizes, in place of the page's own scroll link */
+    var cmpBtn = document.createElement('button'); cmpBtn.type = 'button'; cmpBtn.className = 'wd-cmp';
+    cmpBtn.innerHTML = 'השוו בין כל הגדלים <svg viewBox="0 0 12 10" width="12" height="10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    wd.querySelector('.bar').appendChild(cmpBtn);
     var sheet = document.createElement('div'); sheet.className = 'cmp-sheet';
     sheet.innerHTML = '<div class="bg"></div><div class="pnl"><div class="hd"><button type="button" class="x" aria-label="סגירה"><svg viewBox="0 0 10 10" width="12" height="12" fill="none"><path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><b>תנאי משיכה לפי גודל חשבון</b></div><div class="scroll"></div></div>';
     document.body.appendChild(sheet);
