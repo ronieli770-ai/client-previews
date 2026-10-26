@@ -1042,15 +1042,15 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   background: linear-gradient(45deg, #2e8bd8 0%, #7dc6ff 50%, #d6ecff 100%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
 /* capsules and small boxes inside: the duel chip grey */
-.fp .lt .lt-chip { background: rgba(18,22,31,.04) !important; border: 1px solid rgba(18,22,31,.1) !important; background-image: none !important; box-shadow: none !important; }
+.fp .lt .lt-chip { background: rgba(18,22,31,.04) !important; border: 0 !important; background-image: none !important; box-shadow: none !important; }
+/* capsules on light grounds follow the dark ones: same height, no frame (the track and the questions too) */
+.fp .lt details, .fp .lt details[open] { border: 0 !important; }
+.fp .lt.fp-faq summary::after { color: #12161f; }
 .fp .lt .lt-on { background: #12161f !important; color: #fff !important; border-color: #12161f !important; }
 .fp .lt .lt-line { border-color: #eaf2fa !important; }
-/* folded lists: the first items stay, the rest open from a button */
+/* folded lists: the first items stay, the rest open from the site's own halo button (outlined on dark, navy on light) */
 .fp .folded > .fold-x { display: none !important; }
-.fp .fold-btn { align-self: center; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 22px; border-radius: 999px; border: 1px solid rgba(125,198,255,.45);
-  background: rgba(125,198,255,.08); color: #fff; font: 500 16px/1 "Fb Reforma", "Roboto"; cursor: pointer; transition: background .2s; }
-.fp .fold-btn:hover { background: rgba(125,198,255,.16); }
-.fp .lt .fold-btn { color: #12161f; border-color: rgba(18,22,31,.1); background: rgba(18,22,31,.04); }
+.fp .fold-btn { align-self: center; border: 0; cursor: pointer; font: inherit; }
 .fp .fold-btn svg { width: 12px; height: 8px; transition: transform .25s; }
 .fp .fold-btn.open svg { transform: rotate(180deg); }
 .demo-note { position: fixed; z-index: 9999; left: 16px; bottom: 16px; max-width: 330px; padding: 14px 16px; border-radius: 16px; background: rgba(11,14,20,.92); color: #fff;
@@ -2083,8 +2083,10 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
     kids.slice(n).forEach(function (k) { k.classList.add('fold-x'); });
     list.classList.add('folded');
     var arrow = '<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    var b = document.createElement('button'); b.type = 'button'; b.className = 'fold-btn';
-    var set = function (open) { b.innerHTML = (open ? less : more.replace('{n}', '<span class="lat">' + (kids.length - n) + '</span>')) + arrow; b.classList.toggle('open', open); };
+    var b = document.createElement('button'); b.type = 'button';
+    b.className = 'fold-btn btn-halo ' + (list.closest('.lt') ? 'dark' : 'ghost');
+    /* the label is one inline run, so the button's flex gap never pushes the number away from its words */
+    var set = function (open) { b.innerHTML = '<span><span>' + (open ? less : more.replace('{n}', '<span class="lat">' + (kids.length - n) + '</span>')) + '</span>' + arrow + '</span>'; b.classList.toggle('open', open); };
     set(false);
     b.addEventListener('click', function () { var open = list.classList.toggle('folded'); set(!open); });
     list.parentNode.insertBefore(b, list.nextSibling);
