@@ -389,6 +389,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 .dq-menu .mh { padding:8px 12px 6px; font:400 13px "Fb Reforma","Roboto"; color:rgba(255,255,255,.55); direction:rtl; text-align:right; }
 .dq-swapwrap { position:relative; } .dq-swapwrap .dq-menu { left:0; }
 .dq-planwrap { position:relative; } .dq-planwrap .dq-menu { right:0; left:0; }
+.dq-f .msize { display:none; }
 
 /* ---------- plain-words summary (accordion) ---------- */
 .dq-acc { padding:0 0 100px; }
@@ -504,21 +505,51 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
   .dq-hero { padding:118px 0 64px; } .dq-hero h1 { font-size:42px; } .dq-hero .sub { font-size:17px; }
   .dq-hero .floor { background-position:center -40px; opacity:1; filter:blur(.6px); -webkit-mask:linear-gradient(#000 80%, transparent); mask:linear-gradient(#000 80%, transparent); }
   .dq-hero .bulb.a { width:200px; top:60px; right:-70px; } .dq-hero .bulb.b { display:none; }
-  .dq-board { padding:26px 18px 22px; border-radius:26px; margin-top:110px; }
-  .dq-board .gl { width:120px; top:-70px; } .dq-board .gl.l { left:calc(50% - 130px); } .dq-board .gl.r { right:calc(50% - 130px); }
-  .dq-board .fight { grid-template-columns:1fr 1fr; gap:14px; } .dq-board .big { grid-column:1 / -1; order:3; justify-content:center; font-size:64px; } .dq-board .big i { font-size:40px; }
-  .dq-board .fr, .dq-board .fr.l { flex-direction:column; text-align:center; gap:8px; } .dq-board .fr.l > div { text-align:center; } .dq-board .fr .ic3d { width:52px; height:52px; } .dq-board .fr .n { font-size:20px; }
-  .dq-board .rounds { gap:6px; } .dq-board .rd { padding:10px 4px; } .dq-board .rd b { font-size:12px; } .dq-board .rd small { display:none; } .dq-board .rd span { font-size:13px; }
-  .dq-f { padding:22px 20px; border-radius:24px; } .dq-f .co .n { font-size:24px; } .dq-f .price .now { font-size:36px; }
-  .dq-f .sizes { width:100%; justify-content:space-between; } .dq-f .sizes button { padding:7px 9px; font-size:13px; }
-  .dq-swapwrap .dq-menu { left:auto; right:auto; inset-inline-end:0; }
+  /* scoreboard: the gloves rest on the board's top edge, the rounds become a short list */
+  .dq-board { padding:24px 16px 18px; border-radius:26px; margin-top:96px; }
+  .dq-board .gl { width:124px; top:-54px; } .dq-board .gl.l { left:calc(50% - 128px); } .dq-board .gl.r { right:calc(50% - 128px); }
+  .dq-board .fight { grid-template-columns:1fr auto 1fr; gap:8px; }
+  .dq-board .fr, .dq-board .fr.l { flex-direction:column; text-align:center; gap:6px; } .dq-board .fr.l > div { text-align:center; } .dq-board .fr .ic3d { width:46px; height:46px; } .dq-board .fr .n { font-size:17px; } .dq-board .fr small { font-size:12px; }
+  .dq-board .big { font-size:52px; gap:8px; } .dq-board .big i { font-size:32px; } .dq-board .big span { min-width:34px; }
+  .dq-board .rounds { grid-template-columns:1fr; gap:6px; margin-top:20px; }
+  .dq-board .rd { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:10px; padding:10px 14px; text-align:right; border-radius:12px; }
+  .dq-board .rd small { display:inline; font-size:12px; } .dq-board .rd b { margin:0; font-size:15px; } .dq-board .rd span { font-size:15px; }
+  .dq-board .note { font-size:13px; line-height:1.45; }
+  /* the two picker cards side by side, compact; plan and size are pickers */
+  .dq-ringtitle { margin-top:48px; font-size:20px; }
+  .dq-ring { grid-template-columns:1fr 1fr; gap:10px; margin-top:22px; }
+  .dq-vs { position:absolute; left:50%; top:118px; translate:-50% 0; height:auto; z-index:4; } .dq-vs::before { display:none; }
+  .dq-ring > .dq-f:first-child, .dq-ring > .dq-f:last-child { margin:0; }
+  .dq-f { order:0; padding:16px 12px 14px; border-radius:22px; gap:12px; align-items:stretch; text-align:center; }
+  .dq-ring > .dq-f[data-side="1"] { order:2; }
+  .dq-f .top { flex-direction:column; gap:10px; } .dq-f .top .side { align-self:center; }
+  .dq-f .swap { order:3; justify-content:center; width:100%; padding:7px 10px; font-size:13px; }
+  .dq-f .top .dq-swapwrap { order:3; width:100%; }
+  .dq-f .co { flex-direction:column; gap:8px; } .dq-f .co .ic3d { width:52px; height:52px; } .dq-f .co .n { font-size:18px; }
+  .dq-f .plan { padding:10px 12px; font-size:14px; } .dq-f .plan small { display:none; }
+  .dq-f .sizes { display:none; } .dq-f .msize { display:block; }
+  .dq-f .meta { font-size:12px; } .dq-f .price { justify-content:center; gap:6px; } .dq-f .price .now { font-size:28px; } .dq-f .price .was { font-size:15px; } .dq-f .price .per { width:100%; font-size:12px; }
+  .dq-f .code { flex-direction:column; gap:6px; padding:8px; border-radius:16px; } .dq-f .code .t { font-size:12px; } .dq-f .code b { font-size:15px; } .dq-f .code button { width:100%; justify-content:center; height:34px; font-size:14px; }
+  .dq-f .simple { align-self:center; font-size:14px; }
+  .dq-menu { min-width:0; width:calc(100vw - 48px); max-width:300px; }
+  .dq-f[data-side="0"] .dq-menu { right:0; left:auto; } .dq-f[data-side="1"] .dq-menu { left:0; right:auto; }
   .dq-acc .tg { padding:18px 18px; font-size:17px; } .dq-acc .inner { padding:4px 16px 18px; }
+  .dq-quick { grid-template-columns:1fr; }
+  /* the full duel: data name on top, the two values under it (side A right, side B left), a bar under each that lights on the leading side */
   .dq-full, .dq-end { padding:72px 0 80px; } .dq-full h2, .dq-end h2 { font-size:32px; }
   .dq-full .head { flex-direction:column; align-items:stretch; } .dq-tg button { flex:1; }
-  .dq-bar { top:70px; padding:8px 12px; } .dq-bar .s small { display:none; } .dq-bar .s { font-size:14px; gap:6px; } .dq-bar .s .ic3d { width:24px; height:24px; }
-  .dq-round { padding:4px 16px 12px; border-radius:24px; } .dq-round .rh { grid-template-columns:1fr; } .dq-round .rh .nm { display:none; } .dq-round h3 { text-align:center; font-size:22px; }
-  .dq-row { grid-template-columns:1fr 1fr; gap:6px 14px; } .dq-row .k { grid-column:1 / -1; order:-1; }
-  .dq-row .v.b { justify-content:flex-start; text-align:right; }
+  .dq-bar { top:70px; padding:8px 12px; } .dq-bar .s small { display:none; } .dq-bar .s { font-size:13px; gap:6px; } .dq-bar .s .ic3d { width:24px; height:24px; }
+  .dq-round { padding:2px 14px 10px; border-radius:24px; } .dq-round .rh { grid-template-columns:1fr; padding:16px 0 8px; } .dq-round .rh .nm { display:none; } .dq-round h3 { text-align:center; font-size:21px; }
+  .dq-row { grid-template-columns:1fr 1fr; gap:8px 18px; padding:14px 0 12px; }
+  .dq-row .k { grid-column:1 / -1; order:-1; font-size:14px; color:#12161f; font-weight:500; }
+  .dq-row .v { flex-wrap:wrap; align-content:flex-start; gap:6px; padding-bottom:12px; font-size:16px;
+    background:linear-gradient(#EAF2FA, #EAF2FA) left bottom / 100% 3px no-repeat; }
+  .dq-row .v.adv { background-image:linear-gradient(90deg, #7DC6FF, #2E8BD8); }
+  .dq-row .v.a { justify-content:flex-start; text-align:right; }
+  .dq-row .v.b { justify-content:flex-end; text-align:left; }
+  .dq-row .v.b > span { text-align:left; }
+  .dq-row .v.long { font-size:13px; line-height:1.45; }
+  .dq-row .v.adv::after { font-size:11px; padding:2px 7px; }
   .dq-know { padding:22px 20px; border-radius:24px; } .dq-know .btns { flex-wrap:wrap; } .dq-cbtn { flex:1; }
 }
 @media (prefers-reduced-motion:reduce) { .dq-board .gl img { animation:none; } }
@@ -1048,7 +1079,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
         <div class="fr l" data-fr="1"></div>
       </div>
       <div class="rounds" id="dqRds"></div>
-      <p class="note">כל יתרון בדו קרב המלא שווה נקודה. לחצו על סיבוב כדי לקפוץ אליו.</p>
+      <p class="note">כל נושא בדו קרב המלא הוא סיבוב, וכל יתרון בו שווה נקודה. לחצו על סיבוב כדי לראות את הנתונים שלו.</p>
     </div>
     <div class="dq-ringtitle">בחרו את המתמודדים</div>
     <div class="dq-ring" id="dqRing">
@@ -1183,6 +1214,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
       <div class="co">${ic(st.f)}<span class="n">${st.f}</span></div>
       <div class="dq-planwrap"><button type="button" class="plan" aria-haspopup="listbox"><span><small>מסלול</small>${lat(ci.plan)}</span>${CHEV}</button><ul class="dq-menu" role="listbox"><li class="mh">מסלולים של ${st.f}</li>${plans}</ul></div>
       ${sizes ? `<div class="sizes" role="group">${sizes}</div>` : ''}
+      ${sizes ? `<div class="dq-planwrap msize"><button type="button" class="plan" aria-haspopup="listbox"><span><small>גודל</small><span class="lat solo">${st.z}</span></span>${CHEV}</button><ul class="dq-menu" role="listbox"><li class="mh">גודל חשבון</li>${sizesOf(st.f, st.p).map(z => `<li class="${z === st.z ? 'on' : ''}" data-size="${z}">${z}</li>`).join('')}</ul></div>` : ''}
       <div><div class="meta"><span class="lat">${st.z}</span> · החל מ-</div><div class="price"><span class="now">${ci.now || '-'}</span>${ci.was ? `<span class="was">${ci.was}</span>` : ''}${ci.per ? `<span class="per">${ci.per}</span>` : ''}</div></div>
       <div class="code"><span class="t">קוד הנחה <b>ANTAR</b></span><button type="button" data-copy>העתקה <img src="img/icon-copy.svg" alt=""></button></div>
       <button type="button" class="simple" data-plain="${i}">${BOOK}במילים פשוטות</button>`;
