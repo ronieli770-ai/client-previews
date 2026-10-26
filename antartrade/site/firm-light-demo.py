@@ -25,6 +25,12 @@ css = r"""
 /* capsules on light grounds follow the dark ones: same height, no frame (the track and the questions too) */
 .fp .lt details, .fp .lt details[open] { border: 0 !important; }
 .fp .lt.fp-faq summary::after { color: #12161f; }
+/* toggles on light ground: the dark-section toggle inverted, driven by the page's own .on class so it follows every click */
+.fp .lt .tg { background: rgba(18,22,31,.04); }
+.fp .lt .tg button { color: rgba(18,22,31,.7); }
+.fp .lt .tg button.on { background: #12161f; color: #fff; }
+/* no highlight flash behind changed values on the light ground */
+.fp .lt .flash { animation: none !important; }
 .fp .lt .lt-on { background: #12161f !important; color: #fff !important; border-color: #12161f !important; }
 .fp .lt .lt-line { border-color: #eaf2fa !important; }
 /* folded lists: the first items stay, the rest open from the site's own halo button (outlined on dark, navy on light) */
@@ -52,7 +58,7 @@ js = r"""
     sec.classList.add('lt');
     var all = [].slice.call(sec.querySelectorAll('*'));
     all.forEach(function (el) {
-      if (el.closest('.btn-halo, .fold-btn, svg, img, .pill, .h2')) return;
+      if (el.closest('.btn-halo, .fold-btn, svg, img, .pill, .h2, .tg')) return;
       var cs = getComputedStyle(el), c = rgba(cs.color);
       /* text: white -> navy, mid white -> dark grey, faint white -> light grey; sky -> blue; gradient numbers -> navy */
       if (cs.webkitTextFillColor === 'rgba(0, 0, 0, 0)' || cs.backgroundClip === 'text' || cs.webkitBackgroundClip === 'text') {
@@ -79,8 +85,6 @@ js = r"""
     sec.querySelectorAll('details').forEach(function (d) { d.classList.remove('lt-card'); d.classList.add('lt-chip'); });
     /* the big quote mark: a faint blue mark, not a solid black shape */
     sec.querySelectorAll('.qm').forEach(function (q) { q.style.webkitTextFillColor = 'rgba(46,139,216,.14)'; q.style.color = 'rgba(46,139,216,.14)'; });
-    /* the active toggle text sits on the navy pill: keep it white */
-    sec.querySelectorAll('.lt-on, .lt-on *').forEach(function (e) { e.style.color = '#fff'; });
   }
 
   function fold(list, n, more, less) {
