@@ -340,6 +340,7 @@
     [/נגישות/, '/accessibility'], [/פרטיות/, '/privacy-policy'], [/תנאי שימוש/, '/terms'], [/קרא עוד/, '/legal-disclaimer'], [/קהילה|קהילת/, 'https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj'],
   ];
   document.querySelectorAll('a[href="#"], a:not([href]):not([data-pair])').forEach(a => {
+    if (a.closest('.dq')) return;   // pages with their own working prototype (the duel page) handle their links
     const scope = a.closest('article, .card, .glow-card, tr, li') || a, own = a.textContent, ctxTxt = scope.textContent.replace(/\s+/g, ' ');
     const hit = MAP.find(([re]) => re.test(own)) || MAP.find(([re]) => re.test(ctxTxt));
     const url = hit ? hit[1] : '/';
@@ -351,7 +352,7 @@
   }));
   // buttons without their own action
   document.querySelectorAll('button').forEach(b => {
-    if (b.closest('.s-duel, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col, .tc-pick, #fp') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i || b.dataset.firm) return;   // the menu, its close button and toggles have their own job
+    if (b.closest('.s-duel, .dq, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col, .tc-pick, #fp') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i || b.dataset.firm) return;   // the menu, its close button and toggles have their own job
     b.addEventListener('click', () => {
       const t = b.textContent.trim();
       if (b.closest('[role="search"]')) { const q = b.parentElement.querySelector('input'); if (q && q.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(q.value.trim()), '_blank'); else q && q.focus(); return; }
@@ -362,7 +363,7 @@
     });
   });
   document.querySelectorAll('[role="search"] input').forEach(i => i.addEventListener('keydown', e => { if (e.key === 'Enter' && i.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(i.value.trim()), '_blank'); }));
-  document.querySelectorAll('[class*="code"], [class*="chip"]').forEach(c => { if (c.closest('.s-deals, .s-duel') || !/ANTAR/.test(c.textContent)) return; c.style.cursor = 'pointer';
+  document.querySelectorAll('[class*="code"], [class*="chip"]').forEach(c => { if (c.closest('.s-deals, .s-duel, .dq') || !/ANTAR/.test(c.textContent)) return; c.style.cursor = 'pointer';
     c.addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText('ANTAR'); const h = c.innerHTML; c.textContent = 'הקוד הועתק'; setTimeout(() => c.innerHTML = h, 1200); }); });
 
   // inner glow follows the cursor inside the global buttons

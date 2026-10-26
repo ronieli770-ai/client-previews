@@ -278,7 +278,8 @@
    Data = Noam's live /comparison/head-to-head, read per firm, plan and size; the advantage tags follow his headToHeadAdvantage rules */
 .dq { --sky:#7dc6ff; --sky2:#61b1f2; --blue:#2e8bd8; --ice:#d6ecff; --navy:#12161f; background:#12161f; color:#fff; font-family:"Fb Reforma","Roboto",sans-serif; }
 .dq *, .dq *::before, .dq *::after { box-sizing:border-box; }
-.dq .lat { font-family:"Roboto",sans-serif; font-weight:300; }   /* English one weight below the Reforma around it: 400 -> 300, 500 -> 400 */
+.dq .lat { font-family:"Roboto",sans-serif; font-weight:300; }   /* English inside Hebrew text: one weight below the Reforma around it (400 -> 300, 500 -> 400) */
+.dq .lat.solo { font-weight:500; }   /* a value that is only numbers / English is not balanced against anything, it keeps its weight */
 .dq-pw h4 .lat, .dq-acc .tg .lat, .dq .btn-halo .lat, .dq-cbtn .lat { font-weight:400; }
 .dq button { font-family:inherit; }
 .dq .w { width:min(1171px, calc(100% - 32px)); margin:0 auto; position:relative; }
@@ -371,8 +372,10 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 .dq-f .simple { align-self:flex-start; display:inline-flex; align-items:center; gap:7px; border:0; background:none; padding:0; font:500 15px "Fb Reforma","Roboto"; color:var(--sky); cursor:pointer; }
 .dq-f .simple svg { width:16px; height:16px; }
 .dq-vs { display:flex; align-items:center; justify-content:center; position:relative; }
-.dq-vs i { width:62px; height:62px; border-radius:50%; display:grid; place-items:center; font:700 20px "Roboto"; font-style:normal; color:#fff; background:#12161f; border:1.5px solid var(--sky2); box-shadow:0 0 0 8px rgba(97,177,242,.08), 0 12px 40px rgba(85,169,235,.45); z-index:2; }
-.dq-vs::before { content:""; position:absolute; top:12%; bottom:12%; width:1px; background:linear-gradient(transparent, rgba(125,198,255,.5), transparent); }
+.dq-vs i { position:relative; z-index:2; width:46px; height:46px; display:grid; place-items:center; font-style:normal; }
+.dq-vs i::before { content:""; position:absolute; inset:0; rotate:45deg; border-radius:10px; background:#12161f; box-shadow:inset 0 0 0 1px rgba(125,198,255,.4); }
+.dq-vs i b { position:relative; font:600 14px "Roboto"; letter-spacing:.12em; color:#fff; padding-left:.12em; }
+.dq-vs::before { content:""; position:absolute; top:6%; bottom:6%; width:1px; background:linear-gradient(rgba(125,198,255,0), rgba(125,198,255,.35) 30%, rgba(125,198,255,.35) 70%, rgba(125,198,255,0)); }
 /* dropdown menus */
 .dq-menu { position:absolute; top:calc(100% + 8px); z-index:30; min-width:240px; padding:6px; margin:0; list-style:none; border-radius:16px; background:#161c26; box-shadow:0 0 0 1px rgba(125,198,255,.2), 0 24px 48px -12px rgba(0,0,0,.6);
   opacity:0; transform:translateY(-6px) scale(.98); transform-origin:top; pointer-events:none; transition:opacity .2s, transform .25s cubic-bezier(.22,.61,.36,1); }
@@ -418,7 +421,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 
 /* ---------- the full duel (white section) ---------- */
 .dq-full { background:#fff; color:#12161f; padding:110px 0 120px; }
-.dq-full .lat { font-weight:300; }
+.dq-full .lat { font-weight:300; } .dq-full .lat.solo { font-weight:500; }
 .dq-full .head { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:30px; }
 .dq-full .head .pill { background:rgba(97,177,242,.14); color:#2e8bd8; }
 .dq-full h2 { margin:12px 0 0; font:500 45px/1.1 "Fb Reforma","Roboto"; color:#12161f; }
@@ -445,12 +448,12 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 .dq-row .v.b { justify-content:flex-end; text-align:left; }
 .dq-row .v > span { min-width:0; }
 .dq-row .v small { display:block; font-size:13px; color:rgba(18,22,31,.55); margin-top:2px; }
-.dq-row .v.adv { font-weight:500; } .dq-row .v.adv .lat { font-weight:400; }
+.dq-row .v.adv { font-weight:500; } .dq-row .v.adv .lat { font-weight:400; } .dq-row .v.adv .lat.solo { font-weight:600; }
 /* the advantage tag always sits to the LEFT of the value */
 .dq-row .v.adv::after { content:"יתרון"; order:2; flex:none; font:500 12px "Fb Reforma","Roboto"; color:#2e8bd8; background:rgba(97,177,242,.14); padding:3px 9px; border-radius:999px; }
 .dq-row .v.long { font-size:15px; }
 .dq-row .k { text-align:center; font-size:15px; color:rgba(18,22,31,.7); }
-.dq-row .k .lat { font-weight:300; }
+.dq-row .k .lat { font-weight:300; } .dq-row .k .lat.solo { font-weight:400; }
 .dq-full.diff .dq-row.same { display:none; }
 .dq-full.diff .dq-round.allsame { display:none; }
 
@@ -470,7 +473,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 .dq-know dl div { display:flex; justify-content:space-between; gap:16px; padding:12px 0; }
 .dq-know dt { font-size:15px; color:rgba(255,255,255,.55); white-space:nowrap; }
 .dq-know dd { margin:0; font-size:15px; text-align:left; color:#fff; }
-.dq-know .btns { display:flex; gap:10px; margin-top:auto; }
+.dq-know .btns { display:flex; gap:10px; margin-top:auto; } .dq-know .btns .dq-cbtn { flex:1; }
 .dq-cbtn { display:inline-flex; align-items:center; justify-content:center; gap:8px; height:39px; padding:0 18px; border-radius:999px; font:500 16px "Fb Reforma","Roboto"; white-space:nowrap; text-decoration:none; transition:background .2s, transform .25s ease; }
 .dq-cbtn svg { width:13px; height:13px; flex:none; transition:transform .4s cubic-bezier(.22,.61,.36,1); }
 .dq-cbtn.main { background:#eef1f5; color:#12161f; } .dq-cbtn.main:hover { background:#fff; }
@@ -481,9 +484,15 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
 /* ---------- plain-words dialog ---------- */
 .dq-modal { position:fixed; inset:0; z-index:200; display:grid; place-items:center; padding:16px; background:rgba(6,9,14,.6); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); opacity:0; pointer-events:none; transition:opacity .25s; }
 .dq-modal.open { opacity:1; pointer-events:auto; }
-.dq-modal .card { position:relative; width:min(560px, 100%); max-height:86vh; overflow:auto; transform:translateY(14px) scale(.98); transition:transform .3s cubic-bezier(.22,.61,.36,1); }
+.dq-modal .card { position:relative; width:min(680px, 100%); max-height:86vh; overflow:auto; padding:0; transform:translateY(14px) scale(.98); transition:transform .3s cubic-bezier(.22,.61,.36,1); }
+.dq-modal .bar { position:sticky; top:0; z-index:2; display:flex; align-items:center; gap:12px; padding:16px 22px; padding-left:64px; background:#161c26; border-radius:22px 22px 0 0; }
+.dq-modal .bar h4 { margin:0; }
+.dq-modal .cols { display:grid; grid-template-columns:1.15fr 1fr; gap:22px; padding:20px 22px 22px; align-items:start; }
+.dq-modal .cols ol { margin-top:0; }
+.dq-modal .cols .sub:first-child { margin-top:0; }
+@media (max-width:640px) { .dq-modal .cols { grid-template-columns:1fr; } }
 .dq-modal.open .card { transform:none; }
-.dq-modal .x { position:absolute; top:16px; left:16px; width:36px; height:36px; border-radius:50%; border:0; background:rgba(255,255,255,.07); display:grid; place-items:center; cursor:pointer; }
+.dq-modal .x { position:absolute; top:13px; left:16px; z-index:3; width:36px; height:36px; border-radius:50%; border:0; background:rgba(255,255,255,.07); display:grid; place-items:center; cursor:pointer; }
 .dq-modal .x svg { width:12px; height:12px; }
 
 @media (max-width:979px) {
@@ -1043,7 +1052,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
     <div class="dq-ringtitle">בחרו את המתמודדים</div>
     <div class="dq-ring" id="dqRing">
       <article class="dq-f" data-side="0"></article>
-      <div class="dq-vs"><i>VS</i></div>
+      <div class="dq-vs"><i><b>VS</b></i></div>
       <article class="dq-f" data-side="1"></article>
     </div>
   </div>
@@ -1079,11 +1088,11 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
   const DB = D.DB, PW = D.PW;
   const ORDER = ['Take Profit', 'Apex', 'Bulenox', 'Lucid Trading', 'FundedNext Futures', 'TopStep', 'FTMO'].filter(n => DB[n]);
   const L3 = { 'Take Profit': 'takeprofit', 'Apex': 'apex', 'Bulenox': 'bulenox', 'Lucid Trading': 'lucid', 'FundedNext Futures': 'fundednext', 'TopStep': 'topstep', 'FTMO': 'ftmo' };
-  const PAGE = { 'Take Profit': '/take-profit', 'Apex': '/apex', 'Bulenox': '/bulenox', 'Lucid Trading': '/lucid-trading', 'FundedNext Futures': '/fundednext', 'TopStep': '/topstep', 'FTMO': '/ftmo' };
+  const PAGE = { 'Take Profit': '/take-profit', 'Apex': '/apex', 'Bulenox': '/bulenox', 'Lucid Trading': '/lucid', 'FundedNext Futures': '/funded-next', 'TopStep': '/top-step', 'FTMO': '/ftmo' };   /* Noam's firm pages, as in the site menu */
   const ic = (n, cls = '', onLight) => `<img class="ic3d ${cls}" src="img/firm3d-${L3[n]}${n === 'Take Profit' && !onLight ? '-light' : ''}.webp" alt="">`;
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   /* Latin runs (names, numbers, $, %) go to Roboto */
-  const lat = s => esc(s).replace(/([A-Za-z$][A-Za-z0-9$.,/:%()+\-·' ]*[A-Za-z0-9%)]|[$]?\d[\d,.]*%?(?:K)?)/g, '<span class="lat">$1</span>');
+  const lat = s => { const mixed = /[\u0590-\u05FF]/.test(s); return esc(s).replace(/([A-Za-z$][A-Za-z0-9$.,/:%()+\-·' ]*[A-Za-z0-9%)]|[$]?\d[\d,.]*%?(?:K)?)/g, `<span class="lat${mixed ? '' : ' solo'}">$1</span>`); };
   const SWAP = '<svg viewBox="0 0 16 16" fill="none"><path d="M9.5 1.5L13 5L9.5 8.5M12.4647 5H3M6.5 14.5L3 11L6.5 7.5M3.5625 11H13" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const CHEV = '<svg viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const BOOK = '<svg viewBox="0 0 16 16" fill="none"><path d="M2.5 3.5c1.8-.9 3.7-.9 5.5.3 1.8-1.2 3.7-1.2 5.5-.3v9c-1.8-.9-3.7-.9-5.5.3-1.8-1.2-3.7-1.2-5.5-.3v-9zM8 3.8v9.3" stroke="#7DC6FF" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -1185,6 +1194,12 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
       ${pw.fine ? `<p class="fine">${lat(pw.fine)}</p>` : ''}`;
   }
 
+  function modalHTML(i) {
+    const st = S[i], pw = plain(st.f, st.p), li = x => `<li>${CHECK}<span>${lat(x)}</span></li>`;
+    return `<div class="bar"><h4>${ic(st.f)}<span>${lat(pw.title)}</span></h4></div>
+      <div class="cols"><div><ul>${pw.a.map(li).join('')}</ul>${pw.b.length ? `<div class="sub">לאחר מעבר המבחן</div><ul>${pw.b.map(li).join('')}</ul>` : ''}</div>
+      <div>${pw.steps.length ? `<div class="sub">התהליך</div><ol>${pw.steps.map((x, k) => `<li><b>${k + 1}</b><span>${lat(x)}</span></li>`).join('')}</ol>` : ''}${pw.fine ? `<p class="fine">${lat(pw.fine)}</p>` : ''}</div></div>`;
+  }
   let timers = [];
   function render(animate) {
     const R = rows();
@@ -1232,7 +1247,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
       else change(i, () => { S[i] = pick(S[i].f, li.dataset.plan, S[i].z); }); return; }
     const sz = t.closest('[data-size]'); if (sz && card) { change(i, () => { S[i] = pick(S[i].f, S[i].p, sz.dataset.size); }); return; }
     const cp = t.closest('[data-copy]'); if (cp) { try { navigator.clipboard.writeText('ANTAR'); } catch (_) {} const h = cp.innerHTML; cp.textContent = 'הקוד הועתק'; setTimeout(() => cp.innerHTML = h, 1500); return; }
-    const pl = t.closest('[data-plain]'); if (pl) { const m = $('#dqModal'); $('.in', m).innerHTML = pwHTML(+pl.dataset.plain, true); m.classList.add('open'); return; }
+    const pl = t.closest('[data-plain]'); if (pl) { const m = $('#dqModal'); $('.in', m).innerHTML = modalHTML(+pl.dataset.plain); m.classList.add('open'); return; }
     if (t.closest('#dqModal .x') || t.id === 'dqModal') { $('#dqModal').classList.remove('open'); return; }
     const chip = t.closest('.dq-chip'); if (chip) { const [a, b] = POP[+chip.dataset.pop]; $$('.dq-f').forEach(c => c.classList.add('fade')); S[0] = pick(a, plansOf(a)[0], '50K'); S[1] = pick(b, plansOf(b)[0], '50K'); setTimeout(() => render(true), 160); return; }
     const rd = t.closest('.dq-board .rd'); if (rd) { const el = $$('.dq-round')[+rd.dataset.i]; if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
@@ -1646,6 +1661,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
     [/נגישות/, '/accessibility'], [/פרטיות/, '/privacy-policy'], [/תנאי שימוש/, '/terms'], [/קרא עוד/, '/legal-disclaimer'], [/קהילה|קהילת/, 'https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj'],
   ];
   document.querySelectorAll('a[href="#"], a:not([href]):not([data-pair])').forEach(a => {
+    if (a.closest('.dq')) return;   // pages with their own working prototype (the duel page) handle their links
     const scope = a.closest('article, .card, .glow-card, tr, li') || a, own = a.textContent, ctxTxt = scope.textContent.replace(/\s+/g, ' ');
     const hit = MAP.find(([re]) => re.test(own)) || MAP.find(([re]) => re.test(ctxTxt));
     const url = hit ? hit[1] : '/';
@@ -1657,7 +1673,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
   }));
   // buttons without their own action
   document.querySelectorAll('button').forEach(b => {
-    if (b.closest('.s-duel, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col, .tc-pick, #fp') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i || b.dataset.firm) return;   // the menu, its close button and toggles have their own job
+    if (b.closest('.s-duel, .dq, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col, .tc-pick, #fp') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i || b.dataset.firm) return;   // the menu, its close button and toggles have their own job
     b.addEventListener('click', () => {
       const t = b.textContent.trim();
       if (b.closest('[role="search"]')) { const q = b.parentElement.querySelector('input'); if (q && q.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(q.value.trim()), '_blank'); else q && q.focus(); return; }
@@ -1668,7 +1684,7 @@ html body .dq .btn-halo.ghost > span { box-shadow:inset var(--sx) var(--sy) 14px
     });
   });
   document.querySelectorAll('[role="search"] input').forEach(i => i.addEventListener('keydown', e => { if (e.key === 'Enter' && i.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(i.value.trim()), '_blank'); }));
-  document.querySelectorAll('[class*="code"], [class*="chip"]').forEach(c => { if (c.closest('.s-deals, .s-duel') || !/ANTAR/.test(c.textContent)) return; c.style.cursor = 'pointer';
+  document.querySelectorAll('[class*="code"], [class*="chip"]').forEach(c => { if (c.closest('.s-deals, .s-duel, .dq') || !/ANTAR/.test(c.textContent)) return; c.style.cursor = 'pointer';
     c.addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText('ANTAR'); const h = c.innerHTML; c.textContent = 'הקוד הועתק'; setTimeout(() => c.innerHTML = h, 1200); }); });
 
   // inner glow follows the cursor inside the global buttons
