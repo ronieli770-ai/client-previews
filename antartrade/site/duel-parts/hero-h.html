@@ -1,0 +1,45 @@
+<style>
+/* H: each picker card carries the firm's own 3D logo, rising out of its top edge and leaning toward the opponent; a VS spark between them. Picking another pair swaps the logos */
+.hh { padding-top:140px; }
+.hh h1 { font-size:56px; }
+.hh .dq-chips { margin-top:20px; }
+.hh .dq-ring { margin-top:150px; }
+.hh .l3d { position:absolute; top:-150px; width:200px; height:200px; z-index:3; pointer-events:none; }
+.hh .l3d img { width:100%; height:100%; object-fit:contain; display:block; filter:drop-shadow(0 26px 30px rgba(0,0,0,.55)); }
+.hh .dq-f[data-side="0"] .l3d { left:40px; } .hh .dq-f[data-side="1"] .l3d { right:40px; }
+.hh .dq-f[data-side="0"] .l3d img { rotate:-8deg; animation:hhA .9s cubic-bezier(.2,.9,.25,1) both, hhFloat 6s ease-in-out 1s infinite; }
+.hh .dq-f[data-side="1"] .l3d img { rotate:8deg; animation:hhB .9s cubic-bezier(.2,.9,.25,1) .06s both, hhFloat 6s ease-in-out 1.4s infinite reverse; }
+@keyframes hhA { 0% { transform:translate(30%, 40%) scale(.6); opacity:0; } 60% { transform:translate(-8%, -4%) scale(1.05); opacity:1; } 100% { transform:none; } }
+@keyframes hhB { 0% { transform:translate(-30%, 40%) scale(.6); opacity:0; } 60% { transform:translate(8%, -4%) scale(1.05); opacity:1; } 100% { transform:none; } }
+@keyframes hhFloat { 50% { translate:0 -10px; } }
+.hh .dq-vs { z-index:3; }
+.hh .spark { position:absolute; top:-90px; left:50%; translate:-50% 0; width:160px; height:160px; border-radius:50%; pointer-events:none; background:radial-gradient(closest-side, rgba(214,236,255,.9), rgba(125,198,255,.35) 40%, transparent); opacity:0; animation:hhSpark 1s ease-out .55s both; }
+@keyframes hhSpark { 0% { opacity:0; scale:.2; } 30% { opacity:1; scale:1.1; } 100% { opacity:.25; scale:1; } }
+@media (max-width:979px) { .hh .dq-ring { margin-top:120px; } .hh .dq-f[data-side="1"] { margin-top:130px !important; } .hh .spark { display:none; } }
+@media (max-width:760px) { .hh { padding-top:110px; } .hh h1 { font-size:40px; } .hh .l3d { width:140px; height:140px; top:-104px; } .hh .dq-ring { margin-top:100px; } .hh .dq-f[data-side="1"] { margin-top:110px !important; } }
+@media (prefers-reduced-motion:reduce) { .hh .l3d img, .hh .spark { animation:none; } }
+</style>
+<section class="dq-hero hh" data-theme="dark"><div class="floor"></div><div class="w">
+  <div class="head">
+    <h1 class="grad">דו קרב חברות מימון</h1>
+    <p class="lead">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+  </div>
+  <!--CHIPS-->
+  <!--FIGHTERS-->
+</div></section>
+<script>
+addEventListener('DOMContentLoaded', () => {
+  /* the popular pairs swap the 3D logo and the name on each card (prices stay the Take Profit / Lucid demo numbers) */
+  const F = { 'Take Profit': ['takeprofit', 'img/firm-takeprofit.svg'], 'Lucid Trading': ['lucid', 'img/lucid-fig-dark.png'], 'Apex': ['apex', 'img/firm-apex.svg'], 'Bulenox': ['bulenox', 'img/firm-bulenox.svg'], 'FundedNext Futures': ['fundednext', 'img/firm-fundednext.svg'], 'Topstep': ['topstep', 'img/firm-topstep.svg'] };
+  const cards = document.querySelectorAll('.hh .dq-f'), ring = document.querySelector('.hh .dq-ring');
+  cards.forEach((c, k) => c.insertAdjacentHTML('afterbegin', `<span class="l3d"><img src="img/firm3d-${k ? 'lucid' : 'takeprofit'}.webp" alt=""></span>`));
+  document.querySelector('.hh .dq-vs').insertAdjacentHTML('afterbegin', '<span class="spark"></span>');
+  const replay = () => document.querySelectorAll('.hh .l3d img, .hh .spark').forEach(el => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; });
+  document.querySelectorAll('.hh .dq-chip').forEach(chip => chip.addEventListener('click', () => {
+    const names = chip.textContent.split('vs').map(s => s.trim());
+    names.forEach((n, k) => { const f = F[n]; if (!f) return; cards[k].querySelector('.l3d img').src = `img/firm3d-${f[0]}.webp`; cards[k].querySelector('.co img').src = f[1]; cards[k].querySelector('.co .n').textContent = n; });
+    replay();
+  }));
+  document.querySelector('.hh').addEventListener('click', e => { if (e.target.closest('.sizes button, .swap')) replay(); });
+});
+</script>

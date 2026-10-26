@@ -1,0 +1,48 @@
+<style>
+/* G: two beams of the site's sky light run in from both edges of the screen and crash into the VS between the two picker cards; every new pairing fires them again */
+.hg { padding-top:140px; }
+.hg h1 { font-size:56px; }
+.hg .dq-chips { margin-top:20px; }
+.hg .dq-ring { margin-top:44px; }
+.hg .dq-f { z-index:2; }
+.hg .dq-vs { z-index:3; }
+.hg .dq-vs::before { display:none; }
+.hg .beam { position:absolute; top:50%; height:3px; width:52vw; margin-top:-1.5px; border-radius:9px; pointer-events:none; z-index:1; box-shadow:0 0 18px 4px rgba(125,198,255,.55), 0 0 60px 14px rgba(46,139,216,.35); scale:0 1; animation:hgBeam .75s cubic-bezier(.6,0,.3,1) .15s forwards; }
+.hg .beam.l { right:50%; transform-origin:left center; background:linear-gradient(90deg, rgba(125,198,255,0), #7dc6ff 60%, #fff); }
+.hg .beam.r { left:50%; transform-origin:right center; background:linear-gradient(270deg, rgba(125,198,255,0), #7dc6ff 60%, #fff); }
+@keyframes hgBeam { 0% { scale:0 1; opacity:1; } 80% { scale:1 1; opacity:1; } 100% { scale:1 1; opacity:.35; } }
+.hg .burst { position:absolute; left:50%; top:50%; width:340px; height:340px; translate:-50% -50%; border-radius:50%; pointer-events:none; z-index:2;
+  background:radial-gradient(closest-side, rgba(255,255,255,.95), rgba(125,198,255,.55) 30%, rgba(46,139,216,0)); opacity:0; animation:hgBurst 1s ease-out .78s both; }
+@keyframes hgBurst { 0% { opacity:0; scale:.2; } 25% { opacity:1; scale:1; } 100% { opacity:0; scale:1.5; } }
+.hg .wave { position:absolute; left:50%; top:50%; width:80px; height:80px; translate:-50% -50%; border-radius:50%; border:1.5px solid rgba(214,236,255,.8); pointer-events:none; z-index:2; opacity:0; animation:hgWave 1.1s ease-out .8s both; }
+@keyframes hgWave { 0% { opacity:1; scale:.6; } 100% { opacity:0; scale:5; } }
+.hg .dq-vs i { animation:hgVs .45s cubic-bezier(.2,.9,.25,1.4) .8s both; }
+@keyframes hgVs { from { scale:.3; opacity:0; } to { scale:1; opacity:1; } }
+.hg .dq-f[data-side="0"] { animation:hgA .5s ease-out .85s both; } .hg .dq-f[data-side="1"] { animation:hgB .5s ease-out .85s both; }
+@keyframes hgA { 30% { translate:8px 0; } } @keyframes hgB { 30% { translate:-8px 0; } }
+@media (max-width:979px) {
+  .hg .beam { width:3px; height:46vh; margin:0 0 0 -1.5px; top:auto; scale:1 0; animation-name:hgBeamV; }
+  .hg .beam.l { right:auto; left:50%; bottom:50%; transform-origin:center top; background:linear-gradient(rgba(125,198,255,0), #7dc6ff 60%, #fff); }
+  .hg .beam.r { left:50%; top:50%; transform-origin:center bottom; background:linear-gradient(0deg, rgba(125,198,255,0), #7dc6ff 60%, #fff); }
+}
+@keyframes hgBeamV { 0% { scale:1 0; opacity:1; } 80% { scale:1 1; opacity:1; } 100% { scale:1 1; opacity:.35; } }
+@media (max-width:760px) { .hg { padding-top:110px; } .hg h1 { font-size:40px; } }
+@media (prefers-reduced-motion:reduce) { .hg .beam, .hg .burst, .hg .wave, .hg .dq-vs i, .hg .dq-f { animation:none !important; } }
+</style>
+<section class="dq-hero hg" data-theme="dark"><div class="floor"></div><div class="w">
+  <div class="head">
+    <h1 class="grad">דו קרב חברות מימון</h1>
+    <p class="lead">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+  </div>
+  <!--CHIPS-->
+  <!--FIGHTERS-->
+</div></section>
+<script>
+addEventListener('DOMContentLoaded', () => {
+  const vs = document.querySelector('.hg .dq-vs'); if (!vs) return;
+  vs.parentElement.insertAdjacentHTML('afterbegin', '<span class="beam l"></span><span class="beam r"></span>');
+  vs.insertAdjacentHTML('afterbegin', '<span class="burst"></span><span class="wave"></span>');
+  const hit = () => document.querySelectorAll('.hg .beam, .hg .burst, .hg .wave, .hg .dq-vs i, .hg .dq-f').forEach(el => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; });
+  document.querySelector('.hg').addEventListener('click', e => { if (e.target.closest('.dq-chip, .sizes button, .swap')) hit(); });
+});
+</script>

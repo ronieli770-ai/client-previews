@@ -36,7 +36,7 @@ FIGHTERS = ('<div class="dq-ring">'
 CHIPS = '''<div class="dq-chips"><span>דו קרבים פופולריים:</span>
   <button class="dq-chip on">Take Profit <b>vs</b> Lucid Trading</button><button class="dq-chip">Apex <b>vs</b> Bulenox</button><button class="dq-chip">FundedNext Futures <b>vs</b> Topstep</button></div>'''
 
-VERS = [('a', 'כפפות'), ('b', 'זירת לוגואים'), ('c', 'לוח תוצאות'), ('d', 'מסך מפוצל'), ('e', 'פינות הזירה'), ('f', 'כפפה לכל צד')]
+VERS = [('g', 'קרני אור'), ('h', 'לוגואים בתלת מימד'), ('i', 'כרטיסים מתנגשים')]
 
 if __name__ == '__main__':
     common = open(f'{D}/duel-parts/50-common.html', encoding='utf-8').read()
