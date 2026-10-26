@@ -1062,6 +1062,61 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
 .demo-note { position: fixed; z-index: 9999; left: 16px; bottom: 16px; max-width: 330px; padding: 14px 16px; border-radius: 16px; background: rgba(11,14,20,.92); color: #fff;
   border: 1px solid rgba(125,198,255,.3); font: 400 14px/1.45 "Fb Reforma", "Roboto"; direction: rtl; backdrop-filter: blur(10px); }
 .demo-note b { font-weight: 500; color: #7dc6ff; } .demo-note button { margin-top: 8px; background: none; border: 0; color: rgba(255,255,255,.6); font: inherit; cursor: pointer; padding: 0; }
+
+/* ---------- mobile comparison demo (switch: current / easier) ---------- */
+.ux-switch { display: none; }
+@media (max-width: 760px) {
+  .ux-switch { display: flex; position: fixed; z-index: 9998; left: 50%; transform: translateX(-50%); bottom: 14px; padding: 4px; border-radius: 999px; background: rgba(11,14,20,.92);
+    border: 1px solid rgba(125,198,255,.35); backdrop-filter: blur(12px); box-shadow: 0 12px 30px rgba(0,0,0,.45); font: 500 14px/1 "Fb Reforma", "Roboto"; direction: rtl; }
+  .ux-switch button { border: 0; background: none; color: rgba(255,255,255,.72); height: 36px; padding: 0 14px; border-radius: 999px; font: inherit; white-space: nowrap; cursor: pointer; }
+  .ux-switch button.on { background: #e8e8ed; color: #12161f; }
+  .demo-note { bottom: 74px; }
+
+  /* 1. the size picker stays under the page nav while you scroll the section */
+  body.ux .fp-wd .bar, body.ux #accSize { position: sticky; top: var(--stick, 140px); z-index: 25; margin-inline: -16px; padding: 10px 16px; }
+  body.ux .fp-wd .bar { background: rgba(255,255,255,.94); backdrop-filter: blur(10px); }
+  body.ux #accSize { background: rgba(18,22,31,.94); backdrop-filter: blur(10px); margin-bottom: 0; }
+  body.ux .fp-wd .bar .lnk { display: none; }
+
+  /* 2. withdrawals: one list of rows instead of seven boxes */
+  .wd-list, .wd-cmp { display: none; }
+  body.ux .fp-wd .quad, body.ux .fp-wd .tri, body.ux .fp-wd .duo { display: none !important; }
+  body.ux .wd-list { display: block; }
+  body.ux .wd-cmp { display: inline-flex; }
+  .wd-list { border-radius: 24px; padding: 6px 20px; }
+  .wd-list .grp { font: 500 16px/1.2 "Fb Reforma"; color: #2e8bd8; padding: 18px 0 6px; }
+  .wd-list .row { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding: 12px 0; border-bottom: 1px solid #eaf2fa; }
+  .wd-list .grp + .row { padding-top: 6px; }
+  .wd-list .row:last-child { border-bottom: 0; }
+  .wd-list .k { font: 400 16px/1.35 "Fb Reforma"; color: rgba(18,22,31,.7); }
+  .wd-list .v, .wd-list .v * { font: 500 16px/1.35 "Fb Reforma", "Roboto" !important; color: #12161f !important; -webkit-text-fill-color: #12161f !important; background: none !important; text-align: left; }
+  .wd-list .v .lat, .wd-list .v.isnum { font-family: "Roboto", sans-serif !important; font-weight: 600 !important; }
+  .cmp-sheet td.isnum, .cmp-sheet td .lat { font-family: "Roboto", sans-serif; font-weight: 600; }
+  /* the template switcher is a review tool; it sat on top of the demo switch */
+  .fp-tpl { display: none !important; }
+  .wd-cmp { align-self: center; }
+
+  /* 3. compare every size: a sheet with the sizes as columns */
+  .cmp-sheet { position: fixed; inset: 0; z-index: 10000; display: none; direction: rtl; }
+  .cmp-sheet.open { display: block; }
+  .cmp-sheet .bg { position: absolute; inset: 0; background: rgba(0,0,0,.55); }
+  .cmp-sheet .pnl { position: absolute; inset: auto 0 0 0; max-height: 86dvh; display: flex; flex-direction: column; background: #fff; color: #12161f; border-radius: 24px 24px 0 0; }
+  .cmp-sheet .hd { display: flex; align-items: center; gap: 12px; padding: 18px 20px 10px; }
+  .cmp-sheet .hd b { font: 500 22px/1.2 "Fb Reforma"; }
+  .cmp-sheet .x { width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(18,22,31,.04); display: grid; place-items: center; color: #12161f; cursor: pointer; }
+  .cmp-sheet .scroll { overflow: auto; padding: 0 0 24px; }
+  .cmp-sheet table { border-collapse: separate; border-spacing: 0; min-width: 100%; font: 400 15px/1.35 "Fb Reforma", "Roboto"; }
+  .cmp-sheet table { table-layout: fixed; width: 100%; }
+  .cmp-sheet th, .cmp-sheet td { padding: 10px 6px; border-bottom: 1px solid #eaf2fa; text-align: right; vertical-align: top; }
+  .cmp-sheet td { font-size: 14px; }
+  .cmp-sheet col.lbl { width: 30%; }
+  .cmp-sheet thead th { position: sticky; top: 0; background: #fff; z-index: 2; font: 600 15px/1.2 "Roboto"; }
+  .cmp-sheet thead th.on { color: #2e8bd8; }
+  .cmp-sheet tbody th { font: 400 14px/1.3 "Fb Reforma"; color: rgba(18,22,31,.7); padding-inline-start: 20px; }
+  .cmp-sheet thead th:first-child { padding-inline-start: 20px; }
+  .cmp-sheet td { font-weight: 500; }
+  .cmp-sheet tr.grp th { color: #2e8bd8; font: 500 15px/1.2 "Fb Reforma"; padding-top: 18px; }
+}
 </style>
 </head>
 <body>
@@ -2105,6 +2160,55 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
     });
   }
 
+
+  /* ---------- mobile comparison demo ---------- */
+  function mobileDemo() {
+    if (!matchMedia('(max-width: 760px)').matches) return;
+    var nav = document.querySelector('.fp-nav'), hdr = document.getElementById('hdr');
+    var setStick = function () { document.documentElement.style.setProperty('--stick', ((hdr ? hdr.offsetHeight : 76) + (nav ? nav.offsetHeight : 60) - 2) + 'px'); };
+    setStick(); addEventListener('resize', setStick);
+
+    /* withdrawals: gather the seven boxes into one list of rows (the data-w spans are moved as clones, setWd updates every copy) */
+    var wd = document.getElementById('withdraw'); var w = wd.querySelector('.w');
+    var list = document.createElement('div'); list.className = 'wd-list lt-card';
+    /* a value that is only a number or amount is set in Roboto (Reforma has no digits) */
+    var isNum = function (t) { return /^[$\d]/.test(t.trim()) && !/[\u0590-\u05FF]/.test(t); };
+    var numCls = function (v) { v.classList.toggle('isnum', isNum(v.textContent)); new MutationObserver(function () { v.classList.toggle('isnum', isNum(v.textContent)); }).observe(v, { childList: true, characterData: true, subtree: true }); };
+    var add = function (title, pairs) { list.insertAdjacentHTML('beforeend', '<div class="grp">' + title + '</div>'); pairs.forEach(function (p) { var r = document.createElement('div'); r.className = 'row'; r.appendChild(p[0].cloneNode(true)); var v = p[1].cloneNode(true); r.appendChild(v); list.appendChild(r); numCls(v); }); };
+    var qb = [].slice.call(wd.querySelectorAll('.quad .box')).map(function (b) { var k = b.querySelector('.k').cloneNode(true), v = b.querySelector('.v').cloneNode(true); v.className = 'v'; v.removeAttribute('style'); return [k, v]; });
+    add('בקצרה', qb);
+    wd.querySelectorAll('.tri .box, .duo .box').forEach(function (b) {
+      var t = b.querySelector('.h3').textContent, rows = [].slice.call(b.querySelectorAll('.rows > div')).map(function (d) { return [d.querySelector('.k'), d.querySelector('.v')]; });
+      if (!rows.length && b.querySelector('.big')) { var k = document.createElement('span'); k.className = 'k'; k.textContent = b.querySelector('.s').textContent; var v = b.querySelector('.big').cloneNode(true); v.className = 'v'; rows = [[k, v]]; }
+      add(t, rows);
+    });
+    var quad = wd.querySelector('.quad'); quad.parentNode.insertBefore(list, quad);
+
+    /* compare every size */
+    var cmpBtn = document.createElement('button'); cmpBtn.type = 'button'; cmpBtn.className = 'btn-halo dark wd-cmp fold-btn';
+    cmpBtn.innerHTML = '<span><span>השוו בין כל הגדלים</span><svg viewBox="0 0 12 10" width="12" height="10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+    list.parentNode.insertBefore(cmpBtn, list.nextSibling);
+    var sheet = document.createElement('div'); sheet.className = 'cmp-sheet';
+    sheet.innerHTML = '<div class="bg"></div><div class="pnl"><div class="hd"><button type="button" class="x" aria-label="סגירה"><svg viewBox="0 0 10 10" width="12" height="12" fill="none"><path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><b>תנאי משיכה לפי גודל חשבון</b></div><div class="scroll"></div></div>';
+    document.body.appendChild(sheet);
+    var close = function () { sheet.classList.remove('open'); }; sheet.querySelector('.bg').onclick = close; sheet.querySelector('.x').onclick = close;
+    cmpBtn.onclick = function () {
+      var btns = [].slice.call(document.querySelectorAll('#wdSize button')); var cur = btns.findIndex(function (b) { return b.classList.contains('on'); });
+      var cols = btns.map(function (b) { b.click(); return [].slice.call(list.children).map(function (r) { return r.classList.contains('grp') ? { g: r.textContent } : { k: r.children[0].textContent, v: r.children[1].textContent }; }); });
+      btns[cur].click();
+      var html = '<table><colgroup><col class="lbl">' + btns.map(function () { return '<col>'; }).join('') + '</colgroup><thead><tr><th></th>' + btns.map(function (b, i) { return '<th class="' + (i === cur ? 'on' : '') + '">' + b.textContent + '</th>'; }).join('') + '</tr></thead><tbody>';
+      cols[0].forEach(function (r, i) { html += r.g ? '<tr class="grp"><th colspan="' + (btns.length + 1) + '">' + r.g + '</th></tr>' : '<tr><th>' + r.k + '</th>' + cols.map(function (c) { return '<td class="' + (isNum(c[i].v) ? 'isnum' : '') + '">' + c[i].v.replace(/([$\d][\d$,.%]*)/g, '<span class="lat">$1</span>') + '</td>'; }).join('') + '</tr>'; });
+      sheet.querySelector('.scroll').innerHTML = html + '</tbody></table>'; sheet.classList.add('open');
+    };
+
+    /* the switch: what we have now / the easier version */
+    document.body.classList.add('ux');
+    var sw = document.createElement('div'); sw.className = 'ux-switch';
+    sw.innerHTML = '<button type="button" data-v="0">המצב הנוכחי</button><button type="button" data-v="1" class="on">הגרסה הנוחה</button>';
+    sw.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; sw.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); document.body.classList.toggle('ux', b.dataset.v === '1'); });
+    document.body.appendChild(sw);
+  }
+
   function run() {
     weights();
     LIGHT.forEach(function (id) { var s = document.getElementById(id); if (s) { s.classList.remove('alt'); lighten(s); } });
@@ -2115,6 +2219,7 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
     note.innerHTML = '<b>הדמיה:</b> שלושה סקשנים בשפה הבהירה של דף הבית (משיכות, הדעה שלנו, שאלות נפוצות), וחוקים ושאלות מקופלים. העמוד באתר לא השתנה.<br><button type="button">סגור</button>';
     note.querySelector('button').onclick = function () { note.remove(); };
     document.body.appendChild(note);
+    mobileDemo();
   }
   window.addEventListener('load', function () { setTimeout(run, 400); });
 })();
