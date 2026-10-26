@@ -1,0 +1,35 @@
+<style>
+/* A: two gloves in the site's colours punch in from both sides of the title, a flash at the meeting point, then they hover */
+.ha .head { min-height:300px; justify-content:center; }
+.ha .glove { position:absolute; top:-10px; width:330px; z-index:1; pointer-events:none; filter:drop-shadow(0 30px 40px rgba(0,0,0,.45)); }
+.ha .glove img { width:100%; display:block; }
+.ha .glove.l { left:max(0px, calc(50% - 620px)); }
+.ha .glove.r { right:max(0px, calc(50% - 620px)); }
+.ha .glove.l img { animation:haL 1.1s cubic-bezier(.2,.9,.25,1) both, haFloat 5s ease-in-out 1.2s infinite; }
+.ha .glove.r img { animation:haR 1.1s cubic-bezier(.2,.9,.25,1) .08s both, haFloat 5s ease-in-out 1.5s infinite reverse; }
+@keyframes haL { 0% { transform:translateX(-120%) rotate(-14deg); opacity:0; } 55% { transform:translateX(26%) rotate(6deg); opacity:1; } 100% { transform:none; } }
+@keyframes haR { 0% { transform:translateX(120%) rotate(14deg); opacity:0; } 55% { transform:translateX(-26%) rotate(-6deg); opacity:1; } 100% { transform:none; } }
+@keyframes haFloat { 50% { transform:translateY(-10px) rotate(-2deg); } }
+.ha .flash { position:absolute; top:40px; left:50%; width:520px; height:220px; translate:-50% 0; border-radius:50%; background:radial-gradient(closest-side, rgba(125,198,255,.55), rgba(125,198,255,0)); filter:blur(10px); opacity:0; animation:haFlash 1.2s ease-out .5s both; pointer-events:none; }
+@keyframes haFlash { 0% { opacity:0; scale:.4; } 30% { opacity:1; scale:1.1; } 100% { opacity:.35; scale:1; } }
+.ha h1 { font-size:76px; }
+@media (max-width:979px) { .ha .glove { width:220px; top:20px; } .ha .glove.l { left:-60px; } .ha .glove.r { right:-60px; } }
+@media (max-width:760px) {
+  .ha .head { min-height:0; padding-top:150px; }
+  .ha .glove { width:190px; top:0; } .ha .glove.l { left:calc(50% - 200px); } .ha .glove.r { right:calc(50% - 200px); }
+  .ha h1 { font-size:46px; }
+}
+@media (prefers-reduced-motion:reduce) { .ha .glove img, .ha .flash { animation:none; opacity:1; } }
+</style>
+<section class="dq-hero ha" data-theme="dark"><div class="floor"></div><div class="w">
+  <div class="head">
+    <div class="flash"></div>
+    <span class="glove l"><img src="img/glove-sky.webp" alt=""></span>
+    <span class="glove r"><img src="img/glove-navy.webp" alt=""></span>
+    <span class="pill">דו קרב</span>
+    <h1 class="grad">דו קרב חברות מימון</h1>
+    <p class="lead">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+  </div>
+  <!--CHIPS-->
+  <!--FIGHTERS-->
+</div></section>

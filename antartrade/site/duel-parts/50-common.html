@@ -1,0 +1,226 @@
+<style>
+/* duel page: everything under the hero, shared by all hero versions. Data = the live duel Take Profit 50K vs Lucid Trading Pro 50K */
+.dq { --sky:#7dc6ff; --sky2:#61b1f2; --blue:#2e8bd8; --ice:#d6ecff; --navy:#12161f; --card:#0b0e14; background:#12161f; color:#fff; font-family:"Fb Reforma","Roboto",sans-serif; }
+.dq *, .dq *::before, .dq *::after { box-sizing:border-box; }
+.dq .lat { font-family:"Roboto",sans-serif; font-weight:600; }
+.dq .w { width:min(1171px, calc(100% - 32px)); margin:0 auto; position:relative; }
+.dq .grad { background:linear-gradient(90deg,#61b1f2,#fff 78%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.dq .pill { display:inline-flex; padding:6px 14px; border-radius:999px; background:rgba(97,177,242,.14); color:var(--sky); font-size:13px; font-weight:500; line-height:1.2; }
+.dq .btn-halo > span { flex-direction:row-reverse; }
+.dq .btn-halo.ghost { background:rgba(85,169,235,.05); box-shadow:inset 0 0 0 1px rgba(255,255,255,.14); }
+.dq .btn-halo.ghost > span { color:#fff; background:none; border:1px solid rgba(97,177,242,.5); }
+
+/* hero shell shared by the versions */
+.dq-hero { position:relative; overflow:hidden; padding:150px 0 90px; background:radial-gradient(900px 420px at 50% 18%, rgba(46,139,216,.38), rgba(46,139,216,0) 100%), #12161f; }
+.dq-hero .floor { position:absolute; inset:0; background:url(img/firm-floor.svg) center 120px / 1728px 730px no-repeat; opacity:.7; filter:blur(.8px); -webkit-mask:linear-gradient(#000 70%, transparent 96%); mask:linear-gradient(#000 70%, transparent 96%); pointer-events:none; }
+.dq-hero .head { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
+.dq-hero h1 { margin:0; font:500 64px/1 "Fb Reforma","Roboto"; letter-spacing:-.01em; }
+.dq-hero .lead { margin:0; max-width:560px; font:400 20px/1.3 "Fb Reforma","Roboto"; color:rgba(255,255,255,.7); }
+.dq-chips { position:relative; z-index:2; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px; margin-top:26px; }
+.dq-chips > span { font-size:14px; color:rgba(255,255,255,.55); }
+.dq-chip { display:inline-flex; align-items:center; gap:7px; height:32px; padding:0 14px; border-radius:999px; background:rgba(255,255,255,.07); color:#fff; font:500 13px "Roboto"; cursor:pointer; border:0; transition:background .2s; direction:ltr; }
+.dq-chip b { color:var(--sky); font-size:12px; }
+.dq-chip.on, .dq-chip:hover { background:rgba(125,198,255,.18); }
+
+/* fighter cards (dark chip-glow cards from the homepage duel) */
+.dq-ring { position:relative; z-index:2; display:grid; grid-template-columns:1fr 90px 1fr; align-items:stretch; margin-top:48px; }
+.dq-f { position:relative; display:flex; flex-direction:column; gap:18px; padding:28px 30px; border-radius:32px; border:1.5px solid transparent;
+  background:radial-gradient(70% 70% at 0 100%, rgba(46,139,216,.32), rgba(46,139,216,0)) padding-box, linear-gradient(#0b0e14,#0b0e14) padding-box, linear-gradient(225deg, rgba(125,198,255,.7), rgba(125,198,255,.08) 45%, rgba(125,198,255,.35)) border-box;
+  box-shadow:0 30px 70px rgba(0,0,0,.35); }
+.dq-f .top { display:flex; justify-content:space-between; align-items:center; }
+.dq-f .side { font-size:13px; font-weight:500; color:var(--sky); padding:5px 12px; border-radius:999px; background:rgba(97,177,242,.14); }
+.dq-f .swap { display:inline-flex; align-items:center; gap:7px; padding:8px 15px; border-radius:999px; background:rgba(255,255,255,.07); color:#fff; border:0; font:500 14px "Fb Reforma","Roboto"; cursor:pointer; }
+.dq-f .swap svg { width:15px; height:15px; }
+.dq-f .co { display:flex; align-items:center; gap:14px; }
+.dq-f .co img { width:46px; height:46px; object-fit:contain; }
+.dq-f .co .n { font:700 30px/1.15 "Roboto"; direction:ltr; }
+.dq-f .plan { display:flex; justify-content:space-between; align-items:center; padding:13px 16px; border-radius:12px; background:rgba(255,255,255,.07); font-size:15px; }
+.dq-f .plan small { color:rgba(255,255,255,.55); font-size:13px; margin-inline-end:10px; }
+.dq-f .plan svg { width:16px; height:16px; }
+.dq-f .sizes { display:flex; gap:4px; padding:4px; border-radius:999px; background:rgba(255,255,255,.07); width:fit-content; }
+.dq-f .sizes button { border:0; background:none; color:rgba(255,255,255,.72); font:500 14px "Roboto"; padding:7px 13px; border-radius:999px; cursor:pointer; }
+.dq-f .sizes button.on { background:#e9eef4; color:#12161f; }
+.dq-f .price { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.dq-f .price .now { font:700 44px/1 "Roboto"; direction:ltr; }
+.dq-f .price .was { font:500 20px "Roboto"; color:rgba(255,255,255,.35); text-decoration:line-through; direction:ltr; }
+.dq-f .price .per { font-size:14px; color:rgba(255,255,255,.55); }
+.dq-f .meta { font-size:13px; color:rgba(255,255,255,.55); }
+.dq-f .code { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 10px 10px 16px; border-radius:14px; border:1px dashed rgba(125,198,255,.45); background:rgba(125,198,255,.06); }
+.dq-f .code b { font:700 18px "Roboto"; letter-spacing:.08em; color:var(--sky); }
+.dq-f .code span { font-size:13px; color:rgba(255,255,255,.6); }
+.dq-f .code button { border:0; background:#eef1f5; color:#12161f; font:500 14px "Fb Reforma","Roboto"; height:34px; padding:0 14px; border-radius:999px; cursor:pointer; }
+.dq-f .simple { font-size:14px; color:var(--sky); text-decoration:none; width:fit-content; }
+.dq-vs { display:flex; align-items:center; justify-content:center; position:relative; }
+.dq-vs i { width:62px; height:62px; border-radius:50%; display:grid; place-items:center; font:700 20px "Roboto"; font-style:normal; color:#fff; background:#12161f; border:1.5px solid var(--sky2); box-shadow:0 0 0 8px rgba(97,177,242,.08), 0 12px 40px rgba(85,169,235,.45); z-index:2; }
+.dq-vs::before { content:""; position:absolute; top:12%; bottom:12%; width:1px; background:linear-gradient(transparent, rgba(125,198,255,.5), transparent); }
+
+/* plain-words summary strip */
+.dq-sum { padding:0 0 90px; }
+.dq-sum .box { display:grid; grid-template-columns:auto 1fr auto; gap:28px; align-items:center; padding:26px 32px; border-radius:28px; background:rgba(255,255,255,.04); }
+.dq-sum .ic { width:52px; height:52px; border-radius:50%; display:grid; place-items:center; background:rgba(125,198,255,.12); }
+.dq-sum .ic svg { width:24px; height:24px; }
+.dq-sum h3 { margin:0 0 6px; font:500 22px "Fb Reforma","Roboto"; }
+.dq-sum p { margin:0; font-size:16px; line-height:1.45; color:rgba(255,255,255,.7); }
+
+/* the full duel: a white section */
+.dq-full { background:#fff; color:#12161f; padding:110px 0 120px; }
+.dq-full .head { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:34px; }
+.dq-full .head .pill { background:rgba(97,177,242,.14); color:#2e8bd8; }
+.dq-full h2 { margin:12px 0 0; font:500 45px/1.1 "Fb Reforma","Roboto"; color:#12161f; }
+.dq-full .head p { margin:8px 0 0; font-size:18px; color:rgba(18,22,31,.7); }
+.dq-tg { display:flex; gap:4px; padding:4px; border-radius:999px; background:rgba(18,22,31,.04); }
+.dq-tg button { border:0; background:none; font:400 16px "Fb Reforma","Roboto"; color:rgba(18,22,31,.7); padding:9px 18px; border-radius:999px; cursor:pointer; }
+.dq-tg button.on { background:#12161f; color:#fff; font-weight:500; }
+/* sticky scoreboard */
+.dq-bar { position:sticky; top:84px; z-index:5; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; padding:12px 22px; margin-bottom:22px; border-radius:999px; background:#12161f; color:#fff; box-shadow:0 18px 40px rgba(18,22,31,.18); }
+.dq-bar .s { display:flex; align-items:center; gap:10px; font:700 16px "Roboto"; }
+.dq-bar .s img { width:26px; height:26px; object-fit:contain; }
+.dq-bar .s.b { justify-content:flex-end; }
+.dq-bar .score { display:flex; align-items:center; gap:10px; font:700 24px "Roboto"; direction:ltr; }
+.dq-bar .score small { font:400 12px "Fb Reforma","Roboto"; color:rgba(255,255,255,.55); }
+.dq-bar .score .ahead { color:var(--sky); }
+/* rounds */
+.dq-round { position:relative; margin-top:22px; padding:8px 34px 18px; border-radius:32px; border:1px solid transparent;
+  background:radial-gradient(45% 60% at 100% 0, rgba(214,236,255,.55), rgba(214,236,255,0)) padding-box, radial-gradient(60% 70% at 0 100%, rgba(97,177,242,.16), rgba(214,236,255,0)) padding-box, linear-gradient(#fff,#fff) padding-box, linear-gradient(45deg,#2e8bd8,#7dc6ff,#d6ecff) border-box;
+  box-shadow:0 24px 60px rgba(85,169,235,.09); }
+.dq-round .rh { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:20px 0 14px; }
+.dq-round .rh .nm { font:500 14px "Roboto"; color:rgba(18,22,31,.55); }
+.dq-round .rh .nm.b { text-align:left; }
+.dq-round .rt { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.dq-round .rt small { font-size:13px; color:rgba(18,22,31,.55); }
+.dq-round .rt h3 { margin:0; font:500 26px "Fb Reforma","Roboto"; }
+.dq-round .rs { display:flex; gap:8px; align-items:center; font:700 18px "Roboto"; direction:ltr; }
+.dq-round .rs span { min-width:30px; height:30px; border-radius:999px; display:grid; place-items:center; background:rgba(18,22,31,.04); }
+.dq-round .rs span.w { background:#12161f; color:#fff; }
+.dq-row { display:grid; grid-template-columns:1fr 240px 1fr; align-items:center; gap:16px; padding:14px 0; border-top:1px solid #eaf2fa; transition:opacity .3s; }
+.dq-row .v { font:400 17px/1.35 "Fb Reforma","Roboto"; color:#12161f; display:flex; align-items:center; gap:8px; }
+.dq-row .v.b { justify-content:flex-end; text-align:left; }
+.dq-row .v .lat { font-weight:500; }
+.dq-row .v.adv { font-weight:500; }
+.dq-row .v.adv::after { content:"יתרון"; order:-1; font:500 12px "Fb Reforma","Roboto"; color:#2e8bd8; background:rgba(97,177,242,.14); padding:3px 9px; border-radius:999px; }
+.dq-row .v.b.adv::after { order:2; }
+.dq-row .k { text-align:center; font-size:15px; color:rgba(18,22,31,.7); }
+.dq-row .k small { display:block; font-size:12px; color:rgba(18,22,31,.55); margin-top:2px; }
+.dq-row .v.long { font-size:14px; color:rgba(18,22,31,.7); }
+.dq-full.diff .dq-row.same { display:none; }
+
+/* final verdict + what to know (dark) */
+.dq-end { padding:110px 0 120px; background:radial-gradient(800px 380px at 50% 0, rgba(46,139,216,.3), rgba(46,139,216,0)), #12161f; }
+.dq-end .head { text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px; margin-bottom:40px; }
+.dq-end h2 { margin:0; font:500 45px/1.1 "Fb Reforma","Roboto"; }
+.dq-end .head p { margin:0; font-size:18px; color:rgba(255,255,255,.7); }
+.dq-end .two { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.dq-know { display:flex; flex-direction:column; gap:18px; padding:30px; border-radius:32px; border:1.5px solid transparent;
+  background:radial-gradient(70% 70% at 0 100%, rgba(46,139,216,.28), rgba(46,139,216,0)) padding-box, linear-gradient(#0b0e14,#0b0e14) padding-box, linear-gradient(225deg, rgba(125,198,255,.6), rgba(125,198,255,.06) 50%, rgba(125,198,255,.3)) border-box; }
+.dq-know .co { display:flex; align-items:center; gap:12px; font:700 24px "Roboto"; direction:ltr; justify-content:flex-end; }
+.dq-know .co img { width:36px; height:36px; object-fit:contain; }
+.dq-know .co em { margin-inline-end:auto; font:500 14px "Fb Reforma","Roboto"; font-style:normal; color:var(--sky); direction:rtl; }
+.dq-know dl { margin:0; }
+.dq-know dl div { display:flex; justify-content:space-between; gap:16px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,.08); }
+.dq-know dl div:last-child { border-bottom:0; }
+.dq-know dt { font-size:15px; color:rgba(255,255,255,.55); white-space:nowrap; }
+.dq-know dd { margin:0; font-size:15px; text-align:left; color:#fff; }
+.dq-know .btns { display:flex; gap:12px; flex-wrap:wrap; margin-top:auto; }
+.dq-know .btn-halo > span { height:46px; font-size:17px; padding:0 20px; }
+.dq-again { display:flex; justify-content:center; margin-top:44px; }
+
+/* version switcher (preview only) */
+.dq-ver { position:fixed; left:16px; bottom:16px; z-index:99; display:flex; gap:4px; padding:4px; border-radius:999px; background:rgba(11,14,20,.85); backdrop-filter:blur(10px); box-shadow:inset 0 0 0 1px rgba(255,255,255,.12); font-family:"Fb Reforma","Roboto"; }
+.dq-ver a { color:rgba(255,255,255,.72); text-decoration:none; font-size:14px; padding:8px 14px; border-radius:999px; }
+.dq-ver a.on { background:#e9eef4; color:#12161f; font-weight:500; }
+
+@media (max-width:979px) {
+  .dq-ring { grid-template-columns:1fr; gap:0; }
+  .dq-vs { height:0; } .dq-ring > .dq-f:first-child { margin-bottom:14px; } .dq-ring > .dq-f:last-child { margin-top:14px; }
+  .dq-end .two { grid-template-columns:1fr; }
+}
+@media (max-width:760px) {
+  .dq-ver { left:8px; bottom:8px; } .dq-ver a { padding:7px 11px; font-size:13px; } .dq-ver a .t { display:none; }
+  .dq-hero { padding:118px 0 64px; } .dq-hero h1 { font-size:42px; } .dq-hero .lead { font-size:17px; }
+  .dq-hero .floor { background-size:1728px 730px; background-position:center -40px; opacity:1; filter:blur(.6px); -webkit-mask:linear-gradient(#000 80%, transparent); mask:linear-gradient(#000 80%, transparent); }
+  .dq-f { padding:22px 20px; border-radius:24px; } .dq-f .co .n { font-size:24px; } .dq-f .price .now { font-size:36px; }
+  .dq-f .sizes { width:100%; justify-content:space-between; } .dq-f .sizes button { padding:7px 9px; font-size:13px; }
+  .dq-sum .box { grid-template-columns:1fr; gap:14px; padding:22px; }
+  .dq-full, .dq-end { padding:72px 0 80px; } .dq-full h2, .dq-end h2 { font-size:32px; }
+  .dq-full .head { flex-direction:column; align-items:stretch; } .dq-tg button { flex:1; }
+  .dq-bar { top:70px; padding:10px 16px; } .dq-bar .s span { display:none; }
+  .dq-round { padding:4px 16px 12px; border-radius:24px; }
+  .dq-round .rh { grid-template-columns:1fr; gap:10px; } .dq-round .rh .nm { display:none; }
+  .dq-row { grid-template-columns:1fr 1fr; gap:6px 14px; }
+  .dq-row .k { grid-column:1 / -1; order:-1; }
+  .dq-row .v.b { justify-content:flex-start; text-align:right; }
+  .dq-row .v.adv::after, .dq-row .v.b.adv::after { order:2; }
+  .dq-know { padding:22px 20px; border-radius:24px; } .dq-know .btns .btn-halo { flex:1; } .dq-know .btns .btn-halo > span { width:100%; }
+}
+</style>
+
+<section class="dq-sum"><div class="w"><div class="box">
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M5 6.5h14M5 12h14M5 17.5h9" stroke="#7DC6FF" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+  <div><h3>סיכום הדו קרב במילים פשוטות</h3><p><span class="lat">Take Profit</span> זולה יותר בכניסה ומאפשרת יותר חוזים ומשיכה מהיום הראשון בלי תקרה. <span class="lat">Lucid Trading</span> משלמת חד פעמית, נותנת <span class="lat">90%</span> לסוחר וסטופ סוף יום בחשבון הממומן, אבל עם חוק עקביות של <span class="lat">40%</span>.</p></div>
+  <a class="btn-halo ghost" href="#full"><span><svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>לדו קרב המלא</span></a>
+</div></div></section>
+
+<section class="dq-full" id="full" data-theme="light"><div class="w">
+  <div class="head">
+    <div><span class="pill">הדו קרב המלא</span><h2>סיבוב אחרי סיבוב</h2><p>כל נתון מול נתון, והיתרון מסומן בצד שמוביל.</p></div>
+    <div class="dq-tg" role="tablist"><button class="on" data-v="all">כל הפרטים</button><button data-v="diff">רק ההבדלים</button></div>
+  </div>
+  <div class="dq-bar">
+    <div class="s a"><img src="img/firm-takeprofit.svg" alt=""><span>Take Profit 50K</span></div>
+    <div class="score"><span data-tot="0">0</span><small>יתרונות</small><span data-tot="1">0</span></div>
+    <div class="s b"><span>Lucid Trading Pro 50K</span><img src="img/lucid-fig-dark.png" alt=""></div>
+  </div>
+  <div id="dqRounds"></div>
+</div></section>
+
+<section class="dq-end" data-theme="dark"><div class="w">
+  <div class="head"><span class="pill">לפני שבוחרים</span><h2 class="grad">מה חשוב לדעת לפני שבוחרים</h2><p>הנתונים שהכי משנים את ההחלטה, בכל צד.</p></div>
+  <div class="two">
+    <div class="dq-know">
+      <div class="co"><em>צד א׳</em>Take Profit 50K<img src="img/firm-takeprofit.svg" alt=""></div>
+      <dl><div><dt>מחיר</dt><dd class="lat">$102</dd></div><div><dt>חלוקת רווחים</dt><dd><span class="lat">80%</span> לסוחר</dd></div><div><dt>חוק עקביות</dt><dd>אין</dd></div><div><dt>חוק עקביות במבחן</dt><dd class="lat">50%</dd></div><div><dt>תנאי זכאות למשיכה</dt><dd>משיכה יומית מהיום הראשון של רווחים מעל הבאפר</dd></div></dl>
+      <div class="btns"><a class="btn-halo sky" href="#"><span><svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>לפתיחת חשבון ב-<span class="lat">Take Profit</span></span></a><a class="btn-halo ghost" href="#"><span>לעמוד <span class="lat">Take Profit</span></span></a></div>
+    </div>
+    <div class="dq-know">
+      <div class="co"><em>צד ב׳</em>Lucid Trading Pro 50K<img src="img/lucid-fig-dark.png" alt=""></div>
+      <dl><div><dt>מחיר</dt><dd class="lat">$150.50</dd></div><div><dt>חלוקת רווחים</dt><dd><span class="lat">90%</span> לסוחר</dd></div><div><dt>חוק עקביות</dt><dd class="lat">40%</dd></div><div><dt>חוק עקביות במבחן</dt><dd>אין</dd></div><div><dt>תנאי זכאות למשיכה</dt><dd>משיכה בכפוף לחוק עקביות של <span class="lat">40%</span></dd></div></dl>
+      <div class="btns"><a class="btn-halo sky" href="#"><span><svg viewBox="0 0 12 10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>לפתיחת חשבון ב-<span class="lat">Lucid Trading</span></span></a><a class="btn-halo ghost" href="#"><span>לעמוד <span class="lat">Lucid Trading</span></span></a></div>
+    </div>
+  </div>
+  <div class="dq-again"><a class="btn-halo ghost" href="#top"><span>דו קרב אחר</span></a></div>
+</div></section>
+
+<script>
+(function () {
+  /* rounds = the live duel's groups; adv: 0 side A, 1 side B, -1 no advantage (as marked on the live page) */
+  const L = s => `<span class="lat">${s}</span>`;
+  const R = [
+    ['עלויות', [['מחיר', L('$102'), L('$150.50'), 0], ['מודל חיוב', 'חודשי', 'חד-פעמי', 1], ['דמי הפעלה', 'חינם עם ' + L('ANTAR'), 'אין', -1, 'מחיר רגיל: $130']]],
+    ['שלב המבחן', [['יעד מעבר', L('$53,000'), L('$53,000'), -1], ['סטופ מקסימלי במבחן', L('$2,000'), L('$2,000'), -1], ['סוג הסטופ במבחן', 'סוף יום (' + L('EOD') + ')', 'סוף יום (' + L('EOD') + ')', -1], ['מגבלת הפסד יומית במבחן', 'אין', 'אין', -1], ['חוק עקביות במבחן', L('50%'), 'אין', 1], ['מינימום ימי מסחר במבחן', '3 ימים', 'יום אחד', 1], ['חוזים במבחן', L('6'), L('4'), 0]]],
+    ['חשבון ממומן', [['סטופ מקסימלי', L('$2,000'), L('$2,000'), -1], ['סוג הסטופ', 'תוך יומי (' + L('Intraday') + ')', 'סוף יום (' + L('EOD') + ')', 1], ['יתרה שבה הסטופ ננעל', L('$52,000'), L('$52,100'), -1], ['מגבלת הפסד יומית', 'אין', 'אין', -1], ['חוק עקביות', 'אין', L('40%'), 0], ['חוזים', L('6'), L('4'), 0], ['חשבונות ממומנים במקביל', 'עד ' + L('5'), 'עד ' + L('5'), -1], ['חלוקת רווחים', L('80%') + ' לסוחר', L('90%') + ' לסוחר', 1]]],
+    ['משיכות', [['תנאי זכאות למשיכה', 'משיכה יומית מהיום הראשון של רווחים מעל הבאפר', 'משיכה בכפוף לחוק עקביות של ' + L('40%'), -1, '', 1], ['תדירות משיכות', 'כל יום מהיום הראשון', 'בכל יום שעומדים בתנאים', -1, '', 1], ['מינימום משיכה', 'אין', L('$500'), 0], ['תקרת משיכה', 'אין', 'משיכה ' + L('1: $2,000') + ' · מדורגת', 0], ['כרית הביטחון', L('$2,000'), L('$2,100'), 0], ['שיטות קבלת כסף', L('Plaid · PayPal · Wise'), L('Plaid · WorkMarket · קריפטו'), -1, '', 1]]],
+    ['חופש במסחר', [['מסחר בזמן חדשות במבחן', 'מותר', 'מותר', -1], ['מסחר בזמן חדשות בממומן', 'מותר בתנאים', 'מותר', 1], ['החזקה ללילה', 'אסור', 'אסור', -1], ['Hedging', 'אסור', 'אסור', -1], ['Copy Trading', 'מותר', 'מותר', -1], ['מסחר אוטומטי', 'אסור', 'מותר', 1], ['פלטפורמות', L('14') + ' פלטפורמות', L('12') + ' פלטפורמות', 0]]],
+  ];
+  const box = document.getElementById('dqRounds'); if (!box) return;
+  const tot = [0, 0]; window.__dqRounds = [];
+  box.innerHTML = R.map(([title, rows], i) => {
+    const sc = [0, 0]; rows.forEach(r => { if (r[3] >= 0) sc[r[3]]++; }); tot[0] += sc[0]; tot[1] += sc[1]; window.__dqRounds.push([title, sc]);
+    return `<div class="dq-round"><div class="rh"><span class="nm">Take Profit</span><div class="rt"><small>סיבוב ${i + 1} מתוך ${R.length}</small><h3>${title}</h3>
+      <div class="rs"><span class="${sc[0] > sc[1] ? 'w' : ''}">${sc[0]}</span>:<span class="${sc[1] > sc[0] ? 'w' : ''}">${sc[1]}</span></div></div><span class="nm b">Lucid Trading</span></div>
+      ${rows.map(([k, a, b, adv, hint, long]) => `<div class="dq-row${a === b ? ' same' : ''}"><div class="v a${adv === 0 ? ' adv' : ''}${long ? ' long' : ''}"><span>${a}</span></div><div class="k">${/^[A-Z]/.test(k) ? L(k) : k}${hint ? `<small>${hint}</small>` : ''}</div><div class="v b${adv === 1 ? ' adv' : ''}${long ? ' long' : ''}"><span>${b}</span></div></div>`).join('')}</div>`;
+  }).join('');
+  window.__dqTotals = tot;
+  document.querySelectorAll('[data-tot]').forEach(el => el.textContent = tot[+el.dataset.tot]);
+  const lead = tot[0] === tot[1] ? -1 : (tot[0] > tot[1] ? 0 : 1);
+  if (lead >= 0) document.querySelector(`[data-tot="${lead}"]`).classList.add('ahead');
+  const full = document.querySelector('.dq-full');
+  full.querySelectorAll('.dq-tg button').forEach(b => b.addEventListener('click', () => {
+    full.querySelectorAll('.dq-tg button').forEach(x => x.classList.toggle('on', x === b));
+    full.classList.toggle('diff', b.dataset.v === 'diff');
+  }));
+  /* fighter cards: size toggle and copy code */
+  document.querySelectorAll('.dq-f .sizes').forEach(s => s.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; s.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); }));
+  document.querySelectorAll('.dq-f .code button').forEach(b => b.addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText('ANTAR'); const t = b.textContent; b.textContent = 'הועתק'; setTimeout(() => b.textContent = t, 1400); }));
+  document.querySelectorAll('.dq-chip').forEach(c => c.addEventListener('click', () => document.querySelectorAll('.dq-chip').forEach(x => x.classList.toggle('on', x === c))));
+})();
+</script>

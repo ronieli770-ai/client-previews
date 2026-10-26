@@ -1,0 +1,69 @@
+<style>
+/* C: a fight scoreboard. The gloves cross over the board, the five rounds light up one by one and the score counts up */
+.hc .board { position:relative; z-index:2; margin:46px auto 0; max-width:980px; padding:34px 40px 30px; border-radius:36px; border:1.5px solid transparent;
+  background:radial-gradient(60% 80% at 50% 0, rgba(46,139,216,.3), rgba(46,139,216,0)) padding-box, linear-gradient(#0b0e14,#0b0e14) padding-box, linear-gradient(180deg, rgba(125,198,255,.65), rgba(125,198,255,.06) 60%) border-box;
+  box-shadow:0 40px 90px rgba(0,0,0,.4); }
+.hc .gl { position:absolute; top:-92px; width:190px; pointer-events:none; filter:drop-shadow(0 20px 26px rgba(0,0,0,.5)); }
+.hc .gl img { width:100%; display:block; }
+.hc .gl.l { left:calc(50% - 205px); } .hc .gl.r { right:calc(50% - 205px); }
+.hc .gl.l img { animation:hcL 1s cubic-bezier(.2,.9,.25,1) both; } .hc .gl.r img { animation:hcR 1s cubic-bezier(.2,.9,.25,1) .06s both; }
+@keyframes hcL { 0% { transform:translateX(-80%) rotate(-20deg); opacity:0; } 60% { transform:translateX(14%) rotate(4deg); opacity:1; } 100% { transform:rotate(-6deg); } }
+@keyframes hcR { 0% { transform:translateX(80%) rotate(20deg); opacity:0; } 60% { transform:translateX(-14%) rotate(-4deg); opacity:1; } 100% { transform:rotate(6deg); } }
+.hc .fight { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px; }
+.hc .fr { display:flex; align-items:center; gap:16px; }
+.hc .fr.l { flex-direction:row-reverse; }
+.hc .fr img { width:64px; height:64px; object-fit:contain; }
+.hc .fr .n { font:700 30px/1.1 "Roboto"; direction:ltr; }
+.hc .fr small { display:block; font:400 14px "Fb Reforma","Roboto"; color:rgba(255,255,255,.55); margin-top:4px; }
+.hc .fr.l > div { text-align:left; }
+.hc .big { display:flex; align-items:center; gap:18px; font:700 92px/1 "Roboto"; direction:ltr; }
+.hc .big i { font-style:normal; font-size:56px; color:rgba(255,255,255,.3); }
+.hc .big span { min-width:70px; text-align:center; transition:color .3s; }
+.hc .big span.ahead { color:var(--sky); text-shadow:0 0 34px rgba(125,198,255,.6); }
+.hc .rounds { display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; margin-top:28px; }
+.hc .rd { color:#fff; text-decoration:none; padding:14px 10px; border-radius:16px; background:rgba(255,255,255,.04); text-align:center; opacity:.35; transition:opacity .4s, background .4s; }
+.hc .rd.on { opacity:1; background:rgba(125,198,255,.1); }
+.hc .rd small { display:block; font-size:12px; color:rgba(255,255,255,.55); }
+.hc .rd b { display:block; margin:4px 0 6px; font:500 16px "Fb Reforma","Roboto"; }
+.hc .rd span { font:700 16px "Roboto"; direction:ltr; display:inline-block; color:rgba(255,255,255,.8); }
+.hc .note { margin:16px 0 0; text-align:center; font-size:14px; color:rgba(255,255,255,.55); }
+.hc .ring-title { margin-top:70px; text-align:center; font:500 24px "Fb Reforma","Roboto"; color:rgba(255,255,255,.85); position:relative; z-index:2; }
+@media (max-width:760px) {
+  .hc .board { padding:26px 18px 22px; border-radius:26px; margin-top:110px; }
+  .hc .gl { width:120px; top:-70px; } .hc .gl.l { left:calc(50% - 130px); } .hc .gl.r { right:calc(50% - 130px); }
+  .hc .fight { grid-template-columns:1fr 1fr; gap:14px; } .hc .big { grid-column:1 / -1; order:3; justify-content:center; font-size:64px; } .hc .big i { font-size:40px; }
+  .hc .fr { flex-direction:column; text-align:center; gap:8px; } .hc .fr.l { flex-direction:column; } .hc .fr.l > div { text-align:center; } .hc .fr img { width:44px; height:44px; } .hc .fr .n { font-size:20px; }
+  .hc .rounds { grid-template-columns:repeat(5, minmax(0,1fr)); gap:6px; } .hc .rd { padding:10px 4px; } .hc .rd b { font-size:12px; } .hc .rd small { display:none; }
+}
+@media (prefers-reduced-motion:reduce) { .hc .gl img { animation:none; } }
+</style>
+<section class="dq-hero hc" data-theme="dark"><div class="floor"></div><div class="w">
+  <div class="head">
+    <span class="pill">דו קרב</span>
+    <h1 class="grad">דו קרב חברות מימון</h1>
+    <p class="lead">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+  </div>
+  <!--CHIPS-->
+  <div class="board" style="margin-top:130px">
+    <span class="gl l"><img src="img/glove-sky.webp" alt=""></span><span class="gl r"><img src="img/glove-navy.webp" alt=""></span>
+    <div class="fight">
+      <div class="fr"><img src="img/firm-takeprofit.svg" alt=""><div><span class="n">Take Profit</span><small>צד א׳ · <span class="lat">50K</span></small></div></div>
+      <div class="big"><span id="hcA">0</span><i>:</i><span id="hcB">0</span></div>
+      <div class="fr l"><img src="img/lucid-fig-dark.png" alt=""><div><span class="n">Lucid Trading</span><small>צד ב׳ · <span class="lat">Pro 50K</span></small></div></div>
+    </div>
+    <div class="rounds" id="hcRounds"></div>
+    <p class="note">כל יתרון בדו קרב המלא שווה נקודה. לחצו על סיבוב כדי לקפוץ אליו.</p>
+  </div>
+  <div class="ring-title">בחרו את המתמודדים</div>
+  <!--FIGHTERS-->
+</div></section>
+<script>
+addEventListener('DOMContentLoaded', () => {
+  const R = window.__dqRounds || [], box = document.getElementById('hcRounds'), A = document.getElementById('hcA'), B = document.getElementById('hcB');
+  box.innerHTML = R.map(([t, s], i) => `<a class="rd" href="#full" data-i="${i}"><small>סיבוב ${i + 1}</small><b>${t}</b><span>${s[0]} : ${s[1]}</span></a>`).join('');
+  box.querySelectorAll('.rd').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.querySelectorAll('.dq-round')[+a.dataset.i].scrollIntoView({ behavior:'smooth', block:'center' }); }));
+  let a = 0, b = 0;
+  R.forEach(([t, s], i) => setTimeout(() => { box.children[i].classList.add('on'); a += s[0]; b += s[1]; A.textContent = a; B.textContent = b;
+    A.classList.toggle('ahead', a > b); B.classList.toggle('ahead', b > a); }, 1100 + i * 650));
+});
+</script>

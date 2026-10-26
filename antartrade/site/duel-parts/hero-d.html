@@ -1,0 +1,47 @@
+<style>
+/* D: split screen. Each firm gets its own corner of the hero, lit in a different blue, with a glowing seam between them; the gloves meet on the seam */
+.hd { padding-bottom:110px; }
+.hd .half { position:absolute; top:0; bottom:0; width:50%; pointer-events:none; }
+.hd .half.r { right:0; background:radial-gradient(70% 60% at 70% 60%, rgba(125,198,255,.22), rgba(125,198,255,0)); }
+.hd .half.l { left:0; background:radial-gradient(70% 60% at 30% 60%, rgba(43,77,106,.55), rgba(43,77,106,0)); }
+.hd .seam { position:absolute; top:220px; bottom:0; left:50%; width:2px; translate:-50% 0; rotate:8deg; transform-origin:top; background:linear-gradient(rgba(214,236,255,0), rgba(214,236,255,.9) 30%, rgba(125,198,255,.6) 70%, rgba(125,198,255,0)); box-shadow:0 0 24px 4px rgba(125,198,255,.45); pointer-events:none; animation:hdSeam 1s ease-out .3s both; }
+@keyframes hdSeam { from { scale:1 0; } to { scale:1 1; } }
+.hd .wm { position:absolute; top:170px; width:380px; opacity:.07; pointer-events:none; filter:blur(1px); }
+.hd .wm.r { right:calc(50% - 760px); } .hd .wm.l { left:calc(50% - 760px); }
+.hd .dq-ring { grid-template-columns:1fr 140px 1fr; margin-top:56px; }
+.hd .dq-f { background:none; border:0; box-shadow:none; padding:10px 20px; }
+.hd .dq-f[data-side="0"] { align-items:flex-start; }
+.hd .dq-f .co .n { font-size:40px; }
+.hd .dq-f .price .now { font-size:56px; }
+.hd .dq-f .code { width:100%; }
+.hd .dq-f .plan { width:100%; }
+.hd .dq-vs { flex-direction:column; justify-content:flex-start; padding-top:120px; }
+.hd .dq-vs::before { display:none; }
+.hd .gl { position:absolute; top:40px; width:150px; pointer-events:none; filter:drop-shadow(0 18px 24px rgba(0,0,0,.5)); }
+.hd .gl img { width:100%; display:block; }
+.hd .gl.l { right:50%; } .hd .gl.r { left:50%; }
+.hd .gl.l img { animation:hdL .9s cubic-bezier(.2,.9,.25,1) .5s both; } .hd .gl.r img { animation:hdR .9s cubic-bezier(.2,.9,.25,1) .55s both; }
+@keyframes hdL { 0% { transform:translateX(-140%); opacity:0; } 60% { transform:translateX(12%); opacity:1; } 100% { transform:translateX(-4%); } }
+@keyframes hdR { 0% { transform:translateX(140%); opacity:0; } 60% { transform:translateX(-12%); opacity:1; } 100% { transform:translateX(4%); } }
+@media (max-width:979px) {
+  .hd .seam, .hd .wm { display:none; } .hd .half { width:100%; height:50%; } .hd .half.r { top:0; bottom:auto; } .hd .half.l { top:auto; bottom:0; }
+  .hd .dq-ring { grid-template-columns:1fr; } .hd .dq-vs { height:150px; padding-top:0; justify-content:center; } .hd .gl { top:30px; width:110px; }
+  .hd .dq-f[data-side="0"] { align-items:stretch; }
+}
+@media (max-width:760px) { .hd .dq-f { padding:0; } .hd .dq-f .co .n { font-size:30px; } .hd .dq-f .price .now { font-size:44px; } }
+@media (prefers-reduced-motion:reduce) { .hd .gl img, .hd .seam { animation:none; } }
+</style>
+<section class="dq-hero hd" data-theme="dark"><div class="floor"></div><span class="half r"></span><span class="half l"></span><span class="seam"></span>
+  <img class="wm r" src="img/firm3d-takeprofit.webp" alt=""><img class="wm l" src="img/firm3d-lucid.webp" alt="">
+  <div class="w">
+  <div class="head">
+    <span class="pill">דו קרב</span>
+    <h1 class="grad">דו קרב חברות מימון</h1>
+    <p class="lead">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+  </div>
+  <!--CHIPS-->
+  <!--FIGHTERS-->
+</div></section>
+<script>
+addEventListener('DOMContentLoaded', () => { const v = document.querySelector('.hd .dq-vs'); if (v) v.insertAdjacentHTML('afterbegin', '<span class="gl l"><img src="img/glove-sky.webp" alt=""></span><span class="gl r"><img src="img/glove-navy.webp" alt=""></span>'); });
+</script>
