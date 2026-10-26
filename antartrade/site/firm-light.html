@@ -1108,7 +1108,9 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   .cmp-sheet table { border-collapse: separate; border-spacing: 0; min-width: 100%; font: 400 15px/1.35 "Fb Reforma", "Roboto"; }
   .cmp-sheet table { table-layout: fixed; width: 100%; }
   .cmp-sheet th, .cmp-sheet td { padding: 10px 6px; border-bottom: 1px solid #eaf2fa; text-align: right; vertical-align: top; }
-  .cmp-sheet td { font-size: 14px; }
+  .cmp-sheet td { font-size: 13px; padding-inline: 4px; }
+  .cmp-sheet .lat { font-family: "Roboto", sans-serif; font-weight: 500; }
+  .cmp-sheet td .lat, .cmp-sheet thead .lat { font-weight: 600; }
   .cmp-sheet col.lbl { width: 30%; }
   .cmp-sheet thead th { position: sticky; top: 0; background: #fff; z-index: 2; font: 600 15px/1.2 "Roboto"; }
   .cmp-sheet thead th.on { color: #2e8bd8; }
@@ -2190,17 +2192,48 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
     cmpBtn.innerHTML = 'השוו בין כל הגדלים <svg viewBox="0 0 12 10" width="12" height="10" fill="none"><path d="M11 5H1M5 1L1 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     wd.querySelector('.bar').appendChild(cmpBtn);
     var sheet = document.createElement('div'); sheet.className = 'cmp-sheet';
-    sheet.innerHTML = '<div class="bg"></div><div class="pnl"><div class="hd"><button type="button" class="x" aria-label="סגירה"><svg viewBox="0 0 10 10" width="12" height="12" fill="none"><path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><b>תנאי משיכה לפי גודל חשבון</b></div><div class="scroll"></div></div>';
+    sheet.innerHTML = '<div class="bg"></div><div class="pnl"><div class="hd"><button type="button" class="x" aria-label="סגירה"><svg viewBox="0 0 10 10" width="12" height="12" fill="none"><path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><b></b></div><div class="scroll"></div></div>';
     document.body.appendChild(sheet);
     var close = function () { sheet.classList.remove('open'); }; sheet.querySelector('.bg').onclick = close; sheet.querySelector('.x').onclick = close;
-    cmpBtn.onclick = function () {
-      var btns = [].slice.call(document.querySelectorAll('#wdSize button')); var cur = btns.findIndex(function (b) { return b.classList.contains('on'); });
-      var cols = btns.map(function (b) { b.click(); return [].slice.call(list.children).map(function (r) { return r.classList.contains('grp') ? { g: r.textContent } : { k: r.children[0].textContent, v: r.children[1].textContent }; }); });
-      btns[cur].click();
-      var html = '<table><colgroup><col class="lbl">' + btns.map(function () { return '<col>'; }).join('') + '</colgroup><thead><tr><th></th>' + btns.map(function (b, i) { return '<th class="' + (i === cur ? 'on' : '') + '">' + b.textContent + '</th>'; }).join('') + '</tr></thead><tbody>';
-      cols[0].forEach(function (r, i) { html += r.g ? '<tr class="grp"><th colspan="' + (btns.length + 1) + '">' + r.g + '</th></tr>' : '<tr><th>' + r.k + '</th>' + cols.map(function (c) { return '<td class="' + (isNum(c[i].v) ? 'isnum' : '') + '">' + c[i].v.replace(/([$\d][\d$,.%]*)/g, '<span class="lat">$1</span>') + '</td>'; }).join('') + '</tr>'; });
+
+    /* one table for any size picker: click every size, read its rows, put the picker back where it was */
+    var openTable = function (title, sizeSel, gather) {
+      var y = scrollY, btns = [].slice.call(document.querySelectorAll(sizeSel)), cur = btns.findIndex(function (b) { return b.classList.contains('on'); });
+      var labels = btns.map(function (b) { return b.textContent.trim(); });
+      var cols = labels.map(function (_, i) { document.querySelectorAll(sizeSel)[i].click(); return gather(); });
+      document.querySelectorAll(sizeSel)[cur].click(); scrollTo(0, y);
+      var html = '<table><colgroup><col class="lbl">' + labels.map(function () { return '<col>'; }).join('') + '</colgroup><thead><tr><th></th>' + labels.map(function (l, i) { return '<th class="' + (i === cur ? 'on' : '') + '">' + l + '</th>'; }).join('') + '</tr></thead><tbody>';
+      /* English and numbers in labels and the title in Roboto too (Reforma has no Latin letters) */
+      var lat = function (t) { return t.replace(/([A-Za-z0-9$][A-Za-z0-9$,.%\/-]*(?: [A-Za-z0-9$][A-Za-z0-9$,.%\/-]*)*)/g, '<span class="lat">$1</span>'); };
+      cols[0].forEach(function (r, i) { html += r.g ? '<tr class="grp"><th colspan="' + (labels.length + 1) + '">' + lat(r.g) + '</th></tr>' : '<tr><th>' + lat(r.k) + '</th>' + cols.map(function (c) { var v = c[i] ? c[i].v : ''; return '<td class="' + (isNum(v) ? 'isnum' : '') + '">' + v.replace(/([$\d][\d$,.%]*)/g, '<span class="lat">$1</span>') + '</td>'; }).join('') + '</tr>'; });
+      sheet.querySelector('.hd b').innerHTML = lat(title);
       sheet.querySelector('.scroll').innerHTML = html + '</tbody></table>'; sheet.classList.add('open');
     };
+
+    /* withdrawals: the rows of the one-list card */
+    cmpBtn.onclick = function () {
+      openTable('תנאי משיכה לפי גודל חשבון', '#wdSize button', function () { return [].slice.call(list.children).map(function (r) { return r.classList.contains('grp') ? { g: r.textContent } : { k: r.children[0].textContent, v: r.children[1].textContent }; }); });
+    };
+
+    /* accounts: the page's own "compare plans and sizes" button opens the same table with the account card's rows */
+    var accBtn = document.querySelector('#accounts [data-cmp]');
+    var rowsOf = function (face) { return [].slice.call(face.querySelectorAll('.rows > div')).map(function (d) { return { k: d.querySelector('.k').textContent.trim(), v: d.querySelector('.v').textContent.trim() }; }); };
+    /* listened on window in the capture phase: the page's own anchor-scroll handler stops the click before it reaches the link */
+    if (accBtn) window.addEventListener('click', function (e) {
+      if (!document.body.classList.contains('ux') || !e.target.closest('#accounts [data-cmp]')) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      var plan = (document.querySelector('#accPick .tg button.on') || { textContent: '' }).textContent.trim();
+      openTable('החשבונות לפי גודל' + (plan ? ' - ' + plan : ''), '#accSize .tg button', function () {
+        var c = document.querySelector('.acard.sel'); if (!c) return [];
+        var front = c.querySelector('.face.front'), back = c.querySelector('.face.back');
+        var out = [{ g: 'מבחן' }].concat(rowsOf(front).slice(0, -2));
+        var pr = front.querySelector('.price .p b'), was = front.querySelector('.price .p s');
+        out.push({ g: 'מחיר' }, { k: 'מחיר המבחן עם ANTAR', v: pr ? pr.textContent.trim() : '' }, { k: 'מחיר מלא', v: was ? was.textContent.trim() : '' });
+        out = out.concat(rowsOf(front).slice(-2));
+        if (back) out = out.concat([{ g: 'חשבון ממומן' }], rowsOf(back));
+        return out;
+      });
+    }, true);
 
     /* the switch: what we have now / the easier version */
     document.body.classList.add('ux');
