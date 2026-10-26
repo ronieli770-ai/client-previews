@@ -1,0 +1,69 @@
+<style>
+/* F: every picker card brings its own glove, punching out of its inner corner at the opponent; each card carries its win count, and one round strip ties the two cards together underneath */
+.hf { padding-top:140px; }
+.hf h1 { font-size:56px; }
+.hf .dq-chips { margin-top:20px; }
+.hf .dq-ring { margin-top:90px; }
+.hf .dq-f { overflow:visible; }
+.hf .gl { position:absolute; top:-84px; width:170px; z-index:3; pointer-events:none; filter:drop-shadow(0 18px 24px rgba(0,0,0,.5)); }
+.hf .gl img { width:100%; display:block; }
+.hf .dq-f[data-side="0"] .gl { left:24px; }
+.hf .dq-f[data-side="1"] .gl { right:24px; }
+.hf .dq-f[data-side="0"] .gl img { animation:hfA .8s cubic-bezier(.2,.9,.25,1) both; }
+.hf .dq-f[data-side="1"] .gl img { animation:hfB .8s cubic-bezier(.2,.9,.25,1) .05s both; }
+@keyframes hfA { 0% { transform:translateX(50%) scale(.8); opacity:0; } 55% { transform:translateX(-14%) scale(1.04); opacity:1; } 100% { transform:none; } }
+@keyframes hfB { 0% { transform:translateX(-50%) scale(.8); opacity:0; } 55% { transform:translateX(14%) scale(1.04); opacity:1; } 100% { transform:none; } }
+.hf .wins { position:absolute; top:24px; display:flex; flex-direction:column; align-items:center; z-index:2; }
+.hf .dq-f[data-side="0"] .wins { left:50%; translate:-50% 0; } .hf .dq-f[data-side="1"] .wins { right:50%; translate:50% 0; }
+.hf .wins b { font:700 40px/1 "Roboto"; color:rgba(255,255,255,.85); transition:color .3s, text-shadow .3s; }
+.hf .wins b.ahead { color:var(--sky); text-shadow:0 0 24px rgba(125,198,255,.6); }
+.hf .wins small { font-size:12px; color:rgba(255,255,255,.55); }
+.hf .dq-f .top .swap { order:2; }
+.hf .dq-vs i { animation:hfVs .5s ease-out .45s both; }
+@keyframes hfVs { from { scale:1.8; opacity:0; } to { scale:1; opacity:1; } }
+.hf .strip { position:relative; z-index:2; display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; margin-top:18px; padding:14px; border-radius:24px; background:rgba(255,255,255,.04); }
+.hf .rd { display:flex; flex-direction:column; gap:8px; padding:8px 10px; border-radius:14px; color:#fff; text-decoration:none; transition:background .25s; }
+.hf .rd:hover { background:rgba(125,198,255,.1); }
+.hf .rd .t { display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+.hf .rd .t b { font:700 14px "Roboto"; direction:ltr; color:rgba(255,255,255,.7); }
+.hf .rd .bar { display:flex; gap:3px; height:6px; }
+.hf .rd .bar i { border-radius:9px; background:rgba(255,255,255,.12); transition:flex-grow .6s cubic-bezier(.22,.61,.36,1), background .4s; flex:1 1 0; }
+.hf .rd .bar i.a.on { background:#7dc6ff; } .hf .rd .bar i.b.on { background:#2b4d6a; box-shadow:inset 0 0 0 1px rgba(125,198,255,.5); }
+@media (max-width:979px) { .hf .dq-ring { margin-top:70px; } .hf .dq-f[data-side="1"] { margin-top:70px !important; } .hf .strip { grid-template-columns:1fr; } }
+@media (max-width:760px) {
+  .hf { padding-top:110px; } .hf h1 { font-size:40px; }
+  .hf .gl { width:140px; top:-62px; } .hf .wins { top:20px; }  .hf .wins b { font-size:30px; }
+}
+@media (prefers-reduced-motion:reduce) { .hf .gl img, .hf .dq-vs i { animation:none; } }
+</style>
+<section class="dq-hero hf" data-theme="dark"><div class="floor"></div><div class="w">
+  <div class="head">
+    <h1 class="grad">דו קרב חברות מימון</h1>
+    <p class="lead">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+  </div>
+  <!--CHIPS-->
+  <!--FIGHTERS-->
+  <div class="strip" id="hfStrip"></div>
+</div></section>
+<script>
+addEventListener('DOMContentLoaded', () => {
+  const R = window.__dqRounds || [], cards = document.querySelectorAll('.hf .dq-f'), strip = document.getElementById('hfStrip');
+  cards.forEach((c, k) => c.insertAdjacentHTML('afterbegin', `<span class="gl"><img src="img/${k ? 'glove-sky' : 'glove-navy'}.webp" alt=""></span><span class="wins"><b data-w="${k}">0</b><small>ניצחונות</small></span>`));
+  strip.innerHTML = R.map(([t, s], i) => `<a class="rd" href="#full" data-i="${i}"><span class="t"><b>${s[0]}</b><span>${t}</span><b>${s[1]}</b></span><span class="bar"><i class="a" data-g="${s[0]}"></i><i class="b" data-g="${s[1]}"></i></span></a>`).join('');
+  strip.querySelectorAll('.rd').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.querySelectorAll('.dq-round')[+a.dataset.i].scrollIntoView({ behavior:'smooth', block:'center' }); }));
+  const W = [...document.querySelectorAll('.hf [data-w]')], rds = [...strip.children]; let timers = [];
+  function fight() {
+    timers.forEach(clearTimeout); timers = []; let sc = [0, 0];
+    W.forEach(w => { w.textContent = 0; w.classList.remove('ahead'); });
+    document.querySelectorAll('.hf .gl img, .hf .dq-vs i').forEach(i => { i.style.animation = 'none'; void i.offsetWidth; i.style.animation = ''; });
+    rds.forEach(r => r.querySelectorAll('i').forEach(i => { i.classList.remove('on'); i.style.flexGrow = 1; }));
+    R.forEach(([t, s], i) => timers.push(setTimeout(() => {
+      rds[i].querySelectorAll('i').forEach(b => { const g = +b.dataset.g; b.style.flexGrow = Math.max(g, .25); b.classList.toggle('on', g > 0); });
+      sc[0] += s[0]; sc[1] += s[1]; W[0].textContent = sc[0]; W[1].textContent = sc[1];
+      W[0].classList.toggle('ahead', sc[0] > sc[1]); W[1].classList.toggle('ahead', sc[1] > sc[0]);
+    }, 750 + i * 380)));
+  }
+  fight();
+  document.querySelector('.hf').addEventListener('click', e => { if (e.target.closest('.dq-chip, .sizes button, .swap')) fight(); });
+});
+</script>

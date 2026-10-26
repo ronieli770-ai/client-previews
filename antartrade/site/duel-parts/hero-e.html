@@ -1,0 +1,68 @@
+<style>
+/* E: the pickers are the hero. Between the two corners a centre column: the gloves meet on top, the score and the five rounds under them; any change punches again and recounts */
+.he { padding-top:140px; }
+.he h1 { font-size:56px; }
+.he .dq-chips { margin-top:20px; }
+.he .dq-ring { grid-template-columns:1fr 250px 1fr; margin-top:40px; }
+.he .dq-vs { z-index:3; flex-direction:column; justify-content:flex-start; gap:14px; padding-top:6px; }
+.he .dq-vs::before { top:150px; bottom:4%; }
+.he .dq-vs > i { display:none; }
+.he .gloves { position:relative; height:118px; width:300px; }
+.he .gloves span { position:absolute; top:0; width:170px; filter:drop-shadow(0 18px 22px rgba(0,0,0,.5)); }
+.he .gloves img { width:100%; display:block; }
+.he .gloves .l { right:50%; margin-right:-14px; } .he .gloves .r { left:50%; margin-left:-14px; }
+.he .gloves .l img { animation:heL .8s cubic-bezier(.2,.9,.25,1) both; } .he .gloves .r img { animation:heR .8s cubic-bezier(.2,.9,.25,1) .04s both; }
+@keyframes heL { 0% { transform:translateX(-70%) rotate(-12deg); opacity:0; } 55% { transform:translateX(10%) rotate(3deg); opacity:1; } 100% { transform:none; } }
+@keyframes heR { 0% { transform:translateX(70%) rotate(12deg); opacity:0; } 55% { transform:translateX(-10%) rotate(-3deg); opacity:1; } 100% { transform:none; } }
+.he .gloves .hit { content:""; position:absolute; left:50%; top:30px; width:160px; height:90px; translate:-50% 0; border-radius:50%; background:radial-gradient(closest-side, rgba(214,236,255,.85), rgba(125,198,255,0)); filter:blur(6px); opacity:0; animation:heHit .9s ease-out .38s both; pointer-events:none; }
+@keyframes heHit { 0% { opacity:0; scale:.3; } 35% { opacity:1; scale:1.1; } 100% { opacity:0; scale:1.3; } }
+.he .score { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:2px; padding:16px 22px 14px; border-radius:24px; background:#0b0e14; box-shadow:inset 0 0 0 1px rgba(125,198,255,.25), 0 20px 50px rgba(0,0,0,.4); }
+.he .score .num { display:flex; align-items:center; gap:12px; font:700 52px/1 "Roboto"; direction:ltr; }
+.he .score .num i { font-style:normal; font-size:34px; color:rgba(255,255,255,.3); }
+.he .score .num span { min-width:40px; text-align:center; transition:color .3s, text-shadow .3s; }
+.he .score .num span.ahead { color:var(--sky); text-shadow:0 0 26px rgba(125,198,255,.6); }
+.he .score small { font-size:13px; color:rgba(255,255,255,.55); }
+.he .rounds { position:relative; z-index:2; display:flex; flex-direction:column; gap:6px; width:100%; }
+.he .rd { display:grid; grid-template-columns:28px 1fr 28px; align-items:center; gap:6px; padding:8px 10px; border-radius:12px; background:rgba(255,255,255,.04); color:#fff; text-decoration:none; font-size:14px; text-align:center; opacity:.3; transition:opacity .35s, background .35s; }
+.he .rd.on { opacity:1; }
+.he .rd:hover { background:rgba(125,198,255,.12); }
+.he .rd b { font:700 14px "Roboto"; color:rgba(255,255,255,.55); }
+.he .rd b.w { color:var(--sky); }
+.he .full { position:relative; z-index:2; font-size:14px; color:var(--sky); text-decoration:none; }
+@media (max-width:979px) {
+  .he .dq-ring { grid-template-columns:1fr; }
+  .he .dq-vs { height:auto; padding:18px 0; } .he .dq-vs::before { display:none; }
+  .he .rounds { flex-direction:row; } .he .rd { grid-template-columns:1fr; padding:8px 4px; font-size:12px; } .he .rd b { font-size:12px; }
+}
+@media (max-width:760px) { .he { padding-top:110px; } .he h1 { font-size:40px; } .he .gloves { width:250px; height:96px; } .he .gloves span { width:140px; } }
+@media (prefers-reduced-motion:reduce) { .he .gloves img, .he .gloves .hit { animation:none; } }
+</style>
+<section class="dq-hero he" data-theme="dark"><div class="floor"></div><div class="w">
+  <div class="head">
+    <h1 class="grad">דו קרב חברות מימון</h1>
+    <p class="lead">בחרו שתי חברות ומסלול לכל צד והשוו ביניהן נתון מול נתון.</p>
+  </div>
+  <!--CHIPS-->
+  <!--FIGHTERS-->
+</div></section>
+<script>
+addEventListener('DOMContentLoaded', () => {
+  const vs = document.querySelector('.he .dq-vs'); if (!vs) return;
+  const R = window.__dqRounds || [];
+  vs.insertAdjacentHTML('beforeend', `<div class="gloves"><i class="hit"></i><span class="l"><img src="img/glove-sky.webp" alt=""></span><span class="r"><img src="img/glove-navy.webp" alt=""></span></div>
+    <div class="score"><div class="num"><span data-s="0">0</span><i>:</i><span data-s="1">0</span></div><small>יתרונות בדו קרב</small></div>
+    <div class="rounds">${R.map(([t, s], i) => `<a class="rd" href="#full" data-i="${i}"><b class="${s[0] > s[1] ? 'w' : ''}">${s[0]}</b><span>${t}</span><b class="${s[1] > s[0] ? 'w' : ''}">${s[1]}</b></a>`).join('')}</div>
+    <a class="full" href="#full">לדו קרב המלא</a>`);
+  const A = vs.querySelector('[data-s="0"]'), B = vs.querySelector('[data-s="1"]'), rds = [...vs.querySelectorAll('.rd')], gl = vs.querySelector('.gloves');
+  rds.forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.querySelectorAll('.dq-round')[+a.dataset.i].scrollIntoView({ behavior:'smooth', block:'center' }); }));
+  let timers = [];
+  function fight() {
+    timers.forEach(clearTimeout); timers = []; let a = 0, b = 0; A.textContent = B.textContent = 0; A.className = B.className = ''; rds.forEach(r => r.classList.remove('on'));
+    gl.querySelectorAll('img, .hit').forEach(i => { i.style.animation = 'none'; void i.offsetWidth; i.style.animation = ''; });
+    R.forEach(([t, s], i) => timers.push(setTimeout(() => { rds[i].classList.add('on'); a += s[0]; b += s[1]; A.textContent = a; B.textContent = b; A.classList.toggle('ahead', a > b); B.classList.toggle('ahead', b > a); }, 700 + i * 420)));
+  }
+  fight();
+  /* a new pairing, plan or size = a new fight */
+  document.querySelector('.he').addEventListener('click', e => { if (e.target.closest('.dq-chip, .sizes button, .swap')) fight(); });
+});
+</script>
