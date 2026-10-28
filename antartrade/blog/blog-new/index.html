@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="he" dir="rtl">
   <head><script>
-var B="/client-previews/antartrade/blog";document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||a.target==="_blank")return;var u=new URL(a.href,location.href);
+var B="/client-previews/antartrade/blog";document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||a.target==="_blank"||a.matches('[data-pos]:not([data-pos="0"])'))return;var u=new URL(a.href,location.href);
 if(u.origin===location.origin&&u.pathname.indexOf(B)===0&&u.pathname.indexOf(B+"/blog-new")!==0){e.preventDefault();e.stopPropagation();location.href="https://antartrade.co.il"+(u.pathname.slice(B.length)||"/")+u.search+u.hash;}},true);
 if(location.pathname.replace(/\/$/,"")===B)history.replaceState(null,"",B+"/blog-new"+location.search);
 </script><meta name="robots" content="noindex, nofollow">
@@ -117,7 +117,7 @@ if(location.pathname.replace(/\/$/,"")===B)history.replaceState(null,"",B+"/blog
     </script>
 
     <!-- Meta Pixel מנוהל כעת דרך שכבת המדידה המרכזית (src/lib/analytics) ונטען רק לאחר הסכמה -->
-    <script type="module" crossorigin src="/client-previews/antartrade/blog/assets/index-DkMu1Xut.js"></script>
+    <script type="module" crossorigin src="/client-previews/antartrade/blog/assets/index-CPa8yLHa.js"></script>
     <link rel="modulepreload" crossorigin href="/client-previews/antartrade/blog/assets/markdown-vendor-wqog5Ccp.js">
     <link rel="modulepreload" crossorigin href="/client-previews/antartrade/blog/assets/react-vendor-DHzjjaMB.js">
     <link rel="modulepreload" crossorigin href="/client-previews/antartrade/blog/assets/query-vendor-CO5Ttc87.js">
