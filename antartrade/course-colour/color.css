@@ -437,3 +437,30 @@ html.lenis { scroll-behavior: auto !important; }
 @keyframes horizon { to { transform: translateX(5%) scaleX(1.06); } }
 @media (max-width: 960px) { #start .end-bg::before { height: 55%; bottom: -25%; filter: blur(60px); } }
 @media (prefers-reduced-motion: reduce) { #start .end-bg::before { animation: none; } }
+
+/* ---------- phone header, as on the site: round menu button at the right, the logo on its own, academy as a pill at the left ---------- */
+.hdr .burger, .m-menu { display: none; }
+@media (max-width: 760px) {
+  .hdr { --chip: rgba(255,255,255,.08); }
+  .hdr .wrap { padding: 12px 16px; gap: 8px; justify-content: flex-start; }
+  .hdr .burger { display: grid; place-items: center; order: -1; width: 48px; height: 48px; border: 0; border-radius: 50%; background: var(--chip); color: #fff; cursor: pointer; flex: 0 0 auto; }
+  .hdr .burger svg { width: 24px; height: 24px; }
+  .hdr .logo { order: 0; width: 150px; height: 48px; margin-right: 4px; background-size: contain; }
+  .hdr .halo { order: 1; margin-inline-start: auto; padding: 0; background: none; box-shadow: none !important; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .hdr .halo a { height: 48px; padding: 0 18px; font-size: 16px; background: var(--chip); color: #fff; gap: 8px; }
+  .hdr .halo a svg { width: 18px; height: 18px; }
+  /* the menu grows out of the menu button as a circle; its X sits where the button was */
+  .m-menu { display: flex; position: fixed; inset: 0; z-index: 70; flex-direction: column; padding: 12px 16px 32px; background: #12161f; color: #fff; overflow-y: auto; overscroll-behavior: contain;
+    visibility: hidden; clip-path: circle(0 at calc(100% - 40px) 36px); transition: clip-path .75s cubic-bezier(.7,0,.2,1), visibility .75s; }
+  .m-menu.open { visibility: visible; clip-path: circle(160% at calc(100% - 40px) 36px); }
+  .m-menu .m-top { display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; height: 48px; }
+  .m-menu .m-top .logo { width: 150px; height: 39px; background: url("logo-white.png") left center / contain no-repeat; }
+  .m-menu .m-close { width: 48px; height: 48px; border: 0; border-radius: 50%; background: rgba(255,255,255,.08); color: #fff; cursor: pointer; display: grid; place-items: center; }
+  .m-menu .m-acc { display: block; margin-top: 10px; }
+  .m-menu .m-row { display: flex; align-items: center; gap: 12px; padding: 15px 2px; color: #fff; font: 500 18px "Reforma", "Roboto", sans-serif; text-decoration: none;
+    opacity: 0; translate: 0 16px; transition: opacity .45s ease, translate .6s cubic-bezier(.22,1,.36,1); transition-delay: calc(var(--i) * 45ms + 250ms); }
+  .m-menu.open .m-row { opacity: 1; translate: 0 0; }
+  .m-menu .m-ic { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; flex: none; color: var(--c, #7dc6ff);
+    background: radial-gradient(80% 80% at 0% 100%, color-mix(in srgb, var(--c, #61b1f2) 55%, transparent), transparent 75%), #0b0e14; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c, #7dc6ff) 45%, transparent); }
+  .m-menu .m-ic svg { width: 19px; height: 19px; }
+}
