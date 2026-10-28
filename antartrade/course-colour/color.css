@@ -528,3 +528,9 @@ body:has(.vers) .sc-top { bottom: 84px; }
   .mod2 .pm::after { content: "+"; }
   .mod2.open .pm::after { content: "−"; }
 }
+/* phones, round 12: darker behind the hero text - the chart shows at the top and bottom edges, the copy sits on a deep shade */
+@media (max-width: 760px) {
+  #mk { opacity: .6; }
+  .veil { background: radial-gradient(120% 60% at 50% 48%, rgba(12,13,21,.88) 0%, rgba(12,13,21,.72) 55%, rgba(12,13,21,.35) 100%), linear-gradient(0deg, #0c0d15 0%, rgba(12,13,21,0) 28%) !important; }
+  .copy::before { opacity: .95; inset: -40px -60px; }
+}
