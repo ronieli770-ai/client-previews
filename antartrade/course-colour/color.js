@@ -62,3 +62,49 @@
 
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(par); } }, { passive: true }); par(); }
 })();
+
+/* round 11: sticky header, the video rising over the hero, phone carousel for the testimonials, folding syllabus on phones, back to top */
+(function () {
+  const phone = matchMedia("(max-width: 760px)");
+
+  /* the hero stays pinned once its bottom reaches the screen, so the video section slides up over it */
+  const hero = document.querySelector(".hero");
+  const pin = () => { if (hero) hero.style.top = Math.min(0, innerHeight - hero.offsetHeight) + "px"; };
+  pin(); addEventListener("resize", pin);
+
+  /* phones: the testimonials become a strip that drifts slowly; a finger can stop it, swipe and read, it resumes after a pause */
+  const grid = document.getElementById("tgrid");
+  if (grid && phone.matches) {
+    grid.classList.remove("folded"); grid.classList.add("strip");
+    document.querySelector('[data-fold="tgrid"]')?.remove();
+    const cards = [...grid.children];
+    cards.forEach((c) => { const k = c.cloneNode(true); k.setAttribute("aria-hidden", "true"); grid.appendChild(k); });
+    grid.querySelectorAll(".rm").forEach((b) => b.addEventListener("click", () => b.closest(".tc").classList.remove("clamp")));
+    let hold = 0, x = 0;
+    const halt = () => { hold = performance.now() + 3500; };
+    ["pointerdown", "touchstart", "wheel"].forEach((ev) => grid.addEventListener(ev, halt, { passive: true }));
+    grid.addEventListener("scroll", () => { if (performance.now() < hold) x = grid.scrollLeft; }, { passive: true });
+    (function step(t) {
+      const half = grid.scrollWidth / 2;
+      if (t > hold) { x += 0.35; if (x >= half) x -= half; grid.scrollLeft = x; }
+      else if (grid.scrollLeft >= half) { grid.scrollLeft -= half; x = grid.scrollLeft; }
+      requestAnimationFrame(step);
+    })(0);
+  }
+
+  /* phones: each syllabus topic shows its title and summary; the four points open with the + like the FAQ */
+  if (phone.matches) document.querySelectorAll(".mod2").forEach((m) => {
+    m.classList.add("fold");
+    const b = document.createElement("button"); b.type = "button"; b.className = "pm"; b.setAttribute("aria-label", "פירוט הנושא"); b.setAttribute("aria-expanded", "false");
+    m.querySelector(".top").appendChild(b);
+    m.addEventListener("click", (e) => { if (e.target.closest("a")) return; const o = m.classList.toggle("open"); b.setAttribute("aria-expanded", o); });
+  });
+
+  /* back to top: appears after a short scroll, its ring fills with the page progress */
+  const top = document.querySelector(".sc-top"), ring = top && top.querySelector(".pg");
+  if (top) {
+    const tick = () => { const y = scrollY, max = document.documentElement.scrollHeight - innerHeight; top.classList.toggle("show", y > 500); ring.setAttribute("stroke-dashoffset", (194.8 * (1 - (max > 0 ? Math.min(1, y / max) : 0))).toFixed(1)); };
+    addEventListener("scroll", () => requestAnimationFrame(tick), { passive: true }); tick();
+    top.addEventListener("click", () => (window.lenis ? window.lenis.scrollTo(0) : scrollTo({ top: 0, behavior: "smooth" })));
+  }
+})();

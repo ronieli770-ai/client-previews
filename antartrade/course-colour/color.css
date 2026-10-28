@@ -464,3 +464,67 @@ html.lenis { scroll-behavior: auto !important; }
     background: radial-gradient(80% 80% at 0% 100%, color-mix(in srgb, var(--c, #61b1f2) 55%, transparent), transparent 75%), #0b0e14; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c, #7dc6ff) 45%, transparent); }
   .m-menu .m-ic svg { width: 19px; height: 19px; }
 }
+
+/* ---------- round 11 ---------- */
+/* header: fixed above every section, transparent over the hero, the page colour once the page scrolls */
+.hdr { position: fixed !important; inset: 0 0 auto 0; z-index: 60; transition: background-color .45s ease; }
+.hdr.on { background: #0c0d15; }
+/* the hero pins at its bottom and the video section rises over it, rounded and lifted */
+.hero { position: sticky; z-index: 0; }
+#video { position: relative; z-index: 2; border-radius: 32px 32px 0 0; margin-top: -32px; background: #10121c !important; box-shadow: 0 -30px 60px -20px rgba(0,0,0,.6); }
+.cs:not(#video) { position: relative; z-index: 2; }
+/* "talk to me" with the WhatsApp mark */
+.ask .wa-link { display: inline-flex; align-items: center; gap: 6px; }
+.ask .wa { width: 16px; height: 16px; flex: none; }
+/* back to top, the site's button: bottom left, white on dark, a ring that fills with the page */
+.sc-top { position: fixed; left: 24px; bottom: 24px; z-index: 9999; width: 56px; height: 56px; border: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  background: #fff; color: #12161f; box-shadow: 0 10px 26px rgba(0,0,0,.35); opacity: 0; transform: translateY(12px) scale(.9); pointer-events: none;
+  transition: opacity .35s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
+.sc-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.sc-top.show:hover { transform: translateY(-2px); }
+.sc-top .sc-ar { position: relative; z-index: 1; width: 22px; height: 22px; }
+.sc-top .sc-ring { position: absolute; inset: -5px; width: calc(100% + 10px); height: calc(100% + 10px); transform: rotate(-90deg); }
+.sc-top .sc-ring circle { fill: none; stroke-width: 2; stroke-linecap: round; transition: stroke-dashoffset .15s linear; }
+.sc-top .sc-ring .tr { stroke: rgba(255,255,255,.16); }
+.sc-top .sc-ring .pg { stroke: #7dc6ff; }
+body:has(.vers) .sc-top { bottom: 84px; }
+
+@media (max-width: 760px) {
+  /* one gutter for all running text: 16px for section text, 16 + 24 inside every container */
+  .hero-in { width: calc(100% - 32px) !important; }
+  .cs .box, .mod2, .tc, #two .crs, #for .aud, .op .panel, .feat { padding-left: 24px !important; padding-right: 24px !important; }
+  #outcomes .out { padding: 24px !important; }
+  /* the site's phone buttons */
+  .btn-halo > span { font-size: 18px !important; height: 46px !important; padding: 0 20px !important; }
+  /* hero: the live chart shows through, the copy keeps a soft shade only right behind it */
+  #mk { opacity: .8; }
+  .veil { background: linear-gradient(0deg, #0c0d15 0%, rgba(12,13,21,0) 28%), rgba(12,13,21,.35) !important; }
+  .copy::before { opacity: .55; inset: -30px -40px; }
+  .hero .sub, .hero .sub2, .hero h1 { text-shadow: 0 2px 18px rgba(12,13,21,.9); }
+  /* hero price block: centred, more air between the lines */
+  .buy { padding: 26px 20px 22px !important; gap: 22px !important; align-items: center !important; text-align: center; }
+  .buy .price { align-items: center !important; padding: 0 !important; gap: 8px !important; }
+  .buy .price .now { font-size: 46px !important; }
+  .buy .ctas { flex-direction: column; align-items: center; gap: 10px !important; width: 100%; }
+  .sc-top { left: 14px; bottom: 14px; width: 46px; height: 46px; }
+  .sc-top .sc-ar { width: 20px; height: 20px; }
+  body:has(.vers) .sc-top { bottom: 96px; }
+  #video { border-radius: 24px 24px 0 0; margin-top: -24px; }
+  /* who it's for: the four benefits two by two */
+  #for .feats { grid-template-columns: 1fr 1fr !important; gap: 10px; }
+  #for .feat { flex-direction: column; gap: 10px; padding: 18px 16px !important; }
+  #for .feat h4 { font-size: 16px; } #for .feat p { font-size: 14px; }
+  /* testimonials: a drifting strip a finger can stop and swipe */
+  #tgrid.strip { display: flex !important; flex-wrap: nowrap; gap: 12px; overflow-x: auto; direction: ltr; margin-inline: -16px; padding: 4px 16px 8px; scrollbar-width: none; columns: auto; grid-template-columns: none; }
+  #tgrid.strip::-webkit-scrollbar { display: none; }
+  #tgrid.strip > .tc { flex: 0 0 82%; direction: rtl; margin: 0 !important; opacity: 1 !important; transform: none !important; filter: none !important; display: flex !important; }
+  #tgrid.strip .tc.clamp blockquote { -webkit-line-clamp: 5; }
+  /* syllabus: title and summary first, the four points open with + */
+  .mod2.fold .mb ul { display: none; }
+  .mod2.fold.open .mb ul { display: flex; margin-top: 4px; }
+  .mod2.fold .mb p { margin-bottom: 0; }
+  .mod2.fold { cursor: pointer; }
+  .mod2 .pm { margin-inline-start: auto; width: 28px; height: 28px; border: 0; background: none; color: #fff; font: 400 24px/1 "Roboto"; cursor: pointer; padding: 0; }
+  .mod2 .pm::after { content: "+"; }
+  .mod2.open .pm::after { content: "−"; }
+}
