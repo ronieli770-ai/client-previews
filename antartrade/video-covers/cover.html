@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>AntarTrade - קאבר לסרטון</title>
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  :root { --navy: #12161f; --card: #0b0e14; --sky: #7dc6ff; --blue: #2e8bd8; --ice: #d6ecff; --ink: #12161f; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #000; }
+  body { font-family: "Fb Reforma", sans-serif; color: #fff; }
+  .cover { position: relative; width: 1280px; height: 720px; overflow: hidden; isolation: isolate; display: none; }
+  .cover.on { display: block; }
+  .noam { position: absolute; bottom: -250px; height: 1000px; z-index: 2; filter: drop-shadow(0 0 2px rgba(214,236,255,.5)) drop-shadow(0 0 40px rgba(125,198,255,.35)); }
+  .pill { display: inline-block; font-size: 26px; font-weight: 500; padding: 10px 26px; border-radius: 999px; background: rgba(125,198,255,.16); color: var(--sky); }
+  .logo { position: absolute; height: 34px; z-index: 4; opacity: .9; }
+
+  /* A - chip glow card, the deal-card language */
+  .a { background: var(--navy); }
+  .a .chip { position: absolute; inset: 28px; border-radius: 40px; overflow: hidden;
+    background: radial-gradient(70% 90% at 0% 100%, rgba(46,139,216,.55), transparent 62%), radial-gradient(40% 50% at 100% 0%, rgba(125,198,255,.12), transparent 70%), var(--card); }
+  .a .chip::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; background: linear-gradient(135deg, var(--blue), var(--sky) 45%, rgba(214,236,255,.15) 70%, rgba(125,198,255,.05));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; z-index: 5; }
+  .a .noam { left: 10px; bottom: -330px; }
+  .a .text { position: absolute; right: 84px; top: 128px; width: 640px; z-index: 3; }
+  .a h1 { margin-top: 24px; font-size: 120px; font-weight: 500; line-height: .98; letter-spacing: -1px; }
+  .a h1 b { font-weight: 500; color: var(--sky); }
+  .a p { margin-top: 20px; font-size: 32px; color: rgba(255,255,255,.7); }
+  .a .brand { position: absolute; right: 84px; bottom: 60px; z-index: 3; display: flex; align-items: center; gap: 14px; height: 72px; padding: 0 26px 0 30px; border-radius: 999px;
+    background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.14); }
+  .a .brand img { height: 34px; }
+  .a .brand span { font: 700 30px "Roboto", sans-serif; letter-spacing: 3px; }
+  .a .logo { right: 84px; top: 56px; height: 30px; }
+
+  /* B - the duel arc: dark side for Noam, white side for the title */
+  .b { background: #fff; color: var(--ink); }
+  .b .dark { position: absolute; inset: 0; background: radial-gradient(60% 80% at 10% 100%, rgba(46,139,216,.6), transparent 65%), var(--navy); clip-path: ellipse(48% 120% at 4% 50%); z-index: 1; }
+  .b .noam { left: -40px; }
+  .b .text { position: absolute; right: 80px; top: 120px; width: 580px; z-index: 3; }
+  .b .pill { background: rgba(46,139,216,.12); color: var(--blue); }
+  .b h1 { margin-top: 28px; font-size: 124px; font-weight: 500; line-height: .98; }
+  .b h1 b { font-weight: 500; color: var(--blue); }
+  .b p { margin-top: 24px; font-size: 30px; color: rgba(18,22,31,.62); }
+  .b .brand { position: absolute; right: 80px; bottom: 80px; z-index: 3; display: inline-block; padding: 7px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px rgba(18,22,31,.1); }
+  .b .brand i { display: flex; align-items: center; gap: 14px; height: 64px; padding: 0 30px; border-radius: 999px; background: var(--navy); color: #fff; font: normal 700 28px "Roboto", sans-serif; letter-spacing: 3px; }
+  .b .brand img { height: 30px; }
+  .b .logo { left: 60px; top: 54px; }
+
+  /* C - one big glowing word, Noam in front of the glow */
+  .c { background: var(--navy); }
+  .c .glow { position: absolute; width: 900px; height: 900px; left: 50%; top: 55%; transform: translate(-50%, -50%); border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(46,139,216,.75), rgba(46,139,216,.25) 55%, transparent); z-index: 0; }
+  .c .ring { position: absolute; width: 1500px; height: 420px; left: 50%; top: 58%; transform: translate(-50%, -50%) rotate(-12deg); border-radius: 50%; border: 3px solid rgba(125,198,255,.55);
+    box-shadow: 0 0 40px rgba(125,198,255,.35); z-index: 1; }
+  .c .ring.front { z-index: 3; clip-path: inset(50% 0 0 0); }
+  .c .noam { left: 50%; transform: translateX(-50%); bottom: -300px; height: 960px; }
+  .c .ghost { position: absolute; top: 40px; left: 0; right: 0; text-align: center; font-size: 250px; font-weight: 500; line-height: 1; color: transparent; -webkit-text-stroke: 2px rgba(125,198,255,.35); z-index: 1; }
+  .c .bar { position: absolute; left: 50%; bottom: 46px; transform: translateX(-50%); z-index: 4; display: flex; align-items: center; gap: 22px; padding: 14px 18px 14px 34px; border-radius: 999px;
+    background: rgba(11,14,20,.78); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1.5px rgba(125,198,255,.3), 0 30px 60px -20px rgba(0,0,0,.6); white-space: nowrap; }
+  .c .bar h1 { font-size: 64px; font-weight: 500; line-height: 1; padding-right: 20px; }
+  .c .bar h1 b { color: var(--sky); font-weight: 500; }
+  .c .bar .apex { width: 84px; height: 84px; border-radius: 50%; background: linear-gradient(180deg, #a8d8ff, var(--sky)); display: grid; place-items: center; }
+  .c .bar .apex img { height: 34px; filter: brightness(0) saturate(100%) invert(8%) sepia(13%) saturate(1500%) hue-rotate(185deg); }
+  .c .logo { right: 60px; top: 48px; height: 30px; }
+
+  /* D - light editorial: white page, Noam in a rounded navy window */
+  .d { background: #f3f6fb; color: var(--ink); }
+  .d .win { position: absolute; left: 40px; top: 40px; bottom: 40px; width: 560px; border-radius: 36px; overflow: hidden;
+    background: radial-gradient(80% 60% at 0% 100%, rgba(46,139,216,.65), transparent 65%), var(--navy); z-index: 1; }
+  .d .win .noam { left: 50%; transform: translateX(-50%); bottom: -360px; height: 1000px; }
+  .d .win .tag { position: absolute; left: 24px; bottom: 24px; z-index: 3; display: flex; align-items: center; gap: 12px; height: 60px; padding: 0 24px; border-radius: 999px; background: rgba(11,14,20,.6); backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.18); color: #fff; font: 700 26px "Roboto", sans-serif; letter-spacing: 3px; }
+  .d .win .tag img { height: 28px; }
+  .d .text { position: absolute; right: 80px; top: 130px; width: 560px; }
+  .d .pill { background: rgba(46,139,216,.12); color: var(--blue); }
+  .d p { margin-top: 24px; font-size: 30px; color: rgba(18,22,31,.62); }
+  .d h1 { margin-top: 28px; font-size: 120px; font-weight: 500; line-height: .98; }
+  .d h1 b { font-weight: 500; color: var(--blue); }
+  .d .steps { margin-top: 44px; display: grid; gap: 16px; }
+  .d .steps div { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 500; }
+  .d .steps i { width: 44px; height: 44px; border-radius: 50%; background: rgba(46,139,216,.12); color: var(--blue); display: grid; place-items: center; font: normal 700 20px "Roboto", sans-serif; }
+  .d .logo { right: 80px; bottom: 70px; height: 32px; filter: invert(1) brightness(.2); opacity: 1; }
+</style>
+</head>
+<body>
+<!-- A -->
+<div class="cover a" id="a">
+  <div class="chip">
+    <img class="logo" src="img/logo.png" alt="">
+    <img class="noam" src="img/noam.png" alt="">
+    <div class="text">
+      <span class="pill">מדריך וידאו</span>
+      <h1>התקנת<br><b>אפקס</b></h1>
+      <p>איך קונים ומתקינים, צעד אחר צעד</p>
+    </div>
+    <div class="brand"><span>APEX</span><img src="img/apex-white.png" alt=""></div>
+  </div>
+</div>
+<!-- B -->
+<div class="cover b" id="b">
+  <div class="dark"></div>
+  <img class="logo" src="img/logo.png" alt="">
+  <img class="noam" src="img/noam.png" alt="">
+  <div class="text">
+    <span class="pill">מדריך וידאו</span>
+    <h1>התקנת<br><b>אפקס</b></h1>
+    <p>איך קונים ומתקינים, צעד אחר צעד</p>
+  </div>
+  <div class="brand"><i><span>APEX</span><img src="img/apex-white.png" alt=""></i></div>
+</div>
+<!-- C -->
+<div class="cover c" id="c">
+  <div class="glow"></div>
+  <div class="ghost">אפקס</div>
+  <div class="ring"></div>
+  <img class="noam" src="img/noam.png" alt="">
+  <div class="ring front"></div>
+  <img class="logo" src="img/logo.png" alt="">
+  <div class="bar"><h1>התקנת <b>אפקס</b></h1><span class="apex"><img src="img/apex-white.png" alt=""></span></div>
+</div>
+<!-- D -->
+<div class="cover d" id="d">
+  <div class="win">
+    <img class="noam" src="img/noam.png" alt="">
+    <div class="tag"><img src="img/apex-white.png" alt="">APEX</div>
+  </div>
+  <div class="text">
+    <span class="pill">מדריך וידאו</span>
+    <h1>התקנת<br><b>אפקס</b></h1>
+    <p>איך קונים ומתקינים, צעד אחר צעד</p>
+  </div>
+  <img class="logo" src="img/logo.png" alt="">
+</div>
+<script>
+  const v = (location.hash || '#a').slice(1);
+  document.getElementById(v).classList.add('on');
+</script>
+</body>
+</html>

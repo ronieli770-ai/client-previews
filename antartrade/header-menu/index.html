@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - תפריט הדר</title>
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  :root { --navy: #12161f; --card: #0b0e14; --sky: #7dc6ff; --blue: #2e8bd8; --ice: #d6ecff; --mint: #3fd8c2; --ease: cubic-bezier(.22,.61,.36,1); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--navy); color: #fff; font-family: "Fb Reforma", sans-serif; min-height: 100%; }
+  a { color: inherit; text-decoration: none; }
+  .lat { font-family: "Roboto", sans-serif; direction: ltr; unicode-bidi: isolate; }
+
+  /* page behind the header, so the menus are judged over the real hero */
+  .page { position: relative; min-height: 100vh; overflow: hidden;
+    background: linear-gradient(90deg, rgba(18,22,31,.2), rgba(18,22,31,.85) 55%), url("../site/img/hero-trader.webp") left 30% / cover no-repeat, var(--navy); }
+  .page::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, var(--navy), transparent 40%); }
+  .hero-copy { position: absolute; right: 8vw; top: 42vh; z-index: 1; max-width: 640px; }
+  .hero-copy h1 { font-size: 64px; font-weight: 500; line-height: 1.05; }
+  .hero-copy h1 b { color: var(--sky); font-weight: 500; }
+  .dim { position: fixed; inset: 0; z-index: 40; background: rgba(6,9,14,.55); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .35s var(--ease); }
+  body.open .dim { opacity: 1; }
+
+  /* the header bar, as on the site */
+  .hdr { position: fixed; inset: 0 0 auto; z-index: 50; }
+  .hdr .wrap { max-width: 1460px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 40px; position: relative; }
+  .hdr .logo { width: 195px; height: 43px; background: #fff; -webkit-mask: url("../video-covers/img/logo-new-white.png") center / contain no-repeat; mask: url("../video-covers/img/logo-new-white.png") center / contain no-repeat; }
+  .hdr nav { display: flex; align-items: center; gap: 14px; font-size: 18px; position: relative; }
+  .hdr nav > a { position: relative; padding: 10px 12px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; transition: color .25s, background-color .25s; }
+  .hdr nav > a.cur { font-weight: 500; }
+  .hdr nav > a.deal { color: var(--ice); font-weight: 500; }
+  .hdr nav > a .chev { width: 10px; height: 10px; opacity: .6; transition: transform .35s var(--ease); }
+  .hdr nav > a.on .chev { transform: rotate(180deg); opacity: 1; }
+  .hdr .halo { padding: 6px; border-radius: 999px; background: rgba(85,169,235,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); }
+  .hdr .halo a { display: inline-flex; align-items: center; gap: 7px; height: 50px; padding: 0 25px; border-radius: 90px; background: #fff; color: #000; font: 500 20px "Fb Reforma", sans-serif; }
+  body.open .hdr { background: rgba(12,15,22,.92); backdrop-filter: blur(14px); box-shadow: 0 1px 0 rgba(125,198,255,.12); }
+
+  /* shared bits inside every option */
+  .tile { width: 46px; height: 46px; flex: none; border-radius: 14px; background: #fff; display: grid; place-items: center; box-shadow: 0 6px 16px -6px rgba(0,0,0,.6); }
+  .tile img { width: 30px; height: 30px; object-fit: contain; }
+  .tile.dark { background: radial-gradient(70% 70% at 0% 100%, rgba(46,139,216,.5), transparent 70%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.25); }
+  .tile.dark svg { width: 22px; height: 22px; color: var(--sky); }
+  .pct { font: 700 15px "Roboto", sans-serif; color: var(--mint); }
+  .code { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; font: 500 13px "Roboto", sans-serif; letter-spacing: 1px;
+    color: var(--ice); background: rgba(125,198,255,.1); box-shadow: inset 0 0 0 1px rgba(125,198,255,.35); cursor: pointer; transition: background-color .2s; }
+  .code:hover { background: rgba(125,198,255,.22); }
+  .code svg { width: 13px; height: 13px; }
+  .code.done { color: var(--navy); background: var(--mint); box-shadow: none; }
+  .sub { font-size: 14px; color: rgba(255,255,255,.55); }
+  .eyebrow { font-size: 13px; font-weight: 500; color: var(--sky); letter-spacing: .2px; }
+  .more { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 500; color: var(--sky); }
+  .more svg { width: 14px; height: 14px; transition: transform .3s var(--ease); }
+  .more:hover svg { transform: translateX(-4px); }
+
+  /* ===================== A - glass board ===================== */
+  .A .menu { position: absolute; top: calc(100% + 8px); right: 24px; left: 24px; max-width: 1180px; margin: 0 auto; border-radius: 28px; padding: 14px; display: none;
+    background: radial-gradient(60% 80% at 0% 100%, rgba(46,139,216,.22), transparent 60%), rgba(11,14,20,.94); backdrop-filter: blur(18px);
+    box-shadow: inset 0 0 0 1px rgba(125,198,255,.16), 0 40px 80px -30px rgba(0,0,0,.8); opacity: 0; transform: translateY(-10px); transition: opacity .3s var(--ease), transform .4s var(--ease); }
+  .A .menu.show { display: grid; } .A .menu.in { opacity: 1; transform: none; }
+  .A .menu { grid-template-columns: 330px 1fr; gap: 14px; }
+  .A .feat { position: relative; border-radius: 20px; overflow: hidden; padding: 0 20px 20px; display: flex; flex-direction: column; gap: 8px; align-self: start;
+    background: #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.14); }
+  .A .feat img.bg { display: block; width: calc(100% + 40px); margin: 0 -20px 10px; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 1s var(--ease); }
+  .A .feat .code { align-self: flex-start; }
+  .A .feat > * { position: relative; z-index: 1; }
+  .A .feat:hover img.bg { transform: scale(1.05); }
+  .A .feat h4 { font-size: 24px; font-weight: 500; line-height: 1.2; }
+  .A .cols { padding: 10px 10px 6px; }
+  .A .grp { font-size: 13px; color: rgba(255,255,255,.45); margin: 4px 8px 8px; }
+  .A .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .A .row { position: relative; display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 16px; isolation: isolate; transition: background-color .25s; }
+  .A .row::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(90% 120% at 0% 100%, rgba(46,139,216,.35), transparent 60%), rgba(255,255,255,.03); box-shadow: inset 0 0 0 1px rgba(125,198,255,.22); }
+  .A .row:hover::before { opacity: 1; }
+  .A .row .t { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .A .row b { font-size: 17px; font-weight: 500; }
+  .A .foot { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; padding: 14px 18px 6px; border-top: 1px solid rgba(125,198,255,.1); margin-top: 6px; }
+
+  /* ===================== B - morphing pill ===================== */
+  .B .hdr nav { padding: 6px; border-radius: 999px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); backdrop-filter: blur(12px); gap: 2px; }
+  .B .hdr nav > a.on { background: rgba(125,198,255,.14); color: #fff; }
+  .B .stage { position: absolute; top: calc(100% + 12px); right: 50%; transform: translateX(50%); width: 0; height: 0; border-radius: 26px; overflow: hidden; pointer-events: none; opacity: 0;
+    background: rgba(11,14,20,.95); backdrop-filter: blur(18px); box-shadow: inset 0 0 0 1px rgba(125,198,255,.18), 0 40px 80px -30px rgba(0,0,0,.8);
+    transition: width .45s var(--ease), height .45s var(--ease), right .45s var(--ease), opacity .25s; }
+  .B .stage.in { opacity: 1; pointer-events: auto; }
+  .B .stage::before { content: ""; position: absolute; top: -1px; right: var(--ax, 50%); width: 90px; height: 2px; transform: translateX(50%); background: linear-gradient(90deg, transparent, var(--sky), transparent); transition: right .45s var(--ease); }
+  .B .pane { position: absolute; top: 0; right: 0; width: max-content; padding: 18px; opacity: 0; transform: translateX(var(--from, 30px)); transition: opacity .3s, transform .45s var(--ease); pointer-events: none; }
+  .B .pane.on { opacity: 1; transform: none; pointer-events: auto; }
+  .B .firms { display: grid; grid-template-columns: 380px 300px; gap: 14px; }
+  .B .list { display: grid; gap: 2px; }
+  .B .it { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 14px; cursor: pointer; transition: background-color .2s; }
+  .B .it .tile { width: 40px; height: 40px; border-radius: 12px; } .B .it .tile img { width: 26px; height: 26px; }
+  .B .it b { flex: 1; font-size: 16px; font-weight: 500; }
+  .B .it.on { background: rgba(125,198,255,.1); }
+  .B .prev { position: relative; border-radius: 20px; padding: 22px; overflow: hidden; display: flex; flex-direction: column; gap: 10px;
+    background: radial-gradient(90% 70% at 0% 100%, var(--g, rgba(46,139,216,.45)), transparent 62%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.18); transition: background .4s; }
+  .B .prev .big { font: 700 64px/1 "Roboto", sans-serif; background: linear-gradient(90deg, var(--gc, #61b1f2), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; direction: ltr; text-align: right; }
+  .B .prev h4 { font-size: 20px; font-weight: 500; line-height: 1.3; } .B .prev p { font-size: 14px; color: rgba(255,255,255,.65); line-height: 1.5; }
+  .B .prev .act { margin-top: auto; display: flex; gap: 10px; align-items: center; }
+  .B .prev .btn { height: 40px; padding: 0 18px; border-radius: 999px; background: #fff; color: var(--navy); font-weight: 500; display: inline-flex; align-items: center; font-size: 15px; }
+  .B .swap { animation: swap .35s var(--ease); } @keyframes swap { from { opacity: 0; transform: translateY(8px); } }
+  .B .acad { display: grid; grid-template-columns: repeat(3, 200px); gap: 12px; }
+  .B .acad a { border-radius: 16px; overflow: hidden; background: #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.14); transition: transform .35s var(--ease); }
+  .B .acad a:hover { transform: translateY(-4px); }
+  .B .acad img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; }
+  .B .acad span { display: block; padding: 10px 12px 12px; font-size: 14px; font-weight: 500; line-height: 1.3; }
+  .B .deals { display: grid; grid-template-columns: repeat(5, 150px); gap: 10px; }
+  .B .dc { border-radius: 18px; padding: 16px 14px; display: grid; gap: 6px; text-align: center; justify-items: center;
+    background: radial-gradient(95% 95% at 0% 100%, color-mix(in srgb, var(--c) 40%, transparent), transparent 70%), #0b0e14; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 45%, transparent); transition: transform .3s var(--ease); }
+  .B .dc:hover { transform: translateY(-4px); }
+  .B .dc .n { font: 700 34px/1 "Roboto", sans-serif; background: linear-gradient(90deg, var(--c), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .B .dc b { font-size: 15px; font-weight: 500; }
+  .B .cmp { display: grid; grid-template-columns: repeat(2, 260px); gap: 12px; }
+  .B .cmp a { border-radius: 18px; padding: 18px; display: grid; gap: 8px; background: #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.16); transition: background-color .25s; }
+  .B .cmp a:hover { background: #111725; }
+  .B .cmp b { font-size: 18px; font-weight: 500; }
+
+  /* ===================== C - arc curtain ===================== */
+  .C .curtain { position: fixed; top: 0; right: 0; left: 0; z-index: 45; padding: 110px 0 120px; pointer-events: none;
+    background: radial-gradient(50% 70% at 85% 0%, rgba(46,139,216,.18), transparent 70%), #0d111a;
+    clip-path: ellipse(120% 0% at 50% 0%); transition: clip-path .6s var(--ease); }
+  .C .curtain.in { clip-path: ellipse(120% 100% at 50% 0%); pointer-events: auto; }
+  .C .curtain::after { content: ""; position: absolute; left: -10%; right: -10%; bottom: 0; height: 100px; border-radius: 0 0 50% 50% / 0 0 100% 100%; box-shadow: 0 2px 0 rgba(125,198,255,.45), 0 12px 40px -10px rgba(125,198,255,.5); pointer-events: none; }
+  .C .cin { max-width: 1240px; margin: 0 auto; padding: 0 24px; display: none; grid-template-columns: 360px 1fr; gap: 48px; }
+  .C .cin.on { display: grid; animation: up .5s var(--ease); } @keyframes up { from { opacity: 0; transform: translateY(16px); } }
+  .C .side h3 { font-size: 46px; font-weight: 500; line-height: 1.05; } .C .side h3 b { color: var(--sky); font-weight: 500; }
+  .C .side p { margin: 14px 0 22px; font-size: 17px; color: rgba(255,255,255,.6); line-height: 1.5; }
+  .C .side .btn { display: inline-flex; padding: 6px; border-radius: 999px; background: rgba(85,169,235,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); }
+  .C .side .btn svg { width: 14px; height: 14px; }
+  .C .side .btn span { height: 48px; padding: 0 24px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(180deg, #a8d8ff, var(--sky)); color: var(--navy); font-weight: 500; font-size: 17px; }
+  .C .fan { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-content: start; }
+  .C .fc { position: relative; border-radius: 22px; padding: 18px; display: grid; gap: 10px; background: radial-gradient(90% 80% at 0% 100%, color-mix(in srgb, var(--c, #2e8bd8) 38%, transparent), transparent 65%), #0b0e14;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c, #7dc6ff) 30%, transparent); transition: transform .4s var(--ease); }
+  .C .fc:hover { transform: translateY(-6px) rotate(-1deg); }
+  .C .fc .top { display: flex; align-items: center; justify-content: space-between; }
+  .C .fc .n { font: 700 40px/1 "Roboto", sans-serif; background: linear-gradient(90deg, var(--c, #61b1f2), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .C .fc b { font-size: 18px; font-weight: 500; }
+  .C .covers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .C .covers a { border-radius: 18px; overflow: hidden; background: #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.14); transition: transform .4s var(--ease); }
+  .C .covers a:hover { transform: translateY(-6px); }
+  .C .covers img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+  .C .covers span { display: block; padding: 12px 14px 14px; font-size: 15px; font-weight: 500; }
+  .C .covers .wide img { aspect-ratio: 16/9; }
+  .C .tick { position: absolute; left: 0; right: 0; bottom: 56px; display: flex; gap: 38px; justify-content: center; font: 500 14px "Roboto", sans-serif; color: rgba(214,236,255,.6); direction: ltr; }
+  .C .tick i { font-style: normal; color: var(--mint); } .C .tick i.dn { color: #ff8aa0; }
+
+  /* option switcher */
+  .switch { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 60; display: flex; gap: 4px; padding: 5px; border-radius: 999px; background: rgba(11,14,20,.85); backdrop-filter: blur(12px); box-shadow: inset 0 0 0 1px rgba(125,198,255,.2); }
+  .switch button { border: 0; background: none; color: rgba(255,255,255,.6); font: 500 15px "Fb Reforma", sans-serif; padding: 10px 18px; border-radius: 999px; cursor: pointer; }
+  .switch button.on { background: var(--sky); color: var(--navy); }
+  .hint { position: fixed; bottom: 86px; left: 50%; transform: translateX(-50%); z-index: 60; font-size: 14px; color: rgba(255,255,255,.55); white-space: nowrap; }
+</style>
+</head>
+<body class="A">
+<div class="page"><div class="hero-copy"><h1>השווה בין <b>חברות מימון</b> למסחר<br>ובחר את החשבון שמתאים לך</h1></div></div>
+<div class="dim"></div>
+<header class="hdr"><div class="wrap">
+  <a class="logo" href="#" aria-label="AntarTrade"></a>
+  <nav id="nav">
+    <a class="cur" href="#">דף הבית</a>
+    <a data-m="firms" href="#">חברות מימון<svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a data-m="compare" href="#">השוואת חברות<svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a data-m="deals" class="deal" href="#">מבצעים והגרלות<svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a data-m="academy" href="#">מרכז הידע<svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="#">יומן מסחר</a>
+    <a href="#">אודות</a>
+  </nav>
+  <div class="halo"><a href="#">אקדמיה</a></div>
+  <div id="slot"></div>
+</div></header>
+<div id="curtain-slot"></div>
+<p class="hint">עברו עם העכבר על "חברות מימון", "השוואת חברות", "מבצעים" או "מרכז הידע"</p>
+<div class="switch" id="switch"><button data-o="A" class="on">א - לוח זכוכית</button><button data-o="B">ב - גלולה נמתחת</button><button data-o="C">ג - וילון עם קשת</button></div>
+
+<script>
+const IMG = '../site/img/';
+const COPY = '<svg viewBox="0 0 16 16" fill="none"><rect x="5.5" y="5.5" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5C10.5 2.67 9.83 2 9 2H4C2.9 2 2 2.9 2 4V9C2 9.83 2.67 10.5 3.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+const ARROW = '<svg viewBox="0 0 14 14" fill="none"><path d="M12 7H2M6 3L2 7L6 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+// the site's own deals and firms
+const FIRMS = [
+  { k: 'ap', n: 'Apex Trader Funding', s: 'Apex', logo: 'brand-apex.png', pct: '90%', c: '#3fd8c2', h: 'אפקס EOD - 90% הנחה', p: 'קוד ANTAR מעניק 90% הנחה על מבחני EOD Trail.' },
+  { k: 'tp', n: 'Take Profit Trader', s: 'Take Profit', logo: 'brand-takeprofit.png', pct: '40%', c: '#8c7bff', h: 'חשבון PRO ללא עמלת הפעלה', p: 'ללא חוק עקביות בחשבון הממומן, אפשר למשוך בכל יום.', hot: 1 },
+  { k: 'lu', n: 'Lucid Trading', s: 'Lucid', logo: 'brand-lucid.png', pct: '30%', c: '#61b1f2', h: 'חדש: סטופ סוף יום במבחן ובממומן', p: 'Lucid מציגה סטופ סוף יום (EOD) גם במבחן וגם בממומן.' },
+  { k: 'fn', n: 'FundedNext', s: 'FundedNext', logo: 'brand-fundednext.png', pct: '50%', c: '#4f6bff', h: 'מסלולי Rapid Pro ו-Rapid Daily', p: 'עד 50% הנחה על מסלולי Rapid עם הקוד ANTAR.' },
+  { k: 'bx', n: 'Bulenox', s: 'Bulenox', logo: 'brand-bulenox.png', pct: '91%', c: '#d17bff', h: 'עד 91% הנחה עם הקוד ANTAR', p: '100% רווח עד 10K$, ומסחר בחדשות מותר.' },
+  { k: 'ft', n: 'FTMO', s: 'FTMO', logo: 'brand-ftmo.png', pct: '', c: '#61b1f2', h: 'FTMO', p: 'אחת מחברות המימון הוותיקות.' },
+  { k: 'al', n: 'Alpha Futures', s: 'Alpha', logo: 'brand-alpha.png', pct: '', c: '#3fd8c2', h: 'Alpha Futures', p: 'מבחן בשלב אחד.' },
+];
+const ACAD = [['full.webp', 'המסלול המלא למסחר בחוזים'], ['intro.webp', 'קורס המבוא החינמי'], ['nostro.webp', 'קורס הנוסטרו החינמי'], ['orderflow.webp', 'קורס Order Flow']];
+const VIDS = [['v-apex.jpg', 'מדריך לאפקס'], ['v-tp.jpg', 'החוקים של טייק פרופיט'], ['a-footprint.jpg', 'מה זה פוטפרינט?']];
+const ICO = {
+  table: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M9 10v10"/></svg>',
+  duel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h11M11 3l4 4-4 4"/><path d="M20 17H9M13 13l-4 4 4 4"/></svg>',
+  quiz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7"/><circle cx="12" cy="17" r=".6"/></svg>',
+  calc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg>',
+};
+const code = () => `<span class="code" data-copy>${COPY}<span class="lat">ANTAR</span></span>`;
+
+/* ---------- A: glass board ---------- */
+const A = {
+  firms: () => `<a class="feat" href="#"><img class="bg" src="${IMG}a-apex.jpg" alt=""><span class="eyebrow">השוואת חברות מימון</span><h4>כל חברות המימון במקום אחד</h4><span class="sub">מחירים, כללים ותנאי משיכה, מעודכן כל שבוע</span><span class="more">לטבלת ההשוואה ${ARROW}</span></a>
+    <div class="cols"><div class="grp">החברות המובילות, עם ההנחה שלך</div><div class="grid">${FIRMS.map(f => `<a class="row" href="#"><span class="tile"><img src="${IMG + f.logo}" alt=""></span><span class="t"><b class="lat" style="text-align:right">${f.n}</b><span class="sub">${f.pct ? `<span class="pct">${f.pct}</span> הנחה בקוד` : 'ביקורת מלאה'}</span></span>${f.pct ? code() : ''}</a>`).join('')}</div></div>
+    <div class="foot"><span class="sub">כל ההנחות מתעדכנות מול החברות. הקוד <span class="lat">ANTAR</span> עובד בכולן.</span><a class="more" href="#">לכל החברות ${ARROW}</a></div>`,
+  compare: () => `<a class="feat" href="#"><img class="bg" src="${IMG}a-topstep.jpg" alt=""><span class="eyebrow">כלי השוואה</span><h4>מצאו את החשבון שמתאים לכם</h4><span class="more">להתחיל ${ARROW}</span></a>
+    <div class="cols"><div class="grp">איך משווים</div><div class="grid">${[['table', 'טבלת השוואה', 'כל החברות, כל המחירים והכללים'], ['duel', 'דו-קרב חברות', 'שתי חברות ראש בראש'], ['quiz', 'שאלון התאמה', 'כמה שאלות וקבלו המלצה'], ['calc', 'מחשבון עלויות', 'כמה באמת יעלה לכם המבחן']].map(([i, t, s]) => `<a class="row" href="#"><span class="tile dark">${ICO[i]}</span><span class="t"><b>${t}</b><span class="sub">${s}</span></span></a>`).join('')}</div></div>`,
+  deals: () => `<a class="feat" href="#" style="background:radial-gradient(90% 80% at 0% 100%, rgba(140,123,255,.55), transparent 62%), #0b0e14"><span class="eyebrow">ההטבה הכי שווה עכשיו</span><span style="font:700 72px/1 Roboto,sans-serif;direction:ltr;text-align:right;background:linear-gradient(90deg,#8c7bff,#fff);-webkit-background-clip:text;background-clip:text;color:transparent">40%</span><h4>Take Profit - חשבון PRO ללא עמלת הפעלה</h4>${code()}</a>
+    <div class="cols"><div class="grp">כל המבצעים הפעילים</div><div class="grid">${FIRMS.filter(f => f.pct).map(f => `<a class="row" href="#"><span class="tile"><img src="${IMG + f.logo}" alt=""></span><span class="t"><b>${f.h}</b><span class="sub"><span class="pct" style="color:${f.c}">${f.pct}</span> הנחה · <span class="lat">${f.s}</span></span></span>${code()}</a>`).join('')}</div></div>
+    <div class="foot"><span class="sub">ההגרלה החודשית: כל רכישה עם הקוד נכנסת להגרלה</span><a class="more" href="#">לכל המבצעים ${ARROW}</a></div>`,
+  academy: () => `<a class="feat" href="#"><img class="bg" src="${IMG}full.webp" alt=""><span class="eyebrow">הקורס המלא</span><h4>המסלול המלא למסחר בחוזים עתידיים</h4><span class="more">לעמוד הקורס ${ARROW}</span></a>
+    <div class="cols"><div class="grp">קורסים, סרטונים ומאמרים</div><div class="grid">${[...ACAD.slice(1), ...VIDS].map(([img, t]) => `<a class="row" href="#"><span class="tile" style="width:76px;border-radius:12px;overflow:hidden;background:#000"><img src="${IMG + img}" style="width:100%;height:100%;object-fit:cover" alt=""></span><span class="t"><b>${t}</b><span class="sub">${/^v-/.test(img) ? 'סרטון' : /^a-/.test(img) ? 'מאמר' : 'קורס'}</span></span></a>`).join('')}</div></div>
+    <div class="foot"><span class="sub">31 תכנים באקדמיה, מתעדכן כל שבוע</span><a class="more" href="#">לכל האקדמיה ${ARROW}</a></div>`,
+};
+
+/* ---------- B: morphing pill ---------- */
+const B = {
+  firms: () => `<div class="firms"><div class="list">${FIRMS.slice(0, 5).map((f, i) => `<div class="it${i ? '' : ' on'}" data-f="${i}"><span class="tile"><img src="${IMG + f.logo}" alt=""></span><b class="lat" style="text-align:right">${f.n}</b><span class="pct" style="color:${f.c}">${f.pct}</span></div>`).join('')}</div><div class="prev" id="prev"></div></div>`,
+  compare: () => `<div class="cmp">${[['table', 'טבלת השוואה', 'כל החברות, כל המחירים והכללים'], ['duel', 'דו-קרב חברות', 'שתי חברות ראש בראש'], ['quiz', 'שאלון התאמה', 'כמה שאלות וקבלו המלצה'], ['calc', 'מחשבון עלויות', 'כמה באמת יעלה לכם המבחן']].map(([i, t, s]) => `<a href="#"><span class="tile dark">${ICO[i]}</span><b>${t}</b><span class="sub">${s}</span></a>`).join('')}</div>`,
+  deals: () => `<div class="deals">${FIRMS.filter(f => f.pct).map(f => `<a class="dc" href="#" style="--c:${f.c}"><span class="tile"><img src="${IMG + f.logo}" alt=""></span><span class="n">${f.pct}</span><b class="lat">${f.s}</b>${code()}</a>`).join('')}</div>`,
+  academy: () => `<div class="acad">${[...ACAD.slice(0, 3), ...VIDS].map(([img, t]) => `<a href="#"><img src="${IMG + img}" alt=""><span>${t}</span></a>`).join('')}</div>`,
+};
+const prev = f => `<div class="swap" style="display:contents"><span class="eyebrow lat" style="text-align:right">${f.n}</span><span class="big" style="--gc:${f.c}">${f.pct}</span><h4>${f.h}</h4><p>${f.p}</p><div class="act"><a class="btn" href="#">לביקורת המלאה</a>${code()}</div></div>`;
+
+/* ---------- C: arc curtain ---------- */
+const C = {
+  firms: () => `<div class="side"><h3>כל <b>חברות המימון</b><br>במקום אחד</h3><p>מחירים, כללים ותנאי משיכה, עם ההנחה הכי טובה שיש לכל חברה.</p><a class="btn" href="#"><span>לטבלת ההשוואה ${ARROW}</span></a></div>
+    <div class="fan">${FIRMS.slice(0, 4).map(f => `<a class="fc" href="#" style="--c:${f.c}"><div class="top"><span class="tile"><img src="${IMG + f.logo}" alt=""></span><span class="n">${f.pct}</span></div><b class="lat" style="text-align:right">${f.n}</b><span class="sub">${f.h}</span>${code()}</a>`).join('')}</div>`,
+  compare: () => `<div class="side"><h3>איזו חברה<br><b>מתאימה לך?</b></h3><p>ארבע דרכים להגיע לחשבון הנכון, בלי לבזבז כסף על מבחן שלא מתאים.</p><a class="btn" href="#"><span>לשאלון ההתאמה ${ARROW}</span></a></div>
+    <div class="fan">${[['table', 'טבלת השוואה', 'כל החברות, כל המחירים והכללים'], ['duel', 'דו-קרב חברות', 'שתי חברות ראש בראש'], ['quiz', 'שאלון התאמה', 'כמה שאלות וקבלו המלצה'], ['calc', 'מחשבון עלויות', 'כמה באמת יעלה לכם המבחן']].map(([i, t, s]) => `<a class="fc" href="#"><span class="tile dark">${ICO[i]}</span><b>${t}</b><span class="sub">${s}</span></a>`).join('')}</div>`,
+  deals: () => `<div class="side"><h3>המבצעים<br><b>של השבוע</b></h3><p>קוד אחד, <span class="lat">ANTAR</span>, עובד בכל החברות. כל רכישה נכנסת להגרלה החודשית.</p><a class="btn" href="#"><span>לכל המבצעים ${ARROW}</span></a></div>
+    <div class="fan">${FIRMS.filter(f => f.pct).slice(0, 4).map(f => `<a class="fc" href="#" style="--c:${f.c}"><div class="top"><span class="tile"><img src="${IMG + f.logo}" alt=""></span><span class="n">${f.pct}</span></div><b>${f.h}</b>${code()}</a>`).join('')}</div>`,
+  academy: () => `<div class="side"><h3>האקדמיה<br><b>של נועם</b></h3><p>קורסים, סרטונים ומאמרים, מהצעד הראשון ועד אורדר פלואו.</p><a class="btn" href="#"><span>לכל האקדמיה ${ARROW}</span></a></div>
+    <div class="covers">${ACAD.map(([img, t]) => `<a href="#"><img src="${IMG + img}" alt=""><span>${t}</span></a>`).join('')}</div>`,
+};
+
+/* ---------- wiring ---------- */
+let opt = 'A', cur = null, t = null;
+const nav = document.getElementById('nav'), slot = document.getElementById('slot'), cslot = document.getElementById('curtain-slot');
+function build() {
+  slot.innerHTML = ''; cslot.innerHTML = '';
+  if (opt === 'A') slot.innerHTML = '<div class="menu" id="menu"></div>';
+  if (opt === 'B') slot.innerHTML = '<div class="stage" id="stage">' + Object.keys(B).map(k => `<div class="pane" data-p="${k}">${B[k]()}</div>`).join('') + '</div>';
+  if (opt === 'C') cslot.innerHTML = '<div class="curtain" id="curtain">' + Object.keys(C).map(k => `<div class="cin" data-p="${k}">${C[k]()}</div>`).join('') + '<div class="tick"><span>ES 5,248.25 <i>+0.42%</i></span><span>NQ 18,310.50 <i>+0.61%</i></span><span>CL 78.14 <i class="dn">-0.38%</i></span><span>GC 2,342.10 <i>+0.15%</i></span><span>YM 39,120 <i>+0.22%</i></span></div></div>';
+  const pv = document.getElementById('prev'); if (pv) pv.innerHTML = prev(FIRMS[0]);
+}
+function open(a) {
+  clearTimeout(t); const m = a.dataset.m;
+  nav.querySelectorAll('a').forEach(x => x.classList.toggle('on', x === a));
+  document.body.classList.add('open');
+  const prevKey = cur; cur = m;
+  if (opt === 'A') { const el = document.getElementById('menu'); el.innerHTML = A[m](); el.classList.add('show'); requestAnimationFrame(() => el.classList.add('in')); }
+  if (opt === 'B') {
+    const st = document.getElementById('stage'), pane = st.querySelector(`[data-p="${m}"]`), keys = Object.keys(B);
+    const dir = prevKey && keys.indexOf(m) < keys.indexOf(prevKey) ? '-30px' : '30px';
+    st.querySelectorAll('.pane').forEach(p => { p.style.setProperty('--from', p === pane ? dir : (dir === '30px' ? '-30px' : '30px')); p.classList.toggle('on', p === pane); });
+    const w = pane.offsetWidth, h = pane.offsetHeight, wrap = st.closest('.wrap').getBoundingClientRect(), ar = a.getBoundingClientRect();
+    let center = ar.left + ar.width / 2 - wrap.left; center = Math.max(w / 2 + 12, Math.min(wrap.width - w / 2 - 12, center));
+    st.style.width = w + 'px'; st.style.height = h + 'px'; st.style.right = (wrap.width - center) + 'px';
+    st.style.setProperty('--ax', (center + w / 2 - (ar.left + ar.width / 2 - wrap.left)) + 'px');
+    st.classList.add('in');
+  }
+  if (opt === 'C') { const c = document.getElementById('curtain'); c.querySelectorAll('.cin').forEach(x => x.classList.toggle('on', x.dataset.p === m)); c.classList.add('in'); }
+}
+function close() {
+  t = setTimeout(() => {
+    cur = null; document.body.classList.remove('open'); nav.querySelectorAll('a').forEach(x => x.classList.remove('on'));
+    const el = document.getElementById('menu'); if (el) { el.classList.remove('in'); setTimeout(() => el.classList.remove('show'), 250); }
+    const st = document.getElementById('stage'); if (st) st.classList.remove('in');
+    const c = document.getElementById('curtain'); if (c) c.classList.remove('in');
+  }, 180);
+}
+nav.querySelectorAll('a').forEach(a => a.addEventListener('mouseenter', () => a.dataset.m ? open(a) : close()));
+nav.addEventListener('mouseleave', close);
+document.addEventListener('mouseover', e => { if (e.target.closest('#menu, #stage, #curtain')) clearTimeout(t); });
+document.addEventListener('mouseout', e => { if (e.target.closest('#menu, #stage, #curtain') && !e.relatedTarget?.closest('#menu, #stage, #curtain, #nav')) close(); });
+// firm list in B updates the preview on hover
+document.addEventListener('mouseover', e => { const it = e.target.closest('.B .it'); if (!it || it.classList.contains('on')) return;
+  it.parentElement.querySelectorAll('.it').forEach(x => x.classList.toggle('on', x === it)); const f = FIRMS[+it.dataset.f], pv = document.getElementById('prev');
+  pv.style.setProperty('--g', f.c + '73'); pv.innerHTML = prev(f); });
+// copying the code
+document.addEventListener('click', e => { const c = e.target.closest('[data-copy]'); if (!c) return; e.preventDefault();
+  navigator.clipboard?.writeText('ANTAR').catch(() => {}); c.classList.add('done'); c.lastChild.textContent = 'הועתק'; setTimeout(() => { c.classList.remove('done'); c.lastChild.textContent = 'ANTAR'; }, 1400); });
+document.getElementById('switch').onclick = e => { const b = e.target.closest('button'); if (!b) return; opt = b.dataset.o; document.body.className = opt;
+  document.querySelectorAll('#switch button').forEach(x => x.classList.toggle('on', x === b)); build(); };
+build();
+// ?o=B&m=firms opens a state directly (for checking)
+const q = new URLSearchParams(location.search);
+if (q.get('o')) document.querySelector(`#switch [data-o="${q.get('o')}"]`).click();
+if (q.get('m')) { const a = nav.querySelector(`[data-m="${q.get('m')}"]`); open(a); t = null; }
+</script>
+</body>
+</html>

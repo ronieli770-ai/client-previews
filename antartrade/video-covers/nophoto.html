@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - קאברים בלי תמונה</title>
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #12161f; color: #fff; font-family: "Fb Reforma", sans-serif; padding: 64px 24px 120px; }
+  .wrap { max-width: 1500px; margin: 0 auto; }
+  h1 { font-size: 40px; font-weight: 500; }
+  .lead { margin-top: 10px; font-size: 18px; color: rgba(255,255,255,.6); }
+  h2 { margin-top: 56px; font-size: 26px; font-weight: 500; }
+  .cards { margin-top: 20px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .card { border-radius: 24px; padding: 8px 8px 0; background: radial-gradient(90% 70% at 0% 100%, rgba(46,139,216,.22), transparent 60%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.12); }
+  .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 18px; display: block; }
+  .card .b { padding: 14px 10px 18px; display: grid; gap: 8px; }
+  .card .tag { justify-self: start; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; background: rgba(125,198,255,.14); color: #7dc6ff; }
+  .card h3 { font-size: 16px; font-weight: 500; line-height: 1.35; }
+  .row { margin-top: 28px; display: grid; gap: 10px; }
+  .big img { max-width: 1280px; }
+  figure img { width: 100%; display: block; border-radius: 14px; }
+  figcaption { margin-top: 8px; font-size: 14px; color: rgba(255,255,255,.55); }
+  @media (max-width: 1000px) { .cards { grid-template-columns: repeat(2, 1fr); } .row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>קאברים לסרטונים - בלי תמונה</h1>
+  <p class="lead">הלוגו של מה שהסרטון עוסק בו בתלת מימד, והנושאים שמדברים עליהם בסרטון כאייקונים גדולים. בכל קאבר סידור אחר.</p>
+  <h2>בגודל מלא</h2>
+  <div id="list"></div>
+  <h2>כמו באתר</h2>
+  <div class="cards" id="cards"></div>
+</div>
+<script>
+  const C = [['apex', 'מדריך לאפקס - איך קונים ומתקינים', 'הלוגו במרכז, ארבעה נושאים סביבו'], ['tp', 'מדריך לחוקים של טייק פרופיט', 'הנושאים על גרף יורד'], ['topstep', 'מדריך לטופסטפ', 'ה-T כמו אנדרטה, הנושאים מתחת לכותרת'], ['ninja', 'מדריך לתוכנת המסחר נינג׳ה טריידר', 'ה-N הכתום, הנושאים בשורה'], ['replikanto', 'מדריך לקופי טריידינג - רפליקנטו', 'הלוגו והעותקים שלו, קווי העתקה לכל נושא']];
+  document.getElementById('cards').innerHTML = C.map(([k, h]) => `<div class="card"><img src="out5/${k}.png" alt=""><div class="b"><span class="tag">סרטון</span><h3>${h}</h3></div></div>`).join('');
+  document.getElementById('list').innerHTML = C.map(([k, h, n]) => `<div class="row big"><figure><img src="out5/${k}.png?v=2" alt=""><figcaption>${h} - ${n}</figcaption></figure></div>`).join('');
+</script>
+</body>
+</html>

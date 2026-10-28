@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - קאברים לסרטונים</title>
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #12161f; color: #fff; font-family: "Fb Reforma", sans-serif; padding: 64px 24px 120px; }
+  .wrap { max-width: 1600px; margin: 0 auto; }
+  h1 { font-size: 40px; font-weight: 500; }
+  .lead { margin-top: 10px; font-size: 18px; color: rgba(255,255,255,.6); }
+  .bgs { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; padding: 5px; border-radius: 999px; background: rgba(255,255,255,.06); width: max-content; max-width: 100%; }
+  .bgs button { border: 0; background: none; font: 500 15px "Fb Reforma", sans-serif; color: rgba(255,255,255,.6); padding: 10px 20px; border-radius: 999px; cursor: pointer; }
+  .bgs button.on { background: #7dc6ff; color: #12161f; }
+  section { margin-top: 64px; }
+  h2 { font-size: 24px; font-weight: 500; }
+  .row { margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  figure img { width: 100%; display: block; border-radius: 14px; }
+  figcaption { margin-top: 8px; font-size: 14px; color: rgba(255,255,255,.55); }
+  .cards { margin-top: 20px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .card { border-radius: 24px; padding: 8px 8px 0; background: radial-gradient(90% 70% at 0% 100%, rgba(46,139,216,.22), transparent 60%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.12); }
+  .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 18px; display: block; }
+  .card .b { padding: 14px 10px 20px; display: grid; gap: 8px; }
+  .card .tag { justify-self: start; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; background: rgba(125,198,255,.14); color: #7dc6ff; }
+  .card h3 { font-size: 16px; font-weight: 500; line-height: 1.35; }
+  .one { margin-top: 16px; max-width: 1100px; }
+  @media (max-width: 1000px) { .row { grid-template-columns: 1fr; } .cards { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>קאברים לסרטונים</h1>
+  <p class="lead">כל קאבר עם ויזואל משלו סביב הלוגו של הנושא בתלת מימד, באותה שפה: נועם, כותרת בגרדיאנט, כרטיסי הנושאים וטקסטורה עדינה ברקע.</p>
+  <section><h2>כמו באתר</h2><div class="cards" id="cards"></div></section>
+  <div id="list"></div>
+</div>
+<script>
+  const C = [['apex', 'מדריך לאפקס - איך קונים ומתקינים', 'אצבע למעלה והלוגו של אפקס בתלת מימד מרחף מעליה'], ['tp', 'מדריך לחוקים של טייק פרופיט', 'חושב על החוקים, קיר מסכים, הכרטיסים על גרף יורד'], ['topstep', 'מדריך לטופסטפ', 'מצביע על הכרטיסים, ה־T של טופסטפ כמו אנדרטה מאחוריו'], ['ninja', 'מדריך לתוכנת המסחר נינג׳ה טריידר', 'מצביע אל הצופה, ה־N הכתום מרחף לידו'], ['replikanto', 'מדריך לקופי טריידינג - רפליקנטו', 'יושב ומצביע על הלוגו והעותקים שלו, הכרטיסים על גרף יורד']];
+  document.getElementById('cards').innerHTML = C.map(([k, h]) => `<div class="card"><img src="out4/${k}.png" alt=""><div class="b"><span class="tag">סרטון</span><h3>${h}</h3></div></div>`).join('');
+  document.getElementById('list').innerHTML = C.map(([k, h, n]) => `<section><h2>${h}</h2><div class="one"><figure><img src="out4/${k}.png" alt=""><figcaption>${n}</figcaption></figure></div></section>`).join('');
+</script>
+</body>
+</html>

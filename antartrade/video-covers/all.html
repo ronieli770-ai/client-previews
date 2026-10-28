@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntarTrade - כל הקאברים</title>
+<style>
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #12161f; color: #fff; font-family: "Fb Reforma", sans-serif; padding: 64px 24px 120px; }
+  .wrap { max-width: 1500px; margin: 0 auto; }
+  h1 { font-size: 40px; font-weight: 500; }
+  .lead { margin-top: 10px; font-size: 18px; color: rgba(255,255,255,.6); }
+  section { margin-top: 64px; }
+  h2 { font-size: 28px; font-weight: 500; }
+  .grid { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+  .card { border-radius: 24px; padding: 8px 8px 0; display: flex; flex-direction: column;
+    background: radial-gradient(90% 70% at 0% 100%, rgba(46,139,216,.22), transparent 60%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.12); }
+  .card .media { border-radius: 18px; overflow: hidden; }
+  .card img.new { width: 100%; display: block; object-fit: cover; }
+  .course .new { aspect-ratio: 4 / 3; } .video .new { aspect-ratio: 16 / 9; } .article .new { aspect-ratio: 1920 / 1008; }
+  .card .b { padding: 14px 10px 16px; display: grid; gap: 10px; }
+  .card h3 { font-size: 17px; font-weight: 500; line-height: 1.35; }
+  .old { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,.5); }
+  .old img { width: 96px; border-radius: 8px; opacity: .85; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>כל הקאברים באתר - בשפה החדשה</h1>
+  <p class="lead">קורסים, סרטונים ומאמרים. בכל כרטיס הקאבר החדש בגודל שהוא יופיע באתר, ולמטה הקאבר הנוכחי בקטן להשוואה.</p>
+  <div id="list"></div>
+</div>
+<script>
+  const G = [
+    ['קורסים', 'course', [['full', 'full.webp', 'המסלול המלא למסחר בחוזים עתידיים'], ['nostro', 'nostro.webp', 'קורס הנוסטרו החינמי'], ['intro', 'intro.webp', 'קורס המבוא החינמי'], ['orderflow', 'orderflow.webp', 'קורס Order Flow']]],
+    ['סרטונים', 'video', [['apex', 'v-apex.jpg', 'מדריך לאפקס - איך קונים ומתקינים'], ['tp', 'v-tp.jpg', 'מדריך לחוקים של טייק פרופיט'], ['topstep', 'v-topstep.jpg', 'מדריך לטופסטפ'], ['ninja', 'v-ninja.jpg', 'מדריך לתוכנת המסחר נינג׳ה טריידר'], ['replikanto', 'v-replikanto.jpg', 'מדריך לקופי טריידינג - רפליקנטו']]],
+    ['מאמרים', 'article', [['a-footprint', 'a-footprint.jpg', 'מה זה פוטפרינט? המדריך המלא'], ['a-apex', 'a-apex.jpg', 'המדריך המלא לאפקס טריידר פאנדינג'], ['a-topstep', 'a-topstep.jpg', 'המדריך המלא לטופסטפ'], ['a-tradovate', 'a-tradovate.jpg', 'סטופ יומי וניהול סיכונים ב-Tradovate'], ['a-rithmic', 'a-rithmic.jpg', 'המדריך המלא להגדרת סטופ יומי ב-Rithmic']]],
+  ];
+  // the five video thumbnails on the site were already swapped; their originals are kept in old-thumbs
+  const oldSrc = (t, f) => `old-thumbs/${f}`;
+  document.getElementById('list').innerHTML = G.map(([name, t, items]) => `<section><h2>${name}</h2><div class="grid">${items.map(([k, f, h]) =>
+    `<div class="card ${t}"><div class="media"><img class="new" src="out4/${k}.png" alt=""></div><div class="b"><h3>${h}</h3><div class="old"><img src="${oldSrc(t, f)}" alt="">הקאבר הנוכחי</div></div></div>`).join('')}</div></section>`).join('');
+</script>
+</body>
+</html>
