@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>AntarTrade - דף הבית</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400&display=swap" rel="stylesheet">
 <style>
   @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
   @font-face { font-family: "Fb Reforma"; src: url("../../fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
@@ -1611,7 +1611,8 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
 .s-footer .s-footer__in{width:min(1460px,100% - 64px);margin:0 auto;display:flex;flex-direction:column;gap:56px}
 .s-footer a{color:inherit;text-decoration:none;transition:color .2s ease,opacity .2s ease}
 .s-footer .s-footer__top{display:flex;justify-content:space-between;align-items:flex-start;gap:48px}
-.s-footer .s-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.s-footer .s-footer__side,.s-footer .s-footer__brand,.s-footer .s-footer__reach{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.s-footer .s-footer__reach h3{display:none}
 .s-footer .s-footer__logo{display:block;width:195px;height:43px}
 .s-footer .s-footer__logo img{display:block;width:100%;height:100%;object-fit:contain}
 .s-footer .s-footer__tag{margin:0;font-size:14px;line-height:1.2;color:rgba(255,255,255,.6)}
@@ -1648,7 +1649,8 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   .s-footer{padding-top:72px}
   .s-footer .s-footer__in{gap:48px}
   .s-footer .s-footer__top{flex-direction:column;gap:48px}
-  .s-footer .s-footer__brand{display:grid;grid-template-columns:auto 1fr auto auto;column-gap:24px;row-gap:12px;align-items:center;width:100%;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .s-footer .s-footer__side{display:grid;grid-template-columns:auto 1fr auto auto;column-gap:24px;row-gap:12px;align-items:center;width:100%;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .s-footer .s-footer__brand,.s-footer .s-footer__reach{display:contents}
   .s-footer .s-footer__logo{grid-column:1;grid-row:1}
   .s-footer .s-footer__tag{grid-column:1;grid-row:2}
   .s-footer .s-footer__social{grid-column:3;grid-row:1 / span 2}
@@ -1989,30 +1991,22 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   .s-about .text h2, .s-about .copy { text-align: center !important; }
   .s-about .text h2 { margin-inline: auto !important; }
 
-  /* ---------- footer: link groups open and close ---------- */
-  .s-footer .s-footer__cols { display: flex !important; flex-direction: column; gap: 0 !important; width: 100%; }
-  .s-footer .s-footer__col { width: 100%; gap: 0; border-bottom: 1px solid rgba(255,255,255,.08); }
-  .s-footer .s-footer__col h3 { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 16px 0; font-size: 16px; cursor: pointer; }
-  .s-footer .s-footer__col h3::after { content: ""; width: 9px; height: 9px; border-left: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; rotate: -45deg; translate: 0 -3px; transition: rotate .3s, translate .3s; opacity: .7; }
-  .s-footer .s-footer__col.open h3::after { rotate: 135deg; translate: 0 3px; }
-  .s-footer .s-footer__col ul { display: grid; gap: 12px; max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .4s ease; padding: 0; }
-  .s-footer .s-footer__col.open ul { max-height: 320px; padding: 0 0 16px; }
-
-  /* ---------- footer (option C): the brand in a card, round icons, links as chips ---------- */
-  .s-footer .s-footer__brand { align-items: center; text-align: center; width: 100%; padding: 28px 20px 22px; border-radius: 24px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+  /* ---------- footer (2026-10-28, Noam's order): logo and line, the two link columns as plain lists, then the contact box ---------- */
+  .s-footer .s-footer__top { gap: 32px !important; }
+  .s-footer .s-footer__side { display: contents; }
+  .s-footer .s-footer__brand { order: 1; width: 100%; align-items: center; gap: 12px; text-align: center; }
+  .s-footer .s-footer__cols { order: 2; display: grid !important; grid-template-columns: 1fr 1fr; gap: 24px !important; width: 100%; padding-inline: 4px; }
+  .s-footer .s-footer__col { gap: 16px; }
+  .s-footer .s-footer__col--contact { display: none !important; }
+  .s-footer .s-footer__col h3 { font-size: 16px; color: #fff; }
+  .s-footer .s-footer__col ul { gap: 14px; font-size: 15px; }
+  .s-footer .s-footer__col .lat { font-size: 14.5px; }
+  .s-footer .s-footer__reach { order: 3; width: 100%; align-items: center; gap: 18px; padding: 24px 20px 22px; border-radius: 24px; background: rgba(255,255,255,.04); }
+  .s-footer .s-footer__reach h3 { display: block; margin: 0; font-weight: 500; font-size: 16px; line-height: 1.2; color: #fff; }
   .s-footer .s-footer__social { gap: 10px; }
   .s-footer .s-footer__social a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.06); }
-  .s-footer .s-footer__community { width: 100%; justify-content: center; padding: 14px; border-radius: 14px; background: #7dc6ff; color: #fff; }
-  .s-footer .s-footer__cols { gap: 22px !important; }
-  .s-footer .s-footer__col li { width: auto; }
-  .s-footer .s-footer__col { border: 0; }
-  .s-footer .s-footer__col h3 { padding: 0 0 10px; cursor: default; font-size: 14px; color: rgba(255,255,255,.5); }
-  .s-footer .s-footer__col h3::after { display: none; }
-  .s-footer .s-footer__col ul { display: flex !important; flex-direction: row !important; flex-wrap: wrap; gap: 8px !important; max-height: none !important; padding: 0 !important; }
-  .s-footer .s-footer__col li a { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.06); font-size: 14px; }
-  .s-footer .s-footer__row { align-items: center !important; text-align: center; }
-  .s-footer .s-footer__legal { justify-content: center; }
-  .s-footer .s-footer__legal .copy { text-align: center !important; }
+  .s-footer .s-footer__community { width: 100%; justify-content: center; padding: 14px; border-radius: 14px; background: #7dc6ff; color: #fff; font-size: 15px; }
+  .s-footer .s-footer__risk { line-height: 1.45; }
 
   /* ---------- touch targets and the floating bot ---------- */
   .bot-fab { right: 14px; bottom: 14px; width: 38px; height: 48px; }
@@ -2940,11 +2934,16 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
 <footer class="s-footer" data-theme="dark">
   <div class="s-footer__in">
     <div class="s-footer__top" data-reveal>
+      <!-- desktop: one brand row; phones: the logo on top and the channels in a box under the link columns (Noam's order) -->
+      <div class="s-footer__side">
       <div class="s-footer__brand">
         <a class="s-footer__logo" href="#" aria-label="AntarTrade">
           <img src="img/logo-white.png" width="195" height="51" alt="AntarTrade">
         </a>
         <p class="s-footer__tag">המקום המקצועי ביותר להשוואת חברות מימון</p>
+      </div>
+      <div class="s-footer__reach">
+        <h3>צור קשר</h3>
         <ul class="s-footer__social">
           <li><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" width="20" height="20" alt=""></a></li>
           <li><a href="https://www.instagram.com/antar.trade/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" width="20" height="20" alt=""></a></li>
@@ -2957,10 +2956,13 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
           <img class="ar" src="img/foot-arrow.svg" width="12" height="12" alt="">
         </a>
       </div>
+      </div>
       <nav class="s-footer__cols" aria-label="ניווט תחתון">
         <div class="s-footer__col">
           <h3>ניווט מהיר</h3>
           <ul>
+            <li><a href="#">דף הבית</a></li>
+            <li><a href="#">השוואת חברות</a></li>
             <li><a href="#">שאלון התאמה</a></li>
             <li><a href="#">שאלות ותשובות</a></li>
             <li><a href="#">בלוג</a></li>
@@ -2977,9 +2979,10 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
             <li><a class="lat" href="#">Bulenox</a></li>
             <li><a class="lat" href="#">Lucid Trading</a></li>
             <li><a class="lat" href="#">Top Step</a></li>
+            <li><a class="lat" href="#">FTMO Futures</a></li>
           </ul>
         </div>
-        <div class="s-footer__col">
+        <div class="s-footer__col s-footer__col--contact">
           <h3>צור קשר</h3>
           <ul>
             <li><a href="#">צור קשר</a></li>
@@ -3206,7 +3209,8 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   // (over the previous section, which otherwise cut its top while scrolling) and the community content is lifted above it
   const upper = layer.cloneNode(); upper.style.zIndex = '3'; document.body.prepend(upper);   // the journal section above sits at level 2
   const cw = document.querySelector('.s-community .wrap'); if (cw) { cw.style.position = 'relative'; cw.style.zIndex = '4'; }
-  const rings = RINGS.map(([src, a, cx, cy, w, h, rot, blur]) => {
+  // a mark is only made when its section is on the page (the WhatsApp mark belongs to the homepage community banner alone)
+  const rings = RINGS.filter(([, a]) => document.querySelector(a)).map(([src, a, cx, cy, w, h, rot, blur]) => {
     const el = document.createElement('img'); el.src = 'img/' + src; el.alt = '';
     el.style.cssText = `position:absolute;width:${w}px;height:${h}px;object-fit:contain;will-change:transform,filter`;
     (src === 'bg-wa.svg' ? upper : layer).appendChild(el); return { el, src, a: document.querySelector(a), cx, cy, w, h, rot, blur, y: 0 };
@@ -3341,6 +3345,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
     [/נגישות/, '/accessibility'], [/פרטיות/, '/privacy-policy'], [/תנאי שימוש/, '/terms'], [/קרא עוד/, '/legal-disclaimer'], [/קהילה|קהילת/, 'https://chat.whatsapp.com/CxeHevsYfye08aItt9rRPj'],
   ];
   document.querySelectorAll('a[href="#"], a:not([href]):not([data-pair])').forEach(a => {
+    if (a.closest('.dq')) return;   // pages with their own working prototype (the duel page) handle their links
     const scope = a.closest('article, .card, .glow-card, tr, li') || a, own = a.textContent, ctxTxt = scope.textContent.replace(/\s+/g, ' ');
     const hit = MAP.find(([re]) => re.test(own)) || MAP.find(([re]) => re.test(ctxTxt));
     const url = hit ? hit[1] : '/';
@@ -3352,7 +3357,7 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
   }));
   // buttons without their own action
   document.querySelectorAll('button').forEach(b => {
-    if (b.closest('.s-duel, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col, .tc-pick, #fp') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i || b.dataset.firm) return;   // the menu, its close button and toggles have their own job
+    if (b.closest('.s-duel, .dq, .tabs, .opts, #deal-tabs, #ac-tabs, .fan, .m-menu, .s-footer__col, .tc-pick, #fp') || b.matches('.burger, [aria-expanded], [aria-haspopup]') || b.dataset.f || b.dataset.i || b.dataset.firm) return;   // the menu, its close button and toggles have their own job
     b.addEventListener('click', () => {
       const t = b.textContent.trim();
       if (b.closest('[role="search"]')) { const q = b.parentElement.querySelector('input'); if (q && q.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(q.value.trim()), '_blank'); else q && q.focus(); return; }
@@ -3363,17 +3368,19 @@ html.jr-d body .s-journal { margin-top: 0 !important; padding-top: 72px !importa
     });
   });
   document.querySelectorAll('[role="search"] input').forEach(i => i.addEventListener('keydown', e => { if (e.key === 'Enter' && i.value.trim()) open(SITE + '/academy?q=' + encodeURIComponent(i.value.trim()), '_blank'); }));
-  document.querySelectorAll('[class*="code"], [class*="chip"]').forEach(c => { if (c.closest('.s-deals, .s-duel') || !/ANTAR/.test(c.textContent)) return; c.style.cursor = 'pointer';
+  document.querySelectorAll('[class*="code"], [class*="chip"]').forEach(c => { if (c.closest('.s-deals, .s-duel, .dq') || !/ANTAR/.test(c.textContent)) return; c.style.cursor = 'pointer';
     c.addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText('ANTAR'); const h = c.innerHTML; c.textContent = 'הקוד הועתק'; setTimeout(() => c.innerHTML = h, 1200); }); });
 
   // inner glow follows the cursor inside the global buttons
-  document.querySelectorAll('.btn-halo > span, .s-hero__halo-in, .s-duel__halo-in').forEach(b => {
+  // also callable again by pages that re-render their buttons (the duel prototype)
+  (window.__haloBind = () => document.querySelectorAll('.btn-halo > span, .s-hero__halo-in, .s-duel__halo-in').forEach(b => {
+    if (b.dataset.halo) return; b.dataset.halo = 1;
     b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect();
       b.style.setProperty('--sx', (-((e.clientX - r.left) / r.width - .5) * 16).toFixed(1) + 'px');
       b.style.setProperty('--sy', (-((e.clientY - r.top) / r.height - .5) * 12).toFixed(1) + 'px');
       b.style.setProperty('--ga', 1); });
     b.addEventListener('mouseleave', () => { b.style.setProperty('--sx', '0px'); b.style.setProperty('--sy', '0px'); b.style.setProperty('--ga', 0); });
-  });
+  }))();
 
   // ---------- bot: floating button + chat panel; the hero search field opens it ----------
   const fab = document.createElement('button'); fab.className = 'bot-fab'; fab.type = 'button'; fab.setAttribute('aria-label', 'פתח צ׳אט'); document.body.appendChild(fab);

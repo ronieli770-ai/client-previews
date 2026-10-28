@@ -3,7 +3,8 @@
 .s-footer .s-footer__in{width:min(1460px,100% - 64px);margin:0 auto;display:flex;flex-direction:column;gap:56px}
 .s-footer a{color:inherit;text-decoration:none;transition:color .2s ease,opacity .2s ease}
 .s-footer .s-footer__top{display:flex;justify-content:space-between;align-items:flex-start;gap:48px}
-.s-footer .s-footer__brand{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.s-footer .s-footer__side,.s-footer .s-footer__brand,.s-footer .s-footer__reach{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.s-footer .s-footer__reach h3{display:none}
 .s-footer .s-footer__logo{display:block;width:195px;height:43px}
 .s-footer .s-footer__logo img{display:block;width:100%;height:100%;object-fit:contain}
 .s-footer .s-footer__tag{margin:0;font-size:14px;line-height:1.2;color:rgba(255,255,255,.6)}
@@ -40,7 +41,8 @@
   .s-footer{padding-top:72px}
   .s-footer .s-footer__in{gap:48px}
   .s-footer .s-footer__top{flex-direction:column;gap:48px}
-  .s-footer .s-footer__brand{display:grid;grid-template-columns:auto 1fr auto auto;column-gap:24px;row-gap:12px;align-items:center;width:100%;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .s-footer .s-footer__side{display:grid;grid-template-columns:auto 1fr auto auto;column-gap:24px;row-gap:12px;align-items:center;width:100%;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .s-footer .s-footer__brand,.s-footer .s-footer__reach{display:contents}
   .s-footer .s-footer__logo{grid-column:1;grid-row:1}
   .s-footer .s-footer__tag{grid-column:1;grid-row:2}
   .s-footer .s-footer__social{grid-column:3;grid-row:1 / span 2}
@@ -66,11 +68,16 @@
 <footer class="s-footer" data-theme="dark">
   <div class="s-footer__in">
     <div class="s-footer__top" data-reveal>
+      <!-- desktop: one brand row; phones: the logo on top and the channels in a box under the link columns (Noam's order) -->
+      <div class="s-footer__side">
       <div class="s-footer__brand">
         <a class="s-footer__logo" href="#" aria-label="AntarTrade">
           <img src="img/logo-white.png" width="195" height="51" alt="AntarTrade">
         </a>
         <p class="s-footer__tag">המקום המקצועי ביותר להשוואת חברות מימון</p>
+      </div>
+      <div class="s-footer__reach">
+        <h3>צור קשר</h3>
         <ul class="s-footer__social">
           <li><a href="https://www.youtube.com/@Noamantar" target="_blank" rel="noopener" aria-label="YouTube"><img src="img/foot-youtube.svg" width="20" height="20" alt=""></a></li>
           <li><a href="https://www.instagram.com/antar.trade/" target="_blank" rel="noopener" aria-label="Instagram"><img src="img/foot-instagram.svg" width="20" height="20" alt=""></a></li>
@@ -83,10 +90,13 @@
           <img class="ar" src="img/foot-arrow.svg" width="12" height="12" alt="">
         </a>
       </div>
+      </div>
       <nav class="s-footer__cols" aria-label="ניווט תחתון">
         <div class="s-footer__col">
           <h3>ניווט מהיר</h3>
           <ul>
+            <li><a href="#">דף הבית</a></li>
+            <li><a href="#">השוואת חברות</a></li>
             <li><a href="#">שאלון התאמה</a></li>
             <li><a href="#">שאלות ותשובות</a></li>
             <li><a href="#">בלוג</a></li>
@@ -103,9 +113,10 @@
             <li><a class="lat" href="#">Bulenox</a></li>
             <li><a class="lat" href="#">Lucid Trading</a></li>
             <li><a class="lat" href="#">Top Step</a></li>
+            <li><a class="lat" href="#">FTMO Futures</a></li>
           </ul>
         </div>
-        <div class="s-footer__col">
+        <div class="s-footer__col s-footer__col--contact">
           <h3>צור קשר</h3>
           <ul>
             <li><a href="#">צור קשר</a></li>

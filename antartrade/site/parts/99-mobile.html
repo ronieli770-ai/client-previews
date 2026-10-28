@@ -295,30 +295,22 @@
   .s-about .text h2, .s-about .copy { text-align: center !important; }
   .s-about .text h2 { margin-inline: auto !important; }
 
-  /* ---------- footer: link groups open and close ---------- */
-  .s-footer .s-footer__cols { display: flex !important; flex-direction: column; gap: 0 !important; width: 100%; }
-  .s-footer .s-footer__col { width: 100%; gap: 0; border-bottom: 1px solid rgba(255,255,255,.08); }
-  .s-footer .s-footer__col h3 { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 16px 0; font-size: 16px; cursor: pointer; }
-  .s-footer .s-footer__col h3::after { content: ""; width: 9px; height: 9px; border-left: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; rotate: -45deg; translate: 0 -3px; transition: rotate .3s, translate .3s; opacity: .7; }
-  .s-footer .s-footer__col.open h3::after { rotate: 135deg; translate: 0 3px; }
-  .s-footer .s-footer__col ul { display: grid; gap: 12px; max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .4s ease; padding: 0; }
-  .s-footer .s-footer__col.open ul { max-height: 320px; padding: 0 0 16px; }
-
-  /* ---------- footer (option C): the brand in a card, round icons, links as chips ---------- */
-  .s-footer .s-footer__brand { align-items: center; text-align: center; width: 100%; padding: 28px 20px 22px; border-radius: 24px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+  /* ---------- footer (2026-10-28, Noam's order): logo and line, the two link columns as plain lists, then the contact box ---------- */
+  .s-footer .s-footer__top { gap: 32px !important; }
+  .s-footer .s-footer__side { display: contents; }
+  .s-footer .s-footer__brand { order: 1; width: 100%; align-items: center; gap: 12px; text-align: center; }
+  .s-footer .s-footer__cols { order: 2; display: grid !important; grid-template-columns: 1fr 1fr; gap: 24px !important; width: 100%; padding-inline: 4px; }
+  .s-footer .s-footer__col { gap: 16px; }
+  .s-footer .s-footer__col--contact { display: none !important; }
+  .s-footer .s-footer__col h3 { font-size: 16px; color: #fff; }
+  .s-footer .s-footer__col ul { gap: 14px; font-size: 15px; }
+  .s-footer .s-footer__col .lat { font-size: 14.5px; }
+  .s-footer .s-footer__reach { order: 3; width: 100%; align-items: center; gap: 18px; padding: 24px 20px 22px; border-radius: 24px; background: rgba(255,255,255,.04); }
+  .s-footer .s-footer__reach h3 { display: block; margin: 0; font-weight: 500; font-size: 16px; line-height: 1.2; color: #fff; }
   .s-footer .s-footer__social { gap: 10px; }
   .s-footer .s-footer__social a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.06); }
-  .s-footer .s-footer__community { width: 100%; justify-content: center; padding: 14px; border-radius: 14px; background: #7dc6ff; color: #fff; }
-  .s-footer .s-footer__cols { gap: 22px !important; }
-  .s-footer .s-footer__col li { width: auto; }
-  .s-footer .s-footer__col { border: 0; }
-  .s-footer .s-footer__col h3 { padding: 0 0 10px; cursor: default; font-size: 14px; color: rgba(255,255,255,.5); }
-  .s-footer .s-footer__col h3::after { display: none; }
-  .s-footer .s-footer__col ul { display: flex !important; flex-direction: row !important; flex-wrap: wrap; gap: 8px !important; max-height: none !important; padding: 0 !important; }
-  .s-footer .s-footer__col li a { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.06); font-size: 14px; }
-  .s-footer .s-footer__row { align-items: center !important; text-align: center; }
-  .s-footer .s-footer__legal { justify-content: center; }
-  .s-footer .s-footer__legal .copy { text-align: center !important; }
+  .s-footer .s-footer__community { width: 100%; justify-content: center; padding: 14px; border-radius: 14px; background: #7dc6ff; color: #fff; font-size: 15px; }
+  .s-footer .s-footer__risk { line-height: 1.45; }
 
   /* ---------- touch targets and the floating bot ---------- */
   .bot-fab { right: 14px; bottom: 14px; width: 38px; height: 48px; }
