@@ -470,8 +470,10 @@ html.lenis { scroll-behavior: auto !important; }
 .hdr { position: fixed !important; inset: 0 0 auto 0; z-index: 60; transition: background-color .45s ease; }
 .hdr.on { background: #0c0d15; }
 /* the hero pins at its bottom and the video section rises over it, rounded and lifted */
-.hero { position: sticky; z-index: 0; }
-#video { position: relative; z-index: 2; border-radius: 32px 32px 0 0; margin-top: -32px; background: #10121c !important; box-shadow: 0 -30px 60px -20px rgba(0,0,0,.6); }
+@media (max-width: 760px) {
+  .hero { position: sticky; z-index: 0; }
+  #video { position: relative; z-index: 2; border-radius: 24px 24px 0 0; margin-top: -24px; background: #10121c !important; box-shadow: 0 -30px 60px -20px rgba(0,0,0,.6); }
+}
 .cs:not(#video) { position: relative; z-index: 2; }
 /* "talk to me" with the WhatsApp mark */
 .ask .wa-link { display: inline-flex; align-items: center; gap: 6px; }
@@ -509,7 +511,6 @@ body:has(.vers) .sc-top { bottom: 84px; }
   .sc-top { left: 14px; bottom: 14px; width: 46px; height: 46px; }
   .sc-top .sc-ar { width: 20px; height: 20px; }
   body:has(.vers) .sc-top { bottom: 96px; }
-  #video { border-radius: 24px 24px 0 0; margin-top: -24px; }
   /* who it's for: the four benefits two by two */
   #for .feats { grid-template-columns: 1fr 1fr !important; gap: 10px; }
   #for .feat { flex-direction: column; gap: 10px; padding: 18px 16px !important; }
@@ -534,3 +535,10 @@ body:has(.vers) .sc-top { bottom: 84px; }
   .veil { background: radial-gradient(120% 60% at 50% 48%, rgba(12,13,21,.88) 0%, rgba(12,13,21,.72) 55%, rgba(12,13,21,.35) 100%), linear-gradient(0deg, #0c0d15 0%, rgba(12,13,21,0) 28%) !important; }
   .copy::before { opacity: .95; inset: -40px -60px; }
 }
+/* room under the hero stats, so they can be read before the video section starts rising over them */
+.hero { padding-bottom: 90px; }
+@media (max-width: 760px) { .hero { padding-bottom: 150px; } }
+/* about: "סוחר מאז" reads first, the year under it */
+.op .since small { order: -1; }
+/* phones: no brain-bulb marks behind the testimonials */
+@media (max-width: 760px) { #students .bmark { display: none; } }
