@@ -544,3 +544,5 @@ body:has(.vers) .sc-top { bottom: 84px; }
 @media (max-width: 760px) { #students .bmark { display: none; } }
 /* meaning icons in the halo buttons keep their full size */
 .btn-halo svg.ic.sm { width: 18px; height: 18px; }
+/* the phone menu opens above the fixed header */
+.m-menu { z-index: 80; }
