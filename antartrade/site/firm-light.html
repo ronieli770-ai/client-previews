@@ -1073,9 +1073,47 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
   .demo-note { bottom: 74px; }
 
   /* 1. the size picker stays under the page nav while you scroll the section */
-  body.ux .fp-wd .bar, body.ux #accSize { position: sticky; top: var(--stick, 140px); z-index: 25; margin-inline: -16px; padding: 10px 16px; }
+  body.ux .fp-wd .bar { position: sticky; top: var(--stick, 140px); z-index: 25; margin-inline: -16px; padding: 10px 16px; }
   body.ux .fp-wd .bar { background: rgba(255,255,255,.94); backdrop-filter: blur(10px); }
-  body.ux #accSize { background: rgba(18,22,31,.94); backdrop-filter: blur(10px); margin-bottom: 0; }
+  /* 3. accounts: one compact card that fits a phone screen. The size picker moves into the card,
+        price and buy button come first, four key rows show, the rest opens under "כל התנאים" */
+  body.ux #accSize { display: none !important; }
+  body.ux .fp-acc .w { gap: 18px; }
+  body.ux #accSimple.fold { padding: 0; gap: 0; }
+  body.ux #accSimple.fold > .simple-tg { display: flex; }
+  body.ux #accSimple.fold:not(.open) > :not(.simple-tg) { display: none; }
+  body.ux #accSimple.fold.open { padding-bottom: 20px; }
+  body.ux #accSimple.fold.open > :not(.simple-tg) { margin-inline: 18px; }
+  body.ux #accSimple.fold.open > h3 { display: none; }
+  .simple-tg { display: none; width: 100%; align-items: center; justify-content: space-between; gap: 10px; padding: 16px 18px; border: 0; background: none; color: #fff; font: 500 17px/1.3 "Fb Reforma", "Roboto"; text-align: right; cursor: pointer; }
+  .simple-tg .ic { display: flex; align-items: center; gap: 10px; }
+  .simple-tg .ic i { width: 34px; height: 34px; flex: none; border-radius: 50%; display: grid; place-items: center; background: rgba(125,198,255,.12); font-style: normal; }
+  .simple-tg svg.ch { width: 14px; height: 14px; transition: transform .25s; }
+  #accSimple.open .simple-tg svg.ch { transform: rotate(180deg); }
+  body.ux .acard .face.front { gap: 12px; padding: 18px 18px 16px; }
+  body.ux .acard .face.front > .top { order: 0; }
+  body.ux .acard .face.front > .msz { order: 1; display: flex; }
+  body.ux .acard .face.front > .price { order: 2; }
+  body.ux .acard .face.front > .gbtn { order: 3; }
+  body.ux .acard .face.front > .rows.r1 { order: 4; }
+  body.ux .acard .face.front > .tg.full { order: 5; }
+  body.ux .acard .face.front > .rows.r2 { order: 6; }
+  body.ux .acard .face.front > .morebtn { order: 7; display: inline-flex; }
+  body.ux .acard .face.front > .flipl { order: 8; }
+  body.ux .acard:not(.more) .face.front > .rows.r1 > div:nth-child(n+5),
+  body.ux .acard:not(.more) .face.front > .tg.full,
+  body.ux .acard:not(.more) .face.front > .rows.r2 { display: none; }
+  body.ux .acard .top .sz { font-size: 26px; line-height: 1.2; }
+  body.ux .acard .price b { font-size: 34px; line-height: 1.15; }
+  body.ux .acard .price { gap: 2px; }
+  body.ux .acard .rows > div { padding: 8px 0; }
+  .msz, .morebtn { display: none; }
+  .msz { flex-direction: column; gap: 8px; }
+  .msz .lb { font: 400 14px/1.2 "Fb Reforma"; color: rgba(255,255,255,.55); }
+  .msz .tg { display: flex; } .msz .tg button { flex: 1 1 0; }
+  .morebtn { align-self: center; align-items: center; gap: 6px; border: 0; background: none; color: #7dc6ff; font: 500 15px/1.2 "Fb Reforma", "Roboto"; cursor: pointer; padding: 4px 0; }
+  .morebtn svg { width: 12px; height: 12px; transition: transform .25s; }
+  .acard.more .morebtn svg { transform: rotate(180deg); }
   body.ux .fp-wd .bar .lnk { display: none; }
 
   /* 2. withdrawals: one list of rows instead of seven boxes */
@@ -2234,6 +2272,45 @@ html[dir=rtl] .fp-hero .chart { -webkit-mask: linear-gradient(90deg, #000 38%, t
         return out;
       });
     }, true);
+
+    /* accounts: the compact card. The page re-renders #accCards and #accSimple on every pick, so the extras are added again each time */
+    var CH = '<svg class="ch" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var more = false, simpleOpen = false, busy = false;
+    var compact = function () {
+      if (busy) return; busy = true;
+      var simple = document.getElementById('accSimple');
+      if (simple && simple.querySelector('h3') && !simple.querySelector('.simple-tg')) {
+        simple.classList.add('fold'); simple.classList.toggle('open', simpleOpen);
+        var t = document.createElement('button'); t.type = 'button'; t.className = 'simple-tg';
+        t.innerHTML = '<span class="ic"><i><svg viewBox="0 0 16 16" width="16" height="16" fill="none"><path d="M2.5 3.5c1.8-.9 3.7-.9 5.5.3 1.8-1.2 3.7-1.2 5.5-.3v9c-1.8-.9-3.7-.9-5.5.3-1.8-1.2-3.7-1.2-5.5-.3v-9zM8 3.8v9.3" stroke="#7DC6FF" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span></span></span>' + CH;
+        t.querySelector('.ic span').innerHTML = simple.querySelector('h3').innerHTML;
+        t.onclick = function () { simpleOpen = !simpleOpen; simple.classList.toggle('open', simpleOpen); };
+        simple.insertBefore(t, simple.firstChild);
+      }
+      var real = [].slice.call(document.querySelectorAll('#accSize .tg button'));
+      document.querySelectorAll('#accCards .acard').forEach(function (card) {
+        var f = card.querySelector('.face.front'); if (!f || f.querySelector('.msz')) return;
+        card.classList.toggle('more', more);
+        var rs = f.querySelectorAll(':scope > .rows'); if (rs[0]) rs[0].classList.add('r1'); if (rs[1]) rs[1].classList.add('r2');
+        if (real.length > 1) {
+          var m = document.createElement('div'); m.className = 'msz';
+          m.innerHTML = '<span class="lb">גודל חשבון</span><div class="tg">' + real.map(function (b, i) { return '<button type="button" class="' + (b.classList.contains('on') ? 'on' : '') + '" data-pi="' + i + '"><span class="lat">' + b.textContent.trim() + '</span></button>'; }).join('') + '</div>';
+          m.addEventListener('click', function (e) { var b = e.target.closest('[data-pi]'); if (!b) return; e.stopPropagation(); document.querySelectorAll('#accSize .tg button')[+b.dataset.pi].click(); });
+          f.querySelector('.top').after(m);
+        }
+        var n = (rs[0] ? Math.max(0, rs[0].children.length - 4) : 0) + (rs[1] ? rs[1].children.length : 0) + f.querySelectorAll(':scope > .tg.full').length;
+        if (n) {
+          var mb = document.createElement('button'); mb.type = 'button'; mb.className = 'morebtn';
+          mb.innerHTML = '<span>' + (more ? 'פחות תנאים' : 'כל התנאים של החשבון') + '</span><svg viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          mb.addEventListener('click', function (e) { e.stopPropagation(); more = !more; document.querySelectorAll('#accCards .acard').forEach(function (c) { c.classList.toggle('more', more); }); document.querySelectorAll('.morebtn span').forEach(function (x) { x.textContent = more ? 'פחות תנאים' : 'כל התנאים של החשבון'; }); });
+          f.appendChild(mb);
+        }
+      });
+      busy = false;
+    };
+    compact();
+    var acc = document.getElementById('accounts');
+    new MutationObserver(function () { if (!busy) setTimeout(compact, 0); }).observe(acc, { childList: true, subtree: true });
 
     /* the switch: what we have now / the easier version */
     document.body.classList.add('ux');
