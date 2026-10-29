@@ -1,0 +1,24 @@
+/* the reviews: a readable strip that closes into a ball as the page scrolls, then the page moves on */
+#students { padding: 0 !important; overflow: clip; }
+#students .bmark { display: none; }
+.rball { position: relative; height: 240vh; }
+.rb-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.rb-cap { position: absolute; z-index: 5; inset: 120px 16px auto; display: flex; justify-content: center; pointer-events: none; }
+.rb-cap .head { align-items: center; text-align: center; }
+.rb-view { position: absolute; inset: 0; perspective: 1100px; perspective-origin: 50% 58%; touch-action: pan-y; cursor: grab; }
+.rb-view:active { cursor: grabbing; }
+.rb-world { position: absolute; left: 50%; top: 60%; width: 0; height: 0; transform-style: preserve-3d; }
+.rb-card { position: absolute; left: calc(var(--w) / -2); top: calc(var(--h) / -2); width: var(--w); height: var(--h); margin: 0;
+  padding: 24px 24px 22px; border-radius: 24px; display: flex; flex-direction: column; gap: 12px; direction: rtl; user-select: none;
+  border: 1px solid color-mix(in srgb, var(--glow) 26%, transparent);
+  background: radial-gradient(80% 90% at 100% 0, color-mix(in srgb, var(--glow) 22%, transparent), transparent 70%), #0b0e14;
+  transform-style: preserve-3d; will-change: transform, opacity; }
+.rb-card blockquote { margin: 0; font: 400 16px/1.55 "Reforma"; color: rgba(255,255,255,.78); white-space: pre-line;
+  display: -webkit-box; -webkit-line-clamp: 9; -webkit-box-orient: vertical; overflow: hidden; }
+.rb-card figcaption { margin-top: auto; font: 500 16px/1.2 "Reforma"; color: var(--glow); }
+@media (max-width: 760px) {
+  .rb-cap { top: 96px; }
+  .rb-card { padding: 20px 20px 18px; }
+  .rb-card blockquote { font-size: 15px; -webkit-line-clamp: 8; }
+}
+@media (prefers-reduced-motion: reduce) { .rball { height: 100vh; } }
