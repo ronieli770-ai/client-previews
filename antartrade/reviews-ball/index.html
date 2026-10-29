@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ביקורות לכדור - סקיצות</title>
+<style>
+@font-face { font-family: "Reforma"; src: url("fonts/FbReforma-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Reforma"; src: url("fonts/FbReforma-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+:root { --sky: #7dc6ff; --ease: cubic-bezier(.2,.7,.2,1);
+  --t1: #3fd8c2; --t2: #61b1f2; --t3: #4f6bff; --t4: #d17bff; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #0c0d15; color: #fff; font-family: "Reforma", sans-serif; }
+body { overflow-x: hidden; }
+.lat { font-family: "Roboto", sans-serif; font-weight: 500; }
+
+/* page intro */
+.intro { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 18px; text-align: center; padding: 80px 16px; }
+.intro h1 { margin: 0; font: 500 52px/1 "Reforma"; background: linear-gradient(90deg, #61b1f2 0%, #fff 78%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.intro p { margin: 0; max-width: 620px; font-size: 20px; line-height: 1.5; color: rgba(255,255,255,.62); }
+.intro ol { margin: 10px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.intro ol a { display: inline-flex; height: 40px; align-items: center; padding: 0 18px; border-radius: 999px; background: rgba(125,198,255,.1); box-shadow: inset 0 0 0 1px rgba(125,198,255,.2); color: var(--sky); text-decoration: none; font-size: 17px; font-weight: 500; }
+
+/* one sketch: a tall track with a pinned stage */
+.sk { position: relative; height: 380vh; }
+.sk + .sk { margin-top: 0; }
+.stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.cap::before { content: ""; position: absolute; z-index: -1; inset: -56px 0 -60px 0; background: linear-gradient(#0c0d15 62%, rgba(12,13,21,0)); }
+.cap { position: absolute; z-index: 5; inset: 56px 0 auto 0; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; pointer-events: none; padding: 0 16px; }
+.tag { display: inline-flex; height: 34px; align-items: center; padding: 0 16px; border-radius: 999px; background: rgba(125,198,255,.1); color: var(--sky); font-size: 16px; font-weight: 500; }
+.h2 { margin: 0; font: 500 45px/1.1 "Reforma"; background: linear-gradient(90deg, #61b1f2 0%, #fff 78%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.cap .sub { margin: 0; font-size: 19px; color: rgba(255,255,255,.6); }
+.view { position: absolute; inset: 0; perspective: 1100px; perspective-origin: 50% 55%; touch-action: pan-y; cursor: grab; }
+.view:active { cursor: grabbing; }
+.world { position: absolute; left: 50%; top: 56%; width: 0; height: 0; transform-style: preserve-3d; }
+.card { position: absolute; left: calc(var(--w) / -2); top: calc(var(--h) / -2); width: var(--w); height: var(--h);
+  padding: 24px 24px 22px; border-radius: 24px; display: flex; flex-direction: column; gap: 12px; direction: rtl; user-select: none;
+  border: 1px solid color-mix(in srgb, var(--g) 26%, transparent);
+  background: radial-gradient(80% 90% at 100% 0, color-mix(in srgb, var(--g) 22%, transparent), transparent 70%), #0b0e14;
+  transform-style: preserve-3d; will-change: transform, opacity; transition: box-shadow .5s var(--ease), border-color .5s var(--ease); }
+.card blockquote { margin: 0; font-size: 16px; line-height: 1.55; color: rgba(255,255,255,.78); white-space: pre-line;
+  display: -webkit-box; -webkit-line-clamp: 9; -webkit-box-orient: vertical; overflow: hidden; }
+.card figcaption { margin-top: auto; font-size: 16px; font-weight: 500; color: var(--g); }
+.card.hot { border-color: color-mix(in srgb, var(--g) 70%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--g) 40%, transparent), 0 30px 80px -30px color-mix(in srgb, var(--g) 60%, transparent); }
+.g1 { --g: var(--t1); } .g2 { --g: var(--t2); } .g3 { --g: var(--t3); } .g4 { --g: var(--t4); }
+.hint { position: absolute; z-index: 5; inset: auto 0 34px 0; text-align: center; font-size: 15px; color: rgba(255,255,255,.4); pointer-events: none; transition: opacity .4s ease; }
+
+/* sketch 3: the reader beside the ball */
+.reader { position: absolute; z-index: 4; top: 56%; right: 7vw; width: min(520px, 40vw); transform: translateY(-50%); opacity: 0; pointer-events: none;
+  padding: 34px 34px 30px; border-radius: 28px; display: flex; flex-direction: column; gap: 18px;
+  border: 1px solid color-mix(in srgb, var(--g) 40%, transparent);
+  background: radial-gradient(80% 90% at 100% 0, color-mix(in srgb, var(--g) 26%, transparent), transparent 70%), #0b0e14;
+  box-shadow: 0 40px 100px -40px color-mix(in srgb, var(--g) 55%, transparent); }
+.reader blockquote { margin: 0; font-size: 18px; line-height: 1.6; color: rgba(255,255,255,.82); white-space: pre-line; max-height: 46vh; overflow: auto; transition: opacity .35s ease; }
+.reader figcaption { font-size: 18px; font-weight: 500; color: var(--g); transition: opacity .35s ease; }
+.reader.swap blockquote, .reader.swap figcaption { opacity: 0; }
+
+.end { min-height: 50vh; display: grid; place-items: center; color: rgba(255,255,255,.4); font-size: 17px; }
+
+@media (max-width: 760px) {
+  .intro h1 { font-size: 36px; } .intro p { font-size: 17px; }
+  .h2 { font-size: 30px; } .cap { top: 40px; } .cap .sub { font-size: 16px; }
+  .card { padding: 20px 20px 18px; } .card blockquote { font-size: 15px; -webkit-line-clamp: 8; }
+  .reader { top: auto; bottom: 70px; right: 16px; left: 16px; width: auto; transform: none; padding: 22px; }
+  .reader blockquote { font-size: 16px; max-height: 30vh; }
+}
+</style>
+</head>
+<body>
+
+<header class="intro">
+  <h1>הביקורות הופכות לכדור</h1>
+  <p>ארבע סקיצות לסקשן ההמלצות בעמוד הקורס. בכולן מתחילים מפס שקל לקרוא, ובגלילה הוא מתעגל. אפשר לגרור כל אחד מהם הצידה.</p>
+  <ol>
+    <li><a href="#s1">1 · טבעת</a></li>
+    <li><a href="#s2">2 · כדור עם המלצה בולטת</a></li>
+    <li><a href="#s3">3 · כדור וקורא</a></li>
+    <li><a href="#s4">4 · כיפה מבפנים</a></li>
+  </ol>
+</header>
+
+<section class="sk" id="s1" data-mode="ring">
+  <div class="stage">
+    <div class="cap"><span class="tag">סקיצה 1 · הפס מתעגל לטבעת</span><h2 class="h2">מה אומרים התלמידים שלנו</h2><p class="sub">הצטרפו למאות תלמידים שכבר משנים את חייהם</p></div>
+    <div class="view"><div class="world"></div></div>
+    <p class="hint">המשיכו לגלול</p>
+  </div>
+</section>
+
+<section class="sk" id="s2" data-mode="globe">
+  <div class="stage">
+    <div class="cap"><span class="tag">סקיצה 2 · כדור, ההמלצה שמולך יוצאת החוצה</span><h2 class="h2">מה אומרים התלמידים שלנו</h2><p class="sub">הצטרפו למאות תלמידים שכבר משנים את חייהם</p></div>
+    <div class="view"><div class="world"></div></div>
+    <p class="hint">המשיכו לגלול</p>
+  </div>
+</section>
+
+<section class="sk" id="s3" data-mode="reader">
+  <div class="stage">
+    <div class="cap"><span class="tag">סקיצה 3 · כדור בצד, ההמלצה נקראת לידו</span><h2 class="h2">מה אומרים התלמידים שלנו</h2><p class="sub">הצטרפו למאות תלמידים שכבר משנים את חייהם</p></div>
+    <div class="view"><div class="world"></div></div>
+    <figure class="reader g2"><blockquote></blockquote><figcaption></figcaption></figure>
+    <p class="hint">המשיכו לגלול</p>
+  </div>
+</section>
+
+<section class="sk" id="s4" data-mode="dome">
+  <div class="stage">
+    <div class="cap"><span class="tag">סקיצה 4 · הקיר מתעגל סביבך</span><h2 class="h2">מה אומרים התלמידים שלנו</h2><p class="sub">הצטרפו למאות תלמידים שכבר משנים את חייהם</p></div>
+    <div class="view"><div class="world"></div></div>
+    <p class="hint">המשיכו לגלול</p>
+  </div>
+</section>
+
+<div class="end">סוף הסקיצות</div>
+
+<script src="reviews.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function () {
+  const R = window.REVIEWS, N = R.length, TAU = Math.PI * 2;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const smooth = (v) => { v = clamp(v, 0, 1); return v * v * (3 - 2 * v); };
+  const esc = (t) => t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+
+  function card(k, cls) {
+    const r = R[k], el = document.createElement("figure");
+    el.className = `card g${(k % 4) + 1}${cls ? " " + cls : ""}`;
+    el.innerHTML = `<blockquote>${esc(r.t)}</blockquote><figcaption>${esc(r.n)}</figcaption>`;
+    el.dataset.k = k;
+    return el;
+  }
+
+  function Sketch(sec) {
+    const mode = sec.dataset.mode, view = sec.querySelector(".view"), world = sec.querySelector(".world");
+    const hint = sec.querySelector(".hint"), reader = sec.querySelector(".reader");
+    let items = [], C = 0, Rad = 0, W = 0, H = 0, off = 0, vel = 0, target = null, step = 0, lastStep = 0, front = -1;
+
+    function build() {
+      world.innerHTML = ""; items = [];
+      const small = innerWidth < 760;
+      W = small ? 270 : 340; H = small ? 300 : 320;
+      const gap = small ? 16 : 24;
+      world.style.setProperty("--w", W + "px"); world.style.setProperty("--h", H + "px");
+      C = N * (W + gap); Rad = C / TAU;
+      /* the strip: the 13 real reviews, side by side */
+      for (let i = 0; i < N; i++) items.push({ el: card(i), sx: i * (W + gap), sy: 0, row: 0 });
+      /* the ball and the dome get more rows of the same reviews, fading in as it curves */
+      const rows = mode === "globe" || mode === "reader" ? [[1, 12], [-1, 12], [2, 8], [-2, 8], [3, 4], [-3, 4]]
+        : mode === "dome" ? [[1, N], [-1, N]] : [];
+      rows.forEach(([row, n], ri) => {
+        for (let j = 0; j < n; j++) {
+          const k = (j * 5 + ri * 3 + 2) % N;
+          items.push({ el: card(k), sx: (j + (row % 2 ? .5 : 0)) * (C / n), sy: row * (H + gap), row });
+        }
+      });
+      items.forEach((it) => world.appendChild(it.el));
+    }
+
+    /* drag to turn it, with a little glide after letting go */
+    let down = false, lx = 0, moved = 0;
+    view.addEventListener("pointerdown", (e) => { down = true; lx = e.clientX; moved = 0; vel = 0; target = null; view.setPointerCapture(e.pointerId); });
+    view.addEventListener("pointermove", (e) => { if (!down) return; const dx = e.clientX - lx; lx = e.clientX; moved += Math.abs(dx); off += dx * (mode === "dome" ? -1.4 : 1.4); vel = dx * (mode === "dome" ? -1.4 : 1.4); lastStep = performance.now(); });
+    view.addEventListener("pointerup", () => { down = false; });
+    view.addEventListener("pointercancel", () => { down = false; });
+    /* a click on a review turns it to face you */
+    view.addEventListener("click", (e) => {
+      if (moved > 6) return;
+      const el = e.target.closest(".card"); if (!el) return;
+      const it = items.find((x) => x.el === el); if (!it) return;
+      target = nearest(-it.sx); lastStep = performance.now();
+    });
+    const wrap = (s) => ((s % C) + C * 1.5) % C - C / 2;
+    const nearest = (t) => off + wrap(t - off);
+
+    function frame(now, dt) {
+      const r = sec.getBoundingClientRect();
+      if (r.bottom < -50 || r.top > innerHeight + 50) return;
+      const p = clamp(-r.top / (r.height - innerHeight), 0, 1);
+      const e = smooth((p - .1) / .5);
+      if (hint) hint.style.opacity = e > .98 ? 0 : 1;
+      const done = e > .98;
+
+      /* the strip drifts; once it is round, the ball/reader versions stop on each review in turn */
+      const stepper = done && (mode === "globe" || mode === "reader");
+      if (!down) {
+        if (target !== null) { off += (target - off) * .08; if (Math.abs(target - off) < .5) { off = target; target = null; } }
+        else if (Math.abs(vel) > .2) { off += vel; vel *= .93; }
+        else if (stepper) {
+          if (now - lastStep > 4200) { lastStep = now; const k = (front + 1 + N) % N; target = nearest(-items[k].sx); }
+        } else off -= dt * (mode === "dome" ? -.035 : .04);
+      }
+
+      const Rb = Rad / Math.max(e, .0004);
+      const sc = mode === "ring" ? 1 - .2 * e : mode === "globe" ? 1 - .5 * e : mode === "reader" ? 1 - .58 * e : 1 - .12 * e;
+      const shift = mode === "reader" ? (innerWidth < 760 ? 0 : -innerWidth * .2 * e) : 0;
+      const lift = mode === "reader" && innerWidth < 760 ? -innerHeight * .12 * e : 0;
+      world.style.transform = `translate3d(${shift}px, ${lift}px, 0) scale(${sc})`;
+
+      let best = -1, bestF = -2;
+      items.forEach((it) => {
+        const s = wrap(it.sx + off), th = s / Rb, ph = it.sy / Rb;
+        const facing = Math.cos(th) * Math.cos(ph);
+        let t;
+        if (mode === "dome") t = `translateZ(${Rb}px) rotateY(${-th}rad) rotateX(${ph}rad) translateZ(${-Rb}px)`;
+        else t = `translateZ(${-Rb}px) rotateY(${th}rad) rotateX(${-ph}rad) translateZ(${Rb}px)`;
+        /* sketch 2: the review facing you comes out of the ball and grows to reading size */
+        it.pop = it.pop || 0;
+        const want = mode === "globe" && done && it.row === 0 && facing > .985 ? 1 : 0;
+        it.pop += (want - it.pop) * .1;
+        if (it.pop > .001) t += ` translateZ(${220 * it.pop}px) scale(${1 + .9 * it.pop})`;
+        it.el.style.transform = t;
+        const ghost = it.row === 0 ? 1 : smooth((e - .3) / .45);
+        const dim = mode === "dome" ? clamp(.25 + facing, 0, 1) : clamp(.12 + .88 * Math.max(0, facing) ** 1.5, 0, 1);
+        it.el.style.opacity = (ghost * (1 - e + e * dim)).toFixed(3);
+        it.el.style.zIndex = it.pop > .05 ? 9 : "";
+        if (it.row === 0 && facing > bestF) { bestF = facing; best = it; }
+      });
+      items.forEach((it) => it.el.classList.toggle("hot", done && mode !== "dome" && it === best));
+      if (best && best.el) {
+        const k = +best.el.dataset.k;
+        if (k !== front) { front = k; if (reader) showReader(k); }
+      }
+      if (reader) { reader.style.opacity = smooth((e - .7) / .3); reader.style.pointerEvents = done ? "auto" : "none"; }
+    }
+
+    let swapT = 0;
+    function showReader(k) {
+      clearTimeout(swapT); reader.classList.add("swap");
+      swapT = setTimeout(() => {
+        reader.className = `reader g${(k % 4) + 1}`;
+        reader.querySelector("blockquote").textContent = R[k].t;
+        reader.querySelector("figcaption").textContent = R[k].n;
+      }, 260);
+    }
+
+    build();
+    let rw = innerWidth;
+    addEventListener("resize", () => { if (Math.abs(innerWidth - rw) > 40) { rw = innerWidth; build(); } });
+    return { frame };
+  }
+
+  const sketches = [...document.querySelectorAll(".sk")].map(Sketch);
+
+  let lenis = null;
+  if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    lenis = new Lenis({ lerp: .08 }); window.lenis = lenis;
+    document.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { const el = document.querySelector(a.getAttribute("href")); if (!el) return; e.preventDefault(); lenis.scrollTo(el, { offset: 0 }); }));
+  }
+  let last = performance.now();
+  (function raf(now) {
+    const dt = Math.min(50, now - last); last = now;
+    if (lenis) lenis.raf(now);
+    sketches.forEach((s) => s.frame(now, dt));
+    requestAnimationFrame(raf);
+  })(last);
+})();
+</script>
+</body>
+</html>
