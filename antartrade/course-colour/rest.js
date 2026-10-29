@@ -32,6 +32,6 @@
   addEventListener("scroll", tone, { passive: true }); tone();
 
   /* blocks fade in once as they arrive */
-  const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), { rootMargin: "0px 0px -8% 0px" });
+  const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), { rootMargin: "0px 0px 10% 0px" });
   document.querySelectorAll("[data-rv]").forEach((el) => io.observe(el));
 })();

@@ -16,8 +16,11 @@
 
   /* siblings arrive one after another */
   document.querySelectorAll(".tri, .tgrid, .duo, .mods2, .quad, .feats").forEach((p) =>
-    [...p.children].forEach((el, i) => { el.setAttribute("data-rv", ""); el.classList.remove("in"); el.style.setProperty("--sd", `${Math.min(i, 8) * (p.matches(".tri") ? 0.18 : 0.08)}s`); }));
-  const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), { rootMargin: "0px 0px -8% 0px" });
+    [...p.children].forEach((el, i) => { el.setAttribute("data-rv", ""); el.classList.remove("in"); el.style.setProperty("--sd", `${Math.min(i, 6) * (p.matches(".tri") ? 0.1 : 0.05)}s`); }));
+  /* how fast the page is moving: on a fast scroll whatever arrives shows at once, without the stagger */
+  let lastY = scrollY, lastT = performance.now(), vel = 0;
+  addEventListener("scroll", () => { const t = performance.now(); vel = Math.abs(scrollY - lastY) / Math.max(t - lastT, 1); lastY = scrollY; lastT = t; }, { passive: true });
+  const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { if (vel > 1.5) en.target.classList.add("now"); en.target.classList.add("in"); io.unobserve(en.target); } }), { rootMargin: "0px 0px 10% 0px" });
   document.querySelectorAll("[data-rv]:not(.in)").forEach((el) => io.observe(el));
 
   /* light follows the cursor inside the cards */

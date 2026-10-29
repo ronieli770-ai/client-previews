@@ -546,3 +546,17 @@ body:has(.vers) .sc-top { bottom: 84px; }
 .btn-halo svg.ic.sm { width: 18px; height: 18px; }
 /* the phone menu opens above the fixed header */
 .m-menu { z-index: 80; }
+
+/* ---------- round 9 (Noam): the reveals keep up with a fast scroll ---------- */
+/* they start a little before the block reaches the screen and take about half the time */
+[data-rv] { transition-duration: .6s; }
+#for .aud[data-rv] { transition-duration: .85s, .55s, .55s; }
+#for .aud .ic { transition-delay: calc(var(--sd, 0s) + .3s); }
+#for .aud.in .ic { animation-delay: calc(var(--sd, 0s) + .55s); }
+#for .feat[data-rv] { transition-duration: .7s, .5s, .5s; transition-delay: calc(var(--sd, 0s) + .1s); }
+/* on a fast scroll: no stagger, a quick fade */
+[data-rv].now, #for .aud[data-rv].now, #for .feat[data-rv].now { transition-duration: .3s; transition-delay: 0s; }
+#for .aud.now .ic { transition-delay: 0s; animation-delay: 0s; }
+.lit.in { transition-duration: .5s, .5s, .6s, .6s; }
+.lit.in.now { transition-duration: .5s, .5s, .3s, .3s; transition-delay: 0s; }
+#for .aud.in > .sweep::before { animation-delay: calc(var(--sd, 0s) + .4s); }
