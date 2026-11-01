@@ -1,0 +1,1 @@
+.fc-in{opacity:0;transform:translateY(16px);transition:opacity .5s ease var(--d, 0s),transform .5s cubic-bezier(.22,.61,.36,1) var(--d, 0s)}.fc-in.on{opacity:1;transform:none}@media (prefers-reduced-motion: reduce){.fc-in{opacity:1;transform:none;transition:none}}
