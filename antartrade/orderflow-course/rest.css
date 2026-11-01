@@ -1,0 +1,196 @@
+/* Full course page, everything under the hero. Mirrors the Apex light demo (client-previews/antartrade/site/firm-light.html):
+   dark sections in the site's dark language, light sections in the homepage light language (duel, community). */
+.cs { position: relative; padding: 110px 0; background: #0b0e14; color: #fff; }
+.cs.alt { background: #0e121a; }
+.cs.tight { padding-top: 20px; }
+.w { width: min(1171px, 100% - 32px); margin: 0 auto; display: flex; flex-direction: column; gap: 44px; }
+.cs .ic { width: 28px; height: 28px; flex: none; color: var(--sky); }
+.cs .ic.sm { width: 18px; height: 18px; color: currentColor; }
+
+/* section head */
+.head { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.head.c { align-items: center; text-align: center; }
+.pill { display: inline-flex; padding: 6px 14px; border-radius: 999px; background: rgba(125,198,255,.12); color: var(--sky); font: 500 16px/1.2 "Reforma"; }
+.h2 { margin: 0; font: 500 45px/1.18 "Reforma"; background: linear-gradient(90deg, #61b1f2 0%, #fff 78.365%); -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; max-width: 100%; }
+.h2 .lat { font-size: .8em; font-weight: 600; }
+.head .sub { margin: 0; max-width: 720px; font: 400 20px/1.5 "Reforma"; color: rgba(255,255,255,.6); }
+.h3 { margin: 0; font: 500 22px/1.25 "Reforma"; color: #fff; }
+.h3 .lat { font-weight: 600; font-size: .9em; }
+.cs p .lat, .cs li .lat, .cs blockquote .lat { font-weight: 500; }
+
+/* dark boxes: dark card, faint sky line, corner light */
+.box { position: relative; border: 1px solid rgba(125,198,255,.14); border-radius: 24px; background: radial-gradient(70% 90% at 100% 0, rgba(46,139,216,.2), rgba(46,139,216,0) 70%), #0b0e14; }
+
+/* light sections: white ground, navy titles, two greys */
+.cs.lt { background: #fff; color: #12161f; }
+.lt .h2 { background: none; color: #12161f; -webkit-text-fill-color: #12161f; }
+.lt .head .sub { color: rgba(18,22,31,.7); }
+.lt .h3 { color: #12161f; }
+.lt .ic { color: #12161f; }
+.lt-card { position: relative; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 14px;
+  background: radial-gradient(55% 55% at 100% 0, rgba(214,236,255,.55) 0%, rgba(214,236,255,0) 100%),
+              radial-gradient(70% 70% at 0 100%, rgba(97,177,242,.4) 0%, rgba(125,198,255,.15) 40%, rgba(214,236,255,0) 100%), #fff;
+  box-shadow: 0 24px 60px rgba(85,169,235,.09); }
+.lt-card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(45deg, #2e8bd8 0%, #7dc6ff 50%, #d6ecff 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.lt-card p { margin: 0; font: 400 17px/1.5 "Reforma"; color: rgba(18,22,31,.7); }
+
+/* 1. video: rounded, on the grid width, no frame, no glow; the play sits on the cover */
+.vid { padding-top: 40px; }
+.player { position: relative; width: min(1000px, 100%); margin: 0 auto; aspect-ratio: 16 / 9; border-radius: 24px; overflow: hidden; background: #000; cursor: pointer; }
+.player img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s var(--ease); }
+.player:hover img { transform: scale(1.02); }
+.player .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(11,14,20,.55), rgba(11,14,20,.1)); }
+.player .play { position: absolute; left: 50%; top: 50%; width: 96px; height: 96px; margin: -48px 0 0 -48px; border: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  background: rgba(255,255,255,.18); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.6); backdrop-filter: blur(10px); transition: transform .3s var(--ease); }
+.player:hover .play { transform: scale(1.06); }
+.player .play svg { width: 38px; height: 38px; margin-left: 6px; fill: #fff; }
+.player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* 2. who it is for */
+.tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.aud .ic { margin-bottom: 6px; }
+.feats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.feat { display: flex; align-items: flex-start; gap: 14px; padding: 22px 24px; border-radius: 24px; background: #f3f7fb; }
+.feat .ic { width: 24px; height: 24px; margin-top: 2px; }
+.feat h4 { margin: 0 0 4px; font: 500 18px/1.3 "Reforma"; color: #12161f; }
+.feat p { margin: 0; font: 400 16px/1.45 "Reforma"; color: rgba(18,22,31,.7); }
+
+/* 3. students: three columns of quotes, long ones fold behind "קרא עוד" */
+.tgrid { columns: 3; column-gap: 20px; }
+.tc { break-inside: avoid; margin: 0 0 20px; padding: 26px 28px; display: flex; flex-direction: column; gap: 14px; }
+.tc blockquote { margin: 0; font: 400 17px/1.6 "Reforma"; color: rgba(255,255,255,.78); white-space: pre-line; }
+.tc.clamp blockquote { display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical; overflow: hidden; }
+.tc figcaption { font: 500 16px/1.2 "Reforma"; color: var(--sky); }
+.tc .rm { align-self: flex-start; border: 0; background: none; padding: 0; cursor: pointer; font: 500 15px/1.2 "Reforma"; color: rgba(255,255,255,.6); }
+.folded .more { display: none; }
+.fold { align-self: center; border: 0; cursor: pointer; font: inherit; }
+.fold svg { width: 12px; height: 8px; }
+
+/* 4. two courses */
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
+.crs .num { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: #12161f; color: #fff; font-size: 20px; font-weight: 600; }
+.pill-btn { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px; border-radius: 999px; background: #12161f; color: #fff; font: 500 16px/1 "Reforma"; }
+.pill-btn .ic.sm { transform: none; }
+.chap { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.chap li { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 16px; border-radius: 15px; background: #f3f7fb; font: 400 16px/1.3 "Reforma"; color: #12161f; }
+.chap li b { font-size: 15px; font-weight: 600; color: #2e8bd8; min-width: 14px; }
+
+/* 5. syllabus: duel-grey capsules, navy +/-, the first one open */
+.mods { width: min(960px, 100%); margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.mod { border-radius: 16px; background: #f3f7fb; padding: 20px 26px; }
+.mod summary { list-style: none; display: flex; align-items: center; gap: 16px; cursor: pointer; font: 500 20px/1.25 "Reforma"; color: #12161f; }
+.mod summary::-webkit-details-marker { display: none; }
+.mod summary::after { content: "+"; margin-inline-start: auto; font: 400 24px/1 "Roboto"; color: #12161f; }
+.mod[open] summary::after { content: "−"; }
+.mod .tag { flex: none; padding: 5px 12px; border-radius: 999px; background: rgba(97,177,242,.14); color: #2e8bd8; font: 500 14px/1.2 "Reforma"; }
+.mod .tag .lat { font-weight: 600; }
+.mod .t .lat { font-weight: 600; font-size: .92em; }
+.mb { padding-top: 14px; display: flex; flex-direction: column; gap: 14px; }
+.mb p { margin: 0; font: 400 16px/1.5 "Reforma"; color: rgba(18,22,31,.7); }
+.mb ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; }
+.mb li { display: flex; align-items: flex-start; gap: 10px; font: 400 16px/1.45 "Reforma"; color: #12161f; }
+.mb li .ic { width: 20px; height: 20px; margin-top: 2px; }
+#syllabus .btn-halo { align-self: center; }
+
+/* halo buttons on light: primary = dark halo, secondary = the light secondary (solid ring, light pill, navy line) */
+.btn-halo.dark { background: rgba(18,22,31,.03); box-shadow: inset 0 0 0 1px rgba(18,22,31,.10); }
+.btn-halo.dark > span { background: #2b4d6a; color: #fff; box-shadow: inset var(--sx) var(--sy) 14px rgba(125,198,255,calc(var(--ga) * .45)), inset 0 -4px 17.6px rgba(18,22,31,.25), inset 0 -8px 26.4px #12161f; }
+.btn-halo.lsec { background: #f0f2f5; box-shadow: none; }
+.btn-halo.lsec > span { background: #f6f9fc; color: #000; box-shadow: inset 0 0 0 1px rgba(43,77,106,.5), inset var(--sx) var(--sy) 14px rgba(97,177,242,calc(var(--ga) * .35)); }
+
+/* 6. outcomes */
+.quad { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.out { padding: 32px; display: flex; flex-direction: column; gap: 12px; }
+.out .ic { margin-bottom: 4px; }
+.out p { margin: 0; font: 400 17px/1.5 "Reforma"; color: rgba(255,255,255,.6); }
+
+/* 7. who am I: the opinion panel, Noam cut by the ring */
+.op .panel { position: relative; display: flex; gap: 64px; align-items: flex-end; padding: 56px; border-radius: 24px; border: 1px solid rgba(125,198,255,.14);
+  background: radial-gradient(60% 60% at 100% 0, rgba(46,139,216,.2), rgba(46,139,216,0) 70%), #0b0e14; overflow: hidden; }
+.op .txt { flex: 1; display: flex; flex-direction: column; gap: 18px; align-items: flex-start; position: relative; }
+.op .q { margin: 0; font: 500 28px/1.3 "Reforma"; color: #fff; }
+.op .b { margin: 0; font: 400 18px/1.55 "Reforma"; color: rgba(255,255,255,.7); }
+.op .b strong { font-weight: 500; color: #fff; }
+.op .who { position: relative; width: 320px; height: 430px; flex: none; }
+.op .who .ring { position: absolute; inset: auto 0 0 0; height: 320px; border-radius: 50%; border: 3px solid rgba(255,255,255,.55);
+  background: radial-gradient(42% 42% at 30% 22%, rgba(214,236,255,.55), rgba(214,236,255,0)), linear-gradient(225deg, #7dc6ff 0%, #2e8bd8 55%, #2e5474 100%); box-shadow: 0 20px 70px -10px rgba(85,169,235,.45); }
+.op .who .cut { position: absolute; inset: 0; overflow: hidden; -webkit-mask: radial-gradient(circle 160px at 50% 270px, #000 99.5%, transparent 100%), linear-gradient(#000, #000) top / 100% 270px no-repeat; mask: radial-gradient(circle 160px at 50% 270px, #000 99.5%, transparent 100%), linear-gradient(#000, #000) top / 100% 270px no-repeat; }
+.op .who .cut img { position: absolute; left: 10px; bottom: -40px; width: 300px; }
+.op .since { position: absolute; z-index: 2; right: -10px; bottom: 34px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 12px 18px; border-radius: 18px;
+  background: rgba(11,14,20,.78); box-shadow: inset 0 0 0 1px rgba(125,198,255,.25); backdrop-filter: blur(10px); }
+.op .since b { font-size: 26px; font-weight: 600; color: var(--sky); line-height: 1; }
+.op .since small { font: 400 14px/1.2 "Reforma"; color: rgba(255,255,255,.6); }
+.op .qm { position: absolute; right: 56px; top: 10px; font: 700 420px/1 "Roboto"; background: linear-gradient(rgba(125,198,255,.16), rgba(125,198,255,0)); -webkit-background-clip: text; background-clip: text; color: transparent; pointer-events: none; }
+
+/* 8. FAQ: duel-grey capsules without a frame, navy +/-, first open */
+.faq { width: min(960px, 100%); margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq details { border-radius: 16px; background: #f3f7fb; padding: 20px 26px; }
+.faq summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; cursor: pointer; font: 500 20px/1.3 "Reforma"; color: #12161f; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font: 400 24px/1 "Roboto"; color: #12161f; }
+.faq details[open] summary::after { content: "−"; }
+.faq summary .lat { font-weight: 600; font-size: .92em; }
+.faq details p { margin: 12px 0 0; font: 400 16px/1.55 "Reforma"; color: rgba(18,22,31,.7); }
+.faq.folded details.more { display: none; }
+
+/* 9. price */
+.pcard { width: min(860px, 100%); margin: 0 auto; padding: 48px; border-radius: 28px; display: flex; flex-direction: column; gap: 32px; position: relative;
+  background: radial-gradient(70% 80% at 100% 0, rgba(46,139,216,.28), rgba(46,139,216,0) 70%), radial-gradient(60% 60% at 0 100%, rgba(97,177,242,.14), rgba(97,177,242,0) 70%), #0b0e14;
+  box-shadow: inset 0 0 0 1px rgba(125,198,255,.22), 0 40px 90px rgba(0,0,0,.45); }
+.pt { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.pt .was { font: 400 16px/1.3 "Reforma"; color: rgba(255,255,255,.5); }
+.pt .big { display: inline-flex; align-items: baseline; gap: 8px; direction: ltr; font: 500 76px/1 "Roboto"; letter-spacing: -2px; color: #fff; }
+.pt .big small { font-size: .45em; letter-spacing: 0; color: rgba(255,255,255,.8); }
+.pt .note { font: 400 16px/1.3 "Reforma"; color: rgba(255,255,255,.5); }
+.inc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
+.inc li { display: flex; align-items: flex-start; gap: 12px; font: 400 17px/1.45 "Reforma"; color: rgba(255,255,255,.85); }
+.inc li .ic { width: 22px; height: 22px; margin-top: 1px; }
+.pa { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.fine { margin: 0; font: 400 14px/1.45 "Reforma"; color: rgba(255,255,255,.45); text-align: center; }
+.ask { margin: 0; text-align: center; font: 400 17px/1.4 "Reforma"; color: rgba(255,255,255,.6); }
+.ask a { color: var(--sky); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+
+/* 10. ready to start */
+.end { overflow: hidden; padding: 130px 0 140px; }
+.end-bg { position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(50% 70% at 50% 100%, rgba(46,139,216,.3), rgba(46,139,216,0) 70%),
+              linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 72px 72px, linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 72px 72px;
+  -webkit-mask-image: radial-gradient(70% 90% at 50% 70%, #000 30%, transparent 85%); mask-image: radial-gradient(70% 90% at 50% 70%, #000 30%, transparent 85%); }
+.ctas.c { justify-content: center; }
+
+/* header: fixed, takes the colour of the section under it once scrolling starts (as on the homepage) */
+.hdr { position: fixed; transition: background-color .55s var(--ease), color .55s var(--ease); }
+.hdr.on.dark { background: #12161f; }
+.hdr.on.light { background: #fff; }
+.hdr.on.light nav a { color: #12161f; }
+.hdr.on.light nav a.deal { color: #2e8bd8; }
+.hdr.on.light .logo { background-image: url("logo-main.png"); }
+.hdr.on.light .halo { background: rgba(18,22,31,.03); box-shadow: inset 0 0 0 1px rgba(18,22,31,.10); }
+.hdr.on.light .halo a { background: #12161f; color: #fff; }
+
+/* gentle fade-in for section heads and blocks */
+[data-rv] { opacity: 0; transform: translateY(18px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+[data-rv].in { opacity: 1; transform: none; }
+
+@media (max-width: 960px) {
+  .cs { padding: 64px 0; }
+  .w { gap: 28px; }
+  .h2 { font-size: 32px; }
+  .head .sub { font-size: 17px; }
+  .tri, .feats, .duo, .quad, .inc, .chap, .mb ul { grid-template-columns: 1fr; }
+  .tgrid { columns: 1; }
+  .lt-card, .out { padding: 24px; }
+  .op .panel { flex-direction: column; align-items: stretch; padding: 28px 20px; gap: 28px; }
+  .op .who { align-self: center; width: 240px; height: 322px; }
+  .op .who .ring { height: 240px; }
+  .op .who .cut { -webkit-mask: radial-gradient(circle 120px at 50% 202px, #000 99.5%, transparent 100%), linear-gradient(#000, #000) top / 100% 202px no-repeat; mask: radial-gradient(circle 120px at 50% 202px, #000 99.5%, transparent 100%), linear-gradient(#000, #000) top / 100% 202px no-repeat; }
+  .op .who .cut img { width: 225px; left: 7px; bottom: -30px; }
+  .op .qm { font-size: 220px; right: 20px; }
+  .op .q { font-size: 22px; } .op .b { font-size: 16px; }
+  .faq details, .mod { padding: 16px 18px; }
+  .faq summary, .mod summary { font-size: 17px; }
+  .pcard { padding: 28px 20px; }
+  .pt .big { font-size: 56px; }
+}

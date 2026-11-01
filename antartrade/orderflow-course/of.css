@@ -1,0 +1,215 @@
+/* Order Flow course page: the full track page's family (dark #0C0D15 ground, deals palette accents, halo buttons),
+   with a look of its own: teal leads instead of sky, the hero is a live footprint chart with a DOM ladder,
+   the chapters climb as a volume ladder and the fit lists sit in two containers. */
+:root { --tl: #3fd8c2; --tld: #1e9e9a; --tll: #b8fff1; }
+
+/* ---------- hero ---------- */
+.hero { height: 100vh; min-height: 700px; }
+.hero-in { grid-template-columns: 1fr; justify-items: center; text-align: center; min-height: 0; height: 100%;
+  padding-top: calc(79px + clamp(12px, 4vh, 44px)); padding-bottom: clamp(14px, 3vh, 32px); gap: clamp(12px, 2.4vh, 26px); }
+.copy { align-items: center; max-width: 900px; gap: clamp(8px, 1.6vh, 18px); position: relative; isolation: isolate; }
+.copy::before { content: ""; position: absolute; z-index: -1; inset: -70px -150px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(11,14,20,.9), rgba(11,14,20,.62) 60%, rgba(11,14,20,0));
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent); mask-image: radial-gradient(closest-side, #000 55%, transparent); }
+.chip { background: rgba(63,216,194,.12); color: var(--tl); }
+.chip i { background: var(--tl) !important; box-shadow: 0 0 10px var(--tl) !important; animation: none !important; }
+h1 { font-size: clamp(42px, min(6vw, 8.4vh), 96px); line-height: .9; letter-spacing: -1px; margin-bottom: clamp(4px, 1vh, 10px); }
+h1 .ln { white-space: nowrap; }
+/* the second line in the page's teal: the gradient reads from teal into white */
+h1 .ln:last-child > span { background: linear-gradient(90deg, var(--tl) 0%, #fff 85%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sub, .sub2 { color: rgba(255,255,255,.58); font-size: clamp(17px, 2.2vh, 20px); line-height: 1.6; max-width: 720px; }
+.sub .hl, .sub2 .hl { color: #fff; font-weight: 500; }
+.sub .lat { color: rgba(255,255,255,.75); font-weight: 500; }
+.sub { max-width: 780px; }
+.sub2 { max-width: 700px; font-size: clamp(15px, 1.9vh, 17px); line-height: 1.55; }
+.buy { display: flex; align-items: center; justify-content: space-between; gap: 36px; margin-top: clamp(4px, 1.4vh, 14px); padding: 14px 14px 14px 30px; border-radius: 30px; text-align: right;
+  background: rgba(13,19,30,.55); box-shadow: inset 0 0 0 1px rgba(63,216,194,.18), 0 30px 60px rgba(0,0,0,.35); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.buy .price { align-items: flex-start; gap: 4px; padding-inline-start: 16px; }
+.buy .price .now { font-size: clamp(36px, 5vh, 46px); background: linear-gradient(90deg, var(--tl), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.buy .price .note { font-size: 14px; color: rgba(255,255,255,.5); }
+.btn-halo > span { height: clamp(46px, 6vh, 56px); }
+.stats { position: relative; z-index: 2; width: 100%; max-width: 860px; justify-self: center; gap: 12px; }
+.stat { padding: 12px 18px; gap: 2px; border-radius: 20px; }
+.stat .si { stroke: var(--tl); width: 22px; height: 22px; }
+.stat b { font-size: clamp(30px, 4vh, 38px); letter-spacing: -1px; }
+.stat b:not(.lat) { font-family: "Reforma"; letter-spacing: 0; font-size: clamp(28px, 3.6vh, 34px); }
+.stat b[data-count] { font-family: "Roboto"; }
+.stat span { font-size: 16px; color: rgba(255,255,255,.6); }
+
+/* grounds: the site grid, two lights (teal and sky) and grain */
+.tex { position: absolute; inset: 0; z-index: -3; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 72px 72px;
+  -webkit-mask-image: radial-gradient(90% 80% at 50% 40%, #000 30%, transparent 85%); mask-image: radial-gradient(90% 80% at 50% 40%, #000 30%, transparent 85%); }
+.spot { position: absolute; z-index: -3; border-radius: 50%; pointer-events: none; }
+.spot.a { right: -8%; top: 6%; width: 50%; height: 70%; background: radial-gradient(closest-side, rgba(63,216,194,.16), transparent); }
+.spot.b { left: -10%; bottom: -10%; width: 55%; height: 70%; background: radial-gradient(closest-side, rgba(46,139,216,.2), transparent); }
+.grain { opacity: .12; }
+.veil { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(48% 52% at 50% 46%, rgba(11,14,20,.85), rgba(11,14,20,.45) 62%, rgba(11,14,20,.05) 100%), linear-gradient(0deg, #0b0e14 0%, rgba(11,14,20,0) 30%); }
+/* the footprint chart: candles built from bid x ask cells with a volume profile at the side */
+#fp { position: absolute; inset: -30px; z-index: -2; width: calc(100% + 60px); height: calc(100% + 60px); opacity: .85; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+
+/* the DOM ladder: a frosted card with price levels and resting size, the middle level lit */
+.dom { position: absolute; z-index: 1; top: calc(79px + 60px); left: 3%; width: 236px; padding: 14px; border-radius: 22px; pointer-events: none; opacity: 0; transition: opacity 1.4s ease 2s;
+  background: rgba(13,19,30,.72); box-shadow: inset 0 0 0 1px rgba(63,216,194,.16), 0 30px 60px rgba(0,0,0,.4); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  transform: perspective(900px) rotateY(10deg); transform-origin: left center; }
+.go .dom { opacity: 1; }
+.dom-in { display: flex; flex-direction: column; gap: 3px; font: 500 12px/1 "Roboto"; direction: ltr; }
+.dr { position: relative; display: grid; grid-template-columns: 1fr 74px 1fr; align-items: center; height: 22px; border-radius: 7px; color: rgba(255,255,255,.55); overflow: hidden; }
+.dr .p { text-align: center; color: rgba(255,255,255,.75); }
+.dr .b, .dr .a { position: relative; z-index: 1; padding: 0 8px; }
+.dr .b { text-align: left; } .dr .a { text-align: right; }
+.dr i { position: absolute; top: 3px; bottom: 3px; border-radius: 5px; transition: width .5s cubic-bezier(.2,.7,.2,1); }
+.dr i.bi { left: 0; background: rgba(97,177,242,.22); } .dr i.ai { right: 0; background: rgba(63,216,194,.22); }
+.dr.mid { background: rgba(63,216,194,.12); box-shadow: inset 0 0 0 1px rgba(63,216,194,.4); }
+.dr.mid .p { color: var(--tl); font-weight: 600; }
+.dr.hit .a, .dr.hit .b { color: #fff; }
+
+/* ---------- section grounds: two dark tones in turn ---------- */
+#bridge, #learn, #syllabus, #faq, #price { background: #0e121a; }
+#video, #for, #get, #about, #more { background: #0b0e14; }
+
+/* bridge: three steps in one row, the step numbers big and quiet behind each card */
+.flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.step { padding: 34px 32px 30px; display: flex; flex-direction: column; gap: 10px; min-height: 230px; }
+.step .sn { position: absolute; left: 24px; top: 22px; font: 600 96px/1 "Roboto"; letter-spacing: -4px; pointer-events: none; z-index: 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--glow) 40%, transparent), transparent 80%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  transform: translateY(var(--py, 0px)); }
+.step .ic { width: 52px; height: 52px; padding: 12px; border-radius: 15px; color: var(--light) !important; background: color-mix(in srgb, var(--glow) 18%, transparent); margin-bottom: 8px; position: relative; z-index: 1; }
+.step .h3 { font-size: 26px; position: relative; z-index: 1; }
+.step p { margin: 0; font: 400 17px/1.5 "Reforma"; position: relative; z-index: 1; }
+#bridge .head .sub { max-width: 860px; }
+
+/* learn: eight cards, four a row; the icon stands alone in its colour, a soft light in the corner */
+.learn { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.lc { padding: 28px 24px; display: flex; flex-direction: column; gap: 10px; }
+.lc .ic { width: 30px; height: 30px; margin-bottom: 10px; }
+.lc .h3 { font-size: 20px; line-height: 1.3; }
+.lc p { margin: 0; font: 400 16px/1.5 "Reforma"; }
+
+/* fit: two containers; each line in its own small capsule */
+.fit { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.fbox { position: relative; padding: 32px; border-radius: 24px; background: #0e121a; box-shadow: inset 0 0 0 1px rgba(255,255,255,.07); }
+.fbox.yes { background: radial-gradient(80% 70% at 100% 0, rgba(63,216,194,.16), transparent 70%), #0e121a; box-shadow: inset 0 0 0 1px rgba(63,216,194,.26); }
+.fh { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.fi { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: rgba(255,255,255,.06); color: rgba(255,255,255,.55); }
+.yes .fi { background: rgba(63,216,194,.16); color: var(--tl); }
+.fi .ic { width: 24px; height: 24px; color: inherit; }
+.fbox .h3 { font-size: 24px; }
+.fbox ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.fbox li { display: flex; align-items: flex-start; gap: 12px; padding: 14px 18px; border-radius: 15px; background: rgba(255,255,255,.04); font: 400 17px/1.45 "Reforma"; color: rgba(255,255,255,.82); }
+.fbox li .ic { width: 22px; height: 22px; margin-top: 1px; color: rgba(255,255,255,.4); }
+.yes li .ic { color: var(--tl); }
+
+/* chapters: a volume ladder, each chapter a level whose bar grows as the course goes on */
+.lad { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; counter-reset: none; }
+.lv { position: relative; overflow: hidden; isolation: isolate; display: flex; gap: 18px; align-items: flex-start; padding: 24px 24px 30px; border-radius: 20px;
+  background: rgba(255,255,255,.035); box-shadow: inset 0 0 0 1px rgba(125,198,255,.1); transition: transform .5s var(--ease), box-shadow .5s var(--ease); }
+.lv .ln { flex: none; font: 600 30px/1 "Roboto"; letter-spacing: -1px; color: var(--tl); min-width: 42px; }
+.lv:nth-child(3n+2) .ln { color: var(--t2); } .lv:nth-child(3n) .ln { color: #8fa2ff; }
+.lv b { display: block; font: 500 19px/1.3 "Reforma"; color: #fff; margin-bottom: 6px; }
+.lv b .lat { font-weight: 600; font-size: .92em; }
+.lv p { margin: 0; font: 400 15.5px/1.5 "Reforma"; color: rgba(255,255,255,.58); }
+.lv .vb { position: absolute; right: 24px; bottom: 14px; height: 5px; width: 0; border-radius: 99px; z-index: -1;
+  background: linear-gradient(270deg, var(--tl), var(--t2)); opacity: .7; transition: width 1.4s cubic-bezier(.2,.7,.2,1) .3s; }
+.lv.in .vb { width: calc((100% - 48px) * var(--w-n, .2)); width: calc(var(--w) - 24px); }
+.lv:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px rgba(63,216,194,.35); }
+
+/* what you get: six small tiles, then the four outcomes with their numbers */
+.gets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.gi { padding: 22px 24px; display: flex; gap: 16px; align-items: flex-start; border-radius: 20px; }
+.gi .ic { width: 46px; height: 46px; padding: 11px; border-radius: 14px; background: color-mix(in srgb, var(--glow) 16%, transparent); color: var(--light) !important; }
+.gi .h3 { font-size: 19px; margin-bottom: 4px; }
+.gi p { margin: 0; font: 400 15.5px/1.45 "Reforma"; }
+#get .quad { margin-top: 6px; }
+#get .out { padding: 30px 32px; }
+#get .out .on { font: 600 54px/1 "Roboto"; letter-spacing: -2px; background: linear-gradient(180deg, var(--glow), color-mix(in srgb, var(--glow) 0%, transparent) 120%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 6px; }
+#get .out .h3 { font-size: 24px; }
+
+/* about: the text column carries its own title, the extra paragraphs open under "קרא עוד" */
+#about .panel { align-items: center; border-color: rgba(63,216,194,.16); }
+#about .txt .h2 { margin-bottom: 4px; }
+#about .who .ring { border-color: rgba(63,216,194,.55); }
+.rmore { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; color: var(--tl); font: 500 17px/1 "Reforma"; cursor: pointer; }
+.rmore .chv { width: 12px; height: 8px; transition: transform .3s; }
+.rmore[aria-expanded="true"] .chv { transform: rotate(180deg); }
+.more-txt { display: flex; flex-direction: column; gap: 18px; }
+.more-txt[hidden] { display: none; }
+#about .giant { opacity: .13 !important; background: linear-gradient(90deg, #3fd8c2, #61b1f2) !important; -webkit-background-clip: text !important; background-clip: text !important; color: transparent !important; -webkit-text-fill-color: transparent; }
+.end-bg { background: radial-gradient(40% 60% at 25% 100%, rgba(97,177,242,.18), transparent 70%), radial-gradient(40% 60% at 75% 100%, rgba(63,216,194,.2), transparent 70%) !important; }
+
+/* FAQ links: the guide address in sky, left to right */
+#faq .faq details p + p { margin-top: 10px; }
+.faq .ln-a { color: var(--sky); text-decoration: underline; text-underline-offset: 3px; font: 500 15px/1.4 "Roboto"; word-break: break-all; }
+#faq .faq details[open] summary::after { color: var(--tl); }
+
+/* the full track offer: Order Flow alone beside the full track in the quiet blue with the two covers fanned */
+.ups { display: grid; grid-template-columns: 1fr 1.25fr; gap: 20px; align-items: stretch; }
+.uc { position: relative; overflow: hidden; isolation: isolate; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 36px; border-radius: 26px;
+  background: #0e121a; box-shadow: inset 0 0 0 1px rgba(63,216,194,.2); }
+.uc .h3 { font-size: 26px; color: #fff; margin-bottom: 6px; }
+.up-pr { font: 600 46px/1 "Roboto"; letter-spacing: -1px; color: #fff; margin-top: 4px; }
+.up-pr small { font-size: .55em; margin-left: 3px; }
+.up-n, .up-was { font: 400 15px/1.4 "Reforma"; color: rgba(255,255,255,.6); }
+.up-was .lat { text-decoration: line-through; }
+.up-tag { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.14); color: #fff; font: 500 15px/1.2 "Reforma"; }
+.uc .btn-halo, .uc .wbtn { margin-top: auto; padding-top: 20px; }
+.uc .btn-halo { padding-top: 0; margin-top: auto; }
+.uc > .btn-halo { margin-top: 26px; }
+.uc.hi { padding-left: 46%; color: #fff; box-shadow: 0 30px 60px -30px rgba(47,69,201,.7);
+  background: radial-gradient(60% 80% at 0% 100%, rgba(63,216,194,.35), transparent 60%), linear-gradient(135deg, #2e8bd8 0%, #2f45c9 100%); }
+.uc.hi .up-n, .uc.hi .up-was { color: rgba(255,255,255,.75); }
+.uc .wbtn { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 26px; margin-top: 22px; border-radius: 999px; background: #fff; color: #12161f; font: 500 18px/1 "Reforma"; text-decoration: none; transition: transform .3s var(--ease); }
+.uc .wbtn:hover { transform: translateY(-2px); }
+.uc .wbtn svg { width: 18px; height: 18px; }
+.uc .deck { position: absolute; left: 4%; top: 50%; width: 40%; aspect-ratio: 1; transform: translateY(-50%); pointer-events: none; z-index: -1; }
+.uc .deck img { position: absolute; width: 78%; border-radius: 14px; box-shadow: 0 24px 40px rgba(0,0,0,.35); transition: transform .6s var(--ease); }
+.uc .deck .bk { left: 0; top: 4%; transform: rotate(-10deg); }
+.uc .deck .fr { right: 0; bottom: 4%; transform: rotate(7deg); }
+.uc.hi:hover .deck .bk { transform: rotate(-14deg) translate(-8px, -6px); }
+.uc.hi:hover .deck .fr { transform: rotate(10deg) translate(6px, 6px); }
+
+/* price card: teal into sky on the big number and on the light that runs the frame */
+.pcard .big { background: linear-gradient(90deg, var(--tl) 0%, #61b1f2 55%, #fff 100%) !important; -webkit-background-clip: text !important; background-clip: text !important; color: transparent; }
+.pcard::after { background: conic-gradient(from var(--a, 0deg), transparent 0deg 250deg, rgba(63,216,194,.95) 300deg, rgba(125,198,255,.95) 335deg, transparent 360deg) !important; }
+.pcard .inc li .ic { color: var(--tl) !important; }
+.pcard .inc li:nth-child(even) .ic { color: var(--t2) !important; }
+.ask { text-align: center; }
+
+/* ---------- tablets and phones ---------- */
+@media (max-width: 1180px) { .dom { display: none; } .learn { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 960px) {
+  .hero { height: auto; min-height: 100svh; }
+  .hero-in { padding-top: 104px; padding-bottom: 32px; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .lad, .gets { grid-template-columns: 1fr 1fr; }
+  .ups { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) { .buy { flex-direction: column; align-items: stretch; padding: 18px; } .buy .price { align-items: center; padding: 0; } .buy .ctas { justify-content: center; } }
+@media (max-width: 760px) {
+  h1 { font-size: clamp(32px, 9.2vw, 46px); }
+  .flow, .learn, .fit, .lad, .gets { grid-template-columns: 1fr; }
+  .step { min-height: 0; padding: 26px 22px; }
+  .step .sn { font-size: 90px; }
+  .lc { padding: 22px 20px; }
+  .fbox { padding: 22px 16px; }
+  .fbox li { font-size: 16px; padding: 12px 14px; }
+  .lv { padding: 20px 18px 26px; }
+  .uc { padding: 26px 22px; }
+  .uc.hi { padding: 26px 22px; padding-top: 210px; }
+  .uc .deck { left: 50%; top: 18px; width: 220px; height: 180px; aspect-ratio: auto; transform: translateX(-50%); }
+  .uc .deck img { width: 62%; }
+  .stat b { font-size: 32px; } .stat b:not(.lat) { font-size: 28px; }
+  .stat { padding: 12px 14px; }
+  #fp { opacity: .55; }
+}
+/* phones: reveals rise without blur, the moving band and the price frame light stop while off screen */
+@media (max-width: 760px), (pointer: coarse) {
+  [data-rv] { filter: none !important; transition: opacity .6s var(--ease), transform .6s var(--ease) !important; transition-delay: var(--sd, 0s) !important; }
+  .copy::before, .buy, .dom { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  .buy { background: rgba(13,19,30,.85); }
+  .step .sn { top: 18px; font-size: 72px; }
+}
+.off, .off * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .lv .vb { transition: none; } .dom { transition: none; } }
