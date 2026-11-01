@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.png">
+<title>אודות - כניסה בסגנון כרטיסיות</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #12161f; color: #fff; font-family: "Fb Reforma", "Heebo", "Assistant", sans-serif; padding: 48px 40px 80px; }
+  h1 { font-weight: 500; font-size: 34px; margin: 0 0 8px; }
+  .lead { color: rgba(255,255,255,.6); margin: 0 0 30px; font-size: 18px; }
+  .opt { margin: 0 0 64px; }
+  .head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .head b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #7dc6ff; color: #12161f; font-family: Roboto, sans-serif; }
+  .head .t { font-size: 21px; } .head .d { color: rgba(255,255,255,.55); font-size: 16px; }
+  .replay { margin-inline-start: auto; font: inherit; font-size: 16px; color: #fff; background: rgba(125,198,255,.12); border: 0; border-radius: 99px; padding: 9px 18px; cursor: pointer; }
+  .replay:hover { background: rgba(125,198,255,.22); }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1600px; min-height: 300px; }
+  .card { position: relative; background: #0b0e14; border-radius: 30px; padding: 32px; min-height: 260px; box-shadow: 0 24px 50px -24px rgba(0,0,0,.8), inset 0 0 0 1px rgba(125,198,255,.08); }
+  .ic { width: 56px; height: 56px; border-radius: 16px; background: rgba(125,198,255,.12); display: grid; place-items: center; }
+  .ic svg { width: 26px; height: 26px; }
+  .card h3 { margin: 20px 0 10px; font-weight: 500; font-size: 25px; }
+  .card p { margin: 0; color: rgba(255,255,255,.65); font-size: 17px; line-height: 1.6; }
+  .card { transition: transform 1s cubic-bezier(.22,1,.36,1), opacity .5s ease, box-shadow .6s ease; }
+  /* every option starts from its own "before" state (set in JS as --tx, --ty, --r, --s, --z) and goes to its place on .go */
+  .row .card { transform: translate3d(var(--tx,0), var(--ty,0), var(--z,0)) rotate(var(--r,0)) scale(var(--s,1)); opacity: var(--o,1); }
+  .row.go .card { transform: none; opacity: 1; transition-delay: var(--d, 0s); }
+</style>
+</head>
+<body>
+<h1>כניסה בסגנון כרטיסיות - "הגישה שלי"</h1>
+<p class="lead">כל אופציה רצה כשהיא מגיעה למסך, "להפעיל שוב" מריץ מחדש. תגידי לי מספר.</p>
+
+<template id="cards">
+  <div class="card"><div class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.8L15.6 5V9.6C15.6 13 13.2 15.8 10 17.2C6.8 15.8 4.4 13 4.4 9.6V5L10 2.8Z"/><path d="M7.4 10L9.2 11.8L12.8 8.2"/></svg></div><h3>שקיפות מלאה</h3><p>כל המידע באתר מוצג בצורה ברורה וכנה. אני שם דגש על לתת לכם תמונה מלאה כדי שתוכלו לבחור נכון.</p></div>
+  <div class="card"><div class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 16.2C10 16.2 3.4 12.4 3.4 7.8C3.4 5.6 5 4 7 4C8.3 4 9.4 4.7 10 5.8C10.6 4.7 11.7 4 13 4C15 4 16.6 5.6 16.6 7.8C16.6 12.4 10 16.2 10 16.2Z"/></svg></div><h3>ליווי אישי</h3><p>אני כאן כדי לענות על שאלות, לעזור בהתלבטויות ולתת לכם את המידע שאתם צריכים.</p></div>
+  <div class="card"><div class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="#7DC6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.4 13.4C5.9 12.4 5 10.8 5 9C5 6.2 7.2 4 10 4S15 6.2 15 9C15 10.8 14.1 12.4 12.6 13.4V14.6H7.4V13.4Z"/><path d="M8 17H12"/></svg></div><h3>ידע מעשי</h3><p>לא תיאוריה יבשה - טיפים, תובנות וכלים שעובדים בפועל ומבוססים על ניסיון אמיתי.</p></div>
+</template>
+
+<div class="opt" data-k="fan"><div class="head"><b>1</b><span class="t">מניפה, כמו המבצעים בדף הבית</span><span class="d">שלוש הכרטיסיות פתוחות כמניפה במרכז, ואז נפרשות לשורה</span><button class="replay">להפעיל שוב</button></div><div class="row"></div></div>
+<div class="opt" data-k="peel"><div class="head"><b>2</b><span class="t">חפיסה שנפתחת</span><span class="d">ערימה אחת במרכז, הכרטיסייה העליונה מחליקה למקום שלה וחושפת את הבאה</span><button class="replay">להפעיל שוב</button></div><div class="row"></div></div>
+<div class="opt" data-k="drop"><div class="head"><b>3</b><span class="t">מונחות על השולחן</span><span class="d">כל כרטיסייה נופלת מלמעלה בזווית קלה ונוחתת במקום, אחת אחרי השנייה</span><button class="replay">להפעיל שוב</button></div><div class="row"></div></div>
+<div class="opt" data-k="depth"><div class="head"><b>4</b><span class="t">מגיעות מהעומק</span><span class="d">הכרטיסיות מגיעות מאחור, מוקטנות, ומתקרבות עד שהן מתיישבות</span><button class="replay">להפעיל שוב</button></div><div class="row"></div></div>
+<div class="opt" data-k="slide"><div class="head"><b>5</b><span class="t">נשלפות מהצד</span><span class="d">כרטיסיות שיושבות אחת על השנייה בצד ימין, ונשלפות בזו אחר זו לשמאל</span><button class="replay">להפעיל שוב</button></div><div class="row"></div></div>
+
+<script>
+const tpl = document.getElementById("cards").innerHTML;
+const rows = [...document.querySelectorAll(".row")];
+rows.forEach((r) => { r.innerHTML = tpl; });
+/* the "before" state of each option, measured from where each card really sits */
+const setup = (row, k) => {
+  const cs = [...row.children]; row.classList.remove("go");
+  cs.forEach((c) => { c.style.transition = "none"; c.style.cssText += ";--tx:0;--ty:0;--r:0;--s:1;--z:0;--o:1;--d:0s"; });
+  const rr = cs.map((c) => c.getBoundingClientRect()), mid = rr[1];
+  cs.forEach((c, i) => {
+    const dx = mid.left - rr[i].left, s = c.style;
+    if (k === "fan") { s.setProperty("--tx", `${dx + (i - 1) * -70}px`); s.setProperty("--ty", `${Math.abs(i - 1) * 26}px`); s.setProperty("--r", `${(i - 1) * -10}deg`); s.setProperty("--s", ".86"); s.setProperty("--d", "0s"); c.style.zIndex = i === 1 ? 3 : 2; }
+    if (k === "peel") { s.setProperty("--tx", `${dx}px`); s.setProperty("--ty", `${i * -6}px`); s.setProperty("--r", `${[3, -2, 1][i]}deg`); s.setProperty("--d", `${[.7, .1, .4][i]}s`); c.style.zIndex = [1, 3, 2][i]; }
+    if (k === "drop") { s.setProperty("--ty", "-180px"); s.setProperty("--r", `${[-8, 6, -5][i]}deg`); s.setProperty("--o", "0"); s.setProperty("--d", `${i * .22}s`); }
+    if (k === "depth") { s.setProperty("--ty", "60px"); s.setProperty("--z", "-700px"); s.setProperty("--o", "0"); s.setProperty("--d", `${i * .2}s`); }
+    if (k === "slide") { const right = rr[0]; s.setProperty("--tx", `${right.left - rr[i].left + i * 14}px`); s.setProperty("--ty", `${i * 10}px`); s.setProperty("--r", `${i * 2}deg`); s.setProperty("--d", `${.2 + i * .28}s`); c.style.zIndex = 3 - i; }
+  });
+  void row.offsetWidth; cs.forEach((c) => { c.style.transition = ""; });
+};
+const play = (row, k) => { setup(row, k); setTimeout(() => row.classList.add("go"), k === "fan" ? 700 : 350); };
+const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { const o = e.target.closest(".opt"); play(e.target, o.dataset.k); io.unobserve(e.target); } }), { threshold: .45 });
+rows.forEach((r) => { setup(r, r.closest(".opt").dataset.k); io.observe(r); });
+document.querySelectorAll(".replay").forEach((b) => b.addEventListener("click", () => { const o = b.closest(".opt"); play(o.querySelector(".row"), o.dataset.k); }));
+</script>
+</body>
+</html>
