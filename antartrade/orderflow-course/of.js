@@ -8,7 +8,7 @@
 /* anything that keeps moving (the tools band, the price card frame) pauses while it is off screen */
 (function () {
   const io = new IntersectionObserver((es) => es.forEach((en) => en.target.classList.toggle("off", !en.isIntersecting)));
-  document.querySelectorAll(".band, .pcard, #faq, #learn").forEach((el) => io.observe(el));
+  document.querySelectorAll(".band, .pcard, #faq, #learn, .ups .uc").forEach((el) => io.observe(el));
 })();
 /* outcomes: once the row is 30% in view the line draws through all four steps in 1.2s, each card lights as the line reaches it */
 (function () {

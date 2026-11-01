@@ -337,3 +337,24 @@
   .road-steps { grid-auto-columns: 82%; }
   .ro:last-child { scroll-snap-align: end; }
 }
+
+/* ---------- round 14 ---------- */
+@media (max-width: 760px) {
+  /* timeline: room inside the scroller for the circles' glow; the cards still line up with the 16px grid */
+  .road { margin: 14px -16px 0 !important; padding: 16px 16px 8px !important; width: auto !important; scroll-padding-inline: 16px; }
+  /* syllabus compact: the number on the right, the title beside it (tag after it), Noam's line below across the card */
+  .mod2 { display: grid !important; grid-template-columns: auto 1fr auto; align-items: center; column-gap: 12px; row-gap: 8px; padding: 18px 20px !important; }
+  .mod2 .top { display: contents; }
+  .mod2 .n { grid-column: 1; grid-row: 1; }
+  .mod2 .t { grid-column: 2; grid-row: 1; }
+  .mod2 .tag { grid-column: 3; grid-row: 1; justify-self: end; }
+  .mod2 .mb { grid-column: 1 / -1; grid-row: 2; }
+  .mod2 .mb p { margin: 0 !important; }
+}
+/* upsell covers float and sway gently, each on its own beat; transform properties only, paused off screen */
+@keyframes of-sway { from { translate: 0 8px; rotate: -3deg; } to { translate: 0 -8px; rotate: 3deg; } }
+@keyframes of-sway-s { from { translate: 0 6px; rotate: -2deg; } to { translate: 0 -6px; rotate: 2deg; } }
+.uc.of .deck.one .fr { animation: of-sway 6s ease-in-out infinite alternate !important; }
+.uc.hi .deck .bk { animation: of-sway-s 6.5s ease-in-out -2s infinite alternate !important; }
+.uc.hi .deck .fr { animation: of-sway-s 5.5s ease-in-out -4s infinite alternate !important; }
+@media (prefers-reduced-motion: reduce) { .uc .deck img { animation: none !important; } }
