@@ -221,3 +221,5 @@
 .fbox.no.lit.in:hover { transform: none !important; box-shadow: none !important; }
 #about .panel { border: 0 !important; box-shadow: none !important; }
 .fbox.no { background: #12161f !important; } /* the site's plain dark container (the ink #12161f), frameless, readable on the section ground */
+/* hero chip: an orchid chip with a teal dot, the contrasting accent (as the full track's sky chip carries a pink dot) */
+.hero .chip i { background: #3fd8c2 !important; box-shadow: 0 0 10px #3fd8c2 !important; }
