@@ -1,14 +1,14 @@
 /* Colourful version: colours handed round the containers, staggered reveals, cursor light, scroll parallax */
 (function () {
-  const C = ["c1", "c2", "c3"]; /* this page keeps to teal, sky and blue */
+  const C = ["c1", "c2", "c3", "c4"];
   /* each group of containers takes the four colours in turn */
   ["#bridge .step", "#learn .lc", "#get .gi", "#get .out"].forEach((sel, g) =>
-    document.querySelectorAll(sel).forEach((el, i) => el.classList.add(C[(i + g) % 3])));
+    document.querySelectorAll(sel).forEach((el, i) => el.classList.add(C[(i + g) % 4])));
   /* the hero stats are all sky; syllabus containers stay sky and only their number and tag change colour */
-  document.querySelectorAll(".stat").forEach((el) => el.classList.add("c1"));
+  document.querySelectorAll(".stat").forEach((el) => el.classList.add("c2"));
   document.querySelectorAll(".mod2").forEach((el, i) => el.classList.add(`n${(i % 4) + 1}`));
   /* soft blurred lights behind the audience section, smaller flashes behind the FAQ */
-  ["#learn", "#faq"].forEach((id) => { const s = document.querySelector(id); if (s) s.insertAdjacentHTML("afterbegin", '<span class="glowbg r c2"></span><span class="glowbg l c1"></span><span class="glowbg m c3"></span>'); });
+  ["#learn", "#faq"].forEach((id) => { const s = document.querySelector(id); if (s) s.insertAdjacentHTML("afterbegin", '<span class="glowbg r c4"></span><span class="glowbg l c1"></span><span class="glowbg m c3"></span>'); });
 
 
   /* a soft blurred light behind each audience icon */
