@@ -223,3 +223,30 @@
 .fbox.no { background: #12161f !important; } /* the site's plain dark container (the ink #12161f), frameless, readable on the section ground */
 /* hero chip: an orchid chip with a teal dot, the contrasting accent (as the full track's sky chip carries a pink dot) */
 .hero .chip i { background: #3fd8c2 !important; box-shadow: 0 0 10px #3fd8c2 !important; }
+
+/* ---------- round 10: exact container specs (Roni) ---------- */
+/* the site's black container sits on the #12161f section ground */
+#for, #get { background: #12161f !important; }
+/* A. plain black container: #0b0e14, no border, no outline or shadow, no tint, no hover, radius 24 (20 on phones) */
+.fbox.no, .ro-c { background: #0b0e14 !important; background-image: none !important; border: 0 !important; box-shadow: none !important; border-radius: 24px; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.fbox.no::before, .fbox.no::after, .fbox.no .halo { display: none !important; opacity: 0 !important; }
+.fbox.no.lit.in:hover { transform: none !important; }
+.road.go .ro-c { background: #0b0e14 !important; box-shadow: none !important; }
+@media (max-width: 760px) { .fbox.no, .ro-c { border-radius: 20px; } }
+/* B. "מתאים": the same black base with the deal frame's muted sky light from a corner; no frame at rest, the only frame is the sky ring on hover */
+.fbox.yes { background-color: #0b0e14 !important; background-image: radial-gradient(85% 85% at 0% 100%, rgba(97,177,242,.34), rgba(46,139,216,.12) 45%, transparent), radial-gradient(60% 60% at 100% 0%, rgba(214,236,255,.1), transparent) !important;
+  border: 0 !important; box-shadow: none !important; }
+.fbox.yes::before, .fbox.yes::after { display: none !important; opacity: 0 !important; }
+.fbox.yes.lit.in:hover { box-shadow: none !important; }
+/* C. both upsell cards built the same: title, tag (full track only), and the price block anchored to the bottom (old price, price, payment line, button), the covers on the left */
+.uc { display: flex; flex-direction: column; align-items: flex-start; padding-left: 40% !important; }
+.up-foot { margin-top: auto; padding-top: 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.up-foot .wbtn, .up-foot .btn-halo { margin-top: 12px !important; padding-top: 0 !important; }
+.uc .up-n { margin-bottom: 0 !important; }
+.uc.of .of-cover { display: none; }
+.uc.of .deck.one .fr { left: 50%; right: auto; top: 50%; bottom: auto; transform: translate(-50%, -50%) rotate(-7deg); width: 82%; }
+.uc.of:hover .deck.one .fr { transform: translate(-50%, -50%) rotate(-10deg); }
+@media (max-width: 760px) { .uc, .uc.of, .uc.hi { padding: 210px 24px 24px !important; } .uc.of .deck.one .fr { width: 70%; } }
+.ro-c::before, .ro-c::after { display: none !important; content: none !important; }
+.fbox.yes.lit.in:hover { transform: translateY(-4px) !important; }
+.uc.hi .up-foot .wbtn { margin-top: 20px !important; } /* the white button is 8px lower than the halo button's ring: the prices sit on one line */
