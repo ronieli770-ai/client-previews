@@ -75,7 +75,6 @@
 @media (max-width: 760px) {
   .flow, .fit, .gets, .gets.learn { grid-template-columns: 1fr; }
   .step, .uc { padding: 24px; }
-  .step .sn { top: 18px; font-size: 72px; }
   .fbox li { font-size: 16px; padding: 12px 14px; }
   .uc.hi { padding: 210px 24px 24px; }
   .uc .deck { left: 50%; top: 18px; width: 220px; height: 180px; aspect-ratio: auto; transform: translateX(-50%); }
@@ -92,7 +91,7 @@
 
 /* hero additions to b2's styles: this title's second line is longer, so on phones it takes b2's size scaled to the width;
    the students' longer reviews show five lines in the drifting column (the whole text stays in the page) */
-@media (max-width: 760px) { h1 { font-size: clamp(30px, 9.4vw, 46px); } }
+@media (max-width: 760px) { .hero h1 { font-size: 46px; } .hero h1 .ln { white-space: normal; } } /* b2's phone title size; the long second line wraps instead of shrinking */
 .wall .t p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; white-space: pre-line; }
 
 /* ---------- hero: the content in the site's orchid (the courses page and the Bulenox deal: #d17bff / #9b45d6 / #f3dcff),
@@ -174,7 +173,7 @@
   .road.go .road-rail i { height: 100%; width: auto; }
   .road-steps { grid-template-columns: 1fr; gap: 14px; }
   .ro { flex-direction: row; align-items: flex-start; gap: 14px; }
-  .ro-c { padding: 20px 18px; } .ro .h3 { font-size: 19px; } .ro p { font-size: 16px; }
+  .ro-c { padding: 20px 18px; } .ro .h3 { font-size: 18px; } .ro p { font-size: 16px; }
 }
 
 /* fit containers: no cursor light or coloured lift; the homepage's sky ring runs round the frame while hovered, the card lifts 4px */
@@ -257,16 +256,15 @@
   .gets.learn, #get .gets { grid-template-columns: 1fr 1fr !important; gap: 10px; }
   .gets .gi { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 14px !important; border-radius: 20px; }
   .gets .gi .ic { width: 38px; height: 38px; padding: 9px; border-radius: 12px; margin: 0; }
-  .gets .gi .h3 { font-size: 16px; line-height: 1.3; min-height: 0; margin: 0; }
-  .gets .gi p { font-size: 14px; line-height: 1.45; }
+  .gets .gi .h3 { font-size: 18px; line-height: 1.3; min-height: 0; margin: 0; } /* the homepage's phone card title (.s-deals .deal h3) */
+  .gets .gi p { font-size: 15px; line-height: 1.45; } /* the homepage's phone card line (.s-community .card p) */
   /* the syllabus two a row as well: number and tag on one line, the title and Noam's line under it */
   .mods2 { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
   .mod2 { padding: 16px 14px !important; border-radius: 20px; gap: 8px; }
   .mod2 .top { gap: 6px; flex-wrap: wrap; }
   .mod2 .n { font-size: 22px !important; }
-  .mod2 .tag { font-size: 12px !important; padding: 2px 8px !important; }
-  .mod2 .t { font-size: 16px !important; line-height: 1.3; }
-  .mod2 .mb p { font-size: 14px !important; line-height: 1.45; margin: 0; }
+  .mod2 .t { font-size: 18px !important; line-height: 1.3; }
+  .mod2 .mb p { font-size: 15px !important; line-height: 1.45; margin: 0; }
 
   /* the timeline scrolls sideways: a row of four cards, the next one peeking, the track and circles move with them */
   .road { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 30px -16px 0; padding: 0 16px 6px; }
@@ -316,4 +314,20 @@
   .uc, .uc.of, .uc.hi { padding: 240px 24px 24px !important; }
   .uc .deck { left: 50% !important; top: 20px !important; width: 270px !important; height: 200px !important; }
   .uc.of .deck.one .fr { width: 86% !important; }
+}
+
+/* ---------- round 12: phone hero ---------- */
+@media (max-width: 760px) {
+  /* the price bar: full width like the stat cards, in the site's highlighted deal container (.pn-deal / the firm deal frame) */
+  .hero .copy { width: 100%; }
+  .hero .buy { position: relative; isolation: isolate; align-self: stretch; width: 100%; box-sizing: border-box; border-radius: 24px;
+    background-color: #0b0e14 !important; background-image: radial-gradient(85% 85% at 0% 100%, rgba(97,177,242,.34), rgba(46,139,216,.12) 45%, transparent), radial-gradient(60% 60% at 100% 0%, rgba(214,236,255,.1), transparent) !important;
+    box-shadow: none !important; }
+  .hero .buy::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 2;
+    background: linear-gradient(135deg, rgba(255,255,255,.55), rgba(97,177,242,.5) 45%, rgba(255,255,255,.08));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  /* the stats: the deals page's quiet mini card (.pn-mini) in sky, quieter than the price bar */
+  .hero .stat { background: radial-gradient(90% 90% at 0% 100%, rgba(97,177,242,.26), transparent 70%), #0b0e14 !important; border: 1px solid rgba(97,177,242,.3) !important; box-shadow: none !important; }
+  .hero .stat::before, .hero .stat::after { display: none !important; }
+  .hero .stat b { background: none !important; -webkit-text-fill-color: currentColor !important; color: #7dc6ff !important; }
 }
