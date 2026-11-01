@@ -2,7 +2,7 @@
 (function () {
   const C = ["c1", "c2", "c3", "c4"];
   /* each group of containers takes the four colours in turn */
-  ["#for .aud", "#bridge .step", "#learn .lc", "#get .gi"].forEach((sel, g) =>
+  ["#for .aud", "#bridge .step", "#learn .gi", "#get .gi"].forEach((sel, g) =>
     document.querySelectorAll(sel).forEach((el, i) => el.classList.add(C[(i + g) % 4])));
   /* the hero stats are all sky; syllabus containers stay sky and only their number and tag change colour */
   document.querySelectorAll(".stat").forEach((el) => el.classList.add("c2"));
@@ -15,7 +15,7 @@
   document.querySelectorAll("#for .aud .ic").forEach((ic) => ic.insertAdjacentHTML("beforebegin", '<span class="halo" aria-hidden="true"></span>'));
 
   /* siblings arrive one after another */
-  document.querySelectorAll(".flow, .learn, .fit, .mods2, .gets, .ups").forEach((p) =>
+  document.querySelectorAll(".flow, .fit, .mods2, .gets, .ups").forEach((p) =>
     [...p.children].forEach((el, i) => { el.setAttribute("data-rv", ""); el.classList.remove("in"); el.style.setProperty("--sd", `${Math.min(i, 6) * (p.matches(".flow, .fit, .ups") ? 0.1 : 0.05)}s`); }));
   /* how fast the page is moving: on a fast scroll whatever arrives shows at once, without the stagger */
   let lastY = scrollY, lastT = performance.now(), vel = 0;

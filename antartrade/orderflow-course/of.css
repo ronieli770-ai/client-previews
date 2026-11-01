@@ -13,12 +13,8 @@
   transform: translateY(var(--py, 0px)); }
 .step .ic { width: 56px; height: 56px; padding: 13px; border-radius: 15px; color: var(--light) !important; background: color-mix(in srgb, var(--glow) 18%, transparent); position: relative; z-index: 1; }
 .step .h3, .step p { position: relative; z-index: 1; }
-.step p, .lc p, .gi p { margin: 0; font: 400 17px/1.5 "Reforma"; }
+.step p, .gi p { margin: 0; font: 400 17px/1.5 "Reforma"; }
 #bridge .head .sub { max-width: 860px; }
-
-/* learn: eight cards, four a row */
-.learn { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.lc { padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; }
 
 /* fit: b2's audience cards (3D swing-up, the still light behind the icon), each line in its own capsule */
 .fit { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -27,16 +23,31 @@
 .fbox li .lic { width: 22px; height: 22px; flex: none; color: var(--glow); }
 .fbox.no li .lic { color: rgba(255,255,255,.4); }
 
-/* outcomes: a timeline whose line fills as the section scrolls by, the steps light up as it reaches them */
-.tl { position: relative; margin-top: 24px; }
-.tl-rail { position: absolute; top: 27px; right: 12.5%; left: 12.5%; height: 2px; border-radius: 2px; background: rgba(255,255,255,.08); }
-.tl-rail i { position: absolute; inset: 0 0 0 auto; width: calc(var(--tp, 0) * 100%); border-radius: inherit; background: linear-gradient(270deg, #7dc6ff, #3fd8c2 50%, #4f6bff); box-shadow: 0 0 14px rgba(125,198,255,.5); }
-.tl-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; }
-.tl-s { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 0 8px; }
-.tl-n { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font: 600 22px/1 "Roboto"; color: rgba(255,255,255,.45); background: #0b0e14; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.14); transition: color .5s, box-shadow .5s, background .5s; margin-bottom: 8px; }
+.fbox.yes { background: radial-gradient(70% 90% at 100% 0, rgba(85,166,230,.45), rgba(85,166,230,0) 70%), linear-gradient(135deg, #2e5474 0%, #24425d 55%, #1b3145 100%) !important; box-shadow: 0 24px 60px -20px rgba(85,166,230,.45) !important; }
+.fbox.yes::before, .fbox.yes::after { display: none !important; }
+.fbox.yes .ic { color: #fff !important; background: rgba(255,255,255,.14) !important; }
+.fbox.yes .halo { display: none; }
+.fbox.yes li { background: rgba(255,255,255,.1); color: #fff; }
+.fbox.yes li .lic { color: #fff; }
+.fbox.no { background: #0b0e14 !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08) !important; }
+.fbox.no::before, .fbox.no::after { display: none !important; }
+.fbox.no .ic { color: rgba(255,255,255,.7) !important; background: rgba(255,255,255,.07) !important; }
+.fbox.no .halo { display: none; }
+.fit-h { font-weight: 400; } .fit-h b { font-weight: 500; }
+
+/* what you get, split: a sticky column with the title and the six tiles, the outcomes beside it as a vertical timeline whose line fills as it scrolls by */
+.split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 64px; align-items: start; }
+.split-a { position: sticky; top: 120px; display: flex; flex-direction: column; gap: 32px; }
+.gets.two { grid-template-columns: 1fr 1fr; }
+.tl { position: relative; padding: 8px 0; }
+.tl-rail { position: absolute; top: 36px; bottom: 36px; right: 27px; width: 2px; border-radius: 2px; background: rgba(255,255,255,.08); }
+.tl-rail i { position: absolute; inset: 0 0 auto 0; height: calc(var(--tp, 0) * 100%); border-radius: inherit; background: linear-gradient(180deg, #7dc6ff, #3fd8c2 50%, #4f6bff); box-shadow: 0 0 14px rgba(125,198,255,.5); }
+.tl-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 56px; position: relative; }
+.tl-s { display: grid; grid-template-columns: 56px 1fr; column-gap: 24px; row-gap: 8px; align-items: start; }
+.tl-n { grid-row: span 2; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font: 600 22px/1 "Roboto"; color: rgba(255,255,255,.45); background: #0b0e14; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.14); transition: color .5s, box-shadow .5s, background .5s; }
 .tl-s.on .tl-n { color: #fff; background: radial-gradient(circle at 50% 30%, rgba(125,198,255,.35), #0b0e14 70%); box-shadow: inset 0 0 0 1.5px #7dc6ff, 0 0 24px rgba(125,198,255,.35); }
-.tl-s .h3 { font-size: 21px; }
-.tl-s p { margin: 0; font: 400 17px/1.5 "Reforma"; color: rgba(255,255,255,.6); max-width: 260px; }
+.tl-s .h3 { font-size: 24px; padding-top: 12px; }
+.tl-s p { margin: 0; font: 400 17px/1.5 "Reforma"; color: rgba(255,255,255,.6); }
 
 /* what you get: six tiles, then the four outcomes four a row like b2 */
 .gets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -83,17 +94,12 @@
 .ask { text-align: center; }
 
 /* ---------- tablets and phones ---------- */
-@media (max-width: 1180px) { .learn { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 960px) { .gets { grid-template-columns: 1fr 1fr; } .ups { grid-template-columns: 1fr; } }
+@media (max-width: 1180px) { .gets.learn { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 960px) { .gets { grid-template-columns: 1fr 1fr; } .split { grid-template-columns: 1fr; gap: 48px; } .split-a { position: static; } .ups { grid-template-columns: 1fr; } }
 @media (max-width: 760px) {
-  .flow, .learn, .fit, .gets { grid-template-columns: 1fr; }
-  .tl-rail { top: 0; bottom: 0; right: 27px; left: auto; width: 2px; height: auto; }
-  .tl-rail i { inset: 0 0 auto 0; width: auto; height: calc(var(--tp, 0) * 100%); background: linear-gradient(180deg, #7dc6ff, #3fd8c2 50%, #4f6bff); }
-  .tl-steps { grid-template-columns: 1fr; gap: 28px; }
-  .tl-s { display: grid; grid-template-columns: 56px 1fr; column-gap: 18px; row-gap: 4px; text-align: right; align-items: start; padding: 0; }
-  .tl-n { grid-row: span 2; margin: 0; }
-  .tl-s p { max-width: none; }
-  .step, .lc, .uc { padding: 24px; }
+  .flow, .fit, .gets, .gets.two, .gets.learn { grid-template-columns: 1fr; }
+  .tl-steps { gap: 32px; } .tl-s { column-gap: 18px; } .tl-s .h3 { font-size: 21px; padding-top: 14px; }
+  .step, .uc { padding: 24px; }
   .step .sn { top: 18px; font-size: 72px; }
   .fbox li { font-size: 16px; padding: 12px 14px; }
   .uc.hi { padding: 210px 24px 24px; }
@@ -131,3 +137,16 @@
 .hero .stat b:not(.lat):not([data-count]) { font-family: "Reforma", sans-serif !important; font-weight: 500 !important; }
 .hero .stat span { font-size: 16px; }
 @media (max-width: 760px) { .hero .stat b { font-size: 22px !important; } .hero .stat { padding: 14px 16px; } }
+.gets.learn { grid-template-columns: repeat(4, 1fr); }
+.split { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+@media (max-width: 1180px) { .gets.learn { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) { .gets.learn { grid-template-columns: 1fr; } }
+/* upsell fixes: the covers show (b2 hides .deck outside its banner), the Order Flow button is the hero's sky button exactly - no extra padding on its ring, one label in one colour and weight */
+.uc .deck { display: block !important; }
+.uc > .btn-halo { padding-top: 0 !important; margin-top: auto; }
+.uc .up-n { margin-bottom: 26px; }
+.uc .lbl, .uc .lbl .lat { color: inherit !important; font: inherit !important; }
+.uc .lbl { white-space: nowrap; }
+.uc .deck { height: auto !important; bottom: auto !important; margin: 0 !important; order: 0 !important; perspective: none; }
+.uc .deck img { bottom: auto; animation: none; filter: none; }
+@media (max-width: 760px) { .uc .deck { position: absolute !important; left: 50% !important; top: 18px !important; width: 220px !important; height: 180px !important; transform: translateX(-50%) !important; } }
