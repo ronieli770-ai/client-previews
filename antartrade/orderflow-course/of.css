@@ -20,42 +20,29 @@
 .learn { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .lc { padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; }
 
-/* fit: two containers, each line in its own capsule (b2's price card lines) */
+/* fit: b2's audience cards (3D swing-up, the still light behind the icon), each line in its own capsule */
 .fit { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.fbox { position: relative; padding: 32px; border-radius: 24px; background: #0e121a; box-shadow: inset 0 0 0 1px rgba(125,198,255,.1); }
-.fbox.yes { background: radial-gradient(80% 70% at 100% 0, rgba(46,139,216,.2), transparent 70%), #0e121a; box-shadow: inset 0 0 0 1px rgba(125,198,255,.24); }
-.fh { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-.fi { width: 52px; height: 52px; border-radius: 15px; display: grid; place-items: center; background: rgba(255,255,255,.06); color: rgba(255,255,255,.55); }
-.yes .fi { background: rgba(125,198,255,.14); color: var(--sky); }
-.fi .ic { width: 26px; height: 26px; color: inherit; }
-.fbox ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.fbox ul { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 1; }
 .fbox li { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 15px; background: rgba(255,255,255,.05); font: 400 17px/1.45 "Reforma"; color: rgba(255,255,255,.85); }
-.fbox li .ic { width: 22px; height: 22px; color: rgba(255,255,255,.4); }
-.yes li .ic { color: var(--sky); }
+.fbox li .lic { width: 22px; height: 22px; flex: none; color: var(--glow); }
+.fbox.no li .lic { color: rgba(255,255,255,.4); }
 
-/* chapters: a volume ladder, each level's bar grows as the course goes on; numbers in the four palette colours like b2's syllabus */
-.lad { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.lv { position: relative; overflow: hidden; isolation: isolate; display: flex; gap: 18px; align-items: flex-start; padding: 28px 28px 34px; border-radius: 24px;
-  background: radial-gradient(70% 90% at 100% 0, rgba(46,139,216,.16), rgba(46,139,216,0) 70%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.14); transition: transform .5s var(--ease), box-shadow .5s var(--ease); }
-.lv .ln { flex: none; font: 600 30px/1 "Roboto"; letter-spacing: -1px; color: var(--t1); min-width: 42px; }
-.lv:nth-child(4n+2) .ln { color: var(--t2); } .lv:nth-child(4n+3) .ln { color: #8fa2ff; } .lv:nth-child(4n) .ln { color: var(--t4); }
-.lv b { display: block; font: 500 21px/1.3 "Reforma"; color: #fff; margin-bottom: 8px; }
-.lv b .lat { font-weight: 600; font-size: .92em; }
-.lv p { margin: 0; font: 400 16px/1.5 "Reforma"; color: rgba(255,255,255,.6); }
-.lv .vb { position: absolute; right: 28px; bottom: 16px; height: 5px; width: 0; border-radius: 99px; z-index: -1; background: linear-gradient(270deg, #7dc6ff, #2e8bd8); opacity: .6; transition: width 1.4s cubic-bezier(.2,.7,.2,1) .3s; }
-.lv.in .vb { width: calc(var(--w) - 56px); }
-.lv:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px rgba(125,198,255,.32); }
+/* outcomes: a timeline whose line fills as the section scrolls by, the steps light up as it reaches them */
+.tl { position: relative; margin-top: 24px; }
+.tl-rail { position: absolute; top: 27px; right: 12.5%; left: 12.5%; height: 2px; border-radius: 2px; background: rgba(255,255,255,.08); }
+.tl-rail i { position: absolute; inset: 0 0 0 auto; width: calc(var(--tp, 0) * 100%); border-radius: inherit; background: linear-gradient(270deg, #7dc6ff, #3fd8c2 50%, #4f6bff); box-shadow: 0 0 14px rgba(125,198,255,.5); }
+.tl-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; }
+.tl-s { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 0 8px; }
+.tl-n { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font: 600 22px/1 "Roboto"; color: rgba(255,255,255,.45); background: #0b0e14; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.14); transition: color .5s, box-shadow .5s, background .5s; margin-bottom: 8px; }
+.tl-s.on .tl-n { color: #fff; background: radial-gradient(circle at 50% 30%, rgba(125,198,255,.35), #0b0e14 70%); box-shadow: inset 0 0 0 1.5px #7dc6ff, 0 0 24px rgba(125,198,255,.35); }
+.tl-s .h3 { font-size: 21px; }
+.tl-s p { margin: 0; font: 400 17px/1.5 "Reforma"; color: rgba(255,255,255,.6); max-width: 260px; }
 
 /* what you get: six tiles, then the four outcomes four a row like b2 */
 .gets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .gi { padding: 26px 28px; display: flex; gap: 18px; align-items: flex-start; }
 .gi .ic { width: 52px; height: 52px; padding: 12px; border-radius: 15px; background: color-mix(in srgb, var(--glow) 18%, transparent); color: var(--light) !important; }
 .gi .h3 { margin-bottom: 6px; }
-#get .quad { margin-top: 8px; }
-#get .out .on { font: 600 54px/1 "Roboto"; letter-spacing: -2px; background: linear-gradient(180deg, var(--glow), color-mix(in srgb, var(--glow) 0%, transparent) 120%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-#get .out .h3 { font-size: 24px; }
-@media (min-width: 961px) { #get .quad { grid-template-columns: repeat(4, 1fr); gap: 16px; } #get .out .h3 { font-size: 21px; } }
-
 /* about: the text column carries its title, the extra paragraphs open under "קרא עוד" */
 #about .panel { align-items: center; }
 #about .txt .h2 { margin-bottom: 4px; }
@@ -70,7 +57,7 @@
 .faq .ln-a { color: var(--sky); text-decoration: underline; text-underline-offset: 3px; font: 500 15px/1.4 "Roboto"; word-break: break-all; }
 
 /* the full track offer: Order Flow alone beside the full track in b2's banner blue with the two covers fanned */
-.ups { display: grid; grid-template-columns: 1fr 1.25fr; gap: 24px; align-items: stretch; }
+.ups { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
 .uc { position: relative; overflow: hidden; isolation: isolate; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 40px; border-radius: 28px;
   background: radial-gradient(70% 90% at 100% 0, rgba(46,139,216,.2), rgba(46,139,216,0) 70%), #0b0e14; box-shadow: inset 0 0 0 1px rgba(125,198,255,.14); }
 .uc .h3 { margin-bottom: 4px; }
@@ -80,13 +67,14 @@
 .up-was .lat { text-decoration: line-through; }
 .up-tag { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.14); color: #fff; font: 500 16px/1.2 "Reforma"; }
 .uc > .btn-halo { margin-top: auto; padding-top: 22px; }
-.uc.hi { padding-left: 46%; color: #fff; box-shadow: 0 30px 60px -30px rgba(47,69,201,.7); background: linear-gradient(135deg, #2e8bd8 0%, #2f45c9 100%); }
+.uc.hi { padding-left: 40%; color: #fff; box-shadow: 0 30px 60px -30px rgba(79,107,255,.75); background: linear-gradient(90deg, #7dc6ff 0%, #4f6bff 70%); } /* the logo's gradient (favicon bulb: #7DC6FF to #4F6BFF) */
+.uc .lbl { font-style: normal; display: inline-flex; gap: 6px; align-items: baseline; }
 .uc.hi .up-n, .uc.hi .up-was { color: rgba(255,255,255,.78); }
 .uc .wbtn { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 26px; margin-top: auto; border-radius: 999px; background: #fff; color: #12161f; font: 500 18px/1 "Reforma"; text-decoration: none; transition: transform .3s var(--ease); }
 .uc.hi .up-n { margin-bottom: 22px; }
 .uc .wbtn:hover { transform: translateY(-2px); }
 .uc .wbtn svg { width: 18px; height: 18px; }
-.uc .deck { position: absolute; left: 4%; top: 50%; width: 40%; aspect-ratio: 1; transform: translateY(-50%); pointer-events: none; z-index: -1; }
+.uc .deck { position: absolute; left: 3%; top: 50%; width: 36%; aspect-ratio: 1; transform: translateY(-50%); pointer-events: none; z-index: -1; }
 .uc .deck img { position: absolute; width: 78%; border-radius: 14px; box-shadow: 0 24px 40px rgba(0,0,0,.35); transition: transform .6s var(--ease); }
 .uc .deck .bk { left: 0; top: 4%; transform: rotate(-10deg); }
 .uc .deck .fr { right: 0; bottom: 4%; transform: rotate(7deg); }
@@ -96,13 +84,18 @@
 
 /* ---------- tablets and phones ---------- */
 @media (max-width: 1180px) { .learn { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 960px) { .lad, .gets { grid-template-columns: 1fr 1fr; } .ups { grid-template-columns: 1fr; } }
+@media (max-width: 960px) { .gets { grid-template-columns: 1fr 1fr; } .ups { grid-template-columns: 1fr; } }
 @media (max-width: 760px) {
-  .flow, .learn, .fit, .lad, .gets { grid-template-columns: 1fr; }
-  .step, .lc, .fbox, .uc { padding: 24px; }
+  .flow, .learn, .fit, .gets { grid-template-columns: 1fr; }
+  .tl-rail { top: 0; bottom: 0; right: 27px; left: auto; width: 2px; height: auto; }
+  .tl-rail i { inset: 0 0 auto 0; width: auto; height: calc(var(--tp, 0) * 100%); background: linear-gradient(180deg, #7dc6ff, #3fd8c2 50%, #4f6bff); }
+  .tl-steps { grid-template-columns: 1fr; gap: 28px; }
+  .tl-s { display: grid; grid-template-columns: 56px 1fr; column-gap: 18px; row-gap: 4px; text-align: right; align-items: start; padding: 0; }
+  .tl-n { grid-row: span 2; margin: 0; }
+  .tl-s p { max-width: none; }
+  .step, .lc, .uc { padding: 24px; }
   .step .sn { top: 18px; font-size: 72px; }
   .fbox li { font-size: 16px; padding: 12px 14px; }
-  .lv { padding: 22px 20px 30px; }
   .uc.hi { padding: 210px 24px 24px; }
   .uc .deck { left: 50%; top: 18px; width: 220px; height: 180px; aspect-ratio: auto; transform: translateX(-50%); }
   .uc .deck img { width: 62%; }
@@ -114,7 +107,7 @@
   .buy { background: rgba(13,19,30,.85); }
 }
 .off, .off * { animation-play-state: paused !important; }
-@media (prefers-reduced-motion: reduce) { .lv .vb { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .tl-n { transition: none; } }
 
 /* hero additions to b2's styles: this title's second line is longer, so on phones it takes b2's size scaled to the width;
    the students' longer reviews show five lines in the drifting column (the whole text stays in the page) */
@@ -132,12 +125,9 @@
 #mk { opacity: .6; }
 /* the title keeps clear room from the reviews column: a step smaller up to 1440 */
 @media (min-width: 961px) { .hero h1 { font-size: clamp(46px, min(5.4vw, 9.6vh), 104px); } }
-/* the four stats: the deals page mini cards (.pn-mini), each in its own palette colour, a 26px value over a 16px label */
-.hero .stat { --c: #3fd8c2; background: radial-gradient(90% 90% at 0% 100%, color-mix(in srgb, var(--c) 24%, transparent), transparent 70%), #0b0e14 !important; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 30%, transparent) !important; gap: 8px; padding: 18px 22px; }
-.hero .stat:nth-child(2) { --c: #61b1f2; } .hero .stat:nth-child(3) { --c: #4f6bff; } .hero .stat:nth-child(4) { --c: #d17bff; }
-.hero .stat::before { display: none; }
-.hero .stat b { font: 600 26px/1 "Roboto", sans-serif !important; letter-spacing: 0 !important; color: var(--c) !important; background: none !important; -webkit-text-fill-color: currentColor; text-shadow: none !important; }
-.hero .stat:nth-child(3) b { color: #8fa2ff !important; }
+/* the four stats: b2's stat cards (one colour, its frame and gradient value), the values word sized like the deals mini cards (26px over a 16px label) */
+.hero .stat { gap: 8px; padding: 18px 22px; }
+.hero .stat b { font: 600 26px/1 "Roboto", sans-serif !important; letter-spacing: 0 !important; text-shadow: none !important; }
 .hero .stat b:not(.lat):not([data-count]) { font-family: "Reforma", sans-serif !important; font-weight: 500 !important; }
-.hero .stat span { font: 500 16px/1.3 "Reforma"; color: rgba(255,255,255,.7); }
+.hero .stat span { font-size: 16px; }
 @media (max-width: 760px) { .hero .stat b { font-size: 22px !important; } .hero .stat { padding: 14px 16px; } }

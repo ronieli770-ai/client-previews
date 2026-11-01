@@ -2,10 +2,10 @@
 (function () {
   const C = ["c1", "c2", "c3", "c4"];
   /* each group of containers takes the four colours in turn */
-  ["#bridge .step", "#learn .lc", "#get .gi", "#get .out"].forEach((sel, g) =>
+  ["#for .aud", "#bridge .step", "#learn .lc", "#get .gi"].forEach((sel, g) =>
     document.querySelectorAll(sel).forEach((el, i) => el.classList.add(C[(i + g) % 4])));
   /* the hero stats are all sky; syllabus containers stay sky and only their number and tag change colour */
-  document.querySelectorAll(".stat").forEach((el) => el.classList.add("c4"));
+  document.querySelectorAll(".stat").forEach((el) => el.classList.add("c2"));
   document.querySelectorAll(".mod2").forEach((el, i) => el.classList.add(`n${(i % 4) + 1}`));
   /* soft blurred lights behind the audience section, smaller flashes behind the FAQ */
   ["#learn", "#faq"].forEach((id) => { const s = document.querySelector(id); if (s) s.insertAdjacentHTML("afterbegin", '<span class="glowbg r c4"></span><span class="glowbg l c1"></span><span class="glowbg m c3"></span>'); });
@@ -15,7 +15,7 @@
   document.querySelectorAll("#for .aud .ic").forEach((ic) => ic.insertAdjacentHTML("beforebegin", '<span class="halo" aria-hidden="true"></span>'));
 
   /* siblings arrive one after another */
-  document.querySelectorAll(".flow, .learn, .fit, .lad, .gets, .quad, .ups").forEach((p) =>
+  document.querySelectorAll(".flow, .learn, .fit, .mods2, .gets, .ups").forEach((p) =>
     [...p.children].forEach((el, i) => { el.setAttribute("data-rv", ""); el.classList.remove("in"); el.style.setProperty("--sd", `${Math.min(i, 6) * (p.matches(".flow, .fit, .ups") ? 0.1 : 0.05)}s`); }));
   /* how fast the page is moving: on a fast scroll whatever arrives shows at once, without the stagger */
   let lastY = scrollY, lastT = performance.now(), vel = 0;
@@ -24,7 +24,7 @@
   document.querySelectorAll("[data-rv]:not(.in)").forEach((el) => io.observe(el));
 
   /* light follows the cursor inside the cards */
-  if (matchMedia("(hover: hover)").matches) document.querySelectorAll(".cs .box, .lv, .fbox, .uc, .stat").forEach((el) => {
+  if (matchMedia("(hover: hover)").matches) document.querySelectorAll(".cs .box, .mod2, .uc, .stat").forEach((el) => {
     el.classList.add("lit");
     el.addEventListener("pointermove", (e) => { const r = el.getBoundingClientRect(); el.style.setProperty("--mx", `${e.clientX - r.left}px`); el.style.setProperty("--my", `${e.clientY - r.top}px`); });
   });
@@ -96,7 +96,7 @@
   }
 
   /* phones: each syllabus topic shows its title and summary; the four points open with the + like the FAQ */
-  if (phone.matches) document.querySelectorAll(".mod2").forEach((m) => {
+  if (phone.matches) document.querySelectorAll(".mod2").forEach((m) => { if (!m.querySelector(".mb ul")) return; /* no points to open under this one */
     m.classList.add("fold");
     const b = document.createElement("button"); b.type = "button"; b.className = "pm"; b.setAttribute("aria-label", "פירוט הנושא"); b.setAttribute("aria-expanded", "false");
     m.querySelector(".top").appendChild(b);

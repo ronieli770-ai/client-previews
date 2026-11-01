@@ -10,3 +10,16 @@
   const io = new IntersectionObserver((es) => es.forEach((en) => en.target.classList.toggle("off", !en.isIntersecting)));
   document.querySelectorAll(".band, .pcard, #faq, #learn").forEach((el) => io.observe(el));
 })();
+/* outcomes timeline: the line fills with the scroll, each step lights as the line reaches it */
+(function () {
+  const tl = document.getElementById("tl"); if (!tl) return;
+  const steps = [...tl.querySelectorAll(".tl-s")], vert = matchMedia("(max-width: 760px)");
+  let on = false;
+  new IntersectionObserver(([en]) => { on = en.isIntersecting; if (on) tick(); }, { rootMargin: "20% 0px" }).observe(tl);
+  function tick() {
+    const r = tl.getBoundingClientRect(), p = Math.max(0, Math.min(1, (innerHeight * .75 - r.top) / (r.height + innerHeight * .2)));
+    tl.style.setProperty("--tp", p.toFixed(3));
+    steps.forEach((s, i) => s.classList.toggle("on", p >= (vert.matches ? i / steps.length : i / (steps.length - 1)) - .001));
+  }
+  addEventListener("scroll", () => { if (on) requestAnimationFrame(tick); }, { passive: true });
+})();
