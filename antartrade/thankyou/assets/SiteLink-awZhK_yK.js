@@ -1,1 +1,0 @@
-import{r as n,j as a,L as i}from"./react-vendor-DHzjjaMB.js";const p=n.forwardRef(({to:r,children:t,...e},s)=>/^https?:/.test(r)?a.jsx("a",{ref:s,href:r,target:"_blank",rel:"noopener noreferrer",...e,children:t}):r.startsWith("#")?a.jsx("a",{ref:s,href:r,...e,children:t}):a.jsx(i,{ref:s,to:r,...e,children:t}));p.displayName="SiteLink";export{p as S};
