@@ -250,3 +250,70 @@
 .ro-c::before, .ro-c::after { display: none !important; content: none !important; }
 .fbox.yes.lit.in:hover { transform: translateY(-4px) !important; }
 .uc.hi .up-foot .wbtn { margin-top: 20px !important; } /* the white button is 8px lower than the halo button's ring: the prices sit on one line */
+
+/* ---------- round 11: phones (760px and down) ---------- */
+@media (max-width: 760px) {
+  /* two a row where the cards stay compact: the learn cards and the six tiles, icon on top, tighter type */
+  .gets.learn, #get .gets { grid-template-columns: 1fr 1fr !important; gap: 10px; }
+  .gets .gi { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 14px !important; border-radius: 20px; }
+  .gets .gi .ic { width: 38px; height: 38px; padding: 9px; border-radius: 12px; margin: 0; }
+  .gets .gi .h3 { font-size: 16px; line-height: 1.3; min-height: 0; margin: 0; }
+  .gets .gi p { font-size: 14px; line-height: 1.45; }
+  /* the syllabus two a row as well: number and tag on one line, the title and Noam's line under it */
+  .mods2 { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  .mod2 { padding: 16px 14px !important; border-radius: 20px; gap: 8px; }
+  .mod2 .top { gap: 6px; flex-wrap: wrap; }
+  .mod2 .n { font-size: 22px !important; }
+  .mod2 .tag { font-size: 12px !important; padding: 2px 8px !important; }
+  .mod2 .t { font-size: 16px !important; line-height: 1.3; }
+  .mod2 .mb p { font-size: 14px !important; line-height: 1.45; margin: 0; }
+
+  /* the timeline scrolls sideways: a row of four cards, the next one peeking, the track and circles move with them */
+  .road { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 30px -16px 0; padding: 0 16px 6px; }
+  .road::-webkit-scrollbar { display: none; }
+  .road-rail { display: none !important; }
+  .road-steps { display: grid !important; grid-auto-flow: column; grid-auto-columns: 78%; grid-template-columns: none !important; gap: 12px !important; }
+  .ro { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; scroll-snap-align: start; position: relative; }
+  .ro::before, .ro::after { content: ""; position: absolute; top: calc(var(--cs) / 2 - 1.5px); right: calc(var(--cs) / 2); width: calc(100% + 12px); height: 3px; border-radius: 3px; z-index: 0; }
+  .ro::before { background: rgba(255,255,255,.1); }
+  .ro::after { background: rgba(125,198,255,.6); transform: scaleX(0); transform-origin: right center; transition: transform .3s linear calc(var(--i) * .3s); }
+  .road.go .ro::after { transform: scaleX(1); }
+  .ro:last-child::before, .ro:last-child::after { display: none; }
+  .ro-dot { position: relative; z-index: 1; }
+  .ro-c { align-self: stretch; }
+}
+
+/* phones: entrances with more life, transform and opacity only, no blur, once, short */
+@media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
+  [data-rv] { transition: opacity .5s ease, transform .55s cubic-bezier(.2,.7,.2,1) !important; transition-delay: 0s !important; }
+  .gets > :nth-child(even)[data-rv], .mods2 > :nth-child(even)[data-rv] { transition-delay: .06s !important; }
+  /* coloured cards drop in from above */
+  #bridge .step[data-rv]:not(.in), #get .gets .gi[data-rv]:not(.in), .hero .stat:not(.in) { transform: translateY(-16px); }
+  /* the learn cards come in from alternating sides */
+  #learn .gi[data-rv]:not(.in) { transform: translateX(14px); }
+  #learn .gi:nth-child(even)[data-rv]:not(.in) { transform: translateX(-14px); }
+  /* the fit card scales in, the plain one only fades */
+  #for .fbox.yes[data-rv]:not(.in) { transform: scale(.96); }
+  #for .fbox.no[data-rv]:not(.in) { transform: none; }
+  /* syllabus: the card rises, its number slides in after it */
+  .mod2[data-rv]:not(.in) { transform: translateY(14px); }
+  .mod2 .n { transition: transform .45s cubic-bezier(.2,.7,.2,1) .15s, opacity .45s ease .15s; }
+  .mod2:not(.in) .n { transform: translateX(12px); opacity: 0; }
+  /* the upsell cards rise with a slight tilt that settles */
+  .uc.hi[data-rv]:not(.in) { transform: translateY(22px) rotate(-1.5deg); }
+  .uc.of[data-rv]:not(.in) { transform: translateY(22px) rotate(1.5deg); }
+  /* timeline: the cards fade in, each circle pops as the fill reaches it */
+  .road .ro-c { opacity: 0; transition: opacity .45s ease calc(var(--i) * .3s); }
+  .road.go .ro-c { opacity: 1; }
+  .ro-dot { transform: scale(.6); transition: transform .4s cubic-bezier(.3,1.6,.5,1) calc(var(--i) * .3s), background .35s ease calc(var(--i) * .3s), color .35s ease calc(var(--i) * .3s), box-shadow .35s ease calc(var(--i) * .3s) !important; }
+  .road.go .ro-dot { transform: scale(1); }
+}
+/* upsell covers: the full track's pair a little bigger and nearer the text, the Order Flow cover as heavy as the pair */
+.uc { padding-left: 45% !important; }
+.uc .deck { left: 5% !important; width: 39% !important; }
+.uc.of .deck.one .fr { width: 100% !important; }
+@media (max-width: 760px) {
+  .uc, .uc.of, .uc.hi { padding: 240px 24px 24px !important; }
+  .uc .deck { left: 50% !important; top: 20px !important; width: 270px !important; height: 200px !important; }
+  .uc.of .deck.one .fr { width: 86% !important; }
+}
