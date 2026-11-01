@@ -258,16 +258,8 @@
   .gets .gi .ic { width: 38px; height: 38px; padding: 9px; border-radius: 12px; margin: 0; }
   .gets .gi .h3 { font-size: 18px; line-height: 1.3; min-height: 0; margin: 0; } /* the homepage's phone card title (.s-deals .deal h3) */
   .gets .gi p { font-size: 15px; line-height: 1.45; } /* the homepage's phone card line (.s-community .card p) */
-  /* the syllabus two a row as well: number and tag on one line, the title and Noam's line under it */
-  .mods2 { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
-  .mod2 { padding: 16px 14px !important; border-radius: 20px; gap: 8px; }
-  .mod2 .top { gap: 6px; flex-wrap: wrap; }
-  .mod2 .n { font-size: 22px !important; }
-  .mod2 .t { font-size: 18px !important; line-height: 1.3; }
-  .mod2 .mb p { font-size: 15px !important; line-height: 1.45; margin: 0; }
-
   /* the timeline scrolls sideways: a row of four cards, the next one peeking, the track and circles move with them */
-  .road { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 30px -16px 0; padding: 0 16px 6px; }
+  .road { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 30px 0 0; padding: 0 0 6px; width: 100%; }
   .road::-webkit-scrollbar { display: none; }
   .road-rail { display: none !important; }
   .road-steps { display: grid !important; grid-auto-flow: column; grid-auto-columns: 78%; grid-template-columns: none !important; gap: 12px !important; }
@@ -330,4 +322,18 @@
   .hero .stat { background: radial-gradient(90% 90% at 0% 100%, rgba(97,177,242,.26), transparent 70%), #0b0e14 !important; border: 1px solid rgba(97,177,242,.3) !important; box-shadow: none !important; }
   .hero .stat::before, .hero .stat::after { display: none !important; }
   .hero .stat b { background: none !important; -webkit-text-fill-color: currentColor !important; color: #7dc6ff !important; }
+}
+
+/* ---------- round 13: phones ---------- */
+@media (max-width: 760px) {
+  /* syllabus back to one a row, in b2's own type (b2 has no phone override for .mod2: .n 34px, .tag 14px, .t 21px, .mb p 16px) */
+  .mods2 { grid-template-columns: 1fr !important; }
+  /* the words band: no mask (it let the pinned hero show through at the sides); the fade is drawn in the band's own colour, the page ground #0c0d15 */
+  .band { -webkit-mask-image: none !important; mask-image: none !important; background: #0c0d15 !important; isolation: isolate; }
+  .band::before, .band::after { content: ""; position: absolute; top: 0; bottom: 0; width: 18%; z-index: 1; pointer-events: none; }
+  .band::before { left: 0; background: linear-gradient(90deg, #0c0d15, rgba(12,13,21,0)); }
+  .band::after { right: 0; background: linear-gradient(270deg, #0c0d15, rgba(12,13,21,0)); }
+  /* the timeline scroller stays inside the 16px grid */
+  .road-steps { grid-auto-columns: 82%; }
+  .ro:last-child { scroll-snap-align: end; }
 }
