@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="bulenox" clip-path="url(#clip0_0_94)">
+<path id="Vector" d="M12.63 11.85L14.1 18.51H18.33L19.71 17.64L20.13 16.68L20.07 14.61L19.53 13.5L18.66 12.63L17.91 12.18L16.5 11.85H12.63ZM13.56 0.36L10.2 1.11L11.67 8.04L11.85 8.22H17.04L18.33 8.46L20.22 9.24L22.23 10.8L23.7 12.87L24.39 15.48L24.3 17.64L23.7 19.29L23.07 20.13L21.96 21.27L19.71 22.23H7.62V18.66L10.11 18.51L6.57 3.03L4.05 5.1L1.83 8.4L0.6 11.85L0.36 13.65V16.26L0.96 19.38L1.83 21.54L3.03 23.52L5.28 26.01L7.53 27.66L10.2 28.89L12.81 29.49L16.26 29.58L19.71 28.89L21.54 28.11L24.03 26.46L26.46 24.03L27.84 21.96L29.13 18.66L29.49 16.86V13.05L28.89 10.38L27.84 7.95L26.46 5.88L24.03 3.45L21.54 1.83L19.38 0.96L16.35 0.36H13.56Z" fill-rule="evenodd" clip-rule="evenodd" fill="url(#paint0_linear_0_94)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_94" x1="0.36" y1="14.97" x2="29.49" y2="14.97" gradientUnits="userSpaceOnUse">
+<stop stop-color="#131720"/>
+<stop offset="1" stop-color="#699CC4"/>
+</linearGradient>
+<clipPath id="clip0_0_94">
+<rect width="30" height="30" fill="white"/>
+</clipPath>
+</defs>
+</svg>
