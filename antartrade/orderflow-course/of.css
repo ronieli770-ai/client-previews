@@ -121,24 +121,23 @@
 @media (max-width: 760px) { h1 { font-size: clamp(30px, 9.4vw, 46px); } }
 .wall .t p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; white-space: pre-line; }
 
-/* ---------- hero in the site's orchid (the courses page and the Bulenox deal: #d17bff / #9b45d6 / #f3dcff), same template as the full track ---------- */
+/* ---------- hero: the content in the site's orchid (the courses page and the Bulenox deal: #d17bff / #9b45d6 / #f3dcff),
+   the surroundings mixed from the deals palette like the homepage hero (teal, blue, sky and orchid), same template as the full track ---------- */
 .hero .ln > span { background: linear-gradient(90deg, #d17bff 0%, #ffffff 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero .chip { background: rgba(209,123,255,.2); color: #f3dcff; box-shadow: none; }
 .hero .chip i { background: #d17bff !important; box-shadow: 0 0 10px #d17bff !important; }
-.hero .spot.a { background: radial-gradient(closest-side, rgba(155,69,214,.24), transparent); }
-.hero .spot.b { background: radial-gradient(closest-side, rgba(209,123,255,.14), transparent); }
-.hero .sp::before { background: linear-gradient(90deg, transparent, rgba(236,194,255,.24), transparent); }
-.hero .sp::after { background: linear-gradient(180deg, transparent, rgba(236,194,255,.24), transparent); }
-.hero .sp i { background: #fbefff; box-shadow: 0 0 4px rgba(236,194,255,.6), 0 0 10px 1px rgba(209,123,255,.2); }
-.hero .wall .t { box-shadow: inset 0 0 0 1px rgba(209,123,255,.2); }
-.hero .wall .t b { color: #ecc2ff; }
-.hero .buy { box-shadow: inset 0 0 0 1px rgba(209,123,255,.18), 0 30px 60px rgba(0,0,0,.35); }
-#mk { opacity: .55; }
-/* the four stats: the deals page mini cards (.pn-mini) in orchid - a soft light at the foot, a thin frame, a 26px value over a 16px label */
-.hero .stat { background: radial-gradient(90% 90% at 0% 100%, rgba(209,123,255,.22), transparent 70%), #0b0e14 !important; box-shadow: inset 0 0 0 1px rgba(209,123,255,.28) !important; gap: 8px; padding: 18px 22px; }
+.hero .spot.a { background: radial-gradient(closest-side, rgba(63,216,194,.14), transparent); }
+.hero .spot.b { background: radial-gradient(closest-side, rgba(79,107,255,.2), transparent); }
+.hero .spot.c { position: absolute; z-index: -3; left: 30%; top: -20%; width: 46%; height: 60%; border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgba(209,123,255,.13), transparent); }
+#mk { opacity: .6; }
+/* the title keeps clear room from the reviews column: a step smaller up to 1440 */
+@media (min-width: 961px) { .hero h1 { font-size: clamp(46px, min(5.4vw, 9.6vh), 104px); } }
+/* the four stats: the deals page mini cards (.pn-mini), each in its own palette colour, a 26px value over a 16px label */
+.hero .stat { --c: #3fd8c2; background: radial-gradient(90% 90% at 0% 100%, color-mix(in srgb, var(--c) 24%, transparent), transparent 70%), #0b0e14 !important; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 30%, transparent) !important; gap: 8px; padding: 18px 22px; }
+.hero .stat:nth-child(2) { --c: #61b1f2; } .hero .stat:nth-child(3) { --c: #4f6bff; } .hero .stat:nth-child(4) { --c: #d17bff; }
 .hero .stat::before { display: none; }
-.hero .stat b { font: 600 26px/1 "Roboto", sans-serif !important; letter-spacing: 0 !important; color: #d17bff !important; background: none !important; -webkit-text-fill-color: currentColor; text-shadow: none !important; }
+.hero .stat b { font: 600 26px/1 "Roboto", sans-serif !important; letter-spacing: 0 !important; color: var(--c) !important; background: none !important; -webkit-text-fill-color: currentColor; text-shadow: none !important; }
+.hero .stat:nth-child(3) b { color: #8fa2ff !important; }
 .hero .stat b:not(.lat):not([data-count]) { font-family: "Reforma", sans-serif !important; font-weight: 500 !important; }
 .hero .stat span { font: 500 16px/1.3 "Reforma"; color: rgba(255,255,255,.7); }
 @media (max-width: 760px) { .hero .stat b { font-size: 22px !important; } .hero .stat { padding: 14px 16px; } }
-.hero .floor { background-image: linear-gradient(rgba(209,123,255,.13) 1px, transparent 1px), linear-gradient(90deg, rgba(209,123,255,.13) 1px, transparent 1px); }
