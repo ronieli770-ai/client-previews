@@ -2,7 +2,7 @@
 (function () {
   /* ---------- about: the rest of Noam's story opens under "קרא עוד" ---------- */
   const btn = document.getElementById("aboutBtn"), more = document.getElementById("aboutMore");
-  if (btn) btn.addEventListener("click", () => { const o = more.hidden; more.hidden = !o; btn.setAttribute("aria-expanded", o); btn.querySelector("span").textContent = o ? "הצג פחות" : "קרא עוד"; });
+  if (btn) btn.addEventListener("click", () => { const o = more.hidden; more.hidden = !o; btn.setAttribute("aria-expanded", o); btn.querySelector("span").textContent = o ? "הציגו פחות" : "קראו עוד"; });
 
 })();
 /* anything that keeps moving (the tools band, the price card frame) pauses while it is off screen */
@@ -15,4 +15,13 @@
   const road = document.getElementById("road"); if (!road) return;
   const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { road.classList.add("go"); io.disconnect(); } }, { threshold: .3 });
   io.observe(road);
+})();
+/* "מה תלמד בקורס": the second row of four takes the colours in reverse, a checkerboard rather than a repeat; one column keeps the plain turn so no two neighbours match */
+(function () {
+  const cards = [...document.querySelectorAll("#learn .gi")]; if (!cards.length) return;
+  const C = ["c3", "c4", "c1", "c2"], one = matchMedia("(max-width: 760px)");
+  function paint() {
+    cards.forEach((el, i) => { el.classList.remove("c1", "c2", "c3", "c4"); el.classList.add(one.matches || i < 4 ? C[i % 4] : C[3 - (i % 4)]); });
+  }
+  paint(); one.addEventListener("change", paint);
 })();

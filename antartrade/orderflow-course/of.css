@@ -153,23 +153,42 @@
 .fbox.no .ic { color: rgba(255,255,255,.6) !important; background: rgba(255,255,255,.07) !important; }
 .fbox .halo { display: none; }
 
-/* outcomes: four cards in a row joined by a thin line with step dots; the line draws in 1.2s and each card lights as it arrives */
-.road { position: relative; margin-top: 30px; }
-.road-rail { position: absolute; top: 7px; right: 12.5%; left: 12.5%; height: 2px; border-radius: 2px; background: rgba(255,255,255,.08); }
-.road-rail i { position: absolute; inset: 0 0 0 auto; width: 0; border-radius: inherit; background: linear-gradient(270deg, #7dc6ff, #3fd8c2 50%, #4f6bff); box-shadow: 0 0 12px rgba(125,198,255,.5); transition: width 1.2s linear; }
+/* outcomes: a slim track above the row with numbered outline circles centred over the cards; once the row is 30% in view the track fills sky to white in 1.2s,
+   each circle fills sky as the fill reaches it and its card's frame lights; the cards are the regular dark container */
+.road { position: relative; margin-top: 30px; --cs: 44px; }
+.road-rail { position: absolute; top: calc(var(--cs) / 2 - 1.5px); right: 12.5%; left: 12.5%; height: 3px; border-radius: 3px; background: rgba(255,255,255,.08); }
+.road-rail i { position: absolute; inset: 0 0 0 auto; width: 0; border-radius: inherit; background: linear-gradient(270deg, #7dc6ff, #fff); transition: width 1.2s linear; }
 .road.go .road-rail i { width: 100%; }
 .road-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; }
-.ro { display: flex; flex-direction: column; align-items: center; gap: 18px; }
-.ro-dot { width: 16px; height: 16px; border-radius: 50%; background: #0b0e14; box-shadow: inset 0 0 0 2px rgba(255,255,255,.18); transition: box-shadow .4s ease calc(var(--i) * .4s), background .4s ease calc(var(--i) * .4s); }
-.road.go .ro-dot { background: #7dc6ff; box-shadow: 0 0 0 5px rgba(125,198,255,.18), 0 0 16px rgba(125,198,255,.7); }
-.ro-c { align-self: stretch; flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 28px 26px; border-radius: 24px; background: #0e121a; box-shadow: inset 0 0 0 1px rgba(255,255,255,.07);
-  transition: box-shadow .5s ease calc(var(--i) * .4s), background .5s ease calc(var(--i) * .4s); }
-.road.go .ro-c { background: radial-gradient(80% 80% at 100% 0, rgba(46,139,216,.2), transparent 70%), #0e121a; box-shadow: inset 0 0 0 1px rgba(125,198,255,.32), 0 18px 40px -24px rgba(125,198,255,.5); }
-.ro-n { font: 600 34px/1 "Roboto"; letter-spacing: -1px; color: rgba(255,255,255,.25); transition: color .5s ease calc(var(--i) * .4s); }
-.road.go .ro-n { color: #7dc6ff; }
+.ro { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.ro-dot { width: var(--cs); height: var(--cs); flex: none; border-radius: 50%; display: grid; place-items: center; font: 600 15px/1 "Roboto"; color: rgba(255,255,255,.6); background: #0e121a; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.22);
+  transition: background .35s ease calc(var(--i) * .4s), color .35s ease calc(var(--i) * .4s), box-shadow .35s ease calc(var(--i) * .4s); }
+.road.go .ro-dot { background: #7dc6ff; color: #12161f; box-shadow: 0 0 0 5px rgba(125,198,255,.16), 0 0 18px rgba(125,198,255,.55); }
+.ro-c { align-self: stretch; flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 28px 26px; border-radius: 24px; background: #0b0e14; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); transition: box-shadow .5s ease calc(var(--i) * .4s); }
+.road.go .ro-c { box-shadow: inset 0 0 0 1px rgba(125,198,255,.3); }
 .ro .h3 { font-size: 21px; }
 .ro p { margin: 0; font: 400 17px/1.5 "Reforma"; color: rgba(255,255,255,.6); }
-@media (max-width: 760px) { .road-rail { display: none; } .road-steps { grid-template-columns: 1fr 1fr; gap: 12px; } .ro-dot { display: none; } .ro-c { padding: 20px 16px; } .ro .h3 { font-size: 18px; } .ro p { font-size: 15px; } .ro-n { font-size: 26px; } }
+@media (max-width: 760px) {
+  .road-rail { top: 20px; bottom: 20px; right: calc(var(--cs) / 2 - 1.5px); left: auto; width: 3px; height: auto; }
+  .road-rail i { inset: 0 0 auto 0; width: auto; height: 0; background: linear-gradient(180deg, #7dc6ff, #fff); transition: height 1.2s linear; }
+  .road.go .road-rail i { height: 100%; width: auto; }
+  .road-steps { grid-template-columns: 1fr; gap: 14px; }
+  .ro { flex-direction: row; align-items: flex-start; gap: 14px; }
+  .ro-c { padding: 20px 18px; } .ro .h3 { font-size: 19px; } .ro p { font-size: 16px; }
+}
+
+/* fit containers: no cursor light or coloured lift; the homepage's sky ring runs round the frame while hovered, the card lifts 4px */
+.fbox.lit::after { display: none !important; }
+.fbox .ring { position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; opacity: 0; z-index: 3;
+  background: conic-gradient(from var(--a, 0deg), transparent 0deg, #d6ecff 40deg, #7dc6ff 100deg, transparent 150deg 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; transition: opacity .3s; }
+.fbox.lit.in:hover { transform: translateY(-4px); }
+.fbox.yes.lit.in:hover { box-shadow: 0 18px 22px color-mix(in srgb, var(--c) 28%, transparent), inset 0 0 24px color-mix(in srgb, var(--c) 8%, transparent) !important; }
+.fbox.no.lit.in:hover { box-shadow: inset 0 0 0 1px rgba(255,255,255,.1) !important; }
+.fbox:hover .ring { opacity: 1; animation: of-ring 1.6s linear infinite; }
+@property --a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@keyframes of-ring { from { --a: 0deg; } to { --a: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .fbox:hover .ring { animation: none; } }
 
 /* upsell: the Order Flow card premium too, quieter than the full track - a muted orchid and sky light from the corners, a gradient frame, a soft glow, its cover */
 .uc.of { padding-left: 40%; background: radial-gradient(80% 90% at 0% 100%, rgba(209,123,255,.26), rgba(209,123,255,.06) 50%, transparent 80%), radial-gradient(60% 70% at 100% 0%, rgba(97,177,242,.16), transparent 70%), #0b0e14 !important;
