@@ -1,26 +1,30 @@
-/* hero, as on the full track page (b2): the live candle chart, the students' words drifting up, the points of light, the grounds leaning with the mouse */
+/* hero, the full track page's template (b2) with its own background: an orchid order flow heat map, the students' words drifting up, the points of light, the grounds leaning with the mouse */
 (function(){
  const lite=matchMedia("(max-width: 760px), (pointer: coarse)").matches; let onScreen=true, prev=0;
- const cv=document.getElementById("mk"), ctx=cv.getContext("2d"); let W,H,dpr, cs=[], s=21;
- const r=()=>(s=(s*9301+49297)%233280)/233280, STEP=18;
- let trend=0; function gen(n){ let y=cs.length?cs[cs.length-1].c:0; for(let i=0;i<n;i++){ trend+=1.1; const o=y, c=y+(trend-y)*.18+(r()-.5)*7; cs.push({o,c,h:Math.max(o,c)+r()*4,l:Math.min(o,c)-r()*4}); y=c; } }
+ const cv=document.getElementById("mk"), ctx=cv.getContext("2d"); let W,H,dpr, s=21;
+ const r=()=>(s=(s*9301+49297)%233280)/233280;
+ /* order flow heat map in the site's orchid: resting liquidity as soft horizontal bands, the price wandering through them
+    with trade bubbles sized by volume; the columns drift left at the candle chart's old tempo */
+ const CW=lite?24:16, CH=lite?16:11; let cols=[], lv=[], px=.5;
+ for(let i=0;i<7;i++) lv.push({y:.18+r()*.66, w:.35+r()*.65, s:.012+r()*.03});
+ function col(){ lv.forEach(l=>{ l.y+=(r()-.5)*.004; l.w=Math.max(.15,Math.min(1,l.w+(r()-.5)*.05)); }); if(r()<.02){ lv[Math.floor(r()*lv.length)]={y:.18+r()*.66,w:.2,s:.012+r()*.03}; }
+   const near=lv.reduce((a,l)=>Math.abs(l.y-px)<Math.abs(a.y-px)?l:a); px+=(near.y-px)*.04+(r()-.5)*.018; px=Math.max(.2,Math.min(.82,px));
+   cols.push({ lv:lv.map(l=>({y:l.y,w:l.w*(.7+r()*.3),s:l.s})), p:px, b:r()<.4?2+r()*8:0 }); }
  function size(){ dpr=lite?1:Math.min(2,devicePixelRatio||1); W=cv.clientWidth; H=cv.clientHeight; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-   const need=Math.ceil(W/STEP)+2; if(cs.length<need) gen(need-cs.length); }
+   const need=Math.ceil(W/CW)+2; while(cols.length<need) col(); }
  size(); addEventListener("resize",size);
- let t0=null, shift=0, SL=null, SH=null;
  new IntersectionObserver(([en])=>{ const was=onScreen; onScreen=en.isIntersecting; if(onScreen&&!was) requestAnimationFrame(draw); }).observe(document.querySelector(".hero"));
+ let t0=null, shift=0;
  function draw(t){ if(!onScreen) return; if(lite&&t-prev<33){ requestAnimationFrame(draw); return; } prev=t; if(t0===null) t0=t; const p=Math.min(1,(t-t0)/2400), e=1-Math.pow(1-p,3);
    ctx.clearRect(0,0,W,H);
-   const n=Math.ceil(W/STEP)+1, vis=cs.slice(-n-1); let tlo=Infinity,thi=-Infinity; vis.forEach(k=>{tlo=Math.min(tlo,k.l);thi=Math.max(thi,k.h);}); if(SL===null){SL=tlo;SH=thi;} SL+=(tlo-SL)*.02; SH+=(thi-SH)*.02; const lo=SL, hi=SH;
-   const top=H*.2, bot=H*.82, Y=v=>bot-(v-lo)/(hi-lo||1)*(bot-top);
-   ctx.strokeStyle="rgba(125,198,255,.06)"; ctx.lineWidth=1; for(let gy=0;gy<H;gy+=72){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();} for(let gx=-shift%144;gx<W;gx+=144){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
-   const shown=Math.floor(vis.length*e); const pts=[];
-   for(let i=0;i<shown;i++){ const k=vis[i], x=i*STEP-shift+STEP/2, up=k.c>k.o; ctx.strokeStyle=ctx.fillStyle=up?"rgba(63,216,194,.75)":"rgba(209,123,255,.7)";
-     ctx.beginPath(); ctx.moveTo(x,Y(k.h)); ctx.lineTo(x,Y(k.l)); ctx.stroke(); const yt=Y(Math.max(k.o,k.c)), yb=Y(Math.min(k.o,k.c)); ctx.fillRect(x-5,yt,10,Math.max(2,yb-yt)); pts.push([x,Y((k.o+k.c)/2)-14]); }
-   if(pts.length>1){ const g=ctx.createLinearGradient(0,top,0,H); g.addColorStop(0,"rgba(125,198,255,.16)"); g.addColorStop(1,"rgba(125,198,255,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(pts[0][0],H); pts.forEach(q=>ctx.lineTo(q[0],q[1])); ctx.lineTo(pts[pts.length-1][0],H); ctx.closePath(); ctx.fill();
-     ctx.save(); ctx.shadowColor="rgba(125,198,255,.9)"; ctx.shadowBlur=14; const lg=ctx.createLinearGradient(0,0,W,0); lg.addColorStop(0,"rgba(209,123,255,.95)"); lg.addColorStop(.5,"rgba(125,198,255,.95)"); lg.addColorStop(1,"rgba(63,216,194,.95)"); ctx.strokeStyle=lg; ctx.lineWidth=2.5; ctx.beginPath(); pts.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.stroke(); ctx.restore();
- }
-   if(p>=1){ shift+=0.25; if(shift>=STEP){ shift-=STEP; gen(1); cs.shift(); } }
+   const top=H*.12, bot=H*.9, n=Math.ceil(W/CW)+1, vis=cols.slice(-n-1), shown=Math.floor(vis.length*e), rows=Math.floor((bot-top)/CH);
+   for(let i=0;i<shown;i++){ const c=vis[i], x=i*CW-shift;
+     for(let k=0;k<rows;k++){ const ry=k/rows; let v=0; for(const l of c.lv){ const d=ry-l.y; v+=l.w*Math.exp(-d*d/(2*l.s*l.s)); }
+       if(v<.08) continue; v=Math.min(1,v); ctx.fillStyle=v>.75?`rgba(243,220,255,${(.1+v*.18).toFixed(3)})`:`rgba(209,123,255,${(v*.26).toFixed(3)})`; ctx.fillRect(x,top+k*CH,CW-2,CH-2); } }
+   const pts=[]; for(let i=0;i<shown;i++){ const c=vis[i]; pts.push([i*CW-shift+CW/2, top+c.p*(bot-top), c.b]); }
+   if(pts.length>1){ ctx.save(); ctx.shadowColor="rgba(209,123,255,.9)"; ctx.shadowBlur=12; ctx.strokeStyle="rgba(243,220,255,.7)"; ctx.lineWidth=1.6; ctx.beginPath(); pts.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.stroke(); ctx.restore();
+     pts.forEach(q=>{ if(!q[2]) return; ctx.beginPath(); ctx.arc(q[0],q[1],q[2],0,6.2832); ctx.fillStyle="rgba(209,123,255,.16)"; ctx.fill(); ctx.strokeStyle="rgba(236,194,255,.55)"; ctx.lineWidth=1; ctx.stroke(); }); }
+   if(p>=1){ shift+=lite?.5:.25; if(shift>=CW){ shift-=CW; col(); cols.shift(); } }
    requestAnimationFrame(draw); }
  (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>setTimeout(()=>requestAnimationFrame(draw),150));
   /* the full track page's 13 students' reviews, word for word (Noam's Order Flow page has none of its own) */
