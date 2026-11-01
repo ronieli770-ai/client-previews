@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="27" height="30" viewBox="0 0 27 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="takeprofit" clip-path="url(#clip0_0_98)">
+<path id="Vector" d="M18.33 7.05V9.09L17.43 9.24V15.27L18.33 15.39V26.4H19.35V15.51L20.25 15.27V9.24L19.35 8.85V7.05H18.33ZM5.37 7.05V17.43L4.5 17.7V23.73L5.37 24.09L5.52 26.4H6.27L6.42 24.09L7.17 23.85V17.7L6.42 17.55V7.05H5.37ZM0.51 0.51V4.86L11.91 5.01V13.47L11.04 13.71V19.74L11.91 19.86V29.37H12.96V19.86L13.86 19.74V13.71L12.96 13.47V5.01L26.28 4.86L26.4 0.63L0.51 0.51Z" fill-rule="evenodd" clip-rule="evenodd" fill="url(#paint0_linear_0_98)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_98" x1="0.51" y1="14.94" x2="26.4" y2="14.94" gradientUnits="userSpaceOnUse">
+<stop stop-color="#131720"/>
+<stop offset="1" stop-color="#699CC4"/>
+</linearGradient>
+<clipPath id="clip0_0_98">
+<rect width="27" height="30" fill="white"/>
+</clipPath>
+</defs>
+</svg>
