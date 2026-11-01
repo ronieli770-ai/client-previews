@@ -201,3 +201,23 @@
 @media (max-width: 760px) { .uc.of { padding: 200px 24px 24px; } .of-cover { left: 50%; top: 24px; width: 200px; transform: translateX(-50%) rotate(-6deg); } .uc.of:hover .of-cover { transform: translateX(-50%) rotate(-6deg); } }
 /* same top edge for every text block: the titles keep two lines' room on desktop so the lines under them start level */
 @media (min-width: 761px) { .gets.learn .lc .h3, .ro .h3 { min-height: 2.5em; } }
+
+/* ---------- round 9 ---------- */
+/* outcomes, quieter: the track is white 10% with a muted sky fill; circles dark with a thin sky outline and a sky number, lit = a soft sky ring;
+   the cards are the site's frameless dark container - b2's FAQ item (#faq .faq details: white 5%, no frame) */
+.road-rail { background: rgba(255,255,255,.1); }
+.road-rail i { background: rgba(125,198,255,.6) !important; box-shadow: none; }
+.ro-dot { background: #12161f; color: #7dc6ff; box-shadow: inset 0 0 0 1.5px rgba(125,198,255,.45); }
+.road.go .ro-dot { background: #12161f; color: #d6ecff; box-shadow: inset 0 0 0 1.5px #7dc6ff, 0 0 0 5px rgba(125,198,255,.1), 0 0 16px rgba(125,198,255,.3); }
+.ro-c { background: rgba(255,255,255,.05); box-shadow: none; transition: background .5s ease calc(var(--i) * .4s); }
+.road.go .ro-c { background: rgba(255,255,255,.07); box-shadow: none; }
+/* the Order Flow upsell card in sky, quieter than the full track card */
+.uc.of { background: radial-gradient(80% 90% at 0% 100%, rgba(97,177,242,.26), rgba(97,177,242,.06) 50%, transparent 80%), radial-gradient(60% 70% at 100% 0%, rgba(214,236,255,.08), transparent 70%), #0b0e14 !important;
+  box-shadow: 0 18px 30px -10px rgba(97,177,242,.22), inset 0 0 24px rgba(125,198,255,.06) !important; }
+.uc.of::before { background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(125,198,255,.5) 45%, rgba(214,236,255,.1)) !important; }
+/* site rule: a plain dark container has no frame and no hover ring; the running ring stays only on highlighted containers */
+.fbox.no { box-shadow: none !important; }
+.fbox.no .ring { display: none !important; }
+.fbox.no.lit.in:hover { transform: none !important; box-shadow: none !important; }
+#about .panel { border: 0 !important; box-shadow: none !important; }
+.fbox.no { background: #12161f !important; } /* the site's plain dark container (the ink #12161f), frameless, readable on the section ground */
