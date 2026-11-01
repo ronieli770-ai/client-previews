@@ -23,31 +23,7 @@
 .fbox li .lic { width: 22px; height: 22px; flex: none; color: var(--glow); }
 .fbox.no li .lic { color: rgba(255,255,255,.4); }
 
-.fbox.yes { background: radial-gradient(70% 90% at 100% 0, rgba(85,166,230,.45), rgba(85,166,230,0) 70%), linear-gradient(135deg, #2e5474 0%, #24425d 55%, #1b3145 100%) !important; box-shadow: 0 24px 60px -20px rgba(85,166,230,.45) !important; }
-.fbox.yes::before, .fbox.yes::after { display: none !important; }
-.fbox.yes .ic { color: #fff !important; background: rgba(255,255,255,.14) !important; }
-.fbox.yes .halo { display: none; }
-.fbox.yes li { background: rgba(255,255,255,.1); color: #fff; }
-.fbox.yes li .lic { color: #fff; }
-.fbox.no { background: #0b0e14 !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08) !important; }
-.fbox.no::before, .fbox.no::after { display: none !important; }
-.fbox.no .ic { color: rgba(255,255,255,.7) !important; background: rgba(255,255,255,.07) !important; }
-.fbox.no .halo { display: none; }
 .fit-h { font-weight: 400; } .fit-h b { font-weight: 500; }
-
-/* what you get, split: a sticky column with the title and the six tiles, the outcomes beside it as a vertical timeline whose line fills as it scrolls by */
-.split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 64px; align-items: start; }
-.split-a { position: sticky; top: 120px; display: flex; flex-direction: column; gap: 32px; }
-.gets.two { grid-template-columns: 1fr 1fr; }
-.tl { position: relative; padding: 8px 0; }
-.tl-rail { position: absolute; top: 36px; bottom: 36px; right: 27px; width: 2px; border-radius: 2px; background: rgba(255,255,255,.08); }
-.tl-rail i { position: absolute; inset: 0 0 auto 0; height: calc(var(--tp, 0) * 100%); border-radius: inherit; background: linear-gradient(180deg, #7dc6ff, #3fd8c2 50%, #4f6bff); box-shadow: 0 0 14px rgba(125,198,255,.5); }
-.tl-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 56px; position: relative; }
-.tl-s { display: grid; grid-template-columns: 56px 1fr; column-gap: 24px; row-gap: 8px; align-items: start; }
-.tl-n { grid-row: span 2; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font: 600 22px/1 "Roboto"; color: rgba(255,255,255,.45); background: #0b0e14; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.14); transition: color .5s, box-shadow .5s, background .5s; }
-.tl-s.on .tl-n { color: #fff; background: radial-gradient(circle at 50% 30%, rgba(125,198,255,.35), #0b0e14 70%); box-shadow: inset 0 0 0 1.5px #7dc6ff, 0 0 24px rgba(125,198,255,.35); }
-.tl-s .h3 { font-size: 24px; padding-top: 12px; }
-.tl-s p { margin: 0; font: 400 17px/1.5 "Reforma"; color: rgba(255,255,255,.6); }
 
 /* what you get: six tiles, then the four outcomes four a row like b2 */
 .gets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -95,10 +71,9 @@
 
 /* ---------- tablets and phones ---------- */
 @media (max-width: 1180px) { .gets.learn { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 960px) { .gets { grid-template-columns: 1fr 1fr; } .split { grid-template-columns: 1fr; gap: 48px; } .split-a { position: static; } .ups { grid-template-columns: 1fr; } }
+@media (max-width: 960px) { .gets { grid-template-columns: 1fr 1fr; } .ups { grid-template-columns: 1fr; } }
 @media (max-width: 760px) {
-  .flow, .fit, .gets, .gets.two, .gets.learn { grid-template-columns: 1fr; }
-  .tl-steps { gap: 32px; } .tl-s { column-gap: 18px; } .tl-s .h3 { font-size: 21px; padding-top: 14px; }
+  .flow, .fit, .gets, .gets.learn { grid-template-columns: 1fr; }
   .step, .uc { padding: 24px; }
   .step .sn { top: 18px; font-size: 72px; }
   .fbox li { font-size: 16px; padding: 12px 14px; }
@@ -113,7 +88,7 @@
   .buy { background: rgba(13,19,30,.85); }
 }
 .off, .off * { animation-play-state: paused !important; }
-@media (prefers-reduced-motion: reduce) { .tl-n { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .road-rail i, .ro-c, .ro-dot { transition: none !important; } }
 
 /* hero additions to b2's styles: this title's second line is longer, so on phones it takes b2's size scaled to the width;
    the students' longer reviews show five lines in the drifting column (the whole text stays in the page) */
@@ -138,7 +113,6 @@
 .hero .stat span { font-size: 16px; }
 @media (max-width: 760px) { .hero .stat b { font-size: 22px !important; } .hero .stat { padding: 14px 16px; } }
 .gets.learn { grid-template-columns: repeat(4, 1fr); }
-.split { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
 @media (max-width: 1180px) { .gets.learn { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 760px) { .gets.learn { grid-template-columns: 1fr; } }
 /* upsell fixes: the covers show (b2 hides .deck outside its banner), the Order Flow button is the hero's sky button exactly - no extra padding on its ring, one label in one colour and weight */
@@ -150,3 +124,61 @@
 .uc .deck { height: auto !important; bottom: auto !important; margin: 0 !important; order: 0 !important; perspective: none; }
 .uc .deck img { bottom: auto; animation: none; filter: none; }
 @media (max-width: 760px) { .uc .deck { position: absolute !important; left: 50% !important; top: 18px !important; width: 220px !important; height: 180px !important; transform: translateX(-50%) !important; } }
+
+/* ---------- round 7 ---------- */
+/* bridge steps: the big numbers stand above the cards like b2's stepped 01 / 02, the cards step down one after another */
+.flow { align-items: start; }
+.step { overflow: visible !important; padding-top: 78px !important; margin-top: 60px; }
+.step:nth-child(2) { margin-top: 120px; } .step:nth-child(3) { margin-top: 180px; }
+.step .sn { top: -78px !important; left: auto !important; right: 26px; z-index: 3; font: 600 130px/1 "Roboto" !important; letter-spacing: -6px !important;
+  background: linear-gradient(180deg, var(--light) 0%, var(--glow) 45%, var(--deep) 100%) !important; -webkit-background-clip: text !important; background-clip: text !important;
+  will-change: transform; filter: drop-shadow(0 10px 30px color-mix(in srgb, var(--glow) 35%, transparent)); }
+@media (max-width: 760px) { .step, .step:nth-child(2), .step:nth-child(3) { margin-top: 70px; padding-top: 60px !important; } .step .sn { font-size: 96px !important; top: -58px !important; } }
+
+/* learn: icon box on top, the title under it, Noam's line under that; every card starts its text on the same line, equal heights */
+.gets.learn { align-items: stretch; }
+.gets.learn .lc { flex-direction: column; align-items: flex-start; gap: 14px; padding: 28px 26px; }
+.gets.learn .lc .ic { margin-bottom: 4px; }
+
+/* fit: "מתאים" = the highlighted deal card (.pn-deal: a muted sky gradient from the corner, a white-to-colour frame, a coloured glow); "לא מתאים" = the plain dark container */
+.fbox.yes { --c: #61b1f2; background: radial-gradient(85% 85% at 0% 100%, color-mix(in srgb, var(--c) 34%, transparent) 0%, color-mix(in srgb, var(--c) 12%, transparent) 45%, transparent 100%), radial-gradient(60% 60% at 100% 0%, rgba(214,236,255,.10), rgba(214,236,255,0)), #0b0e14 !important;
+  box-shadow: 0 18px 22px color-mix(in srgb, var(--c) 28%, transparent), inset 0 0 24px color-mix(in srgb, var(--c) 8%, transparent) !important; }
+.fbox.yes::before { display: block !important; content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; opacity: 1 !important; z-index: 2;
+  background: linear-gradient(135deg, rgba(255,255,255,.55), color-mix(in srgb, var(--c) 50%, transparent) 45%, rgba(255,255,255,.08)) !important;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.fbox.yes .ic { color: #d6ecff !important; background: rgba(97,177,242,.18) !important; }
+.fbox.yes li .lic { color: #7dc6ff; }
+.fbox.no { background: rgba(11,14,20,.6) !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1) !important; }
+.fbox.no::before, .fbox.no::after { display: none !important; }
+.fbox.no .ic { color: rgba(255,255,255,.6) !important; background: rgba(255,255,255,.07) !important; }
+.fbox .halo { display: none; }
+
+/* outcomes: four cards in a row joined by a thin line with step dots; the line draws in 1.2s and each card lights as it arrives */
+.road { position: relative; margin-top: 30px; }
+.road-rail { position: absolute; top: 7px; right: 12.5%; left: 12.5%; height: 2px; border-radius: 2px; background: rgba(255,255,255,.08); }
+.road-rail i { position: absolute; inset: 0 0 0 auto; width: 0; border-radius: inherit; background: linear-gradient(270deg, #7dc6ff, #3fd8c2 50%, #4f6bff); box-shadow: 0 0 12px rgba(125,198,255,.5); transition: width 1.2s linear; }
+.road.go .road-rail i { width: 100%; }
+.road-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; }
+.ro { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.ro-dot { width: 16px; height: 16px; border-radius: 50%; background: #0b0e14; box-shadow: inset 0 0 0 2px rgba(255,255,255,.18); transition: box-shadow .4s ease calc(var(--i) * .4s), background .4s ease calc(var(--i) * .4s); }
+.road.go .ro-dot { background: #7dc6ff; box-shadow: 0 0 0 5px rgba(125,198,255,.18), 0 0 16px rgba(125,198,255,.7); }
+.ro-c { align-self: stretch; flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 28px 26px; border-radius: 24px; background: #0e121a; box-shadow: inset 0 0 0 1px rgba(255,255,255,.07);
+  transition: box-shadow .5s ease calc(var(--i) * .4s), background .5s ease calc(var(--i) * .4s); }
+.road.go .ro-c { background: radial-gradient(80% 80% at 100% 0, rgba(46,139,216,.2), transparent 70%), #0e121a; box-shadow: inset 0 0 0 1px rgba(125,198,255,.32), 0 18px 40px -24px rgba(125,198,255,.5); }
+.ro-n { font: 600 34px/1 "Roboto"; letter-spacing: -1px; color: rgba(255,255,255,.25); transition: color .5s ease calc(var(--i) * .4s); }
+.road.go .ro-n { color: #7dc6ff; }
+.ro .h3 { font-size: 21px; }
+.ro p { margin: 0; font: 400 17px/1.5 "Reforma"; color: rgba(255,255,255,.6); }
+@media (max-width: 760px) { .road-rail { display: none; } .road-steps { grid-template-columns: 1fr 1fr; gap: 12px; } .ro-dot { display: none; } .ro-c { padding: 20px 16px; } .ro .h3 { font-size: 18px; } .ro p { font-size: 15px; } .ro-n { font-size: 26px; } }
+
+/* upsell: the Order Flow card premium too, quieter than the full track - a muted orchid and sky light from the corners, a gradient frame, a soft glow, its cover */
+.uc.of { padding-left: 40%; background: radial-gradient(80% 90% at 0% 100%, rgba(209,123,255,.26), rgba(209,123,255,.06) 50%, transparent 80%), radial-gradient(60% 70% at 100% 0%, rgba(97,177,242,.16), transparent 70%), #0b0e14 !important;
+  box-shadow: 0 18px 30px -10px rgba(209,123,255,.22), inset 0 0 24px rgba(209,123,255,.06) !important; }
+.uc.of::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 2;
+  background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(209,123,255,.45) 45%, rgba(125,198,255,.12));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.of-cover { position: absolute; left: 6%; top: 50%; width: 30%; transform: translateY(-50%) rotate(-8deg); border-radius: 14px; box-shadow: 0 24px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.18); z-index: -1; transition: transform .6s var(--ease); }
+.uc.of:hover .of-cover { transform: translateY(-50%) rotate(-11deg) translateX(-6px); }
+@media (max-width: 760px) { .uc.of { padding: 200px 24px 24px; } .of-cover { left: 50%; top: 24px; width: 200px; transform: translateX(-50%) rotate(-6deg); } .uc.of:hover .of-cover { transform: translateX(-50%) rotate(-6deg); } }
+/* same top edge for every text block: the titles keep two lines' room on desktop so the lines under them start level */
+@media (min-width: 761px) { .gets.learn .lc .h3, .ro .h3 { min-height: 2.5em; } }
