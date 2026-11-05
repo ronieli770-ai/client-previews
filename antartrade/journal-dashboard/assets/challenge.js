@@ -28,7 +28,7 @@ const usd=v=>(v<0?"-":"")+"$"+Math.round(Math.abs(v)).toLocaleString("en-US");
 const usd2=v=>"$"+Math.abs(v).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
 const pctf=x=>x==null?"-":Math.round(x*100)+"%";
 /* a sign belongs to the number only when no Hebrew letter sits right before it ("\u05d1-30" keeps its hyphen outside) */
-const nums=t=>String(t).replace(/(?<![\u0590-\u05FF])[+-]?\$?\d(?:[\d,.:]*\d)?(?:%|R|K)?|\$?\d(?:[\d,.:]*\d)?(?:%|R|K)?/g,m=>`<span class="num">${m}</span>`);
+const nums=t=>String(t).replace(/(?<![\u0590-\u05ff])[+-]?\$?\d(?:[\d,.:]*\d)?(?:%|R|K)?|\$?\d(?:[\d,.:]*\d)?(?:%|R|K)?/g,m=>`<span class="num">${m}</span>`);
 const fmtR=r=>`${r>0?"+":r<0?"-":""}${Math.abs(Math.round(r*10)/10)}R`;
 
 /* ---- Noam's texts ---- */
@@ -75,7 +75,7 @@ const SAMPLES={
     recs:[{id:"try_target",target:1.5,title:"\u05d0\u05e4\u05e9\u05e8 \u05dc\u05e0\u05e1\u05d5\u05ea \u05d9\u05e2\u05d3 1:1.5",text:"\u05d4\u05db\u05dc\u05dc \u05e9\u05dc \u05d4\u05d0\u05ea\u05d2\u05e8 \u05e0\u05e9\u05d0\u05e8 1:1. \u05d0\u05dd \u05ea\u05d1\u05d7\u05e8 \u05dc\u05e0\u05e1\u05d5\u05ea 1:1.5 \u05d1-30 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05d1\u05d0\u05d9\u05dd, \u05e0\u05d1\u05d3\u05d5\u05e7 \u05d0\u05ea \u05d6\u05d4 \u05d1\u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05de\u05e6\u05d1 \u05d4\u05d1\u05d0\u05d4.",because:"\u05db\u05d9 \u05d1-30 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d9\u05dd, \u05d1-46 \u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05e2\u05dd \u05e0\u05ea\u05d5\u05df \"\u05e2\u05d3 \u05d4\u05e1\u05d8\u05d5\u05e4\", \u05d9\u05e2\u05d3 1:1.5 \u05d4\u05d9\u05d4 \u05e0\u05d5\u05ea\u05df +11R \u05dc\u05e2\u05d5\u05de\u05ea +8R \u05d1-1:1."},
           {id:"fewer",title:"\u05e4\u05d7\u05d5\u05ea \u05e2\u05e1\u05e7\u05d0\u05d5\u05ea, \u05d0\u05d9\u05db\u05d5\u05ea\u05d9\u05d5\u05ea \u05d9\u05d5\u05ea\u05e8",text:"\u05d4\u05e2\u05de\u05dc\u05d5\u05ea \u05d0\u05d5\u05db\u05dc\u05d5\u05ea \u05d7\u05dc\u05e7 \u05d2\u05d3\u05d5\u05dc \u05de\u05d4\u05e8\u05d5\u05d5\u05d7. \u05dc\u05d5\u05d5\u05ea\u05e8 \u05e2\u05dc \u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d4\u05d1\u05d9\u05e0\u05d5\u05e0\u05d9\u05d5\u05ea.",because:"\u05db\u05d9 \u05d1-30 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d9\u05dd \u05d4\u05e2\u05de\u05dc\u05d5\u05ea \u05d4\u05d9\u05d5 $214, 8% \u05de\u05d4\u05e8\u05d5\u05d5\u05d7 \u05dc\u05e4\u05e0\u05d9 \u05e2\u05de\u05dc\u05d5\u05ea ($2,674)."}]}]}};
 
-let C={anim:false,view:"join",noam:true,showAll:false,sel:[],risk:"",maxT:"3",maxL:"2",ok:false,oldOpen:false,menu:null,toLink:"",adopted:false};
+let C={ver:"new",wiz:0,more:null,anim:false,view:"join",noam:true,showAll:false,sel:[],risk:"",maxT:"3",maxL:"2",ok:false,oldOpen:false,menu:null,toLink:"",adopted:false};
 let SMP=JSON.parse(JSON.stringify(SAMPLES));
 
 /* ---- dashboard ---- */
@@ -189,6 +189,83 @@ function joinView(){
    <div class="ch-go${canJoin?" ready":""}"><button class="btn2" data-chjoin ${canJoin?"":"disabled"}>\u05d4\u05e6\u05d8\u05e8\u05e3 \u05dc\u05d0\u05ea\u05d2\u05e8. \u05d4\u05d9\u05d5\u05dd \u05d4\u05d5\u05d0 \u05d9\u05d5\u05dd 1</button>${canJoin?"":`<small>${C.sel.length?"":"\u05d1\u05d7\u05e8 \u05dc\u05e4\u05d7\u05d5\u05ea \u05d7\u05e9\u05d1\u05d5\u05df \u05d0\u05d7\u05d3. "}${risk>0?"":"\u05d4\u05d2\u05d3\u05e8 \u05e1\u05d9\u05db\u05d5\u05df \u05dc\u05e2\u05e1\u05e7\u05d4. "}${C.ok?"":"\u05d0\u05e9\u05e8 \u05d0\u05ea \u05d4\u05db\u05dc\u05dc\u05d9\u05dd."}</small>`}</div>
   </section></div>`;}
 
+/* ---- journey version (05.11): the goal first, then where you are and what to do today; numbers fold away at the bottom ---- */
+const JI={lock:'<rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',ok:'<path d="M6.5 12.5l3.5 3.5 7.5-8"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>'};
+/* the equity curve shared by both versions: day 1 at x 1000, day 90 at x 12 */
+const EQ=[[1000,150],[960,146],[930,138],[905,143],[875,128],[845,134],[815,120],[790,124],[760,112],[730,118],[700,104],[667,100],[640,92],[612,98],[585,84],[555,90],[528,74],[500,80],[470,66],[440,72],[410,58],[380,62],[350,50],[333,48],[305,42],[278,47],[250,36],[222,40],[194,30],[166,33],[138,24],[110,27],[82,18],[54,20],[28,12],[12,10]];
+const eqY=x=>{for(let i=1;i<EQ.length;i++){const [x1,y1]=EQ[i-1],[x2,y2]=EQ[i];if(x<=x1&&x>=x2)return y1+(y2-y1)*(x1-x)/(x1-x2);}return 10;};
+function miniCurve(day){
+  const xd=1000-Math.min(Math.max(day,0),90)/90*988,yd=eqY(xd);
+  const past=EQ.filter(p=>p[0]>=xd),rest=EQ.filter(p=>p[0]<xd);
+  const P=a=>a.map(p=>p.join(",")).join(" L");
+  return `<svg class="chj-mini" viewBox="0 -14 1000 180" aria-hidden="true"><defs><linearGradient id="chjL" x1="1" x2="0"><stop offset="0" stop-color="#7DC6FF"/><stop offset="1" stop-color="#4F6BFF"/></linearGradient></defs><line class="pay" x1="12" y1="10" x2="1000" y2="10"/>${rest.length?`<path class="rest" d="M${xd},${yd} L${P(rest)}"/>`:""}${past.length?`<path class="past" d="M${P(past)} L${xd},${yd}"/>`:""}<circle class="goal" cx="12" cy="10" r="11"/><circle class="me" cx="${xd}" cy="${yd}" r="13"/></svg>`;}
+function jStages(v){
+  const day=v?v.day:-1,cur=v?v.stage:0;
+  return `<div class="chj-path">${[1,2,3].map(n=>{
+    const st=STAGES[n],state=!v?(n===1?"now":"lock"):n<cur?"done":n===cur?"now":"lock",inSt=Math.min(Math.max(day-(n-1)*30,0),30);
+    const lbl=!v?`\u05e9\u05dc\u05d1 ${n} \u00b7 ${st.days}`:state==="done"?`\u05e9\u05dc\u05d1 ${n} \u00b7 \u05d4\u05d5\u05e9\u05dc\u05dd`:state==="now"?`\u05e2\u05db\u05e9\u05d9\u05d5 \u00b7 \u05d9\u05d5\u05dd ${Math.max(inSt,1)} \u05de\u05ea\u05d5\u05da 30`:`\u05e9\u05dc\u05d1 ${n} \u00b7 \u05e0\u05e4\u05ea\u05d7 \u05d1\u05d9\u05d5\u05dd ${(n-1)*30+1}`;
+    const ic=state==="done"?JI.ok:state==="now"?CI.shield:JI.lock;
+    return `<div class="chj-st ${state}${n===3?" goal":""}"><span class="ic">${SV(ic)}</span><div class="tx"><small>${lbl}</small><b>${st.title}</b>${state!=="done"?`<span class="g">${st.goal}</span>`:""}${v&&state==="now"?`<div class="chj-bar"><i style="width:${inSt/30*100}%"></i></div>`:""}</div></div>`;}).join("")}</div>`;}
+function jMore(key,title,inner){
+  const open=C.more===key;
+  return `<div class="chj-more${open?" open":""}"><button data-chmore="${key}"><span>${title}</span>${SV(CI.chev,"width:18px;height:18px")}</button>${open?`<div class="body">${inner}</div>`:""}</div>`;}
+function jHow(){
+  return `<p class="ch-desc">90 \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 (\u05db-18 \u05e9\u05d1\u05d5\u05e2\u05d5\u05ea) \u05d1\u05ea\u05d5\u05da \u05d4\u05d9\u05d5\u05de\u05df. \u05d4\u05de\u05d8\u05e8\u05d4: \u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05d4\u05db\u05dc \u05de\u05d7\u05d5\u05e9\u05d1 \u05de\u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d1\u05d9\u05d5\u05de\u05df. \u05d0\u05d9\u05df \u05d8\u05d1\u05dc\u05ea \u05de\u05d5\u05d1\u05d9\u05dc\u05d9\u05dd: \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5.</p>
+   <p class="ch-small">\u05d4\u05e9\u05dc\u05d1 \u05e0\u05e7\u05d1\u05e2 \u05dc\u05e4\u05d9 \u05de\u05e6\u05d1 \u05d4\u05d7\u05e9\u05d1\u05d5\u05df: \u05de\u05d9 \u05e9\u05db\u05d1\u05e8 \u05de\u05d7\u05d6\u05d9\u05e7 \u05d7\u05e9\u05d1\u05d5\u05df \u05de\u05de\u05d5\u05de\u05df \u05de\u05ea\u05d7\u05d9\u05dc \u05d9\u05e9\u05e8 \u05d1\u05e9\u05dc\u05d1 3. \u05d9\u05d5\u05dd \u05d1\u05dc\u05d9 \u05e2\u05e1\u05e7\u05d4 \u05de\u05d5\u05ea\u05e8 \u05d5\u05e0\u05d7\u05e9\u05d1 \u05d4\u05d7\u05dc\u05d8\u05d4 \u05de\u05de\u05d5\u05e9\u05de\u05e2\u05ea. \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3 \u05dc\u05d0 \u05de\u05d5\u05d7\u05e7 \u05db\u05dc\u05d5\u05dd: \u05de\u05d5\u05e1\u05d9\u05e4\u05d9\u05dd \u05d7\u05e9\u05d1\u05d5\u05df \u05d7\u05d3\u05e9 \u05d5\u05de\u05de\u05e9\u05d9\u05db\u05d9\u05dd \u05d1\u05d0\u05d5\u05ea\u05d5 \u05d0\u05ea\u05d2\u05e8.</p>
+   <ul class="ch-rules">${RULE_LINES({...RULES,risk:null}).filter(l=>l!==MANUAL).map(l=>`<li>${SV(CI.check)}<span>${l}</span></li>`).join("")}</ul>
+   <div class="promo ch-key">${ci("pen","violet")}<div class="tx"><p>${MANUAL}</p></div></div>`;}
+function jWizard(){
+  if(!C.wiz)return "";
+  const accs=ACCOUNTS.filter(a=>a.state!=="blown"),risk=Number(C.risk),s=C.wiz;
+  const done=[C.sel.length>0,risk>0,C.ok],canJoin=done.every(Boolean);
+  const sel=accs.filter(a=>C.sel.includes(a.id));
+  const lims=sel.map(a=>{const t=a.track&&TRACKS[a.track];return t?{name:a.name,dd:t.stop,dll:t.daily}:null;}).filter(Boolean);
+  const T=["\u05d4\u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea \u05e9\u05dc\u05da \u05d1\u05d0\u05ea\u05d2\u05e8","\u05e1\u05d9\u05db\u05d5\u05df \u05dc\u05e2\u05e1\u05e7\u05d4","\u05d4\u05db\u05dc\u05dc\u05d9\u05dd"],D=["\u05d0\u05e4\u05e9\u05e8 \u05dc\u05d1\u05d7\u05d5\u05e8 \u05db\u05de\u05d4 \u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea, \u05d5\u05dc\u05d4\u05d5\u05e1\u05d9\u05e3 \u05e2\u05d5\u05d3 \u05d1\u05d4\u05de\u05e9\u05da.","\u05db\u05de\u05d4 \u05d3\u05d5\u05dc\u05e8 \u05d0\u05ea\u05d4 \u05de\u05e1\u05db\u05df \u05d1\u05db\u05dc \u05e2\u05e1\u05e7\u05d4 (\u05de\u05d4\u05db\u05e0\u05d9\u05e1\u05d4 \u05e2\u05d3 \u05d4\u05e1\u05d8\u05d5\u05e4). \u05d0\u05d9\u05df \u05e1\u05db\u05d5\u05dd \u05d0\u05d7\u05d9\u05d3: \u05e7\u05d1\u05e2 \u05dc\u05e4\u05d9 \u05d4\u05d7\u05e9\u05d1\u05d5\u05df.","\u05d0\u05dc\u05d4 \u05db\u05dc\u05dc\u05d9 \u05d1\u05e8\u05d9\u05e8\u05ea \u05d4\u05de\u05d7\u05d3\u05dc. \u05d0\u05e4\u05e9\u05e8 \u05dc\u05d4\u05d7\u05de\u05d9\u05e8, \u05dc\u05d0 \u05dc\u05d4\u05e7\u05dc."];
+  let body="";
+  if(s===1)body=`<div class="ch-pickacc">${accs.map(a=>{const t=a.track&&TRACKS[a.track];const on=C.sel.includes(a.id);return `<label class="${on?"on":""}"><input type="checkbox" class="ck" data-chsel="${a.id}" ${on?"checked":""} aria-label="${a.name}"><span class="nm"><b>${a.name}</b><small>${t?t.label:a.firm}</small></span><span class="tag">${a.phase==="funded"?"\u05de\u05de\u05d5\u05de\u05df":"\u05de\u05d1\u05d7\u05df"}</span></label>`;}).join("")}</div>
+   <div class="ch-row"><button class="btn3 ghostb" data-chnew>${SV(CI.plus,"width:16px;height:16px")}<span style="margin-inline-start:6px">\u05e4\u05ea\u05d7 \u05d7\u05e9\u05d1\u05d5\u05df \u05d7\u05d3\u05e9</span></button></div>`;
+  if(s===2)body=`<div class="fld ch-riskf"><label for="chRisk">\u05e1\u05d9\u05db\u05d5\u05df \u05dc\u05e2\u05e1\u05e7\u05d4 ($)</label><input class="inp" id="chRisk" type="number" inputmode="decimal" min="1" dir="ltr" value="${C.risk}" placeholder="250"></div>
+   ${lims.length?`<ul class="ch-lims">${lims.map(l=>`<li><b class="en">${l.name}</b>: \u05e1\u05d8\u05d5\u05e4 \u05db\u05dc\u05dc\u05d9 <b class="num">$${l.dd.toLocaleString("en-US")}</b>${l.dll?`, \u05e1\u05d8\u05d5\u05e4 \u05d9\u05d5\u05de\u05d9 <b class="num">$${l.dll.toLocaleString("en-US")}</b>`:""}${risk>0&&l.dll?` \u00b7 ${Math.floor(l.dll/risk)} \u05d4\u05e4\u05e1\u05d3\u05d9\u05dd \u05de\u05dc\u05d0\u05d9\u05dd \u05e2\u05d3 \u05d4\u05e1\u05d8\u05d5\u05e4 \u05d4\u05d9\u05d5\u05de\u05d9`:""}</li>`).join("")}</ul>`:""}
+   <div class="ch-row"><a class="btn3 ghostb ch-ext" href="https://antartrade.co.il/calculators/payout-odds" target="_blank" rel="noopener">${SV(CI.calc,"width:16px;height:16px")}\u05d1\u05d3\u05d5\u05e7 \u05d0\u05ea \u05d4\u05e1\u05d9\u05db\u05d5\u05d9 \u05e9\u05dc\u05da \u05dc\u05de\u05e9\u05d9\u05db\u05d4${SV(CI.ext,"width:14px;height:14px")}</a></div>`;
+  if(s===3)body=`<ul class="ch-rules">${RULE_LINES({maxDailyTrades:+C.maxT,maxConsecutiveLosses:+C.maxL,minRr:1,risk:risk||null}).filter(l=>l!==MANUAL).map(l=>`<li>${SV(CI.check)}<span>${l}</span></li>`).join("")}</ul><div class="promo ch-key">${ci("pen","violet")}<div class="tx"><p>${MANUAL}</p></div></div>
+   <div class="ch-sel2"><div class="fld"><label>\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d1\u05d9\u05d5\u05dd</label><select class="inp" id="chMaxT">${["3","2","1"].map(x=>`<option value="${x}"${x===C.maxT?" selected":""}>\u05e2\u05d3 ${x}</option>`).join("")}</select></div><div class="fld"><label>\u05e2\u05e6\u05d9\u05e8\u05d4 \u05d0\u05d7\u05e8\u05d9 \u05d4\u05e4\u05e1\u05d3\u05d9\u05dd \u05e8\u05e6\u05d5\u05e4\u05d9\u05dd</label><select class="inp" id="chMaxL">${["2","1"].map(x=>`<option value="${x}"${x===C.maxL?" selected":""}>${x}</option>`).join("")}</select></div></div>
+   <p class="hint2" style="margin-top:12px">\u05d9\u05d7\u05e1 \u05e1\u05d9\u05db\u05d5\u05df-\u05e1\u05d9\u05db\u05d5\u05d9 \u05e7\u05d1\u05d5\u05e2 1:1 \u05dc\u05db\u05d5\u05dc\u05dd \u05d1\u05d4\u05ea\u05d7\u05dc\u05d4. \u05d0\u05d7\u05e8\u05d9 30 \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8, \u05d0\u05dd \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05da \u05de\u05e8\u05d0\u05d9\u05dd \u05e9\u05d9\u05e2\u05d3 \u05d2\u05d1\u05d5\u05d4 \u05d9\u05d5\u05ea\u05e8 \u05e2\u05d3\u05d9\u05e3, \u05d4\u05d0\u05ea\u05d2\u05e8 \u05d9\u05e6\u05d9\u05e2 \u05d0\u05d5\u05ea\u05d5.</p>
+   <label class="ch-accept"><input type="checkbox" class="ck" id="chOk" ${C.ok?"checked":""} aria-label="\u05d0\u05e0\u05d9 \u05de\u05d0\u05e9\u05e8 \u05d0\u05ea \u05d4\u05db\u05dc\u05dc\u05d9\u05dd">\u05e7\u05e8\u05d0\u05ea\u05d9 \u05d5\u05d0\u05e0\u05d9 \u05de\u05ea\u05d7\u05d9\u05d9\u05d1 \u05dc\u05db\u05dc\u05dc\u05d9 \u05d4\u05d0\u05ea\u05d2\u05e8</label>`;
+  const next=s<3?`<button class="btn2" data-chstep="${s+1}" ${done[s-1]?"":"disabled"}>\u05d4\u05d1\u05d0</button>`:`<div class="ch-go${canJoin?" ready":""}"><button class="btn2" data-chjoin ${canJoin?"":"disabled"}>\u05d4\u05e6\u05d8\u05e8\u05e3 \u05dc\u05d0\u05ea\u05d2\u05e8. \u05d4\u05d9\u05d5\u05dd \u05d4\u05d5\u05d0 \u05d9\u05d5\u05dd 1</button></div>`;
+  return `<div class="chj-wiz" role="dialog" aria-modal="true" aria-label="\u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea \u05dc\u05d0\u05ea\u05d2\u05e8"><div class="chj-wbox">
+   <div class="chj-wh"><button class="chj-x" data-chwiz="0" aria-label="\u05e1\u05d2\u05d9\u05e8\u05d4">${SV(JI.x)}</button><div class="tt"><small>\u05e6\u05e2\u05d3 ${s} \u05de\u05ea\u05d5\u05da 3</small><h2>${T[s-1]}</h2><p>${D[s-1]}</p></div></div>
+   <div class="chj-dots">${[1,2,3].map(n=>`<i class="${n<s||done[n-1]&&n!==s?"ok":n===s?"on":""}"></i>`).join("")}</div>
+   <div class="chj-wb">${body}</div>
+   <div class="chj-wf">${s>1?`<button class="btn3" data-chstep="${s-1}">\u05d7\u05d6\u05e8\u05d4</button>`:"<span></span>"}${next}</div>
+  </div></div>`;}
+function jJoin(){
+  return `<div class="chj">
+  <section class="chj-hero${C.noam?" av":""}"><div class="tx"><small>\u05d0\u05ea\u05d2\u05e8 90</small><h2>\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05ea\u05d5\u05da <span class="num">90</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8</h2><p>\u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5</p>
+    <button class="chj-cta" data-chwiz="1">\u05dc\u05d4\u05e6\u05d8\u05e8\u05e3 \u05dc\u05d0\u05ea\u05d2\u05e8<em>3 \u05e6\u05e2\u05d3\u05d9\u05dd</em></button></div>${C.noam?`<img class="noam" alt="" src="avatar/noam-flex.webp">`:""}</section>
+  <section class="blk chj-sec"><div class="bh">${cttl("\u05d4\u05d3\u05e8\u05da","flag","sun")}<span class="hint">\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd. \u05db\u05dc \u05e9\u05dc\u05d1 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05de\u05d2\u05d9\u05e2\u05d9\u05dd \u05d0\u05dc\u05d9\u05d5.</span></div>${jStages(null)}</section>
+  ${jMore("how","\u05d0\u05d9\u05da \u05d6\u05d4 \u05e2\u05d5\u05d1\u05d3 \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",jHow())}
+  </div>${jWizard()}`;}
+function jTasks(v){
+  const today=v.day===0?{trades:0,losses:0}:{trades:1,losses:0};
+  const T=[[v.pendingStops.length===0,"\u05dc\u05d4\u05d6\u05d9\u05df \u05db\u05dc \u05e2\u05e1\u05e7\u05d4, \u05db\u05d5\u05dc\u05dc \u05e1\u05d8\u05d5\u05e4",v.pendingStops.length?"\u05d7\u05e1\u05e8 \u05e1\u05d8\u05d5\u05e4":"\u05d4\u05db\u05dc \u05d4\u05d5\u05d6\u05df"],
+    [today.trades<RULES.maxDailyTrades,`\u05e2\u05d3 ${RULES.maxDailyTrades} \u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d4\u05d9\u05d5\u05dd`,`${today.trades}/${RULES.maxDailyTrades}`],
+    [true,`\u05e1\u05d9\u05db\u05d5\u05df \u05e9\u05dc \u05e2\u05d3 $${RULES.riskPerTrade} \u05dc\u05e2\u05e1\u05e7\u05d4`,"\u05d1\u05ea\u05d5\u05da \u05d4\u05d2\u05d1\u05d5\u05dc"],
+    [today.losses<RULES.maxConsecutiveLosses,`\u05d0\u05d7\u05e8\u05d9 ${RULES.maxConsecutiveLosses} \u05d4\u05e4\u05e1\u05d3\u05d9\u05dd \u05e8\u05e6\u05d5\u05e4\u05d9\u05dd \u05e2\u05d5\u05e6\u05e8\u05d9\u05dd`,`${today.losses}/${RULES.maxConsecutiveLosses}`]];
+  return `<section class="blk chj-sec"><div class="bh">${cttl("\u05d4\u05de\u05e9\u05d9\u05de\u05d5\u05ea \u05e9\u05dc \u05d4\u05d9\u05d5\u05dd","check","mint")}<span class="hint">\u05e2\u05de\u05d9\u05d3\u05d4 \u05d1\u05db\u05dc\u05dc\u05d9\u05dd \u05d4\u05d9\u05d5\u05dd. \u05de\u05ea\u05e2\u05d3\u05db\u05df \u05de\u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d1\u05d9\u05d5\u05de\u05df.</span></div>
+   <div class="chj-tasks">${T.map(t=>`<div class="chj-task${t[0]?" ok":" no"}"><i>${t[0]?SV(JI.ok):SV(CI.alert)}</i><span>${t[1]}</span><small>${t[2]}</small></div>`).join("")}</div></section>`;}
+function jDash(){
+  const v=SMP[C.view],st=STAGES[v.stage],left=v.stage*30-v.day;
+  const nextTx=v.day===0?"\u05d4\u05d0\u05ea\u05d2\u05e8 \u05de\u05ea\u05d7\u05d9\u05dc \u05d1\u05d9\u05d5\u05dd \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d1\u05d0 \u05d1\u05d1\u05d5\u05e8\u05e1\u05d4 \u05d4\u05d0\u05de\u05e8\u05d9\u05e7\u05d0\u05d9\u05ea.":v.stage<3?`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05dc\u05e9\u05dc\u05d1 ${STAGES[v.stage+1].title}.`:`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05dc\u05e1\u05d5\u05e3 \u05d4\u05d0\u05ea\u05d2\u05e8.`;
+  return `<div class="chj">
+  <section class="chj-hero dash${C.noam?" av":""}"><div class="tx"><small>\u05e9\u05dc\u05d1 ${v.stage} \u00b7 ${st.title}</small><div class="chj-day"><b>${v.day||1}</b><span>\u05de\u05ea\u05d5\u05da <span class="num">90</span></span></div><p>${nextTx}</p>${C.noam?`<p class="say">${headline(v.out)}</p>`:""}</div>${C.noam?`<img class="noam" alt="" src="avatar/noam-${v.av}.webp">`:""}${miniCurve(v.day)}</section>
+  ${warns(v)}
+  ${jTasks(v)}
+  <section class="blk chj-sec"><div class="bh">${cttl("\u05d4\u05d3\u05e8\u05da","flag","sun")}<span class="hint">${st.goal}</span></div>${jStages(v)}
+   <div class="ch-out"><div class="tile"><span class="l">\u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea \u05e9\u05e0\u05e9\u05e8\u05e4\u05d5</span><span class="v">${v.out.burned}</span></div><div class="tile"><span class="l">\u05de\u05d1\u05d7\u05e0\u05d9\u05dd \u05e9\u05e2\u05d1\u05e8\u05d5</span><span class="v">${v.out.passed}</span></div><div class="tile"><span class="l">\u05de\u05e9\u05d9\u05db\u05d5\u05ea</span><span class="v">${v.out.payouts}</span></div></div></section>
+  ${jMore("data","\u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd, \u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05d4\u05de\u05e6\u05d1 \u05d5\u05d4\u05d4\u05e4\u05e8\u05d5\u05ea",numbers(v)+snapshots(v)+violations(v))}
+  ${jMore("accs","\u05d4\u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",accounts(v)+rulesBlk(v))}
+  </div>`;}
+
 /* confetti in the site's colours, once, on joining */
 function confetti(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
@@ -204,23 +281,29 @@ function view(){
   const joined=C.view!=="join";
   /* the menu's own trophy after the title, in the menu's sun */
   $("pgTitle").innerHTML=`\u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8<span class="ch-trophy" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6"/></svg></span>`;
-  $("pgSub").textContent=joined?"\u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05da: \u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4":(C.noam?"":"\u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5");$("pgSub").hidden=!joined&&C.noam;
-  $("content").innerHTML=joined?dashView():joinView();
+  $("pgSub").textContent=joined?"\u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05da: \u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4":(C.noam?"":"\u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5");$("pgSub").hidden=!joined&&(C.noam||C.ver!=="old");
+  $("content").innerHTML=C.ver==="old"?(joined?dashView():joinView()):(joined?jDash():jJoin());
   if(!joined&&!C.anim)setTimeout(()=>{C.anim=true;},2600);
   enhanceForms($("content"));if(typeof robotoDigits==="function")robotoDigits($("content"));
   document.querySelectorAll("[data-chv]").forEach(b=>b.classList.toggle("on",b.dataset.chv===C.view));
   document.querySelectorAll("[data-chn]").forEach(b=>b.classList.toggle("on",(b.dataset.chn==="on")===C.noam));
+  document.querySelectorAll("[data-chver]").forEach(b=>b.classList.toggle("on",b.dataset.chver===C.ver));
+  document.body.classList.toggle("chj-lock",!!C.wiz);
 }
 window.challengeView=view;
 
 /* mock switch: before joining, day 23, day 64; with or without Noam */
 const bar=document.createElement("div");bar.className="demo demo3 chonly";bar.dir="rtl";bar.setAttribute("aria-label","\u05de\u05e6\u05d1 \u05d4\u05d0\u05ea\u05d2\u05e8 \u05d1\u05d4\u05d3\u05de\u05d9\u05d4");
-bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button>`;
+bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button><span class="sep"></span><small>\u05d2\u05e8\u05e1\u05d4:</small><button data-chver="new">\u05de\u05e1\u05e2</button><button data-chver="old">\u05e7\u05d5\u05d3\u05de\u05ea</button>`;
 document.body.appendChild(bar);
 
 document.addEventListener("click",e=>{
   if(S.page!=="challenge")return;const q=s=>e.target.closest(s);let x;
-  if(x=q("[data-chv]")){C.view=x.dataset.chv;C.showAll=false;C.menu=null;view();scrollTo(0,0);return;}
+  if(x=q("[data-chver]")){C.ver=x.dataset.chver;C.wiz=0;C.more=null;view();scrollTo(0,0);return;}
+  if(x=q("[data-chwiz]")){C.wiz=+x.dataset.chwiz;view();return;}
+  if(x=q("[data-chstep]")){if(x.disabled)return;C.wiz=+x.dataset.chstep;view();const b=document.querySelector(".chj-wbox");if(b)b.scrollTop=0;return;}
+  if(x=q("[data-chmore]")){C.more=C.more===x.dataset.chmore?null:x.dataset.chmore;view();return;}
+  if(x=q("[data-chv]")){C.view=x.dataset.chv;C.wiz=0;C.more=null;C.showAll=false;C.menu=null;view();scrollTo(0,0);return;}
   if(x=q("[data-chn]")){C.noam=x.dataset.chn==="on";view();return;}
   if(x=q("[data-chjump]")){e.preventDefault();const t=document.getElementById("ch-step"+x.dataset.chjump);if(t)t.scrollIntoView({behavior:"smooth",block:"start"});return;}
   if(x=q("[data-chall]")){C.showAll=true;view();return;}
@@ -231,7 +314,7 @@ document.addEventListener("click",e=>{
   if(x=q("[data-chlink]")){const s=$("chLink"),n=s&&s.value;if(!n){toast("\u05e9\u05d2\u05d9\u05d0\u05d4","\u05d1\u05d7\u05e8 \u05d7\u05e9\u05d1\u05d5\u05df",true);return;}const v=SMP[C.view];v.links.push({id:"n"+Date.now(),name:n,phase:"evaluation",status:"active"});v.unlinked=v.unlinked.filter(u=>u!==n);view();toast("\u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05d5\u05e1\u05e3 \u05dc\u05d0\u05ea\u05d2\u05e8");return;}
   if(x=q("[data-chnew]")){newAccDlg();const b=$("dlgBody").querySelector("h2")||$("dlg2Body").querySelector("h2");if(b){b.textContent="\u05d7\u05e9\u05d1\u05d5\u05df \u05d7\u05d3\u05e9 \u05dc\u05d0\u05ea\u05d2\u05e8";b.insertAdjacentHTML("afterend",`<div class="ch-disc" style="margin:14px 0 4px">${SV(CI.tag)}<span>${DISCOUNT}</span><a href="https://antartrade.co.il/promotions" target="_blank" rel="noopener">\u05dc\u05d3\u05e3 \u05d4\u05d4\u05e0\u05d7\u05d5\u05ea${SV(CI.ext,"width:14px;height:14px")}</a></div>`);}return;}
   if(x=q("[data-chadopt]")){C.adopted=true;view();toast(`\u05d9\u05e2\u05d3 1:${x.dataset.chadopt} \u05e0\u05e7\u05d1\u05e2`,"\u05d4\u05d5\u05d0 \u05e0\u05d1\u05d3\u05e7 \u05de\u05d4\u05d9\u05d5\u05dd, \u05d5\u05e0\u05e8\u05d0\u05d4 \u05d0\u05d9\u05da \u05d4\u05dc\u05da \u05d1\u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05de\u05e6\u05d1 \u05d4\u05d1\u05d0\u05d4.");return;}
-  if(x=q("[data-chjoin]")){if(x.disabled)return;C.view="d0";SMP.d0={...JSON.parse(JSON.stringify(SAMPLES.d23)),day:0,av:"before",out:{burned:0,passed:0,payouts:0},stats:{trades:0,daysTraded:0,wins:0,losses:0,winRate:null,rr:null,maxLossStreak:0,net:0,commissions:0},compliance:null,pendingStops:[],missingHypo:0,daysToNext:30,violations:[],
+  if(x=q("[data-chjoin]")){if(x.disabled)return;C.wiz=0;C.view="d0";SMP.d0={...JSON.parse(JSON.stringify(SAMPLES.d23)),day:0,av:"before",out:{burned:0,passed:0,payouts:0},stats:{trades:0,daysTraded:0,wins:0,losses:0,winRate:null,rr:null,maxLossStreak:0,net:0,commissions:0},compliance:null,pendingStops:[],missingHypo:0,daysToNext:30,violations:[],
     links:ACCOUNTS.filter(a=>C.sel.includes(a.id)).map(a=>({id:a.id,name:a.name,phase:a.phase==="funded"?"funded":"evaluation",status:"active"})),unlinked:ACCOUNTS.filter(a=>!C.sel.includes(a.id)&&a.state!=="blown").map(a=>a.name)};
     if(SMP.d0.links.some(l=>l.phase==="funded")){SMP.d0.stage=3;SMP.d0.reason="\u05d9\u05e9 \u05d7\u05e9\u05d1\u05d5\u05df \u05de\u05de\u05d5\u05de\u05df \u05e4\u05e2\u05d9\u05dc";}
     view();scrollTo(0,0);toast("\u05d4\u05e6\u05d8\u05e8\u05e4\u05ea \u05dc\u05d0\u05ea\u05d2\u05e8!","\u05d4\u05d9\u05d5\u05dd \u05d4\u05d5\u05d0 \u05d9\u05d5\u05dd 1. \u05d1\u05d4\u05e6\u05dc\u05d7\u05d4.",false,true);confetti();return;}
@@ -248,5 +331,6 @@ document.addEventListener("input",e=>{
   if(S.page!=="challenge"||e.target.id!=="chRisk")return;C.risk=e.target.value;
   const pos=e.target.selectionStart;view();const r=$("chRisk");if(r){r.focus();try{r.setSelectionRange(pos,pos);}catch(_){}}
 });
+document.addEventListener("keydown",e=>{if(S.page==="challenge"&&C.wiz&&e.key==="Escape"){C.wiz=0;view();}});
 if(S.page==="challenge")view();
 })();

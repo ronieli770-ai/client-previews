@@ -178,7 +178,8 @@ document.addEventListener("click",e=>{
   if(x=q("[data-stdodelasset]")){T.custom=T.custom.filter(r=>r[0]!==x.dataset.stdodelasset);$("dlg").hidden=true;view();toast("הנכס נמחק","");return;}
   if(q("[data-stcode]")){try{navigator.clipboard.writeText("ANTAR");}catch(_){}toast("הקוד הועתק!","ANTAR");return;}
   if(q("[data-stadmin]")){T.admin=!T.admin;q("[data-stadmin]").classList.toggle("on",T.admin);T.tab="profile";view();return;}
-  if(q("[data-stonb]")){const b=q("[data-stonb]");b.disabled=true;b.textContent="מעביר...";setTimeout(()=>{b.disabled=false;view();},900);return;}
+  /* his admin button: "מעביר..." and then the onboarding questionnaire, as a new user sees it */
+  if(q("[data-stonb]")){const b=q("[data-stonb]");b.disabled=true;b.textContent="מעביר...";setTimeout(()=>{try{setPage("onboarding");}catch(_){b.disabled=false;view();}},700);return;}
 });
 /* "הוסף חשבון חדש": the journal's own "חשבון חדש" window (newAccDlg). On this page its save is taken first (capture), so the
    account joins the list here instead of the new-trade form the master's handler redraws */
