@@ -693,7 +693,8 @@ body.pg-new .top{margin-bottom:8px}
 .st{font-size:11px;padding:2px 8px;border-radius:999px}
 .st.st-o{background:rgba(125,198,255,.14);color:var(--sky)}.st.st-m{background:rgba(63,216,194,.14);color:var(--win)}.st.st-x{background:rgba(229,86,106,.14);color:var(--loss)}
 @media (max-width:900px){
-  .ntgrid{grid-template-columns:minmax(0,1fr)}.side2{position:static}
+  .ntgrid{display:flex;flex-direction:column;gap:16px}.ntcol{display:contents}.side2{position:static}
+  .o1{order:1}.o2{order:2}.o3{order:3}.o4{order:4}.o5{order:5}.o6{order:6}
   .hyp .hgrid{grid-template-columns:minmax(0,1fr)}
   .leg{grid-template-columns:minmax(0,1fr) 80px;}
   .leg .ldt,.leg .ltm{grid-column:span 2}
@@ -701,9 +702,7 @@ body.pg-new .top{margin-bottom:8px}
   .leg>span:last-child{display:none}
   .leg+.leg{padding-top:10px}
   .srcs{grid-template-columns:minmax(0,1fr)}
-  .stepper{gap:6px;overflow:visible}.stpgap{display:none}
-  .stp{flex:1 1 0;min-width:0;flex-direction:column;justify-content:flex-start;height:auto;padding:10px 4px 9px;border-radius:16px;gap:6px}
-  .stp span{display:block;line-height:1.25;font-size:12px;white-space:normal;text-align:center}
+  .stp span{display:none}.stp{padding:0 6px}
   .stat4,.conn,.whs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .maprow .fld{width:100%}
   .btnrow{flex-direction:column}
@@ -775,6 +774,21 @@ body.pg-new .top{margin-bottom:8px}
 .trow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .ol li{padding-inline-start:4px}
 @media (max-width:900px){.vgrid,.whs{grid-template-columns:minmax(0,1fr)}.dhead{padding-left:36px}}
+/* 404: the journal's own dark ground, the logo, one clear way back */
+.nf{position:fixed;inset:0;z-index:48;background:var(--page);display:grid;place-items:center;overflow:hidden;padding:24px max(16px,env(safe-area-inset-left,0px)) 24px max(16px,env(safe-area-inset-right,0px))}
+.nfmark{position:absolute;width:460px;right:-150px;bottom:48px;opacity:.16;filter:blur(18px);pointer-events:none}
+.nflogo{position:absolute;top:max(28px,env(safe-area-inset-top,0px));right:max(32px,env(safe-area-inset-right,0px))}
+.nflogo img{height:40px;display:block}
+.nfbox{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;max-width:560px}
+.nfcode{font-family:var(--en);font-weight:700;font-size:168px;line-height:.9;letter-spacing:-4px;background:linear-gradient(180deg,#7DC6FF,#4F6BFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nft{margin:6px 0 0;font-size:40px;font-weight:500;line-height:1.1;background:none;-webkit-text-fill-color:var(--fg);color:var(--fg)}
+.nfp{margin:0;font-size:18px;color:var(--muted);line-height:1.6}
+.nfpath{font-size:13px;color:var(--faint);background:var(--block);border-radius:999px;padding:5px 14px}
+.nfacts{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;justify-content:center}
+.nfacts .btn2{height:48px;padding:0 24px;font-size:15px}
+.nfacts .ghostb{height:48px;padding:0 22px!important;font-size:15px;display:inline-flex;align-items:center;background:var(--block)!important}
+body.pg-404 .demo{display:none}
+@media (max-width:600px){.nfcode{font-size:120px}.nft{font-size:30px}.nfp{font-size:16px}.nflogo img{height:32px}.nflogo{right:20px;top:24px}.nfacts{flex-direction:column;width:100%}.nfacts a{justify-content:center}}
 /* mock-only switch */
 .demo{position:fixed;left:max(20px,env(safe-area-inset-left,0px));bottom:20px;z-index:40;display:flex;align-items:center;gap:4px;background:#1a1f2b;border-radius:999px;padding:4px;box-shadow:0 12px 30px rgba(0,0,0,.4)}
 .demo small{font-size:12px;color:var(--faint);padding:0 10px}
@@ -784,15 +798,65 @@ body.pg-new .top{margin-bottom:8px}
 @media (max-width:1180px) and (min-width:901px){.ntgrid{grid-template-columns:minmax(0,1fr)}.side2{position:static}}
 @media (max-width:1100px) and (min-width:901px){.row3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-/* phones (Roni 5.11): no grey flash square over a tapped button - a small press instead; the calculated P&L icon sits at the top; the save button at the journal's own button size */
-*{-webkit-tap-highlight-color:transparent}
-.dropz,.submit,.btn,.btn2{transition:background .2s,transform .15s ease}
-.dropz:active,.submit:active:not(:disabled),.btn:active,.btn2:active{transform:scale(.98)}
-.pnlbox{align-items:flex-start}
-@media (max-width:900px){.submit{height:46px;font-size:15px}}
-
-/* Roni's rule: a label (חדש, a platform chip) sits on its own line above the title, at the left */
-.badge.tag,.vchip{align-self:flex-end}
+/* ---- discipline streak + the message that changes with the day (sketch) ---- */
+.coach{position:relative;display:flex;align-items:stretch;max-width:600px;min-height:124px;margin:70px 0 0;border-radius:24px;background:radial-gradient(60% 120% at 100% 100%,rgba(79,107,255,.35),rgba(79,107,255,0) 70%),var(--block)}
+.coach .av{position:relative;width:180px;flex:none;margin-top:-58px;clip-path:inset(-300px -300px 0 -300px)}
+.coach .av img{position:absolute;bottom:0;right:10px;width:170px;transform-origin:50% 100%;transition:opacity .25s ease,transform .45s cubic-bezier(.3,1.6,.5,1)}
+.coach .av img.out{opacity:0;transform:translateY(18px) scale(.94)}
+.coach .av.jump img{animation:coachJump .7s cubic-bezier(.3,1.5,.5,1)}
+@keyframes coachJump{0%{transform:none}35%{transform:translateY(-12px) scale(1.04)}70%{transform:translateY(2px) scale(.99)}100%{transform:none}}
+.coach .bub{flex:1;padding:18px 4px 18px 22px;display:flex;flex-direction:column;justify-content:center;transition:opacity .3s ease,transform .3s ease}
+.coach .bub small{display:block;font-size:13px;color:var(--sky);margin-bottom:4px}
+.coach .bub span{font-size:22px;line-height:1.35;font-weight:500;color:var(--fg);text-wrap:pretty}
+.coach .bub span .en{font-weight:600}
+.coach .bub.swap{opacity:0;transform:translateY(6px)}
+body:not(.pg-dash) .coach{display:none}
+/* the coach row must not widen the title, or its gradient stretches and the white end leaves the words */
+.top h1{width:fit-content}
+body.pg-dash #pgSub{display:none}
+.streak .rs-grid3{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr) minmax(0,1fr);gap:16px}
+.streak .rs-cell{background:var(--block2);border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.streak .rs-cell .rs-l{font-size:14px;color:var(--muted)}
+.streak .rs-num{display:flex;align-items:baseline;gap:10px}
+.streak .rs-num b{font-family:var(--en);font-size:45px;font-weight:600;line-height:1;letter-spacing:-.5px;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.streak .rs-num b.pop{transform:scale(1.25)}
+.streak .rs-num span{font-size:16px;color:var(--muted)}
+.streak .rs-goal{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.streak .rs-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+.streak .rs-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--sky),var(--royal));transition:width .8s cubic-bezier(.22,1,.36,1)}
+.rs-days{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px;direction:rtl}
+.rs-days .rs-d{display:flex;flex-direction:column;align-items:center;gap:6px}
+.rs-days .rs-d i{width:100%;aspect-ratio:1;max-width:30px;border-radius:9px;background:rgba(255,255,255,.05);transition:background .4s ease,box-shadow .4s ease}
+.rs-days .rs-d.c i{background:linear-gradient(135deg,var(--sky),var(--royal))}
+.rs-days .rs-d.v i{background:color-mix(in srgb,var(--loss) 70%,transparent)}
+.rs-days .rs-d.p i{background:none;box-shadow:inset 0 0 0 1.5px rgba(125,198,255,.55)}
+.rs-days .rs-d small{font-size:11px;color:var(--faint)}
+.rs-days .rs-d.t small{color:var(--fg);font-weight:500}
+.rs-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.rs-legend span{display:inline-flex;align-items:center;gap:6px}
+.rs-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;background:rgba(255,255,255,.08)}
+.rs-legend .c i{background:linear-gradient(135deg,var(--sky),var(--royal))}
+.rs-legend .v i{background:color-mix(in srgb,var(--loss) 70%,transparent)}
+.rs-today{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.rs-today .rs-tc2{background:var(--block);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.rs-today .rs-tc2 small{font-size:13px;color:var(--muted)}
+.rs-today .rs-tc2 b{font-family:var(--en);font-size:20px;font-weight:600;direction:ltr;text-align:right}
+.rs-today .rs-tc2 b em{font-style:normal;font-size:14px;color:var(--faint);font-weight:500}
+.rs-today .rs-pips{display:flex;gap:4px}
+.rs-today .rs-pips i{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.07)}
+.rs-today .rs-pips i.on{background:var(--sky)}
+.rs-today .rs-pips i.bad{background:var(--loss)}
+.rs-today .rs-best{grid-column:1/-1;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90}
+.demo2{bottom:72px}
+@media (max-width:1100px) and (min-width:901px){.streak .rs-grid3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.streak .rs-grid3 .rs-cell:nth-child(2){grid-column:1/-1;order:3}}
+@media (max-width:900px){
+  .coach{margin-top:62px;min-height:118px}.coach .av{width:140px;margin-top:-50px}.coach .av img{width:140px;right:2px}
+  .coach .bub{padding:16px 2px 16px 16px}.coach .bub span{font-size:18px}
+  .streak .rs-grid3{grid-template-columns:minmax(0,1fr)}
+  .rs-days{gap:4px}.rs-days .rs-d i{border-radius:7px}
+  .demo2{bottom:calc(128px + env(safe-area-inset-bottom,0px));left:12px;right:12px;transform:none;overflow-x:auto;scrollbar-width:none}.demo2 button{white-space:nowrap;flex:none}
+}
 </style>
 
 <div class="app" dir="rtl">
@@ -824,6 +888,7 @@ body.pg-new .top{margin-bottom:8px}
   <section class="top">
     <div>
       <h1 id="pgTitle">ערב טוב, רוני</h1>
+      <div class="coach" id="coach"></div>
       <p id="pgSub">סקירה כללית של ביצועי המסחר שלך</p>
     </div>
     <div class="filters" id="filters">
@@ -838,6 +903,31 @@ body.pg-new .top{margin-bottom:8px}
   </section>
 
   <section class="kpis" id="kpis"></section>
+  <section class="blk streak dashonly" id="streak">
+    <div class="bh"><div class="ttl"><span class="ico" style="--c:var(--c-sun)"><svg class="i" viewBox="0 0 24 24"><path d="M12 3.5c.5 3-2.5 4.5-2.5 7.5a2.5 2.5 0 0 0 5 0c0-1-.4-1.8-1-2.5 2.6 1 4.5 3.6 4.5 6.5a6 6 0 0 1-12 0c0-4.6 4.5-7.4 6-11.5z"/></svg></span><h2>רצף משמעת</h2></div><span class="hint">ימי מסחר בלי אף חריגה מהכללים של האתגר</span></div>
+    <div class="rs-grid3">
+      <div class="rs-cell">
+        <span class="rs-l">ימים נקיים ברצף</span>
+        <div class="rs-num"><b class="en" id="stN">9</b><span id="stW">ימים</span></div>
+        <div class="rs-goal"><span id="stGoal">עוד יום אחד ליעד הבא</span><span class="en" id="stGoalN">9/10</span></div>
+        <div class="rs-bar"><i id="stBar" style="width:90%"></i></div>
+      </div>
+      <div class="rs-cell">
+        <span class="rs-l">14 ימי המסחר האחרונים</span>
+        <div class="rs-days" id="stDays"></div>
+        <div class="rs-legend"><span class="c"><i></i>יום נקי</span><span class="v"><i></i>חריגה</span><span><i></i>בלי עסקאות</span></div>
+      </div>
+      <div class="rs-cell">
+        <span class="rs-l">היום, לפי הכללים שלך</span>
+        <div class="rs-today">
+          <div class="rs-tc2"><small>עסקאות</small><b id="tdT">0 <em>/ 3</em></b><div class="rs-pips" id="tdTp"></div></div>
+          <div class="rs-tc2"><small>הפסדים ברצף</small><b id="tdL">0 <em>/ 2</em></b><div class="rs-pips" id="tdLp"></div></div>
+          <div class="rs-best"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px;color:var(--c-sun)"><path d="M8 4h8v4a4 4 0 0 1-8 0zM8 6H5a2 2 0 0 0 3 3.5M16 6h3a2 2 0 0 1-3 3.5M12 12v4M8.5 20h7M10 16h4v4h-4z"/></svg><span>השיא שלך: <b class="en" id="stBest">12</b> ימים נקיים</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div id="content"></div>
 
   <section class="course dashonly" id="course">
@@ -862,7 +952,20 @@ body.pg-new .top{margin-bottom:8px}
 
 <div class="fbg" id="fbg"></div>
 <nav class="mnav" id="mnav" aria-label="תפריט"></nav>
+<section class="nf" id="nf" dir="rtl" hidden>
+  <img class="nfmark" src="assets/bg-brain-dark.svg" alt="">
+  <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
+  <div class="nfbox">
+    <span class="nfcode en">404</span>
+    <h1 class="nft">העמוד לא נמצא</h1>
+    <p class="nfp">הכתובת שחיפשת לא קיימת ביומן, או שהעמוד הועבר.</p>
+    <span class="nfpath en" id="nfPath">/trades/archive</span>
+    <div class="nfacts"><a class="btn2" href="#" data-page="dash">חזרה לדשבורד</a><a class="btn3 ghostb" href="#" data-page="log">ליומן העסקאות</a></div>
+  </div>
+</section>
 <div class="dlg-bg" id="dlg2" dir="rtl" hidden style="z-index:56"><div class="dlg" role="dialog" aria-modal="true"><button class="ib x" data-close2 aria-label="סגור"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div id="dlg2Body"></div></div></div>
+<div class="demo demo2 dashonly" dir="rtl" aria-label="מצב היום בהדמיה"><small>היום:</small><button class="on" data-st="before">לפני המסחר</button><button data-st="one">אחרי עסקה</button><button data-st="stopped">עצר אחרי 2 הפסדים</button><button data-st="violation">חריגה</button><button data-st="clean">סוף יום נקי</button><button data-st="weekend">סופ"ש</button></div>
+<canvas id="confetti" hidden></canvas>
 <div class="toast" id="toast" dir="rtl" role="status" hidden></div>
 <div class="demo" dir="rtl" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button class="on" data-m="full">עם עסקאות</button><button data-m="empty">משתמש חדש</button><span class="sep"></span><button class="on" data-n="ok">רגיל</button><button data-n="loading">טעינה</button><button data-n="down">האתר לא עונה</button><span class="sep logonly"></span><button class="on logonly" data-c="ok">חיבור פעיל</button><button class="logonly" data-c="expired">חיבור פג</button></div>
 
@@ -940,7 +1043,7 @@ const PEAK={};
 /* ---------- state ---------- */
 let ACC={pot:false,hub:false,mets:false};try{Object.assign(ACC,JSON.parse(localStorage.getItem("journal-acc")||"{}"));}catch(e){}
 const saveAcc=()=>{try{localStorage.setItem("journal-acc",JSON.stringify(ACC));}catch(e){}};
-const S={conn:"ok",page:(location.hash==="#log"?"log":location.hash==="#new"?"new":"dash"),lf:{asset:"all",dir:"all",grade:"all",tag:"all",strat:"all"},sel:new Set(),mode:"full",type:"all",accs:[],from:null,to:null,month:null,open:null};
+const S={conn:"ok",page:(location.hash==="#log"?"log":location.hash==="#new"?"new":location.hash==="#404"?"404":"dash"),lf:{asset:"all",dir:"all",grade:"all",tag:"all",strat:"all"},sel:new Set(),mode:"full",type:"all",accs:[],from:null,to:null,month:null,open:null};
 const typeOk=a=>S.type==="all"||a.type===S.type;
 const effIds=()=>S.accs.length?S.accs:(S.type==="all"?[]:ACCOUNTS.filter(typeOk).map(a=>a.id));
 function filtered(){
@@ -1348,9 +1451,9 @@ function syncDlg(full){
       ${a.exists?"":`<div class="frm3"><div class="fld"><label>סוג</label><select class="inp"><option>אישי</option><option selected>Prop Firm</option></select></div><div class="fld"><label>חברה / Firm (אופציונלי)</label><input class="inp" placeholder="לדוגמה: Apex - eval"></div><div class="fld"><label>יתרת פתיחה (אופציונלי)</label><input class="inp" type="number" placeholder="50000"></div></div>`}</div>`).join("")}</div>
     <div class="dangerb"><button class="btn2" data-dosync="${full?1:0}">סנכרן</button><button class="btn3" data-closedlg>ביטול</button></div>`;},900);
 }
-const PAGES={dash:["ערב טוב, רוני","סקירה כללית של ביצועי המסחר שלך"],log:["יומן עסקאות","כל העסקאות שלך במקום אחד"],new:["עסקה חדשה","הוסף עסקה ידנית או ייבא מקובץ"]};
+const PAGES={"404":["",""],dash:["ערב טוב, רוני","סקירה כללית של ביצועי המסחר שלך"],log:["יומן עסקאות","כל העסקאות שלך במקום אחד"],new:["עסקה חדשה","הוסף עסקה ידנית או ייבא מקובץ"]};
 function setPage(pg,tab){
-  S.page=pg;["dash","log","new"].forEach(k=>document.body.classList.toggle("pg-"+k,pg===k));
+  S.page=pg;["dash","log","new","404"].forEach(k=>document.body.classList.toggle("pg-"+k,pg===k));$("nf").hidden=pg!=="404";if(pg==="404"){try{history.replaceState(null,"","#404");}catch(e){}return;}
   if(pg==="new"&&tab)NT.tab=tab;
   document.querySelectorAll(".nav a,.mnav a").forEach(a=>a.classList.toggle("on",a.dataset.page===pg));
   $("pgTitle").textContent=PAGES[pg][0];$("pgSub").textContent=PAGES[pg][1];
@@ -1443,16 +1546,16 @@ function newView(){
 function manualView(){
   /* two columns across the page: the trade itself on the right, the result, the review and saving on the left (stays in view) */
   return `<div class="ntgrid"><div class="ntcol">
-  <section class="blk"><div class="bh">${ttl("בחירת חשבון ונכס","adv","sky").replace(ICO.adv,'<rect x="3.5" y="6" width="17" height="13" rx="3"/><path d="M8 6V4.5h8V6M3.5 11h17"/>')}</div>
+  <section class="blk o1"><div class="bh">${ttl("בחירת חשבון ונכס","adv","sky").replace(ICO.adv,'<rect x="3.5" y="6" width="17" height="13" rx="3"/><path d="M8 6V4.5h8V6M3.5 11h17"/>')}</div>
     <div class="frm2"><div id="ntAccCol"></div><div id="ntAssetCol"></div></div></section>
-  <section class="blk"><div class="bh">${ttl("פרטי עסקה","eq","violet")}</div><div class="frm">
+  <section class="blk o2"><div class="bh">${ttl("פרטי עסקה","eq","violet")}</div><div class="frm">
     <div class="fld"><div class="colhead"><label>כיוון</label></div><div class="dirt"><button class="l ${NT.dir===1?"on":""}" data-ntdir="1"><svg class="i" viewBox="0 0 24 24"><path d="M4 17l6-6 4 4 6-7"/><path d="M15 8h5v5"/></svg>לונג</button><button class="s ${NT.dir===-1?"on":""}" data-ntdir="-1"><svg class="i" viewBox="0 0 24 24"><path d="M4 7l6 6 4-4 6 7"/><path d="M15 16h5v-5"/></svg>שורט</button></div></div>
     <div><div class="colhead"><b style="font-weight:500;font-size:15px">כניסות</b><button class="lnk sky" data-addleg="in">+ הוסף כניסה</button></div><div class="legs" id="legs-in"></div><p class="legsum" id="sum-in"></p></div>
     <div><div class="colhead"><b style="font-weight:500;font-size:15px">יציאות</b><button class="lnk sky" data-addleg="out">+ הוסף יציאה</button></div><div class="legs" id="legs-out"></div><p class="legsum" id="sum-out"></p></div>
     <div class="frm2"><div class="fld"><label>המחיר הגבוה ביותר בעסקה <span style="color:var(--faint)">(אופציונלי)</span></label><input class="inp" type="number" placeholder="-"><p class="help">המחיר הגבוה ביותר שהשוק הגיע אליו בזמן שהעסקה הייתה פתוחה</p></div><div class="fld"><label>המחיר הנמוך ביותר בעסקה <span style="color:var(--faint)">(אופציונלי)</span></label><input class="inp" type="number" placeholder="-"><p class="help">המחיר הנמוך ביותר שהשוק הגיע אליו בזמן שהעסקה הייתה פתוחה</p></div></div>
     <div class="comm"><div class="fld"><label>עמלה ($)<span id="commInfo"></span></label><input class="inp" type="number" id="ntComm" value="0.00"><p class="help" id="commHelp"></p></div><button class="lnk sky" id="commBack" hidden style="align-self:flex-start">חזור לחישוב אוטומטי</button></div>
   </div></section>
-  <section class="blk hyp" id="ntHypo">
+  <section class="blk hyp o4" id="ntHypo">
     <div class="bh">${ttl('פוטנציאל העסקה עד הסטופ <span class="opt-tag">אופציונלי</span>',"target","sun")}</div>
     <p class="lead">לאן המחיר הגיע לפני שפגע בסטופ המקורי, גם אם כבר יצאת מהעסקה?</p>
     <p class="note2">זו בדיקה תיאורטית של תנועת המחיר, ולא התוצאה האמיתית של העסקה. הרווח וההפסד בפועל לא משתנים.</p>
@@ -1469,15 +1572,15 @@ function manualView(){
   </section>
   </div>
   <div class="ntcol side2">
-  <div class="pnlbox" id="ntPnl"><span class="ico" style="--c:var(--c-sky)"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M8.5 7.5h7M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01"/></svg></span><div><small>רווח/הפסד מחושב</small><b id="ntPnlV">-</b><span class="pnlhint" id="ntPnlH">יחושב כאן אוטומטית ממחירי הכניסה והיציאה, אחרי עמלה. בחר נכס ומלא מחירים.</span></div></div>
-  <section class="blk"><div class="bh">${ttl("הערכה ומשוב","rules","sun")}</div><div class="frm">
+  <div class="pnlbox o3" id="ntPnl"><span class="ico" style="--c:var(--c-sky)"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M8.5 7.5h7M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01"/></svg></span><div><small>רווח/הפסד מחושב</small><b id="ntPnlV">-</b><span class="pnlhint" id="ntPnlH">יחושב כאן אוטומטית ממחירי הכניסה והיציאה, אחרי עמלה. בחר נכס ומלא מחירים.</span></div></div>
+  <section class="blk o5"><div class="bh">${ttl("הערכה ומשוב","rules","sun")}</div><div class="frm">
     <div class="fld"><div class="colhead"><label>דירוג עסקה</label></div><div class="dirt gradet">${["A","B","C"].map(g=>`<button class="${g} ${NT.grade===g?"on":""}" data-ntgrade="${g}">${g}</button>`).join("")}</div></div>
     <div id="ntStratCol"></div>
     <div id="ntTagCol"></div>
     <div class="fld"><div class="colhead"><label>צילום מסך <span style="color:var(--faint)">(אופציונלי)</span></label></div><div id="ntShot"></div></div>
     <div class="fld"><div class="colhead"><label for="ntNote">הערות</label></div><textarea class="inp" id="ntNote" placeholder="מה למדת מהעסקה הזאת?" style="min-height:96px"></textarea></div>
   </div></section>
-  <button class="submit" id="ntSave">שמור עסקה</button>
+  <button class="submit o6" id="ntSave">שמור עסקה</button>
   </div></div>`;
 }
 function manageList(help,rows){return `<div class="mlist"><p>${help}</p>${rows}</div>`;}
@@ -1527,9 +1630,9 @@ function calcNT(){
   $("commInfo").innerHTML="";$("commHelp").textContent=a?`חישוב אוטומטי: ${rate}$ RT × ${contracts||1} חוזים${a.micro?" (מיקרו)":""} · ניתן לשנות ידנית`:"";
   if(!NT.commManual)$("ntComm").value=a?(rate*(contracts||1)).toFixed(2):"0.00";
   $("commBack").hidden=!NT.commManual;
-  const box=$("ntPnl");if(!(a&&I&&O)){box.className="pnlbox";$("ntPnlV").className="";$("ntPnlV").textContent="-";robotoDigits($("content"));return;}
+  const box=$("ntPnl");if(!(a&&I&&O)){box.className="pnlbox o3";$("ntPnlV").className="";$("ntPnlV").textContent="-";robotoDigits($("content"));return;}
   const pnl=(O.avg-I.avg)*NT.dir*a.mult*Math.min(I.q,O.q)-(+$("ntComm").value||0);
-  box.className="pnlbox "+(pnl>=0?"up":"dn");$("ntPnlV").className=pnl>=0?"up":"dn";$("ntPnlV").textContent="$"+(pnl<0?"-":"")+fmt(pnl);
+  box.className="pnlbox o3 "+(pnl>=0?"up":"dn");$("ntPnlV").className=pnl>=0?"up":"dn";$("ntPnlV").textContent="$"+(pnl<0?"-":"")+fmt(pnl);
   robotoDigits($("content"));
 }
 function saveNT(){
@@ -1561,7 +1664,7 @@ function importView(){
     <section class="blk tuts"><div class="bh">${ttl("בואו תלמדו איך לייצא עסקאות","cal","orchid").replace(ICO.cal,'<circle cx="12" cy="12" r="8.5"/><path d="M10 9l5 3-5 3z"/>')}</div>
       <p class="tsub">סרטוני הדרכה קצרים שיראו לכם בדיוק איפה למצוא את קובץ ה-CSV</p>
       <div class="vgrid">${VIDS.map(v=>`<button class="vcard" data-video="${v.k}"><span class="vth"><img src="assets/${v.img}" alt="" loading="lazy"><span class="vplay"><svg class="i" viewBox="0 0 24 24" style="width:24px;height:24px"><path d="M8 6l10 6-10 6z"/></svg></span></span><span class="vtx"><span class="vchip en">${v.k}</span><b>${v.title}</b><small>ייצוא מ-<span class="en">${v.k}</span> · <span class="en">Noam Antar</span></small></span></button>`).join("")}</div></section>
-    <section class="promo"><span class="ico" style="--c:var(--c-violet)"><svg class="i" viewBox="0 0 24 24"><path d="M9 3.5h6M10 3.5v6L4.8 18a1.8 1.8 0 0 0 1.6 2.6h11.2a1.8 1.8 0 0 0 1.6-2.6L14 9.5v-6"/><path d="M7.5 14.5h9"/></svg></span><div class="tx"><span class="badge tag">חדש</span><h3>מעבדת אסטרטגיות · <span class="en" style="font-weight:500">TradingView Webhook</span></h3><p>לבחינת אסטרטגיות ואינדיקטורים בזמן אמת (פורוורד-טסט). האיתותים נשמרים בנפרד ולא נכנסים ליומן העסקאות האמיתי, ליעדים או לחוקי ה-Prop Firm.</p><span><button class="btn2 ghostb" data-lab style="margin-top:4px">פתח את המעבדה</button></span></div></section>`;
+    <section class="promo"><span class="ico" style="--c:var(--c-violet)"><svg class="i" viewBox="0 0 24 24"><path d="M9 3.5h6M10 3.5v6L4.8 18a1.8 1.8 0 0 0 1.6 2.6h11.2a1.8 1.8 0 0 0 1.6-2.6L14 9.5v-6"/><path d="M7.5 14.5h9"/></svg></span><div class="tx"><h3><span class="badge">חדש</span>מעבדת אסטרטגיות · <span class="en" style="font-weight:500">TradingView Webhook</span></h3><p>לבחינת אסטרטגיות ואינדיקטורים בזמן אמת (פורוורד-טסט). האיתותים נשמרים בנפרד ולא נכנסים ליומן העסקאות האמיתי, ליעדים או לחוקי ה-Prop Firm.</p><span><button class="btn2 ghostb" data-lab style="margin-top:4px">פתח את המעבדה</button></span></div></section>`;
   } else if(IMP.step===2){
     const rows=impRows(),keys=impKeys(),cnt=k=>rows.filter(r=>r.key===k).length,allMapped=keys.every(k=>IMP.map[k]);
     body=`<section class="blk"><p style="margin:0;font-size:14px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center">${IMP.files.length} קבצים <span class="badge">${rows.length+6} ${IMP.src==="Tradovate"?"עסקאות":IMP.src==="ATAS"?"שורות":"ביצועים"}</span><span class="badge">${rows.length} עסקאות</span></p>
@@ -1590,7 +1693,7 @@ function importView(){
 }
 function impUpload(){
   const n=IMP.files.reduce((s,f)=>s+f.n,0);
-  return `<div id="impUp" style="text-align:right;display:flex;flex-direction:column;gap:12px;margin-top:18px;scroll-margin-top:90px">
+  return `<div style="text-align:right;display:flex;flex-direction:column;gap:12px;margin-top:18px">
   ${IMP.src==="Tradovate"?`<div><h3 style="display:flex;gap:8px;align-items:center;margin-bottom:4px"><svg class="i" viewBox="0 0 24 24" style="color:var(--sky)"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg>סנכרון אוטומטי דרך <span class="en" style="font-weight:500">Tradovate API</span></h3><p class="meta2" style="margin:0 0 10px">מושך עסקאות חדשות אוטומטית. עובד גם לחשבונות Prop Firm (AntarTrade שותפה רשמית).</p>${syncCard()}</div><div class="or"><span>או ייבוא קובץ CSV</span></div>`:""}
   <p style="margin:0;font-size:14px;color:var(--muted)">${SRC[IMP.src][1]}</p><p class="meta2" style="margin:0">ניתן להעלות עד 3 קבצים בו-זמנית</p>
   ${IMP.files.length?`<div class="flist2">${IMP.files.map((f,i)=>`<div class="frow"><svg class="i" viewBox="0 0 24 24" style="color:var(--sky)"><path d="M7 3.5h7l4.5 4.5v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z"/><path d="M14 3.5V8h4.5M9 13h6M9 16.5h4"/></svg><span class="nm en" style="font-weight:400">${f.name}</span><span class="badge">${f.n} עסקאות</span><button class="trash" data-rmfile="${i}" aria-label="הסר קובץ">${XI}</button></div>`).join("")}</div>`:""}
@@ -1694,7 +1797,7 @@ document.addEventListener("click",e=>{
     (!$("dlg2").hidden?$("dlg2"):$("dlg")).hidden=true;toast("חשבון נוצר בהצלחה!");if(NT.tab==="manual")renderAccCol();else newView();return;}
   if(q("[data-newasset]")){newAssetDlg();return;}
   if(q("[data-createasset]")){const s2=$("naSym").value.trim().toUpperCase();ASSETS.push({sym:s2,name:$("naSName").value,tick:+$("naTick").value,tv:+$("naTv").value,mult:+$("naMult").value||(+$("naTv").value/+$("naTick").value),custom:true});NT.asset=s2;$("dlg").hidden=true;toast("נכס נוצר בהצלחה!");renderAssetCol();calcNT();return;}
-  if(x=q("[data-src]")){IMP.src=x.dataset.src;IMP.files=[];newView();requestAnimationFrame(()=>{const u=$("impUp");if(!u)return;const z=u.querySelector("[data-impfile]")||u;if(z.getBoundingClientRect().bottom>innerHeight-110)u.scrollIntoView({behavior:"smooth",block:"start"});});return;}
+  if(x=q("[data-src]")){IMP.src=x.dataset.src;IMP.files=[];newView();return;}
   if(q("[data-impfile]")){$("impIn").click();return;}
   if(x=q("[data-rmfile]")){IMP.files.splice(+x.dataset.rmfile,1);newView();return;}
   if(x=q("[data-impnext]")){IMP.step=+x.dataset.impnext;newView();scrollTo(0,0);return;}
@@ -1841,4 +1944,70 @@ new IntersectionObserver(([e])=>$("fchip").classList.toggle("show",!e.isIntersec
 document.body.classList.add("pg-"+S.page);if(S.page!=="dash")setTimeout(()=>setPage(S.page));
 render();
 robotoDigits(document.body);
+</script>
+
+<script>
+/* ---- streak sketch: every value here comes from data the journal already has (the challenge's rules and its violations per day) ---- */
+(()=>{
+const $$=id=>document.getElementById(id);
+const IC={
+ sun:'<path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4"/><circle cx="12" cy="12" r="3.5"/>',
+ target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>',
+ shield:'<path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/>',
+ alert:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',
+ star:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.9z"/>',
+ moon:'<path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z"/>'};
+/* the 13 trading days before today: c clean, v a violation, n no trades (neutral: it does not break the streak) */
+const PAST=["c","v","c","c","n","c","c","c","c","n","c","c","c"];
+const ST={
+ before:{icon:"sun",c:"sky",msg:"עוד לא נכנסת היום. התוכנית: עד 3 עסקאות, ועוצרים אחרי 2 הפסדים ברצף.",today:"p",n:9,t:0,l:0},
+ one:{icon:"target",c:"mint",msg:"עסקה ראשונה בפנים, עם סטופ. נשארו לך 2 עסקאות להיום.",today:"p",n:9,t:1,l:0},
+ stopped:{icon:"shield",c:"mint",msg:"עצרת אחרי 2 הפסדים, בדיוק לפי הכללים. יום מפסיד עם משמעת לא שובר את הרצף.",today:"p",n:9,t:2,l:2},
+ violation:{icon:"alert",c:"sun",msg:"נפתחה היום עסקה רביעית, מעבר למקסימום של 3. מחר מתחילים רצף חדש.",today:"v",n:0,t:4,l:1},
+ clean:{icon:"star",c:"sun",msg:"יום נקי, ועכשיו 10 ימים ברצף לפי הכללים. ככה עוברים מבחן.",today:"c",n:10,t:3,l:1,party:true},
+ weekend:{icon:"moon",c:"sky",msg:"השוק סגור. 10 ימים נקיים ברצף, זמן טוב לעבור על השבוע.",today:"c",n:10,t:3,l:1}};
+const GOALS=[5,10,20,30,60,90];
+const LET=["א","ב","ג","ד","ה","ו","ש"];
+/* trading days back from today (Mon-Fri) */
+const dayLetters=()=>{const out=[];const d=new Date(2026,10,5);while(out.length<14){const w=d.getDay();if(w>0&&w<6)out.unshift(LET[w]);d.setDate(d.getDate()-1);}return out;};
+const LETS=dayLetters();
+let cur=null;
+const en=t=>t.replace(/\d+/g,n=>`<span class="en">${n}</span>`);
+function set(k){
+  const s=ST[k];const first=cur===null;cur=k;
+  const co=$$("coach");
+  if(first){co.innerHTML=`<div class="av"><img alt="נועם" src="avatar/noam-${k}.webp"></div><div class="bub"><span>${en(s.msg)}</span></div>`;}
+  else{const img=co.querySelector("img"),bub=co.querySelector(".bub");img.classList.add("out");bub.classList.add("swap");
+    setTimeout(()=>{img.src=`avatar/noam-${k}.webp`;bub.querySelector("span").innerHTML=en(s.msg);img.classList.remove("out");bub.classList.remove("swap");},260);}
+  const n=s.n,goal=GOALS.find(g=>g>n)||90,prev=GOALS.filter(g=>g<=n).pop()||0;
+  const nb=$$("stN");nb.textContent=n;$$("stW").textContent=n===1?"יום":"ימים";
+  const left=goal-n;
+  $$("stGoal").textContent=n===0?"כל יום נקי מקדם אותך ליעד הראשון":left===1?"עוד יום אחד ליעד הבא":`עוד ${left} ימים ליעד של ${goal}`;
+  $$("stGoalN").textContent=`${n}/${goal}`;
+  $$("stBar").style.width=Math.max(3,n/goal*100)+"%";
+  const all=[...PAST,s.today];
+  $$("stDays").innerHTML=all.map((x,i)=>`<div class="rs-d ${x}${i===13?" t":""}"><i></i><small>${i===13?"היום":LETS[i]}</small></div>`).join("");
+  const pips=(id,v,max,bad)=>{$$(id).innerHTML=Array.from({length:Math.max(max,v)},(_,i)=>`<i class="${i<v?(i>=max||bad?"bad":"on"):""}"></i>`).join("");};
+  $$("tdT").innerHTML=`${s.t} <em>/ 3</em>`;pips("tdTp",s.t,3,false);
+  $$("tdL").innerHTML=`${s.l} <em>/ 2</em>`;pips("tdLp",s.l,2,s.l>=2);
+  if(s.party&&!first){const av=co.querySelector(".av");av.classList.remove("jump");void av.offsetWidth;av.classList.add("jump");nb.classList.add("pop");setTimeout(()=>nb.classList.remove("pop"),500);confetti();}
+}
+/* confetti in the site's blues with a little mint and gold, from both top corners */
+function confetti(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const cv=$$("confetti"),dpr=Math.min(2,devicePixelRatio||1);cv.hidden=false;
+  const W=cv.width=innerWidth*dpr,H=cv.height=innerHeight*dpr,ctx=cv.getContext("2d");
+  const COL=["#7DC6FF","#4F6BFF","#3fd8c2","#f7c65a","#eef3fa","#61b1f2"];
+  const P=[];for(let i=0;i<170;i++){const l=i%2===0;P.push({x:(l?.08:.92)*W,y:H*.32,vx:(l?1:-1)*(4+Math.random()*9)*dpr,vy:(-11-Math.random()*9)*dpr,r:Math.random()*6.3,vr:(Math.random()-.5)*.3,w:(6+Math.random()*6)*dpr,h:(3+Math.random()*4)*dpr,c:COL[i%COL.length],o:1});}
+  const t0=performance.now();
+  const tick=t=>{ctx.clearRect(0,0,W,H);const el=t-t0;
+    P.forEach(p=>{p.vy+=.32*dpr;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;if(el>1800)p.o=Math.max(0,p.o-.025);
+      ctx.save();ctx.globalAlpha=p.o;ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h*Math.abs(Math.cos(p.r*2)));ctx.restore();});
+    if(el<3400)requestAnimationFrame(tick);else{ctx.clearRect(0,0,W,H);cv.hidden=true;}};
+  requestAnimationFrame(tick);
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".demo2 [data-st]");if(!b)return;document.querySelectorAll(".demo2 [data-st]").forEach(x=>x.classList.toggle("on",x===b));set(b.dataset.st);});
+["before","one","stopped","violation","clean","weekend"].forEach(k=>{const i=new Image();i.src=`avatar/noam-${k}.webp`;});
+set("before");
+})();
 </script>
