@@ -19,7 +19,7 @@ const nameErr=v=>{const t=v.trim();return t.length<2||!HEB.test(t)?"יש להז�
 const esc=v=>String(v).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 /* mode: login | signup | forgot | sent */
-const A={mode:"login",email:"",pw:"",name:"",nameErr:null,terms:false,show:false,busy:false,gbusy:false};
+const A={side:"b",mode:"login",email:"",pw:"",name:"",nameErr:null,terms:false,show:false,busy:false,gbusy:false};
 
 const en=t=>t.replace(/(P&L|Apex|Take Profit|Lucid Trading|Google|AntarTrade)/g,'<span class="en">$1</span>');
 function card(){
@@ -52,16 +52,25 @@ function card(){
     <div class="rpflds">${f}</div>
     <button class="btn2 rpgo" type="submit" ${goOff?"disabled":""}>${goTxt}</button>
     ${forgot?"":`<p class="au-or">או</p><button type="button" class="au-google" data-augoogle ${A.gbusy?"disabled":""}>${GOOGLE}<span>${A.gbusy?"מתחבר...":en("התחבר עם Google")}</span></button>`}
+    ${inCard()}
     <p class="au-swap">${forgot?`<button type="button" class="au-link" data-aumode="login">חזרה להתחברות</button>`:`${login?"אין לך חשבון?":"כבר יש לך חשבון?"} <button type="button" class="au-link" data-aumode="${login?"signup":"login"}">${login?"הירשם":"התחבר"}</button>`}</p>
   </form>`;
 }
+/* the left side, four ways to choose from (Roni didn't like the four containers): a no side, b the journal itself, c one panel, d inside the card */
+const LEAD="יומן המסחר המתקדם שלך. עקוב, נתח ושפר את הביצועים שלך.";
+const HEAD=`<h2 class="au-h">יומן המסחר המתקדם שלך.<br><span>עקוב, נתח ושפר את הביצועים שלך.</span></h2>`;
 function side(){
-  return `<div class="au-side"><p class="lead">יומן המסחר המתקדם שלך. עקוב, נתח ושפר את הביצועים שלך.</p>
-    ${FEATS.map(([k,t,d])=>`<div class="au-feat"><span class="ico">${SV(AI[k])}</span><div><b>${t}</b><small>${en(d)}</small></div></div>`).join("")}</div>`;
+  if(A.side==="a"||A.side==="d") return "";
+  if(A.side==="b") return `<div class="au-side au-sb">${HEAD}<div class="au-shot"><img src="assets/auth-dash.webp" alt="יומן המסחר"></div>
+    <div class="au-pills">${FEATS.map(([k,t])=>`<span class="au-pill">${SV(AI[k])}${t}</span>`).join("")}</div></div>`;
+  return `<div class="au-side au-sc">${HEAD}<div class="au-panel">${FEATS.map(([k,t,d])=>`<div class="au-pf"><span class="au-pi">${SV(AI[k])}</span><b>${t}</b><small>${en(d)}</small></div>`).join("")}</div></div>`;
 }
+const inCard=()=>A.side==="d"?`<div class="au-mini">${FEATS.map(([k,t])=>`<span>${SV(AI[k])}${t}</span>`).join("")}</div>`:"";
 function draw(focusId){
   const w=$("auWrap");if(!w)return;
   w.innerHTML=card()+side();
+  w.dataset.side=A.side;
+  document.querySelectorAll("#au [data-ausd]").forEach(b=>b.classList.toggle("on",b.dataset.ausd===A.side));
   document.querySelectorAll("#au [data-aust]").forEach(b=>b.classList.toggle("on",b.dataset.aust===A.mode));
   if(focusId){const el=$(focusId);if(el){el.focus();const n=el.value.length;try{el.setSelectionRange(n,n);}catch(_){}}}
 }
@@ -74,7 +83,7 @@ const mount=()=>{
     <div class="rpbg" aria-hidden="true"><img class="sc" src="assets/deals-bg.webp" alt=""></div>
     <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
     <div class="au-wrap" id="auWrap"></div>
-    <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-aust="login">התחברות</button><button data-aust="signup">הרשמה</button><button data-aust="forgot">שכחת סיסמה</button><button data-aust="sent">בדוק את המייל</button><button data-aust="unverified">מייל לא אומת</button></div>
+    <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-aust="login">התחברות</button><button data-aust="signup">הרשמה</button><button data-aust="forgot">שכחת סיסמה</button><button data-aust="sent">בדוק את המייל</button><button data-aust="unverified">מייל לא אומת</button><span class="sep"></span><small>צד:</small><button data-ausd="a">בלי</button><button data-ausd="b">היומן עצמו</button><button data-ausd="c">פאנל אחד</button><button data-ausd="d">בתוך הכרטיס</button></div>
   </section>`;
   const rp=$("rp");if(rp)rp.insertAdjacentHTML("afterend",html);else document.body.insertAdjacentHTML("beforeend",html);
   draw();
@@ -106,6 +115,7 @@ document.addEventListener("click",e=>{
     if(x.dataset.aust==="unverified"){go("login");if(!A.email)A.email="trader@gmail.com";if(!A.pw)A.pw="123456";draw();toast("שגיאה","המייל שלך עדיין לא אומת. בדוק את תיבת הדואר שלך ולחץ על קישור האימות.",true);return;}
     if(x.dataset.aust==="sent"&&!A.email)A.email="your@email.com";
     go(x.dataset.aust);return;}
+  if(x=q("[data-ausd]")){A.side=x.dataset.ausd;draw();return;}
   if(x=q("[data-aumode]")){go(x.dataset.aumode);return;}
   if(q("[data-aueye]")){A.show=!A.show;draw("auPw");return;}
   if(q("[data-augoogle]")){if(A.gbusy)return;A.gbusy=true;draw();setTimeout(()=>{A.gbusy=false;setPage("dash");},1200);return;}
