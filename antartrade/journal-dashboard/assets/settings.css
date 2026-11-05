@@ -4,6 +4,8 @@ body.pg-settings .dashonly,body.pg-settings #filters,body.pg-settings #kpis,body
 
 /* the demo bar's admin switch shows on this page only */
 body:not(.pg-settings) .demo .st-demo{display:none}
+/* phones: the mock's demo bar covers this page, so it stays out of the way here */
+@media (max-width:900px){body.pg-settings .demo{display:none!important}}
 
 /* tabs: the journal's segment, one row; on phones it scrolls sideways instead of shrinking the words */
 .st-tabs{margin:0 0 16px;max-width:100%;overflow-x:auto;scrollbar-width:none}
