@@ -28,19 +28,30 @@ body:not(.pg-settings) .demo .st-demo{display:none}
 .btn2:disabled{opacity:.6;cursor:default}
 .inp:disabled{color:var(--muted);cursor:default}
 
-/* accounts: one card per account, two side by side */
-.st-accs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
-.st-acc{margin-top:0;display:flex;flex-direction:column;gap:12px}
-.st-acchd{display:flex;align-items:flex-start;gap:12px}
-.st-acchd .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
-.st-acchd b{font-weight:500;font-size:16px}
-.st-acchd small{font-size:13px;color:var(--muted);line-height:1.5}
-.st-acchd .ib{flex:none;margin:-4px -6px 0 0}
-.st-acchd .ib:hover{color:var(--loss)}
+/* accounts: one block, a row per account; a tap opens that account's settings under its row */
+.st-list{display:flex;flex-direction:column;gap:8px;padding:16px}
+.st-acc{border-radius:18px;background:#12161f;transition:background .2s}
+.st-acc.open{background:#141925}
+.st-row{display:flex;align-items:center;gap:6px;padding:6px 6px 6px 10px}
+.st-rowbtn{flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:8px;border:0;background:none;color:var(--fg);font:inherit;text-align:right;cursor:pointer;border-radius:14px}
+.st-rowbtn .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.st-rowbtn b{font-weight:500;font-size:16px}
+.st-rowbtn small{font-size:13px;color:var(--muted);line-height:1.5}
+.st-chev{width:18px;height:18px;color:var(--muted);flex:none;transition:transform .25s}
+.st-acc.open .st-chev{transform:rotate(180deg)}
+.st-flag{background:rgba(125,198,255,.12);color:var(--sky);flex:none}
+.st-flag.off{background:rgba(255,255,255,.06);color:var(--muted)}
+.st-row .ib:hover{color:var(--loss)}
+.st-body{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;padding:0 16px 16px;align-items:start}
+.st-side{display:flex;flex-direction:column;gap:12px}
+.st-body .tile{background:#0b0e14}
+.st-body .tile .inp{background:#12161f}
+.st-body .tile .btn2.ghostb{background:#12161f!important}
+.st-body .st-promo{background:rgba(125,198,255,.08)}
 .tile.st-peak{display:flex;flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap}
 .st-peak .l{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--fg);white-space:nowrap}
 .st-peak .l svg{width:16px;height:16px;color:var(--muted)}
-.st-peak .inp{width:150px;flex:none}
+.st-peak .inp{flex:1 1 120px;width:auto;min-width:0}
 .st-com{display:flex;flex-direction:column;gap:12px}
 .st-comhd{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .st-comhd .l{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
@@ -97,10 +108,15 @@ body:not(.pg-settings) .demo .st-demo{display:none}
 .st-sk .sk{height:46px}
 
 @media (max-width:900px){
-  .st-grid,.st-accs{grid-template-columns:minmax(0,1fr)}
+  .st-grid{grid-template-columns:minmax(0,1fr)}
+  .st-body{grid-template-columns:minmax(0,1fr);padding:0 10px 12px}
+  .st-list{padding:10px}
+  .st-row{padding:4px 4px 4px 6px}
+  .st-rowbtn{gap:10px;padding:6px}
+  .st-rowbtn .ico{display:none}
+  .st-flag{display:none}
   .st-tabs{width:100%}
   .st-goals{grid-template-columns:minmax(0,1fr)}
-  .st-peak .inp{flex:1 1 140px;width:auto;min-width:0}
   .st-peak .l{flex-basis:100%}
   .st-tbl{display:none}
   .st-cards{display:flex;flex-direction:column;gap:8px}

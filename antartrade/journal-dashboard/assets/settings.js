@@ -37,7 +37,7 @@ const promoOf=a=>{const f=(a.firm||"").toLowerCase();const p=PROMO.find(([k])=>f
 const GLOBAL=[["CL","Crude Oil","0.01","10","1000","NYMEX"],["ES","E-mini S&P 500","0.25","12.5","50","CME"],["GC","Gold","0.1","10","100","COMEX"],["MES","Micro E-mini S&P 500","0.25","1.25","5","CME"],["MNQ","Micro E-mini NASDAQ 100","0.25","0.5","2","CME"],["NQ","E-mini NASDAQ 100","0.25","5","20","CME"]];
 
 /* the page's own state; "full" = a trader with accounts, "empty" = a new user */
-const T={tab:"profile",admin:false,mode:null,name:"",acc:[],gone:new Set(),custom:[],goals:{}};
+const T={tab:"profile",open:null,admin:false,mode:null,name:"",acc:[],gone:new Set(),custom:[],goals:{}};
 const seed=()=>{
   T.mode=S.mode;T.gone=new Set();
   const full=S.mode!=="empty";
@@ -76,13 +76,18 @@ function accCard(a){
     <div class="btns"><button class="btn2 ghostb" data-stsave="acccom" data-id="${a.id}">שמור עמלות</button><button class="btn3" data-strecalc="${a.id}">${SV(I.redo)}חשב מחדש עסקאות קיימות</button></div>
     <p class="st-hint">השאר ריק כדי להשתמש בברירת המחדל מהפרופיל (4$ מיני / 1.2$ מיקרו).</p></div>`;
   const pr=promo?`<div class="st-promo"><span>צריך מבחן?</span><button class="st-code" data-stcode>ANTAR${SV(I.copy)}</button><a href="https://antartrade.co.il/${promo}?utm_source=journal&utm_medium=app" target="_blank" rel="noopener">הנחה בלעדית${SV(I.out)}</a></div>`:"";
-  return `<section class="blk st-acc"><div class="st-acchd">${sico("acc","sky")}<div class="tx"><b>${en(a.name)}</b><small>${sub}</small></div><button class="ib" data-stdelacc="${a.id}" aria-label="מחיקת חשבון">${SV(I.trash,"width:18px;height:18px")}</button></div>${peak}${com}${pr}</section>`;
+  /* one row per account; a tap opens its peak, commissions and code, one account at a time */
+  const on=T.open===a.id,custom=x.on&&(x.mini!==""||x.micro!=="");
+  const flag=!x.on?'<span class="pill st-flag off">עמלות מבוטלות</span>':custom?'<span class="pill st-flag">עמלה מותאמת</span>':"";
+  return `<div class="st-acc${on?" open":""}"><div class="st-row"><button class="st-rowbtn" data-stopen="${a.id}" aria-expanded="${on}">${sico("acc","sky")}<span class="tx"><b>${en(a.name)}</b><small>${sub}</small></span>${flag}<svg class="i st-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><button class="ib" data-stdelacc="${a.id}" aria-label="מחיקת חשבון">${SV(I.trash,"width:18px;height:18px")}</button></div>
+    ${on?`<div class="st-body">${com}<div class="st-side">${peak}${pr}</div></div>`:""}</div>`;
 }
 function accountsTab(){
   const list=accs();
   const add=`<button class="btn2 st-add" data-stnewacc>${SV('<circle cx="12" cy="12" r="8.5"/><path d="M12 8.5v7M8.5 12h7"/>',"width:16px;height:16px")}הוסף חשבון חדש</button>`;
   if(!list.length)return `<section class="blk"><div class="st-empty">${SV(I.acc)}<span>אין חשבונות עדיין</span>${add}</div></section>`;
-  return `<div class="st-accs">${list.map(accCard).join("")}</div>${add}`;
+  if(T.open===null||!list.some(a=>a.id===T.open))T.open=T.open===""?"":list[0].id;
+  return `<section class="blk st-list">${list.map(accCard).join("")}</section>${add}`;
 }
 
 function goalsTab(){
@@ -152,6 +157,9 @@ document.addEventListener("click",e=>{
       if(bad(a)||bad(b)){toast("ערכים לא תקינים","",true);return;}if(mi)st(id).mini=mi.value;if(mc)st(id).micro=mc.value;saved(x,"","נשמר!","הגדרות העמלות עודכנו");return;}
     if(k==="goals"){T.goals={p:$("stGp").value,l:$("stGl").value,n:$("stGn").value};saved(x,"","נשמר!","היעדים עודכנו בהצלחה");return;}
     return;}
+  /* the tapped row stays under the finger while the account above it closes */
+  if(x=q("[data-stopen]")){const id=x.dataset.stopen,top=x.getBoundingClientRect().top;T.open=T.open===id?"":id;view();
+    const n=document.querySelector(`[data-stopen="${id}"]`);if(n){const d=n.getBoundingClientRect().top-top;if(Math.abs(d)>1)scrollBy(0,d);}return;}
   if(x=q("[data-stsw]")){const s=st(x.dataset.stsw);
     document.querySelectorAll(`[data-stmini="${x.dataset.stsw}"],[data-stmicro="${x.dataset.stsw}"]`).forEach(i=>{if(i.dataset.stmini)s.mini=i.value;else s.micro=i.value;});
     s.on=!s.on;view();return;}
@@ -184,7 +192,7 @@ document.addEventListener("click",e=>{
   const sz=document.querySelectorAll("#naTrack select")[1],bal=document.querySelector("#naBalF input");
   const start=personal?(Number(bal&&bal.value)||0):Number(((sz&&sz.options[sz.selectedIndex]?sz.options[sz.selectedIndex].text:"")||"").replace(/[^0-9]/g,""))||50000;
   const id="n"+Date.now();ACCOUNTS.push({id,name:nm,firm,type:"eval",start,track:null,phase:"eval",personal});
-  T.acc.push({id,peak:"",on:true,mini:"",micro:""});
+  T.acc.push({id,peak:"",on:true,mini:"",micro:""});T.open=id;
   (!$("dlg2").hidden?$("dlg2"):$("dlg")).hidden=true;toast("חשבון נוצר בהצלחה!");view();
   const card=document.querySelector(`[data-stdelacc="${id}"]`);if(card)card.closest(".st-acc").scrollIntoView({behavior:"smooth",block:"center"});
 },true);
