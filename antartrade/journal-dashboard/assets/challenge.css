@@ -108,8 +108,9 @@ body.pg-challenge .chonly{display:flex!important}
 .ch-menu[hidden]{display:none}
 .ch-menu button{background:none;border:0;color:var(--fg);font:inherit;font-size:14px;text-align:right;padding:10px 12px;border-radius:10px;cursor:pointer}
 .ch-menu button:hover{background:#12161f}
-.ch-sug{width:100%;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-radius:12px;padding:10px 12px;background:rgba(247,198,90,.10)}
-.ch-sug>span{flex:1;min-width:12rem;font-size:14px;color:#f7c65a}
+/* the journal's one warning look: yellow icon, white text */
+.ch-sug{width:100%;align-items:center;flex-wrap:wrap}
+.ch-sug>span{flex:1;min-width:12rem;font-size:14px;line-height:1.5;color:var(--fg)}
 .ch-sug .btn3{height:36px;color:var(--fg);background:var(--block)}
 .ch-addrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:flex-end}
 .ch-addrow .fld{width:260px}
@@ -118,10 +119,10 @@ body.pg-challenge .chonly{display:flex!important}
 .ch-addrow .btn3:disabled{opacity:.45;cursor:default}
 
 /* rules: every rule in its own tile, the circled check */
+.ch-rules+.promo.ch-key{margin-top:8px}
 .ch-rules{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .ch-rules li{background:var(--block2);border-radius:15px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.55}
 .ch-rules li svg{color:var(--sky);width:18px;height:18px;margin-top:1px}
-.ch-rules li.key{grid-column:1/-1;background:rgba(125,198,255,.08)}
 
 /* joining: what the challenge is, then three numbered steps */
 .ch-join{display:flex;flex-direction:column}
@@ -132,7 +133,9 @@ body.pg-challenge .chonly{display:flex!important}
 .ch-stg>small{font-size:12px;color:var(--faint)}
 .ch-stg>b{font-size:18px;font-weight:500}
 .ch-stg>span{font-size:14px;line-height:1.5;color:var(--muted)}
-.ch-key{margin:12px 0 0;border-radius:16px;padding:16px 18px;background:rgba(125,198,255,.08);font-size:15px;font-weight:500;line-height:1.55}
+/* a rule that is not a warning: the journal's promo box (icon tile, white text) on the navy tile */
+.promo.ch-key{margin:12px 0 0;background:var(--block2);align-items:center}
+.ch-key .tx p{margin:0;font-size:15px;line-height:1.6;color:var(--fg)}
 .ch-small{margin:12px 0 0;font-size:14px;line-height:1.6;color:var(--muted)}
 .ch-step .bh{align-items:flex-start}
 .ch-step .sttl{display:flex;align-items:flex-start;gap:14px}
@@ -161,11 +164,65 @@ body.pg-challenge .chonly{display:flex!important}
 .ch-go .btn2:disabled{opacity:.4;cursor:default}
 .ch-go small{font-size:13px;color:var(--faint)}
 
+/* the trophy after the page title: the menu's own drawing in its sun, no tile */
+.ch-trophy{display:inline-block;width:.8em;height:.8em;margin-inline-start:.22em;vertical-align:-.06em;-webkit-text-fill-color:initial}
+.ch-trophy svg{display:block;width:100%;height:100%;fill:none;stroke:var(--c-sun);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* joining feels like a challenge: Noam invites, the 90 days are one path to the trophy, the steps are missions */
+.ch-invite{margin-bottom:16px}
+.ch-path{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 64px;gap:16px;margin:4px 0 26px}
+.ch-line{position:absolute;top:22px;right:22px;left:32px;height:4px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.ch-line i{position:absolute;inset:0;border-radius:99px;background:linear-gradient(270deg,var(--sky),var(--royal) 70%,var(--c-sun))}
+.ch-node{position:relative;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ch-node .n{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#12161f;font-family:var(--en);font-weight:600;font-size:18px;box-shadow:0 0 0 6px var(--block);margin-bottom:8px}
+.ch-node small{font-size:12px;color:var(--faint)}
+.ch-node b{font-size:20px;font-weight:500}
+.ch-node .g{font-size:14px;line-height:1.5;color:var(--muted)}
+.ch-node.end{align-items:flex-start}
+.ch-node.end .n{width:64px;height:64px;margin-top:-8px;background:color-mix(in srgb,var(--c-sun) 16%,#0b0e14);box-shadow:0 0 0 6px var(--block),0 0 36px rgba(247,198,90,.35)}
+.ch-node.end .n svg{width:30px;height:30px;fill:none;stroke:var(--c-sun);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ch-path.anim .ch-line i{animation:chFill 1.6s cubic-bezier(.22,1,.36,1) .2s both;transform-origin:100% 50%}
+.ch-path.anim .ch-node{animation:chRise .6s cubic-bezier(.3,1.4,.5,1) both;animation-delay:calc(var(--d) * .32s)}
+.ch-path.anim .ch-node.end .n{animation:chGlow 1.2s ease 1.6s both}
+@keyframes chFillV{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes chFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes chRise{from{opacity:0;transform:translateY(14px) scale(.92)}to{opacity:1;transform:none}}
+@keyframes chGlow{0%{box-shadow:0 0 0 6px var(--block),0 0 0 rgba(247,198,90,0)}50%{box-shadow:0 0 0 6px var(--block),0 0 60px rgba(247,198,90,.6)}100%{box-shadow:0 0 0 6px var(--block),0 0 36px rgba(247,198,90,.35)}}
+/* missions strip: the three steps, each lights when done */
+.ch-mis{margin-top:16px;background:var(--block);border-radius:24px;padding:18px 24px;display:flex;flex-direction:column;gap:14px}
+.ch-mis-h{display:flex;align-items:baseline;justify-content:space-between}
+.ch-mis-h b{font-size:16px;font-weight:500}
+.ch-mis-h .num{font-weight:600;color:var(--muted)}
+.ch-mis-r{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ch-mis-r a{display:flex;align-items:center;gap:10px;background:var(--block2);border-radius:15px;padding:10px 12px;font-size:14px;color:var(--muted);transition:color .3s}
+.ch-mis-r a.ok{color:var(--fg)}
+.ch-mis-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden;direction:rtl}
+.ch-mis-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(270deg,var(--sky),var(--royal));transition:width .6s cubic-bezier(.22,1,.36,1)}
+.ch-mis-r .n,.ch-step .sttl .n{transition:background .35s,transform .35s cubic-bezier(.3,1.6,.5,1)}
+.ch-mis-r .n{width:26px;height:26px;flex:none;border-radius:50%;display:grid;place-items:center;background:#fff;color:#12161f;font-family:var(--en);font-weight:600;font-size:13px}
+.ch-mis-r .n.ok,.ch-step .sttl .n.ok{background:linear-gradient(135deg,var(--sky),var(--royal));color:#fff}
+.ch-mis-r .n svg,.ch-step .sttl .n svg{width:62%;height:62%;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ch-step{scroll-margin-top:24px}
+/* the join button lights up once every mission is done */
+.ch-go.ready .btn2{box-shadow:0 0 0 6px rgba(125,198,255,.12),0 10px 40px rgba(79,107,255,.45);animation:chReady 2.4s ease-in-out infinite}
+@keyframes chReady{0%,100%{box-shadow:0 0 0 6px rgba(125,198,255,.12),0 10px 40px rgba(79,107,255,.35)}50%{box-shadow:0 0 0 9px rgba(125,198,255,.16),0 10px 50px rgba(79,107,255,.6)}}
+.ch-confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90}
+@media (prefers-reduced-motion:reduce){.ch-path.anim .ch-line i,.ch-path.anim .ch-node,.ch-path.anim .ch-node.end .n,.ch-go.ready .btn2{animation:none}}
+
 /* mock-only switch */
 .demo3{bottom:72px}
 
 @media (max-width:1100px){.ch-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.ch-snap .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
+  /* phones: the path runs down the right side */
+  .ch-path{grid-template-columns:minmax(0,1fr);gap:18px;padding-right:62px}
+  .ch-line{top:8px;bottom:30px;right:22px;left:auto;width:4px;height:auto}
+  .ch-line i{background:linear-gradient(180deg,var(--sky),var(--royal) 70%,var(--c-sun))}
+  .ch-path.anim .ch-line i{animation-name:chFillV;transform-origin:50% 0}
+  .ch-node .n{position:absolute;right:-62px;top:-4px;width:44px;height:44px;font-size:16px;margin:0}
+  .ch-node.end{min-height:56px}.ch-node.end .n{width:52px;height:52px;right:-66px;top:0;margin:0}
+  .ch-node b{font-size:18px}
+  .ch-mis{padding:16px}.ch-mis-r{grid-template-columns:minmax(0,1fr);gap:6px}
   .ch-coach{margin-top:30px;min-height:112px}.ch-coach .av{width:132px;margin-top:-26px}.ch-coach .av img{width:128px;right:2px}.ch-coach .bub{padding:16px 2px 16px 16px}.ch-coach .bub span{font-size:18px}
   .ch-days>b{font-size:45px}.ch-stage b{font-size:22px}
   .ch-ph{align-items:flex-start}

@@ -9,6 +9,7 @@ const CI={
  alert:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',
  accs:'<rect x="3.5" y="5" width="17" height="14" rx="3"/><path d="M3.5 10h17M7.5 15h3"/>',
  check:'<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/>',
+ pen:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>',
  ext:'<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
  calc:'<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/>',
  tag:'<path d="M3.5 12.5V5a1.5 1.5 0 0 1 1.5-1.5h7.5l8 8-9 9z"/><circle cx="8" cy="8" r="1.4"/>',
@@ -74,13 +75,13 @@ const SAMPLES={
     recs:[{id:"try_target",target:1.5,title:"אפשר לנסות יעד 1:1.5",text:"הכלל של האתגר נשאר 1:1. אם תבחר לנסות 1:1.5 ב-30 הימים הבאים, נבדוק את זה בתמונת המצב הבאה.",because:"כי ב-30 הימים האחרונים, ב-46 עסקאות עם נתון \"עד הסטופ\", יעד 1:1.5 היה נותן +11R לעומת +8R ב-1:1."},
           {id:"fewer",title:"פחות עסקאות, איכותיות יותר",text:"העמלות אוכלות חלק גדול מהרווח. לוותר על העסקאות הבינוניות.",because:"כי ב-30 הימים האחרונים העמלות היו $214, 8% מהרווח לפני עמלות ($2,674)."}]}]}};
 
-let C={view:"join",noam:true,showAll:false,sel:[],risk:"",maxT:"3",maxL:"2",ok:false,oldOpen:false,menu:null,toLink:"",adopted:false};
+let C={anim:false,view:"join",noam:true,showAll:false,sel:[],risk:"",maxT:"3",maxL:"2",ok:false,oldOpen:false,menu:null,toLink:"",adopted:false};
 let SMP=JSON.parse(JSON.stringify(SAMPLES));
 
 /* ---- dashboard ---- */
 function coach(v){
   if(!C.noam)return "";
-  return `<div class="coach ch-coach"><div class="av"><img alt="נועם" src="avatar/noam-${v.av}.webp"></div><div class="bub"><small>נועם ענתר</small><span>${headline(v.out)}</span></div></div>`;}
+  return `<div class="ch-coach"><div class="av"><img alt="נועם" src="avatar/noam-${v.av}.webp"></div><div class="bub"><small>נועם ענתר</small><span>${headline(v.out)}</span></div></div>`;}
 function progress(v){
   const st=STAGES[v.stage],segs=[1,2,3].map(n=>{
     const from=(n-1)*30,fill=Math.min(Math.max((v.day-from)/30,0),1),cur=v.stage===n;
@@ -135,12 +136,12 @@ function accounts(v){
     const acts=[l.status!=="failed"&&["failed","החשבון נשרף"],l.status!=="passed"&&l.phase==="evaluation"&&["passed","עברתי את המבחן"],l.status!=="closed"&&["closed","סגרתי את החשבון"],l.status!=="active"&&["active","החשבון פעיל"]].filter(Boolean);
     return `<div class="ch-acc"><div class="nm"><b>${l.name}</b><small>${PHASE[l.phase]}${l.ended?` · עד <span class="num">${l.ended}</span>`:""}</small></div><span class="ch-st ${l.status}">${LINK_STATUS[l.status]}</span>
      <div class="upd"><button class="pick" data-chmenu="${l.id}">עדכן${SV(CI.chev,"width:14px;height:14px")}</button><div class="ch-menu"${C.menu===l.id?"":" hidden"}>${acts.map(a=>`<button data-chset="${l.id}:${a[0]}">${a[1]}</button>`).join("")}</div></div>
-     ${l.sug?`<div class="ch-sug"><span>${l.sug.status==="failed"?`לפי העסקאות, החשבון הגיע לסטופ ב-<span class="num">${l.sug.day}</span>.`:`לפי העסקאות, הגעת ליעד המבחן ב-<span class="num">${l.sug.day}</span>.`}</span><button class="btn3" data-chsug="${l.id}">${l.sug.status==="failed"?"נכון, החשבון נשרף":"נכון, עברתי"}</button></div>`:""}</div>`;}).join("");
+     ${l.sug?`<div class="ch-sug warnbox">${SV(CI.alert)}<span>${l.sug.status==="failed"?`לפי העסקאות, החשבון הגיע לסטופ ב-<span class="num">${l.sug.day}</span>.`:`לפי העסקאות, הגעת ליעד המבחן ב-<span class="num">${l.sug.day}</span>.`}</span><button class="btn3" data-chsug="${l.id}">${l.sug.status==="failed"?"נכון, החשבון נשרף":"נכון, עברתי"}</button></div>`:""}</div>`;}).join("");
   const add=`<div class="ch-addrow">${v.unlinked.length?`<div class="fld"><select class="inp" id="chLink"><option value="">הוסף חשבון קיים</option>${v.unlinked.map(n=>`<option>${n}</option>`).join("")}</select></div><button class="btn3" data-chlink>הוסף</button>`:""}<button class="btn3" data-chnew>${SV(CI.plus,"width:16px;height:16px")}<span style="margin-inline-start:6px">פתח חשבון חדש</span></button></div>`;
   return `<section class="blk"><div class="bh">${cttl("החשבונות באתגר","accs","violet")}<span class="hint">חשבון שנשרף נשאר בהיסטוריה. מוסיפים חשבון חדש וממשיכים באותו אתגר.</span></div><div class="ch-accs">${rows}</div>${add}</section>`;}
 function rulesBlk(v){
   const lines=RULE_LINES({...RULES,risk:RULES.riskPerTrade});if(C.adopted)lines.push(`יעד 1:1.5 מ-05.02.2027 (מההכוונה)`);
-  return `<section class="blk"><div class="bh">${cttl("הכללים שלך","shield","sky")}</div><ul class="ch-rules">${lines.map(l=>`<li${l===MANUAL?' class="key"':""}>${SV(CI.check)}<span>${l}</span></li>`).join("")}</ul></section>`;}
+  return `<section class="blk"><div class="bh">${cttl("הכללים שלך","shield","sky")}</div><ul class="ch-rules">${lines.filter(l=>l!==MANUAL).map(l=>`<li>${SV(CI.check)}<span>${l}</span></li>`).join("")}</ul><div class="promo ch-key">${ci("pen","violet")}<div class="tx"><p>${MANUAL}</p></div></div></section>`;}
 function dashView(){
   const v=SMP[C.view];
   return coach(v)+progress(v)+warns(v)+numbers(v)+snapshots(v)+violations(v)+accounts(v)+rulesBlk(v);}
@@ -152,37 +153,57 @@ function joinView(){
   const lims=sel.map(a=>{const t=a.track&&TRACKS[a.track];if(!t)return null;return {name:a.name,dd:t.stop,dll:a.phase==="funded"?t.daily:t.daily};}).filter(Boolean);
   const canJoin=C.sel.length>0&&risk>0&&C.ok;
   const stage=n=>`<div class="ch-stg"><span class="n">${n}</span><small>שלב ${n} · ${STAGES[n].days} בערך</small><b>${STAGES[n].title}</b><span>${STAGES[n].goal}</span></div>`;
+  const TROPHY='<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6"/></svg>';
+  const path=`<div class="ch-path${C.anim?"":" anim"}"><span class="ch-line"><i></i></span>${[1,2,3].map(n=>`<div class="ch-node" style="--d:${n}"><span class="n">${n}</span><small>שלב ${n} · ${STAGES[n].days} בערך</small><b>${STAGES[n].title}</b><span class="g">${STAGES[n].goal}</span></div>`).join("")}<div class="ch-node end" style="--d:4"><span class="n">${TROPHY}</span></div></div>`;
+  const done=[C.sel.length>0,risk>0,C.ok],ndone=done.filter(Boolean).length;
+  const CHK='<svg viewBox="0 0 24 24"><path d="M6.5 12.5l3.5 3.5 7.5-8"/></svg>';
+  const num=(i)=>`<span class="n${done[i]?" ok":""}">${done[i]?CHK:i+1}</span>`;
+  const STEP_T=["החשבונות שלך באתגר","סיכון לעסקה","הכללים"];
+  const strip=`<div class="ch-mis"><div class="ch-mis-h"><b>ההצטרפות</b><span class="num">${ndone}/3</span></div><div class="ch-mis-r">${STEP_T.map((t,i)=>`<a href="#ch-step${i+1}" class="${done[i]?"ok":""}" data-chjump="${i+1}">${num(i)}<span>${t}</span></a>`).join("")}</div><div class="ch-mis-bar"><i style="width:${ndone/3*100}%"></i></div></div>`;
   const disc=`<div class="ch-disc">${SV(CI.tag)}<span>${DISCOUNT}</span><a href="https://antartrade.co.il/promotions" target="_blank" rel="noopener">לדף ההנחות${SV(CI.ext,"width:14px;height:14px")}</a></div>`;
   return `<div class="ch-join">
-  <section class="blk"><div class="bh">${cttl("מה זה האתגר","flag","sun")}</div>
+  ${C.noam?`<div class="ch-coach ch-invite"><div class="av"><img alt="נועם" src="avatar/noam-before.webp"></div><div class="bub"><small>נועם ענתר</small><span>לשרוד, לעבור מבחן מימון ולהגיע למשיכה ראשונה. כל אחד מול עצמו</span></div></div>`:""}
+  <section class="blk ch-hero"><div class="bh">${cttl("מה זה האתגר","flag","sun")}</div>
+   ${path}
    <p class="ch-desc">90 ימי מסחר (כ-18 שבועות) בתוך היומן. המטרה: לשרוד, לעבור מבחן מימון ולהגיע למשיכה ראשונה. הכל מחושב מהעסקאות ביומן. אין טבלת מובילים: כל אחד מול עצמו.</p>
-   <div class="ch-stages">${stage(1)}${stage(2)}${stage(3)}</div>
-   <p class="ch-key">${MANUAL}</p>
+   <div class="promo ch-key">${ci("pen","violet")}<div class="tx"><p>${MANUAL}</p></div></div>
    <p class="ch-small">השלב נקבע לפי מצב החשבון: מי שכבר מחזיק חשבון ממומן מתחיל ישר בשלב 3. יום בלי עסקה מותר ונחשב החלטה ממושמעת. חשבון שנשרף לא מוחק כלום: מוסיפים חשבון חדש וממשיכים באותו אתגר.</p>
   </section>
-  <section class="blk ch-step"><div class="bh"><div class="sttl"><span class="n">1</span><div><h2>החשבונות שלך באתגר</h2><p>אפשר לבחור כמה חשבונות, ולהוסיף עוד בהמשך.</p></div></div></div>
+  ${strip}<section class="blk ch-step" id="ch-step1"><div class="bh"><div class="sttl">${num(0)}<div><h2>החשבונות שלך באתגר</h2><p>אפשר לבחור כמה חשבונות, ולהוסיף עוד בהמשך.</p></div></div></div>
    <div class="ch-pickacc">${accs.map(a=>{const t=a.track&&TRACKS[a.track];const on=C.sel.includes(a.id);return `<label class="${on?"on":""}"><input type="checkbox" class="ck" data-chsel="${a.id}" ${on?"checked":""} aria-label="${a.name}"><span class="nm"><b>${a.name}</b><small>${t?t.label:a.firm}</small></span><span class="tag">${a.phase==="funded"?"ממומן":"מבחן"}</span></label>`;}).join("")}</div>
    <div class="ch-row"><button class="btn3 ghostb" data-chnew>${SV(CI.plus,"width:16px;height:16px")}<span style="margin-inline-start:6px">פתח חשבון חדש</span></button></div>${disc}
   </section>
-  <section class="blk ch-step"><div class="bh"><div class="sttl"><span class="n">2</span><div><h2>סיכון לעסקה</h2><p>כמה דולר אתה מסכן בכל עסקה (מהכניסה עד הסטופ). אין סכום אחיד: קבע לפי החשבון.</p></div></div></div>
+  <section class="blk ch-step" id="ch-step2"><div class="bh"><div class="sttl">${num(1)}<div><h2>סיכון לעסקה</h2><p>כמה דולר אתה מסכן בכל עסקה (מהכניסה עד הסטופ). אין סכום אחיד: קבע לפי החשבון.</p></div></div></div>
    <div class="fld ch-riskf"><label for="chRisk">סיכון לעסקה ($)</label><input class="inp" id="chRisk" type="number" inputmode="decimal" min="1" dir="ltr" value="${C.risk}" placeholder="250"></div>
    ${lims.length?`<ul class="ch-lims">${lims.map(l=>`<li><b class="en">${l.name}</b>: סטופ כללי <b class="num">$${l.dd.toLocaleString("en-US")}</b>${l.dll?`, סטופ יומי <b class="num">$${l.dll.toLocaleString("en-US")}</b>`:""}${risk>0&&l.dll?` · ${Math.floor(l.dll/risk)} הפסדים מלאים עד הסטופ היומי`:""}</li>`).join("")}</ul>`:""}
    <div class="ch-row"><a class="btn3 ghostb ch-ext" href="https://antartrade.co.il/calculators/payout-odds" target="_blank" rel="noopener">${SV(CI.calc,"width:16px;height:16px")}בדוק את הסיכוי שלך למשיכה${SV(CI.ext,"width:14px;height:14px")}</a></div>
   </section>
-  <section class="blk ch-step"><div class="bh"><div class="sttl"><span class="n">3</span><div><h2>הכללים</h2><p>אלה כללי ברירת המחדל. אפשר להחמיר, לא להקל.</p></div></div></div>
-   <ul class="ch-rules">${RULE_LINES({maxDailyTrades:+C.maxT,maxConsecutiveLosses:+C.maxL,minRr:1,risk:risk||null}).map(l=>`<li${l===MANUAL?' class="key"':""}>${SV(CI.check)}<span>${l}</span></li>`).join("")}</ul>
+  <section class="blk ch-step" id="ch-step3"><div class="bh"><div class="sttl">${num(2)}<div><h2>הכללים</h2><p>אלה כללי ברירת המחדל. אפשר להחמיר, לא להקל.</p></div></div></div>
+   <ul class="ch-rules">${RULE_LINES({maxDailyTrades:+C.maxT,maxConsecutiveLosses:+C.maxL,minRr:1,risk:risk||null}).filter(l=>l!==MANUAL).map(l=>`<li>${SV(CI.check)}<span>${l}</span></li>`).join("")}</ul><div class="promo ch-key">${ci("pen","violet")}<div class="tx"><p>${MANUAL}</p></div></div>
    <div class="ch-sel2"><div class="fld"><label>עסקאות ביום</label><select class="inp" id="chMaxT">${["3","2","1"].map(x=>`<option value="${x}"${x===C.maxT?" selected":""}>עד ${x}</option>`).join("")}</select></div><div class="fld"><label>עצירה אחרי הפסדים רצופים</label><select class="inp" id="chMaxL">${["2","1"].map(x=>`<option value="${x}"${x===C.maxL?" selected":""}>${x}</option>`).join("")}</select></div></div>
    <p class="hint2" style="margin-top:12px">יחס סיכון-סיכוי קבוע 1:1 לכולם בהתחלה. אחרי 30 ימי מסחר, אם הנתונים שלך מראים שיעד גבוה יותר עדיף, האתגר יציע אותו.</p>
    <label class="ch-accept"><input type="checkbox" class="ck" id="chOk" ${C.ok?"checked":""} aria-label="אני מאשר את הכללים">קראתי ואני מתחייב לכללי האתגר</label>
-   <div class="ch-go"><button class="btn2" data-chjoin ${canJoin?"":"disabled"}>הצטרף לאתגר. היום הוא יום 1</button>${canJoin?"":`<small>${C.sel.length?"":"בחר לפחות חשבון אחד. "}${risk>0?"":"הגדר סיכון לעסקה. "}${C.ok?"":"אשר את הכללים."}</small>`}</div>
+   <div class="ch-go${canJoin?" ready":""}"><button class="btn2" data-chjoin ${canJoin?"":"disabled"}>הצטרף לאתגר. היום הוא יום 1</button>${canJoin?"":`<small>${C.sel.length?"":"בחר לפחות חשבון אחד. "}${risk>0?"":"הגדר סיכון לעסקה. "}${C.ok?"":"אשר את הכללים."}</small>`}</div>
   </section></div>`;}
+
+/* confetti in the site's colours, once, on joining */
+function confetti(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const c=document.createElement("canvas");c.className="ch-confetti";document.body.appendChild(c);
+  const x=c.getContext("2d"),dpr=devicePixelRatio||1,W=innerWidth,H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.scale(dpr,dpr);
+  const cols=["#7DC6FF","#4F6BFF","#f7c65a","#3fd8c2","#d17bff","#ffffff"];
+  const P=Array.from({length:150},()=>({x:W/2+(Math.random()-.5)*W*.3,y:H*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,r:Math.random()*Math.PI,vr:(Math.random()-.5)*.3,w:6+Math.random()*6,h:3+Math.random()*4,c:cols[Math.floor(Math.random()*cols.length)]}));
+  let t=0;(function f(){x.clearRect(0,0,W,H);P.forEach(p=>{p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.globalAlpha=Math.max(0,1-t/140);x.fillStyle=p.c;x.fillRect(-p.w/2,-p.h/2,p.w,p.h);x.restore();});if(++t<140)requestAnimationFrame(f);else c.remove();})();
+}
 
 /* ---- page ---- */
 function view(){
   const joined=C.view!=="join";
-  $("pgTitle").textContent="אתגר 90 ימי המסחר";
-  $("pgSub").textContent=joined?"המסלול שלך: לשרוד, לעבור מבחן ולהגיע למשיכה ראשונה":"לשרוד, לעבור מבחן מימון ולהגיע למשיכה ראשונה. כל אחד מול עצמו";
+  /* the menu's own trophy after the title, in the menu's sun */
+  $("pgTitle").innerHTML=`אתגר 90 ימי המסחר<span class="ch-trophy" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6"/></svg></span>`;
+  $("pgSub").textContent=joined?"המסלול שלך: לשרוד, לעבור מבחן ולהגיע למשיכה ראשונה":(C.noam?"":"לשרוד, לעבור מבחן מימון ולהגיע למשיכה ראשונה. כל אחד מול עצמו");$("pgSub").hidden=!joined&&C.noam;
   $("content").innerHTML=joined?dashView():joinView();
+  if(!joined&&!C.anim)setTimeout(()=>{C.anim=true;},2600);
   enhanceForms($("content"));if(typeof robotoDigits==="function")robotoDigits($("content"));
   document.querySelectorAll("[data-chv]").forEach(b=>b.classList.toggle("on",b.dataset.chv===C.view));
   document.querySelectorAll("[data-chn]").forEach(b=>b.classList.toggle("on",(b.dataset.chn==="on")===C.noam));
@@ -198,6 +219,7 @@ document.addEventListener("click",e=>{
   if(S.page!=="challenge")return;const q=s=>e.target.closest(s);let x;
   if(x=q("[data-chv]")){C.view=x.dataset.chv;C.showAll=false;C.menu=null;view();scrollTo(0,0);return;}
   if(x=q("[data-chn]")){C.noam=x.dataset.chn==="on";view();return;}
+  if(x=q("[data-chjump]")){e.preventDefault();const t=document.getElementById("ch-step"+x.dataset.chjump);if(t)t.scrollIntoView({behavior:"smooth",block:"start"});return;}
   if(x=q("[data-chall]")){C.showAll=true;view();return;}
   if(x=q("[data-chold]")){C.oldOpen=!C.oldOpen;view();return;}
   if(x=q("[data-chmenu]")){e.stopPropagation();C.menu=C.menu===x.dataset.chmenu?null:x.dataset.chmenu;view();return;}
@@ -209,7 +231,7 @@ document.addEventListener("click",e=>{
   if(x=q("[data-chjoin]")){if(x.disabled)return;C.view="d0";SMP.d0={...JSON.parse(JSON.stringify(SAMPLES.d23)),day:0,av:"before",out:{burned:0,passed:0,payouts:0},stats:{trades:0,daysTraded:0,wins:0,losses:0,winRate:null,rr:null,maxLossStreak:0,net:0,commissions:0},compliance:null,pendingStops:[],missingHypo:0,daysToNext:30,violations:[],
     links:ACCOUNTS.filter(a=>C.sel.includes(a.id)).map(a=>({id:a.id,name:a.name,phase:a.phase==="funded"?"funded":"evaluation",status:"active"})),unlinked:ACCOUNTS.filter(a=>!C.sel.includes(a.id)&&a.state!=="blown").map(a=>a.name)};
     if(SMP.d0.links.some(l=>l.phase==="funded")){SMP.d0.stage=3;SMP.d0.reason="יש חשבון ממומן פעיל";}
-    view();scrollTo(0,0);toast("הצטרפת לאתגר!","היום הוא יום 1. בהצלחה.",false,true);return;}
+    view();scrollTo(0,0);toast("הצטרפת לאתגר!","היום הוא יום 1. בהצלחה.",false,true);confetti();return;}
   if(C.menu&&!q(".ch-menu")){C.menu=null;view();}
 },true);
 document.addEventListener("change",e=>{
