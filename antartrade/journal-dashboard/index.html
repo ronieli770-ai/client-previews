@@ -1,6 +1,7 @@
 <link rel="icon" href="favicon.png"><meta name="robots" content="noindex, nofollow"><title>יומן המסחר - לוח בקרה</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="assets/challenge.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500&display=swap">
 <style>
 
@@ -569,7 +570,7 @@ body.pg-log .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:900px){.bulk{position:fixed;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:44;margin:0;background:#1a1f2b;box-shadow:0 16px 40px rgba(0,0,0,.5);padding:8px 8px 8px 14px}
   .bulk .btnd{height:38px;padding:0 14px}.bulk .btn3{height:38px;padding:0 10px}}
 /* new trade */
-body.pg-new .dashonly,body.pg-new #filters,body.pg-new #kpis,body.pg-new #fchip{display:none!important}
+body.pg-new .dashonly,body.pg-new #filters,body.pg-new #kpis,body.pg-new #fchip,body.pg-challenge .dashonly,body.pg-challenge #filters,body.pg-challenge #kpis,body.pg-challenge #fchip{display:none!important}
 body.pg-new .top{margin-bottom:8px}
 .ntwrap{display:flex;flex-direction:column;gap:16px}
 .ntgrid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:16px;align-items:start}
@@ -693,7 +694,7 @@ body.pg-new .top{margin-bottom:8px}
 .st{font-size:11px;padding:2px 8px;border-radius:999px}
 .st.st-o{background:rgba(125,198,255,.14);color:var(--sky)}.st.st-m{background:rgba(63,216,194,.14);color:var(--win)}.st.st-x{background:rgba(229,86,106,.14);color:var(--loss)}
 @media (max-width:900px){
-  .ntgrid{display:flex;flex-direction:column;gap:16px}.ntcol{display:contents}.side2{position:static}
+  .ntgrid{display:flex;flex-direction:column;gap:16px;align-items:stretch}.ntcol{display:contents}.side2{position:static}
   .o1{order:1}.o2{order:2}.o3{order:3}.o4{order:4}.o5{order:5}.o6{order:6}
   .hyp .hgrid{grid-template-columns:minmax(0,1fr)}
   .leg{grid-template-columns:minmax(0,1fr) 80px;}
@@ -791,6 +792,22 @@ body.pg-new .top{margin-bottom:8px}
 .nfacts .ghostb{height:48px;padding:0 22px!important;font-size:15px;display:inline-flex;align-items:center;background:var(--block)!important}
 body.pg-404 .demo{display:none}
 @media (max-width:600px){.nfcode{font-size:120px}.nft{font-size:30px}.nfp{font-size:16px}.nflogo img{height:32px}.nflogo{right:20px;top:24px}.nfacts{flex-direction:column;width:100%}.nfacts a{justify-content:center}}
+/* Tradovate callback: one card that changes state */
+.cbcard{position:relative;width:min(440px,100%);background:var(--block);border-radius:28px;padding:40px 32px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.cbic{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;margin-bottom:6px}
+.cbic.ld{background:rgba(125,198,255,.10)}.cbic.ok{background:rgba(63,216,194,.14);color:var(--win)}.cbic.er{background:rgba(247,198,90,.12);color:#f7c65a}
+.cbic .spin{width:34px;height:34px;border-width:3px}
+.cbt{margin:0;font-size:24px;font-weight:500}
+.cbp{margin:0;font-size:16px;color:var(--muted);line-height:1.6}
+.cbbar{width:100%;height:4px;border-radius:99px;background:#12161f;overflow:hidden;margin-top:14px}
+.cbbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#4F6BFF,#7DC6FF);animation:cbfill 1.5s linear forwards}
+@keyframes cbfill{to{width:100%}}
+.cbcard .btn2{margin-top:12px;height:48px;padding:0 26px;font-size:15px}
+.cbsw{position:absolute;bottom:max(20px,env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;background:#1a1f2b;border-radius:999px;padding:4px}
+.cbsw small{font-size:12px;color:var(--faint);padding:0 10px}
+.cbsw button{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;padding:7px 14px;border-radius:999px;cursor:pointer}
+.cbsw button.on{background:var(--fg);color:#12161f;font-weight:500}
+body.pg-tradovate .demo{display:none}
 /* mock-only switch */
 .demo{position:fixed;left:max(20px,env(safe-area-inset-left,0px));bottom:20px;z-index:40;display:flex;align-items:center;gap:4px;background:#1a1f2b;border-radius:999px;padding:4px;box-shadow:0 12px 30px rgba(0,0,0,.4)}
 .demo small{font-size:12px;color:var(--faint);padding:0 10px}
@@ -974,6 +991,12 @@ body.pg-dash #pgSub{display:none}
     <div class="nfacts"><a class="btn2" href="#" data-page="dash">חזרה לדשבורד</a><a class="btn3 ghostb" href="#" data-page="log">ליומן העסקאות</a></div>
   </div>
 </section>
+<section class="nf" id="cb" dir="rtl" hidden>
+  <img class="nfmark" src="assets/bg-brain-dark.svg" alt="">
+  <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
+  <div class="cbcard" id="cbCard"></div>
+  <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-cbs="loading">בתהליך</button><button data-cbs="ok">הצליח</button><button data-cbs="error">נכשל</button></div>
+</section>
 <div class="dlg-bg" id="dlg2" dir="rtl" hidden style="z-index:56"><div class="dlg" role="dialog" aria-modal="true"><button class="ib x" data-close2 aria-label="סגור"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div id="dlg2Body"></div></div></div>
 <div class="demo demo2 dashonly" dir="rtl" aria-label="מצב היום בהדמיה"><small>היום:</small><button class="on" data-st="before">לפני המסחר</button><button data-st="one">אחרי עסקה</button><button data-st="stopped">עצר אחרי 2 הפסדים</button><button data-st="violation">חריגה</button><button data-st="clean">סוף יום נקי</button><button data-st="weekend">סופ"ש</button></div>
 <canvas id="confetti" hidden></canvas>
@@ -1054,7 +1077,7 @@ const PEAK={};
 /* ---------- state ---------- */
 let ACC={pot:false,hub:false,mets:false};try{Object.assign(ACC,JSON.parse(localStorage.getItem("journal-acc")||"{}"));}catch(e){}
 const saveAcc=()=>{try{localStorage.setItem("journal-acc",JSON.stringify(ACC));}catch(e){}};
-const S={conn:"ok",page:(location.hash==="#log"?"log":location.hash==="#new"?"new":location.hash==="#404"?"404":"dash"),lf:{asset:"all",dir:"all",grade:"all",tag:"all",strat:"all"},sel:new Set(),mode:"full",type:"all",accs:[],from:null,to:null,month:null,open:null};
+const S={conn:"ok",page:(location.hash==="#log"?"log":location.hash==="#new"?"new":location.hash==="#404"?"404":location.hash==="#tradovate"?"tradovate":location.hash==="#challenge"?"challenge":"dash"),lf:{asset:"all",dir:"all",grade:"all",tag:"all",strat:"all"},sel:new Set(),mode:"full",type:"all",accs:[],from:null,to:null,month:null,open:null};
 const typeOk=a=>S.type==="all"||a.type===S.type;
 const effIds=()=>S.accs.length?S.accs:(S.type==="all"?[]:ACCOUNTS.filter(typeOk).map(a=>a.id));
 function filtered(){
@@ -1384,7 +1407,7 @@ function loadingView(){
   $("content").innerHTML=blk("עקומת הון","eq","sky",300,"טוען...")+blk("מדדים מתקדמים","adv","violet",220)+blk("לוח שנה","cal","orchid",380)+blk("עסקאות אחרונות","list","mint",200,"טוען...");
 }
 function render(){
-  filterUi();if(S.page==="new"){newView();return;}if(S.page==="log"){logPicks();logView();return;}if(S.net==="loading"&&!effIds().length&&S.mode!=="empty"){loadingView();return;}
+  filterUi();if(S.page==="challenge"){/* drawn by assets/challenge.js (window.challengeView) */if(window.challengeView)window.challengeView($("content"));else $("content").innerHTML='<section class="blk"><div class="emptyline">עמוד האתגר בבנייה</div></section>';return;}if(S.page==="new"){newView();return;}if(S.page==="log"){logPicks();logView();return;}if(S.net==="loading"&&!effIds().length&&S.mode!=="empty"){loadingView();return;}
   const t=filtered();kpis(t);
   let h="";
   if(S.mode==="empty") h+=welcome();
@@ -1462,9 +1485,10 @@ function syncDlg(full){
       ${a.exists?"":`<div class="frm3"><div class="fld"><label>סוג</label><select class="inp"><option>אישי</option><option selected>Prop Firm</option></select></div><div class="fld"><label>חברה / Firm (אופציונלי)</label><input class="inp" placeholder="לדוגמה: Apex - eval"></div><div class="fld"><label>יתרת פתיחה (אופציונלי)</label><input class="inp" type="number" placeholder="50000"></div></div>`}</div>`).join("")}</div>
     <div class="dangerb"><button class="btn2" data-dosync="${full?1:0}">סנכרן</button><button class="btn3" data-closedlg>ביטול</button></div>`;},900);
 }
-const PAGES={"404":["",""],dash:["ערב טוב, רוני","סקירה כללית של ביצועי המסחר שלך"],log:["יומן עסקאות","כל העסקאות שלך במקום אחד"],new:["עסקה חדשה","הוסף עסקה ידנית או ייבא מקובץ"]};
+const PAGES={"404":["",""],tradovate:["",""],challenge:["אתגר 90",""],dash:["ערב טוב, רוני","סקירה כללית של ביצועי המסחר שלך"],log:["יומן עסקאות","כל העסקאות שלך במקום אחד"],new:["עסקה חדשה","הוסף עסקה ידנית או ייבא מקובץ"]};
 function setPage(pg,tab){
-  S.page=pg;["dash","log","new","404"].forEach(k=>document.body.classList.toggle("pg-"+k,pg===k));$("nf").hidden=pg!=="404";if(pg==="404"){try{history.replaceState(null,"","#404");}catch(e){}return;}
+  S.page=pg;["dash","log","new","404","tradovate","challenge"].forEach(k=>document.body.classList.toggle("pg-"+k,pg===k));$("nf").hidden=pg!=="404";$("cb").hidden=pg!=="tradovate";clearTimeout(window._cbT);
+  if(pg==="404"||pg==="tradovate"){try{history.replaceState(null,"","#"+pg);}catch(e){}if(pg==="tradovate")cbState("loading");return;}
   if(pg==="new"&&tab)NT.tab=tab;
   document.querySelectorAll(".nav a,.mnav a").forEach(a=>a.classList.toggle("on",a.dataset.page===pg));
   $("pgTitle").textContent=PAGES[pg][0];$("pgSub").textContent=PAGES[pg][1];
@@ -1853,6 +1877,16 @@ document.addEventListener("drop",e=>{const z=e.target.closest&&e.target.closest(
   if(z.dataset.ntshot!==undefined){const f=e.dataTransfer.files[0];if(f){const r=new FileReader();r.onload=()=>{NT.shot=r.result;shotZone();};r.readAsDataURL(f);}}
   else{const dt=new DataTransfer();[...e.dataTransfer.files].forEach(f=>dt.items.add(f));$("impIn").files=dt.files;$("impIn").dispatchEvent(new Event("change",{bubbles:true}));}});
 
+/* ---------- Tradovate callback ---------- */
+function cbState(st){
+  clearTimeout(window._cbT);document.querySelectorAll("[data-cbs]").forEach(b=>b.classList.toggle("on",b.dataset.cbs===st));
+  const C=$("cbCard");
+  if(st==="loading"){C.innerHTML=`<span class="cbic ld"><span class="spin"></span></span><p class="cbt">מחבר את חשבון <span class="en" style="font-weight:500">Tradovate</span>...</p>`;window._cbT=setTimeout(()=>cbState("ok"),2200);}
+  else if(st==="ok"){C.innerHTML=`<span class="cbic ok"><svg class="i" viewBox="0 0 24 24" style="width:34px;height:34px"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg></span><p class="cbt">חשבון <span class="en" style="font-weight:500">Tradovate</span> חובר (roni.trader)</p><p class="cbp">מעביר אותך חזרה ליומן...</p><div class="cbbar"><i></i></div>`;window._cbT=setTimeout(()=>{S.conn="ok";setPage("new","import");},1700);}
+  else {C.innerHTML=`<span class="cbic er">${ALERT.replace('class="i"','class="i" style="width:32px;height:32px"')}</span><p class="cbt">שגיאה בחיבור</p><p class="cbp">חסר קוד הרשאה מ-<span class="en">Tradovate</span></p><a class="btn2" href="#" data-page="new">חזרה ליומן</a>`;}
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-cbs]");if(b)cbState(b.dataset.cbs);});
+
 /* ---------- events ---------- */
 document.addEventListener("click",e=>{
   const q=s=>e.target.closest(s);let x;
@@ -1951,11 +1985,12 @@ let wasNarrow=innerWidth<700;addEventListener("resize",()=>{const n=innerWidth<7
 if(ACC.hub)$("hubSec").classList.add("open");
 new IntersectionObserver(([e])=>$("fchip").classList.toggle("show",!e.isIntersecting),{rootMargin:"-60px 0px 0px 0px"}).observe(document.querySelector(".top"));
 (function(){const side=[...document.querySelectorAll(".side .nav a")],bot=[...document.querySelectorAll(".mnav a")];
-  [side,bot].forEach(list=>{if(list[0])list[0].dataset.page="dash";if(list[1])list[1].dataset.page="log";if(list[2])list[2].dataset.page="new";});})();
+  [side,bot].forEach(list=>{if(list[0])list[0].dataset.page="dash";if(list[1])list[1].dataset.page="log";if(list[2])list[2].dataset.page="new";if(list[3])list[3].dataset.page="challenge";});})();
 document.body.classList.add("pg-"+S.page);if(S.page!=="dash")setTimeout(()=>setPage(S.page));
 render();
 robotoDigits(document.body);
 </script>
+<script src="assets/challenge.js"></script>
 
 <script>
 /* ---- streak sketch: every value here comes from data the journal already has (the challenge's rules and its violations per day) ---- */
