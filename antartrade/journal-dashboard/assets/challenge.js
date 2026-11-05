@@ -202,10 +202,10 @@ function miniCurve(day){
 function jStages(v){
   const day=v?v.day:-1,cur=v?v.stage:0;
   return `<div class="chj-path">${[1,2,3].map(n=>{
-    const st=STAGES[n],state=!v?(n===1?"now":"lock"):n<cur?"done":n===cur?"now":"lock",inSt=Math.min(Math.max(day-(n-1)*30,0),30);
+    const st=STAGES[n],state=!v?(n===1?"now":"lock"):n<cur?"done":n===cur?"now":"lock",cls="s-"+state,inSt=Math.min(Math.max(day-(n-1)*30,0),30);
     const lbl=!v?`\u05e9\u05dc\u05d1 ${n} \u00b7 ${st.days}`:state==="done"?`\u05e9\u05dc\u05d1 ${n} \u00b7 \u05d4\u05d5\u05e9\u05dc\u05dd`:state==="now"?`\u05e2\u05db\u05e9\u05d9\u05d5 \u00b7 \u05d9\u05d5\u05dd ${Math.max(inSt,1)} \u05de\u05ea\u05d5\u05da 30`:`\u05e9\u05dc\u05d1 ${n} \u00b7 \u05e0\u05e4\u05ea\u05d7 \u05d1\u05d9\u05d5\u05dd ${(n-1)*30+1}`;
     const ic=state==="done"?JI.ok:state==="now"?CI.shield:JI.lock;
-    return `<div class="chj-st ${state}${n===3?" goal":""}"><span class="ic">${SV(ic)}</span><div class="tx"><small>${lbl}</small><b>${st.title}</b>${state!=="done"?`<span class="g">${st.goal}</span>`:""}${v&&state==="now"?`<div class="chj-bar"><i style="width:${inSt/30*100}%"></i></div>`:""}</div></div>`;}).join("")}</div>`;}
+    return `<div class="chj-st ${cls}${n===3?" s-goal":""}"><span class="ic">${SV(ic)}</span><div class="tx"><small>${lbl}</small><b>${st.title}</b>${state!=="done"?`<span class="g">${st.goal}</span>`:""}${v&&state==="now"?`<div class="chj-bar"><i style="width:${inSt/30*100}%"></i></div>`:""}</div></div>`;}).join("")}</div>`;}
 function jMore(key,title,inner){
   const open=C.more===key;
   return `<div class="chj-more${open?" open":""}"><button data-chmore="${key}"><span>${title}</span>${SV(CI.chev,"width:18px;height:18px")}</button>${open?`<div class="body">${inner}</div>`:""}</div>`;}
@@ -252,7 +252,7 @@ function jTasks(v){
     [true,`\u05e1\u05d9\u05db\u05d5\u05df \u05e9\u05dc \u05e2\u05d3 $${RULES.riskPerTrade} \u05dc\u05e2\u05e1\u05e7\u05d4`,"\u05d1\u05ea\u05d5\u05da \u05d4\u05d2\u05d1\u05d5\u05dc"],
     [today.losses<RULES.maxConsecutiveLosses,`\u05d0\u05d7\u05e8\u05d9 ${RULES.maxConsecutiveLosses} \u05d4\u05e4\u05e1\u05d3\u05d9\u05dd \u05e8\u05e6\u05d5\u05e4\u05d9\u05dd \u05e2\u05d5\u05e6\u05e8\u05d9\u05dd`,`${today.losses}/${RULES.maxConsecutiveLosses}`]];
   return `<section class="blk chj-sec"><div class="bh">${cttl("\u05d4\u05de\u05e9\u05d9\u05de\u05d5\u05ea \u05e9\u05dc \u05d4\u05d9\u05d5\u05dd","check","mint")}<span class="hint">\u05e2\u05de\u05d9\u05d3\u05d4 \u05d1\u05db\u05dc\u05dc\u05d9\u05dd \u05d4\u05d9\u05d5\u05dd. \u05de\u05ea\u05e2\u05d3\u05db\u05df \u05de\u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d1\u05d9\u05d5\u05de\u05df.</span></div>
-   <div class="chj-tasks">${T.map(t=>`<div class="chj-task${t[0]?" ok":" no"}"><i>${t[0]?SV(JI.ok):SV(CI.alert)}</i><span>${t[1]}</span><small>${t[2]}</small></div>`).join("")}</div></section>`;}
+   <div class="chj-tasks">${T.map(t=>`<div class="chj-task ${t[0]?"t-ok":"t-no"}"><i>${t[0]?SV(JI.ok):SV(CI.alert)}</i><span class="t">${t[1]}</span><small>${t[2]}</small></div>`).join("")}</div></section>`;}
 function jDash(){
   const v=SMP[C.view],st=STAGES[v.stage],left=v.stage*30-v.day;
   const nextTx=v.day===0?"\u05d4\u05d0\u05ea\u05d2\u05e8 \u05de\u05ea\u05d7\u05d9\u05dc \u05d1\u05d9\u05d5\u05dd \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d1\u05d0 \u05d1\u05d1\u05d5\u05e8\u05e1\u05d4 \u05d4\u05d0\u05de\u05e8\u05d9\u05e7\u05d0\u05d9\u05ea.":v.stage<3?`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05dc\u05e9\u05dc\u05d1 ${STAGES[v.stage+1].title}.`:`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05dc\u05e1\u05d5\u05e3 \u05d4\u05d0\u05ea\u05d2\u05e8.`;

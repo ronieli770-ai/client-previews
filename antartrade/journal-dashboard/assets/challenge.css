@@ -267,11 +267,11 @@ body.pg-challenge .chonly{display:flex!important}
 .chj-st small{font-size:13px;color:var(--faint)}
 .chj-st b{font-size:18px;font-weight:500}
 .chj-st .g{font-size:14px;color:var(--muted)}
-.chj-st.now{background:linear-gradient(135deg,rgba(79,107,255,.22),rgba(125,198,255,.05)),var(--block2)}
-.chj-st.now .ic{background:rgba(125,198,255,.16)}.chj-st.now .ic svg{stroke:var(--sky)}
-.chj-st.done .ic{background:var(--royal)}.chj-st.done .ic svg{stroke:#fff;stroke-width:2.2}
-.chj-st.done b{color:var(--muted)}
-.chj-st.goal.lock .ic{background:rgba(247,198,90,.14)}.chj-st.goal.lock .ic svg{stroke:var(--c-sun)}
+.chj-st.s-now{background:linear-gradient(135deg,rgba(79,107,255,.22),rgba(125,198,255,.05)),var(--block2)}
+.chj-st.s-now .ic{background:rgba(125,198,255,.16)}.chj-st.s-now .ic svg{stroke:var(--sky)}
+.chj-st.s-done .ic{background:var(--royal)}.chj-st.s-done .ic svg{stroke:#fff;stroke-width:2.2}
+.chj-st.s-done b{color:var(--muted)}
+.chj-st.s-goal.s-lock .ic{background:rgba(247,198,90,.14)}.chj-st.s-goal.s-lock .ic svg{stroke:var(--c-sun)}
 .chj-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.07);margin-top:10px;overflow:hidden}
 .chj-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(270deg,var(--sky),var(--royal))}
 .chj-sec .ch-out{margin-top:12px}
@@ -279,10 +279,10 @@ body.pg-challenge .chonly{display:flex!important}
 .chj-task{display:flex;align-items:center;gap:12px;background:var(--block2);border-radius:15px;padding:14px 16px;font-size:15px}
 .chj-task i{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--royal)}
 .chj-task i svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.chj-task.no i{background:rgba(247,198,90,.16)}.chj-task.no i svg{stroke:var(--c-sun);stroke-width:2}
-.chj-task span{flex:1;min-width:0}
-.chj-task small{font-size:13px;color:var(--faint);white-space:nowrap}
-.chj-task.no small{color:var(--c-sun)}
+.chj-task.t-no i{background:rgba(247,198,90,.16)}.chj-task.t-no i svg{stroke:var(--c-sun);stroke-width:2}
+.chj-task>.t{flex:1;min-width:0;color:#eef3fa;font-size:15px}
+.chj-task>small{font-size:13px;color:var(--faint);white-space:nowrap}
+.chj-task.t-no small{color:var(--c-sun)}
 .chj-more{background:var(--block);border-radius:20px}
 .chj-more>button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 24px;background:none;border:0;color:#fff;font-weight:500;font-size:18px;line-height:1.2;font-family:inherit;cursor:pointer;text-align:right}
 .chj-more>button svg{fill:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}

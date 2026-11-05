@@ -19,7 +19,7 @@ const nameErr=v=>{const t=v.trim();return t.length<2||!HEB.test(t)?"יש להז�
 const esc=v=>String(v).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 /* mode: login | signup | forgot | sent */
-const A={side:"e",slide:0,mode:"login",email:"",pw:"",name:"",nameErr:null,terms:false,show:false,busy:false,gbusy:false};
+const A={side:"e",mode:"login",email:"",pw:"",name:"",nameErr:null,terms:false,show:false,busy:false,gbusy:false};
 
 const en=t=>t.replace(/(P&L|Apex|Take Profit|Lucid Trading|Google|AntarTrade)/g,'<span class="en">$1</span>');
 function card(){
@@ -66,20 +66,22 @@ function side(){
     <div class="au-pills">${FEATS.map(([k,t])=>`<span class="au-pill">${SV(AI[k])}${t}</span>`).join("")}</div></div>`;
   return `<div class="au-side au-sc">${HEAD}<div class="au-panel">${FEATS.map(([k,t,d])=>`<div class="au-pf"><span class="au-pi">${SV(AI[k])}</span><b>${t}</b><small>${en(d)}</small></div>`).join("")}</div></div>`;
 }
-/* e: the TraderSync composition Roni liked - a big panel with a tag, a large headline, an up-close slice of the journal cut by the panel's
-   edge, one small card floating over it, and dots; one slide per line of Noam's (his lead, then his four features) */
-const SLIDES=[
- ["יומן המסחר","יומן המסחר המתקדם שלך.","s1-main","s1-float","עקוב, נתח ושפר את הביצועים שלך."],
- ["מעקב מדויק",'חישוב <span class="en">P&L</span> ברמת דיוק של טיק',"s2-main","kpi-pnl"],
- ["אנליטיקס מתקדם","גרפים וסטטיסטיקות בזמן אמת","s3-main","kpi-win"],
- ["תמיכה בחברות מימון",'מותאם לחוקי <span class="en" dir="ltr" style="unicode-bidi:isolate">Apex, Take Profit, Lucid Trading</span> ועוד',"s4-main","s4-float"],
- ["אבטחה מלאה","הנתונים שלך מוגנים ומאובטחים","s5-main","s5-float"]];
-let slideT=0;
-const slideHtml=i=>{const [t,h,m,f,sub]=SLIDES[i];return `<div class="ts-slide" data-i="${i}"><span class="ts-tag">${t}</span><h2 class="ts-h">${h}</h2>${sub?`<p class="ts-sub">${sub}</p>`:""}
-  <div class="ts-stage"><img class="ts-main" src="assets/auth-${m}.webp" alt=""><img class="ts-float ts-f${i}" src="assets/auth-${f}.webp" alt=""></div></div>`;};
-function sideTs(){return `<div class="au-ts"><div class="ts-glow"></div>${slideHtml(A.slide)}<div class="ts-dots">${SLIDES.map((_,i)=>`<button type="button" class="${i===A.slide?"on":""}" data-ausl="${i}" aria-label="שקופית ${i+1}"></button>`).join("")}</div></div>`;}
-const nextSlide=to=>{const s=document.querySelector(".au-ts .ts-slide");if(!s)return;s.classList.add("out");setTimeout(()=>{A.slide=to;const ts=document.querySelector(".au-ts");if(!ts)return;s.outerHTML=slideHtml(to);document.querySelectorAll(".ts-dots button").forEach((b,i)=>b.classList.toggle("on",i===to));},320);};
-const autoplay=()=>{clearInterval(slideT);if(A.side!=="e")return;slideT=setInterval(()=>{if(S.page!=="auth"||document.hidden)return;nextSlide((A.slide+1)%SLIDES.length);},5500);};
+/* e: TraderSync's composition, made calm (Roni): one still panel, no carousel; only a few small pieces of the journal, never a whole
+   screen (so it can't be copied), each shown whole, never cut by an edge; a flat panel, no gradient */
+function sideTs(){
+  return `<div class="au-ts"><div class="ts-in">
+    <span class="ts-tag">יומן המסחר</span>
+    <h2 class="ts-h">יומן המסחר המתקדם שלך.</h2>
+    <p class="ts-sub">עקוב, נתח ושפר את הביצועים שלך.</p>
+    <div class="ts-set">
+      <img class="ts-w ts-coach" src="assets/auth-s1-float.webp" alt="">
+      <div class="ts-two"><img class="ts-w" src="assets/auth-kpi-pnl.webp" alt=""><img class="ts-w" src="assets/auth-kpi-win.webp" alt=""></div>
+      <div class="ts-w ts-card"><img src="assets/auth-w-prop.webp" alt=""></div>
+    </div>
+    <p class="ts-feats">${FEATS.map(f=>f[1]).join('<span>·</span>')}</p>
+  </div></div>`;
+}
+const autoplay=()=>{};
 const inCard=()=>A.side==="d"?`<div class="au-mini">${FEATS.map(([k,t])=>`<span>${SV(AI[k])}${t}</span>`).join("")}</div>`:"";
 function draw(focusId){
   const w=$("auWrap");if(!w)return;
@@ -130,7 +132,6 @@ document.addEventListener("click",e=>{
     if(x.dataset.aust==="unverified"){go("login");if(!A.email)A.email="trader@gmail.com";if(!A.pw)A.pw="123456";draw();toast("שגיאה","המייל שלך עדיין לא אומת. בדוק את תיבת הדואר שלך ולחץ על קישור האימות.",true);return;}
     if(x.dataset.aust==="sent"&&!A.email)A.email="your@email.com";
     go(x.dataset.aust);return;}
-  if(x=q("[data-ausl]")){clearInterval(slideT);nextSlide(+x.dataset.ausl);autoplay();return;}
   if(x=q("[data-ausd]")){A.side=x.dataset.ausd;draw();return;}
   if(x=q("[data-aumode]")){go(x.dataset.aumode);return;}
   if(q("[data-aueye]")){A.show=!A.show;draw("auPw");return;}
