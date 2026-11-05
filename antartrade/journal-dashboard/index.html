@@ -787,8 +787,10 @@ body.pg-new .top{margin-bottom:8px}
 @media (max-width:900px){.vgrid,.whs{grid-template-columns:minmax(0,1fr)}.dhead{padding-left:36px}}
 /* 404: the journal's own dark ground, the logo, one clear way back */
 .nf{position:fixed;inset:0;z-index:48;background:var(--page);display:grid;place-items:center;overflow:hidden;padding:24px max(16px,env(safe-area-inset-left,0px)) 24px max(16px,env(safe-area-inset-right,0px))}
-.nfmark{position:absolute;width:460px;right:-150px;bottom:48px;opacity:.34;filter:blur(8px);pointer-events:none}
+.nfmark{position:absolute;width:460px;right:-150px;bottom:150px;opacity:.34;filter:blur(8px);pointer-events:none;transform:rotate(-16deg)}
 body.pg-404,body.pg-tradovate,body.pg-reset{overflow:hidden}
+/* html has overflow-x:clip, so body's hidden never reaches the window: the page scrollbar stays unless html is closed too */
+html:has(body.pg-404),html:has(body.pg-tradovate),html:has(body.pg-reset){overflow:hidden}
 .nflogo{position:absolute;top:max(28px,env(safe-area-inset-top,0px));right:max(32px,env(safe-area-inset-right,0px))}
 .nflogo img{height:40px;display:block}
 .nfbox{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;max-width:560px}
@@ -967,8 +969,8 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
   <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
   <div class="nfbox">
     <span class="nfcode en">404</span>
-    <h1 class="nft">אופס, העמוד הזה יצא מהגרף</h1>
-    <p class="nfp">לא מצאנו את מה שחיפשת, אבל העסקאות שלך מחכות לך בדשבורד.</p>
+    <h1 class="nft">נראה שהלכת לאיבוד</h1>
+    <p class="nfp">הכתובת הזאת לא קיימת ביומן, אבל כל העסקאות שלך מחכות לך בדשבורד.</p>
     <div class="nfacts"><a class="btn2" href="#" data-page="dash">חזרה לדשבורד</a></div>
   </div>
 </section>
