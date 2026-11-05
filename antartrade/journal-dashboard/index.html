@@ -787,7 +787,8 @@ body.pg-new .top{margin-bottom:8px}
 @media (max-width:900px){.vgrid,.whs{grid-template-columns:minmax(0,1fr)}.dhead{padding-left:36px}}
 /* 404: the journal's own dark ground, the logo, one clear way back */
 .nf{position:fixed;inset:0;z-index:48;background:var(--page);display:grid;place-items:center;overflow:hidden;padding:24px max(16px,env(safe-area-inset-left,0px)) 24px max(16px,env(safe-area-inset-right,0px))}
-.nfmark{position:absolute;width:460px;right:-150px;bottom:48px;opacity:.16;filter:blur(18px);pointer-events:none}
+.nfmark{position:absolute;width:460px;right:-150px;bottom:48px;opacity:.34;filter:blur(8px);pointer-events:none}
+body.pg-404{overflow:hidden}
 .nflogo{position:absolute;top:max(28px,env(safe-area-inset-top,0px));right:max(32px,env(safe-area-inset-right,0px))}
 .nflogo img{height:40px;display:block}
 .nfbox{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;max-width:560px}
@@ -966,10 +967,9 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
   <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
   <div class="nfbox">
     <span class="nfcode en">404</span>
-    <h1 class="nft">העמוד לא נמצא</h1>
-    <p class="nfp">הכתובת שחיפשת לא קיימת ביומן, או שהעמוד הועבר.</p>
-    <span class="nfpath en" id="nfPath">/trades/archive</span>
-    <div class="nfacts"><a class="btn2" href="#" data-page="dash">חזרה לדשבורד</a><a class="btn3 ghostb" href="#" data-page="log">ליומן העסקאות</a></div>
+    <h1 class="nft">אופס, העמוד הזה יצא מהגרף</h1>
+    <p class="nfp">לא מצאנו את מה שחיפשת, אבל העסקאות שלך מחכות לך בדשבורד.</p>
+    <div class="nfacts"><a class="btn2" href="#" data-page="dash">חזרה לדשבורד</a></div>
   </div>
 </section>
 <section class="nf" id="cb" dir="rtl" hidden>
