@@ -52,7 +52,7 @@ const st=id=>T.acc.find(x=>x.id===id)||{};
 /* ---------- tabs ---------- */
 function profileTab(){
   const admin=`<section class="blk st-wide">${sttl("תצוגה מקדימה (אדמין)","eye","sky")}<p class="st-desc2" style="margin-top:14px">הצג מחדש את שאלון ה-${en("Onboarding")} כפי שמשתמש חדש רואה אותו. בסיום השאלון הנתונים שלך נשמרים כרגיל.</p>
-    <div class="st-actions"><button class="btn2 ghostb" data-stonb>${SV(I.eye)}הצג שאלון ${en("Onboarding")} מחדש</button></div></section>`;
+    <div class="st-actions"><button class="btn2 ghostb" data-stonb>${SV(I.eye)}<span>הצג שאלון ${en("Onboarding")} מחדש</span></button></div></section>`;
   return `<div class="st-grid">
   <section class="blk">${sttl("פרופיל","user","sky")}<div class="frm">
     <div class="fld"><label class="st-lbl" for="stName">${SV(I.user)}שם מלא</label><input class="inp" id="stName" dir="rtl" placeholder="השם המלא שלך" value="${T.name}"></div>
@@ -69,8 +69,8 @@ function profileTab(){
 function accCard(a){
   const x=st(a.id),tr=a.track&&TRACKS[a.track],verified=tr&&!tr.unverifiedStop,promo=promoOf(a);
   const sub=`פרופ · ${en(tr?tr.label:a.firm)} · יתרת פתיחה: ${en(money(a.start))}`;
-  const peak=verified?`<div class="tile st-peak"><span class="l">${SV(I.peak)}נקודת שיא:</span><input class="inp" type="number" dir="ltr" placeholder="${money(a.start)}" value="${x.peak}" data-stpeakin="${a.id}"><button class="btn2 ghostb" data-stsave="peak" data-id="${a.id}">שמור</button></div>`:"";
-  const com=`<div class="tile st-com"><div class="st-comhd"><span class="l">${SV(I.coins)}עמלות (${en("Round Turn")} לחוזה)</span><span class="r">${x.on?"מופעל":"מבוטל"}<button class="st-sw" role="switch" aria-checked="${x.on}" aria-label="עמלות" data-stsw="${a.id}"></button></span></div>
+  const peak=verified?`<div class="tile st-peak"><span class="l">${SV(I.peak)}<span>נקודת שיא:</span></span><input class="inp" type="number" dir="ltr" placeholder="${money(a.start)}" value="${x.peak}" data-stpeakin="${a.id}"><button class="btn2 ghostb" data-stsave="peak" data-id="${a.id}">שמור</button></div>`:"";
+  const com=`<div class="tile st-com"><div class="st-comhd"><span class="l">${SV(I.coins)}<span>עמלות (${en("Round Turn")} לחוזה)</span></span><span class="r">${x.on?"מופעל":"מבוטל"}<button class="st-sw" role="switch" aria-checked="${x.on}" aria-label="עמלות" data-stsw="${a.id}"></button></span></div>
     ${x.on?`<div class="frm2"><div class="fld"><label>מיני / רגיל</label><input class="inp" type="number" step="0.01" min="0" dir="ltr" placeholder="4" value="${x.mini}" data-stmini="${a.id}"></div><div class="fld"><label>מיקרו</label><input class="inp" type="number" step="0.01" min="0" dir="ltr" placeholder="1.2" value="${x.micro}" data-stmicro="${a.id}"></div></div>`:""}
     <div class="btns"><button class="btn2 ghostb" data-stsave="acccom" data-id="${a.id}">שמור עמלות</button><button class="btn3" data-strecalc="${a.id}">${SV(I.redo)}חשב מחדש עסקאות קיימות</button></div>
     <p class="st-hint">השאר ריק כדי להשתמש בברירת המחדל מהפרופיל (4$ מיני / 1.2$ מיקרו).</p></div>`;
@@ -108,9 +108,9 @@ function connTab(){
   const never=S.mode==="empty"||S.conn==="none",exp=!never&&S.conn==="expired";
   let card;
   if(S.net==="loading")card=`<div class="st-tv"><div class="st"><span class="spin"></span><small style="margin:0">טוען סטטוס ${en("Tradovate")}...</small></div></div>`;
-  else if(never)card=`<div class="st-tv"><div class="st">${sico("link","sky")}<div><b>חבר את חשבון ה-${en("Tradovate")} שלך</b><small>התחבר פעם אחת והעסקאות יישלפו אוטומטית ליומן בכל כניסה ל-${en("Dashboard")}.</small></div></div><div class="btns"><button class="btn2" data-connect>${SV(I.link)}התחבר ל-${en("Tradovate")}</button></div></div>`;
-  else if(exp)card=`<div class="st-tv"><div class="st">${sico("link","sun")}<div><b>חיבור ${en("Tradovate")} פג</b><small>תוקף ההרשאה ל-${en("Tradovate")} פג. יש להתחבר מחדש לפני סנכרון נוסף.</small></div></div><div class="btns"><button class="btn2" data-connect>${SV(I.link)}התחבר מחדש ל-${en("Tradovate")}</button></div></div>`;
-  else card=`<div class="st-tv"><div class="st">${sico("check","mint")}<div><b><span class="live"></span>${en("Tradovate")} מחובר</b><small>${en("roni.trader")} • חובר ב-12/10/2026 • סנכרון אחרון 05/11 18:42</small></div></div><div class="btns"><button class="btn2" data-sync="0">${SV(I.redo)}סנכרן עסקאות</button><button class="btn2 ghostb" data-sync="1">סנכרון מלא (90 יום)</button><button class="btn3" data-unsync>${SV(I.off)}נתק</button></div></div>`;
+  else if(never)card=`<div class="st-tv"><div class="st">${sico("link","sky")}<div><b><span>חבר את חשבון ה-${en("Tradovate")} שלך</span></b><small>התחבר פעם אחת והעסקאות יישלפו אוטומטית ליומן בכל כניסה ל-${en("Dashboard")}.</small></div></div><div class="btns"><button class="btn2" data-connect>${SV(I.link)}<span>התחבר ל-${en("Tradovate")}</span></button></div></div>`;
+  else if(exp)card=`<div class="st-tv"><div class="st">${sico("link","sun")}<div><b><span>חיבור ${en("Tradovate")} פג</span></b><small>תוקף ההרשאה ל-${en("Tradovate")} פג. יש להתחבר מחדש לפני סנכרון נוסף.</small></div></div><div class="btns"><button class="btn2" data-connect>${SV(I.link)}<span>התחבר מחדש ל-${en("Tradovate")}</span></button></div></div>`;
+  else card=`<div class="st-tv"><div class="st">${sico("check","mint")}<div><b><span class="live"></span><span>${en("Tradovate")} מחובר</span></b><small>${en("roni.trader")} • חובר ב-12/10/2026 • סנכרון אחרון 05/11 18:42</small></div></div><div class="btns"><button class="btn2" data-sync="0">${SV(I.redo)}סנכרן עסקאות</button><button class="btn2 ghostb" data-sync="1"><span>סנכרון מלא (90 יום)</span></button><button class="btn3" data-unsync>${SV(I.off)}נתק</button></div></div>`;
   return `<section class="blk">${sttl("חיבורי ברוקרים","link","mint")}<p class="st-desc2" style="margin:14px 0 16px">חבר את הברוקר שלך כדי למשוך עסקאות אוטומטית ליומן.</p>${card}</section>`;
 }
 

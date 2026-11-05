@@ -34,7 +34,7 @@ body.pg-settings .dashonly,body.pg-settings #filters,body.pg-settings #kpis,body
 .st-acchd small{font-size:13px;color:var(--muted);line-height:1.5}
 .st-acchd .ib{flex:none;margin:-4px -6px 0 0}
 .st-acchd .ib:hover{color:var(--loss)}
-.st-peak{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tile.st-peak{display:flex;flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap}
 .st-peak .l{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--fg);white-space:nowrap}
 .st-peak .l svg{width:16px;height:16px;color:var(--muted)}
 .st-peak .inp{width:150px;flex:none}
@@ -45,6 +45,9 @@ body.pg-settings .dashonly,body.pg-settings #filters,body.pg-settings #kpis,body
 .st-comhd .r{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
 .st-com .btn2,.st-com .btn3,.st-peak .btn2{height:38px;padding:0 14px}
 .st-com .btns{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+
+/* a ghost button on a navy tile takes the block's black, or it would melt into the tile */
+.tile .btn2.ghostb,.st-tv .btn2.ghostb{background:#0b0e14!important}
 
 /* on/off switch: no frame, the journal's colours (the checked colour of its checkboxes) */
 .st-sw{position:relative;width:44px;height:26px;border-radius:999px;border:0;background:rgba(255,255,255,.12);cursor:pointer;flex:none;padding:0;transition:background .2s}
@@ -94,7 +97,8 @@ body.pg-settings .dashonly,body.pg-settings #filters,body.pg-settings #kpis,body
   .st-grid,.st-accs{grid-template-columns:minmax(0,1fr)}
   .st-tabs{width:100%}
   .st-goals{grid-template-columns:minmax(0,1fr)}
-  .st-peak .inp{flex:1;width:auto;min-width:120px}
+  .st-peak .inp{flex:1 1 140px;width:auto;min-width:0}
+  .st-peak .l{flex-basis:100%}
   .st-tbl{display:none}
   .st-cards{display:flex;flex-direction:column;gap:8px}
   .st-cards .tile{flex-direction:row;align-items:flex-start;gap:12px}
