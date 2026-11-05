@@ -243,7 +243,7 @@ body.pg-challenge .chonly{display:flex!important}
 .chj-hero p{font-size:16px;line-height:1.55;color:var(--muted)}
 .chj-hero p.say{color:#fff;font-weight:500}
 .chj-hero .noam{position:absolute;left:28px;bottom:0;width:230px;height:auto;pointer-events:none}
-.chj-cta{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 24px;margin-top:14px;border:0;border-radius:999px;background:#fff;color:#12161f;font:500 16px/1 inherit;font-family:inherit;cursor:pointer;box-shadow:0 0 0 0 rgba(125,198,255,.5);animation:chjPulse 2.6s ease 1s infinite}
+.chj-cta{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 24px;margin-top:14px;border:0;border-radius:999px;background:#fff;color:#12161f;font-weight:500;font-size:16px;line-height:1;font-family:inherit;cursor:pointer;box-shadow:0 0 0 0 rgba(125,198,255,.5);animation:chjPulse 2.6s ease 1s infinite}
 .chj-cta em{font-style:normal;font-size:13px;color:rgba(18,22,31,.55)}
 @keyframes chjPulse{0%{box-shadow:0 0 0 0 rgba(125,198,255,.45)}70%{box-shadow:0 0 0 14px rgba(125,198,255,0)}100%{box-shadow:0 0 0 0 rgba(125,198,255,0)}}
 .chj-hero.dash{padding-bottom:22px;min-height:0}
@@ -284,14 +284,14 @@ body.pg-challenge .chonly{display:flex!important}
 .chj-task small{font-size:13px;color:var(--faint);white-space:nowrap}
 .chj-task.no small{color:var(--c-sun)}
 .chj-more{background:var(--block);border-radius:20px}
-.chj-more>button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 24px;background:none;border:0;color:#fff;font:500 18px/1.2 inherit;font-family:inherit;cursor:pointer;text-align:right}
+.chj-more>button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 24px;background:none;border:0;color:#fff;font-weight:500;font-size:18px;line-height:1.2;font-family:inherit;cursor:pointer;text-align:right}
 .chj-more>button svg{fill:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
 .chj-more.open>button svg{transform:rotate(180deg)}
 .chj-more .body{padding:0 24px 24px;display:flex;flex-direction:column;gap:14px}
 .chj-more .body>.blk,.chj-more .body>.ch-old{background:var(--block2)}
 .chj-more .body .ch-kpis .kpi{background:var(--block2)}
 /* the 3-step join window, in the mock's dialog look */
-.chj-wiz{position:fixed;inset:0;z-index:45;display:grid;place-items:center;padding:16px;background:rgba(5,7,12,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.chj-wiz{position:fixed;inset:0;z-index:49;display:grid;place-items:center;padding:16px;background:rgba(5,7,12,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .chj-wbox{position:relative;width:min(640px,100%);max-height:88vh;overflow:auto;background:#1a1f2b;border-radius:24px;padding:26px 26px 22px;display:flex;flex-direction:column;gap:16px;animation:chjIn .3s cubic-bezier(.22,1,.36,1)}
 @keyframes chjIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
 .chj-wh{position:relative;padding-left:44px}
@@ -327,3 +327,4 @@ body.chj-lock{overflow:hidden}
   .chj-wiz{place-items:end center;padding:0}
   .chj-wbox{width:100%;max-height:92vh;border-radius:24px 24px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px))}
 }
+body:not(.pg-challenge) #chjWizHost{display:none}

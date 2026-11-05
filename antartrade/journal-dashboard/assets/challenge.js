@@ -244,7 +244,7 @@ function jJoin(){
     <button class="chj-cta" data-chwiz="1">\u05dc\u05d4\u05e6\u05d8\u05e8\u05e3 \u05dc\u05d0\u05ea\u05d2\u05e8<em>3 \u05e6\u05e2\u05d3\u05d9\u05dd</em></button></div>${C.noam?`<img class="noam" alt="" src="avatar/noam-flex.webp">`:""}</section>
   <section class="blk chj-sec"><div class="bh">${cttl("\u05d4\u05d3\u05e8\u05da","flag","sun")}<span class="hint">\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd. \u05db\u05dc \u05e9\u05dc\u05d1 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05de\u05d2\u05d9\u05e2\u05d9\u05dd \u05d0\u05dc\u05d9\u05d5.</span></div>${jStages(null)}</section>
   ${jMore("how","\u05d0\u05d9\u05da \u05d6\u05d4 \u05e2\u05d5\u05d1\u05d3 \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",jHow())}
-  </div>${jWizard()}`;}
+  </div>`;}
 function jTasks(v){
   const today=v.day===0?{trades:0,losses:0}:{trades:1,losses:0};
   const T=[[v.pendingStops.length===0,"\u05dc\u05d4\u05d6\u05d9\u05df \u05db\u05dc \u05e2\u05e1\u05e7\u05d4, \u05db\u05d5\u05dc\u05dc \u05e1\u05d8\u05d5\u05e4",v.pendingStops.length?"\u05d7\u05e1\u05e8 \u05e1\u05d8\u05d5\u05e4":"\u05d4\u05db\u05dc \u05d4\u05d5\u05d6\u05df"],
@@ -284,6 +284,8 @@ function view(){
   $("pgSub").textContent=joined?"\u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05da: \u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4":(C.noam?"":"\u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5");$("pgSub").hidden=!joined&&(C.noam||C.ver!=="old");
   $("content").innerHTML=C.ver==="old"?(joined?dashView():joinView()):(joined?jDash():jJoin());
   if(!joined&&!C.anim)setTimeout(()=>{C.anim=true;},2600);
+  let wh=document.getElementById("chjWizHost");if(!wh){wh=document.createElement("div");wh.id="chjWizHost";wh.dir="rtl";document.body.appendChild(wh);}
+  wh.innerHTML=C.ver!=="old"&&!joined?jWizard():"";enhanceForms(wh);if(typeof robotoDigits==="function")robotoDigits(wh);
   enhanceForms($("content"));if(typeof robotoDigits==="function")robotoDigits($("content"));
   document.querySelectorAll("[data-chv]").forEach(b=>b.classList.toggle("on",b.dataset.chv===C.view));
   document.querySelectorAll("[data-chn]").forEach(b=>b.classList.toggle("on",(b.dataset.chn==="on")===C.noam));
