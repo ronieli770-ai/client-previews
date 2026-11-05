@@ -46,8 +46,9 @@ const seed=()=>{
   T.custom=full?[["MGC","Micro Gold","0.1","1","10","COMEX"],["MYM","Micro Dow","1","0.5","0.5","CBOT"]]:[];
   T.goals=full?{p:"500",l:"300",n:"5"}:{p:"",l:"",n:""};
 };
-const accs=()=>S.mode==="empty"?[]:ACCOUNTS.filter(a=>!T.gone.has(a.id));
-const st=id=>T.acc.find(x=>x.id===id)||{};
+/* a new user sees only the accounts made in this visit (ids "n..."), everyone else the journal's sample accounts too */
+const accs=()=>ACCOUNTS.filter(a=>!T.gone.has(a.id)&&(S.mode!=="empty"||String(a.id).startsWith("n")));
+const st=id=>{let x=T.acc.find(x=>x.id===id);if(!x){x={id,peak:"",on:true,mini:"",micro:""};T.acc.push(x);}return x;};
 
 /* ---------- tabs ---------- */
 function profileTab(){
@@ -68,7 +69,7 @@ function profileTab(){
 
 function accCard(a){
   const x=st(a.id),tr=a.track&&TRACKS[a.track],verified=tr&&!tr.unverifiedStop,promo=promoOf(a);
-  const sub=`פרופ · ${en(tr?tr.label:a.firm)} · יתרת פתיחה: ${en(money(a.start))}`;
+  const sub=`${a.personal?"אישי":"פרופ"}${tr||a.firm?` · ${en(tr?tr.label:a.firm)}`:""} · יתרת פתיחה: ${en(money(a.start))}`;
   const peak=verified?`<div class="tile st-peak"><span class="l">${SV(I.peak)}<span>נקודת שיא:</span></span><input class="inp" type="number" dir="ltr" placeholder="${money(a.start)}" value="${x.peak}" data-stpeakin="${a.id}"><button class="btn2 ghostb" data-stsave="peak" data-id="${a.id}">שמור</button></div>`:"";
   const com=`<div class="tile st-com"><div class="st-comhd"><span class="l">${SV(I.coins)}<span>עמלות (${en("Round Turn")} לחוזה)</span></span><span class="r">${x.on?"מופעל":"מבוטל"}<button class="st-sw" role="switch" aria-checked="${x.on}" aria-label="עמלות" data-stsw="${a.id}"></button></span></div>
     ${x.on?`<div class="frm2"><div class="fld"><label>מיני / רגיל</label><input class="inp" type="number" step="0.01" min="0" dir="ltr" placeholder="4" value="${x.mini}" data-stmini="${a.id}"></div><div class="fld"><label>מיקרו</label><input class="inp" type="number" step="0.01" min="0" dir="ltr" placeholder="1.2" value="${x.micro}" data-stmicro="${a.id}"></div></div>`:""}
@@ -79,7 +80,7 @@ function accCard(a){
 }
 function accountsTab(){
   const list=accs();
-  const add=`<button class="btn2 st-add" data-page="new">${SV('<circle cx="12" cy="12" r="8.5"/><path d="M12 8.5v7M8.5 12h7"/>',"width:16px;height:16px")}הוסף חשבון חדש</button>`;
+  const add=`<button class="btn2 st-add" data-stnewacc>${SV('<circle cx="12" cy="12" r="8.5"/><path d="M12 8.5v7M8.5 12h7"/>',"width:16px;height:16px")}הוסף חשבון חדש</button>`;
   if(!list.length)return `<section class="blk"><div class="st-empty">${SV(I.acc)}<span>אין חשבונות עדיין</span>${add}</div></section>`;
   return `<div class="st-accs">${list.map(accCard).join("")}</div>${add}`;
 }
@@ -171,6 +172,23 @@ document.addEventListener("click",e=>{
   if(q("[data-stadmin]")){T.admin=!T.admin;q("[data-stadmin]").classList.toggle("on",T.admin);T.tab="profile";view();return;}
   if(q("[data-stonb]")){const b=q("[data-stonb]");b.disabled=true;b.textContent="מעביר...";setTimeout(()=>{b.disabled=false;view();},900);return;}
 });
+/* "הוסף חשבון חדש": the journal's own "חשבון חדש" window (newAccDlg). On this page its save is taken first (capture), so the
+   account joins the list here instead of the new-trade form the master's handler redraws */
+document.addEventListener("click",e=>{
+  if(S.page!=="settings")return;
+  if(e.target.closest("[data-stnewacc]")){e.preventDefault();newAccDlg();return;}
+  if(!e.target.closest("[data-createacc]"))return;
+  e.stopPropagation();e.preventDefault();
+  const nm=$("naName").value.trim();if(!nm){$("naName").focus();toast("שגיאה","הקלד שם חשבון",true);return;}
+  const personal=$("naType")&&$("naType").value==="personal",firm=personal?"":($("naFirm")&&$("naFirm").value)||"";
+  const sz=document.querySelectorAll("#naTrack select")[1],bal=document.querySelector("#naBalF input");
+  const start=personal?(Number(bal&&bal.value)||0):Number(((sz&&sz.options[sz.selectedIndex]?sz.options[sz.selectedIndex].text:"")||"").replace(/[^0-9]/g,""))||50000;
+  const id="n"+Date.now();ACCOUNTS.push({id,name:nm,firm,type:"eval",start,track:null,phase:"eval",personal});
+  T.acc.push({id,peak:"",on:true,mini:"",micro:""});
+  (!$("dlg2").hidden?$("dlg2"):$("dlg")).hidden=true;toast("חשבון נוצר בהצלחה!");view();
+  const card=document.querySelector(`[data-stdelacc="${id}"]`);if(card)card.closest(".st-acc").scrollIntoView({behavior:"smooth",block:"center"});
+},true);
+
 document.addEventListener("input",e=>{
   if(S.page!=="settings")return;
   if(e.target.id==="stName"){const b=document.querySelector('[data-stsave="name"]');if(b&&!b.classList.contains("st-saved"))b.disabled=!e.target.value.trim();}
