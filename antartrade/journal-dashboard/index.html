@@ -815,7 +815,7 @@ body.pg-404 .demo{display:none}
 .cbsw small{font-size:12px;color:var(--faint);padding:0 10px}
 .cbsw button{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;padding:7px 14px;border-radius:999px;cursor:pointer}
 .cbsw button.on{background:var(--fg);color:#12161f;font-weight:500}
-body.pg-tradovate .demo,body.pg-terms .demo,body.pg-terms .demo2{display:none}
+body.pg-tradovate .demo,body.pg-reset .demo,body.pg-reset .demo2,body.pg-terms .demo,body.pg-terms .demo2{display:none}
 /* touch feedback and phone fixes (from the streak chat, Roni's requests) */
 *{-webkit-tap-highlight-color:transparent}
 .dropz,.submit,.btn,.btn2{transition:background .2s,transform .15s ease}
@@ -854,6 +854,34 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
 .tnote b{display:block;font-weight:500;font-size:15px;margin-bottom:6px;color:var(--fg)}
 .tnote p{margin:0;font-size:15px;line-height:1.7}
 @media (max-width:900px){.tgrid{grid-template-columns:minmax(0,1fr)}.ttoc{position:static;flex-direction:row;overflow-x:auto;padding:8px;gap:6px;scrollbar-width:none}.ttoc b{display:none}.ttoc a{flex:none;white-space:nowrap;padding:8px 12px}.thero h1{font-size:30px}.thero{padding:16px 0 20px}.tsec{padding:20px 18px}.tsec h2{font-size:18px}.tsec p{font-size:15px}.tlogo img{height:30px}.tbar{padding:18px 0}}
+/* reset password: the callback card, carrying a form */
+.rpcard{width:min(460px,100%);gap:10px}
+.rpic{background:rgba(125,198,255,.12);color:var(--sky)}
+.rpt{font-size:30px;line-height:1.15;background:none;-webkit-text-fill-color:var(--fg);color:var(--fg)}
+.cbsw button{white-space:nowrap}
+.rpflds{width:100%;display:flex;flex-direction:column;gap:16px;margin-top:14px;text-align:right}
+.rpcard .inp{background:#12161f;height:50px;padding-left:46px}
+.pwbox{position:relative}
+.pweye{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;border-radius:10px;background:none;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:color .2s}
+.pweye:hover,.pweye.on{color:var(--fg)}
+.pweye .i{width:20px;height:20px}
+.pweye.on svg{opacity:1}
+.rpgo{width:100%;justify-content:center;margin-top:18px}
+.rpgo[disabled]{opacity:.6;cursor:default}
+@media (max-width:900px){.rpt{font-size:24px}.rpcard{padding:32px 20px}}
+/* reset password: the homepage sky glow, or a blurred sky scribble in its place */
+#rp .nfmark{display:none}
+.rpbg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.rpbg>*{position:absolute;display:none;max-width:none}
+.rpbg .g1{width:1210px;height:1429px;top:-300px;right:-260px;opacity:.7}
+.rpbg .g2{width:1210px;height:1429px;top:-300px;left:-260px;opacity:.4;transform:scaleX(-1)}
+.rpbg .sc{inset:0;width:100%;height:100%;object-fit:cover}
+#rp[data-bg="glow"] .g1,#rp[data-bg="glow"] .g2{display:block}
+#rp[data-bg="s1"] [data-s="s1"],#rp[data-bg="s2"] [data-s="s2"],#rp[data-bg="s3"] [data-s="s3"],#rp[data-bg="s4"] [data-s="s4"]{display:block}
+#rp .cbcard{position:relative;z-index:1;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+#rp .cbsw{z-index:2}
+#rp .cbsw .sep{width:1px;height:18px;background:rgba(238,243,250,.12);margin:0 4px}
+@media (max-width:900px){#rp .cbsw{max-width:calc(100% - 24px);overflow-x:auto;scrollbar-width:none}.rpbg .g1{right:-640px;top:-420px}.rpbg .g2{display:none!important}}
 /* mock-only switch */
 .demo{max-width:calc(100vw - 40px);overflow-x:auto;scrollbar-width:none}
 .demo button{flex:none;white-space:nowrap}
@@ -950,6 +978,23 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
   <div class="cbcard" id="cbCard"></div>
   <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-cbs="loading">בתהליך</button><button data-cbs="ok">הצליח</button><button data-cbs="error">נכשל</button></div>
 </section>
+<section class="nf" id="rp" dir="rtl" data-bg="glow" hidden>
+  <div class="rpbg" aria-hidden="true"><img class="g1" src="assets/hero-glow.svg" alt=""><img class="g2" src="assets/hero-glow.svg" alt=""><img class="sc" data-s="s1" src="assets/scrib1.svg" alt=""><img class="sc" data-s="s2" src="assets/scrib2.svg" alt=""><img class="sc" data-s="s3" src="assets/scrib3.svg" alt=""><img class="sc" data-s="s4" src="assets/scrib4.svg" alt=""></div>
+  <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
+  <form class="cbcard rpcard" id="rpForm" novalidate>
+    <span class="cbic rpic"><svg class="i" viewBox="0 0 24 24" style="width:32px;height:32px"><rect x="5" y="10.5" width="14" height="10" rx="3"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/><path d="M12 14.5v2"/></svg></span>
+    <h1 class="cbt rpt">איפוס סיסמה</h1>
+    <p class="cbp">הזן סיסמה חדשה</p>
+    <div class="rpflds"><div class="fld"><label for="rpPw">סיסמה חדשה</label><div class="pwbox"><input class="inp" id="rpPw" type="password" dir="rtl" placeholder="לפחות 6 תווים" autocomplete="new-password"><button type="button" class="pweye" data-pweye="rpPw" aria-label="הצג סיסמה" tabindex="-1"><svg class="i" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div><div class="fld"><label for="rpPw2">אימות סיסמה</label><div class="pwbox"><input class="inp" id="rpPw2" type="password" dir="rtl" placeholder="הזן שוב את הסיסמה" autocomplete="new-password"><button type="button" class="pweye" data-pweye="rpPw2" aria-label="הצג סיסמה" tabindex="-1"><svg class="i" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div></div>
+    <button class="btn2 rpgo" type="submit" id="rpGo">עדכן סיסמה</button>
+  </form>
+  <div class="cbcard" id="rpBad" hidden>
+    <span class="cbic er"><svg class="i" viewBox="0 0 24 24" style="width:32px;height:32px"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/><path d="M4 4l16 16"/></svg></span>
+    <p class="cbt">קישור לא תקין או שפג תוקפו.</p>
+    <a class="btn2" href="#" data-page="dash">חזרה להתחברות</a>
+  </div>
+  <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-rps="form">טופס</button><button data-rps="bad">קישור לא תקין</button><span class="sep"></span><button data-rpbg="glow" class="on">הקו מההתחלה</button><button data-rpbg="s1">קשקוש 1</button><button data-rpbg="s2">קשקוש 2</button><button data-rpbg="s3">קשקוש 3</button><button data-rpbg="s4">קשקוש 4</button></div>
+</section>
 <div class="terms" id="terms" dir="rtl" hidden>
   <header class="tbar"><a class="tlogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a><a class="tback" href="#" data-page="dash"><svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M9 6l6 6-6 6"/></svg>חזרה</a></header>
   <div class="thero"><h1>תנאי שימוש ותקנון&nbsp;- <span class="en">AntarTrade</span></h1><p>עדכון אחרון: מרץ 2026</p></div>
@@ -957,7 +1002,7 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
 </div>
 <div class="dlg-bg" id="dlg2" dir="rtl" hidden style="z-index:56"><div class="dlg" role="dialog" aria-modal="true"><button class="ib x" data-close2 aria-label="סגור"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div id="dlg2Body"></div></div></div>
 <div class="toast" id="toast" dir="rtl" role="status" hidden></div>
-<div class="demo" dir="rtl" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button class="on" data-m="full">עם עסקאות</button><button data-m="empty">משתמש חדש</button><span class="sep"></span><button class="on" data-n="ok">רגיל</button><button data-n="loading">טעינה</button><button data-n="down">האתר לא עונה</button><span class="sep logonly"></span><button class="on logonly" data-c="ok">חיבור פעיל</button><button class="logonly" data-c="expired">חיבור פג</button><span class="sep"></span><button data-page="tradovate">חיבור טרדוביט</button><button data-page="404">דף שגיאה</button><button data-page="terms">תנאי שימוש</button></div>
+<div class="demo" dir="rtl" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button class="on" data-m="full">עם עסקאות</button><button data-m="empty">משתמש חדש</button><span class="sep"></span><button class="on" data-n="ok">רגיל</button><button data-n="loading">טעינה</button><button data-n="down">האתר לא עונה</button><span class="sep logonly"></span><button class="on logonly" data-c="ok">חיבור פעיל</button><button class="logonly" data-c="expired">חיבור פג</button><span class="sep"></span><button data-page="tradovate">חיבור טרדוביט</button><button data-page="404">דף שגיאה</button><button data-page="terms">תנאי שימוש</button><button data-page="reset">שחזור סיסמה</button></div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -1033,7 +1078,7 @@ const PEAK={};
 /* ---------- state ---------- */
 let ACC={pot:false,hub:false,mets:false};try{Object.assign(ACC,JSON.parse(localStorage.getItem("journal-acc")||"{}"));}catch(e){}
 const saveAcc=()=>{try{localStorage.setItem("journal-acc",JSON.stringify(ACC));}catch(e){}};
-const S={conn:"ok",page:(location.hash==="#log"?"log":location.hash==="#new"?"new":location.hash==="#404"?"404":location.hash==="#tradovate"?"tradovate":location.hash==="#challenge"?"challenge":location.hash==="#terms"?"terms":"dash"),lf:{asset:"all",dir:"all",grade:"all",tag:"all",strat:"all"},sel:new Set(),mode:"full",type:"all",accs:[],from:null,to:null,month:null,open:null};
+const S={conn:"ok",page:(location.hash==="#log"?"log":location.hash==="#new"?"new":location.hash==="#404"?"404":location.hash==="#tradovate"?"tradovate":location.hash==="#challenge"?"challenge":location.hash==="#terms"?"terms":location.hash==="#reset"?"reset":"dash"),lf:{asset:"all",dir:"all",grade:"all",tag:"all",strat:"all"},sel:new Set(),mode:"full",type:"all",accs:[],from:null,to:null,month:null,open:null};
 const typeOk=a=>S.type==="all"||a.type===S.type;
 const effIds=()=>S.accs.length?S.accs:(S.type==="all"?[]:ACCOUNTS.filter(typeOk).map(a=>a.id));
 function filtered(){
@@ -1441,10 +1486,10 @@ function syncDlg(full){
       ${a.exists?"":`<div class="frm3"><div class="fld"><label>סוג</label><select class="inp"><option>אישי</option><option selected>Prop Firm</option></select></div><div class="fld"><label>חברה / Firm (אופציונלי)</label><input class="inp" placeholder="לדוגמה: Apex - eval"></div><div class="fld"><label>יתרת פתיחה (אופציונלי)</label><input class="inp" type="number" placeholder="50000"></div></div>`}</div>`).join("")}</div>
     <div class="dangerb"><button class="btn2" data-dosync="${full?1:0}">סנכרן</button><button class="btn3" data-closedlg>ביטול</button></div>`;},900);
 }
-const PAGES={"404":["",""],tradovate:["",""],terms:["",""],challenge:["אתגר 90",""],dash:["ערב טוב, רוני","סקירה כללית של ביצועי המסחר שלך"],log:["יומן עסקאות","כל העסקאות שלך במקום אחד"],new:["עסקה חדשה","הוסף עסקה ידנית או ייבא מקובץ"]};
+const PAGES={"404":["",""],tradovate:["",""],terms:["",""],reset:["",""],challenge:["אתגר 90",""],dash:["ערב טוב, רוני","סקירה כללית של ביצועי המסחר שלך"],log:["יומן עסקאות","כל העסקאות שלך במקום אחד"],new:["עסקה חדשה","הוסף עסקה ידנית או ייבא מקובץ"]};
 function setPage(pg,tab){
-  S.page=pg;["dash","log","new","404","tradovate","challenge","terms"].forEach(k=>document.body.classList.toggle("pg-"+k,pg===k));$("nf").hidden=pg!=="404";$("cb").hidden=pg!=="tradovate";$("terms").hidden=pg!=="terms";clearTimeout(window._cbT);
-  if(pg==="404"||pg==="tradovate"||pg==="terms"){try{history.replaceState(null,"","#"+pg);}catch(e){}scrollTo(0,0);if(pg==="tradovate")cbState("loading");return;}
+  S.page=pg;["dash","log","new","404","tradovate","challenge","terms","reset"].forEach(k=>document.body.classList.toggle("pg-"+k,pg===k));$("nf").hidden=pg!=="404";$("cb").hidden=pg!=="tradovate";$("terms").hidden=pg!=="terms";$("rp").hidden=pg!=="reset";clearTimeout(window._cbT);
+  if(pg==="404"||pg==="tradovate"||pg==="terms"||pg==="reset"){try{history.replaceState(null,"","#"+pg);}catch(e){}scrollTo(0,0);if(pg==="tradovate")cbState("loading");if(pg==="reset")rpState("form");return;}
   if(pg==="new"&&tab)NT.tab=tab;
   document.querySelectorAll(".nav a,.mnav a").forEach(a=>a.classList.toggle("on",a.dataset.page===pg));
   $("pgTitle").textContent=PAGES[pg][0];$("pgSub").textContent=PAGES[pg][1];
@@ -1842,6 +1887,16 @@ function cbState(st){
   else {C.innerHTML=`<span class="cbic er">${ALERT.replace('class="i"','class="i" style="width:32px;height:32px"')}</span><p class="cbt">שגיאה בחיבור</p><p class="cbp">חסר קוד הרשאה מ-<span class="en">Tradovate</span></p><a class="btn2" href="#" data-page="new">חזרה ליומן</a>`;}
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-cbs]");if(b)cbState(b.dataset.cbs);});
+
+/* ---------- reset password ---------- */
+function rpState(st){document.querySelectorAll("[data-rps]").forEach(b=>b.classList.toggle("on",b.dataset.rps===st));$("rpForm").hidden=st!=="form";$("rpBad").hidden=st!=="bad";
+  if(st==="form"){$("rpForm").reset();document.querySelectorAll("#rpForm .pweye").forEach(b=>{b.classList.remove("on");$(b.dataset.pweye).type="password";});const g=$("rpGo");g.disabled=false;g.textContent="עדכן סיסמה";}}
+document.addEventListener("click",e=>{const g=e.target.closest("[data-rpbg]");if(g){$("rp").dataset.bg=g.dataset.rpbg;document.querySelectorAll("[data-rpbg]").forEach(x=>x.classList.toggle("on",x===g));}const b=e.target.closest("[data-rps]");if(b)rpState(b.dataset.rps);const y=e.target.closest("[data-pweye]");if(y){const i=$(y.dataset.pweye),show=i.type==="password";i.type=show?"text":"password";y.classList.toggle("on",show);y.setAttribute("aria-label",show?"הסתר סיסמה":"הצג סיסמה");}});
+$("rpForm").addEventListener("submit",e=>{e.preventDefault();const a=$("rpPw").value,b=$("rpPw2").value,g=$("rpGo");
+  if(a.length<6){toast("שגיאה","הסיסמה חייבת להכיל לפחות 6 תווים",true);return;}
+  if(a!==b){toast("שגיאה","הסיסמאות לא תואמות",true);return;}
+  g.disabled=true;g.textContent="מעדכן...";
+  setTimeout(()=>{toast("הסיסמה עודכנה בהצלחה!","מעביר אותך לדשבורד...");setTimeout(()=>setPage("dash"),1400);},900);});
 
 /* ---------- terms ---------- */
 document.addEventListener("click",e=>{const a=e.target.closest("[data-tjump]");if(!a)return;e.preventDefault();$("t"+a.dataset.tjump).scrollIntoView({behavior:"smooth",block:"start"});});

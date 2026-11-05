@@ -8,7 +8,6 @@ body.pg-challenge .chonly{display:flex!important}
 .ch-coach .av{position:relative;width:180px;flex:none;margin-top:-58px;clip-path:inset(-300px -300px 0 -300px)}
 .ch-coach .av img{position:absolute;bottom:0;right:10px;width:170px}
 .ch-coach .bub{flex:1;padding:18px 4px 18px 22px;display:flex;flex-direction:column;justify-content:center}
-.ch-coach .bub small{display:block;font-size:13px;color:var(--sky);margin-bottom:4px}
 .ch-coach .bub span{font-size:22px;line-height:1.35;font-weight:500;color:var(--fg);text-wrap:pretty}
 
 /* progress: the day count, the stage, and the 90 days as three stages on one track */

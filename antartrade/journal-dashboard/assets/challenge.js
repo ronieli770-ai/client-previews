@@ -81,7 +81,7 @@ let SMP=JSON.parse(JSON.stringify(SAMPLES));
 /* ---- dashboard ---- */
 function coach(v){
   if(!C.noam)return "";
-  return `<div class="ch-coach"><div class="av"><img alt="\u05e0\u05d5\u05e2\u05dd" src="avatar/noam-${v.av}.webp"></div><div class="bub"><small>\u05e0\u05d5\u05e2\u05dd \u05e2\u05e0\u05ea\u05e8</small><span>${headline(v.out)}</span></div></div>`;}
+  return `<div class="ch-coach"><div class="av"><img alt="\u05e0\u05d5\u05e2\u05dd" src="avatar/noam-${v.av}.webp"></div><div class="bub"><span>${headline(v.out)}</span></div></div>`;}
 function progress(v){
   const st=STAGES[v.stage],segs=[1,2,3].map(n=>{
     const from=(n-1)*30,fill=Math.min(Math.max((v.day-from)/30,0),1),cur=v.stage===n;
@@ -162,7 +162,7 @@ function joinView(){
   const strip=`<div class="ch-mis"><div class="ch-mis-h"><b>\u05d4\u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</b><span class="num">${ndone}/3</span></div><div class="ch-mis-r">${STEP_T.map((t,i)=>`<a href="#ch-step${i+1}" class="${done[i]?"ok":""}" data-chjump="${i+1}">${num(i)}<span>${t}</span></a>`).join("")}</div><div class="ch-mis-bar"><i style="width:${ndone/3*100}%"></i></div></div>`;
   const disc=`<div class="ch-disc">${SV(CI.tag)}<span>${DISCOUNT}</span><a href="https://antartrade.co.il/promotions" target="_blank" rel="noopener">\u05dc\u05d3\u05e3 \u05d4\u05d4\u05e0\u05d7\u05d5\u05ea${SV(CI.ext,"width:14px;height:14px")}</a></div>`;
   return `<div class="ch-join">
-  ${C.noam?`<div class="ch-coach ch-invite"><div class="av"><img alt="\u05e0\u05d5\u05e2\u05dd" src="avatar/noam-before.webp"></div><div class="bub"><small>\u05e0\u05d5\u05e2\u05dd \u05e2\u05e0\u05ea\u05e8</small><span>\u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5</span></div></div>`:""}
+  ${C.noam?`<div class="ch-coach ch-invite"><div class="av"><img alt="\u05e0\u05d5\u05e2\u05dd" src="avatar/noam-flex.webp"></div><div class="bub"><span>\u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5</span></div></div>`:""}
   <section class="blk ch-hero"><div class="bh">${cttl("\u05de\u05d4 \u05d6\u05d4 \u05d4\u05d0\u05ea\u05d2\u05e8","flag","sun")}</div>
    ${path}
    <p class="ch-desc">90 \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 (\u05db-18 \u05e9\u05d1\u05d5\u05e2\u05d5\u05ea) \u05d1\u05ea\u05d5\u05da \u05d4\u05d9\u05d5\u05de\u05df. \u05d4\u05de\u05d8\u05e8\u05d4: \u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05d4\u05db\u05dc \u05de\u05d7\u05d5\u05e9\u05d1 \u05de\u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d1\u05d9\u05d5\u05de\u05df. \u05d0\u05d9\u05df \u05d8\u05d1\u05dc\u05ea \u05de\u05d5\u05d1\u05d9\u05dc\u05d9\u05dd: \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5.</p>
