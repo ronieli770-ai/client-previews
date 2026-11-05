@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="assets/challenge.css">
 <link rel="stylesheet" href="assets/streak.css">
 <link rel="stylesheet" href="assets/mentor.css">
+<link rel="stylesheet" href="assets/auth.css">
+<link rel="stylesheet" href="assets/settings.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500&display=swap">
 <style>
 
@@ -789,7 +791,6 @@ body.pg-new .top{margin-bottom:8px}
 .nf{position:fixed;inset:0;z-index:48;background:var(--page);display:grid;place-items:center;overflow:hidden;padding:24px max(16px,env(safe-area-inset-left,0px)) 24px max(16px,env(safe-area-inset-right,0px))}
 .nfmark{position:absolute;width:460px;right:-150px;bottom:150px;opacity:.34;filter:blur(8px);pointer-events:none;transform:rotate(-16deg)}
 body.pg-404,body.pg-tradovate,body.pg-reset{overflow:hidden}
-/* html has overflow-x:clip, so body's hidden never reaches the window: the page scrollbar stays unless html is closed too */
 html:has(body.pg-404),html:has(body.pg-tradovate),html:has(body.pg-reset){overflow:hidden}
 .nflogo{position:absolute;top:max(28px,env(safe-area-inset-top,0px));right:max(32px,env(safe-area-inset-right,0px))}
 .nflogo img{height:40px;display:block}
@@ -872,19 +873,17 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
 .rpgo{width:100%;justify-content:center;margin-top:18px}
 .rpgo[disabled]{opacity:.6;cursor:default}
 @media (max-width:900px){.rpt{font-size:24px}.rpcard{padding:32px 20px}}
-/* reset password: the homepage sky glow, or a blurred sky scribble in its place */
+/* reset password: the hot-deals background, a branded card (logo bulb, welcome tag) */
 #rp .nfmark{display:none}
 .rpbg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.rpbg>*{position:absolute;display:none;max-width:none}
-.rpbg .g1{width:1210px;height:1429px;top:-300px;right:-260px;opacity:.7}
-.rpbg .g2{width:1210px;height:1429px;top:-300px;left:-260px;opacity:.4;transform:scaleX(-1)}
-.rpbg .sc{inset:0;width:100%;height:100%;object-fit:cover}
-#rp[data-bg="glow"] .g1,#rp[data-bg="glow"] .g2{display:block}
-#rp[data-bg="r1"] [data-s="r1"],#rp[data-bg="r2"] [data-s="r2"],#rp[data-bg="r3"] [data-s="r3"]{display:block}
-#rp .cbcard{position:relative;z-index:1;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.rpbg .sc{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#rp .cbcard{position:relative;z-index:1;box-shadow:0 30px 80px rgba(0,0,0,.45);background:radial-gradient(70% 60% at 100% 0,rgba(46,139,216,.2),transparent),#0b0e14;outline:1px solid rgba(125,198,255,.14);outline-offset:-1px}
+.rpbulb{position:relative;width:76px;height:76px;display:grid;place-items:center;margin-bottom:4px}
+.rpbulb::before{content:"";position:absolute;inset:-18px;border-radius:50%;background:radial-gradient(closest-side,rgba(79,107,255,.38),rgba(125,198,255,.12) 60%,transparent);filter:blur(6px)}
+.rpbulb img{position:relative;width:64px;height:64px;filter:drop-shadow(0 0 14px rgba(125,198,255,.45))}
+.rptag{font-size:13px;font-weight:500;padding:5px 12px;border-radius:999px;background:rgba(125,198,255,.12);color:var(--sky);margin-top:4px}
 #rp .cbsw{z-index:2}
-#rp .cbsw .sep{width:1px;height:18px;background:rgba(238,243,250,.12);margin:0 4px}
-@media (max-width:900px){#rp .cbsw{max-width:calc(100% - 24px);overflow-x:auto;scrollbar-width:none}.rpbg .g1{right:-640px;top:-420px}.rpbg .g2{display:none!important}}
+@media (max-width:900px){#rp .cbsw{max-width:calc(100% - 24px);overflow-x:auto;scrollbar-width:none}}
 /* mock-only switch */
 .demo{max-width:calc(100vw - 40px);overflow-x:auto;scrollbar-width:none}
 .demo button{flex:none;white-space:nowrap}
@@ -980,11 +979,12 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
   <div class="cbcard" id="cbCard"></div>
   <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-cbs="loading">בתהליך</button><button data-cbs="ok">הצליח</button><button data-cbs="error">נכשל</button></div>
 </section>
-<section class="nf" id="rp" dir="rtl" data-bg="r1" hidden>
-  <div class="rpbg" aria-hidden="true"><img class="g1" src="assets/hero-glow.svg" alt=""><img class="g2" src="assets/hero-glow.svg" alt=""><img class="sc" data-s="r1" src="assets/ribbon1.svg" alt=""><img class="sc" data-s="r2" src="assets/ribbon2.svg" alt=""><img class="sc" data-s="r3" src="assets/ribbon3.svg" alt=""></div>
+<section class="nf" id="rp" dir="rtl" data-bg="d0" hidden>
+  <div class="rpbg" aria-hidden="true"><img class="sc" data-s="d0" src="assets/deals-bg.webp" alt=""></div>
   <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
   <form class="cbcard rpcard" id="rpForm" novalidate>
-    <span class="cbic rpic"><svg class="i" viewBox="0 0 24 24" style="width:32px;height:32px"><rect x="5" y="10.5" width="14" height="10" rx="3"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/><path d="M12 14.5v2"/></svg></span>
+    <span class="rpbulb"><img src="assets/bulb.svg" alt="AntarTrade"></span>
+    <span class="rptag">ברוכים הבאים ל-<span class="en">AntarTrade</span></span>
     <h1 class="cbt rpt">איפוס סיסמה</h1>
     <p class="cbp">הזן סיסמה חדשה</p>
     <div class="rpflds"><div class="fld"><label for="rpPw">סיסמה חדשה</label><div class="pwbox"><input class="inp" id="rpPw" type="password" dir="rtl" placeholder="לפחות 6 תווים" autocomplete="new-password"><button type="button" class="pweye" data-pweye="rpPw" aria-label="הצג סיסמה" tabindex="-1"><svg class="i" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div><div class="fld"><label for="rpPw2">אימות סיסמה</label><div class="pwbox"><input class="inp" id="rpPw2" type="password" dir="rtl" placeholder="הזן שוב את הסיסמה" autocomplete="new-password"><button type="button" class="pweye" data-pweye="rpPw2" aria-label="הצג סיסמה" tabindex="-1"><svg class="i" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div></div>
@@ -995,7 +995,7 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
     <p class="cbt">קישור לא תקין או שפג תוקפו.</p>
     <a class="btn2" href="#" data-page="dash">חזרה להתחברות</a>
   </div>
-  <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-rps="form">טופס</button><button data-rps="bad">קישור לא תקין</button><span class="sep"></span><button data-rpbg="r1" class="on">קו 1</button><button data-rpbg="r2">קו 2</button><button data-rpbg="r3">קו 3</button><button data-rpbg="glow">הקו של דף הבית</button></div>
+  <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-rps="form">טופס</button><button data-rps="bad">קישור לא תקין</button></div>
 </section>
 <div class="terms" id="terms" dir="rtl" hidden>
   <header class="tbar"><a class="tlogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a><a class="tback" href="#" data-page="dash"><svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M9 6l6 6-6 6"/></svg>חזרה</a></header>
@@ -1893,7 +1893,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-cbs]");if(
 /* ---------- reset password ---------- */
 function rpState(st){document.querySelectorAll("[data-rps]").forEach(b=>b.classList.toggle("on",b.dataset.rps===st));$("rpForm").hidden=st!=="form";$("rpBad").hidden=st!=="bad";
   if(st==="form"){$("rpForm").reset();document.querySelectorAll("#rpForm .pweye").forEach(b=>{b.classList.remove("on");$(b.dataset.pweye).type="password";});const g=$("rpGo");g.disabled=false;g.textContent="עדכן סיסמה";}}
-document.addEventListener("click",e=>{const g=e.target.closest("[data-rpbg]");if(g){$("rp").dataset.bg=g.dataset.rpbg;document.querySelectorAll("[data-rpbg]").forEach(x=>x.classList.toggle("on",x===g));}const b=e.target.closest("[data-rps]");if(b)rpState(b.dataset.rps);const y=e.target.closest("[data-pweye]");if(y){const i=$(y.dataset.pweye),show=i.type==="password";i.type=show?"text":"password";y.classList.toggle("on",show);y.setAttribute("aria-label",show?"הסתר סיסמה":"הצג סיסמה");}});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-rps]");if(b)rpState(b.dataset.rps);const y=e.target.closest("[data-pweye]");if(y){const i=$(y.dataset.pweye),show=i.type==="password";i.type=show?"text":"password";y.classList.toggle("on",show);y.setAttribute("aria-label",show?"הסתר סיסמה":"הצג סיסמה");}});
 $("rpForm").addEventListener("submit",e=>{e.preventDefault();const a=$("rpPw").value,b=$("rpPw2").value,g=$("rpGo");
   if(a.length<6){toast("שגיאה","הסיסמה חייבת להכיל לפחות 6 תווים",true);return;}
   if(a!==b){toast("שגיאה","הסיסמאות לא תואמות",true);return;}
@@ -2010,3 +2010,5 @@ robotoDigits(document.body);
 <script src="assets/challenge.js" charset="utf-8"></script>
 <script src="assets/streak.js" charset="utf-8" defer></script>
 <script src="assets/mentor.js" charset="utf-8" defer></script>
+<script src="assets/auth.js" charset="utf-8" defer></script>
+<script src="assets/settings.js" charset="utf-8" defer></script>

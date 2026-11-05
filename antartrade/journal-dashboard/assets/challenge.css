@@ -233,3 +233,7 @@ body.pg-challenge .chonly{display:flex!important}
   .ch-old .exp>button{padding:16px}.ch-old .exp .body{padding:0 16px 16px}
   .demo3{bottom:calc(128px + env(safe-area-inset-bottom,0px));left:12px;right:12px;transform:none;overflow-x:auto;scrollbar-width:none}.demo3 button{white-space:nowrap;flex:none}
 }
+/* checkboxes: the mock's .ck is #0b0e14, the same as the block, so it vanished. A sky tint keeps it frameless and visible */
+.pg-challenge .ch-pickacc .ck,.pg-challenge .ch-accept .ck{width:22px;height:22px;border-radius:7px;background:rgba(125,198,255,.16);flex:none;transition:background .2s}
+.pg-challenge .ch-pickacc .ck:hover,.pg-challenge .ch-accept .ck:hover{background:rgba(125,198,255,.26)}
+.pg-challenge .ch-pickacc .ck:checked,.pg-challenge .ch-accept .ck:checked{background:var(--royal)}
