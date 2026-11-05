@@ -74,7 +74,7 @@ function sideTs(){
     <h2 class="ts-h">יומן המסחר המתקדם שלך.</h2>
     <p class="ts-sub">עקוב, נתח ושפר את הביצועים שלך.</p>
     <div class="ts-set">
-      <img class="ts-w ts-coach" src="assets/auth-s1-float.webp" alt="">
+      <img class="ts-w ts-coach" src="assets/auth-w-coach.webp" alt="">
       <div class="ts-two"><img class="ts-w" src="assets/auth-kpi-pnl.webp" alt=""><img class="ts-w" src="assets/auth-kpi-win.webp" alt=""></div>
       <div class="ts-w ts-card"><img src="assets/auth-w-prop.webp" alt=""></div>
     </div>

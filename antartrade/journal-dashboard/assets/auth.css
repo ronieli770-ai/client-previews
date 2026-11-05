@@ -100,3 +100,4 @@ body.pg-auth .demo{display:none}
 .ts-feats{margin:30px 0 0;font-size:14px;color:var(--faint);display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
 .ts-feats span{opacity:.6}
 @media (max-width:1000px){#au[data-side="e"] .au-wrap{grid-template-columns:minmax(0,1fr)}#au[data-side="e"] .au-wrap>.cbcard{padding:96px 0 120px;align-self:start}}
+.ts-coach{border-radius:0}

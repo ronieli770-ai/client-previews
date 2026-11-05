@@ -191,14 +191,22 @@ function joinView(){
 
 /* ---- journey version (05.11): the goal first, then where you are and what to do today; numbers fold away at the bottom ---- */
 const JI={lock:'<rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',ok:'<path d="M6.5 12.5l3.5 3.5 7.5-8"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>'};
-/* the equity curve shared by both versions: day 1 at x 1000, day 90 at x 12 */
-const EQ=[[1000,150],[960,146],[930,138],[905,143],[875,128],[845,134],[815,120],[790,124],[760,112],[730,118],[700,104],[667,100],[640,92],[612,98],[585,84],[555,90],[528,74],[500,80],[470,66],[440,72],[410,58],[380,62],[350,50],[333,48],[305,42],[278,47],[250,36],[222,40],[194,30],[166,33],[138,24],[110,27],[82,18],[54,20],[28,12],[12,10]];
-const eqY=x=>{for(let i=1;i<EQ.length;i++){const [x1,y1]=EQ[i-1],[x2,y2]=EQ[i];if(x<=x1&&x>=x2)return y1+(y2-y1)*(x1-x)/(x1-x2);}return 10;};
-function miniCurve(day){
-  const xd=1000-Math.min(Math.max(day,0),90)/90*988,yd=eqY(xd);
-  const past=EQ.filter(p=>p[0]>=xd),rest=EQ.filter(p=>p[0]<xd);
-  const P=a=>a.map(p=>p.join(",")).join(" L");
-  return `<svg class="chj-mini" viewBox="0 -14 1000 180" aria-hidden="true"><defs><linearGradient id="chjL" x1="1" x2="0"><stop offset="0" stop-color="#7DC6FF"/><stop offset="1" stop-color="#4F6BFF"/></linearGradient></defs><line class="pay" x1="12" y1="10" x2="1000" y2="10"/>${rest.length?`<path class="rest" d="M${xd},${yd} L${P(rest)}"/>`:""}${past.length?`<path class="past" d="M${P(past)} L${xd},${yd}"/>`:""}<circle class="goal" cx="12" cy="10" r="11"/><circle class="me" cx="${xd}" cy="${yd}" r="13"/></svg>`;}
+/* 90 days, one square each: clean, violation, no trading, today, still ahead. Built from the challenge's own counts
+   (days traded, days with violations); in the real journal each square comes from that day's trades */
+function dayStates(v){
+  const n=v.day,past=Math.max(n-1,0),S=Array(90).fill("next");if(!n)return S;
+  for(let d=0;d<past;d++)S[d]="clean";
+  const put=(k,st,shift)=>{for(let i=0;i<k;i++){let d=Math.min(past-1,Math.round((i+shift)*past/(k+.6)));while(d>=0&&S[d]!=="clean")d--;if(d>=0)S[d]=st;}};
+  put(Math.min(v.violations.length,past),"bad",.35);put(Math.max(past-v.stats.daysTraded,0),"off",.8);
+  S[n-1]="today";return S;}
+function dayGrid(v){
+  const S=dayStates(v),L={clean:"\u05d9\u05d5\u05dd \u05e0\u05e7\u05d9",bad:"\u05d9\u05d5\u05dd \u05e2\u05dd \u05d4\u05e4\u05e8\u05d4",off:"\u05d9\u05d5\u05dd \u05d1\u05dc\u05d9 \u05de\u05e1\u05d7\u05e8",today:"\u05d4\u05d9\u05d5\u05dd",next:"\u05e2\u05d5\u05d3 \u05dc\u05d0 \u05d4\u05d2\u05d9\u05e2"};
+  let streak=0;for(let d=v.day-2;d>=0&&S[d]!=="bad";d--)streak++;
+  const grp=g=>`<div class="chj-gw"><div class="chj-grp">${S.slice(g*30,g*30+30).map((st,i)=>`<i class="d-${st}" title="\u05d9\u05d5\u05dd ${g*30+i+1} \u00b7 ${L[st]}"></i>`).join("")}</div><small>\u05e9\u05dc\u05d1 ${g+1} \u00b7 ${STAGES[g+1].title}</small></div>`;
+  const clean=S.filter(x=>x==="clean"||x==="off").length;
+  return `<div class="chj-days"><div class="chj-dh"><span>\u05e8\u05e6\u05e3 \u05d9\u05de\u05d9\u05dd \u05d1\u05dc\u05d9 \u05d4\u05e4\u05e8\u05d4 <b class="num">${streak}</b></span><span>\u05d9\u05de\u05d9\u05dd \u05d1\u05dc\u05d9 \u05d4\u05e4\u05e8\u05d4 <b class="num">${clean}</b> \u05de\u05ea\u05d5\u05da <b class="num">${Math.max(v.day-1,0)}</b></span></div>
+   <div class="chj-grid">${grp(0)}${grp(1)}${grp(2)}</div>
+   <div class="chj-lg">${["clean","bad","off","today"].map(k=>`<span><i class="d-${k}"></i>${L[k]}</span>`).join("")}</div></div>`;}
 function jStages(v){
   const day=v?v.day:-1,cur=v?v.stage:0;
   return `<div class="chj-path">${[1,2,3].map(n=>{
@@ -257,7 +265,8 @@ function jDash(){
   const v=SMP[C.view],st=STAGES[v.stage],left=v.stage*30-v.day;
   const nextTx=v.day===0?"\u05d4\u05d0\u05ea\u05d2\u05e8 \u05de\u05ea\u05d7\u05d9\u05dc \u05d1\u05d9\u05d5\u05dd \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d1\u05d0 \u05d1\u05d1\u05d5\u05e8\u05e1\u05d4 \u05d4\u05d0\u05de\u05e8\u05d9\u05e7\u05d0\u05d9\u05ea.":v.stage<3?`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05dc\u05e9\u05dc\u05d1 ${STAGES[v.stage+1].title}.`:`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05dc\u05e1\u05d5\u05e3 \u05d4\u05d0\u05ea\u05d2\u05e8.`;
   return `<div class="chj">
-  <section class="chj-hero dash${C.noam?" av":""}"><div class="tx"><small>\u05e9\u05dc\u05d1 ${v.stage} \u00b7 ${st.title}</small><div class="chj-day"><b>${v.day||1}</b><span>\u05de\u05ea\u05d5\u05da <span class="num">90</span></span></div><p>${nextTx}</p>${C.noam?`<p class="say">${headline(v.out)}</p>`:""}</div>${C.noam?`<img class="noam" alt="" src="avatar/noam-${v.av}.webp">`:""}${miniCurve(v.day)}</section>
+  <section class="chj-hero dash${C.noam?" av":""}"><div class="tx"><small>\u05e9\u05dc\u05d1 ${v.stage} \u00b7 ${st.title}</small><div class="chj-day"><b>${v.day||1}</b><span>\u05de\u05ea\u05d5\u05da <span class="num">90</span></span></div><p>${nextTx}</p>${C.noam?`<p class="say">${headline(v.out)}</p>`:""}</div>${C.noam?`<img class="noam" alt="" src="avatar/noam-${v.av}.webp">`:""}</section>
+  <section class="blk chj-sec">${dayGrid(v)}</section>
   ${warns(v)}
   ${jTasks(v)}
   <section class="blk chj-sec"><div class="bh">${cttl("\u05d4\u05d3\u05e8\u05da","flag","sun")}<span class="hint">${st.goal}</span></div>${jStages(v)}
