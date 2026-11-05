@@ -117,7 +117,11 @@ body:not(.pg-settings) .demo .st-demo{display:none}
   .st-rowbtn{gap:10px;padding:6px}
   .st-rowbtn .ico{display:none}
   .st-flag{display:none}
-  .st-tabs{width:100%}
+  /* phones: every tab its own capsule, three on top and two under them (option B) */
+  .seg.st-tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;width:100%;padding:0;background:none;border-radius:0;overflow:visible}
+  .seg.st-tabs button{grid-column:span 2;justify-content:center;gap:6px;height:40px;padding:0 6px;background:var(--block);font-size:15px}
+  .seg.st-tabs button:nth-child(4),.seg.st-tabs button:nth-child(5){grid-column:span 3}
+  .seg.st-tabs button.on{background:var(--fg)}
   .st-goals{grid-template-columns:minmax(0,1fr)}
   .st-peak .l{flex-basis:100%}
   .st-tbl{display:none}
