@@ -1,0 +1,227 @@
+/* 90-day challenge (/challenge) in the journal mock. Copy word for word from Noam's ChallengeJoin, ChallengeDashboard,
+   ChallengeSnapshot, stage.ts, rules.ts and coaching.ts; numbers are sample data. Uses the mock's own helpers ($, ico, ttl, dlg, toast,
+   enhanceForms, robotoDigits, newAccDlg, ACCOUNTS, TRACKS). */
+(function(){
+const SV=(p,s)=>`<svg class="i" viewBox="0 0 24 24"${s?` style="${s}"`:""}>${p}</svg>`;
+const CI={
+ flag:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+ compass:'<circle cx="12" cy="12" r="8.5"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+ alert:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',
+ accs:'<rect x="3.5" y="5" width="17" height="14" rx="3"/><path d="M3.5 10h17M7.5 15h3"/>',
+ check:'<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/>',
+ ext:'<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+ calc:'<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/>',
+ tag:'<path d="M3.5 12.5V5a1.5 1.5 0 0 1 1.5-1.5h7.5l8 8-9 9z"/><circle cx="8" cy="8" r="1.4"/>',
+ up:'<path d="M12 19V5M6 11l6-6 6 6"/>',dn:'<path d="M12 5v14M6 13l6 6 6-6"/>',
+ plus:'<circle cx="12" cy="12" r="8.5"/><path d="M12 8.5v7M8.5 12h7"/>',
+ chev:'<path d="M6 9l6 6 6-6"/>',left:'<path d="M15 6l-6 6 6 6"/>',
+ shield:'<path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/>',
+ count:'<path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16"/>',
+ pct:'<path d="M18 6L6 18"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>',
+ scale:'<path d="M12 4v16M7 20h10M5 8h14"/><path d="M5 8l-2.5 6a2.5 2.5 0 0 0 5 0zM19 8l-2.5 6a2.5 2.5 0 0 0 5 0z"/>',
+ streak:'<path d="M4 18l5-6 4 3 7-9"/><path d="M15 6h5v5"/>',
+ dollar:'<path d="M12 3v18M16.5 7.5c-.6-1.6-2.4-2.5-4.5-2.5-2.5 0-4.5 1.3-4.5 3.3 0 4.5 9 2.4 9 7 0 2-2 3.3-4.5 3.3-2.1 0-3.9-.9-4.5-2.6"/>'};
+const ci=(k,c)=>`<span class="ico" style="--c:var(--c-${c})">${SV(CI[k])}</span>`;
+const cttl=(t,k,c)=>`<div class="ttl">${ci(k,c)}<h2>${t}</h2></div>`;
+const usd=v=>(v<0?"-":"")+"$"+Math.round(Math.abs(v)).toLocaleString("en-US");
+const usd2=v=>"$"+Math.abs(v).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const pctf=x=>x==null?"—":Math.round(x*100)+"%";
+/* a sign belongs to the number only when no Hebrew letter sits right before it ("ב-30" keeps its hyphen outside) */
+const nums=t=>String(t).replace(/(?<![\u0590-\u05FF])[+-]?\$?\d(?:[\d,.:]*\d)?(?:%|R|K)?|\$?\d(?:[\d,.:]*\d)?(?:%|R|K)?/g,m=>`<span class="num">${m}</span>`);
+const fmtR=r=>`${r>0?"+":r<0?"-":""}${Math.abs(Math.round(r*10)/10)}R`;
+
+/* ---- Noam's texts ---- */
+const STAGES={1:{title:"הישרדות",goal:"לא לשרוף חשבון, לעמוד בכללים ולבצע תוכנית",days:"ימים 1–30"},2:{title:"מבחן מימון",goal:"לעבור מבחן בלי להגדיל סיכון",days:"ימים 31–60"},3:{title:"משיכה ראשונה",goal:"לשמור על החשבון הממומן ולהגיע למשיכה",days:"ימים 61–90"}};
+const LINK_STATUS={active:"פעיל",failed:"נשרף",passed:"עבר מבחן",closed:"נסגר"};
+const PHASE={evaluation:"מבחן",funded:"ממומן",personal:"אישי"};
+const VIOL={max_trades:"יותר עסקאות מהמותר ביום",after_losses:"המשך מסחר אחרי הפסדים רצופים",rr_below_min:"יחס סיכון-סיכוי מתחת ליעד",no_stop:"עסקה בלי סטופ (סיכון לא מוגדר)",over_risk:"סיכון מעבר למה שהוגדר",firm_daily_loss:"חריגה מהסטופ היומי של החברה"};
+const MANUAL="באתגר מזינים כל עסקה ידנית, כולל סטופ ו'עד הסטופ'. זה חלק מהאימון. האתגר אישי, אז מזינים הכל, גם את המפסידות, אחרת הנתונים לא יעזרו לך.";
+const DISCOUNT="[טקסט זמני] אפשר לפתוח חשבון בהנחה עם הקוד של AntarTrade. הנוסח והקוד המדויק יעודכנו בקרוב.";
+const RULE_LINES=r=>[
+ `יחס סיכון-סיכוי 1:${r.minRr} לפחות בכל עסקה מנצחת. עסקה בלי סטופ = סיכון לא מוגדר`,
+ `עד ${r.maxDailyTrades} עסקאות ביום`,
+ `אחרי ${r.maxConsecutiveLosses} הפסדים רצופים עוצרים להיום`,
+ r.risk?`סיכון של עד $${r.risk.toLocaleString("en-US")} לעסקה`:"סיכון לעסקה שמוגדר מראש",
+ "בתוך מגבלות החברה: הסטופ היומי והסטופ הכללי של החשבון",
+ MANUAL,
+ "עסקה מסנכרון בלי סטופ: יש עד סוף יום המסחר הבא להשלים את הסטופ, אחרת היא נספרת כהפרה"];
+const headline=o=>o.payouts>0?"הגעת למשיכה. עכשיו לשמור על החשבון ולחזור על זה":o.passed>0?(o.burned===0?"עברת מבחן בלי לשרוף חשבון. מצוין":"עברת מבחן. ממשיכים לשמור על הכללים"):o.burned===0?"אף חשבון לא נשרף. זו ההצלחה הראשונה של האתגר":"חשבון נשרף. מוסיפים חשבון חדש וממשיכים: ההיסטוריה נשמרת ורואים את השיפור";
+
+/* ---- sample challenges ---- */
+const RULES={maxDailyTrades:3,maxConsecutiveLosses:2,minRr:1,riskPerTrade:250};
+const SAMPLES={
+ d23:{day:23,stage:1,reason:"30 ימי המסחר הראשונים",endDay:"12.03.2027",av:"one",
+  out:{burned:1,passed:0,payouts:0},
+  stats:{trades:41,daysTraded:19,wins:22,losses:19,winRate:.54,rr:1.08,maxLossStreak:3,net:640,commissions:182},compliance:.84,
+  pendingStops:[{deadline:"06.11.2026"}],missingHypo:6,daysToNext:7,periods:[],
+  violations:[["03.11.2026",[["max_trades","עסקה מספר 4 ביום (מותר 3)","Apex 50K #1"]]],["28.10.2026",[["after_losses","נפתחה אחרי 2 הפסדים ברצף","Take Profit 100K"],["over_risk","הפסד של $310.00 (הוגדר $250.00)","Take Profit 100K"]]],["21.10.2026",[["firm_daily_loss","הפסד יומי $1,040.00 (מגבלת החברה $1,000.00)","Apex 50K #2"]]]],
+  links:[{id:"l1",name:"Apex 50K #1",phase:"evaluation",status:"active"},{id:"l2",name:"Take Profit 100K",phase:"evaluation",status:"active"},{id:"l3",name:"Apex 50K #2",phase:"evaluation",status:"failed",ended:"21.10.2026"}],
+  unlinked:["Lucid 50K","Bulenox 50K"],targetRr:null},
+ d64:{day:64,stage:3,reason:"עברת מבחן מימון",endDay:"12.03.2027",av:"clean",
+  out:{burned:1,passed:1,payouts:0},
+  stats:{trades:112,daysTraded:55,wins:63,losses:49,winRate:.56,rr:1.21,maxLossStreak:3,net:3240,commissions:498},compliance:.91,
+  pendingStops:[],missingHypo:0,daysToNext:26,
+  violations:[["29.01.2027",[["rr_below_min","רווח של 0.62R (יעד 1R)","Apex 50K PA"]]],["14.01.2027",[["no_stop","לא הוזן מחיר סטופ","Take Profit 100K"]]],["06.01.2027",[["max_trades","עסקה מספר 4 ביום (מותר 3)","Apex 50K #1"]]],["17.12.2026",[["after_losses","נפתחה אחרי 2 הפסדים ברצף","Apex 50K #1"]]],["03.11.2026",[["max_trades","עסקה מספר 4 ביום (מותר 3)","Apex 50K #1"]]],["28.10.2026",[["after_losses","נפתחה אחרי 2 הפסדים ברצף","Take Profit 100K"],["over_risk","הפסד של $310.00 (הוגדר $250.00)","Take Profit 100K"]]],["23.10.2026",[["no_stop","לא הוזן מחיר סטופ","Take Profit 100K"]]],["21.10.2026",[["firm_daily_loss","הפסד יומי $1,040.00 (מגבלת החברה $1,000.00)","Apex 50K #2"]]]],
+  links:[{id:"l1",name:"Apex 50K #1",phase:"evaluation",status:"passed",ended:"14.12.2026"},{id:"l4",name:"Apex 50K PA",phase:"funded",status:"active"},{id:"l2",name:"Take Profit 100K",phase:"evaluation",status:"active",sug:{status:"passed",day:"02.02.2027"}},{id:"l3",name:"Apex 50K #2",phase:"evaluation",status:"failed",ended:"21.10.2026"}],
+  unlinked:["Lucid 50K","Bulenox 50K"],targetRr:null,
+  periods:[
+   {i:0,trades:44,stats:{winRate:.52,rr:1.04,tradesPerDay:2.2,net:520},stop:.86,comp:.84,top:["המשך מסחר אחרי הפסדים רצופים",3],out:{burned:1,passed:0,payouts:0,amt:0},
+    wi:{missing:9,total:44,complete:35,rows:[[1,19,16,0,3,null],[1.2,16,18,1,1.2,-1.8],[1.5,12,21,2,-3,-6],[2,8,24,3,-8,-11],[3,4,27,4,-15,-18]]},hl:null,
+    recs:[{id:"rules_first",title:"השלב הבא: רק עמידה בכללים",text:"פחות עסקאות, אותו 1:1. המטרה ל-30 הימים הבאים היא יום בלי הפרה, לא רווח.",because:"כי ב-30 הימים האחרונים נשרף חשבון אחד ורק 84% מהימים עברו בלי הפרה."},
+          {id:"focus_dir",title:"להתמקד בלונג",text:"להתמקד בכיוון החזק, או להקטין סיכון בשורט.",because:"כי ב-30 הימים האחרונים בלונג: 61% הצלחה ו-$1,180, ובשורט: 41% ו--$660."}]},
+   {i:1,trades:46,stats:{winRate:.59,rr:1.32,tradesPerDay:1.8,net:2460},stop:.95,comp:.96,top:["יחס סיכון-סיכוי מתחת ליעד",1],out:{burned:0,passed:1,payouts:0,amt:0},
+    wi:{missing:0,total:46,complete:46,rows:[[1,27,19,0,8,null],[1.2,25,20,1,10,2],[1.5,22,22,2,11,3],[2,15,27,4,3,-5],[3,8,33,5,-9,-17]]},hl:1.5,
+    recs:[{id:"try_target",target:1.5,title:"אפשר לנסות יעד 1:1.5",text:"הכלל של האתגר נשאר 1:1. אם תבחר לנסות 1:1.5 ב-30 הימים הבאים, נבדוק את זה בתמונת המצב הבאה.",because:"כי ב-30 הימים האחרונים, ב-46 עסקאות עם נתון \"עד הסטופ\", יעד 1:1.5 היה נותן +11R לעומת +8R ב-1:1."},
+          {id:"fewer",title:"פחות עסקאות, איכותיות יותר",text:"העמלות אוכלות חלק גדול מהרווח. לוותר על העסקאות הבינוניות.",because:"כי ב-30 הימים האחרונים העמלות היו $214, 8% מהרווח לפני עמלות ($2,674)."}]}]}};
+
+let C={view:"join",noam:true,showAll:false,sel:[],risk:"",maxT:"3",maxL:"2",ok:false,oldOpen:false,menu:null,toLink:"",adopted:false};
+let SMP=JSON.parse(JSON.stringify(SAMPLES));
+
+/* ---- dashboard ---- */
+function coach(v){
+  if(!C.noam)return "";
+  return `<div class="coach ch-coach"><div class="av"><img alt="נועם" src="avatar/noam-${v.av}.webp"></div><div class="bub"><small>נועם ענתר</small><span>${headline(v.out)}</span></div></div>`;}
+function progress(v){
+  const st=STAGES[v.stage],segs=[1,2,3].map(n=>{
+    const from=(n-1)*30,fill=Math.min(Math.max((v.day-from)/30,0),1),cur=v.stage===n;
+    return `<div class="ch-seg${cur?" cur":""}${!cur&&fill>=1?" done":""}"><div class="bar"><i style="width:${fill*100}%"></i>${cur?`<span class="now" style="right:${fill*100}%"></span>`:""}</div><div class="lb"><small>שלב ${n} · ${STAGES[n].days}</small><b>${STAGES[n].title}</b></div></div>`;}).join("");
+  const goal=v.day===0?"האתגר מתחיל ביום המסחר הבא בבורסה האמריקאית.":v.day>=90?"סיימת 90 ימי מסחר.":`<span class="lbl">המטרה בשלב הזה:</span> ${st.goal}. <span class="lbl">היום האחרון של האתגר:</span> <span class="num">${v.endDay}</span>.`;
+  return `<section class="blk ch-prog">
+   <div class="ch-ph"><div class="ch-days"><small>ימי מסחר</small><b>${v.day}<em>/90</em></b></div>
+    <div class="ch-stage"><small>שלב ${v.stage} מתוך 3</small><b>${st.title}</b><span>${v.reason}</span></div></div>
+   <div class="ch-track">${segs}</div>
+   <p class="ch-goal">${goal}</p>
+   ${C.noam?"":`<div class="ch-head">${headline(v.out)}</div>`}
+   <div class="ch-out"><div class="tile"><span class="l">חשבונות שנשרפו</span><span class="v">${v.out.burned}</span></div><div class="tile"><span class="l">מבחנים שעברו</span><span class="v">${v.out.passed}</span></div><div class="tile"><span class="l">משיכות</span><span class="v">${v.out.payouts}</span></div></div>
+  </section>`;}
+function warns(v){
+  let h="";
+  if(v.pendingStops.length)h+=`<div class="warnbox">${SV(CI.alert)}<div>להשלים סטופ: ${v.pendingStops.length===1?"עסקה אחת מסנכרון":`${v.pendingStops.length} עסקאות מסנכרון`} בלי סטופ. עדיין לא הפרה: עסקה כזו נספרת כהפרה רק אם הסטופ לא הושלם עד סוף יום המסחר הבא (הקרוב: <span class="num">${v.pendingStops[0].deadline}</span>).</div><a class="more" href="#" data-page="log">להשלמה ביומן העסקאות${SV(CI.left,"width:14px;height:14px")}</a></div>`;
+  if(v.missingHypo>0)h+=`<div class="warnbox">${SV(CI.alert)}<div>חסר "עד הסטופ" ב-${v.missingHypo} מתוך ${v.stats.trades} עסקאות באתגר. בלי הנתון הזה אין המלצה על יחס סיכון-סיכוי.</div><a class="more" href="#" data-page="log">להשלמה ביומן העסקאות${SV(CI.left,"width:14px;height:14px")}</a></div>`;
+  return h?`<div class="ch-warns">${h}</div>`:"";}
+function numbers(v){
+  const s=v.stats;
+  const T=[["אחוז עמידה בכללים",pctf(v.compliance),"ימי מסחר בלי הפרה מתוך כל ימי המסחר","shield","sky"],["עסקאות",String(s.trades),`${s.daysTraded} ימים עם מסחר`,"count","violet"],["אחוז הצלחה",pctf(s.winRate),`${s.wins} מנצחות · ${s.losses} מפסידות`,"pct","mint"],["R:R בפועל",s.rr==null?"—":`1:${s.rr.toFixed(2)}`,"רווח ממוצע ÷ הפסד ממוצע","scale","sky"],["רצף הפסדים מקסימלי",String(s.maxLossStreak),"","streak","orchid"],["תוצאה נטו",usd(s.net),`אחרי ${usd(s.commissions)} עמלות`,"dollar","mint",s.net>=0?"up":"dn"]];
+  return `<section class="ch-kpis">${T.map(t=>`<div class="kpi"><div class="kh"><span class="l">${t[0]}</span>${ci(t[3],t[4])}</div><div class="v ${t[5]||""}">${t[1]}</div>${t[2]?`<span class="s">${t[2]}</span>`:""}</div>`).join("")}</section>`;}
+function delta(now,before,better,f){
+  if(before==null||now==null)return "";const d=now-before;
+  if(Math.abs(d)<1e-9)return `<span class="dlt z">ללא שינוי</span>`;
+  const good=better==="up"?d>0:d<0;return `<span class="dlt ${good?"g":"b"}">${SV(d>0?CI.up:CI.dn)}${f(Math.abs(d))}</span>`;}
+function snapshot(p,prev,latest,v){
+  const first=p.i*30+1,s=p.stats,q=prev?prev.stats:null;
+  const rows=[["אחוז הצלחה",pctf(s.winRate),delta(s.winRate,q&&q.winRate,"up",x=>Math.round(x*100)+"%")],["R:R בפועל",`1:${s.rr.toFixed(2)}`,delta(s.rr,q&&q.rr,"up",x=>x.toFixed(2))],["עסקאות ליום מסחר",s.tradesPerDay.toFixed(1),delta(s.tradesPerDay,q&&q.tradesPerDay,"down",x=>x.toFixed(1))],["עמידה בעצירות",pctf(p.stop),delta(p.stop,prev&&prev.stop,"up",x=>Math.round(x*100)+"%")],["עמידה בכללים",pctf(p.comp),delta(p.comp,prev&&prev.comp,"up",x=>Math.round(x*100)+"%")],["תוצאה נטו",usd(s.net),delta(s.net,q&&q.net,"up",x=>"$"+Math.round(x).toLocaleString("en-US"))]];
+  const wi=p.wi,hl=latest&&!C.adopted?p.hl:p.hl;
+  const table=`<div class="ch-wi"><table class="mini"><thead><tr><th>יעד</th><th>הגיעו ליעד</th><th>נגעו בסטופ</th><th>בלי הכרעה</th><th>סך הכל</th><th>מול 1:1</th></tr></thead><tbody>${wi.rows.map(r=>`<tr>${[`<td class="c${r[0]===hl?" hl":""}">1:${r[0]}</td>`,`<td class="c${r[0]===hl?" hl":""}">${r[1]}</td>`,`<td class="c${r[0]===hl?" hl":""}">${r[2]}</td>`,`<td class="c${r[0]===hl?" hl":""}" style="color:var(--muted)">${r[3]}</td>`,`<td class="c ${r[4]>0?"up":r[4]<0?"dn":""}${r[0]===hl?" hl":""}"><span class="num">${fmtR(r[4])}</span></td>`,`<td class="c${r[0]===hl?" hl":""}">${r[5]==null?"—":`<span class="num">${fmtR(r[5])}</span>`}</td>`].join("")}</tr>`).join("")}</tbody></table>
+   <p class="hint2">לכל יעד: עסקאות שהגיעו ליעד × היעד, פחות עסקאות שנגעו בסטופ המקורי קודם (‎-1R כל אחת). עסקה שחלון המעקב שלה נגמר בלי יעד ובלי סטופ נספרת 0. כל העסקאות עם נתון "עד הסטופ" נכנסות, מנצחות ומפסידות (${wi.complete} מתוך ${wi.total}). בדיקה תיאורטית, לא רווח שהושג בפועל.</p></div>`;
+  const recs=p.recs.length?`<div class="ch-recs">${p.recs.map((r,i)=>`<div class="ch-rec${r.id==="try_target"&&latest?" on":""}"><div class="rh"><span class="n">${i+1}</span><b>${r.title}</b></div><p>${nums(r.text)}</p><small>${nums(r.because)}</small>${r.id==="try_target"&&latest&&!C.adopted?`<button class="btn3" data-chadopt="${r.target}">אני רוצה לנסות יעד 1:${r.target} ב-30 הימים הבאים</button>`:""}</div>`).join("")}</div>`:`<p class="ch-small" style="margin:0">אין כרגע משהו שבולט בנתונים. ממשיכים לעבוד לפי הכללים.</p>`;
+  const calc=latest?`<div class="ch-calc"><div>המספרים שלך למחשבון: אחוז הצלחה <b class="num">${pctf(s.winRate)}</b>, R:R <b class="num">1:${s.rr.toFixed(2)}</b>, עסקאות ביום <b class="num">${s.tradesPerDay.toFixed(1)}</b>, סיכון <b class="num">$${RULES.riskPerTrade}</b></div><a class="btn2" href="https://antartrade.co.il/calculators/payout-odds" target="_blank" rel="noopener">בדוק את הסיכוי שלך למשיכה${SV(CI.ext,"width:16px;height:16px")}</a></div>`:"";
+  const inner=`<div class="tiles">${rows.map(r=>`<div class="tile"><span class="l">${r[0]}</span><span class="v">${r[2]}<span>${r[1]}</span></span></div>`).join("")}</div>
+   <div class="ch-sec"><div class="ch-facts"><span>הטעות שחוזרת הכי הרבה: <b>${p.top?`${p.top[0]} (<span class="num">${p.top[1]}</span>)`:"אין הפרות"}</b></span><span>חשבונות שנשרפו: <b>${p.out.burned}</b></span><span>מבחנים שעברו: <b>${p.out.passed}</b></span><span>משיכות: <b>${p.out.payouts}</b></span></div></div>
+   <div class="ch-sec"><h3>מה אם: יעד 1:X</h3>${wi.missing>0?`<div class="warnbox">${SV(CI.alert)}<div style="font-size:14px">חסר "עד הסטופ" ב-${wi.missing} מתוך ${wi.total} עסקאות. אפשר להשלים בעריכת העסקה ביומן העסקאות.</div></div>`:""}${wi.complete>0?table:""}</div>
+   <div class="ch-sec"><h3>על מה להתמקד ב-30 ימי המסחר הבאים</h3>${recs}</div>${calc}`;
+  const title=`תמונת מצב: ימים ${first}–${first+29}`,sub=`${p.trades} עסקאות${prev?" · השוואה ל-30 ימי המסחר הקודמים":""}`;
+  if(latest)return `<section class="blk ch-snap"><div class="bh">${cttl(title,"compass","sky")}<span class="hint">${sub}</span></div>${inner}</section>`;
+  return `<div class="ch-old ch-snap"><div class="exp${C.oldOpen?" open":""}"><button data-chold><span class="ttl">${ci("compass","sky")}<span class="tx"><b style="font-size:20px">${title}</b><small>${sub}</small></span></span>${SV(CI.chev,"width:18px;height:18px")}</button><div class="body"${C.oldOpen?"":" hidden"}>${inner}</div></div></div>`;}
+function snapshots(v){
+  if(!v.periods.length)return `<section class="blk"><div class="bh" style="margin-bottom:10px">${cttl("תמונת מצב","compass","sky")}</div><p class="ch-small" style="margin:0">תמונת המצב הראשונה וההכוונה ל-30 הימים הבאים יופיעו אחרי 30 ימי מסחר (עוד ${v.daysToNext}).</p></section>`;
+  const ps=[...v.periods].reverse();
+  return ps.map((p,i)=>snapshot(p,v.periods[p.i-1]||null,i===0,v)).join("");}
+function violations(v){
+  const days=v.violations,shown=C.showAll?days:days.slice(0,7),multi=v.links.length>1;
+  const body=days.length?`<div class="ch-vdays">${shown.map(([d,vs])=>`<div class="ch-vday"><b>${d}</b><ul>${vs.map(x=>`<li><i></i><div><span>${VIOL[x[0]]}</span><small>${nums(x[1])}${multi?` · <span class="en" style="font-weight:400;white-space:nowrap">${x[2]}</span>`:""}</small></div></li>`).join("")}</ul></div>`).join("")}</div>${days.length>shown.length?`<button class="btn3" style="color:var(--sky);margin-top:8px;padding:0" data-chall>הצג את כל ${days.length} הימים</button>`:""}`:`<p class="ch-clean">${SV(CI.check)}אין הפרות. כל הכבוד.</p>`;
+  return `<section class="blk"><div class="bh">${cttl("הפרות","alert","sun")}<span class="hint">מה נשבר ומתי, לפי העסקאות ביומן.</span></div>${body}</section>`;}
+function accounts(v){
+  const rows=v.links.map(l=>{
+    const acts=[l.status!=="failed"&&["failed","החשבון נשרף"],l.status!=="passed"&&l.phase==="evaluation"&&["passed","עברתי את המבחן"],l.status!=="closed"&&["closed","סגרתי את החשבון"],l.status!=="active"&&["active","החשבון פעיל"]].filter(Boolean);
+    return `<div class="ch-acc"><div class="nm"><b>${l.name}</b><small>${PHASE[l.phase]}${l.ended?` · עד <span class="num">${l.ended}</span>`:""}</small></div><span class="ch-st ${l.status}">${LINK_STATUS[l.status]}</span>
+     <div class="upd"><button class="pick" data-chmenu="${l.id}">עדכן${SV(CI.chev,"width:14px;height:14px")}</button><div class="ch-menu"${C.menu===l.id?"":" hidden"}>${acts.map(a=>`<button data-chset="${l.id}:${a[0]}">${a[1]}</button>`).join("")}</div></div>
+     ${l.sug?`<div class="ch-sug"><span>${l.sug.status==="failed"?`לפי העסקאות, החשבון הגיע לסטופ ב-<span class="num">${l.sug.day}</span>.`:`לפי העסקאות, הגעת ליעד המבחן ב-<span class="num">${l.sug.day}</span>.`}</span><button class="btn3" data-chsug="${l.id}">${l.sug.status==="failed"?"נכון, החשבון נשרף":"נכון, עברתי"}</button></div>`:""}</div>`;}).join("");
+  const add=`<div class="ch-addrow">${v.unlinked.length?`<div class="fld"><select class="inp" id="chLink"><option value="">הוסף חשבון קיים</option>${v.unlinked.map(n=>`<option>${n}</option>`).join("")}</select></div><button class="btn3" data-chlink>הוסף</button>`:""}<button class="btn3" data-chnew>${SV(CI.plus,"width:16px;height:16px")}<span style="margin-inline-start:6px">פתח חשבון חדש</span></button></div>`;
+  return `<section class="blk"><div class="bh">${cttl("החשבונות באתגר","accs","violet")}<span class="hint">חשבון שנשרף נשאר בהיסטוריה. מוסיפים חשבון חדש וממשיכים באותו אתגר.</span></div><div class="ch-accs">${rows}</div>${add}</section>`;}
+function rulesBlk(v){
+  const lines=RULE_LINES({...RULES,risk:RULES.riskPerTrade});if(C.adopted)lines.push(`יעד 1:1.5 מ-05.02.2027 (מההכוונה)`);
+  return `<section class="blk"><div class="bh">${cttl("הכללים שלך","shield","sky")}</div><ul class="ch-rules">${lines.map(l=>`<li${l===MANUAL?' class="key"':""}>${SV(CI.check)}<span>${l}</span></li>`).join("")}</ul></section>`;}
+function dashView(){
+  const v=SMP[C.view];
+  return coach(v)+progress(v)+warns(v)+numbers(v)+snapshots(v)+violations(v)+accounts(v)+rulesBlk(v);}
+
+/* ---- joining ---- */
+function joinView(){
+  const accs=ACCOUNTS.filter(a=>a.state!=="blown");
+  const risk=Number(C.risk),sel=accs.filter(a=>C.sel.includes(a.id));
+  const lims=sel.map(a=>{const t=a.track&&TRACKS[a.track];if(!t)return null;return {name:a.name,dd:t.stop,dll:a.phase==="funded"?t.daily:t.daily};}).filter(Boolean);
+  const canJoin=C.sel.length>0&&risk>0&&C.ok;
+  const stage=n=>`<div class="ch-stg"><span class="n">${n}</span><small>שלב ${n} · ${STAGES[n].days} בערך</small><b>${STAGES[n].title}</b><span>${STAGES[n].goal}</span></div>`;
+  const disc=`<div class="ch-disc">${SV(CI.tag)}<span>${DISCOUNT}</span><a href="https://antartrade.co.il/promotions" target="_blank" rel="noopener">לדף ההנחות${SV(CI.ext,"width:14px;height:14px")}</a></div>`;
+  return `<div class="ch-join">
+  <section class="blk"><div class="bh">${cttl("מה זה האתגר","flag","sun")}</div>
+   <p class="ch-desc">90 ימי מסחר (כ-18 שבועות) בתוך היומן. המטרה: לשרוד, לעבור מבחן מימון ולהגיע למשיכה ראשונה. הכל מחושב מהעסקאות ביומן. אין טבלת מובילים: כל אחד מול עצמו.</p>
+   <div class="ch-stages">${stage(1)}${stage(2)}${stage(3)}</div>
+   <p class="ch-key">${MANUAL}</p>
+   <p class="ch-small">השלב נקבע לפי מצב החשבון: מי שכבר מחזיק חשבון ממומן מתחיל ישר בשלב 3. יום בלי עסקה מותר ונחשב החלטה ממושמעת. חשבון שנשרף לא מוחק כלום: מוסיפים חשבון חדש וממשיכים באותו אתגר.</p>
+  </section>
+  <section class="blk ch-step"><div class="bh"><div class="sttl"><span class="n">1</span><div><h2>החשבונות שלך באתגר</h2><p>אפשר לבחור כמה חשבונות, ולהוסיף עוד בהמשך.</p></div></div></div>
+   <div class="ch-pickacc">${accs.map(a=>{const t=a.track&&TRACKS[a.track];const on=C.sel.includes(a.id);return `<label class="${on?"on":""}"><input type="checkbox" class="ck" data-chsel="${a.id}" ${on?"checked":""} aria-label="${a.name}"><span class="nm"><b>${a.name}</b><small>${t?t.label:a.firm}</small></span><span class="tag">${a.phase==="funded"?"ממומן":"מבחן"}</span></label>`;}).join("")}</div>
+   <div class="ch-row"><button class="btn3 ghostb" data-chnew>${SV(CI.plus,"width:16px;height:16px")}<span style="margin-inline-start:6px">פתח חשבון חדש</span></button></div>${disc}
+  </section>
+  <section class="blk ch-step"><div class="bh"><div class="sttl"><span class="n">2</span><div><h2>סיכון לעסקה</h2><p>כמה דולר אתה מסכן בכל עסקה (מהכניסה עד הסטופ). אין סכום אחיד: קבע לפי החשבון.</p></div></div></div>
+   <div class="fld ch-riskf"><label for="chRisk">סיכון לעסקה ($)</label><input class="inp" id="chRisk" type="number" inputmode="decimal" min="1" dir="ltr" value="${C.risk}" placeholder="250"></div>
+   ${lims.length?`<ul class="ch-lims">${lims.map(l=>`<li><b class="en">${l.name}</b>: סטופ כללי <b class="num">$${l.dd.toLocaleString("en-US")}</b>${l.dll?`, סטופ יומי <b class="num">$${l.dll.toLocaleString("en-US")}</b>`:""}${risk>0&&l.dll?` · ${Math.floor(l.dll/risk)} הפסדים מלאים עד הסטופ היומי`:""}</li>`).join("")}</ul>`:""}
+   <div class="ch-row"><a class="btn3 ghostb ch-ext" href="https://antartrade.co.il/calculators/payout-odds" target="_blank" rel="noopener">${SV(CI.calc,"width:16px;height:16px")}בדוק את הסיכוי שלך למשיכה${SV(CI.ext,"width:14px;height:14px")}</a></div>
+  </section>
+  <section class="blk ch-step"><div class="bh"><div class="sttl"><span class="n">3</span><div><h2>הכללים</h2><p>אלה כללי ברירת המחדל. אפשר להחמיר, לא להקל.</p></div></div></div>
+   <ul class="ch-rules">${RULE_LINES({maxDailyTrades:+C.maxT,maxConsecutiveLosses:+C.maxL,minRr:1,risk:risk||null}).map(l=>`<li${l===MANUAL?' class="key"':""}>${SV(CI.check)}<span>${l}</span></li>`).join("")}</ul>
+   <div class="ch-sel2"><div class="fld"><label>עסקאות ביום</label><select class="inp" id="chMaxT">${["3","2","1"].map(x=>`<option value="${x}"${x===C.maxT?" selected":""}>עד ${x}</option>`).join("")}</select></div><div class="fld"><label>עצירה אחרי הפסדים רצופים</label><select class="inp" id="chMaxL">${["2","1"].map(x=>`<option value="${x}"${x===C.maxL?" selected":""}>${x}</option>`).join("")}</select></div></div>
+   <p class="hint2" style="margin-top:12px">יחס סיכון-סיכוי קבוע 1:1 לכולם בהתחלה. אחרי 30 ימי מסחר, אם הנתונים שלך מראים שיעד גבוה יותר עדיף, האתגר יציע אותו.</p>
+   <label class="ch-accept"><input type="checkbox" class="ck" id="chOk" ${C.ok?"checked":""} aria-label="אני מאשר את הכללים">קראתי ואני מתחייב לכללי האתגר</label>
+   <div class="ch-go"><button class="btn2" data-chjoin ${canJoin?"":"disabled"}>הצטרף לאתגר. היום הוא יום 1</button>${canJoin?"":`<small>${C.sel.length?"":"בחר לפחות חשבון אחד. "}${risk>0?"":"הגדר סיכון לעסקה. "}${C.ok?"":"אשר את הכללים."}</small>`}</div>
+  </section></div>`;}
+
+/* ---- page ---- */
+function view(){
+  const joined=C.view!=="join";
+  $("pgTitle").textContent="אתגר 90 ימי המסחר";
+  $("pgSub").textContent=joined?"המסלול שלך: לשרוד, לעבור מבחן ולהגיע למשיכה ראשונה":"לשרוד, לעבור מבחן מימון ולהגיע למשיכה ראשונה. כל אחד מול עצמו";
+  $("content").innerHTML=joined?dashView():joinView();
+  enhanceForms($("content"));if(typeof robotoDigits==="function")robotoDigits($("content"));
+  document.querySelectorAll("[data-chv]").forEach(b=>b.classList.toggle("on",b.dataset.chv===C.view));
+  document.querySelectorAll("[data-chn]").forEach(b=>b.classList.toggle("on",(b.dataset.chn==="on")===C.noam));
+}
+window.challengeView=view;
+
+/* mock switch: before joining, day 23, day 64; with or without Noam */
+const bar=document.createElement("div");bar.className="demo demo3 chonly";bar.dir="rtl";bar.setAttribute("aria-label","מצב האתגר בהדמיה");
+bar.innerHTML=`<small>אתגר:</small><button data-chv="join">לפני הצטרפות</button><button data-chv="d23">יום 23</button><button data-chv="d64">יום 64</button><span class="sep"></span><button data-chn="on">עם נועם</button><button data-chn="off">בלי נועם</button>`;
+document.body.appendChild(bar);
+
+document.addEventListener("click",e=>{
+  if(S.page!=="challenge")return;const q=s=>e.target.closest(s);let x;
+  if(x=q("[data-chv]")){C.view=x.dataset.chv;C.showAll=false;C.menu=null;view();scrollTo(0,0);return;}
+  if(x=q("[data-chn]")){C.noam=x.dataset.chn==="on";view();return;}
+  if(x=q("[data-chall]")){C.showAll=true;view();return;}
+  if(x=q("[data-chold]")){C.oldOpen=!C.oldOpen;view();return;}
+  if(x=q("[data-chmenu]")){e.stopPropagation();C.menu=C.menu===x.dataset.chmenu?null:x.dataset.chmenu;view();return;}
+  if(x=q("[data-chset]")){const [id,st]=x.dataset.chset.split(":"),l=SMP[C.view].links.find(l=>l.id===id);l.status=st;if(st==="failed")l.ended="05.11.2026";C.menu=null;view();toast(st==="failed"?"נשמר. ההיסטוריה של החשבון נשארת באתגר":"הסטטוס עודכן");return;}
+  if(x=q("[data-chsug]")){const l=SMP[C.view].links.find(l=>l.id===x.dataset.chsug);l.status=l.sug.status;l.ended=l.sug.day;delete l.sug;if(l.status==="passed")SMP[C.view].out.passed++;view();toast("הסטטוס עודכן");return;}
+  if(x=q("[data-chlink]")){const s=$("chLink"),n=s&&s.value;if(!n){toast("שגיאה","בחר חשבון",true);return;}const v=SMP[C.view];v.links.push({id:"n"+Date.now(),name:n,phase:"evaluation",status:"active"});v.unlinked=v.unlinked.filter(u=>u!==n);view();toast("החשבון נוסף לאתגר");return;}
+  if(x=q("[data-chnew]")){newAccDlg();const b=$("dlgBody").querySelector("h2")||$("dlg2Body").querySelector("h2");if(b){b.textContent="חשבון חדש לאתגר";b.insertAdjacentHTML("afterend",`<div class="ch-disc" style="margin:14px 0 4px">${SV(CI.tag)}<span>${DISCOUNT}</span><a href="https://antartrade.co.il/promotions" target="_blank" rel="noopener">לדף ההנחות${SV(CI.ext,"width:14px;height:14px")}</a></div>`);}return;}
+  if(x=q("[data-chadopt]")){C.adopted=true;view();toast(`יעד 1:${x.dataset.chadopt} נקבע`,"הוא נבדק מהיום, ונראה איך הלך בתמונת המצב הבאה.");return;}
+  if(x=q("[data-chjoin]")){if(x.disabled)return;C.view="d0";SMP.d0={...JSON.parse(JSON.stringify(SAMPLES.d23)),day:0,av:"before",out:{burned:0,passed:0,payouts:0},stats:{trades:0,daysTraded:0,wins:0,losses:0,winRate:null,rr:null,maxLossStreak:0,net:0,commissions:0},compliance:null,pendingStops:[],missingHypo:0,daysToNext:30,violations:[],
+    links:ACCOUNTS.filter(a=>C.sel.includes(a.id)).map(a=>({id:a.id,name:a.name,phase:a.phase==="funded"?"funded":"evaluation",status:"active"})),unlinked:ACCOUNTS.filter(a=>!C.sel.includes(a.id)&&a.state!=="blown").map(a=>a.name)};
+    if(SMP.d0.links.some(l=>l.phase==="funded")){SMP.d0.stage=3;SMP.d0.reason="יש חשבון ממומן פעיל";}
+    view();scrollTo(0,0);toast("הצטרפת לאתגר!","היום הוא יום 1. בהצלחה.",false,true);return;}
+  if(C.menu&&!q(".ch-menu")){C.menu=null;view();}
+},true);
+document.addEventListener("change",e=>{
+  if(S.page!=="challenge")return;const t=e.target;
+  if(t.dataset.chsel){C.sel=t.checked?[...C.sel,t.dataset.chsel]:C.sel.filter(i=>i!==t.dataset.chsel);view();}
+  else if(t.id==="chOk"){C.ok=t.checked;view();}
+  else if(t.id==="chMaxT"){C.maxT=t.value;view();}
+  else if(t.id==="chMaxL"){C.maxL=t.value;view();}
+});
+document.addEventListener("input",e=>{
+  if(S.page!=="challenge"||e.target.id!=="chRisk")return;C.risk=e.target.value;
+  const pos=e.target.selectionStart;view();const r=$("chRisk");if(r){r.focus();try{r.setSelectionRange(pos,pos);}catch(_){}}
+});
+if(S.page==="challenge")view();
+})();

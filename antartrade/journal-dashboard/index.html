@@ -2,6 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="stylesheet" href="assets/challenge.css">
+<link rel="stylesheet" href="assets/streak.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500&display=swap">
 <style>
 
@@ -808,6 +809,16 @@ body.pg-404 .demo{display:none}
 .cbsw button{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;padding:7px 14px;border-radius:999px;cursor:pointer}
 .cbsw button.on{background:var(--fg);color:#12161f;font-weight:500}
 body.pg-tradovate .demo{display:none}
+/* touch feedback and phone fixes (from the streak chat, Roni's requests) */
+*{-webkit-tap-highlight-color:transparent}
+.dropz,.submit,.btn,.btn2{transition:background .2s,transform .15s ease}
+.dropz:active,.submit:active:not(:disabled),.btn:active,.btn2:active{transform:scale(.98)}
+.pnlbox{align-items:flex-start}
+@media (max-width:900px){.submit{height:46px;font-size:15px}}
+.badge.tag,.vchip{align-self:flex-start;margin:0}
+/* two mock switches on the dashboard: mine sits above the streak chat's day switch */
+body.pg-dash:has(.demo2) .demo:not(.demo2){bottom:74px}
+@media (max-width:900px){body.pg-dash:has(.demo2) .demo:not(.demo2){bottom:calc(150px + env(safe-area-inset-bottom,0px))}}
 /* mock-only switch */
 .demo{position:fixed;left:max(20px,env(safe-area-inset-left,0px));bottom:20px;z-index:40;display:flex;align-items:center;gap:4px;background:#1a1f2b;border-radius:999px;padding:4px;box-shadow:0 12px 30px rgba(0,0,0,.4)}
 .demo small{font-size:12px;color:var(--faint);padding:0 10px}
@@ -816,75 +827,6 @@ body.pg-tradovate .demo{display:none}
 
 @media (max-width:1180px) and (min-width:901px){.ntgrid{grid-template-columns:minmax(0,1fr)}.side2{position:static}}
 @media (max-width:1100px) and (min-width:901px){.row3{grid-template-columns:repeat(2,minmax(0,1fr))}}
-
-/* ---- discipline streak + the message that changes with the day (sketch) ---- */
-.coach{position:relative;display:flex;align-items:stretch;max-width:600px;min-height:124px;margin:70px 0 0;border-radius:24px;background:radial-gradient(60% 120% at 100% 100%,rgba(79,107,255,.35),rgba(79,107,255,0) 70%),var(--block)}
-.coach .av{position:relative;width:180px;flex:none;margin-top:-58px;clip-path:inset(-300px -300px 0 -300px)}
-.coach .av img{position:absolute;bottom:0;right:10px;width:170px;transform-origin:50% 100%;transition:opacity .25s ease,transform .45s cubic-bezier(.3,1.6,.5,1)}
-.coach .av img.out{opacity:0;transform:translateY(18px) scale(.94)}
-.coach .av.jump img{animation:coachJump .7s cubic-bezier(.3,1.5,.5,1)}
-@keyframes coachJump{0%{transform:none}35%{transform:translateY(-12px) scale(1.04)}70%{transform:translateY(2px) scale(.99)}100%{transform:none}}
-.coach .bub{flex:1;padding:18px 4px 18px 22px;display:flex;flex-direction:column;justify-content:center;transition:opacity .3s ease,transform .3s ease}
-.coach .bub small{display:block;font-size:13px;color:var(--sky);margin-bottom:4px}
-.coach .bub span{font-size:22px;line-height:1.35;font-weight:500;color:var(--fg);text-wrap:pretty}
-.coach .bub span .en{font-weight:600}
-.coach .bub.swap{opacity:0;transform:translateY(6px)}
-body:not(.pg-dash) .coach{display:none}
-/* the coach row must not widen the title, or its gradient stretches and the white end leaves the words */
-.top h1{width:fit-content}
-body.pg-dash #pgSub{display:none}
-.streak .rs-grid3{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr) minmax(0,1fr);gap:16px}
-.streak .rs-cell{background:var(--block2);border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.streak .rs-cell .rs-l{font-size:14px;color:var(--muted)}
-.streak .rs-num{display:flex;align-items:baseline;gap:10px}
-.streak .rs-num b{font-family:var(--en);font-size:45px;font-weight:600;line-height:1;letter-spacing:-.5px;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
-.streak .rs-num b.pop{transform:scale(1.25)}
-.streak .rs-num span{font-size:16px;color:var(--muted)}
-.streak .rs-goal{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
-.streak .rs-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
-.streak .rs-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--sky),var(--royal));transition:width .8s cubic-bezier(.22,1,.36,1)}
-.rs-days{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px;direction:rtl}
-.rs-days .rs-d{display:flex;flex-direction:column;align-items:center;gap:6px}
-.rs-days .rs-d i{width:100%;aspect-ratio:1;max-width:30px;border-radius:9px;background:rgba(255,255,255,.05);transition:background .4s ease,box-shadow .4s ease}
-.rs-days .rs-d.c i{background:linear-gradient(135deg,var(--sky),var(--royal))}
-.rs-days .rs-d.v i{background:color-mix(in srgb,var(--loss) 70%,transparent)}
-.rs-days .rs-d.p i{background:none;box-shadow:inset 0 0 0 1.5px rgba(125,198,255,.55)}
-.rs-days .rs-d small{font-size:11px;color:var(--faint)}
-.rs-days .rs-d.t small{color:var(--fg);font-weight:500}
-.rs-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
-.rs-legend span{display:inline-flex;align-items:center;gap:6px}
-.rs-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;background:rgba(255,255,255,.08)}
-.rs-legend .c i{background:linear-gradient(135deg,var(--sky),var(--royal))}
-.rs-legend .v i{background:color-mix(in srgb,var(--loss) 70%,transparent)}
-.rs-today{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
-.rs-today .rs-tc2{background:var(--block);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-.rs-today .rs-tc2 small{font-size:13px;color:var(--muted)}
-.rs-today .rs-tc2 b{font-family:var(--en);font-size:20px;font-weight:600;direction:ltr;text-align:right}
-.rs-today .rs-tc2 b em{font-style:normal;font-size:14px;color:var(--faint);font-weight:500}
-.rs-today .rs-pips{display:flex;gap:4px}
-.rs-today .rs-pips i{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.07)}
-.rs-today .rs-pips i.on{background:var(--sky)}
-.rs-today .rs-pips i.bad{background:var(--loss)}
-.rs-today .rs-best{grid-column:1/-1;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
-#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90}
-.demo2{bottom:72px}
-@media (max-width:1100px) and (min-width:901px){.streak .rs-grid3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.streak .rs-grid3 .rs-cell:nth-child(2){grid-column:1/-1;order:3}}
-@media (max-width:900px){
-  .coach{margin-top:30px;min-height:112px}.coach .av{width:132px;margin-top:-26px}.coach .av img{width:128px;right:2px}
-  .coach .bub{padding:16px 2px 16px 16px}.coach .bub span{font-size:18px}
-  .streak .rs-grid3{grid-template-columns:minmax(0,1fr)}
-  .rs-days{gap:4px}.rs-days .rs-d i{border-radius:7px}
-  .demo2{bottom:calc(128px + env(safe-area-inset-bottom,0px));left:12px;right:12px;transform:none;overflow-x:auto;scrollbar-width:none}.demo2 button{white-space:nowrap;flex:none}
-}
-
-/* Roni 5.11 (phones): no grey flash square over a tapped button - a small press instead; the calculated P&L icon at the top; the save button at the journal's own button size */
-*{-webkit-tap-highlight-color:transparent}
-.dropz,.submit,.btn,.btn2{transition:background .2s,transform .15s ease}
-.dropz:active,.submit:active:not(:disabled),.btn:active,.btn2:active{transform:scale(.98)}
-.pnlbox{align-items:flex-start}
-@media (max-width:900px){.submit{height:46px;font-size:15px}}
-/* Roni's rule: a label sits on its own line above the title, at the right; when the block has an icon, the title sits beside the icon and the label goes under the title */
-.badge.tag,.vchip{align-self:flex-start;margin:0}
 </style>
 
 <div class="app" dir="rtl">
@@ -916,7 +858,6 @@ body.pg-dash #pgSub{display:none}
   <section class="top">
     <div>
       <h1 id="pgTitle">ערב טוב, רוני</h1>
-      <div class="coach" id="coach"></div>
       <p id="pgSub">סקירה כללית של ביצועי המסחר שלך</p>
     </div>
     <div class="filters" id="filters">
@@ -931,31 +872,6 @@ body.pg-dash #pgSub{display:none}
   </section>
 
   <section class="kpis" id="kpis"></section>
-  <section class="blk streak dashonly" id="streak">
-    <div class="bh"><div class="ttl"><span class="ico" style="--c:var(--c-sun)"><svg class="i" viewBox="0 0 24 24"><path d="M12 3.5c.5 3-2.5 4.5-2.5 7.5a2.5 2.5 0 0 0 5 0c0-1-.4-1.8-1-2.5 2.6 1 4.5 3.6 4.5 6.5a6 6 0 0 1-12 0c0-4.6 4.5-7.4 6-11.5z"/></svg></span><h2>רצף משמעת</h2></div><span class="hint">ימי מסחר בלי אף חריגה מהכללים של האתגר</span></div>
-    <div class="rs-grid3">
-      <div class="rs-cell">
-        <span class="rs-l">ימים נקיים ברצף</span>
-        <div class="rs-num"><b class="en" id="stN">9</b><span id="stW">ימים</span></div>
-        <div class="rs-goal"><span id="stGoal">עוד יום אחד ליעד הבא</span><span class="en" id="stGoalN">9/10</span></div>
-        <div class="rs-bar"><i id="stBar" style="width:90%"></i></div>
-      </div>
-      <div class="rs-cell">
-        <span class="rs-l">14 ימי המסחר האחרונים</span>
-        <div class="rs-days" id="stDays"></div>
-        <div class="rs-legend"><span class="c"><i></i>יום נקי</span><span class="v"><i></i>חריגה</span><span><i></i>בלי עסקאות</span></div>
-      </div>
-      <div class="rs-cell">
-        <span class="rs-l">היום, לפי הכללים שלך</span>
-        <div class="rs-today">
-          <div class="rs-tc2"><small>עסקאות</small><b id="tdT">0 <em>/ 3</em></b><div class="rs-pips" id="tdTp"></div></div>
-          <div class="rs-tc2"><small>הפסדים ברצף</small><b id="tdL">0 <em>/ 2</em></b><div class="rs-pips" id="tdLp"></div></div>
-          <div class="rs-best"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px;color:var(--c-sun)"><path d="M8 4h8v4a4 4 0 0 1-8 0zM8 6H5a2 2 0 0 0 3 3.5M16 6h3a2 2 0 0 1-3 3.5M12 12v4M8.5 20h7M10 16h4v4h-4z"/></svg><span>השיא שלך: <b class="en" id="stBest">12</b> ימים נקיים</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <div id="content"></div>
 
   <section class="course dashonly" id="course">
@@ -995,13 +911,11 @@ body.pg-dash #pgSub{display:none}
   <img class="nfmark" src="assets/bg-brain-dark.svg" alt="">
   <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
   <div class="cbcard" id="cbCard"></div>
-  <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-cbs="loading">בתהליך</button><button data-cbs="ok">הצליח</button><button data-cbs="error">נכשל</button></div>
+  <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-cbs="loading">בתהליך</button><button data-cbs="ok">הצליח</button><button data-cbs="error">נכשל</button></div>
 </section>
 <div class="dlg-bg" id="dlg2" dir="rtl" hidden style="z-index:56"><div class="dlg" role="dialog" aria-modal="true"><button class="ib x" data-close2 aria-label="סגור"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div id="dlg2Body"></div></div></div>
-<div class="demo demo2 dashonly" dir="rtl" aria-label="מצב היום בהדמיה"><small>היום:</small><button class="on" data-st="before">לפני המסחר</button><button data-st="one">אחרי עסקה</button><button data-st="stopped">עצר אחרי 2 הפסדים</button><button data-st="violation">חריגה</button><button data-st="clean">סוף יום נקי</button><button data-st="weekend">סופ"ש</button></div>
-<canvas id="confetti" hidden></canvas>
 <div class="toast" id="toast" dir="rtl" role="status" hidden></div>
-<div class="demo" dir="rtl" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button class="on" data-m="full">עם עסקאות</button><button data-m="empty">משתמש חדש</button><span class="sep"></span><button class="on" data-n="ok">רגיל</button><button data-n="loading">טעינה</button><button data-n="down">האתר לא עונה</button><span class="sep logonly"></span><button class="on logonly" data-c="ok">חיבור פעיל</button><button class="logonly" data-c="expired">חיבור פג</button></div>
+<div class="demo" dir="rtl" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button class="on" data-m="full">עם עסקאות</button><button data-m="empty">משתמש חדש</button><span class="sep"></span><button class="on" data-n="ok">רגיל</button><button data-n="loading">טעינה</button><button data-n="down">האתר לא עונה</button><span class="sep logonly"></span><button class="on logonly" data-c="ok">חיבור פעיל</button><button class="logonly" data-c="expired">חיבור פג</button><span class="sep"></span><button data-page="tradovate">חיבור טרדוביט</button><button data-page="404">דף שגיאה</button></div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -1918,7 +1832,7 @@ document.addEventListener("click",e=>{
     x.textContent="מסנכרן...";x.disabled=true;setTimeout(()=>{$("dlg").hidden=true;toast("סנכרון הושלם","נוספו 3 עסקאות • 12 כבר קיימות • נמשכו 41 fills • 41 בטווח 03/11–05/11");},1200);return;}
   if(q("[data-unsync]")){dlg(`<h2>לנתק את חשבון <span class="en">Tradovate</span>?</h2><div class="dangerb"><button class="btnd" data-dounsync>נתק</button><button class="btn3" data-closedlg>ביטול</button></div>`);return;}
   if(q("[data-dounsync]")){S.conn="none";$("dlg").hidden=true;render();toast("נותק","");return;}
-  if(q("[data-connect]")){S.conn="ok";render();toast("החשבון חובר","");return;}
+  if(q("[data-connect]")){S.conn="ok";setPage("tradovate");return;}
   if(x=q(".demo [data-c]")){S.conn=x.dataset.c;document.querySelectorAll(".demo [data-c]").forEach(b=>b.classList.toggle("on",b===x));render();return;}
   /* checkbox, tag and trash cells act on their own; the rest of the row opens the trade */
   if(!q("[data-stop]")&&!q("input")&&(x=q("[data-row]"))&&S.page==="log"){editDlg(x.dataset.row);return;}
@@ -1991,69 +1905,4 @@ render();
 robotoDigits(document.body);
 </script>
 <script src="assets/challenge.js"></script>
-
-<script>
-/* ---- streak sketch: every value here comes from data the journal already has (the challenge's rules and its violations per day) ---- */
-(()=>{
-const $$=id=>document.getElementById(id);
-const IC={
- sun:'<path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4"/><circle cx="12" cy="12" r="3.5"/>',
- target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>',
- shield:'<path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/>',
- alert:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',
- star:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.9z"/>',
- moon:'<path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z"/>'};
-/* the 13 trading days before today: c clean, v a violation, n no trades (neutral: it does not break the streak) */
-const PAST=["c","v","c","c","n","c","c","c","c","n","c","c","c"];
-const ST={
- before:{icon:"sun",c:"sky",msg:"עוד לא נכנסת היום. התוכנית: עד 3 עסקאות, ועוצרים אחרי 2 הפסדים ברצף.",today:"p",n:9,t:0,l:0},
- one:{icon:"target",c:"mint",msg:"עסקה ראשונה בפנים, עם סטופ. נשארו לך 2 עסקאות להיום.",today:"p",n:9,t:1,l:0},
- stopped:{icon:"shield",c:"mint",msg:"עצרת אחרי 2 הפסדים, בדיוק לפי הכללים. יום מפסיד עם משמעת לא שובר את הרצף.",today:"p",n:9,t:2,l:2},
- violation:{icon:"alert",c:"sun",msg:"נפתחה היום עסקה רביעית, מעבר למקסימום של 3. מחר מתחילים רצף חדש.",today:"v",n:0,t:4,l:1},
- clean:{icon:"star",c:"sun",msg:"יום נקי, ועכשיו 10 ימים ברצף לפי הכללים. ככה עוברים מבחן.",today:"c",n:10,t:3,l:1,party:true},
- weekend:{icon:"moon",c:"sky",msg:"השוק סגור. 10 ימים נקיים ברצף, זמן טוב לעבור על השבוע.",today:"c",n:10,t:3,l:1}};
-const GOALS=[5,10,20,30,60,90];
-const LET=["א","ב","ג","ד","ה","ו","ש"];
-/* trading days back from today (Mon-Fri) */
-const dayLetters=()=>{const out=[];const d=new Date(2026,10,5);while(out.length<14){const w=d.getDay();if(w>0&&w<6)out.unshift(LET[w]);d.setDate(d.getDate()-1);}return out;};
-const LETS=dayLetters();
-let cur=null;
-const en=t=>t.replace(/\d+/g,n=>`<span class="en">${n}</span>`);
-function set(k){
-  const s=ST[k];const first=cur===null;cur=k;
-  const co=$$("coach");
-  if(first){co.innerHTML=`<div class="av"><img alt="נועם" src="avatar/noam-${k}.webp"></div><div class="bub"><span>${en(s.msg)}</span></div>`;}
-  else{const img=co.querySelector("img"),bub=co.querySelector(".bub");img.classList.add("out");bub.classList.add("swap");
-    setTimeout(()=>{img.src=`avatar/noam-${k}.webp`;bub.querySelector("span").innerHTML=en(s.msg);img.classList.remove("out");bub.classList.remove("swap");},260);}
-  const n=s.n,goal=GOALS.find(g=>g>n)||90,prev=GOALS.filter(g=>g<=n).pop()||0;
-  const nb=$$("stN");nb.textContent=n;$$("stW").textContent=n===1?"יום":"ימים";
-  const left=goal-n;
-  $$("stGoal").textContent=n===0?"כל יום נקי מקדם אותך ליעד הראשון":left===1?"עוד יום אחד ליעד הבא":`עוד ${left} ימים ליעד של ${goal}`;
-  $$("stGoalN").textContent=`${n}/${goal}`;
-  $$("stBar").style.width=Math.max(3,n/goal*100)+"%";
-  const all=[...PAST,s.today];
-  $$("stDays").innerHTML=all.map((x,i)=>`<div class="rs-d ${x}${i===13?" t":""}"><i></i><small>${i===13?"היום":LETS[i]}</small></div>`).join("");
-  const pips=(id,v,max,bad)=>{$$(id).innerHTML=Array.from({length:Math.max(max,v)},(_,i)=>`<i class="${i<v?(i>=max||bad?"bad":"on"):""}"></i>`).join("");};
-  $$("tdT").innerHTML=`${s.t} <em>/ 3</em>`;pips("tdTp",s.t,3,false);
-  $$("tdL").innerHTML=`${s.l} <em>/ 2</em>`;pips("tdLp",s.l,2,s.l>=2);
-  if(s.party&&!first){const av=co.querySelector(".av");av.classList.remove("jump");void av.offsetWidth;av.classList.add("jump");nb.classList.add("pop");setTimeout(()=>nb.classList.remove("pop"),500);confetti();}
-}
-/* confetti in the site's blues with a little mint and gold, from both top corners */
-function confetti(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const cv=$$("confetti"),dpr=Math.min(2,devicePixelRatio||1);cv.hidden=false;
-  const W=cv.width=innerWidth*dpr,H=cv.height=innerHeight*dpr,ctx=cv.getContext("2d");
-  const COL=["#7DC6FF","#4F6BFF","#3fd8c2","#f7c65a","#eef3fa","#61b1f2"];
-  const P=[];for(let i=0;i<170;i++){const l=i%2===0;P.push({x:(l?.08:.92)*W,y:H*.32,vx:(l?1:-1)*(4+Math.random()*9)*dpr,vy:(-11-Math.random()*9)*dpr,r:Math.random()*6.3,vr:(Math.random()-.5)*.3,w:(6+Math.random()*6)*dpr,h:(3+Math.random()*4)*dpr,c:COL[i%COL.length],o:1});}
-  const t0=performance.now();
-  const tick=t=>{ctx.clearRect(0,0,W,H);const el=t-t0;
-    P.forEach(p=>{p.vy+=.32*dpr;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;if(el>1800)p.o=Math.max(0,p.o-.025);
-      ctx.save();ctx.globalAlpha=p.o;ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h*Math.abs(Math.cos(p.r*2)));ctx.restore();});
-    if(el<3400)requestAnimationFrame(tick);else{ctx.clearRect(0,0,W,H);cv.hidden=true;}};
-  requestAnimationFrame(tick);
-}
-document.addEventListener("click",e=>{const b=e.target.closest(".demo2 [data-st]");if(!b)return;document.querySelectorAll(".demo2 [data-st]").forEach(x=>x.classList.toggle("on",x===b));set(b.dataset.st);});
-["before","one","stopped","violation","clean","weekend"].forEach(k=>{const i=new Image();i.src=`avatar/noam-${k}.webp`;});
-set("before");
-})();
-</script>
+<script src="assets/streak.js" defer></script>
