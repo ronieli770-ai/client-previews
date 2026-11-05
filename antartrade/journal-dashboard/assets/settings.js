@@ -37,7 +37,7 @@ const promoOf=a=>{const f=(a.firm||"").toLowerCase();const p=PROMO.find(([k])=>f
 const GLOBAL=[["CL","Crude Oil","0.01","10","1000","NYMEX"],["ES","E-mini S&P 500","0.25","12.5","50","CME"],["GC","Gold","0.1","10","100","COMEX"],["MES","Micro E-mini S&P 500","0.25","1.25","5","CME"],["MNQ","Micro E-mini NASDAQ 100","0.25","0.5","2","CME"],["NQ","E-mini NASDAQ 100","0.25","5","20","CME"]];
 
 /* the page's own state; "full" = a trader with accounts, "empty" = a new user */
-const T={tab:"profile",mode:null,name:"",acc:[],gone:new Set(),custom:[],goals:{}};
+const T={tab:"profile",admin:false,mode:null,name:"",acc:[],gone:new Set(),custom:[],goals:{}};
 const seed=()=>{
   T.mode=S.mode;T.gone=new Set();
   const full=S.mode!=="empty";
@@ -63,7 +63,7 @@ function profileTab(){
       <div class="fld"><label for="stMini">חוזה רגיל / מיני</label><input class="inp" id="stMini" type="number" step="0.01" min="0" dir="ltr" placeholder="4.00" value="4"><p class="st-hint">${en("ES, NQ, CL, GC...")}</p></div>
       <div class="fld"><label for="stMicro">חוזה מיקרו</label><input class="inp" id="stMicro" type="number" step="0.01" min="0" dir="ltr" placeholder="1.20" value="1.2"><p class="st-hint">${en("MES, MNQ, MGC, MCL...")}</p></div>
     </div><div class="st-actions"><button class="btn2 ghostb" data-stsave="defcom">שמור עמלות</button></div></section>
-  ${admin}</div>`;
+  ${T.admin?admin:""}</div>`;
 }
 
 function accCard(a){
@@ -168,6 +168,7 @@ document.addEventListener("click",e=>{
     <div class="dangerb"><button class="btnd" data-stdodelasset="${x.dataset.stdelasset}">מחק</button><button class="btn3" data-closedlg>ביטול</button></div></div>`);return;}
   if(x=q("[data-stdodelasset]")){T.custom=T.custom.filter(r=>r[0]!==x.dataset.stdodelasset);$("dlg").hidden=true;view();toast("הנכס נמחק","");return;}
   if(q("[data-stcode]")){try{navigator.clipboard.writeText("ANTAR");}catch(_){}toast("הקוד הועתק!","ANTAR");return;}
+  if(q("[data-stadmin]")){T.admin=!T.admin;q("[data-stadmin]").classList.toggle("on",T.admin);T.tab="profile";view();return;}
   if(q("[data-stonb]")){const b=q("[data-stonb]");b.disabled=true;b.textContent="מעביר...";setTimeout(()=>{b.disabled=false;view();},900);return;}
 });
 document.addEventListener("input",e=>{
@@ -176,6 +177,9 @@ document.addEventListener("input",e=>{
 });
 
 /* hook into the mock: the avatar menu's "אזור אישי", render() and setPage(), chained onto earlier wrappers */
+/* mock-only: the admin block is Noam's (only an admin sees it), so it shows from a switch in the demo bar, on this page only */
+(()=>{const d=document.querySelector(".demo");if(!d||d.querySelector("[data-stadmin]"))return;
+  d.insertAdjacentHTML("beforeend",'<span class="sep st-demo"></span><button class="st-demo" data-stadmin>תצוגת אדמין</button>');})();
 document.querySelectorAll("#userPop a,.umenu a").forEach(a=>{if(!a.dataset.page&&a.textContent.trim()==="אזור אישי")a.dataset.page="settings";});
 try{const r0=render;render=function(){if(S.page==="settings"){try{filterUi();}catch(_){}view();return;}return r0.apply(this,arguments);};}catch(e){}
 try{const s0=setPage;setPage=function(pg){const u=$("userPop");if(u)u.hidden=true;const out=s0.apply(this,arguments);document.body.classList.toggle("pg-settings",pg==="settings");return out;};}catch(e){}

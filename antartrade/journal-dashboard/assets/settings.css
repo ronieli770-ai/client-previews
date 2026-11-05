@@ -2,6 +2,9 @@
    Built only from the journal's own pieces: .blk, .tile, .ttl/.ico, .seg, .fld/.inp, .btn2/.btn3/.btnd, .promo, .mini, .warn. */
 body.pg-settings .dashonly,body.pg-settings #filters,body.pg-settings #kpis,body.pg-settings #fchip{display:none!important}
 
+/* the demo bar's admin switch shows on this page only */
+body:not(.pg-settings) .demo .st-demo{display:none}
+
 /* tabs: the journal's segment, one row; on phones it scrolls sideways instead of shrinking the words */
 .st-tabs{margin:0 0 16px;max-width:100%;overflow-x:auto;scrollbar-width:none}
 .st-tabs::-webkit-scrollbar{display:none}
