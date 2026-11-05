@@ -702,7 +702,9 @@ body.pg-new .top{margin-bottom:8px}
   .leg>span:last-child{display:none}
   .leg+.leg{padding-top:10px}
   .srcs{grid-template-columns:minmax(0,1fr)}
-  .stp span{display:none}.stp{padding:0 6px}
+  .stepper{gap:6px;overflow:visible}.stpgap{display:none}
+  .stp{flex:1 1 0;min-width:0;flex-direction:column;justify-content:flex-start;height:auto;padding:10px 4px 9px;border-radius:16px;gap:6px}
+  .stp span{display:block;line-height:1.25;font-size:12px;white-space:normal;text-align:center}
   .stat4,.conn,.whs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .maprow .fld{width:100%}
   .btnrow{flex-direction:column}
@@ -857,6 +859,15 @@ body.pg-dash #pgSub{display:none}
   .rs-days{gap:4px}.rs-days .rs-d i{border-radius:7px}
   .demo2{bottom:calc(128px + env(safe-area-inset-bottom,0px));left:12px;right:12px;transform:none;overflow-x:auto;scrollbar-width:none}.demo2 button{white-space:nowrap;flex:none}
 }
+
+/* Roni 5.11 (phones): no grey flash square over a tapped button - a small press instead; the calculated P&L icon at the top; the save button at the journal's own button size */
+*{-webkit-tap-highlight-color:transparent}
+.dropz,.submit,.btn,.btn2{transition:background .2s,transform .15s ease}
+.dropz:active,.submit:active:not(:disabled),.btn:active,.btn2:active{transform:scale(.98)}
+.pnlbox{align-items:flex-start}
+@media (max-width:900px){.submit{height:46px;font-size:15px}}
+/* Roni's rule: a label sits on its own line above the title, at the right; when the block has an icon, the title sits beside the icon and the label goes under the title */
+.badge.tag,.vchip{align-self:flex-start;margin:0}
 </style>
 
 <div class="app" dir="rtl">
@@ -1664,7 +1675,7 @@ function importView(){
     <section class="blk tuts"><div class="bh">${ttl("בואו תלמדו איך לייצא עסקאות","cal","orchid").replace(ICO.cal,'<circle cx="12" cy="12" r="8.5"/><path d="M10 9l5 3-5 3z"/>')}</div>
       <p class="tsub">סרטוני הדרכה קצרים שיראו לכם בדיוק איפה למצוא את קובץ ה-CSV</p>
       <div class="vgrid">${VIDS.map(v=>`<button class="vcard" data-video="${v.k}"><span class="vth"><img src="assets/${v.img}" alt="" loading="lazy"><span class="vplay"><svg class="i" viewBox="0 0 24 24" style="width:24px;height:24px"><path d="M8 6l10 6-10 6z"/></svg></span></span><span class="vtx"><span class="vchip en">${v.k}</span><b>${v.title}</b><small>ייצוא מ-<span class="en">${v.k}</span> · <span class="en">Noam Antar</span></small></span></button>`).join("")}</div></section>
-    <section class="promo"><span class="ico" style="--c:var(--c-violet)"><svg class="i" viewBox="0 0 24 24"><path d="M9 3.5h6M10 3.5v6L4.8 18a1.8 1.8 0 0 0 1.6 2.6h11.2a1.8 1.8 0 0 0 1.6-2.6L14 9.5v-6"/><path d="M7.5 14.5h9"/></svg></span><div class="tx"><h3><span class="badge">חדש</span>מעבדת אסטרטגיות · <span class="en" style="font-weight:500">TradingView Webhook</span></h3><p>לבחינת אסטרטגיות ואינדיקטורים בזמן אמת (פורוורד-טסט). האיתותים נשמרים בנפרד ולא נכנסים ליומן העסקאות האמיתי, ליעדים או לחוקי ה-Prop Firm.</p><span><button class="btn2 ghostb" data-lab style="margin-top:4px">פתח את המעבדה</button></span></div></section>`;
+    <section class="promo"><span class="ico" style="--c:var(--c-violet)"><svg class="i" viewBox="0 0 24 24"><path d="M9 3.5h6M10 3.5v6L4.8 18a1.8 1.8 0 0 0 1.6 2.6h11.2a1.8 1.8 0 0 0 1.6-2.6L14 9.5v-6"/><path d="M7.5 14.5h9"/></svg></span><div class="tx"><h3>מעבדת אסטרטגיות · <span class="en" style="font-weight:500">TradingView Webhook</span></h3><span class="badge tag">חדש</span><p>לבחינת אסטרטגיות ואינדיקטורים בזמן אמת (פורוורד-טסט). האיתותים נשמרים בנפרד ולא נכנסים ליומן העסקאות האמיתי, ליעדים או לחוקי ה-Prop Firm.</p><span><button class="btn2 ghostb" data-lab style="margin-top:4px">פתח את המעבדה</button></span></div></section>`;
   } else if(IMP.step===2){
     const rows=impRows(),keys=impKeys(),cnt=k=>rows.filter(r=>r.key===k).length,allMapped=keys.every(k=>IMP.map[k]);
     body=`<section class="blk"><p style="margin:0;font-size:14px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center">${IMP.files.length} קבצים <span class="badge">${rows.length+6} ${IMP.src==="Tradovate"?"עסקאות":IMP.src==="ATAS"?"שורות":"ביצועים"}</span><span class="badge">${rows.length} עסקאות</span></p>
@@ -1693,7 +1704,7 @@ function importView(){
 }
 function impUpload(){
   const n=IMP.files.reduce((s,f)=>s+f.n,0);
-  return `<div style="text-align:right;display:flex;flex-direction:column;gap:12px;margin-top:18px">
+  return `<div id="impUp" style="text-align:right;display:flex;flex-direction:column;gap:12px;margin-top:18px;scroll-margin-top:90px">
   ${IMP.src==="Tradovate"?`<div><h3 style="display:flex;gap:8px;align-items:center;margin-bottom:4px"><svg class="i" viewBox="0 0 24 24" style="color:var(--sky)"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg>סנכרון אוטומטי דרך <span class="en" style="font-weight:500">Tradovate API</span></h3><p class="meta2" style="margin:0 0 10px">מושך עסקאות חדשות אוטומטית. עובד גם לחשבונות Prop Firm (AntarTrade שותפה רשמית).</p>${syncCard()}</div><div class="or"><span>או ייבוא קובץ CSV</span></div>`:""}
   <p style="margin:0;font-size:14px;color:var(--muted)">${SRC[IMP.src][1]}</p><p class="meta2" style="margin:0">ניתן להעלות עד 3 קבצים בו-זמנית</p>
   ${IMP.files.length?`<div class="flist2">${IMP.files.map((f,i)=>`<div class="frow"><svg class="i" viewBox="0 0 24 24" style="color:var(--sky)"><path d="M7 3.5h7l4.5 4.5v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z"/><path d="M14 3.5V8h4.5M9 13h6M9 16.5h4"/></svg><span class="nm en" style="font-weight:400">${f.name}</span><span class="badge">${f.n} עסקאות</span><button class="trash" data-rmfile="${i}" aria-label="הסר קובץ">${XI}</button></div>`).join("")}</div>`:""}
@@ -1797,7 +1808,7 @@ document.addEventListener("click",e=>{
     (!$("dlg2").hidden?$("dlg2"):$("dlg")).hidden=true;toast("חשבון נוצר בהצלחה!");if(NT.tab==="manual")renderAccCol();else newView();return;}
   if(q("[data-newasset]")){newAssetDlg();return;}
   if(q("[data-createasset]")){const s2=$("naSym").value.trim().toUpperCase();ASSETS.push({sym:s2,name:$("naSName").value,tick:+$("naTick").value,tv:+$("naTv").value,mult:+$("naMult").value||(+$("naTv").value/+$("naTick").value),custom:true});NT.asset=s2;$("dlg").hidden=true;toast("נכס נוצר בהצלחה!");renderAssetCol();calcNT();return;}
-  if(x=q("[data-src]")){IMP.src=x.dataset.src;IMP.files=[];newView();return;}
+  if(x=q("[data-src]")){IMP.src=x.dataset.src;IMP.files=[];newView();requestAnimationFrame(()=>{const u=$("impUp");if(!u)return;const z=u.querySelector("[data-impfile]")||u;if(z.getBoundingClientRect().bottom>innerHeight-110)u.scrollIntoView({behavior:"smooth",block:"start"});});return;}
   if(q("[data-impfile]")){$("impIn").click();return;}
   if(x=q("[data-rmfile]")){IMP.files.splice(+x.dataset.rmfile,1);newView();return;}
   if(x=q("[data-impnext]")){IMP.step=+x.dataset.impnext;newView();scrollTo(0,0);return;}
