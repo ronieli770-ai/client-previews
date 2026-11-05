@@ -19,7 +19,7 @@ const nameErr=v=>{const t=v.trim();return t.length<2||!HEB.test(t)?"יש להז�
 const esc=v=>String(v).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 /* mode: login | signup | forgot | sent */
-const A={side:"b",mode:"login",email:"",pw:"",name:"",nameErr:null,terms:false,show:false,busy:false,gbusy:false};
+const A={side:"e",slide:0,mode:"login",email:"",pw:"",name:"",nameErr:null,terms:false,show:false,busy:false,gbusy:false};
 
 const en=t=>t.replace(/(P&L|Apex|Take Profit|Lucid Trading|Google|AntarTrade)/g,'<span class="en">$1</span>');
 function card(){
@@ -60,16 +60,31 @@ function card(){
 const LEAD="יומן המסחר המתקדם שלך. עקוב, נתח ושפר את הביצועים שלך.";
 const HEAD=`<h2 class="au-h">יומן המסחר המתקדם שלך.<br><span>עקוב, נתח ושפר את הביצועים שלך.</span></h2>`;
 function side(){
+  if(A.side==="e") return sideTs();
   if(A.side==="a"||A.side==="d") return "";
   if(A.side==="b") return `<div class="au-side au-sb">${HEAD}<div class="au-shot"><img src="assets/auth-dash.webp" alt="יומן המסחר"></div>
     <div class="au-pills">${FEATS.map(([k,t])=>`<span class="au-pill">${SV(AI[k])}${t}</span>`).join("")}</div></div>`;
   return `<div class="au-side au-sc">${HEAD}<div class="au-panel">${FEATS.map(([k,t,d])=>`<div class="au-pf"><span class="au-pi">${SV(AI[k])}</span><b>${t}</b><small>${en(d)}</small></div>`).join("")}</div></div>`;
 }
+/* e: the TraderSync composition Roni liked - a big panel with a tag, a large headline, an up-close slice of the journal cut by the panel's
+   edge, one small card floating over it, and dots; one slide per line of Noam's (his lead, then his four features) */
+const SLIDES=[
+ ["יומן המסחר","יומן המסחר המתקדם שלך.","s1-main","s1-float","עקוב, נתח ושפר את הביצועים שלך."],
+ ["מעקב מדויק",'חישוב <span class="en">P&L</span> ברמת דיוק של טיק',"s2-main","kpi-pnl"],
+ ["אנליטיקס מתקדם","גרפים וסטטיסטיקות בזמן אמת","s3-main","kpi-win"],
+ ["תמיכה בחברות מימון",'מותאם לחוקי <span class="en" dir="ltr" style="unicode-bidi:isolate">Apex, Take Profit, Lucid Trading</span> ועוד',"s4-main","s4-float"],
+ ["אבטחה מלאה","הנתונים שלך מוגנים ומאובטחים","s5-main","s5-float"]];
+let slideT=0;
+const slideHtml=i=>{const [t,h,m,f,sub]=SLIDES[i];return `<div class="ts-slide" data-i="${i}"><span class="ts-tag">${t}</span><h2 class="ts-h">${h}</h2>${sub?`<p class="ts-sub">${sub}</p>`:""}
+  <div class="ts-stage"><img class="ts-main" src="assets/auth-${m}.webp" alt=""><img class="ts-float ts-f${i}" src="assets/auth-${f}.webp" alt=""></div></div>`;};
+function sideTs(){return `<div class="au-ts"><div class="ts-glow"></div>${slideHtml(A.slide)}<div class="ts-dots">${SLIDES.map((_,i)=>`<button type="button" class="${i===A.slide?"on":""}" data-ausl="${i}" aria-label="שקופית ${i+1}"></button>`).join("")}</div></div>`;}
+const nextSlide=to=>{const s=document.querySelector(".au-ts .ts-slide");if(!s)return;s.classList.add("out");setTimeout(()=>{A.slide=to;const ts=document.querySelector(".au-ts");if(!ts)return;s.outerHTML=slideHtml(to);document.querySelectorAll(".ts-dots button").forEach((b,i)=>b.classList.toggle("on",i===to));},320);};
+const autoplay=()=>{clearInterval(slideT);if(A.side!=="e")return;slideT=setInterval(()=>{if(S.page!=="auth"||document.hidden)return;nextSlide((A.slide+1)%SLIDES.length);},5500);};
 const inCard=()=>A.side==="d"?`<div class="au-mini">${FEATS.map(([k,t])=>`<span>${SV(AI[k])}${t}</span>`).join("")}</div>`:"";
 function draw(focusId){
   const w=$("auWrap");if(!w)return;
   w.innerHTML=card()+side();
-  w.dataset.side=A.side;
+  w.dataset.side=A.side;const au=$("au");if(au)au.dataset.side=A.side;autoplay();
   document.querySelectorAll("#au [data-ausd]").forEach(b=>b.classList.toggle("on",b.dataset.ausd===A.side));
   document.querySelectorAll("#au [data-aust]").forEach(b=>b.classList.toggle("on",b.dataset.aust===A.mode));
   if(focusId){const el=$(focusId);if(el){el.focus();const n=el.value.length;try{el.setSelectionRange(n,n);}catch(_){}}}
@@ -83,7 +98,7 @@ const mount=()=>{
     <div class="rpbg" aria-hidden="true"><img class="sc" src="assets/deals-bg.webp" alt=""></div>
     <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
     <div class="au-wrap" id="auWrap"></div>
-    <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-aust="login">התחברות</button><button data-aust="signup">הרשמה</button><button data-aust="forgot">שכחת סיסמה</button><button data-aust="sent">בדוק את המייל</button><button data-aust="unverified">מייל לא אומת</button><span class="sep"></span><small>צד:</small><button data-ausd="a">בלי</button><button data-ausd="b">היומן עצמו</button><button data-ausd="c">פאנל אחד</button><button data-ausd="d">בתוך הכרטיס</button></div>
+    <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-aust="login">התחברות</button><button data-aust="signup">הרשמה</button><button data-aust="forgot">שכחת סיסמה</button><button data-aust="sent">בדוק את המייל</button><button data-aust="unverified">מייל לא אומת</button><span class="sep"></span><small>צד:</small><button data-ausd="e">כמו TraderSync</button><button data-ausd="a">בלי</button><button data-ausd="b">היומן עצמו</button><button data-ausd="c">פאנל אחד</button><button data-ausd="d">בתוך הכרטיס</button></div>
   </section>`;
   const rp=$("rp");if(rp)rp.insertAdjacentHTML("afterend",html);else document.body.insertAdjacentHTML("beforeend",html);
   draw();
@@ -115,6 +130,7 @@ document.addEventListener("click",e=>{
     if(x.dataset.aust==="unverified"){go("login");if(!A.email)A.email="trader@gmail.com";if(!A.pw)A.pw="123456";draw();toast("שגיאה","המייל שלך עדיין לא אומת. בדוק את תיבת הדואר שלך ולחץ על קישור האימות.",true);return;}
     if(x.dataset.aust==="sent"&&!A.email)A.email="your@email.com";
     go(x.dataset.aust);return;}
+  if(x=q("[data-ausl]")){clearInterval(slideT);nextSlide(+x.dataset.ausl);autoplay();return;}
   if(x=q("[data-ausd]")){A.side=x.dataset.ausd;draw();return;}
   if(x=q("[data-aumode]")){go(x.dataset.aumode);return;}
   if(q("[data-aueye]")){A.show=!A.show;draw("auPw");return;}

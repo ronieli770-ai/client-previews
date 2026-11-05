@@ -67,9 +67,43 @@ body.pg-auth .demo{display:none}
 
 @media (max-width:1000px){
   .au-wrap{grid-template-columns:minmax(0,460px)}
-  .au-side{display:none}
+  .au-side,.au-ts{display:none}
 }
 @media (max-width:900px){
   #au{place-items:start center;padding-top:96px;padding-bottom:110px}
 }
 #au .cbsw .sep{flex:none;width:1px;height:20px;background:rgba(238,243,250,.12);margin:0 4px}
+
+/* e: the TraderSync composition - the form on its own dark half, a big framed panel on the other */
+#au[data-side="e"]{display:block;padding:0;background:#0b0e14}
+#au[data-side="e"] .rpbg{display:none}
+#au[data-side="e"] .au-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-width:none;height:100%;gap:0;align-items:stretch}
+#au[data-side="e"] .au-wrap>.cbcard{align-self:center;justify-self:center;background:none!important;box-shadow:none!important;outline:0!important;width:min(420px,calc(100% - 48px));padding:0;align-items:stretch;text-align:right}
+#au[data-side="e"] .rpbulb,#au[data-side="e"] .rptag{display:none}
+#au[data-side="e"] .rpt{font-size:34px}
+#au[data-side="e"] .au-or,#au[data-side="e"] .au-swap{text-align:center}
+#au[data-side="e"] .au-mailic{align-self:center}
+#au[data-side="e"] .au-wrap>.cbcard>.cbt,#au[data-side="e"] .au-wrap>.cbcard>.cbp,#au[data-side="e"] .au-addr,#au[data-side="e"] .au-small{text-align:center}
+.au-ts{position:relative;margin:16px 0 16px 16px;border-radius:28px;overflow:hidden;background:radial-gradient(80% 60% at 50% 0,rgba(46,139,216,.22),transparent 70%),linear-gradient(180deg,#141a26,#0e121b);outline:1px solid rgba(125,198,255,.1);outline-offset:-1px;display:flex;flex-direction:column;align-items:center}
+.ts-glow{position:absolute;left:-12%;bottom:-10%;width:46%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(79,107,255,.55),rgba(125,198,255,.15) 60%,transparent);filter:blur(30px);pointer-events:none}
+.ts-slide{position:relative;flex:1;width:100%;display:flex;flex-direction:column;align-items:center;padding:56px 40px 0;transition:opacity .32s ease,transform .32s ease}
+.ts-slide.out{opacity:0;transform:translateY(10px)}
+.ts-tag{font-size:13px;font-weight:500;padding:5px 12px;border-radius:8px;background:rgba(125,198,255,.14);color:var(--sky)}
+.ts-h{margin:18px 0 0;max-width:620px;text-align:center;font-size:clamp(34px,3.6vw,52px);line-height:1.02;font-weight:500;letter-spacing:-.6px;color:#fff;text-wrap:balance}
+.ts-stage{position:relative;width:100%;flex:1;margin-top:40px;min-height:300px}
+.ts-main{position:absolute;top:0;left:50%;width:min(118%,820px);transform:translateX(-46%);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(125,198,255,.14)}
+.ts-float{position:absolute;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 0 1px rgba(125,198,255,.22);animation:tsIn .6s cubic-bezier(.22,1,.36,1) .15s both}
+@keyframes tsIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.ts-f0{width:min(66%,420px);right:-3%;top:60%}
+.ts-f1{width:min(36%,230px);left:5%;top:36%}
+.ts-f2{width:min(36%,230px);right:4%;top:44%}
+.ts-f3{width:min(80%,560px);left:-4%;top:58%}
+.ts-f4{width:min(66%,400px);right:-3%;top:64%}
+.ts-dots{position:absolute;bottom:22px;left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:2}
+.ts-dots button{width:34px;height:4px;border-radius:99px;border:0;padding:0;background:rgba(238,243,250,.22);cursor:pointer;transition:background .3s}
+.ts-dots button.on{background:#fff}
+@media (max-width:1000px){#au[data-side="e"] .au-wrap{grid-template-columns:minmax(0,1fr)}#au[data-side="e"] .au-wrap>.cbcard{padding:96px 0 120px;align-self:start}}
+.ts-sub{margin:14px 0 0;font-size:20px;line-height:1.5;color:var(--muted);text-align:center}
+#au[data-side="e"] .cbsw{left:75%}
+.ts-slide[data-i="4"] .ts-main{width:min(84%,520px);transform:translateX(-50%)}
+.ts-slide[data-i="4"] .ts-f4{width:min(60%,360px);right:6%;top:64%}
