@@ -4,11 +4,11 @@
 <title>יומן המסחר - לוח בקרה</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="stylesheet" href="assets/challenge.css?v=1793904224">
-<link rel="stylesheet" href="assets/streak.css?v=1793904224">
-<link rel="stylesheet" href="assets/mentor.css?v=1793904224">
-<link rel="stylesheet" href="assets/auth.css?v=1793904224">
-<link rel="stylesheet" href="assets/settings.css?v=1793904224">
+<link rel="stylesheet" href="assets/challenge.css?v=1793904254">
+<link rel="stylesheet" href="assets/streak.css?v=1793904254">
+<link rel="stylesheet" href="assets/mentor.css?v=1793904254">
+<link rel="stylesheet" href="assets/auth.css?v=1793904254">
+<link rel="stylesheet" href="assets/settings.css?v=1793904254">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500&display=swap">
 <style>
 
@@ -886,6 +886,53 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
 .rptag{font-size:13px;font-weight:500;padding:5px 12px;border-radius:999px;background:rgba(125,198,255,.12);color:var(--sky);margin-top:4px}
 #rp .cbsw{z-index:2}
 @media (max-width:900px){#rp .cbsw{max-width:calc(100% - 24px);overflow-x:auto;scrollbar-width:none}}
+/* first-time onboarding: three short steps in the reset card's language */
+#ob{place-items:start center;overflow-y:auto;padding:0}
+#ob .rpbg{position:fixed}
+#ob .rpbg .sc{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.obwrap{position:relative;z-index:1;width:100%;display:grid;place-items:center;padding:110px 16px 120px}
+.obcard{width:min(640px,100%);align-items:stretch;text-align:right;gap:0;padding:34px 34px 28px;box-shadow:0 30px 80px rgba(0,0,0,.45);background:radial-gradient(70% 60% at 100% 0,rgba(46,139,216,.2),transparent),#0b0e14;outline:1px solid rgba(125,198,255,.14);outline-offset:-1px}
+.obprog{margin-bottom:26px}
+.obpt{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:8px}
+.obbar{height:6px;border-radius:99px;background:#12161f;overflow:hidden}
+.obbar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#7DC6FF,#4F6BFF);transition:width .4s ease}
+.obhead h1{margin:0;font-size:30px;font-weight:500;line-height:1.15;background:none;-webkit-text-fill-color:var(--fg);color:var(--fg)}
+#ob .cbsw{position:fixed}
+#ob .nflogo{position:fixed;z-index:2}
+.obhead p{margin:8px 0 0;font-size:16px;color:var(--muted)}
+.obq{margin-top:24px}
+.obq>label,.obq>.ql{display:block;font-size:15px;font-weight:500;margin-bottom:10px}
+.obq .req{color:var(--loss)}
+.obq .inp{background:#12161f;height:50px}
+.obq .help{margin-top:8px}
+.obopts{display:flex;flex-wrap:wrap;gap:8px}
+.obopt{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:999px;border:0;background:#12161f;color:var(--fg);font:inherit;font-size:15px;cursor:pointer;transition:background .2s,color .2s}
+.obopt:hover{background:#1a1f2b}
+.obopt .mk{width:18px;height:18px;border-radius:50%;background:#0b0e14;display:grid;place-items:center;flex:none;transition:background .2s}
+.obopt.multi .mk{border-radius:6px}
+.obopt.on{background:rgba(125,198,255,.14);color:var(--sky)}
+.obopt.on .mk{background:var(--royal)}
+.obopt.on .mk::after{content:"";width:8px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.obperk{margin-top:24px;border-radius:15px;background:rgba(255,255,255,.05);padding:18px}
+.obperk .pt{display:flex;align-items:center;gap:10px;font-weight:500;font-size:16px}
+.obperk p{margin:8px 0 14px;font-size:14px;line-height:1.6;color:var(--muted)}
+.obperk .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.obcode{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 8px 0 18px;border-radius:999px;background:#12161f;border:0;color:var(--fg);font-family:var(--en);font-weight:600;font-size:16px;letter-spacing:.06em;cursor:pointer}
+.obcode .cp{width:30px;height:30px;border-radius:50%;background:#1a1f2b;display:grid;place-items:center;color:var(--muted)}
+.obcode:hover .cp{color:var(--fg)}
+.oblink{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--sky)}
+.obnav{display:flex;align-items:center;justify-content:space-between;margin-top:30px;gap:10px}
+.obback{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px;border:0;border-radius:999px;background:none;color:var(--muted);font:inherit;font-size:15px;cursor:pointer}
+.obback:hover:not([disabled]){color:var(--fg);background:#12161f}
+.obback[disabled]{opacity:.35;cursor:default}
+.obgo{display:flex;gap:10px;align-items:center}
+.obskip{height:48px;padding:0 20px;border:0;border-radius:999px;background:#12161f;color:var(--fg);font:inherit;font-size:15px;cursor:pointer}
+.obskip:hover{background:#1a1f2b}
+#ob .obnext{margin:0;height:48px;padding:0 26px;gap:8px}
+#ob .obnext[disabled]{opacity:.45;cursor:default}
+body.pg-onboarding .demo,body.pg-onboarding .demo2{display:none}
+html:has(body.pg-onboarding),body.pg-onboarding{overflow:hidden}
+@media (max-width:900px){.obwrap{padding:84px 12px 110px}.obcard{padding:26px 18px 22px}.obhead h1{font-size:24px}.obopt{height:40px;padding:0 14px;font-size:14px}.obnav{flex-wrap:wrap}.obgo{flex:1;justify-content:flex-end}#ob .cbsw{max-width:calc(100% - 24px);overflow-x:auto;scrollbar-width:none;position:fixed}}
 /* mock-only switch */
 .demo{max-width:calc(100vw - 40px);overflow-x:auto;scrollbar-width:none}
 .demo button{flex:none;white-space:nowrap}
@@ -981,6 +1028,21 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
   <div class="cbcard" id="cbCard"></div>
   <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-cbs="loading">בתהליך</button><button data-cbs="ok">הצליח</button><button data-cbs="error">נכשל</button></div>
 </section>
+<section class="nf" id="ob" dir="rtl" hidden>
+  <div class="rpbg" aria-hidden="true"><img class="sc" src="assets/deals-bg.webp" alt=""></div>
+  <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
+  <div class="obwrap">
+    <div class="cbcard obcard">
+      <div class="obprog"><div class="obpt"><span id="obStepT">שלב 1 מתוך 3</span><span id="obPct">33%</span></div><div class="obbar"><i id="obBar"></i></div></div>
+      <div id="obBody"></div>
+      <div class="obnav">
+        <button class="obback" type="button" id="obBack"><svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M9 6l6 6-6 6"/></svg>חזור</button>
+        <div class="obgo"><button class="obskip" type="button" id="obSkip" hidden>אפשר לדלג ולסיים</button><button class="btn2 obnext" type="button" id="obNext"></button></div>
+      </div>
+    </div>
+  </div>
+  <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-obs="1">שלב 1</button><button data-obs="2">שלב 2</button><button data-obs="3">שלב 3</button></div>
+</section>
 <section class="nf" id="rp" dir="rtl" data-bg="d0" hidden>
   <div class="rpbg" aria-hidden="true"><img class="sc" data-s="d0" src="assets/deals-bg.webp" alt=""></div>
   <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
@@ -1006,7 +1068,7 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
 </div>
 <div class="dlg-bg" id="dlg2" dir="rtl" hidden style="z-index:56"><div class="dlg" role="dialog" aria-modal="true"><button class="ib x" data-close2 aria-label="סגור"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div id="dlg2Body"></div></div></div>
 <div class="toast" id="toast" dir="rtl" role="status" hidden></div>
-<div class="demo" dir="rtl" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button class="on" data-m="full">עם עסקאות</button><button data-m="empty">משתמש חדש</button><span class="sep"></span><button class="on" data-n="ok">רגיל</button><button data-n="loading">טעינה</button><button data-n="down">האתר לא עונה</button><span class="sep logonly"></span><button class="on logonly" data-c="ok">חיבור פעיל</button><button class="logonly" data-c="expired">חיבור פג</button><span class="sep"></span><button data-page="tradovate">חיבור טרדוביט</button><button data-page="404">דף שגיאה</button><button data-page="terms">תנאי שימוש</button><button data-page="reset">שחזור סיסמה</button></div>
+<div class="demo" dir="rtl" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button class="on" data-m="full">עם עסקאות</button><button data-m="empty">משתמש חדש</button><span class="sep"></span><button class="on" data-n="ok">רגיל</button><button data-n="loading">טעינה</button><button data-n="down">האתר לא עונה</button><span class="sep logonly"></span><button class="on logonly" data-c="ok">חיבור פעיל</button><button class="logonly" data-c="expired">חיבור פג</button><span class="sep"></span><button data-page="tradovate">חיבור טרדוביט</button><button data-page="404">דף שגיאה</button><button data-page="terms">תנאי שימוש</button><button data-page="reset">שחזור סיסמה</button><button data-page="onboarding">הרשמה ראשונה</button></div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -1082,7 +1144,7 @@ const PEAK={};
 /* ---------- state ---------- */
 let ACC={pot:false,hub:false,mets:false};try{Object.assign(ACC,JSON.parse(localStorage.getItem("journal-acc")||"{}"));}catch(e){}
 const saveAcc=()=>{try{localStorage.setItem("journal-acc",JSON.stringify(ACC));}catch(e){}};
-const S={conn:"ok",page:(location.hash==="#log"?"log":location.hash==="#new"?"new":location.hash==="#404"?"404":location.hash==="#tradovate"?"tradovate":location.hash==="#challenge"?"challenge":location.hash==="#terms"?"terms":location.hash==="#reset"?"reset":"dash"),lf:{asset:"all",dir:"all",grade:"all",tag:"all",strat:"all"},sel:new Set(),mode:"full",type:"all",accs:[],from:null,to:null,month:null,open:null};
+const S={conn:"ok",page:(location.hash==="#log"?"log":location.hash==="#new"?"new":location.hash==="#404"?"404":location.hash==="#tradovate"?"tradovate":location.hash==="#challenge"?"challenge":location.hash==="#terms"?"terms":location.hash==="#reset"?"reset":location.hash==="#onboarding"?"onboarding":"dash"),lf:{asset:"all",dir:"all",grade:"all",tag:"all",strat:"all"},sel:new Set(),mode:"full",type:"all",accs:[],from:null,to:null,month:null,open:null};
 const typeOk=a=>S.type==="all"||a.type===S.type;
 const effIds=()=>S.accs.length?S.accs:(S.type==="all"?[]:ACCOUNTS.filter(typeOk).map(a=>a.id));
 function filtered(){
@@ -1490,10 +1552,10 @@ function syncDlg(full){
       ${a.exists?"":`<div class="frm3"><div class="fld"><label>סוג</label><select class="inp"><option>אישי</option><option selected>Prop Firm</option></select></div><div class="fld"><label>חברה / Firm (אופציונלי)</label><input class="inp" placeholder="לדוגמה: Apex - eval"></div><div class="fld"><label>יתרת פתיחה (אופציונלי)</label><input class="inp" type="number" placeholder="50000"></div></div>`}</div>`).join("")}</div>
     <div class="dangerb"><button class="btn2" data-dosync="${full?1:0}">סנכרן</button><button class="btn3" data-closedlg>ביטול</button></div>`;},900);
 }
-const PAGES={"404":["",""],tradovate:["",""],terms:["",""],reset:["",""],challenge:["אתגר 90",""],dash:["ערב טוב, רוני","סקירה כללית של ביצועי המסחר שלך"],log:["יומן עסקאות","כל העסקאות שלך במקום אחד"],new:["עסקה חדשה","הוסף עסקה ידנית או ייבא מקובץ"]};
+const PAGES={"404":["",""],tradovate:["",""],terms:["",""],reset:["",""],onboarding:["",""],challenge:["אתגר 90",""],dash:["ערב טוב, רוני","סקירה כללית של ביצועי המסחר שלך"],log:["יומן עסקאות","כל העסקאות שלך במקום אחד"],new:["עסקה חדשה","הוסף עסקה ידנית או ייבא מקובץ"]};
 function setPage(pg,tab){
-  S.page=pg;["dash","log","new","404","tradovate","challenge","terms","reset"].forEach(k=>document.body.classList.toggle("pg-"+k,pg===k));$("nf").hidden=pg!=="404";$("cb").hidden=pg!=="tradovate";$("terms").hidden=pg!=="terms";$("rp").hidden=pg!=="reset";clearTimeout(window._cbT);
-  if(pg==="404"||pg==="tradovate"||pg==="terms"||pg==="reset"){try{history.replaceState(null,"","#"+pg);}catch(e){}scrollTo(0,0);if(pg==="tradovate")cbState("loading");if(pg==="reset")rpState("form");return;}
+  S.page=pg;["dash","log","new","404","tradovate","challenge","terms","reset","onboarding"].forEach(k=>document.body.classList.toggle("pg-"+k,pg===k));$("nf").hidden=pg!=="404";$("cb").hidden=pg!=="tradovate";$("terms").hidden=pg!=="terms";$("rp").hidden=pg!=="reset";$("ob").hidden=pg!=="onboarding";clearTimeout(window._cbT);
+  if(pg==="404"||pg==="tradovate"||pg==="terms"||pg==="reset"||pg==="onboarding"){try{history.replaceState(null,"","#"+pg);}catch(e){}scrollTo(0,0);if(pg==="tradovate")cbState("loading");if(pg==="reset")rpState("form");if(pg==="onboarding"){OB.step=1;obView();}return;}
   if(pg==="new"&&tab)NT.tab=tab;
   document.querySelectorAll(".nav a,.mnav a").forEach(a=>a.classList.toggle("on",a.dataset.page===pg));
   $("pgTitle").textContent=PAGES[pg][0];$("pgSub").textContent=PAGES[pg][1];
@@ -1902,6 +1964,53 @@ $("rpForm").addEventListener("submit",e=>{e.preventDefault();const a=$("rpPw").v
   g.disabled=true;g.textContent="מעדכן...";
   setTimeout(()=>{toast("הסיסמה עודכנה בהצלחה!","מעביר אותך לדשבורד...");setTimeout(()=>setPage("dash"),1400);},900);});
 
+/* ---------- first-time onboarding (Noam's Onboarding.tsx, word for word) ---------- */
+const OB={step:1,phone:"",exp:"",reg:"",tpf:"",firms:[],acct:"",plat:[],assets:[],purpose:""};
+const OBO={exp:[["beginner","מתחיל"],["under_year","פחות משנה"],["1_3_years",'<span class="en">1-3</span> שנים'],["3_plus_years",'<span class="en">3+</span> שנים']],
+ reg:[["north","צפון"],["center","מרכז"],["sharon","שרון"],["jerusalem","ירושלים"],["south","דרום"]],
+ tpf:[["yes","כן"],["no","לא / עוד לא"]],
+ firms:["Apex","Take Profit","Lucid Trading","TopStep","Bulenox","Alpha Futures","FundedNext","MFFU","אחר"],
+ acct:[["evaluation",'<span class="en">Evaluation</span> (מבחן)'],["pa",'<span class="en">PA / Funded</span>'],["live",'<span class="en">Live</span> (כסף אמיתי)']],
+ plat:["Tradovate","NinjaTrader","ATAS","Bookmap","Quantower","Sierra Chart","MotiveWave","Jigsaw","TradingView","אחר"],
+ assets:["NQ","ES","MNQ","MES","CL","GC","MGC","MCL","YM","RTY","אחר"],
+ purpose:[["discipline","שיפור משמעת"],["stats","מעקב סטטיסטיקות"],["learning","לימוד ושיפור"],["prop_firm","ניהול חשבונות מימון"],["other","אחר"]]};
+const obPhoneOk=v=>/^(?:\+972|0)5\d{8}$/.test(v.replace(/[\s\-()]/g,""));
+const obCan=()=>OB.step===1?obPhoneOk(OB.phone)&&!!OB.exp&&!!OB.reg:OB.step===2?(OB.tpf==="yes"?OB.firms.length>0&&!!OB.acct:!!OB.tpf):true;
+const obLbl=t=>t==="אחר"?t:`<span class="en">${t}</span>`;
+const obOne=(k,arr)=>`<div class="obopts">${arr.map(([v,l])=>`<button type="button" class="obopt${OB[k]===v?" on":""}" data-obone="${k}" data-v="${v}"><span class="mk"></span><span>${l}</span></button>`).join("")}</div>`;
+const obMany=(k,arr)=>`<div class="obopts">${arr.map(v=>`<button type="button" class="obopt multi${OB[k].includes(v)?" on":""}" data-obmany="${k}" data-v="${v}"><span class="mk"></span><span>${obLbl(v)}</span></button>`).join("")}</div>`;
+const OBGIFT='<span class="ico" style="--c:var(--c-sun)"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="2.5"/><path d="M3.5 9h17v3.5h-17zM12 9v11M12 9c-1.5-3.5-5.5-4-5.5-1.5S10 9 12 9zM12 9c1.5-3.5 5.5-4 5.5-1.5S14 9 12 9z"/></svg></span>';
+function obView(){const st=OB.step,B=$("obBody");
+  $("obStepT").textContent=`שלב ${st} מתוך 3`;$("obPct").textContent=Math.round(st/3*100)+"%";$("obBar").style.width=(st/3*100)+"%";
+  if(st===1)B.innerHTML=`<div class="obhead"><h1>בואו נכיר</h1><p>כמה פרטים קצרים שיעזרו לנו להתאים לך את היומן.</p></div>
+   <div class="obq"><label for="obPhone">מספר טלפון נייד <span class="req">*</span></label><input class="inp" id="obPhone" type="tel" dir="rtl" placeholder="050-1234567" value="${OB.phone}"><p class="help">לעדכונים חשובים בלבד - לא נשלח ספאם.</p></div>
+   <div class="obq"><span class="ql">ותק במסחר <span class="req">*</span></span>${obOne("exp",OBO.exp)}</div>
+   <div class="obq"><span class="ql">אזור מגורים <span class="req">*</span></span>${obOne("reg",OBO.reg)}</div>`;
+  else if(st===2)B.innerHTML=`<div class="obhead"><h1>תיקי מימון (<span class="en">Prop Firms</span>)</h1><p>היומן מותאם במיוחד לחברות מימון.</p></div>
+   <div class="obq"><span class="ql">האם אתה סוחר בתיקי מימון? <span class="req">*</span></span>${obOne("tpf",OBO.tpf)}</div>
+   ${OB.tpf==="yes"?`<div class="obq"><span class="ql">באילו חברות? (ניתן לבחור כמה) <span class="req">*</span></span>${obMany("firms",OBO.firms)}</div>
+   <div class="obq"><span class="ql">סוג חשבון נוכחי <span class="req">*</span></span>${obOne("acct",OBO.acct)}</div>
+   ${OB.firms.length?`<div class="obperk"><div class="pt">${OBGIFT}הטבה בלעדית לנרשמים ביומן</div><p>השתמש בקוד הבא בעת רכישת מבחן באחת מחברות המימון לקבלת הנחה בלעדית של <span class="en">AntarTrade</span>.</p><div class="row"><button type="button" class="obcode" data-obcopy>ANTAR<span class="cp"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></svg></span></button><a class="oblink" href="https://antartrade.co.il" target="_blank" rel="noopener">לרשימת החברות הנתמכות<svg class="i" viewBox="0 0 24 24" style="width:15px;height:15px"><path d="M14 5h5v5M19 5l-8 8M17 13.5V18a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 5 18V8.5A1.5 1.5 0 0 1 6.5 7H11"/></svg></a></div></div>`:""}`:""}`;
+  else B.innerHTML=`<div class="obhead"><h1>העדפות אישיות</h1><p>שלב זה אופציונלי לחלוטין - אפשר לדלג ולסיים.</p></div>
+   <div class="obq"><span class="ql">פלטפורמות מסחר שאתה משתמש בהן (בחירה מרובה)</span>${obMany("plat",OBO.plat)}</div>
+   <div class="obq"><span class="ql">נכסים מועדפים (בחירה מרובה)</span>${obMany("assets",OBO.assets)}</div>
+   <div class="obq"><span class="ql">מטרת ההצטרפות ליומן</span>${obOne("purpose",OBO.purpose)}</div>`;
+  $("obBack").disabled=st===1;$("obSkip").hidden=st!==3;
+  const n=$("obNext");n.innerHTML=st<3?'המשך<svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M15 6l-6 6 6 6"/></svg>':'סיים<svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M6 12.5l4 4 8-9"/></svg>';n.disabled=!obCan();
+  document.querySelectorAll("[data-obs]").forEach(b=>b.classList.toggle("on",+b.dataset.obs===st));
+  const ph=$("obPhone");if(ph)ph.addEventListener("input",()=>{OB.phone=ph.value;$("obNext").disabled=!obCan();});}
+function obFinish(){if(!obPhoneOk(OB.phone)){OB.step=1;obView();toast("מספר טלפון חובה","יש להזין מספר נייד ישראלי תקין",true);return;}
+  const n=$("obNext");n.disabled=true;n.textContent="שומר...";$("obSkip").disabled=true;
+  setTimeout(()=>{$("obSkip").disabled=false;toast("תודה!","השלמת את ההיכרות, נעבור ליומן.");setPage("dash");},900);}
+document.addEventListener("click",e=>{
+  const o=e.target.closest("[data-obone]");if(o){OB[o.dataset.obone]=o.dataset.v;if(o.dataset.obone==="tpf"&&o.dataset.v==="no"){OB.firms=[];OB.acct="";}obView();return;}
+  const m=e.target.closest("[data-obmany]");if(m){const a=OB[m.dataset.obmany],v=m.dataset.v,i=a.indexOf(v);i<0?a.push(v):a.splice(i,1);obView();return;}
+  if(e.target.closest("[data-obcopy]")){try{navigator.clipboard.writeText("ANTAR");}catch(_){}toast("הקוד הועתק!",'<span class="en">ANTAR</span>');return;}
+  const s=e.target.closest("[data-obs]");if(s){OB.step=+s.dataset.obs;if(OB.step>1&&!obPhoneOk(OB.phone)){OB.phone="050-1234567";OB.exp=OB.exp||"1_3_years";OB.reg=OB.reg||"center";}if(OB.step>2&&!OB.tpf){OB.tpf="yes";OB.firms=["Apex","Lucid Trading"];OB.acct="evaluation";}obView();return;}});
+$("obBack").addEventListener("click",()=>{if(OB.step>1){OB.step--;obView();}});
+$("obNext").addEventListener("click",()=>{if(OB.step===1&&!obPhoneOk(OB.phone)){toast("מספר טלפון לא תקין","יש להזין מספר נייד ישראלי תקין (לדוגמה 050-1234567)",true);return;}if(!obCan()){toast("נא למלא את השדות החסרים","",true);return;}if(OB.step<3){OB.step++;obView();$("ob").scrollTo({top:0,behavior:"smooth"});}else obFinish();});
+$("obSkip").addEventListener("click",obFinish);
+
 /* ---------- terms ---------- */
 document.addEventListener("click",e=>{const a=e.target.closest("[data-tjump]");if(!a)return;e.preventDefault();$("t"+a.dataset.tjump).scrollIntoView({behavior:"smooth",block:"start"});});
 {const tio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const n=en.target.id.slice(1);document.querySelectorAll(".ttoc a").forEach(a=>a.classList.toggle("on",a.dataset.tjump===n));}}),{rootMargin:"-30% 0px -60% 0px"});document.querySelectorAll(".tsec").forEach(sec=>tio.observe(sec));}
@@ -2009,8 +2118,8 @@ document.body.classList.add("pg-"+S.page);if(S.page!=="dash")setTimeout(()=>setP
 render();
 robotoDigits(document.body);
 </script>
-<script src="assets/challenge.js?v=1793904224" charset="utf-8"></script>
-<script src="assets/streak.js?v=1793904224" charset="utf-8" defer></script>
-<script src="assets/mentor.js?v=1793904224" charset="utf-8" defer></script>
-<script src="assets/auth.js?v=1793904224" charset="utf-8" defer></script>
-<script src="assets/settings.js?v=1793904224" charset="utf-8" defer></script>
+<script src="assets/challenge.js?v=1793904254" charset="utf-8"></script>
+<script src="assets/streak.js?v=1793904254" charset="utf-8" defer></script>
+<script src="assets/mentor.js?v=1793904254" charset="utf-8" defer></script>
+<script src="assets/auth.js?v=1793904254" charset="utf-8" defer></script>
+<script src="assets/settings.js?v=1793904254" charset="utf-8" defer></script>
