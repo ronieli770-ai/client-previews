@@ -627,3 +627,53 @@ body:not(.pg-challenge) #chjWizHost{display:none}
   .g-cdlg .box{width:100%;border-radius:24px 24px 0 0;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 }
 .g-cdlg .coupon .code{background:none;padding:0}
+
+/* ---- day 90: finish summary, results in Noam's order, before/after, certificate, new round ---- */
+.g-fin{position:relative;overflow:hidden;border-radius:24px;padding:28px 32px;display:flex;align-items:center;gap:28px;background:radial-gradient(circle at 85% 30%,rgba(247,198,90,.18),transparent 55%),linear-gradient(135deg,rgba(79,107,255,.32),rgba(125,198,255,.06) 62%),var(--block)}
+.g-fin .tro{width:150px;flex:none;filter:drop-shadow(0 22px 32px rgba(0,0,0,.5))}
+.g-fin .tx{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
+.g-fin small{color:var(--c-sun);font-size:14px;font-weight:500}
+.g-fin small .num{color:inherit}
+.g-fin h2{font-size:40px;font-weight:500;line-height:.98}
+.g-fin p{font-size:16px;line-height:1.55;color:var(--muted);max-width:520px}
+.g-fin .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.g-fin .acts .g-eqb{margin:0}
+.g-res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.g-r{background:#12161f;border-radius:18px;padding:16px;display:flex;align-items:center;gap:12px}
+.g-r .n{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;background:#fff;color:#12161f;font-size:13px}
+.g-r .n .num{font-weight:600}
+.g-r>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.g-r small{font-size:13px;color:var(--muted)}
+.g-r b{font-size:16px;font-weight:500;line-height:1.3}
+.g-r .mk{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;background:rgba(125,198,255,.14);color:var(--sky)}
+.g-r.ok .mk{background:rgba(63,216,194,.16);color:var(--win)}
+.g-r .mk .i{width:16px;height:16px;stroke-width:2.4}
+.g-cmp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.g-c{background:#12161f;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.g-c small{font-size:13px;color:var(--muted)}
+.g-c .v{display:flex;align-items:center;gap:8px}
+.g-c .from{font-size:15px;color:rgba(238,243,250,.45)}
+.g-c .v .i{color:var(--win)}
+.g-c b{font-size:22px;font-weight:600;color:#fff}
+.g-keep{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--win);background:rgba(63,216,194,.12);border-radius:999px;padding:4px 12px}
+/* certificate */
+.g-cdlg.cert .box{width:min(480px,100%);padding:64px 24px 24px}
+.g-certc{position:relative;width:100%;border-radius:22px;padding:26px 22px 22px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:radial-gradient(circle at 50% 18%,rgba(247,198,90,.22),transparent 55%),linear-gradient(160deg,#1c2a52,#0b0e14 70%)}
+.g-certc::before{content:"";position:absolute;inset:0;border-radius:22px;padding:1.5px;background:linear-gradient(160deg,#f7c65a,rgba(247,198,90,.12) 45%,rgba(125,198,255,.5));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.g-certc .lg{height:26px;margin-bottom:8px}
+.g-certc .tro{width:110px;filter:drop-shadow(0 16px 24px rgba(0,0,0,.5))}
+.g-certc small{color:var(--c-sun);font-size:13px;font-weight:500;margin-top:4px}
+.g-certc h3{font-size:22px;font-weight:500}
+.g-certc .nm{font-size:30px;font-weight:500;line-height:1.1;background:linear-gradient(90deg,#fff,#7DC6FF);-webkit-background-clip:text;background-clip:text;color:transparent;margin:4px 0 6px}
+.g-certc .chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.g-certc .chips span{font-size:12px;font-weight:500;color:var(--c-sun);background:rgba(247,198,90,.14);border-radius:999px;padding:4px 10px}
+.g-certc .ft{display:flex;justify-content:space-between;gap:10px;width:100%;margin-top:14px;font-size:12px;color:rgba(238,243,250,.55)}
+.g-cdlg.cert .row{gap:10px;flex-wrap:wrap}
+.g-cdlg.cert .row .g-eqb{margin:0}
+@media (max-width:760px){
+  .g-fin{flex-direction:column;align-items:flex-start;padding:24px 20px;gap:12px}
+  .g-fin .tro{width:110px}
+  .g-fin h2{font-size:32px}
+  .g-res{grid-template-columns:minmax(0,1fr)}
+  .g-cmp{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
