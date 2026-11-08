@@ -4,12 +4,12 @@
 <title>יומן המסחר - לוח בקרה</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="stylesheet" href="assets/challenge.css?v=1794144046">
-<link rel="stylesheet" href="assets/streak.css?v=1794144046">
-<link rel="stylesheet" href="assets/mentor.css?v=1794144046">
-<link rel="stylesheet" href="assets/auth.css?v=1794144046">
-<link rel="stylesheet" href="assets/settings.css?v=1794144046">
-<link rel="stylesheet" href="assets/shared.css?v=1794144046">
+<link rel="stylesheet" href="assets/challenge.css?v=1794144423">
+<link rel="stylesheet" href="assets/streak.css?v=1794144423">
+<link rel="stylesheet" href="assets/mentor.css?v=1794144423">
+<link rel="stylesheet" href="assets/auth.css?v=1794144423">
+<link rel="stylesheet" href="assets/settings.css?v=1794144423">
+<link rel="stylesheet" href="assets/shared.css?v=1794144423">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500&display=swap">
 <style>
 
@@ -952,6 +952,25 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
 .oblive .t{font-size:13px;color:var(--faint);margin-left:4px}
 .oblive .c{font-size:13px;padding:4px 10px;border-radius:999px;background:rgba(125,198,255,.12);color:var(--sky)}
 .oblive .c.e{background:#1a1f2b;color:var(--faint)}
+/* finish: the bulb fills with light like the site's loader, a personal line, then the curtain lifts onto the dashboard */
+.obdone{position:fixed;inset:0;z-index:60;background:#12161f;display:grid;place-items:center;overflow:hidden;transition:transform .8s cubic-bezier(.77,0,.18,1)}
+.obdone.up{transform:translateY(-100%)}
+.obdbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.obdin{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 24px}
+.obdbulb{position:relative;width:120px;height:120px}
+.obdbulb::before{content:"";position:absolute;inset:-46px;border-radius:50%;background:radial-gradient(closest-side,rgba(79,107,255,.55),rgba(125,198,255,.16) 60%,transparent);filter:blur(10px);opacity:0;transform:scale(.6);transition:opacity 1.6s ease,transform 1.6s ease}
+.obdbulb img{position:absolute;inset:0;width:100%;height:100%}
+.obdbulb .ghost{opacity:.14}
+.obdbulb .fill{clip-path:inset(100% 0 0 0);transition:clip-path 1.6s cubic-bezier(.65,0,.35,1)}
+.obdone.go .obdbulb .fill{clip-path:inset(0 0 0 0)}
+.obdone.go .obdbulb::before{opacity:1;transform:scale(1)}
+.obdbar{width:180px;height:3px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:34px}
+.obdbar i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,#7DC6FF,#4F6BFF);transition:width 2.6s cubic-bezier(.65,0,.35,1)}
+.obdone.go .obdbar i{width:100%}
+.obdt{margin:26px 0 0;font-size:30px;font-weight:500;line-height:1.2;transition:opacity .35s,transform .35s}
+.obds{margin:10px 0 0;font-size:17px;color:var(--muted);transition:opacity .35s,transform .35s}
+.obdone .swap{opacity:0;transform:translateY(8px)}
+@media (max-width:900px){.obdt{font-size:24px}.obds{font-size:16px}.obdbulb{width:96px;height:96px}}
 body.pg-onboarding .demo,body.pg-onboarding .demo2{display:none}
 html:has(body.pg-onboarding),body.pg-onboarding{overflow:hidden}
 @media (max-width:900px){.obcards.c3,.obcards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.obtiles{grid-template-columns:repeat(3,minmax(0,1fr))}.obcd{min-height:84px}.obwrap{padding:84px 12px 110px}.obcard{padding:26px 18px 22px}.obhead h1{font-size:24px}.obopt{height:40px;padding:0 14px;font-size:14px}.obnav{flex-wrap:wrap}.obgo{flex:1;justify-content:flex-end}#ob .cbsw{max-width:calc(100% - 24px);overflow-x:auto;scrollbar-width:none;position:fixed}}
@@ -1050,6 +1069,15 @@ html:has(body.pg-onboarding),body.pg-onboarding{overflow:hidden}
   <div class="cbcard" id="cbCard"></div>
   <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-cbs="loading">בתהליך</button><button data-cbs="ok">הצליח</button><button data-cbs="error">נכשל</button></div>
 </section>
+<div class="obdone" id="obDone" dir="rtl" hidden>
+  <img class="obdbg" src="assets/deals-bg.webp" alt="">
+  <div class="obdin">
+    <div class="obdbulb"><img class="ghost" src="assets/bulb-white.svg" alt=""><img class="fill" src="assets/bulb.svg" alt="AntarTrade"></div>
+    <div class="obdbar"><i></i></div>
+    <p class="obdt" id="obDoneT">רגע, רוני...</p>
+    <p class="obds" id="obDoneS">שומרים את ההעדפות שלך</p>
+  </div>
+</div>
 <section class="nf" id="ob" dir="rtl" hidden>
   <div class="rpbg" aria-hidden="true"><img class="sc" src="assets/deals-bg.webp" alt=""></div>
   <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
@@ -2037,7 +2065,14 @@ function obView(){const st=OB.step,B=$("obBody");
   const ph=$("obPhone");if(ph)ph.addEventListener("input",()=>{OB.phone=ph.value;$("obNext").disabled=!obCan();});}
 function obFinish(){if(!obPhoneOk(OB.phone)){OB.step=1;obView();toast("מספר טלפון חובה","יש להזין מספר נייד ישראלי תקין",true);return;}
   const n=$("obNext");n.disabled=true;n.textContent="שומר...";$("obSkip").disabled=true;
-  setTimeout(()=>{$("obSkip").disabled=false;toast("תודה!","השלמת את ההיכרות, נעבור ליומן.");setPage("dash");},900);}
+  setTimeout(()=>{$("obSkip").disabled=false;obDoneRun();},500);}
+/* full-screen finish instead of a toast */
+function obDoneRun(){const O=$("obDone"),T=$("obDoneT"),D=$("obDoneS"),w=ms=>new Promise(r=>setTimeout(r,ms));
+  T.textContent="רגע, רוני...";D.textContent="שומרים את ההעדפות שלך";O.classList.remove("go","up");O.hidden=false;void O.offsetWidth;
+  (async()=>{O.classList.add("go");await w(1700);
+    T.classList.add("swap");D.classList.add("swap");await w(350);
+    T.textContent="קיבלנו את ההעדפות שלך";D.textContent="הדשבורד שלך מוכן";T.classList.remove("swap");D.classList.remove("swap");
+    await w(1500);setPage("dash");await w(60);O.classList.add("up");await w(850);O.hidden=true;O.classList.remove("go","up");})();}
 document.addEventListener("click",e=>{
   const o=e.target.closest("[data-obone]");if(o){OB[o.dataset.obone]=o.dataset.v;if(o.dataset.obone==="tpf"&&o.dataset.v==="no"){OB.firms=[];OB.acct="";}obView();return;}
   const m=e.target.closest("[data-obmany]");if(m){const a=OB[m.dataset.obmany],v=m.dataset.v,i=a.indexOf(v);i<0?a.push(v):a.splice(i,1);obView();return;}
@@ -2154,9 +2189,9 @@ document.body.classList.add("pg-"+S.page);if(S.page!=="dash")setTimeout(()=>setP
 render();
 robotoDigits(document.body);
 </script>
-<script src="assets/challenge.js?v=1794144046" charset="utf-8"></script>
-<script src="assets/streak.js?v=1794144046" charset="utf-8" defer></script>
-<script src="assets/mentor.js?v=1794144046" charset="utf-8" defer></script>
-<script src="assets/auth.js?v=1794144046" charset="utf-8" defer></script>
-<script src="assets/settings.js?v=1794144046" charset="utf-8" defer></script>
-<script src="assets/shared.js?v=1794144046" charset="utf-8" defer></script>
+<script src="assets/challenge.js?v=1794144423" charset="utf-8"></script>
+<script src="assets/streak.js?v=1794144423" charset="utf-8" defer></script>
+<script src="assets/mentor.js?v=1794144423" charset="utf-8" defer></script>
+<script src="assets/auth.js?v=1794144423" charset="utf-8" defer></script>
+<script src="assets/settings.js?v=1794144423" charset="utf-8" defer></script>
+<script src="assets/shared.js?v=1794144423" charset="utf-8" defer></script>
