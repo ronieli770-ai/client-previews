@@ -913,3 +913,30 @@ a.g-eqb{text-decoration:none}
 .g-rwn:not(.on) .g-awav img{opacity:1}
 .g-awav.sm{width:64px;height:64px}
 .g-awav.sm img{width:240%;top:-3%}
+/* the chest card breathes: more room between the chest and its text */
+.g-chest{padding-left:200px}
+.g-chest img{left:10px}
+/* day 90: Noam and the map each full width */
+.g-cols.fin{grid-template-columns:minmax(0,1fr)}
+.g-cols.fin .g-map{height:300px}
+@media (max-width:760px){
+  .g-chest{padding-left:150px}
+  .g-chest img{left:6px}
+  /* hearts get the room they need inside their own cell */
+  .g-hud>.g-day{flex:0 0 auto;min-width:78px}
+  .g-hud>.g-cell:not(.g-xp):not(.g-stk){flex:2 1 0}
+  .g-hud>.g-stk{flex:1 1 0}
+  .g-hearts{gap:2px}
+  .g-ht,.g-ht svg{width:21px;height:21px}
+  .g-ht.off{transform:translateY(2px) rotate(-8deg)}
+  .g-cols.fin .g-map{height:270px}
+}
+/* a second start button after the explanation, phones only */
+.g-cta2{display:none}
+@media (max-width:760px){
+  .g-cta2{display:flex;flex-direction:column;align-items:flex-start;gap:4px;background:linear-gradient(135deg,rgba(79,107,255,.3),rgba(125,198,255,.06) 62%),var(--block)}
+  .g-cta2 .tx{display:flex;flex-direction:column;gap:4px}
+  .g-cta2 b{font-size:20px;font-weight:500}
+  .g-cta2 p{margin:0;font-size:15px;color:var(--muted)}
+  .g-cta2 .chj-cta{margin-top:12px}
+}

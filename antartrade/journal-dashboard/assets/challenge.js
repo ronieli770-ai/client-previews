@@ -317,7 +317,7 @@ function gMap(v){
      <path d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14" stroke-linecap="round"/>
      <path class="g-done" d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="url(#gHg)" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 2000"/></svg>
    ${nodes}${gate("shield-check",58,130,stage>1,w&&w.gate===1?" wait":"")}${gate("shield-target",350,48,stage>2,w&&w.gate===2?" wait":"")}
-   ${w?`<span class="g-glock" style="${w.gate===1?pos(58,130):pos(350,48)}" title="${w.short.replace(/<[^>]+>/g,"")}">${SV(JI.lock,"width:14px;height:14px")}</span>`:""}${won?`<span class="g-gold" style="${pos(40,25)}"></span>`:""}${gate("shield-trophy",40,25,v&&v.out.payouts>0," final"+(won?" won":""))}${won?`<span class="g-wonl" style="${pos(40,25)}"><span class="num">90</span> \u00b7 \u05d4\u05d2\u05e2\u05ea</span>`:""}
+   ${w?`<span class="g-glock" style="${w.gate===1?pos(58,130):pos(350,48)}" title="${w.short.replace(/<[^>]+>/g,"")}">${SV(JI.lock,"width:14px;height:14px")}</span>`:""}${won?`<span class="g-gold" style="${pos(40,25)}"></span>`:""}${gate("shield-trophy",40,25,v&&v.out.payouts>0," final"+(won?" won":""))}
    ${lbl("\u05e9\u05dc\u05d1 1",STAGES[1].title,300,246)}${lbl("\u05e9\u05dc\u05d1 2",STAGES[2].title,215,128)}${lbl("\u05e9\u05dc\u05d1 3",STAGES[3].title,120,48)}</div>`;}
 /* is the user standing at a locked gate? Gate 1 opens after 30 trading days with no burned account (Noam's stage.ts);
    gate 2 opens with a passed evaluation or a funded account */
@@ -402,6 +402,7 @@ function gJoin(){
   ${gHowSec()}
   ${gRulesSec()}
   ${gAwaits()}
+  <section class="blk g-cta2"><div class="tx"><b>\u05de\u05d5\u05db\u05e0\u05d9\u05dd \u05dc\u05d4\u05ea\u05d7\u05d9\u05dc?</b><p>\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e6\u05e2\u05d3\u05d9\u05dd \u05e7\u05e6\u05e8\u05d9\u05dd, \u05d5\u05de\u05ea\u05d7\u05d9\u05dc\u05d9\u05dd \u05de\u05d9\u05d5\u05dd \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d1\u05d0.</p></div><button class="chj-cta" data-chwiz="1">\u05dc\u05d4\u05ea\u05d7\u05d9\u05dc \u05dc\u05e9\u05d7\u05e7<em>3 \u05e6\u05e2\u05d3\u05d9\u05dd</em></button></section>
   ${C.noam?`<section class="blk g-noam g-jnoam"><img alt="" src="avatar/noam-clean.webp"><div class="g-bub"><small>\u05e0\u05d5\u05e2\u05dd</small><b>\u05d0\u05e0\u05d9 \u05d0\u05d9\u05ea\u05da \u05db\u05dc \u05d4\u05d3\u05e8\u05da.</b> \u05d1\u05d5\u05d3\u05e7 \u05d0\u05d9\u05ea\u05da \u05db\u05dc \u05d9\u05d5\u05dd, \u05d5\u05de\u05d7\u05dc\u05e7 \u05d8\u05d9\u05e4\u05d9\u05dd \u05dc\u05e4\u05d9 \u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05e9\u05dc\u05da. \u05d1\u05d5\u05d0 \u05e0\u05d2\u05d9\u05e2 \u05d9\u05d7\u05d3 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05d4\u05e8\u05d0\u05e9\u05d5\u05e0\u05d4.</div></section>`:""}
   <section class="blk chj-sec">${GDEF}<div class="bh">${cttl("\u05d4\u05de\u05e4\u05d4","flag","sun")}<span class="hint">\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd. \u05db\u05dc \u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05de\u05e1\u05d9\u05d9\u05de\u05d9\u05dd \u05d0\u05ea \u05d4\u05e9\u05dc\u05d1 \u05e9\u05dc\u05e4\u05e0\u05d9\u05d5.</span></div>${gMap(null)}</section>
   ${C.round>1?gCards(SMP.d90,gStats(SMP.d90)):gCards(null,null)}
@@ -415,7 +416,7 @@ function gDash(){
   <div class="g-howrow"><button class="g-howbtn" data-ghow>${SV(CI.compass)}\u05d0\u05d9\u05da \u05d6\u05d4 \u05e2\u05d5\u05d1\u05d3</button></div>
   ${fin?gFinish(v,g):""}
   ${gHud(v,g)}
-  <div class="g-cols"><div class="g-col">${warns(v)}${fin?gNoam(v):gQuests(v)}</div>
+  <div class="g-cols${fin?" fin":""}"><div class="g-col">${warns(v)}${fin?gNoam(v):gQuests(v)}</div>
    <div class="g-col">${fin?"":gNoam(v)}<section class="blk chj-sec g-mapsec"><div class="bh">${cttl(fin?"\u05d4\u05d3\u05e8\u05da \u05e9\u05e2\u05e9\u05d9\u05ea":`\u05e9\u05dc\u05d1 ${v.stage} \u00b7 ${st.title}`,"flag","sun")}<span class="hint">${fin?"\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd, 90 \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8":gWait(v)?gWait(v).hint:nextTx}</span></div>${gMap(v)}</section></div></div>
   ${fin?gCards(v,g):""}
   ${gRewards(v,g)}
