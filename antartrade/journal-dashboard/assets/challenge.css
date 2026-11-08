@@ -726,3 +726,28 @@ a.g-eqb{text-decoration:none}
 .chj-wb .inp{font-size:16px}
 .chj-wb .ch-lims li{background:#232938}
 .chj-wb #chRisk::placeholder{font-size:15px}
+
+/* how it works: three steps, each in its own container with its 3D item */
+.g-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:40px}
+.g-step{position:relative;background:#12161f;border-radius:20px;padding:56px 20px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.g-step>img{position:absolute;top:-36px;right:16px;height:82px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.5))}
+.g-step small{font-size:13px;font-weight:500;color:var(--sky)}
+.g-step small .num{color:inherit}
+.g-step b{font-size:19px;font-weight:500;line-height:1.25}
+.g-step p{font-size:14px;line-height:1.55;color:var(--muted);margin:2px 0 0}
+.g-rl{display:flex;flex-direction:column;gap:6px;margin-top:8px;width:100%}
+.g-rl>span{display:flex;align-items:center;gap:8px;background:#1a1f2b;border-radius:12px;padding:8px 12px;font-size:13px}
+.g-rl .i{width:14px;height:14px;color:var(--win);stroke-width:2.4}
+.g-howrow{display:flex;justify-content:flex-end;margin-bottom:-6px}
+.g-howbtn{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:0;border-radius:999px;background:var(--block);color:var(--sky);font-family:inherit;font-size:14px;font-weight:500;cursor:pointer}
+.g-howbtn:hover{background:#1a1f2b}
+.g-howbtn .i{width:16px;height:16px}
+.g-cdlg.howd .box{width:min(760px,100%);padding:28px;align-items:stretch;text-align:right}
+.g-cdlg.howd h3{padding-left:40px}
+.g-cdlg.howd .g-step{background:#12161f}
+@media (max-width:760px){
+  .g-steps{grid-template-columns:minmax(0,1fr);row-gap:48px;margin-top:44px}
+  .g-cdlg.howd .box{max-height:88vh;overflow:auto;padding:22px 16px}
+  .g-cdlg.howd .g-steps{margin-top:48px}
+}
+.g-rl em{font-style:normal}
