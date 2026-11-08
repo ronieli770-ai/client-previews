@@ -119,6 +119,6 @@ document.addEventListener("keydown",e=>{
 });
 addEventListener("resize",()=>T&&place());
 addEventListener("scroll",()=>T&&place(),{passive:true});
-const boot=()=>{if(location.hash==="#tour")setTimeout(()=>start(0),300);};
+const boot=()=>{if(/[?&]tourb\b/.test(location.search))setTimeout(()=>start(0),300);};
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 })();
