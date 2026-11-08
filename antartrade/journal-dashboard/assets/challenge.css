@@ -854,3 +854,13 @@ a.g-eqb{text-decoration:none}
   .g-pwg{row-gap:64px;margin-top:64px}
   .g-cdlg .ch{width:140px;top:-58px}
 }
+/* code window: no shadow under the chest at all, and one even 18px rhythm around the coupon */
+.g-cdlg .ch{filter:none}
+.g-cdlg:not(.call):not(.cert):not(.howd) .box{gap:0}
+.g-cdlg:not(.call):not(.cert):not(.howd) .box>small{margin-top:0}
+.g-cdlg:not(.call):not(.cert):not(.howd) h3{margin-top:4px}
+.g-cdlg:not(.call):not(.cert):not(.howd) .box>p{margin-top:8px}
+.g-cdlg:not(.call):not(.cert):not(.howd) .coupon{margin-top:18px}
+.g-cdlg:not(.call):not(.cert):not(.howd) .g-cnote{margin-top:18px}
+.g-cdlg:not(.call):not(.cert):not(.howd) .row{margin-top:18px}
+.g-cdlg:not(.call):not(.cert):not(.howd) .box>p{margin-bottom:0}
