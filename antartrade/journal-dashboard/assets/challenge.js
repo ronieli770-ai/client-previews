@@ -296,7 +296,7 @@ function gTasks(v){
     [true,`\u05e1\u05d9\u05db\u05d5\u05df \u05e9\u05dc \u05e2\u05d3 ${RULES.riskPerTrade} \u05dc\u05e2\u05e1\u05e7\u05d4`,"\u05d1\u05ea\u05d5\u05da \u05d4\u05d2\u05d1\u05d5\u05dc"],
     [today.losses<RULES.maxConsecutiveLosses,`\u05d0\u05d7\u05e8\u05d9 ${RULES.maxConsecutiveLosses} \u05d4\u05e4\u05e1\u05d3\u05d9\u05dd \u05e8\u05e6\u05d5\u05e4\u05d9\u05dd \u05e2\u05d5\u05e6\u05e8\u05d9\u05dd`,`${today.losses}/${RULES.maxConsecutiveLosses}`]];}
 function gHud(v,g){
-  const hearts=v.links.filter(l=>l.status!=="closed").map(l=>`<span class="g-ht${l.status==="failed"?" off":""}" title="${l.name} \u00b7 ${LINK_STATUS[l.status]}"><svg viewBox="0 0 24 24">${HEART}</svg></span>`).join("");
+  const hearts=v.links.filter(l=>l.status!=="closed").map(l=>`<span class="g-ht${l.status==="failed"?" off":""}" data-ght="${l.id}" title="${l.name} \u00b7 ${LINK_STATUS[l.status]}"><svg viewBox="0 0 24 24"><g class="bg">${HEART}</g><g class="fg">${HEART}</g><path class="crack" d="M12.4 7.6l-1.9 3.4 2.7 2.1-1.8 3.7"/></svg></span>`).join("");
   return `<section class="g-hud">${GDEF}
    <div class="g-day"><small>\u05d9\u05d5\u05dd</small><b class="num">${v.day||1}</b><span>\u05de\u05ea\u05d5\u05da <span class="num">90</span></span></div>
    <div class="g-cell"><div><small>\u05d7\u05d9\u05d9\u05dd \u00b7 \u05db\u05dc \u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d5\u05d0 \u05dc\u05d1</small><div class="g-hearts">${hearts}</div></div></div>
@@ -317,6 +317,7 @@ function gMap(v){
    ${lbl("\u05e2\u05d5\u05dc\u05dd 1",STAGES[1].title,300,246)}${lbl("\u05e2\u05d5\u05dc\u05dd 2",STAGES[2].title,215,128)}${lbl("\u05e2\u05d5\u05dc\u05dd 3",STAGES[3].title,120,48)}</div>`;}
 function gNoam(v){
   if(!C.noam)return "";
+  if(C.gSay&&C.gSay.view===C.view)return `<section class="blk g-noam"><img alt="" src="avatar/noam-${C.gSay.av}.webp"><div class="g-bub"><small>${C.gSay.tag}</small>${nums(C.gSay.txt)}</div></section>`;
   const tag=v.pendingStops.length?"\u05ea\u05d6\u05db\u05d5\u05e8\u05ea \u05dc\u05d4\u05d9\u05d5\u05dd":v.day===0?"\u05d9\u05d5\u05dd 1":`\u05d9\u05d5\u05dd ${v.day}`;
   const txt=v.pendingStops.length?"\u05e2\u05e1\u05e7\u05d4 \u05d0\u05d7\u05ea \u05e2\u05d3\u05d9\u05d9\u05df \u05d1\u05dc\u05d9 \u05e1\u05d8\u05d5\u05e4. \u05de\u05e9\u05dc\u05d9\u05de\u05d9\u05dd \u05d0\u05d5\u05ea\u05d5 \u05d1\u05d9\u05d5\u05de\u05df, \u05d5\u05d4\u05de\u05e9\u05d9\u05de\u05d4 \u05e9\u05dc \u05d4\u05d9\u05d5\u05dd \u05de\u05e1\u05d5\u05de\u05e0\u05ea.":headline(v.out);
   return `<section class="blk g-noam"><img alt="" src="avatar/noam-${v.av}.webp"><div class="g-bub"><small>${tag}</small>${nums(txt)}</div></section>`;}
@@ -342,6 +343,36 @@ function gPowers(v){
   const slots=[0,1,2].map(i=>{const r=P.find(p=>p.id===eq[i]);return `<span class="g-slot">${r?`<img alt="" src="${GI(GPW[r.id]||"power-shield")}">`:""}</span>`;}).join("");
   return `<section class="blk chj-sec g-pows"><div class="bh">${cttl("\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05db\u05d5\u05d7","compass","sky")}<span class="hint">\u05e2\u05e6\u05d5\u05ea \u05de\u05e0\u05d5\u05e2\u05dd \u05dc\u05e4\u05d9 \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05da. \u05de\u05e6\u05d9\u05d9\u05d3\u05d9\u05dd \u05d1\u05dc\u05d7\u05d9\u05e6\u05d4.</span></div>
    <div class="g-pwg">${cards}</div><div class="g-slots"><small>\u05d4\u05e6\u05d9\u05d5\u05d3 \u05e9\u05dc\u05da</small>${slots}</div></section>`;}
+/* what the points open: a discount code for the next account every 3 levels, and at level 12 Noam goes over your
+   journal with you. Both are proposals for Noam (08.11); the code text is still his placeholder */
+const GREW=[[3,"code","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4","\u05dc\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0"],[6,"code","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4","\u05dc\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0"],[9,"code","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4","\u05dc\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0"],[12,"noam","\u05e0\u05d5\u05e2\u05dd \u05e2\u05d5\u05d1\u05e8 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df \u05e9\u05dc\u05da","\u05e9\u05d9\u05d7\u05d4 \u05d0\u05d9\u05e9\u05d9\u05ea \u05e2\u05dc \u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05e9\u05dc\u05da"]];
+function gRewards(v,g){
+  const top=GREW[GREW.length-1][0],pct=Math.min((g.lvl-1+g.into/300)/(top-1),1)*100;
+  const cards=GREW.map(([L,k,t,s])=>{const on=g.lvl>=L,need=(L-1)*300-g.pts;
+    return `<div class="g-rw${on?" on":""}${k==="noam"?" g-rwn":""}"><span class="ic">${k==="noam"?`<img alt="" src="avatar/noam-flex.webp">`:`<img alt="" src="${GI(on?"chest-open":"chest")}">`}</span>
+     <div class="tx"><small>\u05e8\u05de\u05d4 <span class="num">${L}</span></small><b>${t}</b><span>${s}</span></div>
+     ${on?(k==="code"?`<button class="g-eqb" data-gcode>\u05dc\u05e7\u05d1\u05dc \u05d0\u05ea \u05d4\u05e7\u05d5\u05d3</button>`:`<button class="g-eqb" data-gnoamrev>\u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4</button>`):`<em>${SV(JI.lock,"width:13px;height:13px")}\u05e2\u05d5\u05d3 <span class="num">${need.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</em>`}</div>`;}).join("");
+  return `<section class="blk chj-sec g-rews"><div class="bh">${cttl("\u05de\u05d4 \u05d4\u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05e4\u05d5\u05ea\u05d7\u05d5\u05ea","tag","sun")}<span class="hint">\u05e8\u05de\u05d4 <span class="num">${g.lvl}</span> \u00b7 <span class="num">${g.pts.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</span></div>
+   <div class="g-earn"><span><b class="num">45</b> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05e2\u05dc \u05db\u05dc \u05d9\u05d5\u05dd \u05d1\u05dc\u05d9 \u05d4\u05e4\u05e8\u05d4</span><span><b class="num">300</b> \u05e2\u05dc \u05de\u05d1\u05d7\u05df \u05e9\u05e2\u05d1\u05e8\u05ea</span><span><b class="num">600</b> \u05e2\u05dc \u05de\u05e9\u05d9\u05db\u05d4</span></div>
+   <div class="g-track"><span class="g-tbar"><i style="width:${pct}%"></i></span>${GREW.filter(([L])=>L!==g.lvl).map(([L])=>`<span class="g-tm${g.lvl>=L?" on":""}" style="right:${(L-1)/(top-1)*100}%"><span class="num">${L}</span></span>`).join("")}<span class="g-tme" style="right:${pct}%"><span class="num">${g.lvl}</span></span></div>
+   <div class="g-rwg">${cards}</div></section>`;}
+
+/* a heart breaks: scroll up to the hearts, crack, grey out, and Noam says the game goes on. A new account = a new heart */
+function gHeartFx(id,kind){
+  const v=SMP[C.view],l=v&&v.links.find(x=>x.id===id);if(!l)return;
+  const alive=v.links.filter(x=>x.status==="active"||x.status==="passed").length;
+  C.gSay=kind==="break"?{view:C.view,av:"stopped",tag:"\u05dc\u05d1 \u05e0\u05e9\u05d1\u05e8",txt:`<bdi class="en">${l.name}</bdi> \u05e0\u05e9\u05e8\u05e3. \u05d0\u05d9\u05d1\u05d3\u05ea \u05d7\u05e9\u05d1\u05d5\u05df, \u05dc\u05d0 \u05d0\u05ea \u05d4\u05d3\u05e8\u05da: ${alive===1?"\u05e0\u05e9\u05d0\u05e8 \u05dc\u05da \u05dc\u05d1 \u05d0\u05d7\u05d3":alive?`\u05e0\u05e9\u05d0\u05e8\u05d5 \u05dc\u05da ${alive} \u05dc\u05d1\u05d1\u05d5\u05ea`:"\u05e4\u05d5\u05ea\u05d7\u05d9\u05dd \u05d7\u05e9\u05d1\u05d5\u05df \u05d7\u05d3\u05e9 \u05d5\u05e0\u05d5\u05dc\u05d3 \u05dc\u05d1 \u05d7\u05d3\u05e9"}, \u05d5\u05de\u05de\u05e9\u05d9\u05db\u05d9\u05dd \u05de\u05d9\u05d5\u05dd ${v.day}.`}
+    :{view:C.view,av:"clean",tag:"\u05dc\u05d1 \u05d7\u05d3\u05e9",txt:`<bdi class="en">${l.name}</bdi> \u05e0\u05db\u05e0\u05e1 \u05dc\u05d0\u05ea\u05d2\u05e8. \u05e0\u05d5\u05dc\u05d3 \u05dc\u05d1 \u05d7\u05d3\u05e9, \u05d5\u05d4\u05d9\u05d5\u05dd \u05e9\u05dc\u05da \u05d1\u05d0\u05ea\u05d2\u05e8 \u05dc\u05d0 \u05e0\u05de\u05d7\u05e7.`};
+  view();
+  const hud=document.querySelector(".g-hud");if(!hud)return;
+  const go=()=>{const h=document.querySelector(`[data-ght="${id}"]`);if(!h)return;h.classList.add(kind==="break"?"breaking":"born");
+    const r=h.getBoundingClientRect(),pop=document.createElement("div");pop.className="g-hpop "+(kind==="break"?"lose":"gain");pop.dir="rtl";
+    pop.innerHTML=`<b class="num">${kind==="break"?"-1":"+1"}</b><span>\u05dc\u05d1 \u00b7 <span class="en">${l.name}</span></span>`;
+    pop.style.left=(r.left+r.width/2)+"px";pop.style.top=(r.bottom+10)+"px";document.body.appendChild(pop);
+    requestAnimationFrame(()=>pop.classList.add("on"));setTimeout(()=>{pop.classList.remove("on");setTimeout(()=>pop.remove(),400);},2600);};
+  const y=hud.getBoundingClientRect().top;
+  if(y<0||y>innerHeight*.5){scrollTo({top:scrollY+y-24,behavior:"smooth"});setTimeout(go,700);}else setTimeout(go,60);}
+
 function gJoin(){
   return `<div class="chj g">
   <section class="chj-hero${C.noam?" av":""}"><div class="tx"><small>\u05d0\u05ea\u05d2\u05e8 90</small><h2>\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05ea\u05d5\u05da <span class="num">90</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8</h2><p>\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e2\u05d5\u05dc\u05de\u05d5\u05ea, \u05d5\u05e9\u05dc\u05d5\u05e9\u05d4 \u05d7\u05d9\u05d9\u05dd \u05dc\u05db\u05dc \u05d7\u05e9\u05d1\u05d5\u05df. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5</p>
@@ -357,6 +388,7 @@ function gDash(){
   ${gHud(v,g)}
   <div class="g-cols"><div class="g-col">${warns(v)}${gQuests(v)}</div>
    <div class="g-col">${gNoam(v)}<section class="blk chj-sec"><div class="bh">${cttl(`\u05e2\u05d5\u05dc\u05dd ${v.stage} \u00b7 ${st.title}`,"flag","sun")}<span class="hint">${nextTx}</span></div>${gMap(v)}</section></div></div>
+  ${gRewards(v,g)}
   ${gCards(v,g)}
   ${gPowers(v)}
   ${jMore("data","\u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd, \u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05d4\u05de\u05e6\u05d1 \u05d5\u05d4\u05d4\u05e4\u05e8\u05d5\u05ea",numbers(v)+snapshots(v)+violations(v))}
@@ -433,7 +465,7 @@ window.challengeView=view;
 
 /* mock switch: before joining, day 23, day 64; with or without Noam */
 const bar=document.createElement("div");bar.className="demo demo3 chonly";bar.dir="rtl";bar.setAttribute("aria-label","\u05de\u05e6\u05d1 \u05d4\u05d0\u05ea\u05d2\u05e8 \u05d1\u05d4\u05d3\u05de\u05d9\u05d4");
-bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button><span class="sep"></span><small>\u05d2\u05e8\u05e1\u05d4:</small><button data-chver="game">\u05de\u05e9\u05d7\u05e7</button><button data-chver="new">\u05de\u05e1\u05e2</button><button data-chver="old">\u05e7\u05d5\u05d3\u05de\u05ea</button><span class="sep"></span><button data-glvl>\u05e8\u05d2\u05e2 \u05e2\u05dc\u05d9\u05d9\u05ea \u05e9\u05dc\u05d1</button>`;
+bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button><span class="sep"></span><small>\u05d2\u05e8\u05e1\u05d4:</small><button data-chver="game">\u05de\u05e9\u05d7\u05e7</button><button data-chver="new">\u05de\u05e1\u05e2</button><button data-chver="old">\u05e7\u05d5\u05d3\u05de\u05ea</button><span class="sep"></span><button data-glvl>\u05e8\u05d2\u05e2 \u05e2\u05dc\u05d9\u05d9\u05ea \u05e9\u05dc\u05d1</button><button data-gburn>\u05dc\u05d1 \u05e0\u05e9\u05d1\u05e8</button>`;
 document.body.appendChild(bar);
 
 document.addEventListener("click",e=>{
@@ -441,6 +473,9 @@ document.addEventListener("click",e=>{
   if(x=q("[data-chver]")){C.ver=x.dataset.chver;C.wiz=0;C.more=null;view();scrollTo(0,0);return;}
   if(x=q("[data-glvl]")){if(C.view==="join"){toast("\u05e7\u05d5\u05d3\u05dd \u05de\u05e6\u05d8\u05e8\u05e4\u05d9\u05dd","\u05d1\u05d7\u05e8\u05d9 \u05d9\u05d5\u05dd 23 \u05d0\u05d5 \u05d9\u05d5\u05dd 64 \u05d1\u05e4\u05e1 \u05d4\u05d4\u05d3\u05de\u05d9\u05d4");return;}gLevelUp();return;}
   if(x=q("[data-gchest]")){gOpenChest(x);return;}
+  if(x=q("[data-gburn]")){const v=SMP[C.view];if(!v||C.view==="join"){toast("\u05e7\u05d5\u05d3\u05dd \u05de\u05e6\u05d8\u05e8\u05e4\u05d9\u05dd","\u05d1\u05d7\u05e8\u05d9 \u05d9\u05d5\u05dd 23 \u05d0\u05d5 \u05d9\u05d5\u05dd 64 \u05d1\u05e4\u05e1 \u05d4\u05d4\u05d3\u05de\u05d9\u05d4");return;}const l=v.links.find(l=>l.status==="active");if(!l){toast("\u05d0\u05d9\u05df \u05d7\u05e9\u05d1\u05d5\u05df \u05e4\u05e2\u05d9\u05dc");return;}l.status="failed";l.ended="05.11.2026";v.out.burned++;gHeartFx(l.id,"break");return;}
+  if(x=q("[data-gcode]")){toast("\u05d4\u05e7\u05d5\u05d3 \u05e9\u05dc\u05da",DISCOUNT.replace("[\u05d8\u05e7\u05e1\u05d8 \u05d6\u05de\u05e0\u05d9] ",""));return;}
+  if(x=q("[data-gnoamrev]")){toast("\u05d4\u05d1\u05e7\u05e9\u05d4 \u05e0\u05e9\u05dc\u05d7\u05d4 \u05dc\u05e0\u05d5\u05e2\u05dd","\u05d4\u05d5\u05d0 \u05d9\u05d7\u05d6\u05d5\u05e8 \u05d0\u05dc\u05d9\u05da \u05dc\u05ea\u05d9\u05d0\u05d5\u05dd \u05e9\u05d9\u05d7\u05d4 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df.",false,true);return;}
   if(x=q("[data-geq]")){const id=x.dataset.geq,eq=C.gEq[C.view]||(C.gEq[C.view]=[]),i=eq.indexOf(id);
     if(i>=0){eq.splice(i,1);view();toast("\u05d4\u05db\u05e8\u05d8\u05d9\u05e1 \u05d4\u05d5\u05e1\u05e8 \u05de\u05d4\u05e6\u05d9\u05d5\u05d3");return;}
     if(eq.length>=3){toast("\u05e9\u05d2\u05d9\u05d0\u05d4","\u05d9\u05e9 \u05de\u05e7\u05d5\u05dd \u05dc\u05e9\u05dc\u05d5\u05e9\u05d4 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9\u05dd. \u05de\u05e1\u05d9\u05e8\u05d9\u05dd \u05d0\u05d7\u05d3 \u05e7\u05d5\u05d3\u05dd",true);return;}
@@ -448,15 +483,15 @@ document.addEventListener("click",e=>{
   if(x=q("[data-chwiz]")){C.wiz=+x.dataset.chwiz;view();return;}
   if(x=q("[data-chstep]")){if(x.disabled)return;C.wiz=+x.dataset.chstep;view();const b=document.querySelector(".chj-wbox");if(b)b.scrollTop=0;return;}
   if(x=q("[data-chmore]")){C.more=C.more===x.dataset.chmore?null:x.dataset.chmore;view();return;}
-  if(x=q("[data-chv]")){C.view=x.dataset.chv;C.wiz=0;C.more=null;C.showAll=false;C.menu=null;view();scrollTo(0,0);return;}
+  if(x=q("[data-chv]")){C.gSay=null;C.view=x.dataset.chv;C.wiz=0;C.more=null;C.showAll=false;C.menu=null;view();scrollTo(0,0);return;}
   if(x=q("[data-chn]")){C.noam=x.dataset.chn==="on";view();return;}
   if(x=q("[data-chjump]")){e.preventDefault();const t=document.getElementById("ch-step"+x.dataset.chjump);if(t)t.scrollIntoView({behavior:"smooth",block:"start"});return;}
   if(x=q("[data-chall]")){C.showAll=true;view();return;}
   if(x=q("[data-chold]")){C.oldOpen=!C.oldOpen;view();return;}
   if(x=q("[data-chmenu]")){e.stopPropagation();C.menu=C.menu===x.dataset.chmenu?null:x.dataset.chmenu;view();return;}
-  if(x=q("[data-chset]")){const [id,st]=x.dataset.chset.split(":"),l=SMP[C.view].links.find(l=>l.id===id);l.status=st;if(st==="failed")l.ended="05.11.2026";C.menu=null;view();toast(st==="failed"?"\u05e0\u05e9\u05de\u05e8. \u05d4\u05d4\u05d9\u05e1\u05d8\u05d5\u05e8\u05d9\u05d4 \u05e9\u05dc \u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05e9\u05d0\u05e8\u05ea \u05d1\u05d0\u05ea\u05d2\u05e8":"\u05d4\u05e1\u05d8\u05d8\u05d5\u05e1 \u05e2\u05d5\u05d3\u05db\u05df");return;}
+  if(x=q("[data-chset]")){const [id,st]=x.dataset.chset.split(":"),l=SMP[C.view].links.find(l=>l.id===id),was=l.status;l.status=st;if(st==="failed")l.ended="05.11.2026";C.menu=null;if(C.ver==="game"&&(st==="failed"||was==="failed"&&st==="active")){gHeartFx(id,st==="failed"?"break":"born");return;}view();toast(st==="failed"?"\u05e0\u05e9\u05de\u05e8. \u05d4\u05d4\u05d9\u05e1\u05d8\u05d5\u05e8\u05d9\u05d4 \u05e9\u05dc \u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05e9\u05d0\u05e8\u05ea \u05d1\u05d0\u05ea\u05d2\u05e8":"\u05d4\u05e1\u05d8\u05d8\u05d5\u05e1 \u05e2\u05d5\u05d3\u05db\u05df");return;}
   if(x=q("[data-chsug]")){const l=SMP[C.view].links.find(l=>l.id===x.dataset.chsug);l.status=l.sug.status;l.ended=l.sug.day;delete l.sug;if(l.status==="passed")SMP[C.view].out.passed++;view();toast("\u05d4\u05e1\u05d8\u05d8\u05d5\u05e1 \u05e2\u05d5\u05d3\u05db\u05df");return;}
-  if(x=q("[data-chlink]")){const s=$("chLink"),n=s&&s.value;if(!n){toast("\u05e9\u05d2\u05d9\u05d0\u05d4","\u05d1\u05d7\u05e8 \u05d7\u05e9\u05d1\u05d5\u05df",true);return;}const v=SMP[C.view];v.links.push({id:"n"+Date.now(),name:n,phase:"evaluation",status:"active"});v.unlinked=v.unlinked.filter(u=>u!==n);view();toast("\u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05d5\u05e1\u05e3 \u05dc\u05d0\u05ea\u05d2\u05e8");return;}
+  if(x=q("[data-chlink]")){const s=$("chLink"),n=s&&s.value;if(!n){toast("\u05e9\u05d2\u05d9\u05d0\u05d4","\u05d1\u05d7\u05e8 \u05d7\u05e9\u05d1\u05d5\u05df",true);return;}const v=SMP[C.view];const nid="n"+Date.now();v.links.push({id:nid,name:n,phase:"evaluation",status:"active"});v.unlinked=v.unlinked.filter(u=>u!==n);if(C.ver==="game"){gHeartFx(nid,"born");return;}view();toast("\u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05d5\u05e1\u05e3 \u05dc\u05d0\u05ea\u05d2\u05e8");return;}
   if(x=q("[data-chnew]")){newAccDlg();const b=$("dlgBody").querySelector("h2")||$("dlg2Body").querySelector("h2");if(b){b.textContent="\u05d7\u05e9\u05d1\u05d5\u05df \u05d7\u05d3\u05e9 \u05dc\u05d0\u05ea\u05d2\u05e8";b.insertAdjacentHTML("afterend",`<div class="ch-disc" style="margin:14px 0 4px">${SV(CI.tag)}<span>${DISCOUNT}</span><a href="https://antartrade.co.il/promotions" target="_blank" rel="noopener">\u05dc\u05d3\u05e3 \u05d4\u05d4\u05e0\u05d7\u05d5\u05ea${SV(CI.ext,"width:14px;height:14px")}</a></div>`);}return;}
   if(x=q("[data-chadopt]")){C.adopted=true;view();toast(`\u05d9\u05e2\u05d3 1:${x.dataset.chadopt} \u05e0\u05e7\u05d1\u05e2`,"\u05d4\u05d5\u05d0 \u05e0\u05d1\u05d3\u05e7 \u05de\u05d4\u05d9\u05d5\u05dd, \u05d5\u05e0\u05e8\u05d0\u05d4 \u05d0\u05d9\u05da \u05d4\u05dc\u05da \u05d1\u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05de\u05e6\u05d1 \u05d4\u05d1\u05d0\u05d4.");return;}
   if(x=q("[data-chjoin]")){if(x.disabled)return;C.wiz=0;C.view="d0";SMP.d0={...JSON.parse(JSON.stringify(SAMPLES.d23)),day:0,av:"before",out:{burned:0,passed:0,payouts:0},stats:{trades:0,daysTraded:0,wins:0,losses:0,winRate:null,rr:null,maxLossStreak:0,net:0,commissions:0},compliance:null,pendingStops:[],missingHypo:0,daysToNext:30,violations:[],
