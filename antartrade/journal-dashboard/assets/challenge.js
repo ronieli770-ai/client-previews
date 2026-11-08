@@ -557,13 +557,16 @@ async function gCertBlob(){
   x.direction="rtl";x.font=`400 32px ${he}`;x.textAlign="left";x.fillText(`${v.startDay} \u05e2\u05d3 ${v.endDay}`,110,H-120);
   return await new Promise(ok=>c.toBlob(ok,"image/png"));}
 async function gCertAct(kind){
+  const v0=SMP[C.view],o0=v0.out;
+  const msg=`\u05e1\u05d9\u05d9\u05de\u05ea\u05d9 \u05d0\u05ea \u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8 \u05e9\u05dc AntarTrade! ${pctN(v0.compliance)} \u05e2\u05de\u05d9\u05d3\u05d4 \u05d1\u05db\u05dc\u05dc\u05d9\u05dd${o0.passed>0?", \u05e2\u05d1\u05e8\u05ea\u05d9 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df":""}${o0.payouts>0?" \u05d5\u05d4\u05d2\u05e2\u05ea\u05d9 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4":""}.`;
+  /* a computer has no share sheet: just WhatsApp with the message ready, the user picks the community chat */
+  if(kind==="share"&&!(navigator.canShare&&navigator.canShare({files:[new File([new Blob(["x"])],"t.png",{type:"image/png"})]}))){window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank","noopener");return;}
   let blob;try{blob=await gCertBlob();}catch(_){toast("\u05e9\u05d2\u05d9\u05d0\u05d4","\u05d0\u05d9 \u05d0\u05e4\u05e9\u05e8 \u05dc\u05d9\u05e6\u05d5\u05e8 \u05d0\u05ea \u05d4\u05ea\u05de\u05d5\u05e0\u05d4 \u05de\u05e7\u05d5\u05d1\u05e5 \u05de\u05e7\u05d5\u05de\u05d9. \u05d1\u05e7\u05d9\u05e9\u05d5\u05e8 \u05e9\u05dc \u05d4\u05d9\u05d5\u05de\u05df \u05d6\u05d4 \u05e2\u05d5\u05d1\u05d3",true);return;}
   const file=new File([blob],"antartrade-challenge-90.png",{type:"image/png"});
-  const text="\u05e1\u05d9\u05d9\u05de\u05ea\u05d9 \u05d0\u05ea \u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8 \u05e9\u05dc AntarTrade!";
+  const text=msg;
   if(kind==="share"&&navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],text});}catch(_){}return;}
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
-  if(kind==="share"){window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank","noopener");toast("\u05d4\u05ea\u05de\u05d5\u05e0\u05d4 \u05e0\u05e9\u05de\u05e8\u05d4","\u05e6\u05e8\u05e4\u05d9 \u05d0\u05d5\u05ea\u05d4 \u05dc\u05d4\u05d5\u05d3\u05e2\u05d4 \u05d1\u05d5\u05d5\u05d0\u05d8\u05e1\u05d0\u05e4 \u05d5\u05e9\u05dc\u05d7\u05d9 \u05dc\u05e7\u05d1\u05d5\u05e6\u05d4");}
-  else toast("\u05d4\u05ea\u05e2\u05d5\u05d3\u05d4 \u05e0\u05e9\u05de\u05e8\u05d4","\u05d4\u05ea\u05de\u05d5\u05e0\u05d4 \u05e0\u05de\u05e6\u05d0\u05ea \u05e2\u05db\u05e9\u05d9\u05d5 \u05d1\u05d4\u05d5\u05e8\u05d3\u05d5\u05ea \u05d0\u05d5 \u05d1\u05d2\u05dc\u05e8\u05d9\u05d4");}
+  toast("\u05d4\u05ea\u05e2\u05d5\u05d3\u05d4 \u05e0\u05e9\u05de\u05e8\u05d4","\u05d4\u05ea\u05de\u05d5\u05e0\u05d4 \u05e0\u05de\u05e6\u05d0\u05ea \u05e2\u05db\u05e9\u05d9\u05d5 \u05d1\u05d4\u05d5\u05e8\u05d3\u05d5\u05ea \u05d0\u05d5 \u05d1\u05d2\u05dc\u05e8\u05d9\u05d4");}
 
 /* the blue road runs exactly up to today's node */
 function gRoad(){document.querySelectorAll(".g-map").forEach(m=>{const p=m.querySelector(".g-done"),t=m.querySelector(".g-node.n-t");if(!p||!t)return;
