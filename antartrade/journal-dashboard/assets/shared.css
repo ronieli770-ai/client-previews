@@ -1,0 +1,45 @@
+/* Shared view (/shared/:token): what a mentor sees from the share link. Drawn by assets/shared.js (window.sharedView).
+   A page on its own, like Noam's: no side menu, no account menu, no phone bar; the journal's own blocks inside. */
+body.pg-shared .side,body.pg-shared .acct,body.pg-shared .mnav,body.pg-shared .top,body.pg-shared #filters,body.pg-shared #fchip,body.pg-shared .dashonly{display:none!important}
+body.pg-shared .shell{grid-template-columns:minmax(0,1fr)}
+body.pg-shared main{max-width:1240px;margin:0 auto;padding-right:max(40px,env(safe-area-inset-right,0px));padding-left:max(40px,env(safe-area-inset-left,0px))}
+body:not(.pg-shared) #svHead{display:none}
+body:not(.pg-shared) .demo .sv-demo{display:none}
+body.pg-shared .demo .sv-out{display:none}
+
+/* header: the journal's logo on the right, whose results these are on the left */
+.sv-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0 26px}
+.sv-bar img{height:38px;display:block}
+.sv-bar p{margin:0;font-size:15px;color:var(--muted)}
+.sv-bar p b{color:var(--fg);font-weight:500}
+.sv-filter{display:flex;align-items:center;gap:10px;margin:0 0 16px;flex-wrap:wrap}
+.sv-filter .l{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);white-space:nowrap}
+.sv-filter .l svg{width:16px;height:16px}
+.sv-filter .fld{width:240px}
+.sv-filter .inp{background:var(--block)}
+
+/* trades: the trade log's table, read only */
+.sv-tbl .tbl.log td{cursor:default}
+.sv-tbl .tbl.log tr:hover td{background:transparent}
+
+.sv-foot{margin:28px 0 0;text-align:center;font-size:13px;color:var(--muted)}
+.sv-foot a{color:var(--sky);text-decoration:none}
+.sv-foot a:hover{text-decoration:underline}
+
+/* loading and the broken link: one quiet centred card, the logo above it */
+.sv-state{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+.sv-state .t{margin:0;font-size:22px;font-weight:500}
+.sv-state .d{margin:0;font-size:15px;color:var(--muted)}
+.sv-state .ic{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:rgba(229,86,106,.12);color:var(--loss)}
+.sv-state .ic svg{width:26px;height:26px}
+.sv-logo{height:38px;margin-bottom:18px}
+.sv-more{display:flex;margin:12px auto 0;color:var(--sky)}
+.sv-load{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:15px}
+
+@media (max-width:900px){
+  body.pg-shared main{padding:0 max(16px,env(safe-area-inset-left,0px)) 40px max(16px,env(safe-area-inset-right,0px))}
+  body.pg-shared .demo{display:none!important}
+  .sv-bar{flex-direction:column;align-items:flex-start;gap:12px;padding:18px 0 18px}
+  .sv-bar img{height:32px}
+  .sv-filter .fld{flex:1;width:auto}
+}
