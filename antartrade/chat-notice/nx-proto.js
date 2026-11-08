@@ -126,6 +126,7 @@
       if (!e.target.closest(".nx-list")) { e.preventDefault(); e.stopPropagation(); list.classList.remove("on"); st = "folded"; }
       return;
     }
-    if (st === "folded" && (e.target.closest(".bot-fab") || e.target.closest(".nx-badge"))) { e.preventDefault(); e.stopPropagation(); list.classList.add("on"); st = "list"; }
+    const onBot = () => { const r = document.querySelector(".bot-fab").getBoundingClientRect(); return e.clientX > r.left - 10 && e.clientX < r.right + 10 && e.clientY > r.top - 10 && e.clientY < r.bottom + 10; };
+    if (st === "folded" && (onBot() || e.target.closest(".bot-fab") || e.target.closest(".nx-badge"))) { e.preventDefault(); e.stopPropagation(); list.classList.add("on"); st = "list"; }
   }, true);
 })();
