@@ -124,9 +124,17 @@
   .nx-inchat .nx-it .x2{background:rgba(255,255,255,.08)}`;
   const st0 = document.createElement("style"); st0.textContent = css; document.head.appendChild(st0);
   const card = document.querySelector(".nx"), badge = document.querySelector(".nx-badge"), src = document.querySelector(".nx-list");
-  const items = [...src.querySelectorAll(".nx-it")].map(n => n.outerHTML);
+  const items = [...src.querySelectorAll(".nx-it")].map(n => n.outerHTML).slice(0, 2);
+  /* one deal = one id. Seen once: the sheet never rises again for it, only the counter waits on the bot until the chat is opened.
+     The sheet rises only after the visitor scrolls past the first screen, never on landing. ?nx=fresh starts over (demo only). */
+  const ID = "nx-tp50", ls = { get: k => { try { return localStorage.getItem(ID + k); } catch (_) { return null; } }, set: k => { try { localStorage.setItem(ID + k, "1"); } catch (_) {} } };
+  if (/fresh/.test(window.NXQ || "")) { try { localStorage.removeItem(ID + "s"); localStorage.removeItem(ID + "c"); localStorage.removeItem(ID + "x"); } catch (_) {} }
   let st = "idle";
-  setTimeout(() => { NX.open(); st = "open"; }, 2200);
+  if (ls.get("x")) items.length = 0;
+  if (ls.get("c") || !items.length) { st = "chat"; }
+  else if (ls.get("s")) { st = "folded"; badge.textContent = items.length; badge.classList.add("on"); }
+  else { const rise = () => { if (scrollY < innerHeight * 0.85) return; removeEventListener("scroll", rise); setTimeout(() => { NX.open(); st = "open"; }, 400); };
+    addEventListener("scroll", rise, { passive: true }); }
   const strip = () => {
     const m = document.querySelector(".sa-msgs"); if (!m || !items.length) return;
     if (m.querySelector(".nx-inchat")) return;
@@ -136,15 +144,15 @@
   };
   setInterval(() => { if (st === "chat") strip(); }, 250);
   document.addEventListener("click", e => {
-    if (st === "open") { e.preventDefault(); e.stopPropagation(); NX.fold(e.clientX, e.clientY); st = "folded"; return; }
+    if (st === "open") { e.preventDefault(); e.stopPropagation(); NX.fold(e.clientX, e.clientY); st = "folded"; ls.set("s"); return; }
     const x = e.target.closest(".nx-inchat .x2");
     if (x) { e.preventDefault(); e.stopPropagation(); const it = x.closest(".nx-it"), all = [...it.parentNode.querySelectorAll(".nx-it")];
       items.splice(all.indexOf(it), 1); it.classList.add("gone");
-      setTimeout(() => { const box = it.parentNode; it.remove(); if (!items.length && box) box.remove(); }, 320); return; }
+      setTimeout(() => { const box = it.parentNode; it.remove(); if (!items.length && box) { box.remove(); ls.set("x"); } }, 320); return; }
     const r = document.querySelector(".bot-fab").getBoundingClientRect();
     const onBot = e.clientX > r.left - 10 && e.clientX < r.right + 10 && e.clientY > r.top - 10 && e.clientY < r.bottom + 10;
     if (st === "folded" && (onBot || e.target.closest(".nx-badge"))) {
-      badge.classList.remove("on"); st = "chat";
+      badge.classList.remove("on"); st = "chat"; ls.set("s"); ls.set("c");
       if (!e.target.closest(".bot-fab")) { e.preventDefault(); e.stopPropagation(); document.querySelector(".bot-fab").click(); }
     }
   }, true);
