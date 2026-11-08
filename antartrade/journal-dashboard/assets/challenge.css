@@ -893,3 +893,23 @@ a.g-eqb{text-decoration:none}
 }
 .g-q .t{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
 .g-q .t small{align-self:flex-start}
+/* the Noam reward card: Noam stands on the card's bottom edge, big, so the waist cut is the card edge */
+.g-awg .g-step.g-awn{overflow:hidden;padding:22px 18px 22px;padding-left:44%;min-height:178px;justify-content:flex-start}
+.g-awg .g-step.g-awn>img{top:auto;bottom:0;right:auto;left:6px;height:150px;filter:none}
+@media (max-width:760px){
+  .g-awg .g-step.g-awn{padding:18px 12px 18px;padding-left:40%;min-height:150px}
+  .g-awg .g-step.g-awn>img{height:118px;left:0}
+}
+/* Noam as a round portrait peeking out of the card like the other items: face large, no cut body */
+.g-awg .g-step.g-awn{overflow:visible;padding:66px 20px 22px;min-height:0}
+.g-awav{position:absolute;top:-30px;right:16px;width:84px;height:84px;border-radius:50%;overflow:hidden;background:linear-gradient(160deg,#7DC6FF,#4F6BFF);box-shadow:0 0 0 4px #12161f,0 10px 18px rgba(0,0,0,.45)}
+.g-awav img{position:absolute;width:190%;left:50%;top:-6%;transform:translateX(-50%);max-width:none}
+@media (max-width:760px){
+  .g-awg .g-step.g-awn{padding:56px 14px 16px}
+  .g-awav{width:72px;height:72px;top:-26px;right:12px}
+}
+.g-awav.sm{position:relative;top:auto;right:auto;width:56px;height:56px;box-shadow:none;flex:none}
+.g-rwn:not(.on) .g-awav{opacity:.5;filter:grayscale(1)}
+.g-rwn:not(.on) .g-awav img{opacity:1}
+.g-awav.sm{width:64px;height:64px}
+.g-awav.sm img{width:240%;top:-3%}
