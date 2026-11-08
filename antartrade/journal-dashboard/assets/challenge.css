@@ -711,3 +711,18 @@ body:not(.pg-challenge) #chjWizHost{display:none}
 a.g-eqb{text-decoration:none}
 .g-wa .i{width:17px;height:17px;stroke-width:1.8}
 .g-glock{position:absolute;transform:translate(calc(50% - 22px),calc(-50% - 24px));width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#232938;color:var(--c-sun);z-index:2;box-shadow:0 6px 14px rgba(0,0,0,.4)}
+
+/* 08.11 phone fixes */
+/* the join hero: on phones the text stands alone, Noam moves to his own container below and says what the challenge is */
+.g-jnoam{display:none}
+@media (max-width:760px){
+  .g-jhero.av .tx{padding-bottom:0}
+  .g-jhero .noam{display:none}
+  .g-jhero .chj-cta{margin-top:10px}
+  .g-jnoam{display:flex}
+}
+/* the risk field: 16px so iPhone does not zoom in (the zoom is what let the page slide sideways), and the info rows
+   one step lighter so the empty field reads as the place to type */
+.chj-wb .inp{font-size:16px}
+.chj-wb .ch-lims li{background:#232938}
+.chj-wb #chRisk::placeholder{font-size:15px}
