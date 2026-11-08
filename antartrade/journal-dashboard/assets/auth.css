@@ -131,3 +131,22 @@ body.pg-auth .demo{display:none}
   #au .au-swap{order:6;margin-top:16px}
 }
 body.au-clean #au .cbsw{display:none}
+/* phones (Roni): no demo bar, the logo centred on top, the form centred in what's left with the same space above and below, no scrollbar */
+#au{scrollbar-width:none}
+#au::-webkit-scrollbar{display:none}
+@media (max-width:1000px){
+  #au .cbsw{display:none}
+  #au[data-side="e"]{display:flex;flex-direction:column}
+  #au .nflogo{position:relative;top:auto;right:auto;left:auto;display:block;width:fit-content;margin:max(28px,env(safe-area-inset-top,0px)) auto 0;flex:none}
+  #au[data-side="e"] .au-wrap{flex:1;height:auto;min-height:0}
+  #au[data-side="e"] .au-wrap>.cbcard{align-self:center;padding:28px 0}
+}
+/* phones (Roni): the logo centred on top, the headline and its line centred, and the whole form in the middle of the screen */
+@media (max-width:1000px){
+  #au .nflogo{position:absolute;top:max(28px,env(safe-area-inset-top,0px));left:50%;right:auto;margin:0;transform:translateX(-50%)}
+  #au[data-side="e"] .au-wrap{height:100%;min-height:100%}
+  #au[data-side="e"] .au-wrap>.cbcard{padding:84px 0 28px}
+  #au .au-intro{text-align:center;align-items:center}
+}
+@media (max-width:1000px){#au[data-side="e"] .au-wrap>.cbcard{padding:76px 0}}
+@media (max-width:1000px){#au[data-side="e"] .au-wrap>.cbcard{padding:76px 0 60px}}
