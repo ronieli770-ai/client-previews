@@ -496,12 +496,12 @@ function gCert(){
     <small>\u05ea\u05e2\u05d5\u05d3\u05ea \u05e1\u05d9\u05d5\u05dd</small><h3>\u05d0\u05ea\u05d2\u05e8 <span class="num">90</span> \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8</h3><b class="nm">\u05e8\u05d5\u05e0\u05d9</b>
     <div class="chips"><span>${o.burned===0?"\u05d1\u05dc\u05d9 \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3":"\u05d7\u05d6\u05e8\u05d4 \u05de\u05e0\u05e4\u05d9\u05dc\u05d4"}</span><span>\u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df</span><span>\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4</span></div>
     <div class="ft"><span><span class="num">${pctN(v.compliance)}</span> \u05e2\u05de\u05d9\u05d3\u05d4 \u05d1\u05db\u05dc\u05dc\u05d9\u05dd</span><span><span class="num">${v.startDay}</span> \u05e2\u05d3 <span class="num">${v.endDay}</span></span></div></div>
-   <div class="row"><button class="btn2" data-gsave>\u05dc\u05e9\u05de\u05d5\u05e8 \u05db\u05ea\u05de\u05d5\u05e0\u05d4</button><a class="g-eqb on g-wa" data-gshare href="https://wa.me/?text=${encodeURIComponent("\u05e1\u05d9\u05d9\u05de\u05ea\u05d9 \u05d0\u05ea \u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8 \u05e9\u05dc AntarTrade! \u05d4\u05e0\u05d4 \u05ea\u05e2\u05d5\u05d3\u05ea \u05d4\u05e1\u05d9\u05d5\u05dd \u05e9\u05dc\u05d9: antartrade.co.il/challenge/cert/r90")}" target="_blank" rel="noopener">${SV(WA_IC)}\u05dc\u05e9\u05ea\u05e3 \u05d1\u05e7\u05d4\u05d9\u05dc\u05d4</a></div></div>`;
+   <div class="row"><button class="btn2" data-gsave>\u05dc\u05e9\u05de\u05d5\u05e8 \u05d1\u05d8\u05dc\u05e4\u05d5\u05df</button><button class="g-eqb on g-wa" data-gshare>${SV(WA_IC)}\u05dc\u05e9\u05ea\u05e3 \u05d1\u05e7\u05d4\u05d9\u05dc\u05d4</button></div></div>`;
   document.body.appendChild(ov);requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add("on")));
   const close=()=>{ov.classList.remove("on");setTimeout(()=>ov.remove(),300);document.removeEventListener("keydown",esc);};
   const esc=e=>{if(e.key==="Escape")close();};document.addEventListener("keydown",esc);
-  ov.addEventListener("click",e=>{if(e.target.closest("[data-gsave]")){toast("\u05d4\u05ea\u05e2\u05d5\u05d3\u05d4 \u05e0\u05e9\u05de\u05e8\u05d4","\u05d1\u05d4\u05d3\u05de\u05d9\u05d4 \u05d6\u05d4 \u05e8\u05e7 \u05e1\u05d9\u05de\u05d5\u05df. \u05d1\u05d9\u05d5\u05de\u05df \u05d4\u05d0\u05de\u05d9\u05ea\u05d9 \u05ea\u05e8\u05d3 \u05ea\u05de\u05d5\u05e0\u05d4");return;}
-    if(e.target.closest("[data-gshare]"))return;
+  ov.addEventListener("click",e=>{if(e.target.closest("[data-gsave]")){gCertAct("save");return;}
+    if(e.target.closest("[data-gshare]")){gCertAct("share");return;}
     if(e.target.closest("[data-gcx]")||e.target===ov)close();});}
 
 /* booking the call with Noam: a preview of the WhatsApp message with the certificate, then WhatsApp opens on Noam's number
@@ -528,6 +528,42 @@ function gNoamCall(){
   const close=()=>{ov.classList.remove("on");setTimeout(()=>ov.remove(),300);document.removeEventListener("keydown",esc);};
   const esc=e=>{if(e.key==="Escape")close();};document.addEventListener("keydown",esc);
   ov.addEventListener("click",e=>{if(e.target.closest("[data-gwa]")){setTimeout(close,300);return;}if(e.target.closest("[data-gcx]")||e.target===ov)close();});}
+
+/* the certificate as a real image (1080x1350, a phone-friendly post size), drawn on a canvas in the site's colours.
+   "\u05dc\u05e9\u05de\u05d5\u05e8 \u05d1\u05d8\u05dc\u05e4\u05d5\u05df" saves it; "\u05dc\u05e9\u05ea\u05e3 \u05d1\u05e7\u05d4\u05d9\u05dc\u05d4" opens the phone's share sheet with the image itself, so it lands in the
+   WhatsApp group as a picture, not a link. A computer without a share sheet saves the image and opens WhatsApp */
+function gImg(src){return new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=src;});}
+async function gCertBlob(){
+  const v=SMP[C.view],o=v.out,W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+  try{await document.fonts.ready;}catch(_){}
+  const he='"Fb Reforma", sans-serif',en='"Roboto", "Fb Reforma", sans-serif';
+  let g=x.createLinearGradient(0,0,W*.6,H);g.addColorStop(0,"#1c2a52");g.addColorStop(.7,"#0b0e14");x.fillStyle=g;x.fillRect(0,0,W,H);
+  g=x.createRadialGradient(W/2,H*.3,0,W/2,H*.3,W*.6);g.addColorStop(0,"rgba(247,198,90,.28)");g.addColorStop(1,"rgba(247,198,90,0)");x.fillStyle=g;x.fillRect(0,0,W,H);
+  const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath();};
+  g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,"#f7c65a");g.addColorStop(.45,"rgba(247,198,90,.15)");g.addColorStop(1,"rgba(125,198,255,.6)");
+  x.strokeStyle=g;x.lineWidth=4;rr(40,40,W-80,H-80,56);x.stroke();
+  const [logo,tro]=await Promise.all([gImg("assets/logo-white.svg"),gImg(GI("shield-trophy"))]);
+  const lw=300,lh=lw*(logo.height/logo.width||.25);x.drawImage(logo,(W-lw)/2,120,lw,lh);
+  x.save();x.shadowColor="rgba(0,0,0,.5)";x.shadowBlur=60;x.shadowOffsetY=30;const tw=380,th=tw*tro.height/tro.width;x.drawImage(tro,(W-tw)/2,250,tw,th);x.restore();
+  x.direction="rtl";x.textAlign="center";let y=250+th+70;
+  x.fillStyle="#f7c65a";x.font=`500 40px ${he}`;x.fillText("\u05ea\u05e2\u05d5\u05d3\u05ea \u05e1\u05d9\u05d5\u05dd",W/2,y);y+=80;
+  x.fillStyle="#ffffff";x.font=`500 64px ${he}`;x.fillText("\u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8",W/2,y);y+=120;
+  g=x.createLinearGradient(W/2-200,0,W/2+200,0);g.addColorStop(0,"#7DC6FF");g.addColorStop(1,"#ffffff");x.fillStyle=g;x.font=`500 104px ${he}`;x.fillText("\u05e8\u05d5\u05e0\u05d9",W/2,y);y+=90;
+  const chips=[o.burned===0?"\u05d1\u05dc\u05d9 \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3":"\u05d7\u05d6\u05e8\u05d4 \u05de\u05e0\u05e4\u05d9\u05dc\u05d4","\u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df","\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4"];x.font=`500 34px ${he}`;
+  const cw=chips.map(t=>x.measureText(t).width+56),gap=18,tot=cw.reduce((a,b)=>a+b,0)+gap*(chips.length-1);let cx=W/2+tot/2;
+  chips.forEach((t,i)=>{const w=cw[i];x.fillStyle="rgba(247,198,90,.16)";rr(cx-w,y-38,w,64,32);x.fill();x.fillStyle="#f7c65a";x.fillText(t,cx-w/2,y+6);cx-=w+gap;});
+  x.font=`400 32px ${he}`;x.fillStyle="rgba(238,243,250,.6)";x.textAlign="right";const lb="\u05e2\u05de\u05d9\u05d3\u05d4 \u05d1\u05db\u05dc\u05dc\u05d9\u05dd";x.fillText(lb,W-110,H-120);
+  const lbw=x.measureText(lb).width;x.direction="ltr";x.font=`500 32px ${en}`;x.fillText(pctN(v.compliance),W-110-lbw-14,H-120);
+  x.direction="rtl";x.font=`400 32px ${he}`;x.textAlign="left";x.fillText(`${v.startDay} \u05e2\u05d3 ${v.endDay}`,110,H-120);
+  return await new Promise(ok=>c.toBlob(ok,"image/png"));}
+async function gCertAct(kind){
+  let blob;try{blob=await gCertBlob();}catch(_){toast("\u05e9\u05d2\u05d9\u05d0\u05d4","\u05d0\u05d9 \u05d0\u05e4\u05e9\u05e8 \u05dc\u05d9\u05e6\u05d5\u05e8 \u05d0\u05ea \u05d4\u05ea\u05de\u05d5\u05e0\u05d4 \u05de\u05e7\u05d5\u05d1\u05e5 \u05de\u05e7\u05d5\u05de\u05d9. \u05d1\u05e7\u05d9\u05e9\u05d5\u05e8 \u05e9\u05dc \u05d4\u05d9\u05d5\u05de\u05df \u05d6\u05d4 \u05e2\u05d5\u05d1\u05d3",true);return;}
+  const file=new File([blob],"antartrade-challenge-90.png",{type:"image/png"});
+  const text="\u05e1\u05d9\u05d9\u05de\u05ea\u05d9 \u05d0\u05ea \u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8 \u05e9\u05dc AntarTrade!";
+  if(kind==="share"&&navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],text});}catch(_){}return;}
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  if(kind==="share"){window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank","noopener");toast("\u05d4\u05ea\u05de\u05d5\u05e0\u05d4 \u05e0\u05e9\u05de\u05e8\u05d4","\u05e6\u05e8\u05e4\u05d9 \u05d0\u05d5\u05ea\u05d4 \u05dc\u05d4\u05d5\u05d3\u05e2\u05d4 \u05d1\u05d5\u05d5\u05d0\u05d8\u05e1\u05d0\u05e4 \u05d5\u05e9\u05dc\u05d7\u05d9 \u05dc\u05e7\u05d1\u05d5\u05e6\u05d4");}
+  else toast("\u05d4\u05ea\u05e2\u05d5\u05d3\u05d4 \u05e0\u05e9\u05de\u05e8\u05d4","\u05d4\u05ea\u05de\u05d5\u05e0\u05d4 \u05e0\u05de\u05e6\u05d0\u05ea \u05e2\u05db\u05e9\u05d9\u05d5 \u05d1\u05d4\u05d5\u05e8\u05d3\u05d5\u05ea \u05d0\u05d5 \u05d1\u05d2\u05dc\u05e8\u05d9\u05d4");}
 
 /* the blue road runs exactly up to today's node */
 function gRoad(){document.querySelectorAll(".g-map").forEach(m=>{const p=m.querySelector(".g-done"),t=m.querySelector(".g-node.n-t");if(!p||!t)return;
