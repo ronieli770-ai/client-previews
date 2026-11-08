@@ -941,3 +941,7 @@ a.g-eqb{text-decoration:none}
   .g-cta2 .chj-cta{margin-top:12px}
 }
 @media (max-width:760px){.g-cols{align-items:stretch}}
+.g-gold{z-index:0}
+.g-wl{z-index:2}
+.g-gate{z-index:1}
+@media (max-width:760px){.g-gold{width:104px;height:104px}}
