@@ -496,12 +496,12 @@ function gCert(){
     <small>\u05ea\u05e2\u05d5\u05d3\u05ea \u05e1\u05d9\u05d5\u05dd</small><h3>\u05d0\u05ea\u05d2\u05e8 <span class="num">90</span> \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8</h3><b class="nm">\u05e8\u05d5\u05e0\u05d9</b>
     <div class="chips"><span>${o.burned===0?"\u05d1\u05dc\u05d9 \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3":"\u05d7\u05d6\u05e8\u05d4 \u05de\u05e0\u05e4\u05d9\u05dc\u05d4"}</span><span>\u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df</span><span>\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4</span></div>
     <div class="ft"><span><span class="num">${pctN(v.compliance)}</span> \u05e2\u05de\u05d9\u05d3\u05d4 \u05d1\u05db\u05dc\u05dc\u05d9\u05dd</span><span><span class="num">${v.startDay}</span> \u05e2\u05d3 <span class="num">${v.endDay}</span></span></div></div>
-   <div class="row"><button class="btn2" data-gsave>\u05dc\u05e9\u05de\u05d5\u05e8 \u05db\u05ea\u05de\u05d5\u05e0\u05d4</button><button class="g-eqb on" data-gshare>\u05dc\u05e9\u05ea\u05e3 \u05d1\u05e7\u05d4\u05d9\u05dc\u05d4</button></div></div>`;
+   <div class="row"><button class="btn2" data-gsave>\u05dc\u05e9\u05de\u05d5\u05e8 \u05db\u05ea\u05de\u05d5\u05e0\u05d4</button><a class="g-eqb on g-wa" data-gshare href="https://wa.me/?text=${encodeURIComponent("\u05e1\u05d9\u05d9\u05de\u05ea\u05d9 \u05d0\u05ea \u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8 \u05e9\u05dc AntarTrade! \u05d4\u05e0\u05d4 \u05ea\u05e2\u05d5\u05d3\u05ea \u05d4\u05e1\u05d9\u05d5\u05dd \u05e9\u05dc\u05d9: antartrade.co.il/challenge/cert/r90")}" target="_blank" rel="noopener">${SV(WA_IC)}\u05dc\u05e9\u05ea\u05e3 \u05d1\u05e7\u05d4\u05d9\u05dc\u05d4</a></div></div>`;
   document.body.appendChild(ov);requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add("on")));
   const close=()=>{ov.classList.remove("on");setTimeout(()=>ov.remove(),300);document.removeEventListener("keydown",esc);};
   const esc=e=>{if(e.key==="Escape")close();};document.addEventListener("keydown",esc);
   ov.addEventListener("click",e=>{if(e.target.closest("[data-gsave]")){toast("\u05d4\u05ea\u05e2\u05d5\u05d3\u05d4 \u05e0\u05e9\u05de\u05e8\u05d4","\u05d1\u05d4\u05d3\u05de\u05d9\u05d4 \u05d6\u05d4 \u05e8\u05e7 \u05e1\u05d9\u05de\u05d5\u05df. \u05d1\u05d9\u05d5\u05de\u05df \u05d4\u05d0\u05de\u05d9\u05ea\u05d9 \u05ea\u05e8\u05d3 \u05ea\u05de\u05d5\u05e0\u05d4");return;}
-    if(e.target.closest("[data-gshare]")){toast("\u05e0\u05e4\u05ea\u05d7 \u05e9\u05d9\u05ea\u05d5\u05e3 \u05dc\u05e7\u05d4\u05d9\u05dc\u05d4","\u05d1\u05d4\u05d3\u05de\u05d9\u05d4 \u05d6\u05d4 \u05e8\u05e7 \u05e1\u05d9\u05de\u05d5\u05df");return;}
+    if(e.target.closest("[data-gshare]"))return;
     if(e.target.closest("[data-gcx]")||e.target===ov)close();});}
 
 /* booking the call with Noam: a preview of the WhatsApp message with the certificate, then WhatsApp opens on Noam's number
