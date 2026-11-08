@@ -101,3 +101,5 @@ body.pg-auth .demo{display:none}
 .ts-feats span{opacity:.6}
 @media (max-width:1000px){#au[data-side="e"] .au-wrap{grid-template-columns:minmax(0,1fr)}#au[data-side="e"] .au-wrap>.cbcard{padding:96px 0 120px;align-self:start}}
 .ts-coach{border-radius:0}
+/* the example email sits on the right like every Hebrew placeholder; what the user types stays left-to-right */
+#au .inp.ltr::placeholder{text-align:right;direction:ltr}
