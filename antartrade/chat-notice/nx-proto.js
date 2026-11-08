@@ -77,9 +77,15 @@
   .nx.bar .go2 svg{width:12px;height:8px}
   .nx.bar .x{position:static;flex:none;width:32px;height:32px}
   .nx.bar .x svg{width:15px;height:15px}
-  body.nx-bar-on .bot-fab{bottom:92px!important}
-  body.nx-bar-on .sc-top{bottom:92px!important}
-  body.nx-bar-on .sc-tab{bottom:146px!important}
+  body.nx-bar-on .bot-fab{bottom:var(--nxlift,92px)!important}
+  body.nx-bar-on .sc-top{bottom:var(--nxlift,92px)!important}
+  body.nx-bar-on .sc-tab{bottom:calc(var(--nxlift,92px) + 54px)!important}
+  .nx.bar.big{height:auto;flex-direction:column;align-items:stretch;gap:10px;padding:14px 18px 16px}
+  .nx.bar.big .hd{display:flex;align-items:center;justify-content:space-between}
+  .nx.bar.big .big{margin:0;gap:10px}
+  .nx.bar.big .num{font-size:46px}
+  .nx.bar.big .ttl{font-size:21px}
+  .nx.bar.big .go{height:46px;margin-top:2px;font-size:16px}
   .nx-tap{position:fixed;z-index:2147483004;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.35);box-shadow:0 0 0 2px rgba(255,255,255,.7);pointer-events:none;animation:nxtap .7s ease-out forwards}
   @keyframes nxtap{0%{transform:scale(.3);opacity:1}100%{transform:scale(1.4);opacity:0}}
   `;
@@ -90,10 +96,14 @@
   const ARR = '<svg viewBox="0 0 12 8" fill="none"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const dim = document.createElement("div"); dim.className = "nx-dim"; document.body.appendChild(dim);
   const LIGHT = phone && window.NXV === "light";
-  const BAR = phone && /bar/.test(window.NXQ || "");
-  const card = document.createElement("div"); card.className = BAR ? "nx bar" : "nx " + (phone ? "ph" : "dk") + (LIGHT ? " lt" : "");
+  const BIG = phone && /card/.test(window.NXQ || "");
+  const BAR = phone && (BIG || /bar/.test(window.NXQ || ""));
+  const card = document.createElement("div"); card.className = BAR ? "nx bar" + (BIG ? " big" : "") : "nx " + (phone ? "ph" : "dk") + (LIGHT ? " lt" : "");
   const COPY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>';
-  if (BAR) card.innerHTML = `<span class="tx"><small>מבצע חדש ב-<span class="en">Take Profit</span></small><b><span class="n">50%</span> הנחה · קוד <bdi>ANTAR</bdi></b></span><a class="go2" href="#">לפרטים${ARR}</a><button class="x" aria-label="סגירה">${X}</button>`;
+  if (BIG) card.innerHTML = `<div class="hd"><span class="tag">${TAG}מבצע חדש</span><button class="x" aria-label="סגירה">${X}</button></div>
+    <div class="big"><span class="num">50%</span><span class="ttl">הנחה ב-<bdi>Take Profit</bdi></span></div>
+    <a class="go" href="#">לפרטי המבצע${ARR}</a>`;
+  else if (BAR) card.innerHTML = `<span class="tx"><small>מבצע חדש ב-<span class="en">Take Profit</span></small><b><span class="n">50%</span> הנחה · קוד <bdi>ANTAR</bdi></b></span><a class="go2" href="#">לפרטים${ARR}</a><button class="x" aria-label="סגירה">${X}</button>`;
   else if (LIGHT) card.innerHTML = `<span class="grab"></span><button class="x" aria-label="סגירה">${X}</button>
     <span class="tag">${TAG}מבצע חדש</span>
     <div class="firm"><img src="/client-previews/antartrade/chat-notice/images/promotions/takeprofit-icon.png" alt=""><b>Take Profit Trader</b></div>
@@ -120,7 +130,7 @@
   document.body.appendChild(list);
   const tap = (x, y) => { const t = document.createElement("span"); t.className = "nx-tap"; t.style.left = x + "px"; t.style.top = y + "px"; document.body.appendChild(t); setTimeout(() => t.remove(), 800); };
   window.NX = {
-    open() { if (BAR) { document.body.classList.add("nx-bar-on"); requestAnimationFrame(() => card.classList.add("on")); return; } if (phone) dim.classList.add("on"); requestAnimationFrame(() => card.classList.add("on")); },
+    open() { if (BAR) { document.body.style.setProperty("--nxlift", (card.offsetHeight + 26) + "px"); document.body.classList.add("nx-bar-on"); requestAnimationFrame(() => card.classList.add("on")); return; } if (phone) dim.classList.add("on"); requestAnimationFrame(() => card.classList.add("on")); },
     fold(x, y) {
       tap(x, y);
       const r = card.getBoundingClientRect(), f = document.querySelector(".bot-fab").getBoundingClientRect();
