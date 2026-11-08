@@ -484,6 +484,26 @@ function gCert(){
     if(e.target.closest("[data-gshare]")){toast("\u05e0\u05e4\u05ea\u05d7 \u05e9\u05d9\u05ea\u05d5\u05e3 \u05dc\u05e7\u05d4\u05d9\u05dc\u05d4","\u05d1\u05d4\u05d3\u05de\u05d9\u05d4 \u05d6\u05d4 \u05e8\u05e7 \u05e1\u05d9\u05de\u05d5\u05df");return;}
     if(e.target.closest("[data-gcx]")||e.target===ov)close();});}
 
+/* booking the call with Noam: a preview of the WhatsApp message with the certificate, then WhatsApp opens on Noam's number
+   (the one on his course page) with the text filled in. A link cannot attach a file, so the certificate goes as a link */
+const NOAM_WA="972509411555";
+function gNoamCall(){
+  const v=SMP[C.view],fin=gFinished(v),g=gStats(v),url="antartrade.co.il/challenge/cert/r90";
+  const msg=fin?`\u05d4\u05d9\u05d9 \u05e0\u05d5\u05e2\u05dd, \u05e1\u05d9\u05d9\u05de\u05ea\u05d9 \u05d0\u05ea \u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8! \u05d4\u05e0\u05d4 \u05ea\u05e2\u05d5\u05d3\u05ea \u05d4\u05e1\u05d9\u05d5\u05dd \u05e9\u05dc\u05d9: ${url}\n\u05d0\u05e9\u05de\u05d7 \u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4 \u05d0\u05d9\u05e9\u05d9\u05ea \u05d5\u05dc\u05e2\u05d1\u05d5\u05e8 \u05d9\u05d7\u05d3 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df.`
+    :`\u05d4\u05d9\u05d9 \u05e0\u05d5\u05e2\u05dd, \u05d4\u05d2\u05e2\u05ea\u05d9 \u05dc\u05e8\u05de\u05d4 ${g.lvl} \u05d1\u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8. \u05d4\u05e0\u05d4 \u05d4\u05d4\u05ea\u05e7\u05d3\u05de\u05d5\u05ea \u05e9\u05dc\u05d9: ${url}\n\u05d0\u05e9\u05de\u05d7 \u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4 \u05d0\u05d9\u05e9\u05d9\u05ea \u05d5\u05dc\u05e2\u05d1\u05d5\u05e8 \u05d9\u05d7\u05d3 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df.`;
+  const ov=document.createElement("div");ov.className="g-cdlg call";ov.dir="rtl";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label","\u05e9\u05d9\u05d7\u05d4 \u05e2\u05dd \u05e0\u05d5\u05e2\u05dd");
+  ov.innerHTML=`<div class="box"><button class="x" data-gcx aria-label="\u05e1\u05d2\u05d9\u05e8\u05d4">${SV(JI.x)}</button>
+   <span class="nmw"><img alt="" src="avatar/noam-clean.webp"></span>
+   <small>\u05e4\u05e8\u05e1 \u05e9\u05dc \u05e8\u05de\u05d4 <span class="num">12</span></small><h3>\u05e9\u05d9\u05d7\u05d4 \u05d0\u05d9\u05e9\u05d9\u05ea \u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</h3>
+   <p>\u05e9\u05d5\u05dc\u05d7\u05d9\u05dd \u05dc\u05d5 \u05d4\u05d5\u05d3\u05e2\u05d4 \u05d1\u05d5\u05d5\u05d0\u05d8\u05e1\u05d0\u05e4, \u05d5\u05d4\u05d5\u05d0 \u05d7\u05d5\u05d6\u05e8 \u05d0\u05dc\u05d9\u05da \u05dc\u05e7\u05d1\u05d5\u05e2 \u05d6\u05de\u05df.</p>
+   <div class="g-msg"><div class="att"><img alt="" src="${GI("shield-trophy")}"><div><b>${fin?"\u05ea\u05e2\u05d5\u05d3\u05ea \u05e1\u05d9\u05d5\u05dd":"\u05d4\u05d4\u05ea\u05e7\u05d3\u05de\u05d5\u05ea \u05e9\u05dc\u05d9"} \u00b7 \u05d0\u05ea\u05d2\u05e8 <span class="num">90</span></b><span class="en">${url}</span></div></div><p>${msg.replace(url,"").replace(": \n",".\n").replace(/\n/g,"<br>")}</p></div>
+   <div class="row"><a class="btn2" data-gwa href="https://wa.me/${NOAM_WA}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">\u05dc\u05e9\u05dc\u05d5\u05d7 \u05dc\u05e0\u05d5\u05e2\u05dd \u05d1\u05d5\u05d5\u05d0\u05d8\u05e1\u05d0\u05e4</a></div>
+   <span class="g-cnote">${SV(CI.ext)}<span>\u05d5\u05d5\u05d0\u05d8\u05e1\u05d0\u05e4 \u05d9\u05d9\u05e4\u05ea\u05d7 \u05e2\u05dd \u05d4\u05d4\u05d5\u05d3\u05e2\u05d4 \u05de\u05d5\u05db\u05e0\u05d4, \u05d5\u05e6\u05e8\u05d9\u05da \u05e8\u05e7 \u05dc\u05dc\u05d7\u05d5\u05e5 \u05e2\u05dc \u05e9\u05dc\u05d9\u05d7\u05d4</span></span></div>`;
+  document.body.appendChild(ov);requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add("on")));
+  const close=()=>{ov.classList.remove("on");setTimeout(()=>ov.remove(),300);document.removeEventListener("keydown",esc);};
+  const esc=e=>{if(e.key==="Escape")close();};document.addEventListener("keydown",esc);
+  ov.addEventListener("click",e=>{if(e.target.closest("[data-gwa]")){setTimeout(close,300);return;}if(e.target.closest("[data-gcx]")||e.target===ov)close();});}
+
 /* the blue road runs exactly up to today's node */
 function gRoad(){document.querySelectorAll(".g-map").forEach(m=>{const p=m.querySelector(".g-done"),t=m.querySelector(".g-node.n-t");if(!p||!t)return;
   const x=400-parseFloat(t.style.right)*4,y=parseFloat(t.style.top)*2.7,L=p.getTotalLength();let best=0,bd=1e9;
@@ -566,7 +586,7 @@ document.addEventListener("click",e=>{
   if(x=q("[data-gcert]")){gCert();return;}
   if(x=q("[data-gagain]")){C.round++;C.gFin=null;C.view="join";C.wiz=0;C.more=null;C.gSay=null;view();scrollTo(0,0);toast("\u05e1\u05d1\u05d1 "+C.round+" \u05de\u05ea\u05d7\u05d9\u05dc","\u05d4\u05d0\u05d5\u05e1\u05e3 \u05d5\u05d4\u05e8\u05de\u05d4 \u05e9\u05dc\u05da \u05e0\u05e9\u05de\u05e8\u05d9\u05dd. \u05d4\u05de\u05e4\u05d4 \u05de\u05ea\u05d7\u05d9\u05dc\u05d4 \u05de\u05d9\u05d5\u05dd 1.");return;}
   if(x=q("[data-gcode]")){gClaim(+x.dataset.gcode);return;}
-  if(x=q("[data-gnoamrev]")){toast("\u05d4\u05d1\u05e7\u05e9\u05d4 \u05e0\u05e9\u05dc\u05d7\u05d4 \u05dc\u05e0\u05d5\u05e2\u05dd","\u05d4\u05d5\u05d0 \u05d9\u05d7\u05d6\u05d5\u05e8 \u05d0\u05dc\u05d9\u05da \u05dc\u05ea\u05d9\u05d0\u05d5\u05dd \u05e9\u05d9\u05d7\u05d4 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df.",false,true);return;}
+  if(x=q("[data-gnoamrev]")){gNoamCall();return;}
   if(x=q("[data-geq]")){const id=x.dataset.geq,eq=C.gEq[C.view]||(C.gEq[C.view]=[]),i=eq.indexOf(id);
     if(i>=0){eq.splice(i,1);view();toast("\u05d4\u05db\u05e8\u05d8\u05d9\u05e1 \u05d4\u05d5\u05e1\u05e8 \u05de\u05d4\u05e6\u05d9\u05d5\u05d3");return;}
     if(eq.length>=3){toast("\u05e9\u05d2\u05d9\u05d0\u05d4","\u05d9\u05e9 \u05de\u05e7\u05d5\u05dd \u05dc\u05e9\u05dc\u05d5\u05e9\u05d4 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9\u05dd. \u05de\u05e1\u05d9\u05e8\u05d9\u05dd \u05d0\u05d7\u05d3 \u05e7\u05d5\u05d3\u05dd",true);return;}
