@@ -778,3 +778,48 @@ a.g-eqb{text-decoration:none}
 .g-rule>span{font-size:14px;line-height:1.45;color:var(--muted)}
 .g-cdlg.howd h3.rt{margin-top:22px;margin-bottom:12px}
 @media (max-width:760px){.g-rules{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.g-rule{padding:16px}}
+
+/* ---- 08.11 phone pass ---- */
+.g-howrow{justify-content:flex-start}
+.g-bub b{font-weight:500;color:#0b0e14}
+/* next prize instead of the level axis */
+.g-next{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;background:#12161f;border-radius:18px;padding:14px 18px;margin-top:16px}
+.g-next .t{display:flex;flex-direction:column;gap:2px}
+.g-next .t small{font-size:13px;color:var(--c-sun);font-weight:500}
+.g-next .t small .num{color:inherit}
+.g-next .t b{font-size:16px;font-weight:500}
+.g-next .g-bar{margin:0}
+.g-next .left{font-size:13px;color:var(--muted);white-space:nowrap}
+.g-rw em{display:block}
+.g-rw em .i{vertical-align:-2px;margin-inline-end:5px}
+/* collection: the shield and the text on the right edge of each card */
+.g-card{align-items:flex-start;text-align:right;padding:0 14px 16px}
+.g-card small{justify-content:flex-start}
+/* the code window: chest inside the window, the coupon as the site's dashed pill */
+.g-cdlg .ch{position:static;width:132px;margin:-6px 0 2px}
+.g-cdlg:not(.call):not(.cert):not(.howd) .box{padding-top:24px;gap:6px}
+.g-cdlg .coupon{margin-top:12px;background:none;padding:0;justify-content:center;gap:10px}
+.g-cdlg .coupon .cp{direction:ltr;font-family:var(--en);font-weight:600;font-size:20px;letter-spacing:.06em;color:#d6ecff;background:rgba(125,198,255,.12);border:1px dashed rgba(125,198,255,.5);border-radius:999px;padding:9px 20px}
+.g-cdlg .g-cnote{margin-top:4px}
+.g-cdlg .row{margin-top:8px}
+@media (max-width:760px){
+  .chj.g .bh>.hint{flex-basis:100%}
+  .g-hud{gap:8px;padding:10px}
+  .g-hud>.g-day,.g-hud>.g-cell{flex:1 1 0;min-width:0}
+  .g-hud>.g-xp{flex:1 1 100%}
+  .g-noam img{width:156px}
+  .g-noam .g-bub{font-size:15px;margin-bottom:64px}
+  .g-next{grid-template-columns:minmax(0,1fr) auto;gap:10px 12px;padding:14px 16px}
+  .g-next .g-bar{grid-column:1/-1;grid-row:2}
+  .g-pw{padding:62px 20px 20px}
+  .g-pw img{height:96px;top:-40px}
+  .g-pw .t{margin-top:10px}
+  .g-pw .why{margin-top:14px}
+  .g-pw .why+.g-eqb{margin-top:16px}
+  .g-pwg{align-items:start;row-gap:58px;margin-top:58px}
+  .g-card{padding:0 10px 14px}
+  .g-prize b{font-size:26px}
+}
+@media (max-width:760px){.g-lg{display:none}}
+.g-cdlg .coupon .g-eqb{background:rgba(125,198,255,.16);color:var(--sky)}
+.g-cdlg .coupon .g-eqb:hover{background:rgba(125,198,255,.24)}
