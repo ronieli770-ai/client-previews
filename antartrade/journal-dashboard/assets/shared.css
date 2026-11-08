@@ -21,6 +21,8 @@ body.pg-shared .demo .sv-out{display:none}
 /* trades: the trade log's table, read only */
 .sv-tbl .tbl.log td{cursor:default}
 .sv-tbl .tbl.log tr:hover td{background:transparent}
+.sv-tbl .sv-note{white-space:normal;min-width:180px;color:var(--fg)}
+.sv-cnote span{color:var(--fg)}
 
 .sv-foot{margin:28px 0 0;text-align:center;font-size:13px;color:var(--muted)}
 .sv-foot a{color:var(--sky);text-decoration:none}

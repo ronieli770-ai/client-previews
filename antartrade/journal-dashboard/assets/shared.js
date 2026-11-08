@@ -1,5 +1,6 @@
 /* Shared view (/shared/:token) in the journal mock: the page a mentor opens from the student's share link.
-   Copy word for word from Noam's SharedView.tsx; the blocks are the dashboard's own (kpis, advanced, calendar + its day window,
+   Copy word for word from Noam's live page (his shared link, 08.11, newer than the repo: + "פוטנציאל העסקאות" with "מה אם: יעד 1:X",
+   and a wider trade table with סטופ, כמות, אסטרטגיה, רגש, הערות מנטור); the blocks are the dashboard's own (kpis, advanced, calendar + its day window,
    equity) and the trade log's table, so the mentor sees the journal in the same language. Sample data = the mock's TRADES.
    Two share modes as on /mentor: "stats_only" (KPIs, advanced, equity) and "full" (+ account filter, calendar, trades).
    Hooks itself in like mentor.js: PAGES.shared, render()/setPage() chained, body.pg-shared, #shared opens it,
@@ -27,11 +28,14 @@ function table(t){
   /* newest first; the first 20, then his own "הצג את כל {n}" pattern (from the challenge page) for the rest */
   const sorted=[...t].sort((a,b)=>b.exit-a.exit),rows=V.all?sorted:sorted.slice(0,20);
   const more=sorted.length>20&&!V.all?`<button class="btn3 sv-more" data-svall>הצג את כל ${sorted.length} העסקאות</button>`:"";
-  return `<section class="blk sv-tbl"><div class="bh">${ttl("עסקאות","list","mint")}</div><div class="tbl-wrap logt"><table class="tbl log"><thead><tr><th>נכס</th><th>חשבון</th><th>כיוון</th><th>כניסה</th><th>יציאה</th><th><span class="en">P&amp;L</span></th><th>דירוג</th><th>תאריך</th></tr></thead><tbody>
-  ${rows.map(x=>`<tr><td class="sym">${x.sym}</td><td class="dim">${accName(x.acc)}</td><td><span class="pill ${x.dir===1?"lg":"sh"}">${x.dir===1?"לונג":"שורט"}</span></td><td>${fmt(x.ep)}</td><td>${fmt(x.xp)}</td><td class="${cls(x.pnl)}" style="font-weight:600">${money(x.pnl)}</td><td>${x.grade?`<span class="gr ${x.grade}">${x.grade}</span>`:""}</td><td class="dim">${fdt(x.exit)}</td></tr>`).join("")}
+  return `<section class="blk sv-tbl"><div class="bh">${ttl("עסקאות","list","mint")}</div><div class="tbl-wrap logt"><table class="tbl log"><thead><tr><th>נכס</th><th>חשבון</th><th>כיוון</th><th>כניסה</th><th>יציאה</th><th>סטופ</th><th>כמות</th><th><span class="en">P&amp;L</span></th><th>דירוג</th><th>אסטרטגיה</th><th>רגש</th><th>תאריך</th><th>הערות מנטור</th></tr></thead><tbody>
+  ${rows.map(x=>`<tr><td class="sym">${x.sym}</td><td class="dim">${accName(x.acc)}</td><td><span class="pill ${x.dir===1?"lg":"sh"}">${x.dir===1?"לונג":"שורט"}</span></td><td>${fmt(x.ep)}</td><td>${fmt(x.xp)}</td><td>${stopOf(x)}</td><td>${x.qty}</td><td class="${cls(x.pnl)}" style="font-weight:600">${money(x.pnl)}</td><td>${x.grade?`<span class="gr ${x.grade}">${x.grade}</span>`:""}</td><td class="dim">${x.strat||"—"}</td><td class="dim">${x.tag?(typeof TAGS!=="undefined"&&TAGS[x.tag])||x.tag:"—"}</td><td class="dim">${fdt(x.exit)}</td><td class="dim sv-note">${NOTE[x.id]||""}</td></tr>`).join("")}
   </tbody></table></div>
-  <div class="lcards">${rows.map(x=>`<div class="lc"><div class="bd"><div class="r"><span><span class="sym">${x.sym}</span><span class="pill ${x.dir===1?"lg":"sh"}">${x.dir===1?"לונג":"שורט"}</span>${x.grade?`<span class="gr ${x.grade}">${x.grade}</span>`:""}</span><b class="${cls(x.pnl)}">${money(x.pnl)}</b></div><div class="r meta"><span>${fdt(x.exit)}</span><span>${accName(x.acc)}</span></div></div></div>`).join("")}</div>${more}</section>`;
+  <div class="lcards">${rows.map(x=>`<div class="lc"><div class="bd"><div class="r"><span><span class="sym">${x.sym}</span><span class="pill ${x.dir===1?"lg":"sh"}">${x.dir===1?"לונג":"שורט"}</span>${x.grade?`<span class="gr ${x.grade}">${x.grade}</span>`:""}</span><b class="${cls(x.pnl)}">${money(x.pnl)}</b></div><div class="r meta"><span>${fdt(x.exit)}</span><span>${accName(x.acc)}</span></div>${NOTE[x.id]?`<div class="r meta sv-cnote"><span>הערות מנטור: ${NOTE[x.id]}</span></div>`:""}</div></div>`).join("")}</div>${more}</section>`;
 }
+/* stop: from the trade's own R when its data is complete, else "—" as on his page; mentor notes: two sample lines, the rest empty */
+const stopOf=x=>{if(!x.complete||!x.actualR)return "—";const risk=Math.abs(x.xp-x.ep)/Math.abs(x.actualR);return fmt(x.ep-x.dir*risk);};
+const NOTE={};
 const foot=`<p class="sv-foot">מופעל באמצעות <a class="en" href="https://antartrade.co.il" target="_blank" rel="noopener">AntarTrade</a></p>`;
 
 function view(){
@@ -47,10 +51,11 @@ function view(){
   H.innerHTML=bar+filterBox();
   try{enhanceForms(H);}catch(e){}
   const t=filtered();kpis(t);
+  if(!Object.keys(NOTE).length&&TRADES.length){const s=[...TRADES].sort((a,b)=>b.exit-a.exit);NOTE[s[1].id]="כניסה מוקדמת, היה כדאי לחכות לאישור";NOTE[s[4].id]="עסקה טובה, ככה לעבוד";}
   let h="";
   if(t.length){
     h+=advanced(t);
-    if(V.mode==="full")h+=calendar(t);
+    if(V.mode==="full")h+=potential(t)+calendar(t);
     h+=`<section class="blk"><div class="bh">${ttl("עקומת הון","eq","sky")}</div>${equity(t)}</section>`;
     if(V.mode==="full")h+=table(t);
   }
