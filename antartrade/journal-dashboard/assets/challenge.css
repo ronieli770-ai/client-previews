@@ -751,3 +751,22 @@ a.g-eqb{text-decoration:none}
   .g-cdlg.howd .g-steps{margin-top:48px}
 }
 .g-rl em{font-style:normal}
+
+/* 08.11: steps spaced like the collection (56px from the title, the item 34px above the card), one shield family,
+   the same amount of text in each card, and the four rules as one row of containers under them */
+.g-steps{margin-top:56px;align-items:stretch}
+.g-step{padding:70px 20px 22px}
+.g-step>img{top:-34px;height:92px}
+.g-rl{display:grid;grid-template-columns:auto repeat(4,minmax(0,1fr));align-items:center;gap:10px;margin-top:12px}
+.g-rl>small{font-size:13px;color:var(--muted);padding-inline-end:4px;white-space:nowrap}
+.g-rl>span{background:#12161f;padding:12px 14px}
+.g-cdlg.howd .g-rl>span{background:#12161f}
+/* the join hero: title, line and button close together */
+.g-jhero .tx p{margin:0}
+.g-jhero .chj-cta{margin-top:12px}
+.g-jhero{display:flex;align-items:center}
+@media (max-width:760px){
+  .g-steps{margin-top:52px}
+  .g-rl{grid-template-columns:minmax(0,1fr);gap:8px}
+  .g-rl>small{padding:0}
+}
