@@ -57,15 +57,8 @@ function card(){
   </form>`;
 }
 /* the left side, four ways to choose from (Roni didn't like the four containers): a no side, b the journal itself, c one panel, d inside the card */
-const LEAD="יומן המסחר המתקדם שלך. עקוב, נתח ושפר את הביצועים שלך.";
-const HEAD=`<h2 class="au-h">יומן המסחר המתקדם שלך.<br><span>עקוב, נתח ושפר את הביצועים שלך.</span></h2>`;
-function side(){
-  if(A.side==="e") return sideTs();
-  if(A.side==="a"||A.side==="d") return "";
-  if(A.side==="b") return `<div class="au-side au-sb">${HEAD}<div class="au-shot"><img src="assets/auth-dash.webp" alt="יומן המסחר"></div>
-    <div class="au-pills">${FEATS.map(([k,t])=>`<span class="au-pill">${SV(AI[k])}${t}</span>`).join("")}</div></div>`;
-  return `<div class="au-side au-sc">${HEAD}<div class="au-panel">${FEATS.map(([k,t,d])=>`<div class="au-pf"><span class="au-pi">${SV(AI[k])}</span><b>${t}</b><small>${en(d)}</small></div>`).join("")}</div></div>`;
-}
+/* the login side: only the calm panel Roni approved (sideTs); the other options are gone */
+function side(){return sideTs();}
 /* e: TraderSync's composition, made calm (Roni): one still panel, no carousel; only a few small pieces of the journal, never a whole
    screen (so it can't be copied), each shown whole, never cut by an edge; a flat panel, no gradient */
 function sideTs(){
@@ -82,12 +75,11 @@ function sideTs(){
   </div></div>`;
 }
 const autoplay=()=>{};
-const inCard=()=>A.side==="d"?`<div class="au-mini">${FEATS.map(([k,t])=>`<span>${SV(AI[k])}${t}</span>`).join("")}</div>`:"";
+const inCard=()=>"";
 function draw(focusId){
   const w=$("auWrap");if(!w)return;
   w.innerHTML=card()+side();
   w.dataset.side=A.side;const au=$("au");if(au)au.dataset.side=A.side;autoplay();
-  document.querySelectorAll("#au [data-ausd]").forEach(b=>b.classList.toggle("on",b.dataset.ausd===A.side));
   document.querySelectorAll("#au [data-aust]").forEach(b=>b.classList.toggle("on",b.dataset.aust===A.mode));
   if(focusId){const el=$(focusId);if(el){el.focus();const n=el.value.length;try{el.setSelectionRange(n,n);}catch(_){}}}
 }
@@ -132,7 +124,6 @@ document.addEventListener("click",e=>{
     if(x.dataset.aust==="unverified"){go("login");if(!A.email)A.email="trader@gmail.com";if(!A.pw)A.pw="123456";draw();toast("שגיאה","המייל שלך עדיין לא אומת. בדוק את תיבת הדואר שלך ולחץ על קישור האימות.",true);return;}
     if(x.dataset.aust==="sent"&&!A.email)A.email="your@email.com";
     go(x.dataset.aust);return;}
-  if(x=q("[data-ausd]")){A.side=x.dataset.ausd;draw();return;}
   if(x=q("[data-aumode]")){go(x.dataset.aumode);return;}
   if(q("[data-aueye]")){A.show=!A.show;draw("auPw");return;}
   if(q("[data-augoogle]")){if(A.gbusy)return;A.gbusy=true;draw();setTimeout(()=>{A.gbusy=false;setPage("dash");},1200);return;}
