@@ -74,7 +74,7 @@ function sideTs(){
     <h2 class="ts-h">יומן המסחר המתקדם שלך.</h2>
     <p class="ts-sub">עקוב, נתח ושפר את הביצועים שלך.</p>
     <div class="ts-set">
-      <img class="ts-w ts-coach" src="assets/auth-w-coach.webp" alt="">
+      <img class="ts-w" src="assets/auth-w-equity.webp" alt="">
       <div class="ts-two"><img class="ts-w" src="assets/auth-kpi-pnl.webp" alt=""><img class="ts-w" src="assets/auth-kpi-win.webp" alt=""></div>
       <div class="ts-w ts-card"><img src="assets/auth-w-prop.webp" alt=""></div>
     </div>
@@ -100,7 +100,7 @@ const mount=()=>{
     <div class="rpbg" aria-hidden="true"><img class="sc" src="assets/deals-bg.webp" alt=""></div>
     <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
     <div class="au-wrap" id="auWrap"></div>
-    <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-aust="login">התחברות</button><button data-aust="signup">הרשמה</button><button data-aust="forgot">שכחת סיסמה</button><button data-aust="sent">בדוק את המייל</button><button data-aust="unverified">מייל לא אומת</button><span class="sep"></span><small>צד:</small><button data-ausd="e">כמו TraderSync</button><button data-ausd="a">בלי</button><button data-ausd="b">היומן עצמו</button><button data-ausd="c">פאנל אחד</button><button data-ausd="d">בתוך הכרטיס</button></div>
+    <div class="cbsw" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-page="dash">חזרה</button><button data-aust="login">התחברות</button><button data-aust="signup">הרשמה</button><button data-aust="forgot">שכחת סיסמה</button><button data-aust="sent">בדוק את המייל</button><button data-aust="unverified">מייל לא אומת</button></div>
   </section>`;
   const rp=$("rp");if(rp)rp.insertAdjacentHTML("afterend",html);else document.body.insertAdjacentHTML("beforeend",html);
   draw();
