@@ -11,7 +11,7 @@
   .nx.ph{left:0;right:0;bottom:0;border-radius:28px 28px 0 0;padding:26px 22px calc(26px + env(safe-area-inset-bottom,0px));min-height:40vh;transform:translateY(105%)}
   .nx.dk{right:96px;bottom:34px;width:420px;border-radius:28px;padding:28px;transform:translateY(24px) scale(.96);opacity:0;transform-origin:100% 100%}
   .nx.on{transform:none;opacity:1}
-  .nx.fold{transform:translate(var(--fx),var(--fy)) scale(.06)!important;opacity:0!important;transition:transform .55s cubic-bezier(.55,0,.75,.2),opacity .5s ease}
+  .nx.fold{transform:translate(var(--fx),var(--fy)) scale(.06)!important;opacity:0!important;pointer-events:none;transition:transform .55s cubic-bezier(.55,0,.75,.2),opacity .5s ease}
   .nx .grab{align-self:center;width:44px;height:5px;border-radius:5px;background:rgba(255,255,255,.18);margin:-12px 0 4px}
   .nx .x{position:absolute;top:18px;left:18px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.07);color:#eef3fa;display:grid;place-items:center}
   .nx .x svg{width:18px;height:18px}
@@ -103,7 +103,7 @@
       card.style.setProperty("--fx", (f.left + f.width / 2 - (r.left + r.width / 2)) + "px");
       card.style.setProperty("--fy", (f.top + f.height / 2 - (r.top + r.height / 2)) + "px");
       card.classList.add("fold"); dim.classList.remove("on");
-      setTimeout(() => { placeBadge(); badge.classList.add("on"); }, 520);
+      setTimeout(() => { placeBadge(); badge.classList.add("on"); card.style.display = "none"; }, 560);
     },
     openList() { const f = document.querySelector(".bot-fab").getBoundingClientRect(); tap(f.left + f.width / 2, f.top + f.height / 2); setTimeout(() => list.classList.add("on"), 150); },
     closeOne() { const it = list.querySelectorAll(".nx-it")[1], b = it.querySelector(".x2").getBoundingClientRect(); tap(b.left + 14, b.top + 14); it.classList.add("gone"); setTimeout(() => { it.remove(); badge.textContent = "1"; list.querySelector("h4 small").textContent = "1"; }, 320); },
