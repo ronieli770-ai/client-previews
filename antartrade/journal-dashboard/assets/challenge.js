@@ -334,7 +334,7 @@ function gCards(v,g){
   const got=GCARDS.filter(c=>v&&c[4](v,g)).length;
   return `<section class="blk chj-sec g-coll"><div class="bh">${cttl("\u05d4\u05d0\u05d5\u05e1\u05e3 \u05e9\u05dc\u05da","tag","sky")}<span class="hint">${v?`<span class="num">${got}</span> \u05de\u05ea\u05d5\u05da <span class="num">${GCARDS.length}</span> \u05e7\u05dc\u05e4\u05d9\u05dd`:"\u05e7\u05dc\u05e4\u05d9\u05dd \u05e9\u05d0\u05d5\u05e1\u05e4\u05d9\u05dd \u05d1\u05d3\u05e8\u05da"}</span></div>
    <div class="g-cards">${GCARDS.map(c=>{const on=v&&c[4](v,g);return `<div class="g-card${on?"":" lockd"}${c[3]==="\u05d0\u05d2\u05d3\u05d9"?" gold":""}"><img alt="" src="${GI("shield-"+c[0])}"><span class="rar">${c[3]}</span><b>${c[1]}</b><small>${on?c[2]:`${SV(JI.lock,"width:12px;height:12px")}${c[2]}`}</small></div>`;}).join("")}</div></section>`;}
-const GPW={try_target:"power-target",fewer:"power-gem",rules_first:"power-shield",focus_dir:"power-compass"};
+const GPW={try_target:"power-target",fewer:"power-funnel",rules_first:"power-shield",focus_dir:"power-compass"};
 function gPowers(v){
   const P=v.periods.length?v.periods[v.periods.length-1].recs:[];
   const eq=C.gEq[C.view]||[];
