@@ -700,3 +700,14 @@ body:not(.pg-challenge) #chjWizHost{display:none}
 .g-msg .att span{font-size:12px;color:var(--sky);direction:ltr;text-align:right}
 .g-msg p{margin:0;padding:2px 6px 4px;font-size:14px;line-height:1.55;color:#eef3fa;max-width:none}
 .g-cdlg.call .g-cnote .i{color:var(--muted)}
+
+/* a locked gate the user is waiting at: the shield stays grey, a lock pill under it says what opens it */
+.g-gate.wait{filter:grayscale(1) brightness(.55);animation:gGateWait 3.2s ease-in-out infinite}
+@keyframes gGateWait{0%,70%,100%{transform:translate(50%,-50%)}76%{transform:translate(50%,-50%) rotate(-5deg)}82%{transform:translate(50%,-50%) rotate(4deg)}88%{transform:translate(50%,-50%) rotate(-2deg)}}
+.g-gpill{position:absolute;transform:translate(50%,38px);display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:12px;font-weight:500;color:var(--c-sun);background:#232938;border-radius:999px;padding:4px 10px;z-index:2;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.g-gpill .num{color:inherit;font-weight:600}
+@media (prefers-reduced-motion:reduce){.g-gate.wait{animation:none}}
+/* the call button goes straight to Noam's WhatsApp */
+a.g-eqb{text-decoration:none}
+.g-wa .i{width:17px;height:17px;stroke-width:1.8}
+.g-glock{position:absolute;transform:translate(calc(50% - 22px),calc(-50% - 24px));width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#232938;color:var(--c-sun);z-index:2;box-shadow:0 6px 14px rgba(0,0,0,.4)}

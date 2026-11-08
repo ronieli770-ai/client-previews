@@ -307,17 +307,29 @@ function gMap(v){
   const day=v?v.day:0,stage=v?v.stage:1,Y=2.7,pos=(x,y)=>`right:${(400-x)/4}%;top:${y/Y}%`;
   const N=[[370,240,1],[318,232,5],[268,213,9],[212,205,14],[156,200,18],[105,188,23],[72,166,27],[115,104,31],[185,100,38],[255,96,45],[322,72,52],[285,28,61],[225,25,70],[165,25,80]];
   let cur=-1;N.forEach((n,i)=>{if(day>=n[2])cur=i;});
+  const w=gWait(v);if(w)cur=w.gate===1?6:10;
   const nodes=N.map((n,i)=>{const st=!v?"l":i<cur?"d":i===cur?"t":"l";return `<span class="g-node n-${st}" style="${pos(n[0],n[1])}">${st==="t"?`<span class="num">${day}</span>`:`<span class="num">${n[2]}</span>`}</span>`;}).join("");
   const gate=(img,x,y,open,cls)=>`<img class="g-gate${open?"":" lock"}${cls||""}" alt="" src="${GI(img)}" style="${pos(x,y)}">`;
   const lbl=(t,s,x,y)=>`<span class="g-wl" style="${pos(x,y)}"><b>${t}</b>${s}</span>`;
   return `<div class="g-map"><svg class="g-road" viewBox="0 0 400 270" preserveAspectRatio="none" aria-hidden="true">
      <path d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14" stroke-linecap="round"/>
      <path class="g-done" d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="url(#gHg)" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 2000"/></svg>
-   ${nodes}${gate("shield-check",58,130,stage>1)}${gate("shield-target",350,48,stage>2)}${gate("shield-trophy",40,25,v&&v.out.payouts>0," final")}
+   ${nodes}${gate("shield-check",58,130,stage>1,w&&w.gate===1?" wait":"")}${gate("shield-target",350,48,stage>2,w&&w.gate===2?" wait":"")}
+   ${w?`<span class="g-glock" style="${w.gate===1?pos(58,130):pos(350,48)}" title="${w.short.replace(/<[^>]+>/g,"")}">${SV(JI.lock,"width:14px;height:14px")}</span>`:""}${gate("shield-trophy",40,25,v&&v.out.payouts>0," final")}
    ${lbl("\u05e9\u05dc\u05d1 1",STAGES[1].title,300,246)}${lbl("\u05e9\u05dc\u05d1 2",STAGES[2].title,215,128)}${lbl("\u05e9\u05dc\u05d1 3",STAGES[3].title,120,48)}</div>`;}
+/* is the user standing at a locked gate? Gate 1 opens after 30 trading days with no burned account (Noam's stage.ts);
+   gate 2 opens with a passed evaluation or a funded account */
+function gWait(v){
+  if(!v)return null;
+  if(v.stage===1&&v.day>30){const left=Math.max((v.burnDay||0)+31-v.day,1);return {gate:1,left,short:`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9\u05dd \u05e0\u05e7\u05d9\u05d9\u05dd`,
+    hint:`\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05e9\u05e8\u05e3 \u05d1-30 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d9\u05dd. \u05d4\u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7 \u05d0\u05d7\u05e8\u05d9 <span class="num">30</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05d1\u05dc\u05d9 \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3: \u05e2\u05d5\u05d3 <span class="num">${left}</span>`,
+    say:`\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05e9\u05e8\u05e3 \u05d1\u05d9\u05d5\u05dd ${v.burnDay}, \u05d0\u05d6 \u05d4\u05d4\u05d9\u05e9\u05e8\u05d3\u05d5\u05ea \u05e0\u05de\u05e9\u05db\u05ea. \u05e2\u05d5\u05d3 ${left} \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05d1\u05dc\u05d9 \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3, \u05d5\u05d4\u05e9\u05e2\u05e8 \u05e9\u05dc ${STAGES[2].title} \u05e0\u05e4\u05ea\u05d7. \u05de\u05de\u05e9\u05d9\u05db\u05d9\u05dd \u05d1\u05d0\u05d5\u05ea\u05d5 \u05d0\u05ea\u05d2\u05e8, \u05e9\u05d5\u05dd \u05d3\u05d1\u05e8 \u05dc\u05d0 \u05e0\u05de\u05d7\u05e7.`};}
+  if(v.stage===2&&v.day>60)return {gate:2,left:0,short:"\u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05e2\u05d5\u05d1\u05e8\u05d9\u05dd \u05de\u05d1\u05d7\u05df",hint:"\u05d4\u05e9\u05e2\u05e8 \u05e9\u05dc \u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05e2\u05d5\u05d1\u05e8\u05d9\u05dd \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df",say:`\u05d4\u05e9\u05e2\u05e8 \u05e9\u05dc ${STAGES[3].title} \u05e0\u05e4\u05ea\u05d7 \u05d1\u05e8\u05d2\u05e2 \u05e9\u05ea\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df. \u05d1\u05dc\u05d9 \u05dc\u05de\u05d4\u05e8 \u05d5\u05d1\u05dc\u05d9 \u05dc\u05d4\u05d2\u05d3\u05d9\u05dc \u05e1\u05d9\u05db\u05d5\u05df.`};
+  return null;}
 function gNoam(v){
   if(!C.noam)return "";
   if(C.gSay&&C.gSay.view===C.view)return `<section class="blk g-noam"><img alt="" src="avatar/noam-${C.gSay.av}.webp"><div class="g-bub"><small>${C.gSay.tag}</small>${nums(C.gSay.txt)}</div></section>`;
+  const w=gWait(v);if(w&&!v.pendingStops.length)return `<section class="blk g-noam"><img alt="" src="avatar/noam-one.webp"><div class="g-bub"><small>\u05d4\u05e9\u05e2\u05e8 \u05e2\u05d5\u05d3 \u05e1\u05d2\u05d5\u05e8</small>${nums(w.say)}</div></section>`;
   const tag=v.pendingStops.length?"\u05ea\u05d6\u05db\u05d5\u05e8\u05ea \u05dc\u05d4\u05d9\u05d5\u05dd":v.day===0?"\u05d9\u05d5\u05dd 1":`\u05d9\u05d5\u05dd ${v.day}`;
   const txt=v.pendingStops.length?"\u05e2\u05e1\u05e7\u05d4 \u05d0\u05d7\u05ea \u05e2\u05d3\u05d9\u05d9\u05df \u05d1\u05dc\u05d9 \u05e1\u05d8\u05d5\u05e4. \u05de\u05e9\u05dc\u05d9\u05de\u05d9\u05dd \u05d0\u05d5\u05ea\u05d5 \u05d1\u05d9\u05d5\u05de\u05df, \u05d5\u05d4\u05de\u05e9\u05d9\u05de\u05d4 \u05e9\u05dc \u05d4\u05d9\u05d5\u05dd \u05de\u05e1\u05d5\u05de\u05e0\u05ea.":headline(v.out);
   return `<section class="blk g-noam"><img alt="" src="avatar/noam-${v.av}.webp"><div class="g-bub"><small>${tag}</small>${nums(txt)}</div></section>`;}
@@ -351,7 +363,7 @@ function gRewards(v,g){
   const cards=GREW.map(([L,k,t,s])=>{const on=g.lvl>=L,need=(L-1)*300-g.pts;
     return `<div class="g-rw${on?" on":""}${k==="noam"?" g-rwn":""}"><span class="ic">${k==="noam"?`<img alt="" src="avatar/noam-flex.webp">`:`<img alt="" src="${GI(on?"chest-open":"chest")}">`}</span>
      <div class="tx"><small>\u05e8\u05de\u05d4 <span class="num">${L}</span></small><b>${t}</b><span>${s}</span></div>
-     ${on?(k==="code"?(C.gClaimed[C.view+":"+L]?`<button class="g-eqb on" data-gcode="${L}">${SV(JI.ok)}\u05d4\u05e7\u05d5\u05d3 \u05e9\u05dc\u05da</button>`:`<button class="g-eqb" data-gcode="${L}">\u05dc\u05e7\u05d1\u05dc \u05d0\u05ea \u05d4\u05e7\u05d5\u05d3</button>`):`<button class="g-eqb" data-gnoamrev>\u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4</button>`):`<em>${SV(JI.lock,"width:13px;height:13px")}\u05e2\u05d5\u05d3 <span class="num">${need.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</em>`}</div>`;}).join("");
+     ${on?(k==="code"?(C.gClaimed[C.view+":"+L]?`<button class="g-eqb on" data-gcode="${L}">${SV(JI.ok)}\u05d4\u05e7\u05d5\u05d3 \u05e9\u05dc\u05da</button>`:`<button class="g-eqb" data-gcode="${L}">\u05dc\u05e7\u05d1\u05dc \u05d0\u05ea \u05d4\u05e7\u05d5\u05d3</button>`):`<a class="g-eqb g-wa" data-gnoamrev href="${gWaHref()}" target="_blank" rel="noopener">${SV(WA_IC)}\u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4</a>`):`<em>${SV(JI.lock,"width:13px;height:13px")}\u05e2\u05d5\u05d3 <span class="num">${need.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</em>`}</div>`;}).join("");
   return `<section class="blk chj-sec g-rews"><div class="bh">${cttl("\u05de\u05d4 \u05d4\u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05e4\u05d5\u05ea\u05d7\u05d5\u05ea","tag","sun")}<span class="hint">\u05e8\u05de\u05d4 <span class="num">${g.lvl}</span> \u00b7 <span class="num">${g.pts.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</span></div>
    <div class="g-earn"><span><b class="num">45</b> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05e2\u05dc \u05db\u05dc \u05d9\u05d5\u05dd \u05d1\u05dc\u05d9 \u05d4\u05e4\u05e8\u05d4</span><span><b class="num">300</b> \u05e2\u05dc \u05de\u05d1\u05d7\u05df \u05e9\u05e2\u05d1\u05e8\u05ea</span><span><b class="num">600</b> \u05e2\u05dc \u05de\u05e9\u05d9\u05db\u05d4</span></div>
    <div class="g-track"><span class="g-tbar"><i style="width:${pct}%"></i></span>${GREW.filter(([L])=>L!==g.lvl).map(([L])=>`<span class="g-tm${g.lvl>=L?" on":""}" style="right:${(L-1)/(top-1)*100}%"><span class="num">${L}</span></span>`).join("")}<span class="g-tme" style="right:${pct}%"><span class="num">${g.lvl}</span></span></div>
@@ -389,7 +401,7 @@ function gDash(){
   ${fin?gFinish(v,g):""}
   ${gHud(v,g)}
   <div class="g-cols"><div class="g-col">${warns(v)}${fin?gNoam(v):gQuests(v)}</div>
-   <div class="g-col">${fin?"":gNoam(v)}<section class="blk chj-sec"><div class="bh">${cttl(fin?"\u05d4\u05d3\u05e8\u05da \u05e9\u05e2\u05e9\u05d9\u05ea":`\u05e9\u05dc\u05d1 ${v.stage} \u00b7 ${st.title}`,"flag","sun")}<span class="hint">${fin?"\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd, 90 \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8":nextTx}</span></div>${gMap(v)}</section></div></div>
+   <div class="g-col">${fin?"":gNoam(v)}<section class="blk chj-sec"><div class="bh">${cttl(fin?"\u05d4\u05d3\u05e8\u05da \u05e9\u05e2\u05e9\u05d9\u05ea":`\u05e9\u05dc\u05d1 ${v.stage} \u00b7 ${st.title}`,"flag","sun")}<span class="hint">${fin?"\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd, 90 \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8":gWait(v)?gWait(v).hint:nextTx}</span></div>${gMap(v)}</section></div></div>
   ${fin?gCards(v,g):""}
   ${gRewards(v,g)}
   ${fin?"":gCards(v,g)}
@@ -437,6 +449,12 @@ SMP.d90=(()=>{const v=JSON.parse(JSON.stringify(SAMPLES.d64));
   const p=JSON.parse(JSON.stringify(v.periods[1]));Object.assign(p,{i:2,trades:50,stats:{winRate:.62,rr:1.41,tradesPerDay:1.6,net:2540},stop:.98,comp:.97,top:["\u05d9\u05d7\u05e1 \u05e1\u05d9\u05db\u05d5\u05df-\u05e1\u05d9\u05db\u05d5\u05d9 \u05de\u05ea\u05d7\u05ea \u05dc\u05d9\u05e2\u05d3",1],out:{burned:0,passed:0,payouts:1,amt:1850}});
   v.periods.push(p);v.links=v.links.map(l=>l.id==="l4"?{...l}:l);return v;})();
 SAMPLES.d90=SMP.d90;
+SMP.d34=(()=>{const v=JSON.parse(JSON.stringify(SAMPLES.d23));
+  Object.assign(v,{day:34,stage:1,burnDay:18,reason:"\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05e9\u05e8\u05e3 \u05d1-30 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d9\u05dd",av:"one",pendingStops:[],missingHypo:0,daysToNext:26,
+    stats:{trades:58,daysTraded:28,wins:31,losses:27,winRate:.53,rr:1.06,maxLossStreak:3,net:880,commissions:254},compliance:.85,
+    periods:[JSON.parse(JSON.stringify(SAMPLES.d64.periods[0]))]});
+  v.links=v.links.map(l=>l.id==="l3"?{...l,ended:"16.11.2026"}:l);return v;})();
+SAMPLES.d34=SMP.d34;
 const pctN=x=>Math.round(x*100)+"%";
 function gFinished(v){return v&&v.day>=90;}
 function gFinish(v,g){
@@ -487,6 +505,11 @@ function gCert(){
 /* booking the call with Noam: a preview of the WhatsApp message with the certificate, then WhatsApp opens on Noam's number
    (the one on his course page) with the text filled in. A link cannot attach a file, so the certificate goes as a link */
 const NOAM_WA="972509411555";
+const WA_IC='<path d="M20.2 11.6a8.3 8.3 0 0 1-12.3 7.3L3.6 20l1.2-4.1a8.3 8.3 0 1 1 15.4-4.3z"/><path d="M9.2 8.4c.3-.3.8-.3 1 .1l.7 1.5c.1.3 0 .6-.2.8l-.5.5c.5 1.1 1.4 2 2.5 2.5l.5-.5c.2-.2.5-.3.8-.2l1.5.7c.4.2.4.7.1 1-.6.7-1.5 1-2.4.7-2.1-.7-3.8-2.4-4.5-4.5-.3-.9 0-1.8.5-2.6z"/>';
+function gWaHref(){const v=SMP[C.view],fin=gFinished(v),g=gStats(v),url="antartrade.co.il/challenge/cert/r90";
+  const msg=fin?`\u05d4\u05d9\u05d9 \u05e0\u05d5\u05e2\u05dd, \u05e1\u05d9\u05d9\u05de\u05ea\u05d9 \u05d0\u05ea \u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8! \u05d4\u05e0\u05d4 \u05ea\u05e2\u05d5\u05d3\u05ea \u05d4\u05e1\u05d9\u05d5\u05dd \u05e9\u05dc\u05d9: ${url}\n\u05d0\u05e9\u05de\u05d7 \u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4 \u05d0\u05d9\u05e9\u05d9\u05ea \u05d5\u05dc\u05e2\u05d1\u05d5\u05e8 \u05d9\u05d7\u05d3 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df.`
+    :`\u05d4\u05d9\u05d9 \u05e0\u05d5\u05e2\u05dd, \u05d4\u05d2\u05e2\u05ea\u05d9 \u05dc\u05e8\u05de\u05d4 ${g.lvl} \u05d1\u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8. \u05d4\u05e0\u05d4 \u05d4\u05d4\u05ea\u05e7\u05d3\u05de\u05d5\u05ea \u05e9\u05dc\u05d9: ${url}\n\u05d0\u05e9\u05de\u05d7 \u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4 \u05d0\u05d9\u05e9\u05d9\u05ea \u05d5\u05dc\u05e2\u05d1\u05d5\u05e8 \u05d9\u05d7\u05d3 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df.`;
+  return `https://wa.me/${NOAM_WA}?text=${encodeURIComponent(msg)}`;}
 function gNoamCall(){
   const v=SMP[C.view],fin=gFinished(v),g=gStats(v),url="antartrade.co.il/challenge/cert/r90";
   const msg=fin?`\u05d4\u05d9\u05d9 \u05e0\u05d5\u05e2\u05dd, \u05e1\u05d9\u05d9\u05de\u05ea\u05d9 \u05d0\u05ea \u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8! \u05d4\u05e0\u05d4 \u05ea\u05e2\u05d5\u05d3\u05ea \u05d4\u05e1\u05d9\u05d5\u05dd \u05e9\u05dc\u05d9: ${url}\n\u05d0\u05e9\u05de\u05d7 \u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4 \u05d0\u05d9\u05e9\u05d9\u05ea \u05d5\u05dc\u05e2\u05d1\u05d5\u05e8 \u05d9\u05d7\u05d3 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df.`
@@ -574,7 +597,7 @@ window.challengeView=view;
 
 /* mock switch: before joining, day 23, day 64; with or without Noam */
 const bar=document.createElement("div");bar.className="demo demo3 chonly";bar.dir="rtl";bar.setAttribute("aria-label","\u05de\u05e6\u05d1 \u05d4\u05d0\u05ea\u05d2\u05e8 \u05d1\u05d4\u05d3\u05de\u05d9\u05d4");
-bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><button data-chv="d90">\u05d9\u05d5\u05dd 90</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button><span class="sep"></span><small>\u05d2\u05e8\u05e1\u05d4:</small><button data-chver="game">\u05de\u05e9\u05d7\u05e7</button><button data-chver="new">\u05de\u05e1\u05e2</button><button data-chver="old">\u05e7\u05d5\u05d3\u05de\u05ea</button><span class="sep"></span><button data-glvl>\u05e8\u05d2\u05e2 \u05e2\u05dc\u05d9\u05d9\u05ea \u05e9\u05dc\u05d1</button><button data-gburn>\u05dc\u05d1 \u05e0\u05e9\u05d1\u05e8</button>`;
+bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d34">\u05d9\u05d5\u05dd 34</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><button data-chv="d90">\u05d9\u05d5\u05dd 90</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button><span class="sep"></span><small>\u05d2\u05e8\u05e1\u05d4:</small><button data-chver="game">\u05de\u05e9\u05d7\u05e7</button><button data-chver="new">\u05de\u05e1\u05e2</button><button data-chver="old">\u05e7\u05d5\u05d3\u05de\u05ea</button><span class="sep"></span><button data-glvl>\u05e8\u05d2\u05e2 \u05e2\u05dc\u05d9\u05d9\u05ea \u05e9\u05dc\u05d1</button><button data-gburn>\u05dc\u05d1 \u05e0\u05e9\u05d1\u05e8</button>`;
 document.body.appendChild(bar);
 
 document.addEventListener("click",e=>{
@@ -586,7 +609,7 @@ document.addEventListener("click",e=>{
   if(x=q("[data-gcert]")){gCert();return;}
   if(x=q("[data-gagain]")){C.round++;C.gFin=null;C.view="join";C.wiz=0;C.more=null;C.gSay=null;view();scrollTo(0,0);toast("\u05e1\u05d1\u05d1 "+C.round+" \u05de\u05ea\u05d7\u05d9\u05dc","\u05d4\u05d0\u05d5\u05e1\u05e3 \u05d5\u05d4\u05e8\u05de\u05d4 \u05e9\u05dc\u05da \u05e0\u05e9\u05de\u05e8\u05d9\u05dd. \u05d4\u05de\u05e4\u05d4 \u05de\u05ea\u05d7\u05d9\u05dc\u05d4 \u05de\u05d9\u05d5\u05dd 1.");return;}
   if(x=q("[data-gcode]")){gClaim(+x.dataset.gcode);return;}
-  if(x=q("[data-gnoamrev]")){gNoamCall();return;}
+  if(x=q("[data-gnoamrev]")){return;}
   if(x=q("[data-geq]")){const id=x.dataset.geq,eq=C.gEq[C.view]||(C.gEq[C.view]=[]),i=eq.indexOf(id);
     if(i>=0){eq.splice(i,1);view();toast("\u05d4\u05db\u05e8\u05d8\u05d9\u05e1 \u05d4\u05d5\u05e1\u05e8 \u05de\u05d4\u05e6\u05d9\u05d5\u05d3");return;}
     if(eq.length>=3){toast("\u05e9\u05d2\u05d9\u05d0\u05d4","\u05d9\u05e9 \u05de\u05e7\u05d5\u05dd \u05dc\u05e9\u05dc\u05d5\u05e9\u05d4 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9\u05dd. \u05de\u05e1\u05d9\u05e8\u05d9\u05dd \u05d0\u05d7\u05d3 \u05e7\u05d5\u05d3\u05dd",true);return;}
