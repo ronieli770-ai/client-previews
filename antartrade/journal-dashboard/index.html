@@ -4,12 +4,13 @@
 <title>יומן המסחר - לוח בקרה</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="stylesheet" href="assets/challenge.css?v=1794149937">
-<link rel="stylesheet" href="assets/streak.css?v=1794149937">
-<link rel="stylesheet" href="assets/mentor.css?v=1794149937">
-<link rel="stylesheet" href="assets/auth.css?v=1794149937">
-<link rel="stylesheet" href="assets/settings.css?v=1794149937">
-<link rel="stylesheet" href="assets/shared.css?v=1794149937">
+<link rel="stylesheet" href="assets/challenge.css?v=1794150407">
+<link rel="stylesheet" href="assets/streak.css?v=1794150407">
+<link rel="stylesheet" href="assets/mentor.css?v=1794150407">
+<link rel="stylesheet" href="assets/auth.css?v=1794150407">
+<link rel="stylesheet" href="assets/tour.css?v=1794150407">
+<link rel="stylesheet" href="assets/settings.css?v=1794150407">
+<link rel="stylesheet" href="assets/shared.css?v=1794150407">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500&display=swap">
 <style>
 
@@ -1050,31 +1051,6 @@ body.pg-terms .app,body.pg-terms .mnav{display:none}
 body.pg-onboarding .demo,body.pg-onboarding .demo2{display:none}
 html:has(body.pg-onboarding),body.pg-onboarding{overflow:hidden}
 @media (max-width:900px){.obcards.c3,.obcards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.obtiles{grid-template-columns:repeat(3,minmax(0,1fr))}.obcd{min-height:84px}.obwrap{padding:84px 12px 110px}.obcard{padding:26px 18px 22px}.obhead h1{font-size:24px}.obopt{height:40px;padding:0 14px;font-size:14px}.obnav{flex-wrap:wrap}.obgo{flex:1;justify-content:flex-end}#ob .cbsw{max-width:calc(100% - 24px);overflow-x:auto;scrollbar-width:none;position:fixed}}
-/* guided tour: Noam's 14 bubbles, a dimmed screen with a spotlight on each part */
-.tour{position:fixed;inset:0;z-index:70}
-body.touring .demo,body.touring .demo2,body.touring .cbsw{display:none!important}
-.tourhole{position:fixed;border-radius:16px;box-shadow:0 0 0 1.5px rgba(125,198,255,.6),0 0 0 9999px rgba(5,7,11,.72);transition:top .35s ease,left .35s ease,width .35s ease,height .35s ease,opacity .25s;pointer-events:none}
-.tour.center .tourhole{top:50%!important;left:50%!important;width:0!important;height:0!important}
-.tourpop{position:fixed;width:min(400px,calc(100vw - 32px));background:radial-gradient(70% 60% at 100% 0,rgba(46,139,216,.2),transparent),#0b0e14;outline:1px solid rgba(125,198,255,.14);outline-offset:-1px;border-radius:22px;padding:22px 22px 16px;box-shadow:0 28px 80px rgba(0,0,0,.5);transition:top .35s ease,left .35s ease}
-.tour.center .tourpop{width:min(520px,calc(100vw - 32px))}
-.tourpop h3{margin:0 0 8px;font-size:20px;font-weight:500;line-height:1.3;padding-left:30px}
-.tourpop p{margin:0;font-size:15px;line-height:1.7;color:var(--muted)}
-.tourx{position:absolute;top:14px;left:14px;width:32px;height:32px;border:0;border-radius:10px;background:none;color:var(--muted);display:grid;place-items:center;cursor:pointer}
-.tourx:hover{background:#12161f;color:var(--fg)}
-.tourdots{display:flex;gap:5px;margin:16px 0 0}
-.tourdots i{height:4px;flex:1;border-radius:9px;background:#1a1f2b}
-.tourdots i.on{background:linear-gradient(90deg,#7DC6FF,#4F6BFF)}
-.tourft{display:flex;align-items:center;gap:10px;margin-top:14px}
-.tourno{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--faint);cursor:pointer}
-.tourno:hover{color:var(--fg)}
-.tourstep{font-size:13px;color:var(--faint);margin-inline-start:auto}
-.tourbtns{display:flex;gap:8px}
-.tourprev,.tournext{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 16px;border:0;border-radius:999px;font:inherit;font-size:14px;font-weight:500;cursor:pointer}
-.tourprev{background:#12161f;color:var(--fg)}
-.tourprev:hover{background:#1a1f2b}
-.tourprev[hidden]{display:none}
-.tournext{background:var(--fg);color:#12161f}
-@media (max-width:900px){.tourpop{left:16px!important;right:16px;width:auto;bottom:max(16px,env(safe-area-inset-bottom,0px));top:auto!important}.tourft{flex-wrap:wrap}.tourstep{order:-1;width:100%;margin:0}.tourbtns{margin-inline-start:auto}}
 /* mock-only switch */
 .demo{max-width:calc(100vw - 40px);overflow-x:auto;scrollbar-width:none}
 .demo button{flex:none;white-space:nowrap}
@@ -1094,7 +1070,7 @@ body.touring .demo,body.touring .demo2,body.touring .cbsw{display:none!important
     <a class="logo" href="#"><img src="assets/logo-white.svg" alt="AntarTrade"></a>
     <nav class="nav"><a style="--c:var(--c-sky)" class="on" href="#"><svg class="i" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="8" rx="2"/><rect x="13.5" y="3.5" width="7" height="5" rx="2"/><rect x="13.5" y="11.5" width="7" height="9" rx="2"/><rect x="3.5" y="14.5" width="7" height="6" rx="2"/></svg>דשבורד</a><a style="--c:var(--c-mint)" href="#"><svg class="i" viewBox="0 0 24 24"><path d="M7 3.5h10a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>יומן עסקאות</a><a style="--c:var(--c-violet)" href="#"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8.5v7M8.5 12h7"/></svg>עסקה חדשה</a><a style="--c:var(--c-sun)" href="#"><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6"/></svg>אתגר 90</a><a style="--c:var(--c-orchid)" href="#"><svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 19a6 6 0 0 1 12 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 13.5a5 5 0 0 1 3 5.5"/></svg>מנטור</a></nav>
     <div class="foot">
-      <button data-tour="1"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></svg>הפעל סיור מודרך</button>
+      <button><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></svg>הפעל סיור מודרך</button>
       <a href="#"><svg class="i" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span class="en" style="font-weight:400">AntarTrade</span></a>
     </div>
   </aside>
@@ -1106,7 +1082,7 @@ body.touring .demo,body.touring .demo2,body.touring .cbsw{display:none!important
       <button class="who" id="whoBtn" aria-haspopup="menu" aria-expanded="false"><span class="av">ר</span><span class="nm">היי, רוני</span><svg class="i" viewBox="0 0 24 24" style="width:14px;height:14px;color:var(--muted)"><path d="M6 9l6 6 6-6"/></svg></button>
       <div class="umenu" id="userPop" role="menu" hidden>
         <a href="#" role="menuitem"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6.5 6.5 0 0 1 11 0"/></svg>אזור אישי</a>
-        <button role="menuitem" class="ph" data-tour="1"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></svg>הפעל סיור מודרך</button>
+        <button role="menuitem" class="ph"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></svg>הפעל סיור מודרך</button>
         <a href="#" role="menuitem" class="ph"><svg class="i" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span class="en" style="font-weight:400">AntarTrade</span></a>
         <button role="menuitem" class="bye"><svg class="i" viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11"/></svg>התנתק</button>
       </div>
@@ -1219,18 +1195,8 @@ body.touring .demo,body.touring .demo2,body.touring .cbsw{display:none!important
   <div class="tgrid"><nav class="ttoc" aria-label="חלקי התקנון"><b>בעמוד הזה</b><a href="#t1" data-tjump="1"><i>1</i><span>כללי והסכמה לתנאים</span></a><a href="#t2" data-tjump="2"><i>2</i><span>קניין רוחני וזכויות שמורות</span></a><a href="#t3" data-tjump="3"><i>3</i><span>הרשמה, חשבון ואבטחה</span></a><a href="#t4" data-tjump="4"><i>4</i><span>דיוור ישיר, מיילים ועדכונים</span></a><a href="#t5" data-tjump="5"><i>5</i><span>הגבלת אחריות והחרגת אחריות פיננסית (Disclaimer)</span></a><a href="#t6" data-tjump="6"><i>6</i><span>פרטיות ונתוני משתמשים</span></a><a href="#t7" data-tjump="7"><i>7</i><span>שינויים בתנאים וביטול שירות</span></a><a href="#t8" data-tjump="8"><i>8</i><span>סמכות שיפוט</span></a></nav><div class="tbody"><section class="tsec" id="t1"><h2><i>1</i>כללי והסכמה לתנאים</h2><p>ברוכים הבאים ל-AntarTrade (להלן: "השירות" ו/או "החברה"). השירות מספק פלטפורמה לניהול יומן מסחר דיגיטלי, מעקב עסקאות וניתוח ביצועים. השימוש בשירות, בתכניו ובשירותים המוצעים בו כפוף להסכמתך המלאה לתנאים המפורטים להלן. בעצם ההרשמה או השימוש בשירות, הינך מצהיר כי קראת, הבנת ואתה מסכים לכל תנאי התקנון. אם אינך מסכים לתנאי כלשהו, עליך לחדול באופן מיידי מכל שימוש בשירות.</p></section><section class="tsec" id="t2"><h2><i>2</i>קניין רוחני וזכויות שמורות</h2><p>כל הזכויות שמורות ל-AntarTrade. כל התכנים המופיעים בשירות, לרבות אך לא רק: עיצוב גרפי, לוגו, קוד מקור, מבנה בסיס הנתונים, טקסטים, אלגוריתמים, סימני מסחר וכל מידע אחר, הם רכושה הבלעדי של החברה ומוגנים על ידי חוקי זכויות יוצרים וקניין רוחני בינלאומיים. אין להעתיק, לשכפל, להפיץ, להציג בפומבי, לשדר, למכור או לעשות כל שימוש מסחרי או אחר בחלק כלשהו מהשירות ללא אישור מפורש, מראש ובכתב מהנהלת AntarTrade.</p></section><section class="tsec" id="t3"><h2><i>3</i>הרשמה, חשבון ואבטחה</h2><p>המשתמש מתחייב לספק מידע אמיתי ומדויק בעת ההרשמה.</p><p>האחריות על שמירת סודיות פרטי הגישה (שם משתמש וסיסמה) חלה על המשתמש בלבד. כל פעולה שתבוצע בחשבון תיחשב כפעולה שבוצעה על ידי המשתמש, והחברה לא תישא באחריות לכל נזק שייגרם עקב שימוש לא מורשה בחשבון.</p></section><section class="tsec" id="t4"><h2><i>4</i>דיוור ישיר, מיילים ועדכונים</h2><p>בעת ההרשמה לשירות, הינך מסכים/ה לקבל מהחברה הודעות, עדכונים, תכנים לימודיים וחומרים שיווקיים באמצעות דואר אלקטרוני (Email), מסרונים (SMS) או התראות בתוך האפליקציה.</p><div class="tnote"><b>זכות הסרה:</b><p>המשתמש רשאי בכל עת לבקש את הפסקת משלוח הודעות שיווקיות אלו על ידי לחיצה על כפתור "הסר" (Unsubscribe) המופיע בתחתית המיילים, או באמצעות פנייה לשירות הלקוחות. הודעות תפעוליות (כגון שחזור סיסמה או עדכוני מערכת קריטיים) ימשיכו להישלח גם לאחר הסרה מרשימת התפוצה השיווקית.</p></div></section><section class="tsec" id="t5"><h2><i>5</i>הגבלת אחריות והחרגת אחריות פיננסית (Disclaimer)</h2><p>השירות מסופק "כמות שהוא" (AS IS) ועל בסיס זמינות (AS AVAILABLE). החברה אינה מתחייבת שהשירות יהיה חסין מטעויות, תקלות, וירוסים או הפרעות.</p><div class="tnote"><b>אין ייעוץ פיננסי:</b><p>התכנים, הסטטיסטיקות והניתוחים המוצגים בשירות נועדו למטרות תיעוד ולימוד בלבד. השירות אינו מהווה ייעוץ השקעות, המלצה למסחר או תחליף לשיקול דעת מקצועי.</p></div><div class="tnote"><b>אחריות המשתמש:</b><p>כל החלטת מסחר, השקעה או פעולה פיננסית שתתבצע על בסיס המידע בשירות היא באחריותו הבלעדית של המשתמש. החברה, מנהליה או עובדיה לא יהיו אחראים לכל נזק, ישיר או עקיף, הפסד כספי, אובדן רווחים או עוגמת נפש שייגרמו למשתמש או לצד שלישי כלשהו כתוצאה מהשימוש בשירות.</p></div></section><section class="tsec" id="t6"><h2><i>6</i>פרטיות ונתוני משתמשים</h2><p>הנתונים שהוזנו על ידי המשתמש שייכים לו. החברה מתחייבת שלא למכור מידע אישי המזוהה עם המשתמש לצדדים שלישיים ללא הסכמתו. החברה רשאית לעשות שימוש בנתונים אנונימיים ומצטברים (שאינם מאפשרים זיהוי אישי) לצורך מחקר, שיפור השירות ופרסום סטטיסטיקות כלליות.</p></section><section class="tsec" id="t7"><h2><i>7</i>שינויים בתנאים וביטול שירות</h2><p>החברה שומרת לעצמה את הזכות לעדכן או לשנות את תנאי התקנון מעת לעת, לפי שיקול דעתה הבלעדי. המשך השימוש בשירות לאחר העדכון מהווה הסכמה לתנאים החדשים.</p><p>החברה רשאית להפסיק את פעילות השירות או להשעות חשבון משתמש המפר את התנאים באופן מיידי וללא הודעה מוקדמת.</p></section><section class="tsec" id="t8"><h2><i>8</i>סמכות שיפוט</h2><p>על תקנון זה יחולו אך ורק חוקי מדינת ישראל. מקום השיפוט הבלעדי לכל עניין הנוגע להסכם זה יהיה בבתי המשפט המוסמכים במחוז ראשון לציון.</p></section></div></div>
 </div>
 <div class="dlg-bg" id="dlg2" dir="rtl" hidden style="z-index:56"><div class="dlg" role="dialog" aria-modal="true"><button class="ib x" data-close2 aria-label="סגור"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div id="dlg2Body"></div></div></div>
-<div class="tour" id="tour" dir="rtl" hidden>
-  <div class="tourhole" id="tourHole"></div>
-  <div class="tourpop" id="tourPop" role="dialog" aria-modal="true" aria-labelledby="tourT">
-    <button class="tourx" id="tourX" aria-label="סגור"><svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <h3 id="tourT"></h3>
-    <p id="tourD"></p>
-    <div class="tourdots" id="tourDots"></div>
-    <div class="tourft"><button class="tourno" id="tourNo" type="button">אל תציג שוב</button><span class="tourstep" id="tourStep"></span><div class="tourbtns"><button class="tourprev" id="tourPrev" type="button"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M9 6l6 6-6 6"/></svg>הקודם</button><button class="tournext" id="tourNext" type="button"></button></div></div>
-  </div>
-</div>
 <div class="toast" id="toast" dir="rtl" role="status" hidden></div>
-<div class="demo" dir="rtl" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button data-tour="1">סיור מודרך</button><span class="sep"></span><button class="on" data-m="full">עם עסקאות</button><button data-m="empty">משתמש חדש</button><span class="sep"></span><button class="on" data-n="ok">רגיל</button><button data-n="loading">טעינה</button><button data-n="down">האתר לא עונה</button><span class="sep logonly"></span><button class="on logonly" data-c="ok">חיבור פעיל</button><button class="logonly" data-c="expired">חיבור פג</button><span class="sep"></span><button data-page="tradovate">חיבור טרדוביט</button><button data-page="404">דף שגיאה</button><button data-page="terms">תנאי שימוש</button><button data-page="reset">שחזור סיסמה</button><button data-page="onboarding">הרשמה ראשונה</button></div>
+<div class="demo" dir="rtl" aria-label="מצב תצוגה בהדמיה"><small>הדמיה:</small><button class="on" data-m="full">עם עסקאות</button><button data-m="empty">משתמש חדש</button><span class="sep"></span><button class="on" data-n="ok">רגיל</button><button data-n="loading">טעינה</button><button data-n="down">האתר לא עונה</button><span class="sep logonly"></span><button class="on logonly" data-c="ok">חיבור פעיל</button><button class="logonly" data-c="expired">חיבור פג</button><span class="sep"></span><button data-page="tradovate">חיבור טרדוביט</button><button data-page="404">דף שגיאה</button><button data-page="terms">תנאי שימוש</button><button data-page="reset">שחזור סיסמה</button><button data-page="onboarding">הרשמה ראשונה</button></div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -1593,7 +1559,7 @@ function welcome(){
     ${way("mint",'<path d="M7 3.5h7l4.5 4.5v10.5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z"/><path d="M14 3.5V8h4.5M12 17v-6M9.5 13.5L12 11l2.5 2.5"/>',"ייבוא מקובץ","מעלים את הקובץ מפלטפורמת המסחר, עד 3 קבצים")}
     ${way("sky",'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',"חיבור אוטומטי","מחברים את החשבון פעם אחת, והעסקאות נכנסות לבד")}
   </div>
-  <div class="acts2"><button class="btn3" style="padding:0" data-tour="1">הפעל סיור מודרך</button></div></div>
+  <div class="acts2"><button class="btn3" style="padding:0">הפעל סיור מודרך</button></div></div>
   <svg class="ghostchart" viewBox="0 0 280 150"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4F6BFF"/><stop offset="1" stop-color="#7DC6FF"/></linearGradient></defs><path d="M6 130 L50 112 L90 118 L130 86 L170 92 L210 56 L250 62 L274 26" fill="none" stroke="url(#gg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 9"/><circle cx="274" cy="26" r="6" fill="#7DC6FF"/></svg></section>`;
 }
 
@@ -2198,54 +2164,6 @@ $("obBack").addEventListener("click",()=>{if(OB.step===3&&obPh()&&OB.sub>0){OB.s
 $("obNext").addEventListener("click",()=>{if(OB.step===1&&!obPhoneOk(OB.phone)){toast("מספר טלפון לא תקין","יש להזין מספר נייד ישראלי תקין (לדוגמה 050-1234567)",true);return;}if(!obCan()){toast("נא למלא את השדות החסרים","",true);return;}if(OB.step<3){OB.step++;OB.sub=0;obView();$("ob").scrollTo({top:0,behavior:"smooth"});}else if(obPh()&&OB.sub<2){OB.sub++;obView();$("ob").scrollTo({top:0});}else obFinish();});
 $("obSkip").addEventListener("click",obFinish);
 
-/* ---------- guided tour (Noam's onboarding-tour.ts: copy word for word, emoji dropped, long dashes as "-") ---------- */
-const TOUR=[
- {p:null,t:'ברוך הבא ליומן <span class="en">AntarTrade</span>!',d:"ניקח חצי דקה לסיור קצר על האזורים העיקריים. אפשר לסגור עם ✕ או לבחור 'אל תציג שוב' אם לא תרצה שהוא ייפתח אוטומטית בהמשך."},
- {p:"dash",el:()=>$("kpis"),t:"סטטיסטיקות מרכזיות",d:"כאן רואים סקירה מהירה של הביצועים: רווח/הפסד כולל, אחוז הצלחה, מספר עסקאות וממוצע רווח/הפסד."},
- {p:"dash",el:()=>$("filters"),t:"פילטרים ראשיים",d:'כאן אפשר לסנן את כל הנתונים לפי טווח תאריכים, לפי חשבונות ספציפיים, או לפי סוג חשבון: כל החשבונות, רק מבחנים (<span class="en">Eval</span>) או רק חשבונות ממומנים. אפשר גם לבחור חברה ספציפית כמו <span class="en">Apex, Take Profit, Lucid</span> וכו׳ - והכל יתעדכן בהתאם.'},
- {p:"dash",el:()=>tourBlk("לוח שנה"),t:"יומן יומי",d:"בכל יום בחודש רואים את הרווח/הפסד היומי, מספר העסקאות וצבע ירוק/אדום לפי הביצוע. לחיצה על יום פותחת את כל העסקאות שלו."},
- {p:"dash",el:()=>tourBlk("עקומת הון"),t:"עקומת הון",d:"מציגה את התפתחות ההון שלך לאורך הזמן. בחר חשבון בודד בפילטר למעלה כדי לראות גם את היתרה ההתחלתית."},
- {p:"dash",el:()=>document.querySelector(".side .nav a:nth-child(2)"),t:"יומן עסקאות",d:"כאן רשומות כל העסקאות שלך - עם פילטרים לפי נכס, אסטרטגיה, רגש, דירוג ועוד. נעבור לשם רגע."},
- {p:"log",el:()=>document.querySelector(".logt")?.closest("section")||document.querySelector(".lcards"),t:"מרכז יומן העסקאות",d:'זה היומן המרכזי שלך: כאן רואים את כל העסקאות, בוחנים כל עסקה לגופה, פותחים אותה לבדיקה מעמיקה, וגם אפשר מכאן לבקש סנכרון עסקאות עם <span class="en">Tradovate</span>.'},
- {p:"new",tab:"manual",el:()=>document.querySelector(".ntgrid"),t:"עסקה חדשה - הזנה ידנית",d:'אפשר להוסיף עסקאות גם ידנית. תוך כדי הזנה אפשר ליצור חשבון חדש, לבחור אם זה חשבון מבחן (<span class="en">Eval</span>) או ממומן, ולשייך אותו לחברה (<span class="en">Apex / Take Profit / Lucid</span> וכו׳) - והמערכת תטען אוטומטית את כל החוקים של אותה חברה: <span class="en">Trailing Stop, Consistency, Green Days, Buffer Lock</span> והכל.'},
- {p:"new",tab:"manual",el:()=>document.querySelector('[data-nttab="import"]'),t:"ייבוא קבצים",d:'לחיצה על הטאב הזה תפתח את מסך הייבוא - אפשר לייבא קבצי <span class="en">CSV</span> מ-<span class="en">Rithmic (NinjaTrader)</span> או מ-<span class="en">Tradovate</span>. יש כפתורים עם סרטוני הסבר מובנים שמראים בדיוק איך מייצאים את הקובץ מכל פלטפורמה.'},
- {p:"log",el:()=>document.querySelector(".blk.sync"),t:'חיבור <span class="en">Tradovate</span>',d:"חבר פעם אחת - והעסקאות נשלפות אוטומטית כל כמה דקות, בלי לייבא קבצים. תומך בכל סוגי החשבונות, כולל חשבונות פרופ פירם."},
- {p:"log",el:()=>document.querySelector(".side .nav a:nth-child(5)"),t:"אזור המנטור",d:"כאן אפשר ליצור לינק שיתוף ולתת למנטור שלך לראות את הנתונים. הוא יוכל להוסיף הערות אישיות לכל עסקה - מצוין ללמידה ושיפור."},
- {p:"log",el:()=>[...document.querySelectorAll(".side .foot a")].find(a=>a.textContent.includes("AntarTrade")),t:'האתר הראשי של <span class="en">AntarTrade</span>',d:'מכאן חוזרים לאתר של <span class="en">AntarTrade</span>: קורסים חינמיים, השוואת חברות מימון, מאמרים, קהילה והרבה ידע חשוב. נפתח בלשונית חדשה.'},
- {p:"log",el:()=>document.querySelector('.side .foot [data-tour]'),t:"צריך להיזכר?",d:"הכפתור הזה תמיד כאן - לחץ עליו בכל זמן כדי לראות את הסיור הזה שוב."},
- {p:null,t:"סיימת!",d:'אתה מוכן. מסחר מוצלח, ואל תהסס לפנות לתמיכה דרך הצ׳אט באתר הראשי של <span class="en">AntarTrade</span> אם משהו לא ברור.'}];
-const tourBlk=t=>[...document.querySelectorAll("#content section.blk")].find(x=>{const h=x.querySelector(".bh");return h&&h.textContent.includes(t);});
-let tourI=0;
-const tourVis=el=>el&&el.getClientRects().length&&getComputedStyle(el).visibility!=="hidden";
-function tourShow(i){tourI=i;const st=TOUR[i],T=$("tour");T.hidden=false;document.body.classList.add("touring");
-  if(st.p&&(S.page!==st.p||(st.tab&&NT.tab!==st.tab)))setPage(st.p,st.tab);
-  $("tourT").innerHTML=st.t;$("tourD").innerHTML=st.d;$("tourStep").textContent=`שלב ${i+1} מתוך ${TOUR.length}`;
-  $("tourDots").innerHTML=TOUR.map((_,k)=>`<i class="${k<=i?"on":""}"></i>`).join("");
-  $("tourPrev").hidden=i===0;$("tourNext").innerHTML=i===TOUR.length-1?'סיימתי':'הבא<svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M15 6l-6 6 6 6"/></svg>';
-  $("tourNo").hidden=i===TOUR.length-1;
-  requestAnimationFrame(()=>{const el=st.el&&st.el();if(el&&tourVis(el)){el.scrollIntoView({block:"center",behavior:"smooth"});setTimeout(tourPlace,380);}else tourPlace();});}
-function tourPlace(){if($("tour").hidden)return;const st=TOUR[tourI],el=st.el&&st.el(),H=$("tourHole"),P=$("tourPop"),T=$("tour"),pad=8;
-  if(!el||!tourVis(el)){T.classList.add("center");P.style.top=Math.max(16,(innerHeight-P.offsetHeight)/2)+"px";P.style.left=Math.max(16,(innerWidth-P.offsetWidth)/2)+"px";return;}
-  T.classList.remove("center");const r=el.getBoundingClientRect();
-  const top=Math.max(8,r.top-pad),bot=Math.min(innerHeight-8,r.bottom+pad);
-  Object.assign(H.style,{top:top+"px",left:(r.left-pad)+"px",width:(r.width+pad*2)+"px",height:(bot-top)+"px"});
-  if(innerWidth<=900)return;
-  const pw=P.offsetWidth,ph=P.offsetHeight,g=16;let x,y;
-  if(r.width<innerWidth*.35&&r.left>pw+g*2){x=r.left-pw-g;y=r.top+r.height/2-ph/2;}
-  else if(r.width<innerWidth*.35&&innerWidth-r.right>pw+g*2){x=r.right+g;y=r.top+r.height/2-ph/2;}
-  else if(innerHeight-bot>ph+g){y=bot+g;x=r.right-pw;}
-  else if(top>ph+g){y=top-ph-g;x=r.right-pw;}
-  else{y=innerHeight-ph-g;x=r.right-pw-g;}
-  P.style.left=Math.min(innerWidth-pw-16,Math.max(16,x))+"px";P.style.top=Math.min(innerHeight-ph-16,Math.max(16,y))+"px";}
-function tourEnd(){$("tour").hidden=true;document.body.classList.remove("touring");}
-document.addEventListener("click",e=>{const b=e.target.closest("[data-tour]");if(b&&!e.target.closest("#tour")){e.preventDefault();tourShow(0);}});
-$("tourNext").addEventListener("click",()=>{if(tourI<TOUR.length-1)tourShow(tourI+1);else tourEnd();});
-$("tourPrev").addEventListener("click",()=>{if(tourI>0)tourShow(tourI-1);});
-$("tourX").addEventListener("click",tourEnd);
-$("tourNo").addEventListener("click",()=>{tourEnd();toast("הסיור לא ייפתח אוטומטית","אפשר להפעיל אותו שוב מהכפתור בתפריט");});
-addEventListener("resize",()=>tourPlace());addEventListener("scroll",()=>{if(!$("tour").hidden)tourPlace();},{passive:true});
-document.addEventListener("keydown",e=>{if($("tour").hidden)return;if(e.key==="Escape")tourEnd();if(e.key==="ArrowLeft")$("tourNext").click();if(e.key==="ArrowRight")$("tourPrev").click();});
-
 /* ---------- terms ---------- */
 document.addEventListener("click",e=>{const a=e.target.closest("[data-tjump]");if(!a)return;e.preventDefault();$("t"+a.dataset.tjump).scrollIntoView({behavior:"smooth",block:"start"});});
 {const tio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const n=en.target.id.slice(1);document.querySelectorAll(".ttoc a").forEach(a=>a.classList.toggle("on",a.dataset.tjump===n));}}),{rootMargin:"-30% 0px -60% 0px"});document.querySelectorAll(".tsec").forEach(sec=>tio.observe(sec));}
@@ -2353,9 +2271,10 @@ document.body.classList.add("pg-"+S.page);if(S.page!=="dash")setTimeout(()=>setP
 render();
 robotoDigits(document.body);
 </script>
-<script src="assets/challenge.js?v=1794149937" charset="utf-8"></script>
-<script src="assets/streak.js?v=1794149937" charset="utf-8" defer></script>
-<script src="assets/mentor.js?v=1794149937" charset="utf-8" defer></script>
-<script src="assets/auth.js?v=1794149937" charset="utf-8" defer></script>
-<script src="assets/settings.js?v=1794149937" charset="utf-8" defer></script>
-<script src="assets/shared.js?v=1794149937" charset="utf-8" defer></script>
+<script src="assets/challenge.js?v=1794150407" charset="utf-8"></script>
+<script src="assets/streak.js?v=1794150407" charset="utf-8" defer></script>
+<script src="assets/mentor.js?v=1794150407" charset="utf-8" defer></script>
+<script src="assets/auth.js?v=1794150407" charset="utf-8" defer></script>
+<script src="assets/tour.js?v=1794150407" charset="utf-8" defer></script>
+<script src="assets/settings.js?v=1794150407" charset="utf-8" defer></script>
+<script src="assets/shared.js?v=1794150407" charset="utf-8" defer></script>
