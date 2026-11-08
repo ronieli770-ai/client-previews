@@ -1,0 +1,1 @@
+const s="/__l5e/assets-v1/53010c01-65e2-435a-94be-8f9c49c79183/flowbots-favicon.svg",a={url:s},o="/__l5e/assets-v1/f2fe7962-2176-4d63-bca0-3c00f38775fd/antartrade-journal-blurred.png",c={url:o};export{a as f,c as j};
