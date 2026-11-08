@@ -47,6 +47,7 @@ function card(){
   return `<form class="cbcard rpcard" id="auForm" novalidate>
     <span class="rpbulb"><img src="assets/bulb.svg" alt="AntarTrade"></span>
     <span class="rptag">ברוכים הבאים ל-<span class="en">AntarTrade</span></span>
+    <div class="au-intro"><span class="ts-tag">יומן המסחר</span><p>יומן המסחר המתקדם שלך. עקוב, נתח ושפר את הביצועים שלך.</p></div>
     <h1 class="cbt rpt">${title}</h1>
     <p class="cbp">${sub}</p>
     <div class="rpflds">${f}</div>

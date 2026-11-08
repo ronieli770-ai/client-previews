@@ -103,3 +103,11 @@ body.pg-auth .demo{display:none}
 .ts-coach{border-radius:0}
 /* the example email sits on the right like every Hebrew placeholder; what the user types stays left-to-right */
 #au .inp.ltr::placeholder{text-align:right;direction:ltr}
+
+/* phones (Roni, like Attio / Notion): no panel; Noam's line sits above the form instead, so it all fits on one screen */
+.au-intro{display:none}
+@media (max-width:1000px){
+  #au .au-ts{display:none}
+  #au .au-intro{display:flex;flex-direction:column;align-items:center;gap:10px;margin:0 0 26px;text-align:center}
+  #au .au-intro p{margin:0;font-size:16px;line-height:1.5;color:var(--muted);max-width:320px}
+}
