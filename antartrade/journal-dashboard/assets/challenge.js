@@ -75,7 +75,7 @@ const SAMPLES={
     recs:[{id:"try_target",target:1.5,title:"\u05d0\u05e4\u05e9\u05e8 \u05dc\u05e0\u05e1\u05d5\u05ea \u05d9\u05e2\u05d3 1:1.5",text:"\u05d4\u05db\u05dc\u05dc \u05e9\u05dc \u05d4\u05d0\u05ea\u05d2\u05e8 \u05e0\u05e9\u05d0\u05e8 1:1. \u05d0\u05dd \u05ea\u05d1\u05d7\u05e8 \u05dc\u05e0\u05e1\u05d5\u05ea 1:1.5 \u05d1-30 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05d1\u05d0\u05d9\u05dd, \u05e0\u05d1\u05d3\u05d5\u05e7 \u05d0\u05ea \u05d6\u05d4 \u05d1\u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05de\u05e6\u05d1 \u05d4\u05d1\u05d0\u05d4.",because:"\u05db\u05d9 \u05d1-30 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d9\u05dd, \u05d1-46 \u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05e2\u05dd \u05e0\u05ea\u05d5\u05df \"\u05e2\u05d3 \u05d4\u05e1\u05d8\u05d5\u05e4\", \u05d9\u05e2\u05d3 1:1.5 \u05d4\u05d9\u05d4 \u05e0\u05d5\u05ea\u05df +11R \u05dc\u05e2\u05d5\u05de\u05ea +8R \u05d1-1:1."},
           {id:"fewer",title:"\u05e4\u05d7\u05d5\u05ea \u05e2\u05e1\u05e7\u05d0\u05d5\u05ea, \u05d0\u05d9\u05db\u05d5\u05ea\u05d9\u05d5\u05ea \u05d9\u05d5\u05ea\u05e8",text:"\u05d4\u05e2\u05de\u05dc\u05d5\u05ea \u05d0\u05d5\u05db\u05dc\u05d5\u05ea \u05d7\u05dc\u05e7 \u05d2\u05d3\u05d5\u05dc \u05de\u05d4\u05e8\u05d5\u05d5\u05d7. \u05dc\u05d5\u05d5\u05ea\u05e8 \u05e2\u05dc \u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d4\u05d1\u05d9\u05e0\u05d5\u05e0\u05d9\u05d5\u05ea.",because:"\u05db\u05d9 \u05d1-30 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d9\u05dd \u05d4\u05e2\u05de\u05dc\u05d5\u05ea \u05d4\u05d9\u05d5 $214, 8% \u05de\u05d4\u05e8\u05d5\u05d5\u05d7 \u05dc\u05e4\u05e0\u05d9 \u05e2\u05de\u05dc\u05d5\u05ea ($2,674)."}]}]}};
 
-let C={ver:"new",wiz:0,more:null,anim:false,view:"join",noam:true,showAll:false,sel:[],risk:"",maxT:"3",maxL:"2",ok:false,oldOpen:false,menu:null,toLink:"",adopted:false};
+let C={ver:"game",gChest:null,gEq:{},wiz:0,more:null,anim:false,view:"join",noam:true,showAll:false,sel:[],risk:"",maxT:"3",maxL:"2",ok:false,oldOpen:false,menu:null,toLink:"",adopted:false};
 let SMP=JSON.parse(JSON.stringify(SAMPLES));
 
 /* ---- dashboard ---- */
@@ -275,12 +275,139 @@ function jDash(){
   ${jMore("accs","\u05d4\u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",accounts(v)+rulesBlk(v))}
   </div>`;}
 
+/* ---- game version (08.11): the challenge as a game. Accounts are hearts, stages are worlds on a map, today's rules are
+   quests with a 3D chest, milestones are collectible cards, Noam's recommendations are power cards. Points and cards only
+   for keeping the rules, never for trade count or profit. 3D art lives in assets/game/ ---- */
+const GI=n=>`assets/game/${n}.webp`;
+const HEART='<path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.5 3 4.5 6.9 4.5c2.1 0 3.6 1.1 5.1 3 1.5-1.9 3-3 5.1-3 3.9 0 6 4 4.5 7.3C19.5 16.4 12 21 12 21z"/>';
+const FLAME='<path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.5 1 2.5 2 3 0-3 0-5.5 1-8.5z"/>';
+const STAR='<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8-4.3-4.1 5.9-.9z"/>';
+const GDEF='<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gHg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7DC6FF"/><stop offset="1" stop-color="#4F6BFF"/></linearGradient></defs></svg>';
+const QPTS=[15,10,10,10];
+function gStats(v){
+  const S=dayStates(v);let streak=0;for(let d=v.day-2;d>=0&&S[d]!=="bad";d--)streak++;
+  const clean=S.filter(x=>x==="clean"||x==="off").length+(C.gChest===C.view?1:0);
+  const pts=clean*45+v.out.passed*300+v.out.payouts*600,lvl=Math.floor(pts/300)+1,into=pts%300;
+  return {S,streak,clean,pts,lvl,into};}
+function gTasks(v){
+  const today=v.day===0?{trades:0,losses:0}:{trades:1,losses:0};
+  return [[v.pendingStops.length===0,"\u05dc\u05d4\u05d6\u05d9\u05df \u05db\u05dc \u05e2\u05e1\u05e7\u05d4, \u05db\u05d5\u05dc\u05dc \u05e1\u05d8\u05d5\u05e4",v.pendingStops.length?"\u05d7\u05e1\u05e8 \u05e1\u05d8\u05d5\u05e4":"\u05d4\u05db\u05dc \u05d4\u05d5\u05d6\u05df"],
+    [today.trades<RULES.maxDailyTrades,`\u05e2\u05d3 ${RULES.maxDailyTrades} \u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d4\u05d9\u05d5\u05dd`,`${today.trades}/${RULES.maxDailyTrades}`],
+    [true,`\u05e1\u05d9\u05db\u05d5\u05df \u05e9\u05dc \u05e2\u05d3 ${RULES.riskPerTrade} \u05dc\u05e2\u05e1\u05e7\u05d4`,"\u05d1\u05ea\u05d5\u05da \u05d4\u05d2\u05d1\u05d5\u05dc"],
+    [today.losses<RULES.maxConsecutiveLosses,`\u05d0\u05d7\u05e8\u05d9 ${RULES.maxConsecutiveLosses} \u05d4\u05e4\u05e1\u05d3\u05d9\u05dd \u05e8\u05e6\u05d5\u05e4\u05d9\u05dd \u05e2\u05d5\u05e6\u05e8\u05d9\u05dd`,`${today.losses}/${RULES.maxConsecutiveLosses}`]];}
+function gHud(v,g){
+  const hearts=v.links.filter(l=>l.status!=="closed").map(l=>`<span class="g-ht${l.status==="failed"?" off":""}" title="${l.name} \u00b7 ${LINK_STATUS[l.status]}"><svg viewBox="0 0 24 24">${HEART}</svg></span>`).join("");
+  return `<section class="g-hud">${GDEF}
+   <div class="g-day"><small>\u05d9\u05d5\u05dd</small><b class="num">${v.day||1}</b><span>\u05de\u05ea\u05d5\u05da <span class="num">90</span></span></div>
+   <div class="g-cell"><div><small>\u05d7\u05d9\u05d9\u05dd \u00b7 \u05db\u05dc \u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d5\u05d0 \u05dc\u05d1</small><div class="g-hearts">${hearts}</div></div></div>
+   <div class="g-cell"><span class="g-flame">${SV(FLAME)}</span><div><small>\u05e8\u05e6\u05e3 \u05e0\u05e7\u05d9</small><b><span class="num">${g.streak}</span> \u05d9\u05de\u05d9\u05dd</b></div></div>
+   <div class="g-cell g-xp"><span class="g-lvl"><span class="num">${g.lvl}</span></span><div class="g-xpt"><small>\u05e8\u05de\u05d4 <span class="num">${g.lvl}</span> \u00b7 \u05e2\u05d5\u05d3 <span class="num">${300-g.into}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05dc\u05e8\u05de\u05d4 \u05d4\u05d1\u05d0\u05d4</small><span class="g-bar"><i style="width:${g.into/300*100}%"></i></span></div></div>
+  </section>`;}
+function gMap(v){
+  const day=v?v.day:0,stage=v?v.stage:1,Y=2.7,pos=(x,y)=>`right:${(400-x)/4}%;top:${y/Y}%`;
+  const N=[[370,240,1],[318,232,5],[268,213,9],[212,205,14],[156,200,18],[105,188,23],[72,166,27],[115,104,31],[185,100,38],[255,96,45],[322,72,52],[285,28,61],[225,25,70],[165,25,80]];
+  let cur=-1;N.forEach((n,i)=>{if(day>=n[2])cur=i;});
+  const nodes=N.map((n,i)=>{const st=!v?"l":i<cur?"d":i===cur?"t":"l";return `<span class="g-node n-${st}" style="${pos(n[0],n[1])}">${st==="t"?`<span class="num">${day}</span>`:`<span class="num">${n[2]}</span>`}</span>`;}).join("");
+  const gate=(img,x,y,open,cls)=>`<img class="g-gate${open?"":" lock"}${cls||""}" alt="" src="${GI(img)}" style="${pos(x,y)}">`;
+  const lbl=(t,s,x,y)=>`<span class="g-wl" style="${pos(x,y)}"><b>${t}</b>${s}</span>`;
+  return `<div class="g-map"><svg class="g-road" viewBox="0 0 400 270" preserveAspectRatio="none" aria-hidden="true">
+     <path d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14" stroke-linecap="round"/>
+     <path class="g-done" d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="url(#gHg)" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 2000"/></svg>
+   ${nodes}${gate("shield-check",58,130,stage>1)}${gate("shield-target",350,48,stage>2)}${gate("shield-trophy",40,25,v&&v.out.payouts>0," final")}
+   ${lbl("\u05e2\u05d5\u05dc\u05dd 1",STAGES[1].title,300,246)}${lbl("\u05e2\u05d5\u05dc\u05dd 2",STAGES[2].title,215,128)}${lbl("\u05e2\u05d5\u05dc\u05dd 3",STAGES[3].title,120,48)}</div>`;}
+function gNoam(v){
+  if(!C.noam)return "";
+  const tag=v.pendingStops.length?"\u05ea\u05d6\u05db\u05d5\u05e8\u05ea \u05dc\u05d4\u05d9\u05d5\u05dd":v.day===0?"\u05d9\u05d5\u05dd 1":`\u05d9\u05d5\u05dd ${v.day}`;
+  const txt=v.pendingStops.length?"\u05e2\u05e1\u05e7\u05d4 \u05d0\u05d7\u05ea \u05e2\u05d3\u05d9\u05d9\u05df \u05d1\u05dc\u05d9 \u05e1\u05d8\u05d5\u05e4. \u05de\u05e9\u05dc\u05d9\u05de\u05d9\u05dd \u05d0\u05d5\u05ea\u05d5 \u05d1\u05d9\u05d5\u05de\u05df, \u05d5\u05d4\u05de\u05e9\u05d9\u05de\u05d4 \u05e9\u05dc \u05d4\u05d9\u05d5\u05dd \u05de\u05e1\u05d5\u05de\u05e0\u05ea.":headline(v.out);
+  return `<section class="blk g-noam"><div class="g-bub"><small>${tag}</small>${nums(txt)}</div><img alt="" src="avatar/noam-${v.av}.webp"></section>`;}
+function gQuests(v){
+  const T=gTasks(v),left=T.filter(t=>!t[0]).length,opened=C.gChest===C.view,ready=!left&&!opened;
+  const head=opened?["\u05e0\u05e4\u05ea\u05d7\u05d4 \u05d4\u05d9\u05d5\u05dd",`\u05e7\u05d9\u05d1\u05dc\u05ea <span class="num">+45</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05d5\u05d9\u05d5\u05dd \u05dc\u05e8\u05e6\u05e3`,"\u05d4\u05ea\u05d9\u05d1\u05d4 \u05d4\u05d1\u05d0\u05d4 \u05de\u05d7\u05e8, \u05d1\u05d9\u05d5\u05dd \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d1\u05d0."]:ready?["\u05d4\u05ea\u05d9\u05d1\u05d4 \u05e9\u05dc \u05d4\u05d9\u05d5\u05dd","\u05db\u05dc \u05d4\u05de\u05e9\u05d9\u05de\u05d5\u05ea \u05d4\u05d5\u05e9\u05dc\u05de\u05d5","\u05dc\u05d7\u05e6\u05d9 \u05e2\u05dc \u05d4\u05ea\u05d9\u05d1\u05d4 \u05db\u05d3\u05d9 \u05dc\u05e4\u05ea\u05d5\u05d7 \u05d0\u05d5\u05ea\u05d4."]:["\u05d4\u05ea\u05d9\u05d1\u05d4 \u05e9\u05dc \u05d4\u05d9\u05d5\u05dd",left===1?"\u05e0\u05e9\u05d0\u05e8\u05d4 \u05de\u05e9\u05d9\u05de\u05d4 \u05d0\u05d7\u05ea":`\u05e0\u05e9\u05d0\u05e8\u05d5 ${left} \u05de\u05e9\u05d9\u05de\u05d5\u05ea`,"\u05db\u05e9\u05db\u05dc \u05d4\u05de\u05e9\u05d9\u05de\u05d5\u05ea \u05de\u05e1\u05d5\u05de\u05e0\u05d5\u05ea, \u05d4\u05ea\u05d9\u05d1\u05d4 \u05e0\u05e4\u05ea\u05d7\u05ea."];
+  return `<section class="blk chj-sec g-quests"><div class="bh">${cttl("\u05d4\u05de\u05e9\u05d9\u05de\u05d5\u05ea \u05e9\u05dc \u05d4\u05d9\u05d5\u05dd","check","mint")}<span class="hint">\u05de\u05ea\u05de\u05dc\u05d0\u05d5\u05ea \u05dc\u05d1\u05d3 \u05de\u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d1\u05d9\u05d5\u05de\u05df</span></div>
+   <div class="g-qs">${T.map((t,i)=>`<div class="g-q${t[0]?" q-on":""}"><span class="ck2">${t[0]?SV(JI.ok):""}</span><span class="t">${t[1]}</span>${t[0]?"":`<small>${t[2]}</small>`}<em class="num">+${QPTS[i]}</em></div>`).join("")}</div>
+   <div class="g-chest${ready?" ready":""}${opened?" opened":""}"><img alt="" src="${GI(opened?"chest-open":"chest")}" ${ready?'data-gchest role="button" tabindex="0" aria-label="\u05dc\u05e4\u05ea\u05d5\u05d7 \u05d0\u05ea \u05d4\u05ea\u05d9\u05d1\u05d4"':""}><div class="tx"><small>${head[0]}</small><b>${head[1]}</b><p>${head[2]}</p></div></div></section>`;}
+const GCARDS=[["flag","\u05d9\u05d5\u05dd \u05e8\u05d0\u05e9\u05d5\u05df","\u05d4\u05e6\u05d8\u05e8\u05e4\u05ea \u05dc\u05d0\u05ea\u05d2\u05e8","\u05e8\u05d2\u05d9\u05dc",(v,g)=>v.day>=1],["check","\u05e9\u05d1\u05d5\u05e2 \u05e0\u05e7\u05d9","7 \u05d9\u05de\u05d9\u05dd \u05d1\u05dc\u05d9 \u05d4\u05e4\u05e8\u05d4","\u05e0\u05d3\u05d9\u05e8",(v,g)=>g.clean>=7],
+  ["up","\u05e7\u05de\u05ea \u05de\u05e0\u05e4\u05d9\u05dc\u05d4","\u05d7\u05d6\u05e8\u05ea \u05d0\u05d7\u05e8\u05d9 \u05dc\u05d1 \u05e9\u05e0\u05e9\u05d1\u05e8","\u05e0\u05d3\u05d9\u05e8",(v,g)=>v.out.burned>0&&v.links.some(l=>l.status==="active")],["flame","\u05e8\u05e6\u05e3 14","\u05e9\u05d1\u05d5\u05e2\u05d9\u05d9\u05dd \u05d1\u05e8\u05e6\u05e3 \u05d1\u05dc\u05d9 \u05d4\u05e4\u05e8\u05d4","\u05e0\u05d3\u05d9\u05e8",(v,g)=>g.streak>=14],
+  ["target","\u05e2\u05d1\u05e8\u05ea \u05de\u05d1\u05d7\u05df","\u05e2\u05d1\u05e8\u05ea \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df","\u05d0\u05e4\u05d9",(v,g)=>v.out.passed>0],["trophy","\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4","\u05d4\u05d2\u05d1\u05d9\u05e2 \u05e9\u05dc \u05d4\u05e1\u05d5\u05e3","\u05d0\u05d2\u05d3\u05d9",(v,g)=>v.out.payouts>0]];
+function gCards(v,g){
+  const got=GCARDS.filter(c=>v&&c[4](v,g)).length;
+  return `<section class="blk chj-sec g-coll"><div class="bh">${cttl("\u05d4\u05d0\u05d5\u05e1\u05e3 \u05e9\u05dc\u05da","tag","sky")}<span class="hint">${v?`<span class="num">${got}</span> \u05de\u05ea\u05d5\u05da <span class="num">${GCARDS.length}</span> \u05e7\u05dc\u05e4\u05d9\u05dd`:"\u05e7\u05dc\u05e4\u05d9\u05dd \u05e9\u05d0\u05d5\u05e1\u05e4\u05d9\u05dd \u05d1\u05d3\u05e8\u05da"}</span></div>
+   <div class="g-cards">${GCARDS.map(c=>{const on=v&&c[4](v,g);return `<div class="g-card${on?"":" lockd"}${c[3]==="\u05d0\u05d2\u05d3\u05d9"?" gold":""}"><img alt="" src="${GI("shield-"+c[0])}"><span class="rar">${c[3]}</span><b>${c[1]}</b><small>${on?c[2]:`${SV(JI.lock,"width:12px;height:12px")}${c[2]}`}</small></div>`;}).join("")}</div></section>`;}
+const GPW={try_target:"power-target",fewer:"power-hourglass",rules_first:"power-shield",focus_dir:"power-target"};
+function gPowers(v){
+  const P=v.periods.length?v.periods[v.periods.length-1].recs:[];
+  const eq=C.gEq[C.view]||[];
+  const cards=P.length?P.map(r=>{const on=eq.includes(r.id);return `<div class="g-pw${on?" eq":""}"><img alt="" src="${GI(GPW[r.id]||"power-shield")}"><small>\u05de\u05d5\u05ea\u05d0\u05dd \u05dc\u05da</small><b>${nums(r.title)}</b><p>${nums(r.text)}</p><p class="why">${nums(r.because)}</p><button class="${on?"btn2":"btn3"}" data-geq="${r.id}"${r.target?` data-gtarget="${r.target}"`:""}>${on?"\u05de\u05e6\u05d5\u05d9\u05d3":"\u05dc\u05e6\u05d9\u05d9\u05d3"}</button></div>`;}).join("")
+    :`<div class="g-pw lockd"><img alt="" src="${GI("power-shield")}"><small>\u05e2\u05d5\u05d3 \u05dc\u05d0 \u05e0\u05e4\u05ea\u05d7</small><b>\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05d4\u05db\u05d5\u05d7 \u05d4\u05e8\u05d0\u05e9\u05d5\u05e0\u05d9\u05dd</b><p>\u05d0\u05d7\u05e8\u05d9 <span class="num">30</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05e0\u05d5\u05e2\u05dd \u05e2\u05d5\u05d1\u05e8 \u05e2\u05dc \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05da \u05d5\u05de\u05d7\u05dc\u05e7 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05db\u05d5\u05d7 \u05e9\u05de\u05ea\u05d0\u05d9\u05de\u05d9\u05dd \u05d1\u05d3\u05d9\u05d5\u05e7 \u05dc\u05da.</p><p class="why">\u05e2\u05d5\u05d3 <span class="num">${v.daysToNext}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8.</p></div>`;
+  const slots=[0,1,2].map(i=>{const r=P.find(p=>p.id===eq[i]);return `<span class="g-slot">${r?`<img alt="" src="${GI(GPW[r.id]||"power-shield")}">`:""}</span>`;}).join("");
+  return `<section class="blk chj-sec g-pows"><div class="bh">${cttl("\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05db\u05d5\u05d7","compass","sky")}<span class="hint">\u05e2\u05e6\u05d5\u05ea \u05de\u05e0\u05d5\u05e2\u05dd \u05dc\u05e4\u05d9 \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05da. \u05de\u05e6\u05d9\u05d9\u05d3\u05d9\u05dd \u05d1\u05dc\u05d7\u05d9\u05e6\u05d4.</span></div>
+   <div class="g-pwg">${cards}</div><div class="g-slots"><small>\u05d4\u05e6\u05d9\u05d5\u05d3 \u05e9\u05dc\u05da</small>${slots}</div></section>`;}
+function gJoin(){
+  return `<div class="chj g">
+  <section class="chj-hero${C.noam?" av":""}"><div class="tx"><small>\u05d0\u05ea\u05d2\u05e8 90</small><h2>\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05ea\u05d5\u05da <span class="num">90</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8</h2><p>\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e2\u05d5\u05dc\u05de\u05d5\u05ea, \u05d5\u05e9\u05dc\u05d5\u05e9\u05d4 \u05d7\u05d9\u05d9\u05dd \u05dc\u05db\u05dc \u05d7\u05e9\u05d1\u05d5\u05df. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5</p>
+    <button class="chj-cta" data-chwiz="1">\u05dc\u05d4\u05ea\u05d7\u05d9\u05dc \u05dc\u05e9\u05d7\u05e7<em>3 \u05e6\u05e2\u05d3\u05d9\u05dd</em></button></div>${C.noam?`<img class="noam" alt="" src="avatar/noam-flex.webp">`:""}</section>
+  <section class="blk chj-sec">${GDEF}<div class="bh">${cttl("\u05d4\u05de\u05e4\u05d4","flag","sun")}<span class="hint">\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e2\u05d5\u05dc\u05de\u05d5\u05ea. \u05db\u05dc \u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05de\u05e1\u05d9\u05d9\u05de\u05d9\u05dd \u05d0\u05ea \u05d4\u05e2\u05d5\u05dc\u05dd \u05e9\u05dc\u05e4\u05e0\u05d9\u05d5.</span></div>${gMap(null)}</section>
+  ${gCards(null,null)}
+  ${jMore("how","\u05d0\u05d9\u05da \u05d6\u05d4 \u05e2\u05d5\u05d1\u05d3 \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",jHow())}
+  </div>`;}
+function gDash(){
+  const v=SMP[C.view],g=gStats(v),st=STAGES[v.stage],left=v.stage*30-v.day;
+  const nextTx=v.day===0?"\u05d4\u05d0\u05ea\u05d2\u05e8 \u05de\u05ea\u05d7\u05d9\u05dc \u05d1\u05d9\u05d5\u05dd \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d1\u05d0 \u05d1\u05d1\u05d5\u05e8\u05e1\u05d4 \u05d4\u05d0\u05de\u05e8\u05d9\u05e7\u05d0\u05d9\u05ea.":v.stage<3?`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05dc\u05e9\u05e2\u05e8 \u05e9\u05dc ${STAGES[v.stage+1].title}`:`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05dc\u05d2\u05d1\u05d9\u05e2`;
+  return `<div class="chj g">
+  ${gHud(v,g)}
+  <div class="g-cols"><div class="g-col">${warns(v)}${gQuests(v)}</div>
+   <div class="g-col">${gNoam(v)}<section class="blk chj-sec"><div class="bh">${cttl(`\u05e2\u05d5\u05dc\u05dd ${v.stage} \u00b7 ${st.title}`,"flag","sun")}<span class="hint">${nextTx}</span></div>${gMap(v)}</section></div></div>
+  ${gCards(v,g)}
+  ${gPowers(v)}
+  ${jMore("data","\u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd, \u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05d4\u05de\u05e6\u05d1 \u05d5\u05d4\u05d4\u05e4\u05e8\u05d5\u05ea",numbers(v)+snapshots(v)+violations(v))}
+  ${jMore("accs","\u05d4\u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",accounts(v)+rulesBlk(v))}
+  </div>`;}
+
+/* the blue road runs exactly up to today's node */
+function gRoad(){document.querySelectorAll(".g-map").forEach(m=>{const p=m.querySelector(".g-done"),t=m.querySelector(".g-node.n-t");if(!p||!t)return;
+  const x=400-parseFloat(t.style.right)*4,y=parseFloat(t.style.top)*2.7,L=p.getTotalLength();let best=0,bd=1e9;
+  for(let i=0;i<=240;i++){const q=p.getPointAtLength(L*i/240),d=(q.x-x)**2+(q.y-y)**2;if(d<bd){bd=d;best=L*i/240;}}
+  p.style.strokeDasharray=best+" "+(L+10);});}
+
+/* the chest leaves its card, opens in the middle of the screen and pays out */
+function gOpenChest(img){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,done=()=>{C.gChest=C.view;view();toast("\u05d4\u05ea\u05d9\u05d1\u05d4 \u05e0\u05e4\u05ea\u05d7\u05d4","\u05e7\u05d9\u05d1\u05dc\u05ea 45 \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05d5\u05d9\u05d5\u05dd \u05dc\u05e8\u05e6\u05e3",false,true);};
+  if(reduce||!img){done();return;}
+  const r=img.getBoundingClientRect(),W=innerWidth<760?240:320,ov=document.createElement("div");ov.className="g-ov";ov.dir="rtl";
+  ov.innerHTML=`<div class="g-glow"></div><img class="g-big" alt="" src="${GI("chest")}"><div class="g-coins"></div><div class="g-prize"><b>\u05e7\u05d9\u05d1\u05dc\u05ea <span class="num">45</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</b><p>\u05d5\u05e2\u05d5\u05d3 \u05d9\u05d5\u05dd \u05dc\u05e8\u05e6\u05e3. \u05e0\u05ea\u05e8\u05d0\u05d4 \u05de\u05d7\u05e8.</p><button class="btn2" data-gprize>\u05dc\u05d0\u05e1\u05d5\u05e3</button></div>`;
+  document.body.appendChild(ov);img.style.visibility="hidden";
+  const big=ov.querySelector(".g-big");Object.assign(big.style,{left:r.left+"px",top:r.top+"px",width:r.width+"px"});
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ov.classList.add("on");Object.assign(big.style,{left:(innerWidth-W)/2+"px",top:(innerHeight/2-W*.62)+"px",width:W+"px"});}));
+  setTimeout(()=>big.classList.add("wob"),800);
+  setTimeout(()=>{big.classList.remove("wob");big.src=GI("chest-open");ov.classList.add("open");
+    const box=ov.querySelector(".g-coins"),cx=innerWidth/2,cy=innerHeight/2-W*.25;
+    for(let i=0;i<22;i++){const e=document.createElement("i");if(i%3===2)e.className="s";e.style.left=cx+"px";e.style.top=cy+"px";box.appendChild(e);
+      const a=-Math.PI*(.1+Math.random()*.8),d=140+Math.random()*200;
+      e.animate([{transform:"translate(0,0) scale(.3)",opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px) scale(1)`,opacity:1,offset:.55},{transform:`translate(${Math.cos(a)*d*1.1}px,${Math.sin(a)*d+160}px) scale(.8)`,opacity:0}],{duration:1500+Math.random()*500,easing:"cubic-bezier(.2,.7,.4,1)",fill:"forwards"});}},1750);
+  let closed=false;const close=()=>{if(closed)return;closed=true;ov.classList.remove("on");setTimeout(()=>{ov.remove();done();},350);};
+  ov.addEventListener("click",e=>{if(e.target.closest("[data-gprize]"))close();});setTimeout(close,6500);}
+
+/* finishing a world: full screen, the gate's shield, stars by clean days, Noam opens the next world */
+function gLevelUp(){
+  const v=SMP[C.view];if(!v)return;const n=v.stage>1?v.stage-1:1,g=gStats(v),comp=v.compliance||0,stars=comp>=.9?3:comp>=.75?2:1;
+  const img=n===1?"shield-check":n===2?"shield-target":"shield-trophy",cleanW=Math.round(comp*30);
+  const ov=document.createElement("div");ov.className="g-lu";ov.dir="rtl";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");
+  ov.innerHTML=`<div class="in"><img class="tro" alt="" src="${GI(img)}"><small>\u05e2\u05d5\u05dc\u05dd ${n} \u05d4\u05d5\u05e9\u05dc\u05dd</small><h2>${n===1?`\u05e9\u05e8\u05d3\u05ea <span class="num">30</span> \u05d9\u05d5\u05dd`:n===2?"\u05e2\u05d1\u05e8\u05ea \u05d0\u05ea \u05de\u05d1\u05d7\u05df \u05d4\u05de\u05d9\u05de\u05d5\u05df":"\u05d4\u05d2\u05e2\u05ea \u05dc\u05de\u05e9\u05d9\u05db\u05d4"}</h2>
+   <div class="g-stars">${[0,1,2].map(i=>`<svg viewBox="0 0 24 24" class="${i<stars?"lit":""}">${STAR}</svg>`).join("")}</div>
+   <div class="g-lur"><div><b><span class="num">${cleanW}</span> \u05de\u05ea\u05d5\u05da <span class="num">30</span></b>\u05d9\u05de\u05d9\u05dd \u05d1\u05dc\u05d9 \u05d4\u05e4\u05e8\u05d4</div><div><b>\u05e8\u05de\u05d4 <span class="num">${g.lvl+1}</span></b>\u05e2\u05dc\u05d9\u05ea \u05e8\u05de\u05d4</div><div><b>\u05db\u05e8\u05d8\u05d9\u05e1 \u05db\u05d5\u05d7 \u05d7\u05d3\u05e9</b>\u05d0\u05d7\u05e8\u05d9 \u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05de\u05e6\u05d1</div></div>
+   ${C.noam?`<div class="g-lun"><div class="g-bub"><small>${n<3?`\u05e2\u05d5\u05dc\u05dd ${n+1} \u05e0\u05e4\u05ea\u05d7`:"\u05d4\u05d2\u05d1\u05d9\u05e2 \u05e9\u05dc\u05da"}</small>${n<3?`\u05e2\u05d1\u05e8\u05ea \u05d0\u05ea ${STAGES[n].title}. \u05e2\u05db\u05e9\u05d9\u05d5 \u05de\u05ea\u05d7\u05d9\u05dc\u05d9\u05dd \u05d0\u05ea ${STAGES[n+1].title}: ${STAGES[n+1].goal}.`:"\u05e2\u05e9\u05d9\u05ea \u05d0\u05ea \u05d6\u05d4. \u05e2\u05db\u05e9\u05d9\u05d5 \u05dc\u05e9\u05de\u05d5\u05e8 \u05e2\u05dc \u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05d5\u05dc\u05d7\u05d6\u05d5\u05e8 \u05e2\u05dc \u05d6\u05d4."}</div><img alt="" src="avatar/noam-flex.webp"></div>`:""}
+   <button class="btn2" data-gluok>${n<3?"\u05dc\u05e2\u05d5\u05dc\u05dd \u05d4\u05d1\u05d0":"\u05e1\u05d9\u05d5\u05dd"}</button></div>`;
+  document.body.appendChild(ov);requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add("on")));confetti();
+  const close=()=>{ov.classList.remove("on");setTimeout(()=>ov.remove(),400);document.removeEventListener("keydown",esc);};
+  const esc=e=>{if(e.key==="Escape")close();};document.addEventListener("keydown",esc);
+  ov.addEventListener("click",e=>{if(e.target.closest("[data-gluok]"))close();});}
+
 /* confetti in the site's colours, once, on joining */
 function confetti(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const c=document.createElement("canvas");c.className="ch-confetti";document.body.appendChild(c);
   const x=c.getContext("2d"),dpr=devicePixelRatio||1,W=innerWidth,H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.scale(dpr,dpr);
-  const cols=["#7DC6FF","#4F6BFF","#f7c65a","#3fd8c2","#d17bff","#ffffff"];
+  const cols=["#7DC6FF","#4F6BFF","#f7c65a","#3fd8c2","#61b1f2","#ffffff"];
   const P=Array.from({length:150},()=>({x:W/2+(Math.random()-.5)*W*.3,y:H*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,r:Math.random()*Math.PI,vr:(Math.random()-.5)*.3,w:6+Math.random()*6,h:3+Math.random()*4,c:cols[Math.floor(Math.random()*cols.length)]}));
   let t=0;(function f(){x.clearRect(0,0,W,H);P.forEach(p=>{p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.globalAlpha=Math.max(0,1-t/140);x.fillStyle=p.c;x.fillRect(-p.w/2,-p.h/2,p.w,p.h);x.restore();});if(++t<140)requestAnimationFrame(f);else c.remove();})();
 }
@@ -291,7 +418,7 @@ function view(){
   /* the menu's own trophy after the title, in the menu's sun */
   $("pgTitle").innerHTML=`\u05d0\u05ea\u05d2\u05e8 90 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8<span class="ch-trophy" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6"/></svg></span>`;
   $("pgSub").textContent=joined?"\u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05da: \u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4":(C.noam?"":"\u05dc\u05e9\u05e8\u05d5\u05d3, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05dc\u05d4\u05d2\u05d9\u05e2 \u05dc\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5");$("pgSub").hidden=!joined&&(C.noam||C.ver!=="old");
-  $("content").innerHTML=C.ver==="old"?(joined?dashView():joinView()):(joined?jDash():jJoin());
+  $("content").innerHTML=C.ver==="old"?(joined?dashView():joinView()):C.ver==="game"?(joined?gDash():gJoin()):(joined?jDash():jJoin());
   if(!joined&&!C.anim)setTimeout(()=>{C.anim=true;},2600);
   let wh=document.getElementById("chjWizHost");if(!wh){wh=document.createElement("div");wh.id="chjWizHost";wh.dir="rtl";document.body.appendChild(wh);}
   wh.innerHTML=C.ver!=="old"&&!joined?jWizard():"";enhanceForms(wh);if(typeof robotoDigits==="function")robotoDigits(wh);
@@ -300,17 +427,24 @@ function view(){
   document.querySelectorAll("[data-chn]").forEach(b=>b.classList.toggle("on",(b.dataset.chn==="on")===C.noam));
   document.querySelectorAll("[data-chver]").forEach(b=>b.classList.toggle("on",b.dataset.chver===C.ver));
   document.body.classList.toggle("chj-lock",!!C.wiz);
+  if(C.ver==="game"&&joined)gRoad();
 }
 window.challengeView=view;
 
 /* mock switch: before joining, day 23, day 64; with or without Noam */
 const bar=document.createElement("div");bar.className="demo demo3 chonly";bar.dir="rtl";bar.setAttribute("aria-label","\u05de\u05e6\u05d1 \u05d4\u05d0\u05ea\u05d2\u05e8 \u05d1\u05d4\u05d3\u05de\u05d9\u05d4");
-bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button><span class="sep"></span><small>\u05d2\u05e8\u05e1\u05d4:</small><button data-chver="new">\u05de\u05e1\u05e2</button><button data-chver="old">\u05e7\u05d5\u05d3\u05de\u05ea</button>`;
+bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button><span class="sep"></span><small>\u05d2\u05e8\u05e1\u05d4:</small><button data-chver="game">\u05de\u05e9\u05d7\u05e7</button><button data-chver="new">\u05de\u05e1\u05e2</button><button data-chver="old">\u05e7\u05d5\u05d3\u05de\u05ea</button><span class="sep"></span><button data-glvl>\u05e8\u05d2\u05e2 \u05e2\u05dc\u05d9\u05d9\u05ea \u05e9\u05dc\u05d1</button>`;
 document.body.appendChild(bar);
 
 document.addEventListener("click",e=>{
   if(S.page!=="challenge")return;const q=s=>e.target.closest(s);let x;
   if(x=q("[data-chver]")){C.ver=x.dataset.chver;C.wiz=0;C.more=null;view();scrollTo(0,0);return;}
+  if(x=q("[data-glvl]")){if(C.view==="join"){toast("\u05e7\u05d5\u05d3\u05dd \u05de\u05e6\u05d8\u05e8\u05e4\u05d9\u05dd","\u05d1\u05d7\u05e8\u05d9 \u05d9\u05d5\u05dd 23 \u05d0\u05d5 \u05d9\u05d5\u05dd 64 \u05d1\u05e4\u05e1 \u05d4\u05d4\u05d3\u05de\u05d9\u05d4");return;}gLevelUp();return;}
+  if(x=q("[data-gchest]")){gOpenChest(x);return;}
+  if(x=q("[data-geq]")){const id=x.dataset.geq,eq=C.gEq[C.view]||(C.gEq[C.view]=[]),i=eq.indexOf(id);
+    if(i>=0){eq.splice(i,1);view();toast("\u05d4\u05db\u05e8\u05d8\u05d9\u05e1 \u05d4\u05d5\u05e1\u05e8 \u05de\u05d4\u05e6\u05d9\u05d5\u05d3");return;}
+    if(eq.length>=3){toast("\u05e9\u05d2\u05d9\u05d0\u05d4","\u05d9\u05e9 \u05de\u05e7\u05d5\u05dd \u05dc\u05e9\u05dc\u05d5\u05e9\u05d4 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9\u05dd. \u05de\u05e1\u05d9\u05e8\u05d9\u05dd \u05d0\u05d7\u05d3 \u05e7\u05d5\u05d3\u05dd",true);return;}
+    eq.push(id);if(x.dataset.gtarget)C.adopted=true;view();toast("\u05d4\u05db\u05e8\u05d8\u05d9\u05e1 \u05e0\u05db\u05e0\u05e1 \u05dc\u05e6\u05d9\u05d5\u05d3",x.dataset.gtarget?`\u05d9\u05e2\u05d3 1:${x.dataset.gtarget} \u05e0\u05e7\u05d1\u05e2. \u05d4\u05d5\u05d0 \u05e0\u05d1\u05d3\u05e7 \u05de\u05d4\u05d9\u05d5\u05dd, \u05d5\u05e0\u05e8\u05d0\u05d4 \u05d0\u05d9\u05da \u05d4\u05dc\u05da \u05d1\u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05de\u05e6\u05d1 \u05d4\u05d1\u05d0\u05d4.`:"\u05e0\u05d1\u05d3\u05d5\u05e7 \u05d0\u05d9\u05da \u05d4\u05dc\u05da \u05d1\u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05de\u05e6\u05d1 \u05d4\u05d1\u05d0\u05d4.");return;}
   if(x=q("[data-chwiz]")){C.wiz=+x.dataset.chwiz;view();return;}
   if(x=q("[data-chstep]")){if(x.disabled)return;C.wiz=+x.dataset.chstep;view();const b=document.querySelector(".chj-wbox");if(b)b.scrollTop=0;return;}
   if(x=q("[data-chmore]")){C.more=C.more===x.dataset.chmore?null:x.dataset.chmore;view();return;}
@@ -342,6 +476,6 @@ document.addEventListener("input",e=>{
   if(S.page!=="challenge"||e.target.id!=="chRisk")return;C.risk=e.target.value;
   const pos=e.target.selectionStart;view();const r=$("chRisk");if(r){r.focus();try{r.setSelectionRange(pos,pos);}catch(_){}}
 });
-document.addEventListener("keydown",e=>{if(S.page==="challenge"&&C.wiz&&e.key==="Escape"){C.wiz=0;view();}});
+document.addEventListener("keydown",e=>{if(S.page==="challenge"&&C.wiz&&e.key==="Escape"){C.wiz=0;view();}if(S.page==="challenge"&&(e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("[data-gchest]")){e.preventDefault();gOpenChest(e.target);}});
 if(S.page==="challenge")view();
 })();
