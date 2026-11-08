@@ -62,6 +62,24 @@
   .nx.lt p{color:#4b5562}
   .nx.lt .go{background:#12161f;color:#fff}
   .nx.lt .hint{color:rgba(18,22,31,.45)}
+
+  .nx.bar{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));height:66px;border-radius:20px;padding:0 18px 0 10px;flex-direction:row;align-items:center;gap:10px;transform:translateY(140%);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  .nx.bar.on{transform:none}
+  .nx.bar .ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(125,198,255,.14);color:#7DC6FF}
+  .nx.bar .ic svg{width:20px;height:20px}
+  .nx.bar .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .nx.bar .tx small{font-size:12px;color:#7DC6FF;font-weight:500;white-space:nowrap}
+  .nx.bar .tx small .en{font-family:"Roboto",sans-serif;font-weight:600}
+  .nx.bar .tx b{font-size:16px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nx.bar .tx b .n{font:600 17px "Roboto",sans-serif;background:linear-gradient(90deg,#7DC6FF,#4F6BFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nx.bar .tx b bdi{font-family:"Roboto",sans-serif;font-weight:600}
+  .nx.bar .go2{flex:none;height:38px;padding:0 14px;border-radius:999px;background:#eef3fa;color:#12161f;font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;text-decoration:none}
+  .nx.bar .go2 svg{width:12px;height:8px}
+  .nx.bar .x{position:static;flex:none;width:32px;height:32px}
+  .nx.bar .x svg{width:15px;height:15px}
+  body.nx-bar-on .bot-fab{bottom:92px!important}
+  body.nx-bar-on .sc-top{bottom:92px!important}
+  body.nx-bar-on .sc-tab{bottom:146px!important}
   .nx-tap{position:fixed;z-index:2147483004;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.35);box-shadow:0 0 0 2px rgba(255,255,255,.7);pointer-events:none;animation:nxtap .7s ease-out forwards}
   @keyframes nxtap{0%{transform:scale(.3);opacity:1}100%{transform:scale(1.4);opacity:0}}
   `;
@@ -72,9 +90,11 @@
   const ARR = '<svg viewBox="0 0 12 8" fill="none"><path d="M11 4H1M4 1L1 4L4 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const dim = document.createElement("div"); dim.className = "nx-dim"; document.body.appendChild(dim);
   const LIGHT = phone && window.NXV === "light";
-  const card = document.createElement("div"); card.className = "nx " + (phone ? "ph" : "dk") + (LIGHT ? " lt" : "");
+  const BAR = phone && /bar/.test(window.NXQ || "");
+  const card = document.createElement("div"); card.className = BAR ? "nx bar" : "nx " + (phone ? "ph" : "dk") + (LIGHT ? " lt" : "");
   const COPY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>';
-  if (LIGHT) card.innerHTML = `<span class="grab"></span><button class="x" aria-label="סגירה">${X}</button>
+  if (BAR) card.innerHTML = `<span class="tx"><small>מבצע חדש ב-<span class="en">Take Profit</span></small><b><span class="n">50%</span> הנחה · קוד <bdi>ANTAR</bdi></b></span><a class="go2" href="#">לפרטים${ARR}</a><button class="x" aria-label="סגירה">${X}</button>`;
+  else if (LIGHT) card.innerHTML = `<span class="grab"></span><button class="x" aria-label="סגירה">${X}</button>
     <span class="tag">${TAG}מבצע חדש</span>
     <div class="firm"><img src="/client-previews/antartrade/chat-notice/images/promotions/takeprofit-icon.png" alt=""><b>Take Profit Trader</b></div>
     <div class="deal"><span class="d"><small>עד</small><span class="n">50%</span>הנחה</span><span class="code"><small>קוד</small>ANTAR${COPY}</span></div>
@@ -100,7 +120,7 @@
   document.body.appendChild(list);
   const tap = (x, y) => { const t = document.createElement("span"); t.className = "nx-tap"; t.style.left = x + "px"; t.style.top = y + "px"; document.body.appendChild(t); setTimeout(() => t.remove(), 800); };
   window.NX = {
-    open() { if (phone) dim.classList.add("on"); requestAnimationFrame(() => card.classList.add("on")); },
+    open() { if (BAR) { document.body.classList.add("nx-bar-on"); requestAnimationFrame(() => card.classList.add("on")); return; } if (phone) dim.classList.add("on"); requestAnimationFrame(() => card.classList.add("on")); },
     fold(x, y) {
       tap(x, y);
       const r = card.getBoundingClientRect(), f = document.querySelector(".bot-fab").getBoundingClientRect();
@@ -144,6 +164,10 @@
   };
   setInterval(() => { if (st === "chat") strip(); }, 250);
   document.addEventListener("click", e => {
+    if (st === "open" && card.classList.contains("bar")) {
+      if (!e.target.closest(".nx .x")) return;
+      e.preventDefault(); e.stopPropagation(); document.body.classList.remove("nx-bar-on"); st = "folded"; ls.set("s");
+      const cx = e.clientX, cy = e.clientY; setTimeout(() => NX.fold(cx, cy), 380); return; }
     if (st === "open") { e.preventDefault(); e.stopPropagation(); NX.fold(e.clientX, e.clientY); st = "folded"; ls.set("s"); return; }
     const x = e.target.closest(".nx-inchat .x2");
     if (x) { e.preventDefault(); e.stopPropagation(); const it = x.closest(".nx-it"), all = [...it.parentNode.querySelectorAll(".nx-it")];
