@@ -47,7 +47,7 @@ function card(){
   return `<form class="cbcard rpcard" id="auForm" novalidate>
     <span class="rpbulb"><img src="assets/bulb.svg" alt="AntarTrade"></span>
     <span class="rptag">ברוכים הבאים ל-<span class="en">AntarTrade</span></span>
-    <div class="au-intro"><span class="ts-tag">יומן המסחר</span><p>יומן המסחר המתקדם שלך. עקוב, נתח ושפר את הביצועים שלך.</p></div>
+    <div class="au-intro"><h2 class="au-big">יומן המסחר המתקדם שלך.</h2><p>עקוב, נתח ושפר את הביצועים שלך.</p></div>
     <h1 class="cbt rpt">${title}</h1>
     <p class="cbp">${sub}</p>
     <div class="rpflds">${f}</div>
@@ -89,6 +89,8 @@ const go=m=>{A.mode=m;A.busy=A.gbusy=false;if(m!=="signup"){A.terms=false;A.name
 /* the screen itself, next to the reset-password one */
 const mount=()=>{
   if($("au"))return;
+  /* ?clean: a preview link without the demo bar, to check the screen as a user sees it */
+  if(/[?&]clean\b/.test(location.search))document.body.classList.add("au-clean");
   const html=`<section class="nf" id="au" dir="rtl" hidden>
     <div class="rpbg" aria-hidden="true"><img class="sc" src="assets/deals-bg.webp" alt=""></div>
     <a class="nflogo" href="#" data-page="dash"><img src="assets/logo-white.svg" alt="AntarTrade"></a>

@@ -104,13 +104,6 @@ body.pg-auth .demo{display:none}
 /* the example email sits on the right like every Hebrew placeholder; what the user types stays left-to-right */
 #au .inp.ltr::placeholder{text-align:right;direction:ltr}
 
-/* phones (Roni, like Attio / Notion): no panel; Noam's line sits above the form instead, so it all fits on one screen */
-.au-intro{display:none}
-@media (max-width:1000px){
-  #au .au-ts{display:none}
-  #au .au-intro{display:flex;flex-direction:column;align-items:center;gap:10px;margin:0 0 26px;text-align:center}
-  #au .au-intro p{margin:0;font-size:16px;line-height:1.5;color:var(--muted);max-width:320px}
-}
 /* phones: the whole screen fits without scrolling, even with Safari's bars taking height (Roni) */
 @media (max-width:1000px){
   #au[data-side="e"] .au-wrap>.cbcard{padding:84px 0 16px;align-self:start}
@@ -119,3 +112,22 @@ body.pg-auth .demo{display:none}
   #au .rpflds{gap:12px;margin-top:10px}
   #au .rpgo{margin-top:14px}
 }
+
+/* phones, monday.com's order (Roni): no side panel; the journal headline big on top, Google first, then the email form */
+.au-intro{display:none}
+@media (max-width:1000px){
+  #au .au-ts{display:none}
+  #au .au-wrap>.cbcard{display:flex;flex-direction:column}
+  #au .au-intro{display:flex;flex-direction:column;gap:10px;order:1;margin:0 0 26px;text-align:right}
+  #au .au-big{margin:0;font-size:34px;line-height:.98;font-weight:500;letter-spacing:-.4px;color:#fff}
+  #au .au-intro p{margin:0;font-size:16px;line-height:1.5;color:var(--muted)}
+  #au .au-wrap>form.cbcard>.cbt,#au .au-wrap>form.cbcard>.cbp{display:none}
+  #au .au-google{order:2}
+  #au .au-or{order:3;margin:14px 0 2px}
+  #au .rpflds,#au .au-terms{order:4}
+  #au .rpflds{margin-top:6px}
+  #au .au-terms{margin-top:14px}
+  #au .rpgo{order:5}
+  #au .au-swap{order:6;margin-top:16px}
+}
+body.au-clean #au .cbsw{display:none}
