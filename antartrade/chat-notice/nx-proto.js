@@ -114,23 +114,38 @@
     closeList(x, y) { tap(x, y); list.classList.remove("on"); }
   };
 })();
-/* Live mode for the phone link: opens by itself, and the taps really work (fold, the bot opens the list, X per notice). */
+/* Live mode for the phone link: opens by itself and folds into the bot on any tap. The bot still opens the chat;
+   the new notices wait at the top of the chat window, above the greeting, each with its own X. Opening the chat clears the counter. */
 (() => {
-  const card = document.querySelector(".nx"), list = document.querySelector(".nx-list"), badge = document.querySelector(".nx-badge");
+  const css = `
+  .nx-inchat{display:flex;flex-direction:column;gap:8px;margin:0 0 14px;direction:rtl;font-family:"Fb Reforma","Roboto",sans-serif;color:#eef3fa}
+  .nx-inchat h5{margin:0 2px 2px;font-size:13px;font-weight:500;color:rgba(238,243,250,.55)}
+  .nx-inchat .nx-it{background:rgba(125,198,255,.08);padding:12px 14px 12px 46px;gap:4px}
+  .nx-inchat .nx-it .x2{background:rgba(255,255,255,.08)}`;
+  const st0 = document.createElement("style"); st0.textContent = css; document.head.appendChild(st0);
+  const card = document.querySelector(".nx"), badge = document.querySelector(".nx-badge"), src = document.querySelector(".nx-list");
+  const items = [...src.querySelectorAll(".nx-it")].map(n => n.outerHTML);
   let st = "idle";
   setTimeout(() => { NX.open(); st = "open"; }, 2200);
-  const count = () => list.querySelectorAll(".nx-it:not(.gone)").length;
+  const strip = () => {
+    const m = document.querySelector(".sa-msgs"); if (!m || !items.length) return;
+    if (m.querySelector(".nx-inchat")) return;
+    const box = document.createElement("div"); box.className = "nx-inchat";
+    box.innerHTML = `<h5>התראות חדשות</h5>` + items.join("");
+    m.prepend(box);
+  };
+  setInterval(() => { if (st === "chat") strip(); }, 250);
   document.addEventListener("click", e => {
     if (st === "open") { e.preventDefault(); e.stopPropagation(); NX.fold(e.clientX, e.clientY); st = "folded"; return; }
-    if (st === "list") {
-      const x = e.target.closest(".x2");
-      if (x) { e.preventDefault(); e.stopPropagation(); const it = x.closest(".nx-it"); it.classList.add("gone");
-        setTimeout(() => { it.remove(); const n = count(); badge.textContent = n; list.querySelector("h4 small").textContent = n;
-          if (!n) { list.classList.remove("on"); badge.classList.remove("on"); st = "done"; } }, 320); return; }
-      if (!e.target.closest(".nx-list")) { e.preventDefault(); e.stopPropagation(); list.classList.remove("on"); st = "folded"; }
-      return;
+    const x = e.target.closest(".nx-inchat .x2");
+    if (x) { e.preventDefault(); e.stopPropagation(); const it = x.closest(".nx-it"), all = [...it.parentNode.querySelectorAll(".nx-it")];
+      items.splice(all.indexOf(it), 1); it.classList.add("gone");
+      setTimeout(() => { const box = it.parentNode; it.remove(); if (!items.length && box) box.remove(); }, 320); return; }
+    const r = document.querySelector(".bot-fab").getBoundingClientRect();
+    const onBot = e.clientX > r.left - 10 && e.clientX < r.right + 10 && e.clientY > r.top - 10 && e.clientY < r.bottom + 10;
+    if (st === "folded" && (onBot || e.target.closest(".nx-badge"))) {
+      badge.classList.remove("on"); st = "chat";
+      if (!e.target.closest(".bot-fab")) { e.preventDefault(); e.stopPropagation(); document.querySelector(".bot-fab").click(); }
     }
-    const onBot = () => { const r = document.querySelector(".bot-fab").getBoundingClientRect(); return e.clientX > r.left - 10 && e.clientX < r.right + 10 && e.clientY > r.top - 10 && e.clientY < r.bottom + 10; };
-    if (st === "folded" && (onBot() || e.target.closest(".bot-fab") || e.target.closest(".nx-badge"))) { e.preventDefault(); e.stopPropagation(); list.classList.add("on"); st = "list"; }
   }, true);
 })();
