@@ -390,7 +390,7 @@ function gJoin(){
   <section class="chj-hero${C.noam?" av":""}"><div class="tx"><small>${C.round>1?`\u05d0\u05ea\u05d2\u05e8 90 \u00b7 \u05e1\u05d1\u05d1 <span class="num">${C.round}</span>`:"\u05d0\u05ea\u05d2\u05e8 90"}</small>${C.round>1?`<span class="g-keep">${SV(JI.ok,"width:14px;height:14px")}\u05d4\u05d0\u05d5\u05e1\u05e3, \u05d4\u05e8\u05de\u05d4 \u05d5\u05d4\u05d4\u05d9\u05e1\u05d8\u05d5\u05e8\u05d9\u05d4 \u05e9\u05dc \u05d4\u05e1\u05d1\u05d1 \u05d4\u05e7\u05d5\u05d3\u05dd \u05e0\u05e9\u05de\u05e8\u05d9\u05dd</span>`:""}<h2>\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05ea\u05d5\u05da <span class="num">90</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8</h2><p>\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd, \u05d5\u05db\u05dc \u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d5\u05d0 \u05dc\u05d1. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5</p>
     <button class="chj-cta" data-chwiz="1">\u05dc\u05d4\u05ea\u05d7\u05d9\u05dc \u05dc\u05e9\u05d7\u05e7<em>3 \u05e6\u05e2\u05d3\u05d9\u05dd</em></button></div>${C.noam?`<img class="noam" alt="" src="avatar/noam-flex.webp">`:""}</section>
   <section class="blk chj-sec">${GDEF}<div class="bh">${cttl("\u05d4\u05de\u05e4\u05d4","flag","sun")}<span class="hint">\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd. \u05db\u05dc \u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05de\u05e1\u05d9\u05d9\u05de\u05d9\u05dd \u05d0\u05ea \u05d4\u05e9\u05dc\u05d1 \u05e9\u05dc\u05e4\u05e0\u05d9\u05d5.</span></div>${gMap(null)}</section>
-  ${gCards(null,null)}
+  ${C.round>1?gCards(SMP.d90,gStats(SMP.d90)):gCards(null,null)}
   ${jMore("how","\u05d0\u05d9\u05da \u05d6\u05d4 \u05e2\u05d5\u05d1\u05d3 \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",jHow())}
   </div>`;}
 function gDash(){
@@ -455,6 +455,8 @@ SMP.d34=(()=>{const v=JSON.parse(JSON.stringify(SAMPLES.d23));
     periods:[JSON.parse(JSON.stringify(SAMPLES.d64.periods[0]))]});
   v.links=v.links.map(l=>l.id==="l3"?{...l,ended:"16.11.2026"}:l);return v;})();
 SAMPLES.d34=SMP.d34;
+/* the journey and the earlier version are off the demo bar (08.11) but kept: open the page with ?chver=new or ?chver=old */
+(()=>{const m=location.search.match(/chver=(new|old|game)/);if(m)C.ver=m[1];})();
 const pctN=x=>Math.round(x*100)+"%";
 function gFinished(v){return v&&v.day>=90;}
 function gFinish(v,g){
@@ -597,13 +599,13 @@ window.challengeView=view;
 
 /* mock switch: before joining, day 23, day 64; with or without Noam */
 const bar=document.createElement("div");bar.className="demo demo3 chonly";bar.dir="rtl";bar.setAttribute("aria-label","\u05de\u05e6\u05d1 \u05d4\u05d0\u05ea\u05d2\u05e8 \u05d1\u05d4\u05d3\u05de\u05d9\u05d4");
-bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d34">\u05d9\u05d5\u05dd 34</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><button data-chv="d90">\u05d9\u05d5\u05dd 90</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button><span class="sep"></span><small>\u05d2\u05e8\u05e1\u05d4:</small><button data-chver="game">\u05de\u05e9\u05d7\u05e7</button><button data-chver="new">\u05de\u05e1\u05e2</button><button data-chver="old">\u05e7\u05d5\u05d3\u05de\u05ea</button><span class="sep"></span><button data-glvl>\u05e8\u05d2\u05e2 \u05e2\u05dc\u05d9\u05d9\u05ea \u05e9\u05dc\u05d1</button><button data-gburn>\u05dc\u05d1 \u05e0\u05e9\u05d1\u05e8</button>`;
+bar.innerHTML=`<small>\u05d0\u05ea\u05d2\u05e8:</small><button data-chv="join">\u05dc\u05e4\u05e0\u05d9 \u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea</button><button data-chv="d23">\u05d9\u05d5\u05dd 23</button><button data-chv="d34">\u05d9\u05d5\u05dd 34</button><button data-chv="d64">\u05d9\u05d5\u05dd 64</button><button data-chv="d90">\u05d9\u05d5\u05dd 90</button><span class="sep"></span><button data-chn="on">\u05e2\u05dd \u05e0\u05d5\u05e2\u05dd</button><button data-chn="off">\u05d1\u05dc\u05d9 \u05e0\u05d5\u05e2\u05dd</button><span class="sep"></span><button data-glvl>\u05e8\u05d2\u05e2 \u05e2\u05dc\u05d9\u05d9\u05ea \u05e9\u05dc\u05d1</button><button data-gburn>\u05dc\u05d1 \u05e0\u05e9\u05d1\u05e8</button>`;
 document.body.appendChild(bar);
 
 document.addEventListener("click",e=>{
   if(S.page!=="challenge")return;const q=s=>e.target.closest(s);let x;
   if(x=q("[data-chver]")){C.ver=x.dataset.chver;C.wiz=0;C.more=null;view();scrollTo(0,0);return;}
-  if(x=q("[data-glvl]")){if(C.view==="join"){toast("\u05e7\u05d5\u05d3\u05dd \u05de\u05e6\u05d8\u05e8\u05e4\u05d9\u05dd","\u05d1\u05d7\u05e8\u05d9 \u05d9\u05d5\u05dd 23 \u05d0\u05d5 \u05d9\u05d5\u05dd 64 \u05d1\u05e4\u05e1 \u05d4\u05d4\u05d3\u05de\u05d9\u05d4");return;}gLevelUp();return;}
+  if(x=q("[data-glvl]")){if(C.view==="join"){toast("\u05e7\u05d5\u05d3\u05dd \u05de\u05e6\u05d8\u05e8\u05e4\u05d9\u05dd","\u05d1\u05d7\u05e8\u05d9 \u05d9\u05d5\u05dd 23 \u05d0\u05d5 \u05d9\u05d5\u05dd 64 \u05d1\u05e4\u05e1 \u05d4\u05d4\u05d3\u05de\u05d9\u05d4");return;}const gw=gWait(SMP[C.view]);if(gw){toast("\u05d4\u05e9\u05e2\u05e8 \u05e2\u05d5\u05d3 \u05e1\u05d2\u05d5\u05e8",gw.gate===1?"\u05e2\u05d5\u05d3 "+gw.left+" \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05d1\u05dc\u05d9 \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3, \u05d5\u05d4\u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7":"\u05d4\u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05e2\u05d5\u05d1\u05e8\u05d9\u05dd \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df");return;}gLevelUp();return;}
   if(x=q("[data-gchest]")){gOpenChest(x);return;}
   if(x=q("[data-gburn]")){const v=SMP[C.view];if(!v||C.view==="join"){toast("\u05e7\u05d5\u05d3\u05dd \u05de\u05e6\u05d8\u05e8\u05e4\u05d9\u05dd","\u05d1\u05d7\u05e8\u05d9 \u05d9\u05d5\u05dd 23 \u05d0\u05d5 \u05d9\u05d5\u05dd 64 \u05d1\u05e4\u05e1 \u05d4\u05d4\u05d3\u05de\u05d9\u05d4");return;}const l=v.links.find(l=>l.status==="active");if(!l){toast("\u05d0\u05d9\u05df \u05d7\u05e9\u05d1\u05d5\u05df \u05e4\u05e2\u05d9\u05dc");return;}l.status="failed";l.ended="05.11.2026";v.out.burned++;gHeartFx(l.id,"break");return;}
   if(x=q("[data-gcert]")){gCert();return;}
