@@ -28,6 +28,7 @@
   .nx .hint{align-self:center;font-size:13px;color:rgba(238,243,250,.45)}
   .nx-badge{position:fixed;z-index:2147483003;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:linear-gradient(135deg,#7DC6FF,#4F6BFF);color:#fff;font:600 13px/22px "Roboto",sans-serif;text-align:center;box-shadow:0 0 0 3px #fff;transform:scale(0);transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
   .nx-badge.on{transform:scale(1)}
+  .nx-badge.away{transform:scale(0)!important}
   .nx-list{position:fixed;z-index:2147483002;direction:rtl;font-family:"Fb Reforma","Roboto",sans-serif;color:#eef3fa;background:#0b0e14;border-radius:24px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.45);display:flex;flex-direction:column;gap:10px;transform:translateY(16px) scale(.97);opacity:0;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .3s ease;transform-origin:100% 100%;pointer-events:none}
   .nx-list.on{transform:none;opacity:1;pointer-events:auto}
   .nx-list.ph{left:12px;right:12px;bottom:90px}
@@ -89,6 +90,9 @@
   const badge = document.createElement("span"); badge.className = "nx-badge"; badge.textContent = "2"; document.body.appendChild(badge);
   const placeBadge = () => { const f = document.querySelector(".bot-fab").getBoundingClientRect(); badge.style.left = (f.left - 6) + "px"; badge.style.top = (f.top - 4) + "px"; };
   placeBadge(); addEventListener("scroll", placeBadge, { passive: true });
+  /* the counter lives and hides with the bot: while the bot is away (top of the page) the counter is away too */
+  const syncBadge = () => { const f = document.querySelector(".bot-fab"); badge.classList.toggle("away", !f || f.classList.contains("away")); placeBadge(); };
+  setInterval(syncBadge, 150); syncBadge();
   const list = document.createElement("div"); list.className = "nx-list " + (phone ? "ph" : "dk");
   list.innerHTML = `<h4>התראות <small>2</small></h4>
     <div class="nx-it"><button class="x2" aria-label="סגירה">${X}</button><span class="k">${TAG}מבצע חדש</span><b><span class="n">50%</span> הנחה ב-<bdi>Take Profit</bdi></b><a href="#">לפרטי המבצע ←</a></div>
