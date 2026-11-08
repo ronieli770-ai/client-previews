@@ -473,6 +473,8 @@ SMP.d34=(()=>{const v=JSON.parse(JSON.stringify(SAMPLES.d23));
 SAMPLES.d34=SMP.d34;
 /* the journey and the earlier version are off the demo bar (08.11) but kept: open the page with ?chver=new or ?chver=old */
 (()=>{const m=location.search.match(/chver=(new|old|game)/);if(m)C.ver=m[1];})();
+/* open a state straight from the link, for recordings: ?chv=join|d23|d34|d64|d90 */
+(()=>{const m=location.search.match(/[?&]chv=(join|d23|d34|d64|d90)/);if(m)C.view=m[1];})();
 const pctN=x=>Math.round(x*100)+"%";
 function gFinished(v){return v&&v.day>=90;}
 function gFinish(v,g){
