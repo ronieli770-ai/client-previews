@@ -770,3 +770,11 @@ a.g-eqb{text-decoration:none}
   .g-rl{grid-template-columns:minmax(0,1fr);gap:8px}
   .g-rl>small{padding:0}
 }
+
+/* the four rules, their own block: icon, a big number, one line */
+.g-rules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.g-rule{background:#12161f;border-radius:18px;padding:18px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.g-rule>b{font-size:30px;font-weight:600;line-height:1;color:#fff}
+.g-rule>span{font-size:14px;line-height:1.45;color:var(--muted)}
+.g-cdlg.howd h3.rt{margin-top:22px;margin-bottom:12px}
+@media (max-width:760px){.g-rules{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.g-rule{padding:16px}}
