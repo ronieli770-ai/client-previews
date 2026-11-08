@@ -306,7 +306,7 @@ function gHud(v,g){
 function gMap(v){
   const day=v?v.day:0,stage=v?v.stage:1,Y=2.7,pos=(x,y)=>`right:${(400-x)/4}%;top:${y/Y}%`;
   const N=[[370,240,1],[318,232,5],[268,213,9],[212,205,14],[156,200,18],[105,188,23],[72,166,27],[115,104,31],[185,100,38],[255,96,45],[322,72,52],[285,28,61],[225,25,70],[165,25,80]];
-  let cur=-1;N.forEach((n,i)=>{if(day>=n[2])cur=i;});
+  let cur=-1;N.forEach((n,i)=>{if(day>=n[2])cur=i;});const won=!!v&&v.day>=90&&v.out.payouts>0;if(won)cur=N.length;
   const w=gWait(v);if(w)cur=w.gate===1?6:10;
   const nodes=N.map((n,i)=>{const st=!v?"l":i<cur?"d":i===cur?"t":"l";return `<span class="g-node n-${st}" style="${pos(n[0],n[1])}">${st==="t"?`<span class="num">${day}</span>`:`<span class="num">${n[2]}</span>`}</span>`;}).join("");
   const gate=(img,x,y,open,cls)=>`<img class="g-gate${open?"":" lock"}${cls||""}" alt="" src="${GI(img)}" style="${pos(x,y)}">`;
@@ -315,7 +315,7 @@ function gMap(v){
      <path d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14" stroke-linecap="round"/>
      <path class="g-done" d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="url(#gHg)" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 2000"/></svg>
    ${nodes}${gate("shield-check",58,130,stage>1,w&&w.gate===1?" wait":"")}${gate("shield-target",350,48,stage>2,w&&w.gate===2?" wait":"")}
-   ${w?`<span class="g-glock" style="${w.gate===1?pos(58,130):pos(350,48)}" title="${w.short.replace(/<[^>]+>/g,"")}">${SV(JI.lock,"width:14px;height:14px")}</span>`:""}${gate("shield-trophy",40,25,v&&v.out.payouts>0," final")}
+   ${w?`<span class="g-glock" style="${w.gate===1?pos(58,130):pos(350,48)}" title="${w.short.replace(/<[^>]+>/g,"")}">${SV(JI.lock,"width:14px;height:14px")}</span>`:""}${won?`<span class="g-gold" style="${pos(40,25)}"></span>`:""}${gate("shield-trophy",40,25,v&&v.out.payouts>0," final"+(won?" won":""))}${won?`<span class="g-wonl" style="${pos(40,25)}"><span class="num">90</span> \u00b7 \u05d4\u05d2\u05e2\u05ea</span>`:""}
    ${lbl("\u05e9\u05dc\u05d1 1",STAGES[1].title,300,246)}${lbl("\u05e9\u05dc\u05d1 2",STAGES[2].title,215,128)}${lbl("\u05e9\u05dc\u05d1 3",STAGES[3].title,120,48)}</div>`;}
 /* is the user standing at a locked gate? Gate 1 opens after 30 trading days with no burned account (Noam's stage.ts);
    gate 2 opens with a passed evaluation or a funded account */
@@ -323,8 +323,8 @@ function gWait(v){
   if(!v)return null;
   if(v.stage===1&&v.day>30){const left=Math.max((v.burnDay||0)+31-v.day,1);return {gate:1,left,short:`\u05e2\u05d5\u05d3 <span class="num">${left}</span> \u05d9\u05de\u05d9\u05dd \u05e0\u05e7\u05d9\u05d9\u05dd`,
     hint:`\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05e9\u05e8\u05e3 \u05d1-30 \u05d9\u05de\u05d9 \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d9\u05dd. \u05d4\u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7 \u05d0\u05d7\u05e8\u05d9 <span class="num">30</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05d1\u05dc\u05d9 \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3: \u05e2\u05d5\u05d3 <span class="num">${left}</span>`,
-    say:`\u05d7\u05e9\u05d1\u05d5\u05df \u05e0\u05e9\u05e8\u05e3 \u05d1\u05d9\u05d5\u05dd ${v.burnDay}, \u05d0\u05d6 \u05d4\u05d4\u05d9\u05e9\u05e8\u05d3\u05d5\u05ea \u05e0\u05de\u05e9\u05db\u05ea. \u05e2\u05d5\u05d3 ${left} \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05d1\u05dc\u05d9 \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3, \u05d5\u05d4\u05e9\u05e2\u05e8 \u05e9\u05dc ${STAGES[2].title} \u05e0\u05e4\u05ea\u05d7. \u05de\u05de\u05e9\u05d9\u05db\u05d9\u05dd \u05d1\u05d0\u05d5\u05ea\u05d5 \u05d0\u05ea\u05d2\u05e8, \u05e9\u05d5\u05dd \u05d3\u05d1\u05e8 \u05dc\u05d0 \u05e0\u05de\u05d7\u05e7.`};}
-  if(v.stage===2&&v.day>60)return {gate:2,left:0,short:"\u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05e2\u05d5\u05d1\u05e8\u05d9\u05dd \u05de\u05d1\u05d7\u05df",hint:"\u05d4\u05e9\u05e2\u05e8 \u05e9\u05dc \u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05e2\u05d5\u05d1\u05e8\u05d9\u05dd \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df",say:`\u05d4\u05e9\u05e2\u05e8 \u05e9\u05dc ${STAGES[3].title} \u05e0\u05e4\u05ea\u05d7 \u05d1\u05e8\u05d2\u05e2 \u05e9\u05ea\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df. \u05d1\u05dc\u05d9 \u05dc\u05de\u05d4\u05e8 \u05d5\u05d1\u05dc\u05d9 \u05dc\u05d4\u05d2\u05d3\u05d9\u05dc \u05e1\u05d9\u05db\u05d5\u05df.`};
+    say:`\u05d4\u05e9\u05e2\u05e8 \u05e2\u05d5\u05d3 \u05e1\u05d2\u05d5\u05e8. \u05e2\u05d5\u05d3 ${left} \u05d9\u05de\u05d9\u05dd \u05d1\u05dc\u05d9 \u05d7\u05e9\u05d1\u05d5\u05df \u05e9\u05e0\u05e9\u05e8\u05e3, \u05d5\u05d4\u05d5\u05d0 \u05e0\u05e4\u05ea\u05d7.`};}
+  if(v.stage===2&&v.day>60)return {gate:2,left:0,short:"\u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05e2\u05d5\u05d1\u05e8\u05d9\u05dd \u05de\u05d1\u05d7\u05df",hint:"\u05d4\u05e9\u05e2\u05e8 \u05e9\u05dc \u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05e2\u05d5\u05d1\u05e8\u05d9\u05dd \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df",say:`\u05d4\u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05ea\u05e2\u05d1\u05d5\u05e8 \u05de\u05d1\u05d7\u05df. \u05d1\u05dc\u05d9 \u05dc\u05de\u05d4\u05e8 \u05d5\u05d1\u05dc\u05d9 \u05dc\u05d4\u05d2\u05d3\u05d9\u05dc \u05e1\u05d9\u05db\u05d5\u05df.`};
   return null;}
 /* Noam's bubble: the first sentence in bold, so the eye lands on what matters */
 function gEmph(h){const m=String(h).match(/^(.+?[.:!])(\s|$)/);return m?`<b>${m[1]}</b>${String(h).slice(m[1].length)}`:`<b>${h}</b>`;}
@@ -333,7 +333,7 @@ function gNoam(v){
   if(C.gSay&&C.gSay.view===C.view)return `<section class="blk g-noam"><img alt="" src="avatar/noam-${C.gSay.av}.webp"><div class="g-bub"><small>${C.gSay.tag}</small>${gEmph(nums(C.gSay.txt))}</div></section>`;
   const w=gWait(v);if(w&&!v.pendingStops.length)return `<section class="blk g-noam"><img alt="" src="avatar/noam-one.webp"><div class="g-bub"><small>\u05d4\u05e9\u05e2\u05e8 \u05e2\u05d5\u05d3 \u05e1\u05d2\u05d5\u05e8</small>${gEmph(nums(w.say))}</div></section>`;
   const tag=v.pendingStops.length?"\u05ea\u05d6\u05db\u05d5\u05e8\u05ea \u05dc\u05d4\u05d9\u05d5\u05dd":v.day===0?"\u05d9\u05d5\u05dd 1":`\u05d9\u05d5\u05dd ${v.day}`;
-  const txt=v.pendingStops.length?"\u05e2\u05e1\u05e7\u05d4 \u05d0\u05d7\u05ea \u05e2\u05d3\u05d9\u05d9\u05df \u05d1\u05dc\u05d9 \u05e1\u05d8\u05d5\u05e4. \u05de\u05e9\u05dc\u05d9\u05de\u05d9\u05dd \u05d0\u05d5\u05ea\u05d5 \u05d1\u05d9\u05d5\u05de\u05df, \u05d5\u05d4\u05de\u05e9\u05d9\u05de\u05d4 \u05e9\u05dc \u05d4\u05d9\u05d5\u05dd \u05de\u05e1\u05d5\u05de\u05e0\u05ea.":headline(v.out);
+  const txt=v.pendingStops.length?"\u05e2\u05e1\u05e7\u05d4 \u05d0\u05d7\u05ea \u05d1\u05dc\u05d9 \u05e1\u05d8\u05d5\u05e4. \u05de\u05e9\u05dc\u05d9\u05de\u05d9\u05dd \u05d1\u05d9\u05d5\u05de\u05df, \u05d5\u05d4\u05de\u05e9\u05d9\u05de\u05d4 \u05de\u05e1\u05d5\u05de\u05e0\u05ea.":headline(v.out);
   return `<section class="blk g-noam"><img alt="" src="avatar/noam-${v.av}.webp"><div class="g-bub"><small>${tag}</small>${gEmph(nums(txt))}</div></section>`;}
 function gQuests(v){
   const T=gTasks(v),left=T.filter(t=>!t[0]).length,opened=C.gChest===C.view,ready=!left&&!opened;
@@ -376,8 +376,8 @@ function gRewards(v,g){
 function gHeartFx(id,kind){
   const v=SMP[C.view],l=v&&v.links.find(x=>x.id===id);if(!l)return;
   const alive=v.links.filter(x=>x.status==="active"||x.status==="passed").length;
-  C.gSay=kind==="break"?{view:C.view,av:"stopped",tag:"\u05dc\u05d1 \u05e0\u05e9\u05d1\u05e8",txt:`<bdi class="en">${l.name}</bdi> \u05e0\u05e9\u05e8\u05e3. \u05d0\u05d9\u05d1\u05d3\u05ea \u05d7\u05e9\u05d1\u05d5\u05df, \u05dc\u05d0 \u05d0\u05ea \u05d4\u05d3\u05e8\u05da: ${alive===1?"\u05e0\u05e9\u05d0\u05e8 \u05dc\u05da \u05dc\u05d1 \u05d0\u05d7\u05d3":alive?`\u05e0\u05e9\u05d0\u05e8\u05d5 \u05dc\u05da ${alive} \u05dc\u05d1\u05d1\u05d5\u05ea`:"\u05e4\u05d5\u05ea\u05d7\u05d9\u05dd \u05d7\u05e9\u05d1\u05d5\u05df \u05d7\u05d3\u05e9 \u05d5\u05e0\u05d5\u05dc\u05d3 \u05dc\u05d1 \u05d7\u05d3\u05e9"}, \u05d5\u05de\u05de\u05e9\u05d9\u05db\u05d9\u05dd \u05de\u05d9\u05d5\u05dd ${v.day}.`}
-    :{view:C.view,av:"clean",tag:"\u05dc\u05d1 \u05d7\u05d3\u05e9",txt:`<bdi class="en">${l.name}</bdi> \u05e0\u05db\u05e0\u05e1 \u05dc\u05d0\u05ea\u05d2\u05e8. \u05e0\u05d5\u05dc\u05d3 \u05dc\u05d1 \u05d7\u05d3\u05e9, \u05d5\u05d4\u05d9\u05d5\u05dd \u05e9\u05dc\u05da \u05d1\u05d0\u05ea\u05d2\u05e8 \u05dc\u05d0 \u05e0\u05de\u05d7\u05e7.`};
+  C.gSay=kind==="break"?{view:C.view,av:"stopped",tag:"\u05dc\u05d1 \u05e0\u05e9\u05d1\u05e8",txt:`\u05d0\u05d9\u05d1\u05d3\u05ea \u05d7\u05e9\u05d1\u05d5\u05df, \u05dc\u05d0 \u05d0\u05ea \u05d4\u05d3\u05e8\u05da. ${alive===1?"\u05e0\u05e9\u05d0\u05e8 \u05dc\u05da \u05dc\u05d1 \u05d0\u05d7\u05d3":alive?`\u05e0\u05e9\u05d0\u05e8\u05d5 \u05dc\u05da ${alive} \u05dc\u05d1\u05d1\u05d5\u05ea`:"\u05e4\u05d5\u05ea\u05d7\u05d9\u05dd \u05d7\u05e9\u05d1\u05d5\u05df \u05d5\u05e0\u05d5\u05dc\u05d3 \u05dc\u05d1 \u05d7\u05d3\u05e9"}, \u05d5\u05de\u05de\u05e9\u05d9\u05db\u05d9\u05dd \u05de\u05d9\u05d5\u05dd ${v.day}.`}
+    :{view:C.view,av:"clean",tag:"\u05dc\u05d1 \u05d7\u05d3\u05e9",txt:`\u05e0\u05d5\u05dc\u05d3 \u05dc\u05d1 \u05d7\u05d3\u05e9. \u05de\u05de\u05e9\u05d9\u05db\u05d9\u05dd \u05de\u05d0\u05d5\u05ea\u05d5 \u05d9\u05d5\u05dd, \u05e9\u05d5\u05dd \u05d3\u05d1\u05e8 \u05dc\u05d0 \u05e0\u05de\u05d7\u05e7.`};
   view();
   const hud=document.querySelector(".g-hud");if(!hud)return;
   const go=()=>{const h=document.querySelector(`[data-ght="${id}"]`);if(!h)return;h.classList.add(kind==="break"?"breaking":"born");
@@ -581,7 +581,9 @@ function gHowSteps(){
   const rules=[`\u05e2\u05d3 ${RULES.maxDailyTrades} \u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d1\u05d9\u05d5\u05dd`,`\u05d0\u05d7\u05e8\u05d9 ${RULES.maxConsecutiveLosses} \u05d4\u05e4\u05e1\u05d3\u05d9\u05dd \u05e8\u05e6\u05d5\u05e4\u05d9\u05dd \u05e2\u05d5\u05e6\u05e8\u05d9\u05dd`,`\u05d9\u05d7\u05e1 \u05e1\u05d9\u05db\u05d5\u05df-\u05e1\u05d9\u05db\u05d5\u05d9 1:${RULES.minRr} \u05dc\u05e4\u05d7\u05d5\u05ea`,"\u05e1\u05d9\u05db\u05d5\u05df \u05dc\u05e2\u05e1\u05e7\u05d4 \u05e9\u05e7\u05d1\u05e2\u05ea \u05de\u05e8\u05d0\u05e9"];
   return `<div class="g-steps">
    <div class="g-step"><img alt="" src="${GI("shield-flag")}"><small>\u05e6\u05e2\u05d3 <span class="num">1</span></small><b>\u05de\u05e6\u05d8\u05e8\u05e4\u05d9\u05dd</b><p>\u05d1\u05d5\u05d7\u05e8\u05d9\u05dd \u05d0\u05ea \u05d4\u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea \u05e9\u05dc\u05da \u05d5\u05db\u05de\u05d4 \u05dc\u05e1\u05db\u05df \u05d1\u05db\u05dc \u05e2\u05e1\u05e7\u05d4. \u05e9\u05dc\u05d5\u05e9\u05d4 \u05e6\u05e2\u05d3\u05d9\u05dd \u05e7\u05e6\u05e8\u05d9\u05dd, \u05d5\u05de\u05ea\u05d7\u05d9\u05dc\u05d9\u05dd \u05de\u05d9\u05d5\u05dd \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d1\u05d0.</p></div>
+   <span class="g-link" aria-hidden="true"><i></i><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
    <div class="g-step"><img alt="" src="${GI("shield-check")}"><small>\u05e6\u05e2\u05d3 <span class="num">2</span></small><b>\u05e1\u05d5\u05d7\u05e8\u05d9\u05dd \u05dc\u05e4\u05d9 \u05d4\u05db\u05dc\u05dc\u05d9\u05dd</b><p>\u05de\u05d6\u05d9\u05e0\u05d9\u05dd \u05db\u05dc \u05e2\u05e1\u05e7\u05d4 \u05d1\u05d9\u05d5\u05de\u05df, \u05d5\u05d4\u05d9\u05d5\u05de\u05df \u05d1\u05d5\u05d3\u05e7 \u05dc\u05d1\u05d3 \u05e9\u05e2\u05de\u05d3\u05ea \u05d1\u05d0\u05e8\u05d1\u05e2\u05ea \u05d4\u05db\u05dc\u05dc\u05d9\u05dd \u05e9\u05dc \u05d4\u05d0\u05ea\u05d2\u05e8.</p></div>
+   <span class="g-link" aria-hidden="true"><i></i><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
    <div class="g-step"><img alt="" src="${GI("shield-up")}"><small>\u05e6\u05e2\u05d3 <span class="num">3</span></small><b>\u05de\u05ea\u05e7\u05d3\u05de\u05d9\u05dd \u05e2\u05d3 \u05d4\u05de\u05e9\u05d9\u05db\u05d4</b><p>\u05d4\u05d9\u05e9\u05e8\u05d3\u05d5\u05ea, \u05de\u05d1\u05d7\u05df \u05de\u05d9\u05de\u05d5\u05df \u05d5\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4. \u05d1\u05d3\u05e8\u05da \u05d0\u05d5\u05e1\u05e4\u05d9\u05dd \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05d5\u05e7\u05dc\u05e4\u05d9\u05dd, \u05d5\u05d1\u05e1\u05d5\u05e3 \u05de\u05e7\u05d1\u05dc\u05d9\u05dd \u05ea\u05e2\u05d5\u05d3\u05d4.</p></div>
   </div>`;}
 /* the four rules as their own block: an icon, the number, what it means. Separate from the steps so they stand out */
@@ -598,8 +600,12 @@ function gHowDlg(){
   const esc=e=>{if(e.key==="Escape")close();};document.addEventListener("keydown",esc);
   ov.addEventListener("click",e=>{if(e.target.closest("[data-gcx]")||e.target===ov)close();});}
 
+/* draw the step links when they scroll into view */
+function gLinks(){const L=document.querySelectorAll(".g-link:not(.on)");if(!L.length)return;
+  if(!("IntersectionObserver" in window)){L.forEach(l=>l.classList.add("on"));return;}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target);}}),{threshold:.6});L.forEach(l=>io.observe(l));}
 /* the blue road runs exactly up to today's node */
-function gRoad(){document.querySelectorAll(".g-map").forEach(m=>{const p=m.querySelector(".g-done"),t=m.querySelector(".g-node.n-t");if(!p||!t)return;
+function gRoad(){document.querySelectorAll(".g-map").forEach(m=>{const p=m.querySelector(".g-done"),t=m.querySelector(".g-node.n-t");if(p&&!t&&m.querySelector(".g-gate.won")){p.style.strokeDasharray="none";return;}if(!p||!t)return;
   const x=400-parseFloat(t.style.right)*4,y=parseFloat(t.style.top)*2.7,L=p.getTotalLength();let best=0,bd=1e9;
   for(let i=0;i<=240;i++){const q=p.getPointAtLength(L*i/240),d=(q.x-x)**2+(q.y-y)**2;if(d<bd){bd=d;best=L*i/240;}}
   p.style.strokeDasharray=best+" "+(L+10);});}
@@ -610,7 +616,7 @@ function gOpenChest(img){
   if(reduce||!img){done();return;}
   const r=img.getBoundingClientRect(),W=innerWidth<760?240:320,ty=innerWidth<760?Math.max(innerHeight*.16,60):innerHeight/2-W*.62,ov=document.createElement("div");ov.className="g-ov";ov.dir="rtl";
   ov.innerHTML=`<div class="g-glow"></div><img class="g-big" alt="" src="${GI("chest")}"><div class="g-coins"></div><div class="g-prize"><b>\u05e7\u05d9\u05d1\u05dc\u05ea <span class="num">45</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</b><p>\u05d5\u05e2\u05d5\u05d3 \u05d9\u05d5\u05dd \u05dc\u05e8\u05e6\u05e3. \u05e0\u05ea\u05e8\u05d0\u05d4 \u05de\u05d7\u05e8.</p><button class="btn2" data-gprize>\u05dc\u05d0\u05e1\u05d5\u05e3</button></div>`;
-  document.body.appendChild(ov);img.style.visibility="hidden";ov.querySelector(".g-prize").style.top=(ty+W*.92+18)+"px";ov.querySelector(".g-glow").style.top=(ty+W*.42)+"px";
+  document.body.appendChild(ov);img.style.visibility="hidden";ov.querySelector(".g-prize").style.top=(ty+W*1.02+30)+"px";ov.querySelector(".g-glow").style.top=(ty+W*.42)+"px";
   const big=ov.querySelector(".g-big");Object.assign(big.style,{left:r.left+"px",top:r.top+"px",width:r.width+"px"});
   requestAnimationFrame(()=>requestAnimationFrame(()=>{ov.classList.add("on");Object.assign(big.style,{left:(innerWidth-W)/2+"px",top:ty+"px",width:W+"px"});}));
   setTimeout(()=>big.classList.add("wob"),800);
@@ -662,6 +668,7 @@ function view(){
   document.querySelectorAll("[data-chn]").forEach(b=>b.classList.toggle("on",(b.dataset.chn==="on")===C.noam));
   document.querySelectorAll("[data-chver]").forEach(b=>b.classList.toggle("on",b.dataset.chver===C.ver));
   document.body.classList.toggle("chj-lock",!!C.wiz);
+  if(C.ver==="game")gLinks();
   if(C.ver==="game"&&joined){gRoad();gCount();if(C.view==="d90"&&C.gFin!=="d90"){C.gFin="d90";setTimeout(gFinishFx,350);}}
 }
 window.challengeView=view;
