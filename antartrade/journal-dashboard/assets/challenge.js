@@ -345,7 +345,7 @@ function gPowers(v){
    <div class="g-pwg">${cards}</div><div class="g-slots"><small>\u05d4\u05e6\u05d9\u05d5\u05d3 \u05e9\u05dc\u05da</small>${slots}</div></section>`;}
 /* what the points open: a discount code for the next account every 3 levels, and at level 12 Noam goes over your
    journal with you. Both are proposals for Noam (08.11); the code text is still his placeholder */
-const GREW=[[3,"code","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4","\u05dc\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0"],[6,"code","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4","\u05dc\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0"],[9,"code","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4","\u05dc\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0"],[12,"noam","\u05e0\u05d5\u05e2\u05dd \u05e2\u05d5\u05d1\u05e8 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df \u05e9\u05dc\u05da","\u05e9\u05d9\u05d7\u05d4 \u05d0\u05d9\u05e9\u05d9\u05ea \u05e2\u05dc \u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05e9\u05dc\u05da"]];
+const GREW=[[3,"code","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4 \u05d1\u05dc\u05e2\u05d3\u05d9","\u05e8\u05e7 \u05dc\u05de\u05e9\u05ea\u05ea\u05e4\u05d9 \u05d4\u05d0\u05ea\u05d2\u05e8"],[6,"code","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4 \u05d1\u05dc\u05e2\u05d3\u05d9","\u05e8\u05e7 \u05dc\u05de\u05e9\u05ea\u05ea\u05e4\u05d9 \u05d4\u05d0\u05ea\u05d2\u05e8"],[9,"code","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4 \u05d1\u05dc\u05e2\u05d3\u05d9","\u05e8\u05e7 \u05dc\u05de\u05e9\u05ea\u05ea\u05e4\u05d9 \u05d4\u05d0\u05ea\u05d2\u05e8"],[12,"noam","\u05e0\u05d5\u05e2\u05dd \u05e2\u05d5\u05d1\u05e8 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df \u05e9\u05dc\u05da","\u05e9\u05d9\u05d7\u05d4 \u05d0\u05d9\u05e9\u05d9\u05ea \u05e2\u05dc \u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05e9\u05dc\u05da"]];
 function gRewards(v,g){
   const top=GREW[GREW.length-1][0],pct=Math.min((g.lvl-1+g.into/300)/(top-1),1)*100;
   const cards=GREW.map(([L,k,t,s])=>{const on=g.lvl>=L,need=(L-1)*300-g.pts;
@@ -410,11 +410,11 @@ function gCount(){
    Prototype: the code itself and its wording come from Noam */
 function gClaim(L){
   const key=C.view+":"+L;C.gClaimed[key]=true;const code="ANTAR"+L+"0";
-  const ov=document.createElement("div");ov.className="g-cdlg";ov.dir="rtl";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4");
+  const ov=document.createElement("div");ov.className="g-cdlg";ov.dir="rtl";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4 \u05d1\u05dc\u05e2\u05d3\u05d9");
   ov.innerHTML=`<div class="box"><button class="x" data-gcx aria-label="\u05e1\u05d2\u05d9\u05e8\u05d4">${SV(JI.x)}</button>
    <img class="ch" alt="" src="${GI("chest-open")}">
-   <small>\u05e4\u05e8\u05e1 \u05e9\u05dc \u05e8\u05de\u05d4 <span class="num">${L}</span></small><h3>\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4 \u05dc\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0</h3>
-   <p>\u05de\u05d6\u05d9\u05e0\u05d9\u05dd \u05d0\u05ea \u05d4\u05e7\u05d5\u05d3 \u05d1\u05e7\u05d5\u05e4\u05d4 \u05e9\u05dc \u05d7\u05d1\u05e8\u05ea \u05d4\u05de\u05d9\u05de\u05d5\u05df, \u05db\u05e9\u05e4\u05d5\u05ea\u05d7\u05d9\u05dd \u05d0\u05ea \u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0.</p>
+   <small>\u05e4\u05e8\u05e1 \u05e9\u05dc \u05e8\u05de\u05d4 <span class="num">${L}</span></small><h3>\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4 \u05d1\u05dc\u05e2\u05d3\u05d9</h3>
+   <p>\u05e7\u05d5\u05d3 \u05e9\u05dc\u05d0 \u05de\u05d5\u05e4\u05d9\u05e2 \u05d1\u05d0\u05ea\u05e8. \u05e8\u05e7 \u05de\u05d9 \u05e9\u05de\u05d2\u05d9\u05e2 \u05dc\u05e8\u05de\u05d4 \u05d4\u05d6\u05d0\u05ea \u05d1\u05d0\u05ea\u05d2\u05e8 \u05de\u05e7\u05d1\u05dc \u05d0\u05d5\u05ea\u05d5, \u05d5\u05de\u05d6\u05d9\u05e0\u05d9\u05dd \u05d0\u05d5\u05ea\u05d5 \u05d1\u05e7\u05d5\u05e4\u05d4 \u05e9\u05dc \u05d7\u05d1\u05e8\u05ea \u05d4\u05de\u05d9\u05de\u05d5\u05df \u05db\u05e9\u05e4\u05d5\u05ea\u05d7\u05d9\u05dd \u05d0\u05ea \u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0.</p>
    <div class="coupon"><span class="code">${code}</span><button class="g-eqb" data-gcopy="${code}">\u05d4\u05e2\u05ea\u05e7\u05d4</button></div>
    <div class="g-cnote">${SV(CI.tag)}<span>\u05d6\u05d5 \u05d3\u05d5\u05d2\u05de\u05d4. \u05d4\u05e7\u05d5\u05d3, \u05d4\u05d4\u05e0\u05d7\u05d4 \u05d5\u05d4\u05e0\u05d5\u05e1\u05d7 \u05d9\u05d2\u05d9\u05e2\u05d5 \u05de\u05e0\u05d5\u05e2\u05dd.</span></div>
    <div class="row"><a class="btn2" href="https://antartrade.co.il/promotions" target="_blank" rel="noopener">\u05dc\u05d3\u05e3 \u05d4\u05d4\u05e0\u05d7\u05d5\u05ea${SV(CI.ext,"width:16px;height:16px")}</a></div></div>`;
