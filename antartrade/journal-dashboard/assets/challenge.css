@@ -396,7 +396,7 @@ body:not(.pg-challenge) #chjWizHost{display:none}
 /* noam */
 .g-noam{display:flex;align-items:flex-end;gap:12px;padding-bottom:0!important;overflow:hidden}
 .g-noam img{width:150px;flex:none;display:block}
-.g-bub{background:#fff;color:#12161f;border-radius:22px 22px 22px 4px;padding:14px 16px;font-size:15px;line-height:1.45;margin-bottom:56px;flex:1}
+.g-bub{background:#fff;color:#12161f;border-radius:22px 22px 4px 22px;padding:14px 16px;font-size:15px;line-height:1.45;margin-bottom:56px;flex:1}
 .g-bub small{display:block;color:var(--royal);font-size:12px;font-weight:500;margin-bottom:2px}
 
 /* map */
@@ -577,3 +577,53 @@ body:not(.pg-challenge) #chjWizHost{display:none}
 }
 
 .g-rwn:not(.on) .ic img{filter:none;opacity:.45}
+
+/* 08.11 round 3 */
+/* streak: the flame on top, then the label and the days */
+.g-hud>.g-stk{flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
+.g-stk .g-flame .i{width:24px;height:24px;margin-bottom:2px}
+/* points: a big number that counts, next to the level */
+.g-pts{display:flex;align-items:baseline;gap:6px;position:relative}
+.g-pts b{font-size:22px!important;font-weight:600;line-height:1.1}
+.g-pts>span{font-size:13px;color:var(--muted)}
+.g-ptsplus{position:absolute;inset-inline-start:100%;top:-6px;margin-inline-start:10px;color:var(--c-sun);font-weight:600;font-size:15px;animation:gPlus 1.6s ease-out forwards;white-space:nowrap}
+@keyframes gPlus{0%{opacity:0;transform:translateY(8px)}15%{opacity:1;transform:none}75%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
+.g-xpt small{margin-top:2px}
+/* rewards: the whole "level N" label in yellow */
+.g-rw .tx small .num{color:inherit}
+.g-rw .g-eqb.on{background:rgba(247,198,90,.16);color:var(--c-sun)}
+/* power cards, ordered like a store card: tag, title, text, reason, button at the bottom */
+.g-pw{padding:76px 24px 24px;gap:0}
+.g-tagp{align-self:flex-start;font-size:12px;font-weight:500;color:var(--sky);background:rgba(125,198,255,.14);border-radius:999px;padding:4px 11px;line-height:1.3}
+.g-tagp.off{color:rgba(238,243,250,.5);background:rgba(255,255,255,.06)}
+.g-pw .t{display:block;font-size:20px;font-weight:500;line-height:1.25;margin-top:12px}
+.g-pw>p{margin-top:8px;font-size:15px;line-height:1.55;color:var(--muted)}
+.g-pw .why{margin-top:18px}
+.g-pw .g-eqb{margin-top:auto;align-self:flex-start}
+.g-pw .why+.g-eqb{margin-top:20px}
+.g-pwg{align-items:stretch}
+/* the code window */
+.g-cdlg{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:16px;background:rgba(4,6,10,0);transition:background .3s}
+.g-cdlg.on{background:rgba(4,6,10,.72);backdrop-filter:blur(6px)}
+.g-cdlg .box{position:relative;width:min(440px,100%);background:#1a1f2b;border-radius:24px;padding:96px 28px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;transform:translateY(16px) scale(.97);opacity:0;transition:all .35s cubic-bezier(.3,1.3,.5,1)}
+.g-cdlg.on .box{transform:none;opacity:1}
+.g-cdlg .x{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;border:0;background:#232938;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.g-cdlg .x .i{width:18px;height:18px}
+.g-cdlg .ch{position:absolute;top:-70px;width:150px;filter:drop-shadow(0 18px 28px rgba(0,0,0,.55))}
+.g-cdlg.on .ch{animation:gBorn .7s cubic-bezier(.3,1.6,.5,1) .1s both}
+.g-cdlg small{color:var(--c-sun);font-size:13px;font-weight:500}
+.g-cdlg small .num{color:inherit}
+.g-cdlg h3{font-size:24px;font-weight:500;line-height:1.2}
+.g-cdlg p{color:var(--muted);font-size:15px;line-height:1.5;max-width:320px}
+.g-cdlg .coupon{margin-top:10px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#12161f;border-radius:18px;padding:12px 18px 12px 12px}
+.g-cdlg .coupon .code{font-family:var(--en);font-weight:600;font-size:24px;letter-spacing:.08em;direction:ltr;color:#fff}
+.g-cdlg .coupon .g-eqb{margin:0}
+.g-cnote{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:13px;color:rgba(238,243,250,.5)}
+.g-cnote .i{width:15px;height:15px;color:var(--c-sun)}
+.g-cdlg .row{margin-top:12px;display:flex;justify-content:center}
+.g-cdlg .row .btn2{display:inline-flex;align-items:center;gap:8px}
+@media (max-width:760px){
+  .g-cdlg{align-items:end;padding:0}
+  .g-cdlg .box{width:100%;border-radius:24px 24px 0 0;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+}
+.g-cdlg .coupon .code{background:none;padding:0}

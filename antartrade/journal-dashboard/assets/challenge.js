@@ -75,7 +75,7 @@ const SAMPLES={
     recs:[{id:"try_target",target:1.5,title:"\u05d0\u05e4\u05e9\u05e8 \u05dc\u05e0\u05e1\u05d5\u05ea \u05d9\u05e2\u05d3 1:1.5",text:"\u05d4\u05db\u05dc\u05dc \u05e9\u05dc \u05d4\u05d0\u05ea\u05d2\u05e8 \u05e0\u05e9\u05d0\u05e8 1:1. \u05d0\u05dd \u05ea\u05d1\u05d7\u05e8 \u05dc\u05e0\u05e1\u05d5\u05ea 1:1.5 \u05d1-30 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05d1\u05d0\u05d9\u05dd, \u05e0\u05d1\u05d3\u05d5\u05e7 \u05d0\u05ea \u05d6\u05d4 \u05d1\u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05de\u05e6\u05d1 \u05d4\u05d1\u05d0\u05d4.",because:"\u05db\u05d9 \u05d1-30 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d9\u05dd, \u05d1-46 \u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05e2\u05dd \u05e0\u05ea\u05d5\u05df \"\u05e2\u05d3 \u05d4\u05e1\u05d8\u05d5\u05e4\", \u05d9\u05e2\u05d3 1:1.5 \u05d4\u05d9\u05d4 \u05e0\u05d5\u05ea\u05df +11R \u05dc\u05e2\u05d5\u05de\u05ea +8R \u05d1-1:1."},
           {id:"fewer",title:"\u05e4\u05d7\u05d5\u05ea \u05e2\u05e1\u05e7\u05d0\u05d5\u05ea, \u05d0\u05d9\u05db\u05d5\u05ea\u05d9\u05d5\u05ea \u05d9\u05d5\u05ea\u05e8",text:"\u05d4\u05e2\u05de\u05dc\u05d5\u05ea \u05d0\u05d5\u05db\u05dc\u05d5\u05ea \u05d7\u05dc\u05e7 \u05d2\u05d3\u05d5\u05dc \u05de\u05d4\u05e8\u05d5\u05d5\u05d7. \u05dc\u05d5\u05d5\u05ea\u05e8 \u05e2\u05dc \u05d4\u05e2\u05e1\u05e7\u05d0\u05d5\u05ea \u05d4\u05d1\u05d9\u05e0\u05d5\u05e0\u05d9\u05d5\u05ea.",because:"\u05db\u05d9 \u05d1-30 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d9\u05dd \u05d4\u05e2\u05de\u05dc\u05d5\u05ea \u05d4\u05d9\u05d5 $214, 8% \u05de\u05d4\u05e8\u05d5\u05d5\u05d7 \u05dc\u05e4\u05e0\u05d9 \u05e2\u05de\u05dc\u05d5\u05ea ($2,674)."}]}]}};
 
-let C={ver:"game",gChest:null,gEq:{},wiz:0,more:null,anim:false,view:"join",noam:true,showAll:false,sel:[],risk:"",maxT:"3",maxL:"2",ok:false,oldOpen:false,menu:null,toLink:"",adopted:false};
+let C={ver:"game",gChest:null,gEq:{},gClaimed:{},gCounted:null,gPrevPts:null,wiz:0,more:null,anim:false,view:"join",noam:true,showAll:false,sel:[],risk:"",maxT:"3",maxL:"2",ok:false,oldOpen:false,menu:null,toLink:"",adopted:false};
 let SMP=JSON.parse(JSON.stringify(SAMPLES));
 
 /* ---- dashboard ---- */
@@ -300,8 +300,8 @@ function gHud(v,g){
   return `<section class="g-hud">${GDEF}
    <div class="g-day"><small>\u05d9\u05d5\u05dd</small><b class="num">${v.day||1}</b><span>\u05de\u05ea\u05d5\u05da <span class="num">90</span></span></div>
    <div class="g-cell"><div><small>\u05d7\u05d9\u05d9\u05dd \u00b7 \u05db\u05dc \u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d5\u05d0 \u05dc\u05d1</small><div class="g-hearts">${hearts}</div></div></div>
-   <div class="g-cell"><span class="g-flame">${SV(FLAME)}</span><div><small>\u05e8\u05e6\u05e3 \u05e0\u05e7\u05d9</small><b><span class="num">${g.streak}</span> \u05d9\u05de\u05d9\u05dd</b></div></div>
-   <div class="g-cell g-xp"><span class="g-lvl"><span class="num">${g.lvl}</span></span><div class="g-xpt"><small>\u05e8\u05de\u05d4 <span class="num">${g.lvl}</span> \u00b7 \u05e2\u05d5\u05d3 <span class="num">${300-g.into}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05dc\u05e8\u05de\u05d4 \u05d4\u05d1\u05d0\u05d4</small><span class="g-bar"><i style="width:${g.into/300*100}%"></i></span></div></div>
+   <div class="g-cell g-stk"><span class="g-flame">${SV(FLAME)}</span><small>\u05e8\u05e6\u05e3 \u05e0\u05e7\u05d9</small><b><span class="num">${g.streak}</span> \u05d9\u05de\u05d9\u05dd</b></div>
+   <div class="g-cell g-xp"><span class="g-lvl"><span class="num">${g.lvl}</span></span><div class="g-xpt"><div class="g-pts"><b class="num" data-gpts="${g.pts}">${g.pts.toLocaleString("en-US")}</b><span>\u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</span></div><small>\u05e8\u05de\u05d4 <span class="num">${g.lvl}</span> \u00b7 \u05e2\u05d5\u05d3 <span class="num">${300-g.into}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05dc\u05e8\u05de\u05d4 \u05d4\u05d1\u05d0\u05d4</small><span class="g-bar"><i style="width:${g.into/300*100}%"></i></span></div></div>
   </section>`;}
 function gMap(v){
   const day=v?v.day:0,stage=v?v.stage:1,Y=2.7,pos=(x,y)=>`right:${(400-x)/4}%;top:${y/Y}%`;
@@ -314,7 +314,7 @@ function gMap(v){
      <path d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14" stroke-linecap="round"/>
      <path class="g-done" d="M370 240 C300 240 260 205 200 205 S80 190 60 150 S120 100 200 100 S340 90 340 55 S260 25 180 25 L40 25" fill="none" stroke="url(#gHg)" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 2000"/></svg>
    ${nodes}${gate("shield-check",58,130,stage>1)}${gate("shield-target",350,48,stage>2)}${gate("shield-trophy",40,25,v&&v.out.payouts>0," final")}
-   ${lbl("\u05e2\u05d5\u05dc\u05dd 1",STAGES[1].title,300,246)}${lbl("\u05e2\u05d5\u05dc\u05dd 2",STAGES[2].title,215,128)}${lbl("\u05e2\u05d5\u05dc\u05dd 3",STAGES[3].title,120,48)}</div>`;}
+   ${lbl("\u05e9\u05dc\u05d1 1",STAGES[1].title,300,246)}${lbl("\u05e9\u05dc\u05d1 2",STAGES[2].title,215,128)}${lbl("\u05e9\u05dc\u05d1 3",STAGES[3].title,120,48)}</div>`;}
 function gNoam(v){
   if(!C.noam)return "";
   if(C.gSay&&C.gSay.view===C.view)return `<section class="blk g-noam"><img alt="" src="avatar/noam-${C.gSay.av}.webp"><div class="g-bub"><small>${C.gSay.tag}</small>${nums(C.gSay.txt)}</div></section>`;
@@ -334,12 +334,12 @@ function gCards(v,g){
   const got=GCARDS.filter(c=>v&&c[4](v,g)).length;
   return `<section class="blk chj-sec g-coll"><div class="bh">${cttl("\u05d4\u05d0\u05d5\u05e1\u05e3 \u05e9\u05dc\u05da","tag","sky")}<span class="hint">${v?`<span class="num">${got}</span> \u05de\u05ea\u05d5\u05da <span class="num">${GCARDS.length}</span> \u05e7\u05dc\u05e4\u05d9\u05dd`:"\u05e7\u05dc\u05e4\u05d9\u05dd \u05e9\u05d0\u05d5\u05e1\u05e4\u05d9\u05dd \u05d1\u05d3\u05e8\u05da"}</span></div>
    <div class="g-cards">${GCARDS.map(c=>{const on=v&&c[4](v,g);return `<div class="g-card${on?"":" lockd"}${c[3]==="\u05d0\u05d2\u05d3\u05d9"?" gold":""}"><img alt="" src="${GI("shield-"+c[0])}"><span class="rar">${c[3]}</span><b>${c[1]}</b><small>${on?c[2]:`${SV(JI.lock,"width:12px;height:12px")}${c[2]}`}</small></div>`;}).join("")}</div></section>`;}
-const GPW={try_target:"power-target",fewer:"power-hourglass",rules_first:"power-shield",focus_dir:"power-target"};
+const GPW={try_target:"power-target",fewer:"power-gem",rules_first:"power-shield",focus_dir:"power-compass"};
 function gPowers(v){
   const P=v.periods.length?v.periods[v.periods.length-1].recs:[];
   const eq=C.gEq[C.view]||[];
-  const cards=P.length?P.map(r=>{const on=eq.includes(r.id);return `<div class="g-pw${on?" eq":""}"><img alt="" src="${GI(GPW[r.id]||"power-shield")}"><div class="hd"><small>\u05de\u05d5\u05ea\u05d0\u05dd \u05dc\u05da</small><b>${nums(r.title)}</b></div><p>${nums(r.text)}</p><div class="why">${SV(CI.compass)}<span>${nums(r.because)}</span></div><button class="g-eqb${on?" on":""}" data-geq="${r.id}"${r.target?` data-gtarget="${r.target}"`:""}>${on?SV(JI.ok)+"\u05de\u05e6\u05d5\u05d9\u05d3":"\u05dc\u05e6\u05d9\u05d9\u05d3"}</button></div>`;}).join("")
-    :`<div class="g-pw lockd"><img alt="" src="${GI("power-shield")}"><div class="hd"><small>\u05e2\u05d5\u05d3 \u05dc\u05d0 \u05e0\u05e4\u05ea\u05d7</small><b>\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05d4\u05db\u05d5\u05d7 \u05d4\u05e8\u05d0\u05e9\u05d5\u05e0\u05d9\u05dd</b></div><p>\u05d0\u05d7\u05e8\u05d9 <span class="num">30</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05e0\u05d5\u05e2\u05dd \u05e2\u05d5\u05d1\u05e8 \u05e2\u05dc \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05da \u05d5\u05de\u05d7\u05dc\u05e7 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05db\u05d5\u05d7 \u05e9\u05de\u05ea\u05d0\u05d9\u05de\u05d9\u05dd \u05d1\u05d3\u05d9\u05d5\u05e7 \u05dc\u05da.</p><div class="why">${SV(JI.lock)}<span>\u05e2\u05d5\u05d3 <span class="num">${v.daysToNext}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8</span></div></div>`;
+  const cards=P.length?P.map(r=>{const on=eq.includes(r.id);return `<div class="g-pw${on?" eq":""}"><img alt="" src="${GI(GPW[r.id]||"power-shield")}"><span class="g-tagp">\u05de\u05d5\u05ea\u05d0\u05dd \u05dc\u05da</span><b class="t">${nums(r.title)}</b><p>${nums(r.text)}</p><div class="why">${SV(CI.compass)}<span>${nums(r.because)}</span></div><button class="g-eqb${on?" on":""}" data-geq="${r.id}"${r.target?` data-gtarget="${r.target}"`:""}>${on?SV(JI.ok)+"\u05de\u05e6\u05d5\u05d9\u05d3":"\u05dc\u05e6\u05d9\u05d9\u05d3"}</button></div>`;}).join("")
+    :`<div class="g-pw lockd"><img alt="" src="${GI("power-shield")}"><span class="g-tagp off">\u05e2\u05d5\u05d3 \u05dc\u05d0 \u05e0\u05e4\u05ea\u05d7</span><b class="t">\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05d4\u05db\u05d5\u05d7 \u05d4\u05e8\u05d0\u05e9\u05d5\u05e0\u05d9\u05dd</b><p>\u05d0\u05d7\u05e8\u05d9 <span class="num">30</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8 \u05e0\u05d5\u05e2\u05dd \u05e2\u05d5\u05d1\u05e8 \u05e2\u05dc \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05da \u05d5\u05de\u05d7\u05dc\u05e7 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05db\u05d5\u05d7 \u05e9\u05de\u05ea\u05d0\u05d9\u05de\u05d9\u05dd \u05d1\u05d3\u05d9\u05d5\u05e7 \u05dc\u05da.</p><div class="why">${SV(JI.lock)}<span>\u05e2\u05d5\u05d3 <span class="num">${v.daysToNext}</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8</span></div></div>`;
   const slots=[0,1,2].map(i=>{const r=P.find(p=>p.id===eq[i]);return `<span class="g-slot">${r?`<img alt="" src="${GI(GPW[r.id]||"power-shield")}">`:""}</span>`;}).join("");
   return `<section class="blk chj-sec g-pows"><div class="bh">${cttl("\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05db\u05d5\u05d7","compass","sky")}<span class="hint">\u05e2\u05e6\u05d5\u05ea \u05de\u05e0\u05d5\u05e2\u05dd \u05dc\u05e4\u05d9 \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05da. \u05de\u05e6\u05d9\u05d9\u05d3\u05d9\u05dd \u05d1\u05dc\u05d7\u05d9\u05e6\u05d4.</span></div>
    <div class="g-pwg">${cards}</div><div class="g-slots"><small>\u05d4\u05e6\u05d9\u05d5\u05d3 \u05e9\u05dc\u05da</small>${slots}</div></section>`;}
@@ -351,7 +351,7 @@ function gRewards(v,g){
   const cards=GREW.map(([L,k,t,s])=>{const on=g.lvl>=L,need=(L-1)*300-g.pts;
     return `<div class="g-rw${on?" on":""}${k==="noam"?" g-rwn":""}"><span class="ic">${k==="noam"?`<img alt="" src="avatar/noam-flex.webp">`:`<img alt="" src="${GI(on?"chest-open":"chest")}">`}</span>
      <div class="tx"><small>\u05e8\u05de\u05d4 <span class="num">${L}</span></small><b>${t}</b><span>${s}</span></div>
-     ${on?(k==="code"?`<button class="g-eqb" data-gcode>\u05dc\u05e7\u05d1\u05dc \u05d0\u05ea \u05d4\u05e7\u05d5\u05d3</button>`:`<button class="g-eqb" data-gnoamrev>\u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4</button>`):`<em>${SV(JI.lock,"width:13px;height:13px")}\u05e2\u05d5\u05d3 <span class="num">${need.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</em>`}</div>`;}).join("");
+     ${on?(k==="code"?(C.gClaimed[C.view+":"+L]?`<button class="g-eqb on" data-gcode="${L}">${SV(JI.ok)}\u05d4\u05e7\u05d5\u05d3 \u05e9\u05dc\u05da</button>`:`<button class="g-eqb" data-gcode="${L}">\u05dc\u05e7\u05d1\u05dc \u05d0\u05ea \u05d4\u05e7\u05d5\u05d3</button>`):`<button class="g-eqb" data-gnoamrev>\u05dc\u05e7\u05d1\u05d5\u05e2 \u05e9\u05d9\u05d7\u05d4</button>`):`<em>${SV(JI.lock,"width:13px;height:13px")}\u05e2\u05d5\u05d3 <span class="num">${need.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</em>`}</div>`;}).join("");
   return `<section class="blk chj-sec g-rews"><div class="bh">${cttl("\u05de\u05d4 \u05d4\u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05e4\u05d5\u05ea\u05d7\u05d5\u05ea","tag","sun")}<span class="hint">\u05e8\u05de\u05d4 <span class="num">${g.lvl}</span> \u00b7 <span class="num">${g.pts.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</span></div>
    <div class="g-earn"><span><b class="num">45</b> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05e2\u05dc \u05db\u05dc \u05d9\u05d5\u05dd \u05d1\u05dc\u05d9 \u05d4\u05e4\u05e8\u05d4</span><span><b class="num">300</b> \u05e2\u05dc \u05de\u05d1\u05d7\u05df \u05e9\u05e2\u05d1\u05e8\u05ea</span><span><b class="num">600</b> \u05e2\u05dc \u05de\u05e9\u05d9\u05db\u05d4</span></div>
    <div class="g-track"><span class="g-tbar"><i style="width:${pct}%"></i></span>${GREW.filter(([L])=>L!==g.lvl).map(([L])=>`<span class="g-tm${g.lvl>=L?" on":""}" style="right:${(L-1)/(top-1)*100}%"><span class="num">${L}</span></span>`).join("")}<span class="g-tme" style="right:${pct}%"><span class="num">${g.lvl}</span></span></div>
@@ -375,9 +375,9 @@ function gHeartFx(id,kind){
 
 function gJoin(){
   return `<div class="chj g">
-  <section class="chj-hero${C.noam?" av":""}"><div class="tx"><small>\u05d0\u05ea\u05d2\u05e8 90</small><h2>\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05ea\u05d5\u05da <span class="num">90</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8</h2><p>\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e2\u05d5\u05dc\u05de\u05d5\u05ea, \u05d5\u05e9\u05dc\u05d5\u05e9\u05d4 \u05d7\u05d9\u05d9\u05dd \u05dc\u05db\u05dc \u05d7\u05e9\u05d1\u05d5\u05df. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5</p>
+  <section class="chj-hero${C.noam?" av":""}"><div class="tx"><small>\u05d0\u05ea\u05d2\u05e8 90</small><h2>\u05de\u05e9\u05d9\u05db\u05d4 \u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05ea\u05d5\u05da <span class="num">90</span> \u05d9\u05de\u05d9 \u05de\u05e1\u05d7\u05e8</h2><p>\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd, \u05d5\u05db\u05dc \u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d5\u05d0 \u05dc\u05d1. \u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d5\u05dc \u05e2\u05e6\u05de\u05d5</p>
     <button class="chj-cta" data-chwiz="1">\u05dc\u05d4\u05ea\u05d7\u05d9\u05dc \u05dc\u05e9\u05d7\u05e7<em>3 \u05e6\u05e2\u05d3\u05d9\u05dd</em></button></div>${C.noam?`<img class="noam" alt="" src="avatar/noam-flex.webp">`:""}</section>
-  <section class="blk chj-sec">${GDEF}<div class="bh">${cttl("\u05d4\u05de\u05e4\u05d4","flag","sun")}<span class="hint">\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e2\u05d5\u05dc\u05de\u05d5\u05ea. \u05db\u05dc \u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05de\u05e1\u05d9\u05d9\u05de\u05d9\u05dd \u05d0\u05ea \u05d4\u05e2\u05d5\u05dc\u05dd \u05e9\u05dc\u05e4\u05e0\u05d9\u05d5.</span></div>${gMap(null)}</section>
+  <section class="blk chj-sec">${GDEF}<div class="bh">${cttl("\u05d4\u05de\u05e4\u05d4","flag","sun")}<span class="hint">\u05e9\u05dc\u05d5\u05e9\u05d4 \u05e9\u05dc\u05d1\u05d9\u05dd. \u05db\u05dc \u05e9\u05e2\u05e8 \u05e0\u05e4\u05ea\u05d7 \u05db\u05e9\u05de\u05e1\u05d9\u05d9\u05de\u05d9\u05dd \u05d0\u05ea \u05d4\u05e9\u05dc\u05d1 \u05e9\u05dc\u05e4\u05e0\u05d9\u05d5.</span></div>${gMap(null)}</section>
   ${gCards(null,null)}
   ${jMore("how","\u05d0\u05d9\u05da \u05d6\u05d4 \u05e2\u05d5\u05d1\u05d3 \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",jHow())}
   </div>`;}
@@ -387,13 +387,43 @@ function gDash(){
   return `<div class="chj g">
   ${gHud(v,g)}
   <div class="g-cols"><div class="g-col">${warns(v)}${gQuests(v)}</div>
-   <div class="g-col">${gNoam(v)}<section class="blk chj-sec"><div class="bh">${cttl(`\u05e2\u05d5\u05dc\u05dd ${v.stage} \u00b7 ${st.title}`,"flag","sun")}<span class="hint">${nextTx}</span></div>${gMap(v)}</section></div></div>
+   <div class="g-col">${gNoam(v)}<section class="blk chj-sec"><div class="bh">${cttl(`\u05e9\u05dc\u05d1 ${v.stage} \u00b7 ${st.title}`,"flag","sun")}<span class="hint">${nextTx}</span></div>${gMap(v)}</section></div></div>
   ${gRewards(v,g)}
   ${gCards(v,g)}
   ${gPowers(v)}
   ${jMore("data","\u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd, \u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05d4\u05de\u05e6\u05d1 \u05d5\u05d4\u05d4\u05e4\u05e8\u05d5\u05ea",numbers(v)+snapshots(v)+violations(v))}
   ${jMore("accs","\u05d4\u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",accounts(v)+rulesBlk(v))}
   </div>`;}
+
+/* the points: count up when a day is opened, and again with a "+45" when the chest pays out */
+function gCount(){
+  const el=document.querySelector("[data-gpts]");if(!el)return;const to=+el.dataset.gpts;
+  let from=null,plus=0;
+  if(C.gPrevPts!=null&&C.gPrevPts.view===C.view){from=C.gPrevPts.pts;plus=to-from;C.gPrevPts=null;}
+  else if(C.gCounted!==C.view){from=Math.max(to-Math.min(to,600),0);}
+  C.gCounted=C.view;if(from==null||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const t0=performance.now(),D=plus?900:1100,fmt=n=>Math.round(n).toLocaleString("en-US");
+  (function f(t){const k=Math.min((t-t0)/D,1),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(f);})(t0);
+  if(plus>0){const b=document.createElement("span");b.className="g-ptsplus num";b.textContent="+"+plus;el.parentNode.appendChild(b);setTimeout(()=>b.remove(),1600);}}
+
+/* claiming a reward code: a small window with the chest, the code to copy and the way to the deals page.
+   Prototype: the code itself and its wording come from Noam */
+function gClaim(L){
+  const key=C.view+":"+L;C.gClaimed[key]=true;const code="ANTAR"+L+"0";
+  const ov=document.createElement("div");ov.className="g-cdlg";ov.dir="rtl";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label","\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4");
+  ov.innerHTML=`<div class="box"><button class="x" data-gcx aria-label="\u05e1\u05d2\u05d9\u05e8\u05d4">${SV(JI.x)}</button>
+   <img class="ch" alt="" src="${GI("chest-open")}">
+   <small>\u05e4\u05e8\u05e1 \u05e9\u05dc \u05e8\u05de\u05d4 <span class="num">${L}</span></small><h3>\u05e7\u05d5\u05d3 \u05d4\u05e0\u05d7\u05d4 \u05dc\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0</h3>
+   <p>\u05de\u05d6\u05d9\u05e0\u05d9\u05dd \u05d0\u05ea \u05d4\u05e7\u05d5\u05d3 \u05d1\u05e7\u05d5\u05e4\u05d4 \u05e9\u05dc \u05d7\u05d1\u05e8\u05ea \u05d4\u05de\u05d9\u05de\u05d5\u05df, \u05db\u05e9\u05e4\u05d5\u05ea\u05d7\u05d9\u05dd \u05d0\u05ea \u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05d0.</p>
+   <div class="coupon"><span class="code">${code}</span><button class="g-eqb" data-gcopy="${code}">\u05d4\u05e2\u05ea\u05e7\u05d4</button></div>
+   <div class="g-cnote">${SV(CI.tag)}<span>\u05d6\u05d5 \u05d3\u05d5\u05d2\u05de\u05d4. \u05d4\u05e7\u05d5\u05d3, \u05d4\u05d4\u05e0\u05d7\u05d4 \u05d5\u05d4\u05e0\u05d5\u05e1\u05d7 \u05d9\u05d2\u05d9\u05e2\u05d5 \u05de\u05e0\u05d5\u05e2\u05dd.</span></div>
+   <div class="row"><a class="btn2" href="https://antartrade.co.il/promotions" target="_blank" rel="noopener">\u05dc\u05d3\u05e3 \u05d4\u05d4\u05e0\u05d7\u05d5\u05ea${SV(CI.ext,"width:16px;height:16px")}</a></div></div>`;
+  document.body.appendChild(ov);requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add("on")));
+  const close=()=>{ov.classList.remove("on");setTimeout(()=>ov.remove(),300);document.removeEventListener("keydown",esc);view();};
+  const esc=e=>{if(e.key==="Escape")close();};document.addEventListener("keydown",esc);
+  ov.addEventListener("click",e=>{const c=e.target.closest("[data-gcopy]");
+    if(c){const t=c.dataset.gcopy;try{navigator.clipboard.writeText(t);}catch(_){}c.classList.add("on");c.innerHTML=`${SV(JI.ok)}\u05d4\u05d5\u05e2\u05ea\u05e7`;toast("\u05d4\u05e7\u05d5\u05d3 \u05d4\u05d5\u05e2\u05ea\u05e7",t);return;}
+    if(e.target.closest("[data-gcx]")||e.target===ov)close();});}
 
 /* the blue road runs exactly up to today's node */
 function gRoad(){document.querySelectorAll(".g-map").forEach(m=>{const p=m.querySelector(".g-done"),t=m.querySelector(".g-node.n-t");if(!p||!t)return;
@@ -403,7 +433,7 @@ function gRoad(){document.querySelectorAll(".g-map").forEach(m=>{const p=m.query
 
 /* the chest leaves its card, opens in the middle of the screen and pays out */
 function gOpenChest(img){
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,done=()=>{C.gChest=C.view;view();toast("\u05d4\u05ea\u05d9\u05d1\u05d4 \u05e0\u05e4\u05ea\u05d7\u05d4","\u05e7\u05d9\u05d1\u05dc\u05ea 45 \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05d5\u05d9\u05d5\u05dd \u05dc\u05e8\u05e6\u05e3",false,true);};
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,done=()=>{C.gPrevPts={view:C.view,pts:gStats(SMP[C.view]).pts};C.gChest=C.view;view();toast("\u05d4\u05ea\u05d9\u05d1\u05d4 \u05e0\u05e4\u05ea\u05d7\u05d4","\u05e7\u05d9\u05d1\u05dc\u05ea 45 \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05d5\u05d9\u05d5\u05dd \u05dc\u05e8\u05e6\u05e3",false,true);};
   if(reduce||!img){done();return;}
   const r=img.getBoundingClientRect(),W=innerWidth<760?240:320,ov=document.createElement("div");ov.className="g-ov";ov.dir="rtl";
   ov.innerHTML=`<div class="g-glow"></div><img class="g-big" alt="" src="${GI("chest")}"><div class="g-coins"></div><div class="g-prize"><b>\u05e7\u05d9\u05d1\u05dc\u05ea <span class="num">45</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</b><p>\u05d5\u05e2\u05d5\u05d3 \u05d9\u05d5\u05dd \u05dc\u05e8\u05e6\u05e3. \u05e0\u05ea\u05e8\u05d0\u05d4 \u05de\u05d7\u05e8.</p><button class="btn2" data-gprize>\u05dc\u05d0\u05e1\u05d5\u05e3</button></div>`;
@@ -424,11 +454,11 @@ function gLevelUp(){
   const v=SMP[C.view];if(!v)return;const n=v.stage>1?v.stage-1:1,g=gStats(v),comp=v.compliance||0,stars=comp>=.9?3:comp>=.75?2:1;
   const img=n===1?"shield-check":n===2?"shield-target":"shield-trophy",cleanW=Math.round(comp*30);
   const ov=document.createElement("div");ov.className="g-lu";ov.dir="rtl";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");
-  ov.innerHTML=`<div class="in"><img class="tro" alt="" src="${GI(img)}"><small>\u05e2\u05d5\u05dc\u05dd ${n} \u05d4\u05d5\u05e9\u05dc\u05dd</small><h2>${n===1?`\u05e9\u05e8\u05d3\u05ea <span class="num">30</span> \u05d9\u05d5\u05dd`:n===2?"\u05e2\u05d1\u05e8\u05ea \u05d0\u05ea \u05de\u05d1\u05d7\u05df \u05d4\u05de\u05d9\u05de\u05d5\u05df":"\u05d4\u05d2\u05e2\u05ea \u05dc\u05de\u05e9\u05d9\u05db\u05d4"}</h2>
+  ov.innerHTML=`<div class="in"><img class="tro" alt="" src="${GI(img)}"><small>\u05e9\u05dc\u05d1 ${n} \u05d4\u05d5\u05e9\u05dc\u05dd</small><h2>${n===1?`\u05e9\u05e8\u05d3\u05ea <span class="num">30</span> \u05d9\u05d5\u05dd`:n===2?"\u05e2\u05d1\u05e8\u05ea \u05d0\u05ea \u05de\u05d1\u05d7\u05df \u05d4\u05de\u05d9\u05de\u05d5\u05df":"\u05d4\u05d2\u05e2\u05ea \u05dc\u05de\u05e9\u05d9\u05db\u05d4"}</h2>
    <div class="g-stars">${[0,1,2].map(i=>`<svg viewBox="0 0 24 24" class="${i<stars?"lit":""}">${STAR}</svg>`).join("")}</div>
    <div class="g-lur"><div><b><span class="num">${cleanW}</span> \u05de\u05ea\u05d5\u05da <span class="num">30</span></b>\u05d9\u05de\u05d9\u05dd \u05d1\u05dc\u05d9 \u05d4\u05e4\u05e8\u05d4</div><div><b>\u05e8\u05de\u05d4 <span class="num">${g.lvl+1}</span></b>\u05e2\u05dc\u05d9\u05ea \u05e8\u05de\u05d4</div><div><b>\u05db\u05e8\u05d8\u05d9\u05e1 \u05db\u05d5\u05d7 \u05d7\u05d3\u05e9</b>\u05d0\u05d7\u05e8\u05d9 \u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05de\u05e6\u05d1</div></div>
-   ${C.noam?`<div class="g-lun"><img alt="" src="avatar/noam-flex.webp"><div class="g-bub"><small>${n<3?`\u05e2\u05d5\u05dc\u05dd ${n+1} \u05e0\u05e4\u05ea\u05d7`:"\u05d4\u05d2\u05d1\u05d9\u05e2 \u05e9\u05dc\u05da"}</small>${n<3?`\u05e2\u05d1\u05e8\u05ea \u05d0\u05ea ${STAGES[n].title}. \u05e2\u05db\u05e9\u05d9\u05d5 \u05de\u05ea\u05d7\u05d9\u05dc\u05d9\u05dd \u05d0\u05ea ${STAGES[n+1].title}: ${STAGES[n+1].goal}.`:"\u05e2\u05e9\u05d9\u05ea \u05d0\u05ea \u05d6\u05d4. \u05e2\u05db\u05e9\u05d9\u05d5 \u05dc\u05e9\u05de\u05d5\u05e8 \u05e2\u05dc \u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05d5\u05dc\u05d7\u05d6\u05d5\u05e8 \u05e2\u05dc \u05d6\u05d4."}</div></div>`:""}
-   <button class="btn2" data-gluok>${n<3?"\u05dc\u05e2\u05d5\u05dc\u05dd \u05d4\u05d1\u05d0":"\u05e1\u05d9\u05d5\u05dd"}</button></div>`;
+   ${C.noam?`<div class="g-lun"><img alt="" src="avatar/noam-flex.webp"><div class="g-bub"><small>${n<3?`\u05e9\u05dc\u05d1 ${n+1} \u05e0\u05e4\u05ea\u05d7`:"\u05d4\u05d2\u05d1\u05d9\u05e2 \u05e9\u05dc\u05da"}</small>${n<3?`\u05e2\u05d1\u05e8\u05ea \u05d0\u05ea ${STAGES[n].title}. \u05e2\u05db\u05e9\u05d9\u05d5 \u05de\u05ea\u05d7\u05d9\u05dc\u05d9\u05dd \u05d0\u05ea ${STAGES[n+1].title}: ${STAGES[n+1].goal}.`:"\u05e2\u05e9\u05d9\u05ea \u05d0\u05ea \u05d6\u05d4. \u05e2\u05db\u05e9\u05d9\u05d5 \u05dc\u05e9\u05de\u05d5\u05e8 \u05e2\u05dc \u05d4\u05d7\u05e9\u05d1\u05d5\u05df \u05d5\u05dc\u05d7\u05d6\u05d5\u05e8 \u05e2\u05dc \u05d6\u05d4."}</div></div>`:""}
+   <button class="btn2" data-gluok>${n<3?"\u05dc\u05e9\u05dc\u05d1 \u05d4\u05d1\u05d0":"\u05e1\u05d9\u05d5\u05dd"}</button></div>`;
   document.body.appendChild(ov);requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add("on")));confetti();
   const close=()=>{ov.classList.remove("on");setTimeout(()=>ov.remove(),400);document.removeEventListener("keydown",esc);};
   const esc=e=>{if(e.key==="Escape")close();};document.addEventListener("keydown",esc);
@@ -459,7 +489,7 @@ function view(){
   document.querySelectorAll("[data-chn]").forEach(b=>b.classList.toggle("on",(b.dataset.chn==="on")===C.noam));
   document.querySelectorAll("[data-chver]").forEach(b=>b.classList.toggle("on",b.dataset.chver===C.ver));
   document.body.classList.toggle("chj-lock",!!C.wiz);
-  if(C.ver==="game"&&joined)gRoad();
+  if(C.ver==="game"&&joined){gRoad();gCount();}
 }
 window.challengeView=view;
 
@@ -474,7 +504,7 @@ document.addEventListener("click",e=>{
   if(x=q("[data-glvl]")){if(C.view==="join"){toast("\u05e7\u05d5\u05d3\u05dd \u05de\u05e6\u05d8\u05e8\u05e4\u05d9\u05dd","\u05d1\u05d7\u05e8\u05d9 \u05d9\u05d5\u05dd 23 \u05d0\u05d5 \u05d9\u05d5\u05dd 64 \u05d1\u05e4\u05e1 \u05d4\u05d4\u05d3\u05de\u05d9\u05d4");return;}gLevelUp();return;}
   if(x=q("[data-gchest]")){gOpenChest(x);return;}
   if(x=q("[data-gburn]")){const v=SMP[C.view];if(!v||C.view==="join"){toast("\u05e7\u05d5\u05d3\u05dd \u05de\u05e6\u05d8\u05e8\u05e4\u05d9\u05dd","\u05d1\u05d7\u05e8\u05d9 \u05d9\u05d5\u05dd 23 \u05d0\u05d5 \u05d9\u05d5\u05dd 64 \u05d1\u05e4\u05e1 \u05d4\u05d4\u05d3\u05de\u05d9\u05d4");return;}const l=v.links.find(l=>l.status==="active");if(!l){toast("\u05d0\u05d9\u05df \u05d7\u05e9\u05d1\u05d5\u05df \u05e4\u05e2\u05d9\u05dc");return;}l.status="failed";l.ended="05.11.2026";v.out.burned++;gHeartFx(l.id,"break");return;}
-  if(x=q("[data-gcode]")){toast("\u05d4\u05e7\u05d5\u05d3 \u05e9\u05dc\u05da",DISCOUNT.replace("[\u05d8\u05e7\u05e1\u05d8 \u05d6\u05de\u05e0\u05d9] ",""));return;}
+  if(x=q("[data-gcode]")){gClaim(+x.dataset.gcode);return;}
   if(x=q("[data-gnoamrev]")){toast("\u05d4\u05d1\u05e7\u05e9\u05d4 \u05e0\u05e9\u05dc\u05d7\u05d4 \u05dc\u05e0\u05d5\u05e2\u05dd","\u05d4\u05d5\u05d0 \u05d9\u05d7\u05d6\u05d5\u05e8 \u05d0\u05dc\u05d9\u05da \u05dc\u05ea\u05d9\u05d0\u05d5\u05dd \u05e9\u05d9\u05d7\u05d4 \u05e2\u05dc \u05d4\u05d9\u05d5\u05de\u05df.",false,true);return;}
   if(x=q("[data-geq]")){const id=x.dataset.geq,eq=C.gEq[C.view]||(C.gEq[C.view]=[]),i=eq.indexOf(id);
     if(i>=0){eq.splice(i,1);view();toast("\u05d4\u05db\u05e8\u05d8\u05d9\u05e1 \u05d4\u05d5\u05e1\u05e8 \u05de\u05d4\u05e6\u05d9\u05d5\u05d3");return;}
