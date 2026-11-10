@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מאי לי ביוטי | הצעה לאתר</title>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#e9e4df;font-family:Assistant,sans-serif;color:#2a1f1a;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 20px}
+h1{font-size:20px;font-weight:600}
+p.sub{font-size:14px;color:#76655b;margin:4px 0 22px}
+.row{display:flex;gap:44px;justify-content:center;transform-origin:top center}
+.ph{width:414px;height:868px;border-radius:66px;background:#111;padding:12px;box-shadow:0 30px 70px rgba(0,0,0,.25),inset 0 0 0 2px #333;position:relative}
+.scr{position:relative;width:390px;height:844px;border-radius:55px;overflow:hidden;background:#f4ede6}
+.status{position:absolute;inset:0 0 auto;height:54px;display:flex;justify-content:space-between;align-items:center;padding:6px 34px 0;font-size:16px;font-weight:600;z-index:3;direction:ltr;background:#f4ede6}
+.island{position:absolute;top:11px;left:50%;width:124px;height:36px;margin-left:-62px;background:#000;border-radius:20px;z-index:4}
+iframe{position:absolute;top:54px;left:0;width:390px;height:710px;border:0}
+.safari{position:absolute;inset:auto 0 0;height:80px;background:rgba(246,242,238,.94);backdrop-filter:blur(10px);display:flex;justify-content:center;padding-top:10px;z-index:3}
+.safari div{width:340px;height:44px;border-radius:22px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;font-size:15px;color:#333;direction:ltr}
+.lbl{text-align:center;margin-top:16px;font-size:16px;font-weight:600}
+.lbl small{display:block;font-weight:400;color:#76655b;font-size:14px}
+</style>
+</head>
+<body>
+<h1>מאי לי ביוטי · הצעה לאתר חדש</h1>
+<p class="sub">אפשר לגלול וללחוץ בתוך הטלפון, כולל קביעת ייעוץ.</p>
+<div class="row" id="row"></div>
+<script>
+const ALL = { p:['Almoni + Fb Rokoko','Almoni · Rokoko'], a:['א. קלאסי יוקרתי','Bellefair · Assistant · Bodoni'], b:['ב. מינימליסטי מודרני','Heebo דק · Jost'], c:['ג. מגזין','Noto Serif Hebrew · Rubik · Cormorant'] };
+const T = (new URLSearchParams(location.search).get('show') || 'p').split(',').map(t => [t, ...ALL[t]]);
+const row = document.getElementById('row');
+T.forEach(([t,n,f]) => row.insertAdjacentHTML('beforeend',
+ `<div><div class="ph"><div class="scr"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="island"></div>
+  <iframe src="index.html?t=${t}&v=${Date.now()}"></iframe><div class="safari"><div>mayleebeauty.co.il</div></div></div></div>
+  </div>`));
+function fit(){ const n = T.length, s = Math.min(1, (innerWidth-40)/(414*n+44*(n-1)), (innerHeight-130)/930); row.style.transform = `scale(${s})`; row.style.height = (930*s)+'px'; }
+addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>

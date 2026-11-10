@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מאי לי ביוטי | מיקרופיגמנטציה בתל אביב</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400&family=Bellefair&family=Bodoni+Moda:opsz,wght@6..96,400&family=Assistant:wght@300;400;600&family=Heebo:wght@200;300;400;500&family=Jost:wght@300&family=Noto+Serif+Hebrew:wght@200;300&family=Rubik:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4ede6;--card:#fbf8f4;--ink:#2a1f1a;--soft:#76655b;--rose:#a86e5a;--line:rgba(42,31,26,.14)}
+@font-face{font-family:'Almoni';src:url(fonts/almoni-dl-aaa-regular.woff2) format('woff2');font-weight:400}
+@font-face{font-family:'Almoni';src:url(fonts/almoni-dl-aaa-bold.woff2) format('woff2');font-weight:700}
+@font-face{font-family:'FbRokoko';src:url(fonts/FbRokoko-Bold.woff2) format('woff2');font-weight:700}
+body[data-t=p]{--disp:'Almoni',sans-serif;--dw:400;--dls:0;--body:'Almoni',sans-serif;--bw:400;--logo:'Bodoni Moda',serif;--lw:400;--lls:.3em;--lst:normal;--ui:'Almoni',sans-serif;--uw:700}
+/* the accent words (em) are Fb Rokoko Bold everywhere */
+body[data-t=p] h1 em,body[data-t=p] h2 em{font-family:'FbRokoko',serif;font-weight:700;font-style:normal}
+/* three type directions, picked with ?t=a|b|c */
+body[data-t=a]{--disp:'Bellefair',serif;--dw:400;--dls:0;--body:'Assistant',sans-serif;--bw:300;--logo:'Bodoni Moda',serif;--lw:400;--lls:.3em;--lst:normal;--ui:'Assistant',sans-serif;--uw:600}
+body[data-t=b]{--disp:'Heebo',sans-serif;--dw:200;--dls:-.02em;--body:'Heebo',sans-serif;--bw:300;--logo:'Jost',sans-serif;--lw:300;--lls:.48em;--lst:normal;--ui:'Heebo',sans-serif;--uw:500}
+body[data-t=c]{--disp:'Noto Serif Hebrew',serif;--dw:200;--dls:-.01em;--body:'Rubik',sans-serif;--bw:300;--logo:'Cormorant Garamond',serif;--lw:400;--lls:.06em;--lst:italic;--ui:'Rubik',sans-serif;--uw:500}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:var(--bw)}
+a{color:inherit;text-decoration:none}
+.logo{font-family:var(--logo);font-weight:var(--lw);font-style:var(--lst);letter-spacing:var(--lls);font-size:21px;white-space:nowrap}
+.disp{font-family:var(--disp);font-weight:var(--dw);letter-spacing:var(--dls)}
+.tag{font-family:var(--ui);font-size:12px;letter-spacing:.24em;color:var(--rose);font-weight:var(--uw)}
+
+/* header */
+header{position:absolute;inset:0 0 auto;display:flex;align-items:center;gap:8px;padding:28px 56px;z-index:5}
+.menu{display:none}
+.logo-pill{display:flex;flex-direction:column}
+.logo-pill small{font-family:var(--body);font-size:12px;letter-spacing:.06em;color:var(--soft);margin-top:3px;font-style:normal}
+nav{display:flex;gap:34px;font-size:15px;margin-inline-start:56px;margin-inline-end:auto;font-family:var(--ui);font-weight:400}
+nav a{opacity:.75}
+.cta-pill{font-family:var(--ui);font-weight:400;font-size:15px;border:1px solid var(--ink);border-radius:40px;padding:10px 22px}
+
+/* hero */
+.hero{position:relative;height:100vh;min-height:720px;display:grid;grid-template-columns:1fr 1.08fr;align-items:center;padding:0 56px;gap:40px;overflow:hidden}
+.copy{padding-top:40px;max-width:660px}
+h1{font-size:78px;line-height:.98;margin:20px 0 18px}
+h1 em{font-style:normal;color:var(--rose)}
+h1 .l1,h1 .l2{display:block}
+/* rotating service word: letters rise in and out inside a clipped line */
+.svcs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:26px}
+.svcs a{background:rgba(255,255,255,.55);border-radius:15px;padding:14px 14px 15px;display:flex;flex-direction:column;justify-content:flex-start}
+.svcs b{font-family:var(--ui);font-weight:var(--uw);font-size:16px}
+.svcs small{font-size:12px;line-height:1.45;color:var(--soft);margin-top:4px}
+.proof{font-family:var(--ui);font-weight:400;font-size:15px;color:var(--soft);margin-top:18px}
+.rot{position:relative;color:var(--ink);clip-path:inset(-.05em -.2em -.18em -.2em);height:1.02em}
+.rot .w{position:absolute;top:0;right:0;white-space:nowrap}
+.rot .ch{display:inline-block;will-change:transform,opacity,filter}
+.lead{font-size:19px;line-height:1.6;color:var(--soft);max-width:470px}
+.tiles{display:flex;gap:12px;margin-top:34px}
+.tile{font-family:var(--ui);font-weight:400;font-size:16px;padding:15px 30px;border-radius:40px;border:1px solid var(--ink);text-align:center}
+.tile.fill{background:var(--ink);color:var(--bg)}
+.tile br{display:none}
+
+.reel{position:relative;height:100vh;min-height:720px;display:flex;gap:14px;justify-content:center;
+  -webkit-mask:linear-gradient(transparent,#000 14%,#000 86%,transparent);mask:linear-gradient(transparent,#000 14%,#000 86%,transparent)}
+.col{width:min(15.5vw,240px);display:flex;flex-direction:column;gap:14px;animation:up 46s linear infinite}
+.col:nth-child(2){animation:down 54s linear infinite;margin-top:-120px}
+.col:nth-child(3){animation-duration:50s;margin-top:60px}
+@keyframes up{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes down{from{transform:translateY(-50%)}to{transform:translateY(0)}}
+.card{position:relative;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:#e5d8cc center/cover;flex:none}
+.card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s}
+.card video.ready{opacity:1}
+.card span{position:absolute;bottom:12px;right:12px;font-family:var(--ui);font-size:12px;letter-spacing:.08em;color:#fff;background:rgba(42,31,26,.32);backdrop-filter:blur(8px);padding:5px 11px;border-radius:20px}
+
+/* treatments */
+.treat{position:relative;z-index:2;background:var(--card);padding:96px 56px 110px}
+.treat h2{font-size:52px;line-height:1.02;max-width:640px;margin-top:14px}
+.treat .row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.t-card{background:#fff;border-radius:24px;overflow:hidden}
+.t-card .ph{aspect-ratio:1/1;background:center/cover}
+.t-card .tx{padding:22px 24px 26px}
+.t-card h3{font-size:30px;line-height:1.05}
+.t-card p{font-size:16px;line-height:1.55;color:var(--soft);margin:10px 0 16px}
+.t-card a{font-family:var(--ui);font-weight:400;font-size:15px;border-bottom:1px solid var(--ink);padding-bottom:2px}
+
+/* phone, following Roni's mobile hero recipe */
+@media (max-width:900px){
+ header{padding:14px 16px;gap:8px}
+ nav,.logo-pill small{display:none}
+ .menu,.logo-pill,.cta-pill{height:48px;display:flex;align-items:center;background:rgba(255,255,255,.5);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:0;border-radius:40px}
+ .menu{width:48px;justify-content:center;flex:none}
+ .menu svg{width:22px;height:22px}
+ .logo-pill{padding:0 22px;justify-content:center}
+ .logo-pill .logo{font-size:17px}
+ .cta-pill{margin-inline-start:auto;padding:0 20px;font-size:15px}
+ html{scrollbar-width:none} html::-webkit-scrollbar{display:none}
+ .hero{display:flex;flex-direction:column;align-items:stretch;height:auto;min-height:100svh;padding:92px 16px 0;gap:0}
+ .copy{padding-top:6px;max-width:none}
+ h1{margin:14px 0 14px}
+ h1 .l1{font-size:46px;display:block;line-height:.98}
+ .svcs{grid-template-columns:repeat(2,1fr);gap:8px;margin-top:18px}
+ .svcs a{padding:12px 12px 13px}
+ .proof{font-size:12px;margin-top:12px}
+ h1 .l2{font-size:38px;display:block;line-height:.98}
+ .lead{font-size:16px;line-height:1.55}
+ .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px}
+ .tile{height:68px;border-radius:15px;padding:0 6px;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1.15;font-weight:var(--uw)}
+ .tile br{display:inline}
+ .reel{flex:1;height:auto;min-height:330px;margin:4px -16px 0;gap:10px;
+   -webkit-mask:radial-gradient(120% 90% at 50% 40%,#000 55%,transparent 80%);mask:radial-gradient(120% 90% at 50% 40%,#000 55%,transparent 80%)}
+ .reel-in{position:absolute;inset:-40px -30px;display:flex;gap:10px;justify-content:center;transform:perspective(900px) rotateX(16deg) rotateZ(-7deg) scale(1.08);transform-origin:50% 30%}
+ .col{width:33vw;gap:10px}
+ .col:nth-child(2){margin-top:-70px}.col:nth-child(3){margin-top:30px}
+ .card{border-radius:16px}
+ .card span{font-size:12px;bottom:9px;right:9px}
+ .treat{margin-top:-54px;border-radius:50% 50% 0 0/54px 54px 0 0;padding:58px 16px 64px}
+ .treat h2{font-size:38px}
+ .treat .row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:28px -16px 0;padding:0 16px;scrollbar-width:none}
+ .treat .row::-webkit-scrollbar{display:none}
+ .t-card{flex:0 0 78%;scroll-snap-align:start}
+ .t-card h3{font-size:30px}
+}
+@media (min-width:901px){.reel-in{display:contents}}
+@media (prefers-reduced-motion:reduce){.col{animation:none!important}}
+
+/* running service bands (?band=1 one band, ?band=2 two crossing) */
+.bands{display:none}
+body[data-band] .bands{display:block;position:absolute;left:0;right:0;bottom:70px;height:0;z-index:4;pointer-events:none}
+body[data-band] .svcs{display:none}
+body[data-band="2"] .proof{display:none}
+.band{position:absolute;left:-60px;right:-60px;top:0;height:50px;overflow:hidden;display:flex;align-items:center;box-shadow:0 10px 30px rgba(42,31,26,.12)}
+.band .trk{display:flex;flex:none;white-space:nowrap;animation:bandL 38s linear infinite}
+.band span{font-family:var(--ui);font-weight:var(--uw);font-size:16px;padding:0 18px;display:inline-flex;align-items:center;gap:36px}
+.band span i{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.55;display:inline-block}
+.band.a{background:#8f5a48;color:#f4ede6;transform:rotate(-5deg);z-index:2}
+.band.b{background:#e8d4c7;color:var(--ink);transform:rotate(4deg);z-index:1}
+.band.b .trk{animation-name:bandR;animation-duration:46s}
+body[data-band="1"] .band.b{display:none}
+@keyframes bandL{from{transform:translateX(0)}to{transform:translateX(50%)}}
+@keyframes bandR{from{transform:translateX(50%)}to{transform:translateX(0)}}
+@media (max-width:900px){
+ body[data-band] .bands{position:relative;bottom:auto;order:2;height:0;margin:0}
+ body[data-band] .bands{margin-top:6px}
+ body[data-band] .bands .band{top:26px;height:44px}
+ body[data-band] .band.a{transform:rotate(-4deg)}
+ body[data-band] .band.b{transform:rotate(3deg)}
+ body[data-band] .reel{order:3;margin-top:44px}
+ .band span{font-size:15px;padding:0 14px;gap:28px}
+}
+@media (prefers-reduced-motion:reduce){.band .trk{animation:none}}
+
+/* shared bits for the icon buttons and logo image */
+.tile{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.tile img{flex:none}
+.logo-img,br.mbr{display:none}
+.col:nth-child(n+4){display:none}
+.menu img{display:block}
+
+/* phone hero, synced from Figma "May Lee Beauty - Mobile" (node 3:28) */
+@media (max-width:900px){
+ html,body{background:#fff6f2}
+ body{--wine:#4d0f14;--pink:#ff3ea5;color:var(--wine)}
+ header{padding:14px 16px 0;height:59px;gap:8px}
+ .menu{background:none;backdrop-filter:blur(7px);width:48px;height:48px;border-radius:24px}
+ .logo-pill{background:none;backdrop-filter:none;padding:0;height:auto}
+ .logo-pill .logo{display:none}
+ .logo-img{display:block;position:relative;width:171px;height:27.133px;overflow:hidden}
+ .logo-img img{position:absolute;width:116.25%;height:323.26%;left:-8.13%;top:-44.19%;max-width:none}
+ .cta-pill{background:var(--pink);color:#fff6f2;font-family:'Almoni',sans-serif;font-weight:700;font-size:15px;height:40px;padding:0 20px;backdrop-filter:blur(7px)}
+ .hero{padding:76px 0 0;background:#fff6f2}
+ .copy{display:flex;flex-direction:column;align-items:center;gap:14px;padding:6px 16px 59px;text-align:center}
+ .copy .tag{font-family:'Almoni',sans-serif;font-weight:400;font-size:14px;letter-spacing:2.94px;color:var(--wine)}
+ h1{margin:0;font-family:'Almoni',sans-serif;font-weight:400;color:var(--wine);text-align:center}
+ h1 .l1{font-size:45px;line-height:.98}
+ h1 em{font-family:'FbRokoko',serif;font-weight:700;font-size:50px;color:var(--pink)}
+ .lead{font-family:'Almoni',sans-serif;font-weight:400;font-size:16px;line-height:1.55;color:var(--wine);text-align:center;max-width:none}
+ br.mbr{display:inline}
+ .proof{display:none}
+ .tiles{display:flex;justify-content:center;gap:8px;margin:0;padding-top:8px;width:100%}
+ .tile{height:50px;border-radius:4px;border:1px solid var(--wine);padding:0 16px;font-family:'Almoni',sans-serif;font-weight:700;font-size:15px;line-height:1;color:var(--wine)}
+ .tile.fill{background:var(--wine);color:#f4ede6;border-color:var(--wine)}
+ /* band: its centre line sits exactly on the top edge of the reel, so the videos come out from under it */
+ body[data-band] .bands{margin:0;order:2}
+ body[data-band] .bands .band{top:-22px;height:44px;left:-40px;right:-40px}
+ body[data-band] .band.a{background:var(--wine);color:#f4ede6;transform:rotate(-2.81deg);box-shadow:0 10px 15px rgba(42,31,26,.12)}
+ .band span{font-family:'Assistant',sans-serif;font-weight:600;font-size:15px;padding:0 14px;gap:28px}
+ body[data-band] .reel{order:3;margin:0}
+ .reel{flex:none;height:426px;min-height:0;margin:0;overflow:hidden;-webkit-mask:none;mask:none}
+ .reel-in{position:absolute;inset:auto;left:-227px;top:-89px;width:720px;height:980px;display:block;transform:rotate(7deg);transform-origin:50% 50%}
+ .col,.col:nth-child(n+4){display:flex;position:absolute;width:130px;gap:10px;margin:0}
+ .col:nth-child(1){left:445px;top:60px}
+ .col:nth-child(2){left:305px;top:-10px}
+ .col:nth-child(3){left:165px;top:90px}
+ .col:nth-child(4){left:25px;top:10px;animation:up 58s linear infinite}
+ .col:nth-child(5){left:585px;top:-50px;animation:down 50s linear infinite}
+ .card{width:130px;height:231px;aspect-ratio:auto;border-radius:16px}
+ .treat{background:#fff6f2;margin-top:0;border-radius:0;padding-top:36px}
+ .treat .tag{color:var(--wine)}
+ .treat h2{color:var(--wine);margin-top:12px}
+ .card span{background:var(--wine);backdrop-filter:blur(4px);font-family:'Assistant',sans-serif;font-weight:400;font-size:12px;letter-spacing:.96px;color:#fff;padding:4px 9px;bottom:9px;right:9px}
+}
+
+/* sticky header: stays on top, gets the page colour once you scroll */
+header{position:fixed;transition:background .3s,backdrop-filter .3s}
+header.scrolled{background:rgba(255,246,242,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.wa-pill{width:40px;height:40px;border-radius:50%;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+.wa-pill img{display:block}
+
+@media (max-width:900px){
+ header.scrolled{box-shadow:0 6px 18px rgba(41,10,13,.06)}
+ .wa-pill{border-color:var(--wine);margin-inline-start:auto}
+ .cta-pill{margin-inline-start:0}
+ .hero{padding-top:76px}
+ .copy{padding:82px 16px 32px}
+ .copy .tag{display:none}
+ .lead{color:#290a0d}
+ /* band moved to the top, under the header, where the tag was */
+ body[data-band] .bands{position:absolute;top:112px;left:0;right:0;height:0;margin:0;z-index:4}
+ body[data-band] .bands .band{top:-22px}
+ body[data-band] .band.a{transform:rotate(1.6deg)}
+ /* reel fades into the page at top and bottom */
+ .reel::before,.reel::after{content:"";position:absolute;left:0;right:0;height:90px;z-index:2;pointer-events:none}
+ .reel::before{top:0;background:linear-gradient(#fff6f2,rgba(255,246,242,0))}
+ .reel::after{bottom:0;background:linear-gradient(rgba(255,246,242,0),#fff6f2)}
+}
+
+/* booking sheet, from Figma screens "Booking 1-4" */
+.bk-dim{position:fixed;inset:0;background:rgba(41,10,13,.5);opacity:0;pointer-events:none;transition:opacity .35s;z-index:20}
+.bk{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:430px;z-index:21;background:#fff6f2;border-radius:24px 24px 0 0;padding:26px 16px 34px;color:#4d0f14;font-family:'Almoni',sans-serif;
+  transform:translateY(105%);transition:transform .45s cubic-bezier(.22,.8,.2,1);max-height:92vh;overflow:auto;direction:rtl;text-align:right}
+body.bk-open .bk{transform:none}
+body.bk-open .bk-dim{opacity:1;pointer-events:auto}
+body.bk-open{overflow:hidden}
+.bk-x{position:fixed;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:#ff3ea5;border:0;display:flex;align-items:center;justify-content:center;z-index:22;opacity:0;pointer-events:none;transition:opacity .25s}
+body.bk-open .bk-x{opacity:1;pointer-events:auto}
+body.bk-open header .cta-pill{visibility:hidden}
+.bk-step{display:none;flex-direction:column;gap:16px}
+.bk-step.on{display:flex;animation:bkIn .35s ease}
+@keyframes bkIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.bk-h{display:flex;flex-direction:column;gap:6px}
+.bk-h small{font-weight:700;font-size:12px;color:#ff3ea5}
+.bk-h b{font-weight:700;font-size:28px;line-height:1.05}
+.bk-h p{font-size:16px;line-height:1.55;color:rgba(77,15,20,.8)}
+.bk-seg{display:flex;gap:8px}
+.bk-seg button,.bk-opt,.bk-day,.bk-time{font-family:'Almoni',sans-serif;color:#4d0f14;border:0;cursor:pointer;border-radius:4px}
+.bk-seg button{flex:1;height:40px;font-weight:700;font-size:15px;background:none}
+.bk-seg button.sel{background:#4d0f14;color:#f4ede6}
+.bk-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bk-opt{background:rgba(77,15,20,.05);padding:14px 14px 15px;display:flex;flex-direction:column;gap:4px;text-align:right;outline:1.5px solid transparent;outline-offset:-1.5px}
+.bk-opt:last-child{grid-column:1/-1}
+.bk-opt b{font-weight:700;font-size:16px}
+.bk-opt span{font-size:12px;color:rgba(77,15,20,.75);line-height:1.35}
+.bk-opt.sel{background:rgba(77,15,20,.1);outline-color:#4d0f14}
+.bk-proof{font-size:12px;color:rgba(77,15,20,.75)}
+.bk-days{display:flex;gap:8px;justify-content:flex-start}
+.bk-day{width:62px;height:64px;background:rgba(77,15,20,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.bk-day b{font-weight:700;font-size:15px}.bk-day span{font-size:14px}
+.bk-day.sel{background:#4d0f14;color:#f4ede6}
+.bk-lbl{font-weight:700;font-size:12px}
+.bk-times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bk-time{height:42px;background:rgba(77,15,20,.05);font-weight:700;font-size:16px}
+.bk-time.sel{background:#4d0f14;color:#f4ede6}
+.bk-time:disabled{opacity:.35;cursor:default}
+.bk-sum{background:rgba(77,15,20,.06);border-radius:4px;padding:12px 14px;font-weight:700;font-size:14px}
+.bk-field{display:flex;flex-direction:column;gap:6px}
+.bk-field label{font-weight:700;font-size:12px}
+.bk-field input{height:48px;border:0;outline:0;border-radius:4px;background:rgba(77,15,20,.06);padding:0 14px;font-family:'IBM Plex Sans Hebrew',sans-serif;font-size:16px;color:#4d0f14;text-align:right;direction:rtl}
+.bk-field input::placeholder{color:rgba(77,15,20,.4)}
+.bk-check{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer}
+.bk-check input{appearance:none;-webkit-appearance:none;width:20px;height:20px;border-radius:4px;background:rgba(77,15,20,.12);margin:0;flex:none;display:grid;place-content:center}
+.bk-check input:checked::after{content:"";width:9px;height:5px;border:solid #4d0f14;border-width:0 0 1.5px 1.5px;transform:rotate(-45deg) translate(1px,-1px)}
+.bk-go{height:50px;border:0;border-radius:4px;background:#4d0f14;color:#f4ede6;font-family:'Almoni',sans-serif;font-weight:700;font-size:15px;cursor:pointer;width:100%}
+.bk-msg{background:rgba(77,15,20,.06);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.bk-msg .from{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px}
+.bk-msg p{font-size:16px;line-height:1.31}
+.bk-msg time{font-size:12px;color:rgba(77,15,20,.6)}
+.bk-note{font-size:14px;color:rgba(77,15,20,.8)}
+
+/* round 2 of fixes from Figma (header, treatments, fade) */
+@media (max-width:900px){
+ header{position:fixed;inset:0 0 auto;padding:8px 16px;height:auto;min-height:0;background:#fff6f2}
+ header.scrolled{background:#fff6f2;backdrop-filter:none;-webkit-backdrop-filter:none}
+ .menu{backdrop-filter:none;-webkit-backdrop-filter:none;background:none}
+ .logo-img{width:106px;height:17px}
+ .reel::after{bottom:-2px;height:92px}
+ .treat{padding:36px 16px 64px;background:#fff6f2;margin-top:0}
+ .treat .tag{font-family:'Almoni',sans-serif;font-weight:400;font-size:14px;letter-spacing:2.94px;color:#4d0f14}
+ .treat h2{margin-top:12px;font-family:'Almoni',sans-serif;font-weight:400;color:#4d0f14;max-width:none}
+ .treat h2 .h2a{display:block;font-size:35px;line-height:.98}
+ .treat h2 em{display:block;font-style:normal;font-family:'FbRokoko',serif;font-weight:700;font-size:40px;line-height:.86;color:#ff3ea5}
+ .treat .row{gap:12px;margin:12px -16px 0;padding:14px 16px 0}
+ .t-card{flex:0 0 304px;background:rgba(255,255,255,.6);border-radius:24px;overflow:hidden}
+ .t-card .ph{height:304px;aspect-ratio:auto}
+ .t-card .tx{padding:22px 24px 26px;display:flex;flex-direction:column;gap:10px;color:#4d0f14}
+ .t-card h3{font-family:'Almoni',sans-serif;font-weight:700;font-size:28px;line-height:1.05}
+ .t-card p{font-family:'Almoni',sans-serif;font-weight:400;font-size:16px;line-height:1.55;color:#4d0f14;margin:0}
+ .t-card a{font-family:'Almoni',sans-serif;font-weight:700;font-size:15px;border:0;padding:0;color:#4d0f14}
+}
+
+/* grid pass: 16px side margins; menu lines end on the right margin like the pill on the left */
+@media (max-width:900px){
+ header{top:-2px;padding:10px 16px 8px}
+ .menu{width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:flex-start;flex:none}
+ .menu img{margin-right:-2.5px}
+ /* snap the cards to the 16px margin, not to the screen edge */
+ .treat .row{scroll-padding-inline:16px}
+}
+
+/* 1:1 with Figma, 10.11 evening: light band, header sizes */
+@media (max-width:900px){
+ body[data-band] .band.a{background:rgba(77,15,20,.1);color:#4d0f14;box-shadow:none}
+ .band span{font-family:'Assistant',sans-serif;font-weight:600;font-size:15px;gap:28px;padding:0 14px}
+ .band span i{background:#4d0f14;opacity:.55;width:5px;height:5px}
+ header{gap:8px}
+ .logo-img{width:120px;height:19px}
+ .menu{width:15px;height:41px;justify-content:center}
+ .menu img{margin-right:0}
+ .cta-pill{height:40px;padding:0 20px}
+}
+
+/* band and clip labels in Almoni too */
+.band span{font-family:'Almoni',sans-serif;font-weight:400}
+.card span{font-family:'Almoni',sans-serif;font-weight:400}
+
+/* treatment cards: wine 10% containers, photo inset 12px with 15px corners (frames cropped out of the files) */
+@media (max-width:900px){
+ .t-card{background:rgba(255,255,255,.6);padding:12px 12px 0}
+ .t-card .ph{height:280px;border-radius:15px;background-size:cover;background-position:center}
+ .t-card .tx{padding:22px 12px 26px}
+}
+</style>
+</head>
+<body data-t="a">
+<header>
+ <button class="menu" aria-label="תפריט"><img src="img/icon-menu.svg" alt="" width="15" height="15"></button>
+ <div class="logo-pill"><span class="logo">MAY LEE</span><span class="logo-img"><img src="img/logo-figma.png" alt="May Lee Beauty"></span><small>הדגשת תווי פנים · מיקרופיגמנטציה</small></div>
+ <nav><a href="#">גבות</a><a href="#">שפתיים</a><a href="#">אייליינר</a><a href="#treat">עבודות</a><a href="#">אודות</a></nav>
+ <a class="wa-pill" href="https://wa.me/972546080696" aria-label="שאלה בוואטסאפ"><img src="img/icon-whatsapp.svg" alt="" width="20" height="20"></a>
+ <a class="cta-pill" href="#book" data-book>לתיאום</a>
+</header>
+
+<section class="hero">
+ <div class="copy">
+  <div class="tag">קליניקה לאיפור קבוע · תל אביב</div>
+  <h1 class="disp"><span class="l1">אומרים לך</span><span class="l1">שאת <em>נראית טוב.</em></span><span class="l1">לא שעשית משהו.</span></h1>
+  <p class="lead">25 שנה בעולם היופי, 18 מהן במיקרופיגמנטציה. <br class="mbr">כל טיפול בעבודת יד, בקליניקה בתל אביב.</p>
+  <div class="svcs">
+   <a href="#treat"><b>גבות</b><small>מיקרובליידינג · היפראליזם · מיקרושיידינג</small></a>
+   <a href="#treat"><b>שפתיים</b><small>הדגשת שפתיים בגוון שמותאם לך</small></a>
+   <a href="#treat"><b>קו ריסים</b><small>אייליינר, מעדין ועד חתולי</small></a>
+   <a href="#treat"><b>הסרה בלייזר</b><small>לעבודות קודמות שלא אהבת</small></a>
+  </div>
+  <div class="tiles">
+   <a class="tile fill" href="#book" data-book><img src="img/icon-calendar.svg" alt="" width="20" height="20"><span>תיאום פגישת ייעוץ</span></a>
+   <a class="tile" href="https://wa.me/972546080696"><img src="img/icon-whatsapp.svg" alt="" width="20" height="20"><span>ייעוץ בוואטסאפ</span></a>
+  </div>
+  <div class="proof">4.7 בגוגל · 180 ביקורות · אחריות לשנה מלאה</div>
+ </div>
+
+ <div class="bands" aria-hidden="true"><div class="band b"><div class="trk"><span>"המחמאות פשוט לא מפסיקות להגיע"<i></i>4.7 בגוגל<i></i>"חוויה מתקנת"<i></i>180 ביקורות<i></i>"מקצועיות, דיוק, אסתטיקה"<i></i>אחריות לשנה מלאה<i></i></span><span>"המחמאות פשוט לא מפסיקות להגיע"<i></i>4.7 בגוגל<i></i>"חוויה מתקנת"<i></i>180 ביקורות<i></i>"מקצועיות, דיוק, אסתטיקה"<i></i>אחריות לשנה מלאה<i></i></span><span>"המחמאות פשוט לא מפסיקות להגיע"<i></i>4.7 בגוגל<i></i>"חוויה מתקנת"<i></i>180 ביקורות<i></i>"מקצועיות, דיוק, אסתטיקה"<i></i>אחריות לשנה מלאה<i></i></span><span>"המחמאות פשוט לא מפסיקות להגיע"<i></i>4.7 בגוגל<i></i>"חוויה מתקנת"<i></i>180 ביקורות<i></i>"מקצועיות, דיוק, אסתטיקה"<i></i>אחריות לשנה מלאה<i></i></span></div></div><div class="band a"><div class="trk"><span>מיקרובליידינג<i></i>היפראליזם<i></i>מיקרושיידינג<i></i>הדגשת שפתיים<i></i>אייליינר<i></i>הסרה בלייזר<i></i></span><span>מיקרובליידינג<i></i>היפראליזם<i></i>מיקרושיידינג<i></i>הדגשת שפתיים<i></i>אייליינר<i></i>הסרה בלייזר<i></i></span><span>מיקרובליידינג<i></i>היפראליזם<i></i>מיקרושיידינג<i></i>הדגשת שפתיים<i></i>אייליינר<i></i>הסרה בלייזר<i></i></span><span>מיקרובליידינג<i></i>היפראליזם<i></i>מיקרושיידינג<i></i>הדגשת שפתיים<i></i>אייליינר<i></i>הסרה בלייזר<i></i></span></div></div></div>
+ <div class="reel" id="reel"><div class="reel-in" id="reelIn"></div></div>
+</section>
+
+<section class="treat" id="treat">
+ <div class="tag">הטיפולים</div>
+ <h2 class="disp"><span class="h2a">כל טיפול</span><em>בהתאמה אישית.</em></h2>
+ <div class="row">
+  <div class="t-card"><div class="ph" style="background-image:url(img/brows.jpg?v=2)"></div><div class="tx"><h3 class="disp">גבות</h3><p>הדמיית שיער במיקרובליידינג, או הצללה רכה במיקרושיידינג. תמיד לפי הגבות והגוון שלך.</p><a href="#">לעבודות גבות</a></div></div>
+  <div class="t-card"><div class="ph" style="background-image:url(img/lips.jpg?v=2)"></div><div class="tx"><h3 class="disp">שפתיים</h3><p>צבע טבעי ומלא חיים, בפיגמנט שנבחר במיוחד בשבילך.</p><a href="#">לעבודות שפתיים</a></div></div>
+  <div class="t-card"><div class="ph" style="background-image:url(img/liner.jpg)"></div><div class="tx"><h3 class="disp">אייליינר</h3><p>הדגשה של קו הריסים, מעדין ועד חתולי. לפני כל טיפול עושים הדמיה.</p><a href="#">לעבודות אייליינר</a></div></div>
+ </div>
+</section>
+
+<script>
+if (window.top === window && matchMedia("(min-width:901px)").matches && !location.search.includes("full")) location.replace("phone.html");
+const Q = new URLSearchParams(location.search);
+document.body.dataset.t = Q.get('t') || 'p';
+/* one running band is the default; ?band=2 adds the review band, ?band=0 brings back the service cards */
+if (Q.get('band') !== '0') document.body.dataset.band = Q.get('band') || '1';
+
+/* real clips from the clinic; posters show at once, videos load one at a time */
+const COLS = [
+ [ ['lips','שפתיים'], ['blonde','גבות'] ],
+ [ ['w22','גבות ושפתיים'], ['eyes','גבות'] ],
+ [ ['t22','גבות'], ['w21','גבות'] ],
+ [ ['w22','גבות ושפתיים'], ['eyes','גבות'] ],
+ [ ['w22','גבות ושפתיים'], ['eyes','גבות'] ],
+];
+const box = document.getElementById('reelIn'), vids = [];
+COLS.forEach(list => {
+ const col = document.createElement('div'); col.className = 'col';
+ [...list, ...list, ...list, ...list].forEach(([id, label]) => {
+  const c = document.createElement('div'); c.className = 'card'; c.style.backgroundImage = `url(clips/${id}.jpg)`;
+  const v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none'; v.dataset.src = `clips/${id}.mp4`;
+  c.append(v); c.insertAdjacentHTML('beforeend', `<span>${label}</span>`); col.append(c); vids.push(v);
+ });
+ box.append(col);
+});
+/* serial prefetch with a watchdog, so one slow clip never holds the rest; skip columns hidden on this screen */
+for (let k = vids.length - 1; k >= 0; k--) if (!vids[k].closest('.col').offsetParent) vids.splice(k, 1);
+let qi = 0;
+function next() {
+ if (qi >= vids.length) return;
+ const v = vids[qi++]; let done = false;
+ const go = () => { if (done) return; done = true; clearTimeout(t); next(); };
+ const t = setTimeout(go, 6000);
+ v.addEventListener('canplay', () => { v.classList.add('ready'); v.play().catch(()=>{}); go(); }, { once:true });
+ v.addEventListener('error', go, { once:true });
+ v.src = v.dataset.src; v.load();
+}
+next();
+</script>
+
+<!-- booking sheet: four steps, opened by every "תיאום" button -->
+<div class="bk-dim" data-close></div>
+<button class="bk-x" data-close aria-label="סגירה"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="#FFF6F2" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+<div class="bk" role="dialog" aria-modal="true" aria-label="תיאום פגישת ייעוץ">
+ <div class="bk-step on" data-step="1">
+  <div class="bk-h"><small>שלב 1 מתוך 3</small><b>מה תרצי לקבוע?</b><p>ייעוץ ללא עלות וללא התחייבות. רואים את הפנים, בוחרים יחד צורה וגוון.</p></div>
+  <div class="bk-seg"><button class="sel" data-kind="ייעוץ">ייעוץ בקליניקה</button><button data-kind="טיפול">טיפול או חיזוק</button></div>
+  <div class="bk-opts">
+   <button class="bk-opt sel" data-area="גבות"><b>גבות</b><span>מיקרובליידינג · היפראליזם · מיקרושיידינג</span></button>
+   <button class="bk-opt" data-area="שפתיים"><b>שפתיים</b><span>הדגשת שפתיים בגוון שמותאם לך</span></button>
+   <button class="bk-opt" data-area="קו ריסים"><b>קו ריסים</b><span>אייליינר, מעדין ועד חתולי</span></button>
+   <button class="bk-opt" data-area="הסרה"><b>הסרה</b><span>לייזר ורמובר לעבודות קודמות</span></button>
+   <button class="bk-opt" data-area=""><b>עוד לא יודעת</b><span>נבדוק יחד בייעוץ מה מתאים לך</span></button>
+  </div>
+  <div class="bk-proof">4.7 בגוגל · 180 ביקורות</div>
+  <button class="bk-go" data-next>המשך</button>
+ </div>
+ <div class="bk-step" data-step="2">
+  <div class="bk-h"><small>שלב 2 מתוך 3</small><b>מתי נוח לך?</b><p data-where>ייעוץ גבות בקליניקה · דרך בגין 160, תל אביב</p></div>
+  <div class="bk-days">
+   <button class="bk-day" data-d="ד׳ 11.11"><b>ד׳</b><span>11.11</span></button><button class="bk-day sel" data-d="ה׳ 12.11"><b>ה׳</b><span>12.11</span></button><button class="bk-day" data-d="א׳ 15.11"><b>א׳</b><span>15.11</span></button><button class="bk-day" data-d="ב׳ 16.11"><b>ב׳</b><span>16.11</span></button><button class="bk-day" data-d="ג׳ 17.11"><b>ג׳</b><span>17.11</span></button>
+  </div>
+  <div class="bk-lbl">שעות פנויות (לדוגמה)</div>
+  <div class="bk-times">
+   <button class="bk-time">10:00</button><button class="bk-time" disabled>10:30</button><button class="bk-time sel">11:30</button><button class="bk-time">12:00</button><button class="bk-time">13:30</button><button class="bk-time" disabled>14:30</button><button class="bk-time">15:00</button><button class="bk-time">16:00</button>
+  </div>
+  <div class="bk-sum" data-sum></div>
+  <button class="bk-go" data-next>המשך</button>
+ </div>
+ <div class="bk-step" data-step="3">
+  <div class="bk-h"><small>שלב 3 מתוך 3</small><b>כמעט סיימנו</b></div>
+  <div class="bk-field"><label for="bkName">שם מלא</label><input id="bkName" autocomplete="name" placeholder="נועה כהן"></div>
+  <div class="bk-field"><label for="bkTel">טלפון</label><input id="bkTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="054-1234567"></div>
+  <label class="bk-check"><input type="checkbox" checked>שלחו לי אישור ותזכורת בוואטסאפ</label>
+  <div class="bk-sum" data-sum></div>
+  <button class="bk-go" data-next>קביעת הייעוץ</button>
+ </div>
+ <div class="bk-step" data-step="4">
+  <div class="bk-h"><small>הכל מוכן</small><b data-done-title>הייעוץ נקבע</b><p>ככה ייראה האישור שיגיע אלייך:</p></div>
+  <div class="bk-msg"><div class="from"><img src="img/icon-whatsapp.svg" alt="" width="20" height="20">מאי לי ביוטי</div><p data-msg></p><time>11:02</time></div>
+  <div class="bk-note">התזכורת יוצאת לבד יום לפני. הייעוץ נכנס ישר ליומן של הקליניקה.</div>
+  <button class="bk-go" data-close>חזרה לאתר</button>
+ </div>
+</div>
+
+<script>
+/* sticky header colour after a little scroll */
+const hdr = document.querySelector('header');
+const onScroll = () => hdr.classList.toggle('scrolled', scrollY > 20);
+addEventListener('scroll', onScroll, { passive:true }); onScroll();
+
+/* booking sheet */
+(() => {
+ const B = document.body, sheet = document.querySelector('.bk');
+ const st = { kind:'ייעוץ', area:'גבות', day:'ה׳ 12.11', time:'11:30' };
+ const label = () => `${st.kind}${st.area ? ' ' + st.area : ''}`;
+ const sync = () => {
+  sheet.querySelectorAll('[data-sum]').forEach(e => e.textContent = `${label()} · ${st.day} · ${st.time}`);
+  sheet.querySelector('[data-where]').textContent = `${label()} בקליניקה · דרך בגין 160, תל אביב`;
+  const first = (document.getElementById('bkName').value.trim() || 'נועה').split(' ')[0];
+  const what = st.kind === 'ייעוץ' ? 'הייעוץ' : 'הטיפול';
+  sheet.querySelector('[data-done-title]').textContent = `${what} נקבע`;
+  sheet.querySelector('[data-msg]').textContent = `היי ${first}, ${what} שלך נקבע ליום ${st.day} בשעה ${st.time}, בקליניקה בדרך בגין 160, תל אביב. נשלח לך תזכורת יום לפני. מחכות לך!`;
+ };
+ const go = n => { sheet.querySelectorAll('.bk-step').forEach(s => s.classList.toggle('on', s.dataset.step == n)); sheet.scrollTop = 0; };
+ const open = e => { e.preventDefault(); go(1); sync(); B.classList.add('bk-open'); };
+ const close = () => B.classList.remove('bk-open');
+ document.querySelectorAll('[data-book]').forEach(a => a.addEventListener('click', open));
+ /* ?bk=1..4 opens the sheet on that step (for previews and the video) */
+ const q = +new URLSearchParams(location.search).get('bk'); if (q) { sync(); go(q); B.classList.add('bk-open'); }
+ document.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', close));
+ addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+ const pick = (sel, fn) => sheet.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => {
+  if (b.disabled) return; b.parentElement.querySelectorAll(sel).forEach(x => x.classList.remove('sel')); b.classList.add('sel'); fn(b); sync(); }));
+ pick('.bk-seg button', b => st.kind = b.dataset.kind);
+ pick('.bk-opt', b => st.area = b.dataset.area);
+ pick('.bk-day', b => st.day = b.dataset.d);
+ pick('.bk-time', b => st.time = b.textContent);
+ sheet.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => {
+  const n = +b.closest('.bk-step').dataset.step + 1;
+  if (n === 4) sync();
+  go(n);
+ }));
+})();
+</script>
+</body>
+</html>
