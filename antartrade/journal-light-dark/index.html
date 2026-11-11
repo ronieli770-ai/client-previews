@@ -1,0 +1,9 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="favicon.png"><title>בהיר מול כהה</title>
+<style>body{margin:0;background:#0b0e14;color:#fff;font-family:system-ui,sans-serif;padding:24px}h1{font-size:22px;margin:0 0 6px}p{color:#aab;margin:0 0 16px;font-size:15px}
+.t{display:inline-flex;gap:6px;background:#12161f;border-radius:99px;padding:4px;margin-bottom:16px}.t button{border:0;border-radius:99px;padding:8px 18px;background:none;color:#aab;font:inherit;cursor:pointer}.t button.on{background:#fff;color:#0b0e14}
+img{width:100%;max-width:1440px;border-radius:14px;display:block}</style></head><body>
+<h1>הדשבורד: בהיר מול כהה</h1><p>אותו דשבורד באותם נתונים, בשלוש גרסאות. אפשר לעבור ביניהן כדי להשוות.</p>
+<div class="t"><button class="on" data-s="light.png">בהיר</button><button data-s="dark2.png">כהה משופר</button><button data-s="orig.png">כהה, מה שנועם ראה</button></div>
+<img id="i" src="light.png" alt="">
+<script>document.querySelectorAll('.t button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.t button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('i').src=b.dataset.s})</script>
+</body></html>
