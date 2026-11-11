@@ -6,15 +6,15 @@ body.pg-mentor .dashonly,body.pg-mentor #filters,body.pg-mentor #kpis,body.pg-me
 .mt-grid .blk{margin-top:0}
 .mt-desc{margin:-8px 0 18px;font-size:15px;line-height:1.55;color:var(--muted)}
 .mt-q{margin:0 0 10px;font-size:15px;font-weight:500}
-.mt-box{background:#12161f;border-radius:18px;padding:16px;margin-bottom:14px}
+.mt-box{background:var(--block2);border-radius:18px;padding:16px;margin-bottom:14px}
 
 /* what the mentor sees: two choice cards with a round mark */
 .mt-opts{display:flex;flex-direction:column;gap:8px}
 .mt-opt{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:right;background:var(--block);border:0;border-radius:14px;padding:14px;color:var(--fg);font:inherit;cursor:pointer;transition:background .2s}
-.mt-opt:hover{background:#0e121a}
-.mt-opt .rd{flex:none;width:20px;height:20px;border-radius:50%;background:#12161f;display:grid;place-items:center;margin-top:1px}
+.mt-opt:hover{background:var(--block2h)}
+.mt-opt .rd{flex:none;width:20px;height:20px;border-radius:50%;background:var(--block2);display:grid;place-items:center;margin-top:1px}
 .mt-opt.on .rd{background:var(--sky)}
-.mt-opt.on .rd::after{content:"";width:8px;height:8px;border-radius:50%;background:#0b0e14}
+.mt-opt.on .rd::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--block)}
 .mt-opt .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
 .mt-opt b{display:flex;align-items:center;gap:8px;font-weight:500;font-size:15px}
 .mt-opt b svg{width:16px;height:16px;color:#fff}
@@ -23,18 +23,18 @@ body.pg-mentor .dashonly,body.pg-mentor #filters,body.pg-mentor #kpis,body.pg-me
 /* the link row and the email row: a field and its button on one line, same height */
 .mt-row{display:flex;align-items:center;gap:8px}
 .mt-row .inp{flex:1;min-width:0;direction:ltr;text-align:left}
-.mt-ib{flex:none;width:46px;height:46px;border-radius:12px;border:0;background:#12161f;color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
-.mt-ib:hover{background:#0e121a}
+.mt-ib{flex:none;width:46px;height:46px;border-radius:12px;border:0;background:var(--block2);color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
+.mt-ib:hover{background:var(--block2h)}
 .mt-ib.ok{background:rgba(63,216,194,.14);color:var(--win)}
 .mt-send{flex:none;height:46px;border-radius:12px;justify-content:center;min-width:96px}
 .mt-send:disabled{opacity:.45;cursor:default}
-.mt-send.ok{background:var(--win)!important;color:#0b0e14!important}
+.mt-send.ok{background:var(--win)!important;color:var(--ink)!important}
 .mt-cancel{margin-top:14px}
 
 /* sent invitations, pending and connected students: rows in the block's darker ground */
 .mt-sub{margin:20px 0 10px;font-size:14px;font-weight:500;color:var(--muted)}
 .mt-list{display:flex;flex-direction:column;gap:8px}
-.mt-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:#12161f;border-radius:14px;padding:12px 14px}
+.mt-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:var(--block2);border-radius:14px;padding:12px 14px}
 .mt-who{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
 .mt-who span{font-size:15px;font-weight:500;overflow-wrap:anywhere}
 .mt-who .mail{font-family:"IBM Plex Sans Hebrew",var(--en);direction:ltr;unicode-bidi:isolate}
@@ -45,7 +45,7 @@ body.pg-mentor .dashonly,body.pg-mentor #filters,body.pg-mentor #kpis,body.pg-me
 .mt-del:hover{background:rgba(229,86,106,.1)}
 .mt-item .btn2{flex:none}
 .mt-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:220px;color:var(--muted);font-size:15px;text-align:center}
-.mt-empty svg.i{width:48px;height:48px;color:rgba(238,243,250,.3)}
+.mt-empty svg.i{width:48px;height:48px;color:rgba(var(--fg-rgb),.3)}
 
 @media (max-width:900px){
   .mt-grid{grid-template-columns:minmax(0,1fr)}

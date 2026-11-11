@@ -26,13 +26,13 @@ body:not(.pg-settings) .demo .st-demo{display:none}
 .st-lbl svg{width:16px;height:16px;flex:none}
 
 /* save: the button itself turns green with a V, as on the new-trade page */
-.btn2.st-saved,.btn2.st-saved:disabled{background:var(--win);color:#0b0e14;opacity:1}
+.btn2.st-saved,.btn2.st-saved:disabled{background:var(--win);color:var(--ink);opacity:1}
 .btn2:disabled{opacity:.6;cursor:default}
 .inp:disabled{color:var(--muted);cursor:default}
 
 /* accounts: one block, a row per account; a tap opens that account's settings under its row */
 .st-list{display:flex;flex-direction:column;gap:8px;padding:16px}
-.st-acc{border-radius:18px;background:#12161f;transition:background .2s}
+.st-acc{border-radius:18px;background:var(--block2);transition:background .2s}
 .st-acc.open{background:#141925}
 .st-row{display:flex;align-items:center;gap:6px;padding:6px 6px 6px 10px}
 .st-rowbtn{flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:8px;border:0;background:none;color:var(--fg);font:inherit;text-align:right;cursor:pointer;border-radius:14px}
@@ -42,13 +42,13 @@ body:not(.pg-settings) .demo .st-demo{display:none}
 .st-chev{width:18px;height:18px;color:var(--muted);flex:none;transition:transform .25s}
 .st-acc.open .st-chev{transform:rotate(180deg)}
 .st-flag{background:rgba(125,198,255,.12);color:var(--sky);flex:none}
-.st-flag.off{background:rgba(255,255,255,.06);color:var(--muted)}
+.st-flag.off{background:rgba(var(--tint),.06);color:var(--muted)}
 .st-row .ib:hover{color:var(--loss)}
 .st-body{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;padding:0 16px 16px;align-items:start}
 .st-side{display:flex;flex-direction:column;gap:12px}
-.st-body .tile{background:#0b0e14}
-.st-body .tile .inp{background:#12161f}
-.st-body .tile .btn2.ghostb{background:#12161f!important}
+.st-body .tile{background:var(--block)}
+.st-body .tile .inp{background:var(--block2)}
+.st-body .tile .btn2.ghostb{background:var(--block2)!important}
 .st-body .st-promo{background:rgba(125,198,255,.08)}
 .tile.st-peak{display:flex;flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap}
 .st-peak .l{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--fg);white-space:nowrap}
@@ -63,10 +63,10 @@ body:not(.pg-settings) .demo .st-demo{display:none}
 .st-com .btns{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 
 /* a ghost button on a navy tile takes the block's black, or it would melt into the tile */
-.tile .btn2.ghostb,.st-tv .btn2.ghostb{background:#0b0e14!important}
+.tile .btn2.ghostb,.st-tv .btn2.ghostb{background:var(--block)!important}
 
 /* on/off switch: no frame, the journal's colours (the checked colour of its checkboxes) */
-.st-sw{position:relative;width:44px;height:26px;border-radius:999px;border:0;background:rgba(255,255,255,.12);cursor:pointer;flex:none;padding:0;transition:background .2s}
+.st-sw{position:relative;width:44px;height:26px;border-radius:999px;border:0;background:rgba(var(--tint),.12);cursor:pointer;flex:none;padding:0;transition:background .2s}
 .st-sw::after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .25s cubic-bezier(.22,1,.36,1)}
 .st-sw[aria-checked="true"]{background:var(--royal)}
 .st-sw[aria-checked="true"]::after{transform:translateX(-18px)}
@@ -74,7 +74,7 @@ body:not(.pg-settings) .demo .st-demo{display:none}
 
 /* "צריך מבחן?": the journal's neutral note with the site's ANTAR code chip */
 .st-promo{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-radius:14px;padding:10px 12px;background:rgba(125,198,255,.08);font-size:14px}
-.st-code{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;border:0;background:var(--fg);color:#12161f;font:500 13px var(--en);cursor:pointer}
+.st-code{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;border:0;background:var(--fg);color:var(--ink);font:500 13px var(--en);cursor:pointer}
 .st-code svg{width:14px;height:14px}
 .st-promo a{margin-inline-start:auto;display:inline-flex;align-items:center;gap:6px;color:var(--sky);text-decoration:none;font-weight:500}
 .st-promo a svg{width:14px;height:14px}
@@ -97,7 +97,7 @@ body:not(.pg-settings) .demo .st-demo{display:none}
 .st-cards{display:none}
 
 /* connections: the Tradovate card in its three states */
-.st-tv{background:#12161f;border-radius:18px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.st-tv{background:var(--block2);border-radius:18px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .st-tv .st{display:flex;align-items:flex-start;gap:12px;min-width:0;flex:1}
 .st-tv .st b{display:flex;align-items:center;gap:8px;font-weight:500;font-size:16px}
 .st-tv .st small{display:block;margin-top:4px;font-size:13px;color:var(--muted);line-height:1.5}

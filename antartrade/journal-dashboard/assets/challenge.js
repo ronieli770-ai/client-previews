@@ -275,8 +275,6 @@ function jDash(){
   ${jMore("accs","\u05d4\u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea \u05d5\u05d4\u05db\u05dc\u05dc\u05d9\u05dd",accounts(v)+rulesBlk(v))}
   </div>`;}
 
-/* theme switch for the review (light / improved dark / current dark): own files, loaded from here so the master stays untouched */
-(function(){if(document.querySelector("link[data-th-css]"))return;var v="1794388051";var l=document.createElement("link");l.rel="stylesheet";l.href="assets/theme.css?v="+v;l.setAttribute("data-th-css","1");document.head.appendChild(l);var sc=document.createElement("script");sc.src="assets/theme.js?v="+v;document.head.appendChild(sc);})();
 /* ---- game version (08.11): the challenge as a game. Accounts are hearts, stages are worlds on a map, today's rules are
    quests with a 3D chest, milestones are collectible cards, Noam's recommendations are power cards. Points and cards only
    for keeping the rules, never for trade count or profit. 3D art lives in assets/game/ ---- */
