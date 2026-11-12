@@ -109,3 +109,5 @@
 .nl-wrap .nl-ok b,.an-body .nl-art .nl-ok b{color:#fff!important}
 .an-body .nl-art .nl-ok span{color:rgba(255,255,255,.9)!important}
 @media (max-width:760px){.nl-wrap .nl-form .nl-btn{width:100%!important}}
+.nl-wrap .nl-ok .nl-okt{font-size:30px;font-weight:500;line-height:1.15;color:#fff!important}
+.an-body .nl-art .nl-ok .nl-okt{font-size:24px}
