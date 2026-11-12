@@ -71,3 +71,6 @@
   .an-body .nl-art{margin:28px 0;padding:24px 18px}
   .an-body .nl-art h3{font-size:21px}
 }
+/* the site's own button resets reach the strip near the footer, so the pill is pinned here */
+.nl-wrap .nl-form .nl-btn{background:#fff!important;color:#12161F!important;border:0!important;border-radius:999px!important;padding:0 26px!important;font:500 16px "Fb Reforma",Roboto,sans-serif!important;box-shadow:none!important}
+.nl-wrap .nl-form .nl-btn:hover{color:#fff!important}
