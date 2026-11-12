@@ -16,20 +16,11 @@ const strip=()=>`<section class="nl-strip nl-wrap" data-theme="dark" data-nl="st
 const art=()=>`<aside class="nl-art nl-card nl-wrap" data-nl="article"><h3>${EN(T.title)}</h3><p class="sub">${T.sub}</p>${form()}</aside>`;
 const BIG=/\/(promotions-new|comparison-new)\/?$/;
 function mount(){
-  const f=document.querySelector("footer.s-footer");
-  /* banner: home right after the deals; deals and comparison pages just before the footer */
-  if(!document.querySelector('[data-nl="banner"]')){
-    const deals=document.getElementById("deals");
-    if(deals&&deals.classList.contains("s-deals"))deals.insertAdjacentHTML("afterend",banner());
-    else if(f&&BIG.test(location.pathname))f.insertAdjacentHTML("beforebegin",banner());
-  }
-  /* article box: inside the white text container, before the heading nearest the middle */
-  const body=document.querySelector(".an-body");
-  if(body&&!body.querySelector('[data-nl="article"]')){const hs=[...body.querySelectorAll("h2")];
-    if(hs.length>2)hs[Math.floor(hs.length/2)].insertAdjacentHTML("beforebegin",art());}
-  /* strip above the footer on every other page (one banner-size form per page) */
-  const st=document.querySelector('[data-nl="strip"]');if(st&&document.querySelector('[data-nl="banner"]'))st.remove();
-  if(f&&!document.querySelector('[data-nl="strip"]')&&!document.querySelector('[data-nl="banner"]'))f.insertAdjacentHTML("beforebegin",strip());
+  /* Roni 12.11: one version only - the tall banner, on every page. Home: right after the deals. Every other page: just before the footer. */
+  if(document.querySelector('[data-nl="banner"]')){bar();return;}
+  const deals=document.getElementById("deals"),f=document.querySelector("footer.s-footer");
+  if(deals&&deals.classList.contains("s-deals"))deals.insertAdjacentHTML("afterend",banner());
+  else if(f)f.insertAdjacentHTML("beforebegin",banner());
   bar();
 }
 const STATES={idle:"",name:"nl-bad-name",mail:"nl-bad-mail",send:"nl-sending",done:"nl-done"};
