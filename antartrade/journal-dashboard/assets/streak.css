@@ -105,11 +105,10 @@ body.pg-dash #pgSub{display:none}
 .coach.mini .av img{width:124px;right:4px}
 .coach.mini .bub{padding:16px 22px 16px 20px}
 @media (max-width:600px){.coach.mini{margin-top:44px}.coach.mini .av{width:112px;margin-top:-30px}.coach.mini .av img{width:108px;right:2px}.coach.mini .bub{padding:14px 16px 14px 16px}}
-/* 12.11 phone: Noam hangs from the card top (head out, full waving hand), his body fades below the chest, so any line length looks right. Text and button share one edge. */
+/* 12.11 phone (round 3, Roni): Noam stands above the text, his head out of the card; the line and the button run the full width under him */
 @media (max-width:600px){
-  #coach{align-items:flex-start;margin-top:48px;min-height:0}
-  #coach .av{width:136px;margin-top:-38px;clip-path:none;align-self:flex-start}
-  #coach .av img{position:relative;display:block;right:auto;bottom:auto;width:136px;-webkit-mask-image:linear-gradient(#000 62%,transparent 96%);mask-image:linear-gradient(#000 62%,transparent 96%)}
-  #coach .bub{justify-content:flex-start;padding:16px 16px 16px 18px}
-  #coach .bub>span{font-size:16px;line-height:1.45}
+  #coach{flex-direction:column;align-items:stretch;margin-top:104px;min-height:0}
+  #coach .av{width:100%;height:30px;margin-top:0;flex:none}
+  #coach .av img{right:14px;bottom:0;width:128px}
+  #coach .bub{padding:12px 20px 20px}
 }
