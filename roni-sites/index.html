@@ -1574,6 +1574,26 @@
   @media (prefers-reduced-motion:reduce){ .fab-me::after,.fab-me .in{animation:none!important} }
   /* logo on a phone: big while the hero is on screen, and it settles to the small header size once you scroll */
   @media (max-width:860px){ html:not(.hd-sc) .intro .site-logo{width:110px;top:16px} }
+  /* phone hero pass (13.11): logo on the same line as the menu and buttons, a bigger gap between the two title lines,
+     no colour gradient in the copy, the content spread down the whole screen, a darker texture that sits lower,
+     a bigger carousel you can drag with a finger, and the whatsapp button only once you start scrolling */
+  @media (max-width:860px){
+    html:not(.hd-sc) .intro .site-logo{top:10px}
+    .intro h1{font-size:30px;line-height:1}
+    .intro .big{font-size:38px;line-height:1;margin-top:10px}
+    .intro .facts .ai-grad{background:none;color:#fff;-webkit-text-fill-color:#fff}
+    .intro{justify-content:flex-start;padding-top:max(150px,22svh);padding-bottom:40px}
+    .intro .strip{margin-top:auto;padding-top:48px;box-sizing:content-box}
+    .strip a{width:330px;margin-left:-165px}
+    .intro .strip{height:calc(330px * 9 / 16 + 20px);touch-action:pan-y}
+    .intro .fx-reveal{filter:opacity(calc(1 - var(--p))) brightness(.68);background-position:50% 70%;
+      -webkit-mask-image:radial-gradient(circle 420px at 50% 60%,rgba(0,0,0,.85) 0%,rgba(0,0,0,.45) 35%,rgba(0,0,0,.16) 62%,transparent 88%),linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 90px,rgba(0,0,0,.7) 180px,#000 280px);
+      -webkit-mask-composite:source-in;
+      mask-image:radial-gradient(circle 420px at 50% 60%,rgba(0,0,0,.85) 0%,rgba(0,0,0,.45) 35%,rgba(0,0,0,.16) 62%,transparent 88%),linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 90px,rgba(0,0,0,.7) 180px,#000 280px);
+      mask-composite:intersect}
+    .fab-me{transition:opacity .4s ease,translate .5s cubic-bezier(.2,.7,.2,1)}
+    html.fab-wait .fab-me{opacity:0;translate:0 24px;pointer-events:none}
+  }
 </style>
 </head>
 <body>
@@ -2088,6 +2108,17 @@
   let stOff = 0, stV = 22, stLast = 0, stHover = false;
   stripEl.addEventListener('mouseenter', () => stHover = true);
   stripEl.addEventListener('mouseleave', () => stHover = false);
+  /* a finger drags the carousel; on release it keeps the swipe's speed and eases back to its own pace */
+  let stDrag = null, stMoved = false;
+  stripEl.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse') return; stDrag = {x:e.clientX, t:performance.now(), v:0}; stMoved = false; stHover = true; }, {passive:true});
+  addEventListener('pointermove', e => { if (!stDrag) return; const now = performance.now(), dx = e.clientX - stDrag.x;
+    if (Math.abs(dx) > 0){ stOff += dx; stDrag.v = dx / Math.max(1, now - stDrag.t) * 1000; stDrag.x = e.clientX; stDrag.t = now; if (Math.abs(dx) > 2) stMoved = true; } }, {passive:true});
+  const stUp = () => { if (!stDrag) return; stV = Math.max(-1600, Math.min(1600, stDrag.v)); stDrag = null; stHover = false; };
+  addEventListener('pointerup', stUp); addEventListener('pointercancel', stUp);
+  stripEl.addEventListener('click', e => { if (stMoved){ e.preventDefault(); stMoved = false; } }, true);
+  /* the whatsapp button waits until the page has moved */
+  const fabWait = () => document.documentElement.classList.toggle('fab-wait', scrollY < 40);
+  fabWait(); addEventListener('scroll', fabWait, {passive:true});
   (function arc(now){
     const dt = Math.min(.05, (now - (stLast || now)) / 1000); stLast = now;
     stV += ((stHover ? 0 : 22) - stV) * .06; stOff += stV * dt;
