@@ -37,7 +37,7 @@ const LET=["א","ב","ג","ד","ה","ו","ש"];
 const dayLetters=()=>{const out=[];const d=new Date(2026,10,5);while(out.length<14){const w=d.getDay();if(w>0&&w<6)out.unshift(LET[w]);d.setDate(d.getDate()-1);}return out;};
 const LETS=dayLetters();
 let cur=null;
-const en=t=>t.replace(/-?\$?\d[\d,.:%]*/g,n=>`<span class="en">${n}</span>`);
+const en=t=>t.replace(/-?\$?\d+(?:[.,:]\d+)*%?/g,n=>`<span class="en">${n}</span>`);
 function set(k){
   const s=states()[k];const first=cur===null;cur=k;const P=R();
   const co=$$("coach");
