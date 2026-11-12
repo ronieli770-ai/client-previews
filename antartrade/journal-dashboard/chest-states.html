@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>מצבי תיבות וכרטיסי גירוד</title>
+<link rel="icon" href="assets/bulb.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/challenge.css">
+<style>
+/* the journal's tokens (improved dark), so challenge.css draws its chips and cards here exactly as in the challenge page */
+@font-face{font-family:"Fb Reforma";src:url("assets/FbReforma-Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Fb Reforma";src:url("assets/FbReforma-Medium.woff2") format("woff2");font-weight:500}
+:root{--page:#10151e;--block:#1a212d;--block2:#252e3d;--block2h:#2e3848;--raised:#2c3646;--line:rgba(255,255,255,.09);--ink:#12161f;--tint:255,255,255;--fg-rgb:244,247,252;
+  --fg:#f4f7fc;--muted:rgba(244,247,252,.78);--faint:rgba(244,247,252,.58);--sky:#7DC6FF;--royal:#4F6BFF;--win:#3fd8c2;--loss:#e5566a;
+  --he:"Fb Reforma",Heebo,system-ui,sans-serif;--en:"Roboto","Fb Reforma",sans-serif;color-scheme:dark;
+  --c-sky:#61b1f2;--c-mint:#3fd8c2;--c-violet:#8c7bff;--c-orchid:#d17bff;--c-sun:#f7c65a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--fg);font-family:var(--he);-webkit-font-smoothing:antialiased}
+.num{font-family:var(--en);unicode-bidi:isolate;direction:ltr}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.btn2{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;background:var(--fg);color:var(--ink);font-weight:500;font-size:14px;border:0;font-family:inherit}
+
+.wrap{max-width:1100px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left,0px)) 64px max(16px,env(safe-area-inset-right,0px));display:grid;gap:18px}
+h1{margin:0;font-size:30px;font-weight:500;line-height:1.1}
+.lead{margin:0;color:var(--muted);font-size:15px;max-width:68ch}
+
+/* the switches */
+.sw{display:grid;gap:10px;background:var(--block);border-radius:22px;padding:16px}
+.sw .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.sw small{font-size:13px;color:var(--faint);min-width:96px}
+.sw button{height:38px;padding:0 16px;border-radius:999px;border:0;background:var(--block2);color:var(--fg);font:500 14px var(--he);cursor:pointer}
+.sw button:hover{background:var(--block2h)}
+.sw button.on{background:var(--fg);color:var(--ink)}
+.sw button:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+
+/* which state this is */
+.state{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start}
+.info{background:var(--block);border-radius:22px;padding:20px;display:grid;gap:14px}
+.info .lbl{font-size:13px;color:var(--c-sun);font-weight:500}
+.info h2{margin:0;font-size:22px;font-weight:500}
+.info dl{margin:0;display:grid;gap:10px}
+.info dt{font-size:13px;color:var(--faint)}
+.info dd{margin:2px 0 0;font-size:15px;line-height:1.5}
+.legend{display:grid;gap:8px}
+.legend .it{display:flex;align-items:center;gap:12px;background:var(--block2);border-radius:14px;padding:10px 12px}
+.legend .ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--c) 14%,transparent)}
+.legend .ic .i{width:20px;height:20px;color:var(--c)}
+.legend .ic .c9-pi{width:24px;height:24px}
+.legend b{font-weight:500;font-size:14px;display:block}
+.legend span{font-size:13px;color:var(--muted)}
+
+/* the stage: what the trader sees */
+.stage{position:relative;background:radial-gradient(60% 60% at 50% 30%,rgba(79,107,255,.22),transparent 70%),#0b0e14;border-radius:22px;min-height:460px;display:grid;place-items:center;padding:28px 18px;overflow:hidden}
+.stage .tag{position:absolute;top:14px;right:16px;font-size:12px;color:var(--faint)}
+.chest{display:grid;justify-items:center;gap:6px;text-align:center}
+.chest .pic{position:relative;width:min(240px,60vw)}
+.chest .pic img{width:100%;display:block;filter:drop-shadow(0 30px 50px rgba(0,0,0,.6))}
+.chest .glow{position:absolute;inset:-30%;border-radius:50%;background:radial-gradient(circle,rgba(125,198,255,.5),rgba(79,107,255,.14) 45%,transparent 70%);z-index:-1}
+.chest .lid{position:absolute;left:12%;bottom:12%;font-size:13px;font-weight:600;color:#12161F;background:#f7c65a;border-radius:999px;padding:3px 12px;box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.chest .c9-pt{color:var(--c-sun);font-size:13px;font-weight:500}
+.chest .c9-pt .num{color:inherit}
+.chest b.big{font-size:30px;font-weight:500;line-height:1.1}
+.chest p{margin:0;color:var(--muted);font-size:15px}
+.chest .c9-pl{max-width:560px}
+.scr{width:min(520px,100%);display:grid;gap:10px}
+.scr .c9-card canvas{cursor:default}
+@media (max-width:860px){.state{grid-template-columns:minmax(0,1fr)}.stage{order:-1;min-height:380px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>מצבי תיבות וכרטיסי גירוד</h1>
+  <p class="lead">כל רגע שבו נפתחת תיבה או מגרדים כרטיס באתגר 90, עם מה שמקבלים בכל אחד. בוחרים מצב במתגים, ומשמאל רואים בדיוק את מה שהסוחר רואה. הפרסים לפי התוכנית של נועם מ-12.11.</p>
+
+  <div class="sw" role="group" aria-label="בחירת מצב">
+    <div class="row"><small>תיבות ביעדי רצף</small><span id="swG"></span></div>
+    <div class="row"><small>מצב התיבה</small><button data-cs="closed">סגורה, לפני שפותחים</button><button data-cs="open" class="on">נפתחה</button></div>
+    <div class="row"><small>כרטיסי גירוד</small><span id="swS"></span></div>
+    <div class="row"><small>מצב הכרטיס</small><button data-ss="cover" class="on">לפני גירוד</button><button data-ss="done">אחרי גירוד</button></div>
+  </div>
+
+  <div class="state">
+    <div class="info" id="info"></div>
+    <div class="stage" id="stage"></div>
+  </div>
+</main>
+<script>
+const GI=n=>`assets/game/${n}.webp`;
+const SV=(p,st)=>`<svg class="i" viewBox="0 0 24 24"${st?` style="${st}"`:""}>${p}</svg>`;
+/* the prize icons and wording, copied from challenge.js */
+const TIX='<path d="M4 8.5V7a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 20 7v1.5a2.5 2.5 0 0 0 0 5V17a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17v-3.5a2.5 2.5 0 0 0 0-5z"/><path d="M14.5 6v2M14.5 11v2M14.5 16v2"/>';
+const DBL='<path d="M7 17V7h3.2a5 5 0 0 1 0 10z"/><path d="M14.5 9.2l4 5.6M18.5 9.2l-4 5.6"/>';
+const PCT='<path d="M18 6L6 18"/><circle cx="7.5" cy="7.5" r="2.2"/><circle cx="16.5" cy="16.5" r="2.2"/>';
+const REP='<path d="M5 19V9M10 19V5M15 19v-7M20 19v-4"/>';
+const CERT='<rect x="4" y="4.5" width="16" height="11" rx="2"/><path d="M9.5 15.5l-1.5 4 2.5-1 1.5 1.5 1.5-1.5 2.5 1-1.5-4"/><path d="M8 8.5h8M8 11.5h5"/>';
+const PRZ={pts:[null,a=>`<span class="num">${a}</span> מטבעות`,"sun","מטבעות","נכנסים לארנק מיד"],
+  tix:[TIX,a=>a>1?`<span class="num">${a}</span> כרטיסי הגרלה`:"כרטיס להגרלה החודשית","sky","כרטיס הגרלה","כרטיס להגרלה החודשית, נשמר בארנק"],
+  dbl:[DBL,()=>"מטבעות כפולים ביעד הבא","mint","מטבעות כפולים ביעד הבא","כל המטבעות של היעד הבא שווים פי 2. כתוב גם על התיבה הבאה"],
+  dblday:[DBL,()=>"יום של מטבעות כפולים","mint","יום של מטבעות כפולים","ביום אחד כל המטבעות שמרוויחים שווים פי 2"],
+  disc:[PCT,()=>`<span class="num">15%</span> הנחה על הקורס ל-<span class="num">7</span> ימים`,"sun","הנחה על הקורס","15% על הקורס המלא, לשבעה ימים, עם ספירה לאחור בארנק"],
+  rep:[REP,()=>"הדוח: מה הנתונים שלך אומרים","sky","הדוח של 30 יום","התובנה של 30 יום: באילו שעות הוא מרוויח ומה אחוז ההצלחה"],
+  cert:[CERT,()=>"תעודת סיום","sun","תעודת סיום","תעודה על סיום האתגר, עם כפתור שיתוף"]};
+const przIc=k=>k==="pts"?`<img class="c9-pi" alt="" src="${GI("coin")}">`:SV(PRZ[k][0]);
+const przChip=([k,a])=>`<span class="c9-prz" style="--c:var(--c-${PRZ[k][2]})">${przIc(k)}<span>${PRZ[k][1](a)}</span></span>`;
+/* the goals and scratch cards, copied from challenge.js (GOALS, SCR) */
+const GOALS=[[5,"מטבעות",[["pts",40]]],[10,"בונוס",[["pts",50],["dbl"]]],[20,"הגרלה",[["tix",1],["pts",50]]],
+  [30,"התובנות שלך + מתנה",[["rep"],["pts",100],["disc"]]],[60,"בונוס",[["pts",150],["tix",1]]],[90,"הפרס הגדול",[["pts",400],["cert"],["tix",2]]]];
+const SCR=[[15,["pts",60]],[45,["tix",1]],[75,["dblday"]]];
+const NOTE={10:"בתוכנית של נועם כתוב כאן \"או\": מטבעות כפולים ביעד הבא, או שומר רצף נוסף. עד שיענה מוצגת האפשרות הראשונה.",
+  60:"בתוכנית של נועם כתוב כאן \"או\". עד שיענה מוצגים שני הפרסים יחד.",
+  90:"נפתחת גם כשמסיימים את יום 90, ועם קונפטי."};
+let S={mode:"goal",goal:5,cs:"open",scr:15,ss:"cover"};
+const swG=document.getElementById("swG"),swS=document.getElementById("swS");
+swG.innerHTML=GOALS.map(([n,t])=>`<button data-g="${n}">${n} ימים · ${t}</button>`).join(" ");
+swS.innerHTML=SCR.map(([d])=>`<button data-s="${d}">יום ${d}</button>`).join(" ");
+function legend(list){return `<div class="legend">${list.map(([k])=>`<div class="it" style="--c:var(--c-${PRZ[k][2]})"><span class="ic">${przIc(k)}</span><div><b>${PRZ[k][3]}</b><span>${PRZ[k][4]}</span></div></div>`).join("")}</div>`;}
+function draw(){
+  document.querySelectorAll("[data-g]").forEach(b=>b.classList.toggle("on",S.mode==="goal"&&+b.dataset.g===S.goal));
+  document.querySelectorAll("[data-s]").forEach(b=>b.classList.toggle("on",S.mode==="scr"&&+b.dataset.s===S.scr));
+  document.querySelectorAll("[data-cs]").forEach(b=>b.classList.toggle("on",b.dataset.cs===S.cs));
+  document.querySelectorAll("[data-ss]").forEach(b=>b.classList.toggle("on",b.dataset.ss===S.ss));
+  const info=document.getElementById("info"),stage=document.getElementById("stage");
+  if(S.mode==="goal"){
+    const [n,t,list]=GOALS.find(g=>g[0]===S.goal),open=S.cs==="open";
+    info.innerHTML=`<span class="lbl">תיבה · יעד רצף ${n}</span><h2>${t}</h2><dl>
+      <dt>מתי זה קורה</dt><dd>${n} ימים נקיים ברצף. התיבה מופיעה בכרטיס "המשימות של היום", ולוחצים עליה כדי לפתוח.${NOTE[n]?" "+NOTE[n]:""}</dd>
+      <dt>${open?"מה רואים":"מה רואים לפני שפותחים"}</dt><dd>${open?"התיבה קופצת למרכז המסך, מתנדנדת, נפתחת ומטבעות עפים ממנה. מתחת: \"יש! זה מה שחיכה לך\" והפרסים. \"לאסוף\" מכניס הכל לארנק.":"תיבה סגורה עם הסוג כתוב על המכסה. מה יש בפנים לא רואים עד שפותחים."}</dd>
+      <dt>מה מקבלים</dt></dl>${legend(list)}`;
+    stage.innerHTML=`<span class="tag">${open?"החשיפה אחרי הפתיחה":"התיבה הסגורה"}</span><div class="chest">
+      <div class="pic">${open?'<span class="glow"></span>':""}<img alt="" src="${GI(open?"chest-open":"chest")}">${open?"":`<span class="lid">${t}</span>`}</div>
+      ${open?`<small class="c9-pt">יעד רצף <span class="num">${n}</span> · ${t}</small><b class="big">יש! זה מה שחיכה לך</b><div class="c9-pl">${list.map(przChip).join("")}</div><button class="btn2" tabindex="-1">לאסוף</button>`
+        :`<small class="c9-pt">התיבה הבאה · יעד רצף <span class="num">${n}</span></small><p>מה יש בפנים מתגלה כשפותחים.</p>`}</div>`;
+  }else{
+    const [d,p]=SCR.find(s=>s[0]===S.scr),done=S.ss==="done";
+    info.innerHTML=`<span class="lbl">כרטיס גירוד · יום ${d}</span><h2>${PRZ[p[0]][3]}</h2><dl>
+      <dt>מתי זה קורה</dt><dd>ביום ${d} של האתגר הכרטיס מופיע בעמוד האתגר. מגרדים עם האצבע או העכבר. כרטיס שלא גורד מחכה לביקור הבא.</dd>
+      <dt>${done?"מה רואים":"מה רואים לפני הגירוד"}</dt><dd>${done?"בחצי מגורד השכבה נעלמת, הפרס קופץ, והודעה קטנה אומרת שהוא נכנס לארנק.":"כרטיס נייבי עם הנורות של הלוגו ו\"מגרדים כאן\" בזהב. הפרס מוסתר מתחתיו."}</dd>
+      <dt>מה מקבלים</dt></dl>${legend([p])}`;
+    stage.innerHTML=`<span class="tag">${done?"אחרי הגירוד":"לפני הגירוד"}</span><div class="scr c9-scr"><div class="c9-card${done?" ok":""}"><div class="c9-under">${p[0]==="pts"?`<img class="c9-stk" alt="" src="${GI("coins-stack")}">`:przIc(p[0])}<b>${PRZ[p[0]][1](p[1])}</b><small>${p[0]==="pts"?"נכנסו":"נכנס"} לארנק שלך</small></div>${done?"":'<canvas aria-label="כרטיס גירוד"></canvas>'}</div></div>`;
+    if(!done)cover(stage.querySelector("canvas"));
+  }
+}
+/* the covered card: the same face picture, with the words, as challenge.js paints it before scratching */
+const FACE=new Image();FACE.src=GI("scratch-face");
+function cover(cv){const go=()=>{const r=cv.getBoundingClientRect(),dpr=devicePixelRatio||1,W=r.width,H=r.height,x=cv.getContext("2d");cv.width=W*dpr;cv.height=H*dpr;x.scale(dpr,dpr);x.drawImage(FACE,0,0,W,H);
+  const fs=Math.round(Math.max(18,Math.min(26,W/30)));x.fillStyle="#f7c65a";x.font='500 '+fs+'px "Fb Reforma",Roboto,sans-serif';x.textAlign="center";x.direction="rtl";x.fillText("מגרדים כאן",W/2,H/2+fs/2);};
+  FACE.complete?go():FACE.onload=go;}
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.g){S.mode="goal";S.goal=+b.dataset.g;}else if(b.dataset.s){S.mode="scr";S.scr=+b.dataset.s;}
+  else if(b.dataset.cs){S.mode="goal";S.cs=b.dataset.cs;}else if(b.dataset.ss){S.mode="scr";S.ss=b.dataset.ss;}else return;draw();});
+draw();
+</script>
+</body>
+</html>
