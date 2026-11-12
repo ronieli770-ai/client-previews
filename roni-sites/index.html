@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
+<meta name="robots" content="noindex,nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>רוני אליהו · אתרים ודפי נחיתה לעסקים</title>
@@ -1612,6 +1613,19 @@
   }
   /* why on a phone: no sideways scroll while a card comes in from the edge */
   @media (max-width:860px){ .why{overflow-x:clip} }
+  /* process on a phone (13.11): the object fills the top two thirds, the copy sits in the bottom third; each step blurs
+     and fades as it rises toward the object while the next one comes up into its place */
+  @media (max-width:860px){
+    .pc-head{box-sizing:border-box;height:64vh;height:64svh;padding:96px 0 0;justify-content:flex-start;text-align:right}
+    .pc-step{min-height:36vh;min-height:36svh;justify-content:flex-start;padding:0}
+    .pc-tail{height:24vh;height:24svh}
+  }
+  /* phone about (13.11): the greeting on one line, and the closing promise starts a line of its own */
+  @media (max-width:900px){
+    .about .af-t{white-space:nowrap}
+    .about .af-t .af-a,.about .af-t .af-b{display:inline;position:static;transform:none;translate:none}
+    .about .af-p2 .t-m b{display:block;margin-top:12px}
+  }
 </style>
 </head>
 <body>
@@ -2423,7 +2437,7 @@ if (window.Lenis && !matchMedia('(prefers-reduced-motion: reduce)').matches && m
 </script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <script>
-new IntersectionObserver(function(es,o){ if(es[0].isIntersecting){ o.disconnect(); import('./js/process.js?v=2'); } },{rootMargin:'150% 0px'}).observe(document.getElementById('process'));
+new IntersectionObserver(function(es,o){ if(es[0].isIntersecting){ o.disconnect(); import('./js/process.js?v=7'); } },{rootMargin:'150% 0px'}).observe(document.getElementById('process'));
 </script>
 <script>
 /* button hover: fill from the cursor */
