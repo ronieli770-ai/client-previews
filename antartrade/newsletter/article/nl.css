@@ -105,3 +105,7 @@
 #nlDemo button.on{background:#fff;color:#12161F;font-weight:500}
 #nlDemo [data-nlgo]{background:rgba(125,198,255,.16);color:#fff}
 @media (max-width:760px){#nlDemo{bottom:84px}}
+.nl-wrap .nl-form .nl-btn{height:52px!important;justify-content:center!important;flex:none!important}
+.nl-wrap .nl-ok b,.an-body .nl-art .nl-ok b{color:#fff!important}
+.an-body .nl-art .nl-ok span{color:rgba(255,255,255,.9)!important}
+@media (max-width:760px){.nl-wrap .nl-form .nl-btn{width:100%!important}}
