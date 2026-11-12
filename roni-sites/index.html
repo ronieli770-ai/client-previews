@@ -1594,6 +1594,22 @@
     .fab-me{transition:opacity .4s ease,translate .5s cubic-bezier(.2,.7,.2,1)}
     html.fab-wait .fab-me{opacity:0;translate:0 24px;pointer-events:none}
   }
+  /* why cards on a phone: every title sits in the same narrow column, so the four read with one inner margin */
+  @media (max-width:860px){ .why-card h3{text-wrap:wrap;width:min(232px,100%);margin-inline:auto} }
+  /* why (13.11): more air after the works; each avatar is a cut-out figure standing in its card, the head above the
+     card's top edge and the body fading into the glass at the chest instead of a hard cut */
+  .why{margin-top:min(140px,9.7vw)}
+  .why-grid{margin-top:min(130px,9vw);row-gap:min(150px,10.4vw)}
+  .why-card{overflow:visible}
+  .why-card .av{width:min(240px,16.7vw);height:auto;border-radius:0;object-fit:contain;box-shadow:none;transform-origin:50% 100%;
+    margin-top:calc(-1 * min(36px,2.5vw) - min(120px,8.33vw));margin-bottom:calc(-1 * min(26px,1.8vw));
+    -webkit-mask-image:linear-gradient(to bottom,#000 52%,rgba(0,0,0,.5) 74%,transparent 96%),linear-gradient(to right,transparent 0,#000 14%,#000 86%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,#000 52%,rgba(0,0,0,.5) 74%,transparent 96%),linear-gradient(to right,transparent 0,#000 14%,#000 86%,transparent 100%);mask-composite:intersect}
+  @media (max-width:1100px){ .why-card .av{width:200px;margin-top:-110px} }
+  @media (max-width:860px){
+    .why{margin-top:72px}
+    .why-grid{gap:130px;margin-top:120px}
+    .why-card .av{width:210px;height:auto;margin-top:-112px;margin-bottom:-26px;box-shadow:none}
+  }
 </style>
 </head>
 <body>
@@ -1636,10 +1652,10 @@
   <section class="why" id="why">
     <div class="why-head"><span class="kick">למה לבחור בי</span><h2>אתר שעושה את העבודה לפני השיחה</h2></div>
     <div class="why-grid">
-      <div class="why-card"><img class="av" src="assets/why-avatars/star-2.webp?v=black" alt="" loading="lazy" width="150" height="150"><h3>אתר שנראה ברמה של העסק שלכם</h3><p>כשלקוח נכנס לאתר, הוא צריך להבין מיד שמדובר בעסק רציני. אתר שנראה טוב ועדכני נותן לו ביטחון לפנות אליכם ולא למתחרים.</p></div>
-      <div class="why-card"><img class="av" src="assets/why-avatars/listen-1.webp?v=black" alt="" loading="lazy" width="150" height="150"><h3>מסרים מדויקים ללקוח שלכם</h3><p>מתחילים בשיחה, כדי להבין מה גורם ללקוח שלכם להתלבט ומה מעכב אותו. ואז בונים את הדף כך שכל שאלה והתנגדות שלו מקבלת תשובה, עוד לפני שהוא פונה אליכם.</p></div>
-      <div class="why-card"><img class="av" src="assets/why-avatars/phone-2.webp?v=black" alt="" loading="lazy" width="150" height="150"><h3>עבודה מול אדם אחד בלבד</h3><p>את כל העבודה אני עושה בעצמי: האפיון, העיצוב, הטקסטים והבנייה. אתם מדברים איתי ישירות, בלי מתווכים, ומה שסיכמנו הוא מה שתקבלו.</p></div>
-      <div class="why-card"><img class="av" src="assets/why-avatars/rocket-1.webp?v=black" alt="" loading="lazy" width="150" height="150"><h3>ליווי גם אחרי שהאתר באוויר</h3><p>צריך לעדכן מחיר, להוסיף שירות או דף חדש? אני זמינה, מכירה את האתר ואת העסק, והשינוי נעשה מהר.</p></div>
+      <div class="why-card"><img class="av" src="assets/why-avatars/star-2-cut.webp" alt="" loading="lazy" width="520" height="560"><h3>אתר שנראה ברמה של העסק שלכם</h3><p>כשלקוח נכנס לאתר, הוא צריך להבין מיד שמדובר בעסק רציני. אתר שנראה טוב ועדכני נותן לו ביטחון לפנות אליכם ולא למתחרים.</p></div>
+      <div class="why-card"><img class="av" src="assets/why-avatars/listen-1-cut.webp" alt="" loading="lazy" width="520" height="560"><h3>מסרים מדויקים ללקוח שלכם</h3><p>מתחילים בשיחה, כדי להבין מה גורם ללקוח שלכם להתלבט ומה מעכב אותו. ואז בונים את הדף כך שכל שאלה והתנגדות שלו מקבלת תשובה, עוד לפני שהוא פונה אליכם.</p></div>
+      <div class="why-card"><img class="av" src="assets/why-avatars/phone-2-cut.webp" alt="" loading="lazy" width="520" height="560"><h3>עבודה מול אדם אחד בלבד</h3><p>את כל העבודה אני עושה בעצמי: האפיון, העיצוב, הטקסטים והבנייה. אתם מדברים איתי ישירות, בלי מתווכים, ומה שסיכמנו הוא מה שתקבלו.</p></div>
+      <div class="why-card"><img class="av" src="assets/why-avatars/rocket-1-cut.webp" alt="" loading="lazy" width="520" height="560"><h3>ליווי גם אחרי שהאתר באוויר</h3><p>צריך לעדכן מחיר, להוסיף שירות או דף חדש? אני זמינה, מכירה את האתר ואת העסק, והשינוי נעשה מהר.</p></div>
     </div>
   </section>
 
