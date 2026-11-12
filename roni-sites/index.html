@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta name="robots" content="noindex,nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>רוני אליהו · אתרים ודפי נחיתה לעסקים</title>
@@ -1611,6 +1610,14 @@
     .why-grid{gap:130px;margin-top:120px}
     .why-card .av{width:210px;height:auto;margin-top:-112px;margin-bottom:-26px;box-shadow:none}
   }
+  /* why on a phone, pinned: one sticky screen holds the title and a stage where the cards stack */
+  @media (max-width:860px){
+    .why.why-pin{min-height:0;padding-top:0;padding-bottom:0;display:block;overflow-x:clip}
+    .why-pin .why-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;padding:84px 0 24px;overflow:visible}
+    .why-pin .why-head{margin-bottom:0}
+    .why-pin .why-grid{position:relative;display:block;margin-top:140px}
+    .why-pin .why-card{position:absolute;top:0;left:0;right:0;will-change:transform}
+  }
 </style>
 </head>
 <body>
@@ -2549,6 +2556,7 @@ new IntersectionObserver(function(es,o){ if(es[0].isIntersecting){ o.disconnect(
   base(); addEventListener('resize',base); addEventListener('load',base);
   var cl=function(v){ return v<0?0:v>1?1:v; }, eo=function(t){ return 1-Math.pow(1-t,3); };
   function f(){
+    if(innerWidth<=860){ requestAnimationFrame(f); return; } /* phones run the pinned carousel below instead */
     var vh=innerHeight, g=grid.getBoundingClientRect().top, mob=innerWidth<=768;
     cards.forEach(function(c,i){
       var cs=getComputedStyle(c), dx=parseFloat(cs.getPropertyValue('--dx'))||0, rot=parseFloat(cs.getPropertyValue('--rot'))||0, rank=parseFloat(cs.getPropertyValue('--i'))||0;
@@ -2563,6 +2571,51 @@ new IntersectionObserver(function(es,o){ if(es[0].isIntersecting){ o.disconnect(
     requestAnimationFrame(f);
   }
   requestAnimationFrame(f);
+})();
+</script>
+<script>
+/* why on a phone: the section pins to the screen. the title comes in first, then the reasons arrive one at a time -
+   each card slides in from the side and rises into place while the one before it steps back into a stack */
+(function(){
+  var sec=document.getElementById('why'); if(!sec) return;
+  var head=sec.querySelector('.why-head'), grid=sec.querySelector('.why-grid'), cards=[].slice.call(sec.querySelectorAll('.why-card'));
+  var mq=matchMedia('(max-width:860px)'), on=false, stick=null;
+  var cl=function(v){ return v<0?0:v>1?1:v; }, eo=function(t){ return 1-Math.pow(1-t,3); };
+  function build(){
+    if(on) return; on=true;
+    stick=document.createElement('div'); stick.className='why-stick';
+    sec.insertBefore(stick,head); stick.appendChild(head); stick.appendChild(grid);
+    sec.classList.add('why-pin'); size();
+  }
+  function unbuild(){
+    if(!on) return; on=false;
+    sec.insertBefore(head,stick); sec.insertBefore(grid,stick); stick.remove(); stick=null;
+    sec.classList.remove('why-pin'); sec.style.height='';
+    cards.forEach(function(c){ c.style.transform=c.style.opacity=c.style.transition=c.style.zIndex=c.style.filter=''; });
+  }
+  function size(){ if(!on) return; var h=0; cards.forEach(function(c){ h=Math.max(h,c.offsetHeight); }); grid.style.height=h+'px';
+    sec.style.height=(innerHeight*(1+cards.length*.75))+'px'; }
+  function frame(){
+    if(on){
+      var vh=innerHeight, r=sec.getBoundingClientRect();
+      /* the title reveals as soon as the section starts to fill the screen */
+      if(r.top<vh*.55) sec.classList.add('in','live');
+      var span=sec.offsetHeight-vh, p=cl(-r.top/span)*cards.length; /* 0 .. n */
+      cards.forEach(function(c,i){
+        var k=eo(cl(p-i+.35)), back=cl(p-i-.65);              /* k: this card arriving, back: the next one covering it */
+        var x=(1-k)*105, y=(1-k)*60, rot=(1-k)*8;
+        var sc=1-back*.08, dy=-back*26;
+        c.style.transition='none'; c.style.zIndex=10+i;
+        c.style.opacity=k<=0?0:1;
+        c.style.transform='translate3d('+x.toFixed(1)+'%,'+(y+dy).toFixed(1)+'px,0) rotate('+rot.toFixed(2)+'deg) scale('+sc.toFixed(3)+')';
+        c.style.filter=back>0?'brightness('+(1-back*.35).toFixed(3)+')':'';
+      });
+    }
+    requestAnimationFrame(frame);
+  }
+  function check(){ if(mq.matches) build(); else unbuild(); size(); }
+  check(); mq.addEventListener('change',check); addEventListener('resize',size); addEventListener('load',size);
+  requestAnimationFrame(frame);
 })();
 </script>
 <script>
