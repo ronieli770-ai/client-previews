@@ -45,21 +45,17 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
 .ok svg{width:28px;height:28px}
 .done .form{display:none}.done .ok{display:flex}
 
-/* ---- textures ---- */
+/* ---- textures: silk folds (Roni, 12.11, direction from the schooliner banner, not a copy) ---- */
 .tx{position:absolute;inset:0;z-index:1;pointer-events:none}
-/* A: fine dot grid, strongest on the light side, fading toward the title */
-.tA{background-image:radial-gradient(rgba(255,255,255,.34) 1.2px,transparent 1.6px);background-size:18px 18px;
-  -webkit-mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.35) 60%,transparent 100%);mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.35) 60%,transparent 100%)}
-/* B: a faint candlestick chart climbing across the container */
-.tB svg{position:absolute;left:0;bottom:0;width:100%;height:100%}
-/* C: grain + soft light streaks */
-.tC{background:repeating-linear-gradient(115deg,rgba(255,255,255,.0) 0 38px,rgba(255,255,255,.07) 38px 40px)}
-.tC::after{content:"";position:absolute;inset:0;opacity:.35;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>")}
-/* D: concentric rings around a big brain-bulb mark (the site's mark) */
-.tD{background:repeating-radial-gradient(circle at 12% 110%,rgba(255,255,255,.12) 0 1.5px,transparent 1.5px 34px)}
-.tD img{position:absolute;left:-40px;bottom:-70px;width:330px;filter:brightness(0) invert(1);opacity:.2}
-
+.tx svg{position:absolute;inset:0;width:100%;height:100%}
+.drift svg{animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateX(0) scale(1.04)}to{transform:translateX(-3%) scale(1.08)}}
+/* the button motion switch, for Roni only */
+.mv{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px}
+.mv small{width:100%;font-size:14px;color:rgba(255,255,255,.6)}
+.mv button{border:0;border-radius:999px;padding:9px 16px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);font:inherit;font-size:14px;cursor:pointer}
+.mv button.on{background:#fff;color:#12161F;font-weight:500}
+@media (prefers-reduced-motion:reduce){.drift svg{animation:none}}
 /* ---- button motions ---- */
 /* 1: a light sweep crosses the button every few seconds */
 .m1::after{content:"";position:absolute;top:0;bottom:0;width:46%;right:-60%;background:linear-gradient(90deg,transparent,rgba(125,198,255,.55),transparent);transform:skewX(-20deg);animation:sweep 3.6s ease-in-out infinite}
@@ -105,17 +101,26 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
   </div>
 </template>
 <script>
-const CANDLES=(()=>{let x=20,y=210,s='';for(let i=0;i<34;i++){const up=Math.sin(i*1.7)>-.35;const h=14+((i*37)%22);const o=y,c=up?y-h:y+h*.6;const t=Math.min(o,c)-6-((i*13)%10),b=Math.max(o,c)+6+((i*7)%8);
-  s+=`<line x1="${x}" y1="${t}" x2="${x}" y2="${b}"/><rect x="${x-5}" y="${Math.min(o,c)}" width="10" height="${Math.max(3,Math.abs(c-o))}" rx="2" ${up?'':'fill-opacity=".45"'}/>`;y=Math.max(40,Math.min(250,c+(up?2:-2)));x+=34;}return s;})();
+/* silk: wide curved bands, each one a light ridge fading into a navy shadow, like folded satin */
+function silk(id,bands,blur){let d="",g="";const tilt=420;bands.forEach((b,i)=>{const [x,w,bend,lo,hi]=b;
+  g+=`<linearGradient id="${id}g${i}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0b1a4a" stop-opacity="0"/><stop offset=".72" stop-color="#0b1a4a" stop-opacity="${lo}"/><stop offset=".74" stop-color="#fff" stop-opacity="${hi}"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>`;
+  d+=`<path fill="url(#${id}g${i})" d="M${x} 470 C${x+bend} 320 ${x+tilt-bend} 110 ${x+tilt} -70 L${x+tilt+w} -70 C${x+tilt-bend+w} 110 ${x+bend+w} 320 ${x+w} 470Z"/>`;});
+  return `<svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice"><defs>${g}<filter id="${id}f" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="${blur}"/></filter></defs><g filter="url(#${id}f)">${d}</g></svg>`;}
 const OPTS=[
- {k:"A",name:"נקודות עדינות",tx:'<div class="tx tA"></div>',m:"m1",mv:"פס אור שעובר על הכפתור"},
- {k:"B",name:"גרף נרות",tx:`<div class="tx tB"><svg viewBox="0 0 1200 280" preserveAspectRatio="xMinYMax slice" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-opacity=".22" stroke-width="1.5">${CANDLES}</svg></div>`,m:"m2",mv:"החץ זז קדימה פעמיים ונח"},
- {k:"C",name:"גרעין ופסי אור",tx:'<div class="tx tC"></div>',m:"m3",mv:"טבעת לבנה שנושמת מהכפתור"},
- {k:"D",name:"טבעות סביב הנורה",tx:'<div class="tx tD"><img src="bulb.svg" alt=""></div>',m:"m4",mv:"במעבר עכבר: הכפתור מתמלא בנייבי והחץ יוצא ונכנס"}];
+ {k:"A",name:"קפלי משי אלכסוניים",note:"רצועות רחבות שעולות באלכסון, כמו בד מקופל",
+  tx:`<div class="tx">${silk("a",[[-120,260,380,.22,.30],[120,240,340,.18,.26],[340,260,400,.2,.28],[580,240,360,.16,.24],[820,260,380,.14,.2],[1060,240,360,.1,.16]],3)}</div>`},
+ {k:"B",name:"קפלים גדולים ורכים",note:"פחות קפלים, יותר גדולים, אור רך יותר",
+  tx:`<div class="tx">${silk("b",[[-200,420,540,.26,.34],[200,400,500,.2,.28],[600,420,540,.14,.22],[1000,400,500,.08,.14]],8)}</div>`},
+ {k:"C",name:"משי בתנועה איטית",note:"הקפלים של A זזים לאט מאוד, כמעט לא מורגש",
+  tx:`<div class="tx drift">${silk("c",[[-160,280,420,.24,.32],[100,250,360,.2,.28],[330,270,420,.2,.28],[580,250,380,.16,.24],[830,270,400,.12,.2],[1080,250,360,.08,.14]],3)}</div>`}];
+const MOVES=[["m1","פס אור עובר"],["m2","החץ זז"],["m3","טבעת נושמת"],["m4","מתמלא במעבר עכבר"]];
 const list=document.getElementById("list"),tpl=document.getElementById("tpl");
+list.insertAdjacentHTML("beforebegin",`<div class="wrap mv" id="mv"><small>תנועת הכפתור, לכל האפשרויות:</small>${MOVES.map((m,i)=>`<button data-m="${m[0]}" class="${i?"":"on"}">${m[1]}</button>`).join("")}</div>`);
+document.addEventListener("click",e=>{const b=e.target.closest("[data-m]");if(!b)return;document.querySelectorAll("[data-m]").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".nl .btn").forEach(x=>{MOVES.forEach(m=>x.classList.remove(m[0]));x.classList.add(b.dataset.m);});});
 OPTS.forEach(o=>{const sec=document.createElement("section");sec.className="opt";
-  sec.innerHTML=`<span class="tag">אפשרות ${o.k} · ${o.mv}<b>${o.name}</b></span>`;
-  const c=tpl.content.firstElementChild.cloneNode(true);c.insertAdjacentHTML("afterbegin",o.tx);c.querySelector(".btn").classList.add(o.m);sec.appendChild(c);list.appendChild(sec);});
+  sec.innerHTML=`<span class="tag">אפשרות ${o.k} · ${o.note}<b>${o.name}</b></span>`;
+  const c=tpl.content.firstElementChild.cloneNode(true);c.insertAdjacentHTML("afterbegin",o.tx);c.querySelector(".btn").classList.add("m1");sec.appendChild(c);list.appendChild(sec);});
 document.addEventListener("submit",e=>{e.preventDefault();const f=e.target,n=f.elements.first_name,m=f.elements.email;
   if(!n.value.trim()){n.focus();return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.value.trim())){m.focus();return;}f.closest(".nl").classList.add("done");});
 </script>
