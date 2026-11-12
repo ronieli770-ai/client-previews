@@ -192,7 +192,7 @@ function placePhone(){
   /* each object fits a band between the header and the copy: the satellite starts under the section title */
   const B = H * .62;
   STEPS.forEach((st, i) => { let x0, y0, x1, y1, size, cy;
-    if (i === 4) { [x0, y0, x1, y1] = ROCKET; size = W * .5 / (x1 - x0); cy = (104 + B) / 2; }
+    if (i === 4) { [x0, y0, x1, y1] = ROCKET; size = W * .64 / (x1 - x0); cy = (104 + B) / 2; }
     else { [x0, y0, x1, y1] = BB[i]; const T = i === 0 ? 160 : 104; size = Math.min(W * (i === 0 ? .98 : 1.06) / (x1 - x0), (B - T) / (y1 - y0)); cy = (T + B) / 2; }
     const cx = W / 2, left = cx - (x0 + x1) / 2 * size, top = cy - (y0 + y1) / 2 * size;
     st.box = [(left - OX) / S, (top - OY) / S, size / S];
