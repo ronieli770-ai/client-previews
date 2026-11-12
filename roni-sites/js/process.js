@@ -185,11 +185,16 @@ const BB = imgs.map(im => { const n = 160, cv = document.createElement('canvas')
   const d = c.getImageData(0, 0, n, n).data; let x0 = n, y0 = n, x1 = 0, y1 = 0;
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { const i = (y * n + x) * 4; if (Math.max(d[i], d[i + 1], d[i + 2]) > 70) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
   return [x0 / n, y0 / n, (x1 + 1) / n, (y1 + 1) / n]; });
-const PCY = .35, PWIDE = [1.06, 1.06, 1.06, 1.06, 1.16];
+const PCY = .35;
+/* the rocket sized by its own body (from the source picture), not by its fire, so the ship sits big in the middle and the fire runs off the screen */
+const ROCKET = [.5, .09, .89, .5];
 function placePhone(){
-  STEPS.forEach((st, i) => { const [x0, y0, x1, y1] = BB[i];
-    let size = W * PWIDE[i] / (x1 - x0); if (i < 4) size = Math.min(size, H * .6 / (y1 - y0));
-    const cx = W / 2, cy = H * (i === 4 ? PCY + .05 : PCY), left = cx - (x0 + x1) / 2 * size, top = cy - (y0 + y1) / 2 * size;
+  /* each object fits a band between the header and the copy: the satellite starts under the section title */
+  const B = H * .62;
+  STEPS.forEach((st, i) => { let x0, y0, x1, y1, size, cy;
+    if (i === 4) { [x0, y0, x1, y1] = ROCKET; size = W * .86 / (x1 - x0); cy = H * .36; }
+    else { [x0, y0, x1, y1] = BB[i]; const T = i === 0 ? 196 : 104; size = Math.min(W * (i === 0 ? .98 : 1.06) / (x1 - x0), (B - T) / (y1 - y0)); cy = (T + B) / 2; }
+    const cx = W / 2, left = cx - (x0 + x1) / 2 * size, top = cy - (y0 + y1) / 2 * size;
     st.box = [(left - OX) / S, (top - OY) / S, size / S];
     st.light = [(cx - OX) / S - 467, (cy - OY) / S - 180, 935, 359, WIDE[i].light[4]]; });
   Lt = STEPS[target].light;
