@@ -1452,8 +1452,9 @@
      so it ends in the same black the contact starts with - no edge between them */
   #process .pc-stick{-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 var(--fade,0px)),linear-gradient(to top,transparent 0,#000 var(--endfade,0px));
     -webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent 0,#000 var(--fade,0px)),linear-gradient(to top,transparent 0,#000 var(--endfade,0px));mask-composite:intersect}
-  #process .pc-stick > *{opacity:calc(1 - var(--dark,0))}
-  #process .pc-col{opacity:calc(1 - var(--dark,0) * .9)}
+  /* darken with a black veil over the picture, never by making it see-through (the page backdrop behind it can be light) */
+  #process .pc-stick::after{content:"";position:absolute;inset:0;z-index:5;background:#050506;opacity:var(--dark,0);pointer-events:none}
+  /* the copy stays fully white on top: only the picture behind it darkens toward the form */
   /* footer: on the cream the contact horizon ends in. the invitation on the right, the logo with round contact marks on the left,
      the pages and the way up on one line, a thin line, then the fine print */
   .sf{background:#FFF4EE;color:#1d1d20;padding:0 6.771%}
@@ -1495,15 +1496,16 @@
   /* ---------- phone pass (12.11): hero first ---------- */
   @media (max-width:900px){
     /* title: the first line steps back, the closing line carries the weight, both set tight */
-    .intro h1{font-size:7.4vw;line-height:1}
-    .intro .big{font-size:13.4vw;line-height:.98;margin-top:10px}
-    /* the three facts read as one line of copy under the title, above the buttons */
-    .intro .facts{order:1;margin-top:22px;max-width:340px;font-size:16px;line-height:1.55;color:rgba(255,255,255,.82);text-wrap:balance}
-    .intro .facts{white-space:normal;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:360px}
-    .intro{padding-top:92px}
-    .intro .facts .fi{display:block;white-space:nowrap;padding:4px 14px;line-height:1.5;border-radius:100px;color:#fff;
-      background:rgba(255,255,255,.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-    .intro .facts .fd{display:none}
+    /* title like the portfolio: two lines, the closing line one size up and set on one line */
+    .intro h1{font-size:8.4vw;line-height:1}
+    .intro .big{font-size:9.2vw;line-height:1;margin-top:8px;white-space:nowrap} .intro .m-br{display:none}
+    /* the facts: plain running copy with dots between, like the portfolio, above the buttons */
+    .intro .facts{order:1;margin-top:26px;max-width:350px;font-size:18px;line-height:1.45;color:#fff;white-space:normal}
+    .intro .facts .fi,.intro .facts .fd{display:inline}
+    .intro .facts .fd{white-space:pre-wrap}
+    /* the gradient line closes the copy on a line of its own, so its colours run unbroken */
+    .intro .facts{text-wrap:balance}
+    .intro .facts .ai-grad{-webkit-box-decoration-break:clone;box-decoration-break:clone}
     .intro .row{order:2;margin-top:28px}
     .intro .strip{order:3}
     /* the whole mars shows behind the hero, like the portfolio; it only melts away at the very foot */
@@ -1545,7 +1547,7 @@
       <a class="pill pill-fill" href="https://wa.me/972502463500?text=%D7%94%D7%99%D7%99%20%D7%A8%D7%95%D7%A0%D7%99%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%9C%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%90%D7%AA%D7%A8%20%D7%9C%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener">לשיחת היכרות<img class="wa-w" src="assets/jobs-wa.svg" alt=""></a>
       <a class="pill pill-line" href="#work">לפרוייקטים</a>
     </div>
-    <p class="facts"><span class="fi">אתרי תדמית ודפי נחיתה לעסקים</span><span class="fd">   •   </span><span class="fi">עיצוב שמביא תוצאות עסקיות</span><span class="fd">   •   </span><span class="fi">אתר שנראה מקצועי כמו העסק שלכם</span></p>
+    <p class="facts"><span class="fi">אתרי תדמית ודפי נחיתה לעסקים</span><span class="fd">   •   </span><span class="fi">עיצוב שמביא תוצאות עסקיות</span><span class="fd">   •   </span><span class="fi ai-grad">אתר שנראה מקצועי כמו העסק שלכם</span></p>
     <div class="strip" aria-label="אתרים שבניתי"><div class="strip-track"></div></div>
   </section>
 
@@ -1720,12 +1722,12 @@
     if (!box) return;
     box.innerHTML = '<div class="proj-grain"></div><div class="pf-copy"><span class="pf-brand"></span><h2 class="pf-title"></h2><div class="pf-body"></div>' +
       (pr.url ? '<a class="pf-cta" target="_blank" rel="noopener" href="' + pr.url + '">למעבר לפרוייקט</a>' : '') + '</div>' +
-      '<div class="pv-screen"' + (pr.ar ? ' style="aspect-ratio:' + pr.ar + '"' : '') + '><img src="work/pv/' + pr.v + '.jpg?v=4" alt="" decoding="async"><video muted playsinline loop preload="none"></video></div>';
+      '<div class="pv-screen"' + (pr.ar ? ' style="aspect-ratio:' + pr.ar + '"' : '') + '><img src="work/pv/' + pr.v + '.jpg?v=5" alt="" decoding="async"><video muted playsinline loop preload="none"></video></div>';
     box.querySelector('.pf-brand').textContent = pr.brand;
     box.querySelector('.pf-title').textContent = pr.title;
     box.querySelector('.pf-body').textContent = pr.body;
     const v = box.querySelector('video');
-    v.dataset.src = 'work/pv/' + pr.v + '.mp4?v=4';
+    v.dataset.src = 'work/pv/' + pr.v + '.mp4?v=5';
     v.addEventListener('playing', () => v.classList.add('on'));
     pvVids.push(v);
   });
