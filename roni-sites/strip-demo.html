@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>קאברים בגלילה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400;500;600&family=Roboto:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1d1d20}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:#fff;font-family:'IBM Plex Sans Hebrew',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .run{position:relative;height:420svh}
+  .stage{position:sticky;top:0;height:100svh;overflow:hidden;perspective:900px;perspective-origin:50% 45%}
+  .tex{position:absolute;inset:0;background:url(mars-texture.webp) 50% 70%/cover no-repeat;filter:brightness(.62);
+    -webkit-mask-image:radial-gradient(circle 420px at 50% 60%,rgba(0,0,0,.8),rgba(0,0,0,.35) 40%,transparent 85%);mask-image:radial-gradient(circle 420px at 50% 60%,rgba(0,0,0,.8),rgba(0,0,0,.35) 40%,transparent 85%)}
+  .hero{position:absolute;left:0;right:0;top:22svh;text-align:center;padding:0 20px;z-index:3;pointer-events:none}
+  .hero h1{margin:0;font-weight:400;font-size:30px;line-height:1}
+  .hero p{margin:10px 0 0;font-weight:400;font-size:38px;line-height:1;white-space:nowrap}
+  .hero{padding:0 8px}
+  .hero p b{font-weight:600}
+  .world{position:absolute;inset:0;transform-style:preserve-3d;z-index:2}
+  .c{position:absolute;left:50%;top:50%;border-radius:12px;overflow:hidden;background:#2a2a2c;transform-style:preserve-3d;will-change:transform,opacity;
+    box-shadow:0 20px 40px -18px rgba(0,0,0,.7)}
+  .c img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+  .c.bare{background:none;overflow:visible;box-shadow:none;border-radius:0}
+  .bit{position:absolute;background-repeat:no-repeat;will-change:transform,opacity;backface-visibility:hidden}
+  .planet{position:absolute;left:50%;top:50%;width:260px;height:260px;margin:-130px 0 0 -130px;border-radius:50%;opacity:0;z-index:1;
+    background:radial-gradient(circle at 35% 30%,rgba(255,190,140,.35),transparent 55%),url(mars-texture.webp) center/cover;
+    box-shadow:inset -40px -30px 70px rgba(0,0,0,.85),0 0 90px rgba(250,145,84,.25)}
+  .hole{position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#000;opacity:0;z-index:1;
+    box-shadow:0 0 0 2px rgba(250,145,84,.8),0 0 40px 12px rgba(250,145,84,.45),0 0 120px 40px rgba(224,74,33,.25)}
+  .after{position:absolute;left:0;right:0;bottom:16svh;text-align:center;z-index:3;opacity:0;padding:0 20px}
+  .after span{display:block;color:#FA9154;font-size:15px}
+  .after b{display:block;font-weight:400;font-size:38px;line-height:1.05;margin-top:8px}
+  .tail{height:60svh;display:grid;place-items:center;color:#8C97A8;font-size:16px}
+
+  .ui{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 0 calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(10,10,12,.92),rgba(10,10,12,.75) 70%,transparent)}
+  .note{margin:0 16px 10px;font-size:16px;line-height:1.4;color:#C9D2DE;text-align:right}
+  .note b{color:#fff;font-weight:500}
+  .pick{display:flex;gap:8px;overflow-x:auto;padding:0 16px;scrollbar-width:none}
+  .pick::-webkit-scrollbar{display:none}
+  .pick button{flex:none;height:56px;padding:0 24px;border:0;border-radius:100px;background:rgba(255,255,255,.08);color:#C9D2DE;font:500 18px 'IBM Plex Sans Hebrew',sans-serif;white-space:nowrap;cursor:pointer}
+  .pick button.on{background:#fff;color:#1d1d20}
+  .pick button i{font:500 15px 'Roboto',sans-serif;font-style:normal;margin-left:8px;opacity:.6}
+</style>
+</head>
+<body>
+<section class="run" id="run">
+  <div class="stage" id="stage">
+    <div class="tex" id="tex"></div>
+    <div class="planet" id="planet"></div>
+    <div class="hole" id="hole"></div>
+    <div class="hero" id="hero"><h1>ההחלטה נופלת באתר.</h1><p>השיחה רק <b>סוגרת אותה</b></p></div>
+    <div class="world" id="world"></div>
+    <div class="after" id="after"><span>עבודות נבחרות</span><b>אתרים שעושים<br>את ההחלטה</b></div>
+  </div>
+</section>
+<div class="tail">גוללים חזרה למעלה כדי לראות שוב</div>
+
+<div class="ui">
+  <p class="note" id="note"></p>
+  <div class="pick" id="pick"></div>
+</div>
+
+<script>
+const IMGS=['antar-fullcourse','joopy-s1','kapach-hero','noy-hero','hitbox-hero','ndn-s1'].map(f=>'assets/strip/'+f+'.jpg');
+const OPTS=[
+  ['סליל','הקאברים נכרכים לסליל ומסתובבים סביב ציר אחד ועולים למעלה תוך כדי סיבוב.'],
+  ['רסיסים','כל קאבר מתפרק לעשרות רסיסים שעפים לעומק ומסתובבים. ככה האתרים "מתפוצצים" אל הסקשן הבא.'],
+  ['חור שחור','הקאברים נשאבים בספירלה אל נקודת אור כתומה באמצע המסך, ונעלמים בתוכה.'],
+  ['מהירות האור','הקאברים יוצרים מנהרה סביבך ועפים לעברך, כמו כניסה למהירות האור.'],
+  ['טבעת כוכב לכת','מאדים עולה באמצע והקאברים מקיפים אותו כמו טבעת של שבתאי, שמתיישרת בגלילה.'],
+  ['זום לפרויקט','בסגנון טריון: הקאבר שבאמצע גדל עד שהוא ממלא את המסך, השאר זזים הצידה, והכותרת של הפרויקטים עולה עליו.'],
+  ['פסים','בסגנון טריון: הקאברים נחתכים לפסים אופקיים שמחליקים לסירוגין ימינה ושמאלה ומתפזרים.'],
+  ['עמודות','הקאברים מסתדרים לשתי עמודות שעולות במהירויות שונות, כמו גלריה של אתרים שזכו בפרסים.'],
+  ['אקורדיון','הקאברים נערמים אחד מעל השני ומתקפלים כמו אקורדיון של נייר, ועולים למעלה.'],
+  ['חפיסה','הקאברים מתכנסים לחפיסה אחת באמצע, ואז נזרקים אחד אחד למעלה בסיבוב.']
+];
+const world=document.getElementById('world'),stage=document.getElementById('stage'),run=document.getElementById('run');
+const hero=document.getElementById('hero'),after=document.getElementById('after'),planet=document.getElementById('planet'),hole=document.getElementById('hole'),tex=document.getElementById('tex');
+const N=10;let opt=0,cards=[],W,H,cw,ch,pv=0;
+const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)), ss=t=>{t=cl(t);return t*t*(3-2*t)}, eo=t=>1-Math.pow(1-cl(t),3), mix=(a,b,t)=>a+(b-a)*t;
+function rnd(s){const x=Math.sin(s*127.1)*43758.5453;return x-Math.floor(x)}
+function size(){W=innerWidth;H=innerHeight;cw=Math.min(330,W*.85);ch=cw*9/16}
+/* every option starts from the hero row: the covers side by side near the foot of the screen */
+const baseX=i=>(i-4)*(cw+14), baseY=()=>H*.5-ch/2-34;
+function build(){
+  world.innerHTML='';cards=[];
+  for(let i=0;i<N;i++){
+    const el=document.createElement('div');el.className='c';el.style.width=cw+'px';el.style.height=ch+'px';el.style.margin=(-ch/2)+'px 0 0 '+(-cw/2)+'px';
+    const src=IMGS[i%IMGS.length];
+    const tiles=(opt===1&&i>=3&&i<=5)?[7,5]:(opt===6&&i>=3&&i<=5)?[1,9]:null;
+    if(tiles){
+      el.classList.add('bare');const [nx,ny]=tiles,tw=cw/nx,th=ch/ny;el._bits=[];
+      for(let y=0;y<ny;y++)for(let x=0;x<nx;x++){const b=document.createElement('div');b.className='bit';
+        Object.assign(b.style,{left:x*tw+'px',top:y*th+'px',width:Math.ceil(tw)+1+'px',height:Math.ceil(th)+1+'px',backgroundImage:'url('+src+')',backgroundSize:cw+'px auto',backgroundPosition:(-x*tw)+'px '+(-y*th)+'px'});
+        if(nx===1){b.style.borderRadius=(y===0?'12px 12px 0 0':y===ny-1?'0 0 12px 12px':'0');b.style.backgroundSize=cw+'px '+ch+'px'}
+        else{b.style.backgroundSize=cw+'px '+ch+'px'}
+        b._x=x;b._y=y;b._r=[rnd(i*31+y*7+x),rnd(i*17+y*3+x*5),rnd(i*13+y*11+x*2),rnd(i+y+x*19)];el._bits.push(b);el.appendChild(b)}
+    } else { el.innerHTML='<img src="'+src+'" alt="">'; }
+    world.appendChild(el);cards.push(el);
+  }
+}
+function T(el,x,y,z,rx=0,ry=0,rz=0,s=1,o=1){el.style.transform=`translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,${z.toFixed(1)}px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg) scale(${s.toFixed(3)})`;el.style.opacity=cl(o).toFixed(3)}
+/* the row in the hero: a gentle arc, like the live carousel */
+function row(i,k){const x=baseX(i),th=x/(W*1.15),R=W*1.15;return [Math.sin(th)*R,baseY(),(1-Math.cos(th))*R*.9-220*k,-th*57.3]}
+
+const R=[
+/* 1 helix */ (p,i)=>{const k=ss(p/.3),[bx,by,bz,bry]=row(i,1);const a=i*40+p*420,rad=W*.42;
+  const hx=Math.sin(a*Math.PI/180)*rad,hz=Math.cos(a*Math.PI/180)*rad-rad*1.2,hy=(i-4.5)*ch*.5-p*H*1.1+H*.18;
+  T(cards[i],mix(bx,hx,k),mix(by,hy,k),mix(bz,hz,k),0,mix(bry,a,k),0,mix(1,.62,k),mix(1,.35+.65*(Math.cos(a*Math.PI/180)*.5+.5),k))},
+/* 2 shatter */ (p,i)=>{const [bx,by,bz,bry]=row(i,0);const c=cards[i];
+  if(!c._bits){const bo=cl((1.08-Math.abs(baseX(i)/(W*1.15)))/.22);T(c,bx,by-p*H*.9,bz,0,bry,0,1,(1-p*3)*bo);return}
+  T(c,bx,by,bz,0,bry,0,1,1);const t=cl((p-.04)/.55);
+  c._bits.forEach(b=>{const [r1,r2,r3,r4]=b._r,dx=(b._x-3)/3,dy=(b._y-2)/2,kk=eo(cl(t*1.7-r4*.7-Math.hypot(dx,dy)*.15));
+    b.style.transform=`translate3d(${(dx*120+(r1-.5)*260)*kk}px,${(dy*90-200-(r2*380))*kk}px,${(r3*-500-80)*kk}px) rotateX(${(r1-.5)*720*kk}deg) rotateY(${(r2-.5)*720*kk}deg) rotateZ(${(r3-.5)*360*kk}deg)`;
+    b.style.opacity=(1-cl((kk-.55)/.45)).toFixed(3)})},
+/* 3 black hole */ (p,i)=>{const k=ss(p/.25),[bx,by,bz,bry]=row(i,0);const t=cl((p-.05)/.7),a=(i*36+t*540)*Math.PI/180,r=(1-eo(t))*W*.95+6;
+  const cy=H*.08,sx=Math.cos(a)*r,sy=cy+Math.sin(a)*r*.55;
+  T(cards[i],mix(bx,sx,k),mix(by,sy,k),0,mix(0,55,k),mix(bry,0,k),mix(0,a*57.3+90,k*t),mix(1,.08+.6*(1-eo(t)),k),1-cl((t-.82)/.18));
+  hole.style.opacity=cl(p/.2);const g=1+eo(t)*5;hole.style.transform=`translateY(${cy}px) scale(${g})`},
+/* 4 hyperspace */ (p,i)=>{const k=ss(p/.22),[bx,by,bz,bry]=row(i,0);const a=i*36*Math.PI/180,r=W*.9;
+  const z=-2600+(((i*260+p*5200)%2600)+2600)%2600;const tx=Math.cos(a)*r,ty=Math.sin(a)*r*.85;
+  T(cards[i],mix(bx,tx,k),mix(by,ty,k),mix(bz,z,k),0,mix(bry,-Math.cos(a)*25,k),0,1,mix(1,cl((z+2600)/900)*(1-cl((z+250)/250)),k))},
+/* 5 saturn */ (p,i)=>{const k=ss(p/.3),[bx,by,bz,bry]=row(i,0);const tilt=mix(78,24,ss(p/.9))*Math.PI/180,a=(i*36+p*260)*Math.PI/180,Rr=W*.62;
+  const x0=Math.sin(a)*Rr,z0=Math.cos(a)*Rr,y=-z0*Math.sin(tilt)*-1*.6+H*.06,z=z0*Math.cos(tilt)-Rr*.4;
+  T(cards[i],mix(bx,x0,k),mix(by,y,k),mix(bz,z,k),0,mix(bry,a*57.3*.3,k),0,mix(1,.5,k),mix(1,.25+.75*(Math.cos(a)*.5+.5),k));
+  planet.style.opacity=k;planet.style.transform=`translateY(${H*.06}px) scale(${mix(.4,1,k)}) rotate(${p*60}deg)`},
+/* 6 zoom (trionn) */ (p,i)=>{const k=ss(p/.6),[bx,by,bz,bry]=row(i,0);const c=cards[i];
+  if(i===4){const s=mix(1,Math.max(W/cw,H/ch)*1.02,k);T(c,mix(bx,0,k),mix(by,0,k),mix(bz,0,k),0,mix(bry,0,k),0,s,1);c.style.borderRadius=mix(12,0,k)/s+'px';c.style.zIndex=5;c.style.filter=`brightness(${mix(1,.45,ss((p-.45)/.3))})`}
+  else{const side=i<4?-1:1;T(c,bx+side*eo(k)*W*1.2,by-k*120,bz,0,bry+side*k*30,0,1,1-k)}},
+/* 7 slices (trionn) */ (p,i)=>{const [bx,by,bz,bry]=row(i,0);const c=cards[i];
+  if(!c._bits){T(c,bx+(i<4?-1:1)*ss(p/.4)*W,by,bz,0,bry,0,1,1-ss(p/.4));return}
+  T(c,bx,by-ss(p/.8)*H*.35,bz,0,bry,0,1,1);
+  c._bits.forEach(b=>{const j=b._y,kk=eo(cl(p*2.2-j*.06-(i-3)*.08)),dir=j%2?1:-1;
+    b.style.transform=`translate3d(${dir*kk*W*1.3}px,${(j-4)*kk*10}px,0) skewX(${dir*kk*-18}deg)`;b.style.opacity=(1-kk*.4).toFixed(3)})},
+/* 8 columns */ (p,i)=>{const k=ss(p/.3),[bx,by,bz,bry]=row(i,0);const col=i%2,r=Math.floor(i/2),gw=(W-44)/2,s=gw/cw;
+  const tx=(col?1:-1)*(gw/2+6),ty=r*(ch*s+12)-ch*s*1.2+H*.32-p*H*(col?2.1:1.35)+(col?ch*s*.55:0);
+  T(cards[i],mix(bx,tx,k),mix(by,ty,k),mix(bz,0,k),0,mix(bry,0,k),mix(0,(col?3:-3)*(1-k)*k*4,1),mix(1,s,k),1)},
+/* 9 accordion */ (p,i)=>{const k=ss(p/.3),[bx,by,bz,bry]=row(i,0);const f=ss((p-.15)/.5)*68,sw=(W*.86)/cw;
+  const step=ch*sw*Math.cos(f*Math.PI/180);const ty=(i-4.5)*step-p*H*.9+H*.12,tz=(i%2?-1:1)*Math.sin(f*Math.PI/180)*ch*sw*.5;
+  T(cards[i],mix(bx,0,k),mix(by,ty,k),mix(bz,tz,k),mix(0,(i%2?f:-f),k),mix(bry,0,k),0,mix(1,sw,k),mix(1,1-f/68*.35*(i%2),k))},
+/* 10 deck */ (p,i)=>{const k=ss(p/.25),[bx,by,bz,bry]=row(i,0);const j=N-1-i,t=cl((p-.25-j*.055)/.18),e=eo(t),r1=rnd(i*9)-.5;
+  T(cards[i],mix(bx,r1*14,k)+e*r1*W*1.1,mix(by,H*.05-i*2,k)-e*H*1.1,mix(bz,i*3,k),e*35,mix(bry,0,k)+e*r1*60,mix(0,r1*8,k)+e*r1*200,mix(1,.9,k),1-cl((t-.8)/.2))}
+];
+function setOpt(o){opt=o;build();[...pick.children].forEach((b,j)=>b.classList.toggle('on',j===o));
+  document.getElementById('note').innerHTML='<b>'+(o+1)+'. '+OPTS[o][0]+'</b> - '+OPTS[o][1];
+  planet.style.opacity=0;hole.style.opacity=0;scrollTo(0,0);pv=0}
+const pick=document.getElementById('pick');
+OPTS.forEach((o,j)=>{const b=document.createElement('button');b.type='button';b.innerHTML='<i>'+String(j+1).padStart(2,'0')+'</i>'+o[0];b.onclick=()=>setOpt(j);pick.appendChild(b)});
+size();setOpt(0);
+addEventListener('resize',()=>{size();build()});
+(function f(){
+  const r=run.getBoundingClientRect(),p=cl(-r.top/(run.offsetHeight-H));pv+=(p-pv)*.14;
+  const k0=ss(pv/.25);
+  for(let i=0;i<N;i++){R[opt](pv,i);const th=baseX(i)/(W*1.15),bo=cl((1.08-Math.abs(th))/.22);cards[i].style.opacity=(+cards[i].style.opacity*mix(bo,1,k0)).toFixed(3)}
+  hero.style.opacity=1-ss(pv/.18);hero.style.transform=`translateY(${-pv*160}px)`;
+  tex.style.opacity=1-ss((pv-.5)/.4)*.6;
+  after.style.opacity=ss((pv-.72)/.15);after.style.transform=`translateY(${(1-ss((pv-.72)/.15))*30}px)`;
+  requestAnimationFrame(f)})();
+</script>
+</body>
+</html>
