@@ -22,6 +22,7 @@ function mount(){
     if(hs.length>2){const h=hs[Math.floor(hs.length/2)];h.insertAdjacentHTML("beforebegin",art());}
   }
   /* strip above the footer on every page, except where the banner already invites (one form per page) */
+  const st=document.querySelector('[data-nl="strip"]');if(st&&document.querySelector('[data-nl="banner"]'))st.remove();
   const f=document.querySelector("footer.s-footer");
   if(f&&!document.querySelector('[data-nl="strip"]')&&!document.querySelector('[data-nl="banner"]'))f.insertAdjacentHTML("beforebegin",strip());
 }
