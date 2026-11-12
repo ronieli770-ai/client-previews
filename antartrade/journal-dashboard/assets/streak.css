@@ -143,3 +143,25 @@ body.pg-dash #pgSub{display:none}
 .pl-ch>span{font-size:13px;color:var(--muted);background:var(--raised);border-radius:999px;padding:4px 10px}
 .pl-act{display:flex;gap:8px;margin-top:20px}
 @media (max-width:600px){.planb{height:34px;margin-top:10px;padding:0 12px;font-size:13px}.pl-card{padding:14px}}
+/* 30-day insight block (12.11, Noam's spec) */
+.insight{margin-top:16px}
+.in-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.in-cell{background:var(--block2);border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.in-cell p{margin:0;font-size:15px;line-height:1.55;color:var(--fg)}
+.in-rows{display:grid;gap:10px}
+.in-row{display:grid;grid-template-columns:72px 96px 1fr auto;align-items:center;gap:12px;font-size:14px}
+.in-row.off{opacity:.45}
+.in-nm{color:var(--fg);font-weight:500}
+.in-row b{font-size:15px;font-weight:500}
+.in-row.pos b{color:var(--win)}.in-row.neg b{color:var(--loss)}
+.in-lp{height:6px;border-radius:999px;background:rgba(var(--tint),.08);overflow:hidden}
+.in-lp i{display:block;height:100%;border-radius:999px;background:var(--loss)}
+.in-row small{font-size:13px;color:var(--muted);white-space:nowrap}
+.in-wr{display:flex;align-items:baseline;gap:10px}
+.in-wr b{font-size:32px;font-weight:500;line-height:1;color:var(--fg)}
+.in-wr span{font-size:13px;color:var(--muted)}
+.in-act{margin-top:auto}
+.in-done{display:inline-flex;align-items:center;gap:8px;margin-top:auto;font-size:14px;color:var(--win)}
+.in-done .i{width:16px;height:16px}
+@media (max-width:900px){.in-grid{grid-template-columns:1fr}}
+@media (max-width:600px){.in-row{grid-template-columns:64px 84px 1fr;row-gap:4px}.in-row small{grid-column:3}.in-wr b{font-size:28px}}
