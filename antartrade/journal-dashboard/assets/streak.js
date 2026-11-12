@@ -24,6 +24,7 @@ let PLAN=null;try{PLAN=JSON.parse(localStorage.getItem("atPlan")||"null")}catch(
 const R=()=>PLAN||{t:3,l:2};
 const nTrades=n=>n===1?"עסקה אחת":`${n} עסקאות`,nLoss=n=>n===1?"הפסד אחד":`${n} הפסדים`;
 function states(){const p=R(),T=p.t,L=p.l;return{
+ back:{icon:"sun",c:"sky",img:"before",lbl:`מאז הביקור האחרון · לפני ${since().ago} ימים`,msg:backMsg(),today:"p",n:9,t:0,l:0},
  before:{icon:"sun",c:"sky",msg:PLAN?`עוד לא נכנסת היום. התוכנית: עד ${nTrades(T)}, ועוצרים אחרי ${nLoss(L)} ברצף.`:"עוד לא נכנסת היום. בנה לך תוכנית מסחר, ואני אעקוב אחריה איתך כל יום.",today:"p",n:9,t:0,l:0},
  one:{icon:"target",c:"mint",msg:T>1?`עסקה ראשונה בפנים, עם סטופ. ${T-1===1?"נשארה לך עסקה אחת":`נשארו לך ${T-1} עסקאות`} להיום.`:"עסקה ראשונה בפנים, עם סטופ. זו העסקה היחידה שלך להיום.",today:"p",n:9,t:1,l:0},
  stopped:{icon:"shield",c:"mint",msg:`עצרת אחרי ${nLoss(L)}, בדיוק לפי ${PLAN?"התוכנית":"הכללים"}. יום מפסיד עם משמעת לא שובר את הרצף.`,today:"p",n:9,t:Math.min(L,T),l:L},
@@ -36,13 +37,14 @@ const LET=["א","ב","ג","ד","ה","ו","ש"];
 const dayLetters=()=>{const out=[];const d=new Date(2026,10,5);while(out.length<14){const w=d.getDay();if(w>0&&w<6)out.unshift(LET[w]);d.setDate(d.getDate()-1);}return out;};
 const LETS=dayLetters();
 let cur=null;
-const en=t=>t.replace(/\d+/g,n=>`<span class="en">${n}</span>`);
+const en=t=>t.replace(/-?\$?\d[\d,.:%]*/g,n=>`<span class="en">${n}</span>`);
 function set(k){
   const s=states()[k];const first=cur===null;cur=k;const P=R();
   const co=$$("coach");
-  if(first){co.innerHTML=`<div class="av"><img alt="נועם" src="avatar/noam-${k}.webp"></div><div class="bub"><span>${en(s.msg)}</span><button class="planb" id="planBtn"></button></div>`;}
+  const im=s.img||k;
+  if(first){co.innerHTML=`<div class="av"><img alt="נועם" src="avatar/noam-${im}.webp"></div><div class="bub"><small id="coLbl">${en(s.lbl||"")}</small><span>${en(s.msg)}</span><button class="planb" id="planBtn"></button></div>`;}
   else{const img=co.querySelector("img"),bub=co.querySelector(".bub");img.classList.add("out");bub.classList.add("swap");
-    setTimeout(()=>{img.src=`avatar/noam-${k}.webp`;bub.querySelector("span").innerHTML=en(s.msg);img.classList.remove("out");bub.classList.remove("swap");},260);}
+    setTimeout(()=>{img.src=`avatar/noam-${im}.webp`;bub.querySelector(":scope>span").innerHTML=en(s.msg);$$("coLbl").innerHTML=en(s.lbl||"");img.classList.remove("out");bub.classList.remove("swap");},260);}
   planUi();
   const n=s.n,goal=GOALS.find(g=>g>n)||90,prev=GOALS.filter(g=>g<=n).pop()||0;
   const nb=$$("stN");nb.textContent=n;$$("stW").textContent=n===1?"יום":"ימים";
@@ -71,6 +73,46 @@ function confetti(){
     if(el<3400)requestAnimationFrame(tick);else{ctx.clearRect(0,0,W,H);cv.hidden=true;}};
   requestAnimationFrame(tick);
 }
+/* ---- Noam reads a day (12.11): the same rules check for the entry summary and for a day opened from the calendar ---- */
+const dk=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const usd=v=>(v<0?"-":"")+"$"+Math.abs(v).toLocaleString("en-US");
+function judge(list){
+  const p=R(),T=p.t,L=p.l,lim=PLAN?PLAN.loss:0;
+  const t=[...list].sort((a,b)=>a.exit-b.exit),n=t.length,pnl=t.reduce((s,x)=>s+x.pnl,0);
+  let run=0,hit=-1;t.forEach((x,i)=>{run=x.pnl<0?run+1:0;if(run>=L&&hit<0)hit=i;});
+  if(n>T)return{k:"violation",n,pnl,why:"trades"};
+  if(hit>=0&&hit<n-1)return{k:"violation",n,pnl,why:"losses"};
+  if(lim&&pnl<-lim)return{k:"violation",n,pnl,why:"loss"};
+  if(hit>=0)return{k:"stopped",n,pnl};
+  return{k:pnl>=0?"clean":"lossok",n,pnl};
+}
+function dayMsg(j){const p=R(),by=PLAN?"התוכנית":"הכללים";
+  if(j.k==="violation")return j.why==="trades"?`ביום הזה נפתחו ${j.n} עסקאות, מעבר למקסימום של ${p.t}. כאן הרצף נשבר.`
+    :j.why==="losses"?`אחרי ${nLoss(p.l)} ברצף המשכת לסחור. לפי ${by} היה צריך לעצור כאן.`
+    :`ההפסד היומי היה ${usd(-j.pnl)}, מעבר לגבול של ${usd(PLAN.loss)}.`;
+  if(j.k==="stopped")return `עצרת אחרי ${nLoss(p.l)}, בדיוק לפי ${by}. יום מפסיד עם משמעת לא שובר את הרצף.`;
+  if(j.k==="lossok")return `יום בהפסד של ${usd(-j.pnl)}, אבל לפי ${by}. הוא עדיין נספר כיום נקי ברצף.`;
+  return `יום נקי ברווח של ${usd(j.pnl)}, ${j.n===1?"בעסקה אחת":`מתוך ${j.n} עסקאות`}, הכל לפי ${by}.`;}
+const IMG={violation:"violation",stopped:"stopped",lossok:"stopped",clean:"clean"};
+/* entry summary: the trading days between the last visit and today */
+function since(){
+  const all=(typeof TRADES!=="undefined"?TRADES:[]),days={};
+  const from=new Date(2026,9,31),to=new Date(2026,10,5);
+  all.forEach(x=>{if(x.exit>=from&&x.exit<to){const k=dk(x.exit);(days[k]=days[k]||[]).push(x);}});
+  const ks=Object.keys(days),js=ks.map(k=>judge(days[k]));
+  const n=js.reduce((s,j)=>s+j.n,0),pnl=js.reduce((s,j)=>s+j.pnl,0),bad=js.filter(j=>j.k==="violation").length,up=js.filter(j=>j.pnl>0).length;
+  return{ago:Math.round((to-from)/864e5),days:ks.length,n,pnl,bad,up};}
+function backMsg(){const s=since();
+  if(!s.n)return "מאז הביקור האחרון לא נכנסו עסקאות. כשתייבא או תסנכרן, אסכם לך כאן מה קרה.";
+  return `נכנסו ${s.n} עסקאות על פני ${s.days} ימי מסחר, ${s.pnl>=0?"רווח":"הפסד"} של ${usd(Math.abs(s.pnl))} בסך הכל. `+(s.bad?`${s.bad===1?"יום אחד":`${s.bad} ימים`} עם חריגה, ושם הרצף נשבר.`:`כל הימים לפי ${PLAN?"התוכנית":"הכללים"}, והרצף לא נשבר.`);}
+/* the calendar day dialog (openDay in the master) gets Noam's read of that day, as a small coach card above the trades */
+document.addEventListener("click",e=>{const c=e.target.closest(".cal [data-day]");if(!c)return;const k=c.dataset.day;
+  setTimeout(()=>{const body=$$("dlgBody");if(!body||body.querySelector(".coach.mini"))return;
+    const list=(typeof filtered==="function"?filtered():TRADES).filter(x=>dk(x.exit)===k);if(!list.length)return;
+    const j=judge(list),h=body.querySelector("h2");
+    const card=`<div class="coach mini"><div class="av"><img alt="נועם" src="avatar/noam-${IMG[j.k]}.webp"></div><div class="bub"><small>על היום הזה</small><span>${en(dayMsg(j))}</span></div></div>`;
+    if(h)h.insertAdjacentHTML("afterend",card);else body.insertAdjacentHTML("afterbegin",card);},0);
+});
 /* ---- plan button + dialog ---- */
 const PEN='<svg class="i" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>';
 const PLUS='<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
@@ -110,7 +152,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("click",e=>{const b=e.target.closest(".demo2 [data-st]");if(!b)return;document.querySelectorAll(".demo2 [data-st]").forEach(x=>x.classList.toggle("on",x===b));set(b.dataset.st);});
 ["before","one","stopped","violation","clean","weekend"].forEach(k=>{const i=new Image();i.src=`avatar/noam-${k}.webp`;});
-set("before");
+set("back");
 })();
 };
 const mountAll=()=>{
@@ -119,7 +161,7 @@ const mountAll=()=>{
   if(!sub||!kpis)return;
   sub.insertAdjacentHTML("beforebegin","<div class=\"coach\" id=\"coach\"></div>");
   kpis.insertAdjacentHTML("afterend","\n  <section class=\"blk streak dashonly\" id=\"streak\">\n    <div class=\"bh\"><div class=\"ttl\"><span class=\"ico\" style=\"--c:var(--c-sun)\"><svg class=\"i\" viewBox=\"0 0 24 24\"><path d=\"M12 3.5c.5 3-2.5 4.5-2.5 7.5a2.5 2.5 0 0 0 5 0c0-1-.4-1.8-1-2.5 2.6 1 4.5 3.6 4.5 6.5a6 6 0 0 1-12 0c0-4.6 4.5-7.4 6-11.5z\"/></svg></span><h2>רצף משמעת</h2></div><span class=\"hint\">ימי מסחר בלי אף חריגה מהכללים של האתגר</span></div>\n    <div class=\"rs-grid3\">\n      <div class=\"rs-cell\">\n        <span class=\"rs-l\">ימים נקיים ברצף</span>\n        <div class=\"rs-num\"><b class=\"en\" id=\"stN\">9</b><span id=\"stW\">ימים</span></div>\n        <div class=\"rs-goal\"><span id=\"stGoal\">עוד יום אחד ליעד הבא</span><span class=\"en\" id=\"stGoalN\">9/10</span></div>\n        <div class=\"rs-bar\"><i id=\"stBar\" style=\"width:90%\"></i></div>\n      </div>\n      <div class=\"rs-cell\">\n        <span class=\"rs-l\">14 ימי המסחר האחרונים</span>\n        <div class=\"rs-days\" id=\"stDays\"></div>\n        <div class=\"rs-legend\"><span class=\"c\"><i></i>יום נקי</span><span class=\"v\"><i></i>חריגה</span><span><i></i>בלי עסקאות</span></div>\n      </div>\n      <div class=\"rs-cell\">\n        <span class=\"rs-l\">היום, לפי הכללים שלך</span>\n        <div class=\"rs-today\">\n          <div class=\"rs-tc2\"><small>עסקאות</small><b id=\"tdT\">0 <em>/ 3</em></b><div class=\"rs-pips\" id=\"tdTp\"></div></div>\n          <div class=\"rs-tc2\"><small>הפסדים ברצף</small><b id=\"tdL\">0 <em>/ 2</em></b><div class=\"rs-pips\" id=\"tdLp\"></div></div>\n          <div class=\"rs-best\"><svg class=\"i\" viewBox=\"0 0 24 24\" style=\"width:16px;height:16px;color:var(--c-sun)\"><path d=\"M8 4h8v4a4 4 0 0 1-8 0zM8 6H5a2 2 0 0 0 3 3.5M16 6h3a2 2 0 0 1-3 3.5M12 12v4M8.5 20h7M10 16h4v4h-4z\"/></svg><span>השיא שלך: <b class=\"en\" id=\"stBest\">12</b> ימים נקיים</span></div>\n        </div>\n      </div>\n    </div>\n  </section>\n");
-  document.body.insertAdjacentHTML("beforeend","<div class=\"demo demo2 dashonly\" dir=\"rtl\" aria-label=\"מצב היום בהדמיה\"><small>היום:</small><button class=\"on\" data-st=\"before\">לפני המסחר</button><button data-st=\"one\">אחרי עסקה</button><button data-st=\"stopped\">עצר אחרי 2 הפסדים</button><button data-st=\"violation\">חריגה</button><button data-st=\"clean\">סוף יום נקי</button><button data-st=\"weekend\">סופ\"ש</button></div>\n<canvas id=\"confetti\" hidden></canvas>");
+  document.body.insertAdjacentHTML("beforeend","<div class=\"demo demo2 dashonly\" dir=\"rtl\" aria-label=\"מצב היום בהדמיה\"><small>היום:</small><button class=\"on\" data-st=\"back\">חזרה אחרי כמה ימים</button><button data-st=\"before\">לפני המסחר</button><button data-st=\"one\">אחרי עסקה</button><button data-st=\"stopped\">עצר אחרי 2 הפסדים</button><button data-st=\"violation\">חריגה</button><button data-st=\"clean\">סוף יום נקי</button><button data-st=\"weekend\">סופ\"ש</button></div>\n<canvas id=\"confetti\" hidden></canvas>");
   run();
 };
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mountAll);else mountAll();

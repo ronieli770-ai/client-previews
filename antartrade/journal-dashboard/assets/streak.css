@@ -89,3 +89,13 @@ body.pg-dash #pgSub{display:none}
 .pl-ck{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:14px;color:var(--fg);cursor:pointer}
 .pl-act{display:flex;gap:8px;margin-top:20px}
 @media (max-width:600px){.planb{height:34px;margin-top:10px;padding:0 12px;font-size:13px}.pl-grid{grid-template-columns:1fr}}
+
+/* ---- Noam on a calendar day (12.11): the coach card, small, inside the day dialog ---- */
+.coach .bub small:empty{display:none}
+.coach.mini{display:flex;max-width:none;min-height:0;margin:52px 0 16px;background:radial-gradient(60% 120% at 100% 100%,rgba(79,107,255,.3),rgba(79,107,255,0) 70%),var(--block2)}
+.coach.mini .av{width:108px;margin-top:-40px}
+.coach.mini .av img{width:104px;right:6px}
+.coach.mini .bub{padding:14px 4px 14px 18px}
+.coach.mini .bub span{font-size:16px;line-height:1.45}
+@media (max-width:600px){.coach.mini .av{width:92px;margin-top:-34px}.coach.mini .av img{width:90px;right:2px}.coach.mini .bub span{font-size:15px}}
+.coach .bub small .en{font-size:inherit;font-weight:500;line-height:inherit;color:inherit}
