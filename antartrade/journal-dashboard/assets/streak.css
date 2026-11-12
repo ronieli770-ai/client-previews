@@ -171,3 +171,5 @@ body.pg-dash #pgSub{display:none}
 table.tbl th,table.tbl td,.mini th,.mini td,.mini .c{text-align:right!important}
 .rr{text-align:right!important;align-items:flex-start!important;justify-items:start!important}
 .rr>*{text-align:right!important}
+/* 13.11 the 14-day row sits in the middle of its cell, the label stays at the top */
+.streak .rs-cell .rs-days{margin-block:auto}
