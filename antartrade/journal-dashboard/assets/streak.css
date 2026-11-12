@@ -99,3 +99,9 @@ body.pg-dash #pgSub{display:none}
 .coach.mini .bub span{font-size:16px;line-height:1.45}
 @media (max-width:600px){.coach.mini .av{width:92px;margin-top:-34px}.coach.mini .av img{width:90px;right:2px}.coach.mini .bub span{font-size:15px}}
 .coach .bub small .en{font-size:inherit;font-weight:500;line-height:inherit;color:inherit}
+/* 12.11 round 2: the head always clears the card top, and the line keeps its distance from the avatar */
+.coach.mini{margin-top:56px}
+.coach.mini .av{width:132px;margin-top:-44px}
+.coach.mini .av img{width:124px;right:4px}
+.coach.mini .bub{padding:16px 22px 16px 20px}
+@media (max-width:600px){.coach.mini{margin-top:44px}.coach.mini .av{width:112px;margin-top:-30px}.coach.mini .av img{width:108px;right:2px}.coach.mini .bub{padding:14px 16px 14px 16px}}
