@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta name="robots" content="noindex,nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>רוני אליהו · אתרים ודפי נחיתה לעסקים</title>
@@ -1627,12 +1626,40 @@
     .about .af-t .af-a,.about .af-t .af-b{display:inline;position:static;transform:none;translate:none}
     .about .af-p2 .t-m b::before{content:"\A";white-space:pre}
   }
-  /* contact on a phone: the whole question fits one screen - the bar, the title, the answers and the orange horizon under them */
+  /* contact on a phone: the steps sit in the normal flow and the orange horizon is a fixed-height band at the bottom
+     of the section, so a taller step pushes the horizon down instead of running into it. at least one screen tall */
   @media (max-width:860px){
-    .contact{min-height:0;height:100vh;height:100svh;padding-top:84px;
-      background:radial-gradient(190% 76% at 50% 4%,#030303 86%,#290801 91%,rgba(148,33,0,.65) 95%,rgba(199,51,26,0) 100%),linear-gradient(180deg,#A82912 0%,#C7331A 60%,#E04A21 70%,#FA9154 78%,#FFC4A1 86%,#FFF4EE 92%,#FFF4EE 100%)}
-    .ct-step{top:132px;gap:16px}
+    #contact.contact{min-height:100vh;min-height:100svh;height:auto;padding:84px 14px 300px;
+      background:radial-gradient(190% 63% at 50% 4%,#030303 86%,#290801 91%,rgba(148,33,0,.65) 95%,rgba(199,51,26,0) 100%) bottom/100% 520px no-repeat,
+        linear-gradient(180deg,#A82912 0%,#C7331A 55%,#E04A21 66%,#FA9154 74%,#FFC4A1 83%,#FFF4EE 90%,#FFF4EE 100%) bottom/100% 520px no-repeat,#030303}
+    .ct-step{position:relative;left:auto;right:auto;top:auto;margin-top:36px;gap:16px;display:none;translate:none}
+    .ct-step.on{display:flex;animation:ctIn .5s cubic-bezier(.2,.7,.2,1) both}
     .ct-step .ct-lead{margin-top:0}
+  }
+  @keyframes ctIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  /* phone footer (13.11): shorter and in rows - the question with a small button beside it, the logo with the
+     contact icons, the menu with the way back up, and the small print - no stack of single items */
+  @media (max-width:900px){
+    .sf-row1{display:grid;grid-template-columns:1fr auto;grid-template-areas:"inv inv" "side side";gap:28px;padding:8px 0 24px}
+    .sf-inv{grid-area:inv;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+    .sf-inv .sf-kick{position:absolute}
+    .sf-inv{position:relative;padding-top:30px}
+    .sf-inv .sf-kick{top:0;right:0;margin:0}
+    .sf-t{font-size:22px;line-height:1.15}
+    .sf-go{flex:none;height:44px;margin:0;padding:0 18px;gap:8px;font-size:16px}
+    .sf-go svg{width:18px;height:18px}
+    .sf-side{grid-area:side;flex-direction:row;align-items:center;justify-content:space-between;width:100%;gap:16px;padding-top:24px;border-top:0}
+    .sf-logo{height:44px}
+    .sf-ic{gap:10px}
+    .sf-ic a{width:44px;height:44px}
+    .sf-ic svg{width:20px;height:20px}
+    .sf-row2{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:8px;padding:0 0 20px}
+    .sf-nav{gap:12px;flex-wrap:nowrap}
+    .sf-nav a{font-size:16px;white-space:nowrap}
+    .sf-up span{display:none}
+    .sf-up i{width:40px;height:40px}
+    .sf-legal{border-top:0;padding:16px 0 104px;gap:6px;font-size:15px}
+    .sf-legal nav{gap:20px}
   }
 </style>
 </head>
