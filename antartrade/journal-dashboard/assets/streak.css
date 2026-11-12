@@ -165,3 +165,9 @@ body.pg-dash #pgSub{display:none}
 .in-done .i{width:16px;height:16px}
 @media (max-width:900px){.in-grid{grid-template-columns:1fr}}
 @media (max-width:600px){.in-row{grid-template-columns:64px 84px 1fr;row-gap:4px}.in-row small{grid-column:3}.in-wr b{font-size:28px}}
+
+/* numbers on the right (Roni 13.11): every number sits on the right of its container, like the Hebrew around it.
+   Tables (trades, the 1:X tables on the dashboard and in the challenge snapshot) and the potential tiles were centred */
+table.tbl th,table.tbl td,.mini th,.mini td,.mini .c{text-align:right!important}
+.rr{text-align:right!important;align-items:flex-start!important;justify-items:start!important}
+.rr>*{text-align:right!important}
