@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>קאברים בגלילה</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#050506;color:#fff;font-family:'IBM Plex Sans Hebrew',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .hero{position:relative;padding:118px 16px 0;text-align:right;background:radial-gradient(120% 60% at 80% 0%,rgba(250,145,84,.14),transparent 60%)}
+  .logo{position:absolute;top:24px;right:16px;height:40px;opacity:.95}
+  h1{margin:0;font-weight:500;font-size:30px;line-height:1.05}
+  .big{margin:6px 0 0;font-size:38px;line-height:1.02;font-weight:600;background:linear-gradient(to right,#8da8cb,#fff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .row{display:flex;gap:10px;margin-top:24px}
+  .pill{display:inline-flex;align-items:center;height:48px;padding:0 20px;border-radius:100px;font-size:16px;font-weight:500}
+  .pf{background:linear-gradient(to left,#e0783c,#fa9154)}.pl{border:1px solid #e0783c}
+  /* the strip: covers drift slowly from side to side, as on the page */
+  .strip{position:relative;margin-top:48px;height:200px;perspective:900px}
+  .track{position:absolute;top:0;right:0;display:flex;gap:12px;animation:drift 40s linear infinite;will-change:transform}
+  @keyframes drift{from{transform:translateX(0)}to{transform:translateX(50%)}}
+  .c{flex:none;width:270px;aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:#111 center top/cover;box-shadow:0 20px 40px -18px rgba(0,0,0,.8);will-change:transform,opacity,filter;transform-origin:50% 50%}
+  .after{height:1600px;padding:60px 16px;color:#8C97A8;font-size:16px}
+  .after h2{margin:0 0 10px;color:#fff;font-weight:400;font-size:30px}
+  .hint{position:fixed;bottom:18px;left:50%;translate:-50% 0;font-size:13px;color:#8C97A8;background:rgba(255,255,255,.06);padding:6px 12px;border-radius:100px;transition:opacity .3s}
+</style>
+</head>
+<body>
+<section class="hero">
+  <img class="logo" src="assets/logo-sm.webp" alt="">
+  <h1>ההחלטה נופלת באתר.</h1>
+  <p class="big">השיחה רק סוגרת אותה</p>
+  <div class="row"><span class="pill pf">לשיחת היכרות</span><span class="pill pl">לפרוייקטים</span></div>
+  <div class="strip"><div class="track" id="tr"></div></div>
+</section>
+<div class="after"><h2>פרויקטים</h2>כאן מתחילים הפרויקטים. גללו למעלה ולמטה כדי לראות את האנימציה של הקאברים.</div>
+<div class="hint" id="hint">גללו למטה</div>
+<script>
+const IM = ['antar-fullcourse', 'joopy-s1', 'kapach-hero', 'noy-hero', 'hitbox-hero'];
+const tr = document.getElementById('tr');
+tr.innerHTML = [...IM, ...IM].map(n => '<div class="c" style="background-image:url(assets/strip/' + n + '.jpg)"></div>').join('');
+const cards = [...tr.children], O = new URLSearchParams(location.search).get('o') || '1';
+const cl = v => Math.max(0, Math.min(1, v)), eo = t => 1 - Math.pow(1 - t, 3);
+function frame(){
+  /* p: 0 at the top, 1 once the strip has scrolled about one screen-third away */
+  const p = cl(scrollY / 420), W = innerWidth, k = eo(p);
+  document.getElementById('hint').style.opacity = scrollY > 20 ? 0 : 1;
+  cards.forEach((c, i) => {
+    const r = c.getBoundingClientRect(), mid = (r.left + r.width / 2 - W / 2) / W; /* -1 .. 1 across the screen */
+    let t = '', o = 1, f = '';
+    if (O === '1') {          /* lean back: the covers tip away like a table top and dim */
+      t = 'rotateX(' + (k * 38) + 'deg) translateY(' + (-k * 30) + 'px) scale(' + (1 - k * .12) + ')'; o = 1 - k * .55;
+    } else if (O === '2') {   /* spread: the covers move apart from the middle and shrink a little */
+      t = 'translateX(' + (mid * k * 120) + 'px) scale(' + (1 - k * .18) + ')'; o = 1 - k * .4;
+    } else if (O === '3') {   /* wave: the covers ride a slow wave as you scroll */
+      t = 'translateY(' + (Math.sin(i * 1.1 + scrollY / 70) * 26 * cl(scrollY / 120)) + 'px) rotate(' + (Math.cos(i * 1.1 + scrollY / 70) * 3 * cl(scrollY / 120)) + 'deg)';
+    } else if (O === '4') {   /* fan: each cover turns on its own corner, alternating */
+      t = 'rotate(' + ((i % 2 ? -1 : 1) * k * 9) + 'deg) translateY(' + (k * (i % 2 ? 22 : -10)) + 'px)';
+    } else if (O === '5') {   /* focus: the cover in the middle grows, the rest blur and step back */
+      const near = 1 - cl(Math.abs(mid) * 2.2);
+      t = 'scale(' + (1 + k * near * .14 - k * (1 - near) * .1) + ')'; f = 'blur(' + (k * (1 - near) * 4).toFixed(2) + 'px)'; o = 1 - k * (1 - near) * .5;
+    } else {                  /* curl: the edges of the row bend toward you, the middle stays flat */
+      t = 'rotateY(' + (-mid * k * 55) + 'deg) translateZ(' + (Math.abs(mid) * k * 90) + 'px)';
+    }
+    c.style.transform = t; c.style.opacity = o; c.style.filter = f;
+  });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
