@@ -4,13 +4,13 @@
 <title>יומן המסחר - לוח בקרה</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="stylesheet" href="assets/challenge.css?v=1794476953">
-<link rel="stylesheet" href="assets/streak.css?v=1794481236">
-<link rel="stylesheet" href="assets/mentor.css?v=1794476953">
-<link rel="stylesheet" href="assets/auth.css?v=1794476953">
-<link rel="stylesheet" href="assets/tour.css?v=1794476953">
-<link rel="stylesheet" href="assets/settings.css?v=1794476953">
-<link rel="stylesheet" href="assets/shared.css?v=1794476953">
+<link rel="stylesheet" href="assets/challenge.css?v=1794481405">
+<link rel="stylesheet" href="assets/streak.css?v=1794481405">
+<link rel="stylesheet" href="assets/mentor.css?v=1794481405">
+<link rel="stylesheet" href="assets/auth.css?v=1794481405">
+<link rel="stylesheet" href="assets/tour.css?v=1794481405">
+<link rel="stylesheet" href="assets/settings.css?v=1794481405">
+<link rel="stylesheet" href="assets/shared.css?v=1794481405">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=IBM+Plex+Sans+Hebrew:wght@400;500&display=swap">
 <style>
 
@@ -477,6 +477,9 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
   body.fsheet>.filters{position:fixed;direction:rtl;left:0;right:0;bottom:0;z-index:60;background:var(--raised);border-radius:24px 24px 0 0;padding:22px 16px calc(22px + env(safe-area-inset-bottom,0px));box-shadow:0 -20px 50px rgba(0,0,0,.45)}
   body.fsheet .filters .seg,body.fsheet .filters .pick{background:var(--block2)}
   body.fsheet .pop{top:auto;bottom:calc(100% + 8px)}
+  /* 12.11: on phones the filter row folds into the header chip from the start, so the four main numbers reach the first screen */
+  body:not(.fsheet) .top>.filters{display:none}
+  #fchip{opacity:1;pointer-events:auto}
 }
 /* trade log */
 body.pg-log .dashonly,body.pg-log #typeSeg{display:none!important}
@@ -2289,13 +2292,13 @@ document.body.classList.add("pg-"+S.page);if(S.page!=="dash")setTimeout(()=>setP
 render();
 robotoDigits(document.body);
 </script>
-<script src="assets/challenge.js?v=1794476953" charset="utf-8"></script>
-<script src="assets/streak.js?v=1794481236" charset="utf-8" defer></script>
-<script src="assets/mentor.js?v=1794476953" charset="utf-8" defer></script>
-<script src="assets/auth.js?v=1794476953" charset="utf-8" defer></script>
-<script src="assets/tour.js?v=1794476953" charset="utf-8" defer></script>
-<script src="assets/settings.js?v=1794476953" charset="utf-8" defer></script>
-<script src="assets/shared.js?v=1794476953" charset="utf-8" defer></script>
+<script src="assets/challenge.js?v=1794481405" charset="utf-8"></script>
+<script src="assets/streak.js?v=1794481405" charset="utf-8" defer></script>
+<script src="assets/mentor.js?v=1794481405" charset="utf-8" defer></script>
+<script src="assets/auth.js?v=1794481405" charset="utf-8" defer></script>
+<script src="assets/tour.js?v=1794481405" charset="utf-8" defer></script>
+<script src="assets/settings.js?v=1794481405" charset="utf-8" defer></script>
+<script src="assets/shared.js?v=1794481405" charset="utf-8" defer></script>
 <script>
 /* privacy eye: marks every leaf that shows an amount (.pv) after each render; state kept per browser */
 (function(){
