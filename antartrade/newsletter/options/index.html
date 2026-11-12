@@ -50,6 +50,9 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
 .tx svg{position:absolute;inset:0;width:100%;height:100%}
 .drift svg{animation:drift 18s ease-in-out infinite alternate}
 @keyframes drift{from{transform:translateX(0) scale(1.04)}to{transform:translateX(-3%) scale(1.08)}}
+.tx.img{background-size:cover;background-position:center}
+/* a soft veil behind the title so white text stays readable on the light parts */
+.tx.img::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,rgba(30,52,170,.42) 0%,rgba(30,52,170,.12) 55%,rgba(30,52,170,.08) 100%)}
 /* the button motion switch, for Roni only */
 .mv{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px}
 .mv small{width:100%;font-size:14px;color:rgba(255,255,255,.6)}
@@ -106,21 +109,17 @@ function silk(id,bands,blur){let d="",g="";const tilt=420;bands.forEach((b,i)=>{
   g+=`<linearGradient id="${id}g${i}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0b1a4a" stop-opacity="0"/><stop offset=".72" stop-color="#0b1a4a" stop-opacity="${lo}"/><stop offset=".74" stop-color="#fff" stop-opacity="${hi}"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>`;
   d+=`<path fill="url(#${id}g${i})" d="M${x} 470 C${x+bend} 320 ${x+tilt-bend} 110 ${x+tilt} -70 L${x+tilt+w} -70 C${x+tilt-bend+w} 110 ${x+bend+w} 320 ${x+w} 470Z"/>`;});
   return `<svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice"><defs>${g}<filter id="${id}f" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="${blur}"/></filter></defs><g filter="url(#${id}f)">${d}</g></svg>`;}
-const OPTS=[
- {k:"A",name:"קפלי משי אלכסוניים",note:"רצועות רחבות שעולות באלכסון, כמו בד מקופל",
-  tx:`<div class="tx">${silk("a",[[-120,260,380,.22,.30],[120,240,340,.18,.26],[340,260,400,.2,.28],[580,240,360,.16,.24],[820,260,380,.14,.2],[1060,240,360,.1,.16]],3)}</div>`},
- {k:"B",name:"קפלים גדולים ורכים",note:"פחות קפלים, יותר גדולים, אור רך יותר",
-  tx:`<div class="tx">${silk("b",[[-200,420,540,.26,.34],[200,400,500,.2,.28],[600,420,540,.14,.22],[1000,400,500,.08,.14]],8)}</div>`},
- {k:"C",name:"משי בתנועה איטית",note:"הקפלים של A זזים לאט מאוד, כמעט לא מורגש",
-  tx:`<div class="tx drift">${silk("c",[[-160,280,420,.24,.32],[100,250,360,.2,.28],[330,270,420,.2,.28],[580,250,380,.16,.24],[830,270,400,.12,.2],[1080,250,360,.08,.14]],3)}</div>`}];
+const G=[["משי מקופל",1],["זכוכית כחולה",4],["נוזל",7],["קווי גרף",10]];
+const OPTS=[];G.forEach(([name,first],gi)=>{for(let j=0;j<3;j++){const n=first+j;OPTS.push({k:String.fromCharCode(65+gi)+(j+1),name,note:`גרסה ${j+1}`,
+  tx:`<div class="tx img" style="background-image:url(tex/t${n}.jpg)"></div>`});}});
 const MOVES=[["m1","פס אור עובר"],["m2","החץ זז"],["m3","טבעת נושמת"],["m4","מתמלא במעבר עכבר"]];
 const list=document.getElementById("list"),tpl=document.getElementById("tpl");
-list.insertAdjacentHTML("beforebegin",`<div class="wrap mv" id="mv"><small>תנועת הכפתור, לכל האפשרויות:</small>${MOVES.map((m,i)=>`<button data-m="${m[0]}" class="${i?"":"on"}">${m[1]}</button>`).join("")}</div>`);
+list.insertAdjacentHTML("beforebegin",`<div class="wrap mv" id="mv"><small>תנועת הכפתור, לכל האפשרויות:</small>${MOVES.map((m,i)=>`<button data-m="${m[0]}" class="${m[0]==="m4"?"on":""}">${m[1]}</button>`).join("")}</div>`);
 document.addEventListener("click",e=>{const b=e.target.closest("[data-m]");if(!b)return;document.querySelectorAll("[data-m]").forEach(x=>x.classList.toggle("on",x===b));
   document.querySelectorAll(".nl .btn").forEach(x=>{MOVES.forEach(m=>x.classList.remove(m[0]));x.classList.add(b.dataset.m);});});
 OPTS.forEach(o=>{const sec=document.createElement("section");sec.className="opt";
   sec.innerHTML=`<span class="tag">אפשרות ${o.k} · ${o.note}<b>${o.name}</b></span>`;
-  const c=tpl.content.firstElementChild.cloneNode(true);c.insertAdjacentHTML("afterbegin",o.tx);c.querySelector(".btn").classList.add("m1");sec.appendChild(c);list.appendChild(sec);});
+  const c=tpl.content.firstElementChild.cloneNode(true);c.insertAdjacentHTML("afterbegin",o.tx);c.querySelector(".btn").classList.add("m4");sec.appendChild(c);list.appendChild(sec);});
 document.addEventListener("submit",e=>{e.preventDefault();const f=e.target,n=f.elements.first_name,m=f.elements.email;
   if(!n.value.trim()){n.focus();return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.value.trim())){m.focus();return;}f.closest(".nl").classList.add("done");});
 </script>
