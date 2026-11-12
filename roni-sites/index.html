@@ -1612,12 +1612,6 @@
   }
   /* why on a phone: no sideways scroll while a card comes in from the edge */
   @media (max-width:860px){ .why{overflow-x:clip} }
-  /* phone light-speed covers: the fixed layer that carries the strip, and the space it keeps in the hero */
-  .warp{position:fixed;left:0;top:0;width:100%;height:0;z-index:30;pointer-events:none}
-  .warp .strip{position:absolute;left:0;top:0;width:100vw;margin:0;direction:ltr;overflow:visible;perspective:1300px;perspective-origin:50% 50%;
-    height:calc(330px * 9 / 16 + 20px);touch-action:pan-y;pointer-events:auto;will-change:transform}
-  .js .warp .strip{animation:hero-fade 1.4s ease 1.2s both}
-  .intro .strip-ph{flex:none;order:3;width:100%;margin-top:auto;padding-top:48px;box-sizing:content-box;height:calc(330px * 9 / 16 + 20px)}
 </style>
 </head>
 <body>
@@ -2143,48 +2137,10 @@
   /* the whatsapp button waits until the page has moved */
   const fabWait = () => document.documentElement.classList.toggle('fab-wait', scrollY < 40);
   fabWait(); addEventListener('scroll', fabWait, {passive:true});
-  /* phone: the covers jump to light speed as the hero scrolls away. they leave the row, form a tunnel around the screen
-     and fly past you, and the flight is over by the middle of the first project, so the projects read on a calm screen.
-     on a phone the strip lives in a fixed layer above the page so the covers can pass over the next section */
-  const warpMQ = matchMedia('(max-width:860px)');
-  const warp = document.createElement('div'); warp.className = 'warp';
-  const stripPh = document.createElement('div'); stripPh.className = 'strip-ph';
-  const warpPlace = () => {
-    if (warpMQ.matches && stripEl.parentNode !== warp){ stripEl.parentNode.insertBefore(stripPh, stripEl); warp.appendChild(stripEl); document.body.appendChild(warp); }
-    else if (!warpMQ.matches && stripEl.parentNode === warp){ stripPh.parentNode.insertBefore(stripEl, stripPh); stripPh.remove(); warp.remove(); stripCards.forEach(c => c.style.opacity = ''); }
-  };
-  warpPlace(); warpMQ.addEventListener('change', warpPlace);
-  const proj0 = document.getElementById('proj-0');
-  const wcl = (v, a, b) => Math.min(b, Math.max(a, v)), wss = t => { t = wcl(t, 0, 1); return t * t * (3 - 2 * t); };
-  (function warpTick(){
-    if (stripEl.parentNode === warp){
-      const H = innerHeight, W = innerWidth, sh = stripEl.offsetHeight;
-      const end = Math.max(1, intro.offsetHeight + proj0.offsetHeight / 2 - H / 2);
-      const q = wcl(scrollY / end, 0, 1), k = wss(q / .3), ph = stripPh.getBoundingClientRect().top;
-      window.__warpK = k;
-      /* the strip glides to the middle of the screen, so the tunnel opens around the centre */
-      stripEl.style.transform = 'translateY(' + (ph + (H / 2 - sh / 2 - ph) * k).toFixed(1) + 'px)';
-      stripEl.style.pointerEvents = k > .05 ? 'none' : '';
-      warp.style.visibility = q >= 1 ? 'hidden' : '';
-      if (k > 0){
-        const n = stripCards.length, fly = 1 - Math.pow(1 - wcl((q - .08) / .92, 0, 1), 1.35);
-        stripCards.forEach((c, i) => {
-          const b = c._b || [0, 0, 0, 1], a = i / n * Math.PI * 2, r = W * .9;
-          const tx = Math.cos(a) * r, ty = Math.sin(a) * r * .9, tz = -2900 + (i % 10) * 270 + Math.floor(i / 10) * 135 + fly * 4300;
-          const o = wcl((tz + 2900) / 700, 0, 1) * (1 - wcl((tz - 380) / 420, 0, 1));
-          const x = b[0] + (tx - b[0]) * k, y = ty * k, z = b[1] + (tz - b[1]) * k, ry = b[2] + (-Math.cos(a) * 22 - b[2]) * k;
-          c.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,' + z.toFixed(1) + 'px) rotateY(' + ry.toFixed(2) + 'deg)';
-          c.style.opacity = (b[3] + (o - b[3]) * k).toFixed(3);
-        });
-      }
-    }
-    else window.__warpK = 0;
-    requestAnimationFrame(warpTick);
-  })();
   (function arc(now){
     const dt = Math.min(.05, (now - (stLast || now)) / 1000); stLast = now;
     stV += ((stHover ? 0 : 22) - stV) * .06; stOff += stV * dt;
-    if (scrollY < innerHeight * 1.2 && !(window.__warpK > 0)){
+    if (scrollY < innerHeight * 1.2){
       const W = innerWidth, TW = stripCards[0].offsetWidth, step = TW + (W < 769 ? 14 : 24), span = stripCards.length * step;
       const R = W * (W < 769 ? 1.15 : .8);
       stripCards.forEach((c, i) => {
@@ -2192,7 +2148,6 @@
         const x = Math.sin(th) * R, z = (1 - Math.cos(th)) * R * .9;
         c.style.transform = 'translate3d(' + x + 'px,0,' + z + 'px) rotateY(' + (-th * 57.2958) + 'deg)';
         c.style.opacity = Math.max(0, Math.min(1, (1.08 - Math.abs(th)) / .22)).toFixed(3);
-        c._b = [x, z, -th * 57.2958, +c.style.opacity];
       });
     }
     requestAnimationFrame(arc);
