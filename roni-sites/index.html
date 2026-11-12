@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta name="robots" content="noindex,nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>רוני אליהו · אתרים ודפי נחיתה לעסקים</title>
@@ -2174,6 +2173,8 @@
      so the middle sits farther back and the sides read bigger. it runs on its own and stops while hovered */
   const stripEl = document.querySelector('.intro .strip'), stripCards = [...document.querySelectorAll('.strip a')];
   let stOff = 0, stV = 22, stLast = 0, stHover = false;
+  /* phones: the scroll speed feeds the carousel, so a quick scroll sends the covers rushing past, stretched and blurred like light speed */
+  let stY = scrollY, stB = 0;
   stripEl.addEventListener('mouseenter', () => stHover = true);
   stripEl.addEventListener('mouseleave', () => stHover = false);
   /* a finger drags the carousel; on release it keeps the swipe's speed and eases back to its own pace */
@@ -2190,13 +2191,17 @@
   (function arc(now){
     const dt = Math.min(.05, (now - (stLast || now)) / 1000); stLast = now;
     stV += ((stHover ? 0 : 22) - stV) * .06; stOff += stV * dt;
+    const stPh = innerWidth <= 860, sdy = scrollY - stY; stY = scrollY;
+    stB += ((stPh ? Math.abs(sdy) * 1.6 : 0) - stB) * .35; stOff += stB;
+    const stSk = Math.min(18, stB * .55), stBl = Math.min(6, stB * .16);
     if (scrollY < innerHeight * 1.2){
       const W = innerWidth, TW = stripCards[0].offsetWidth, step = TW + (W < 769 ? 14 : 24), span = stripCards.length * step;
       const R = W * (W < 769 ? 1.15 : .8);
       stripCards.forEach((c, i) => {
         const s = ((i * step + stOff) % span + span) % span - span / 2, th = s / R;
         const x = Math.sin(th) * R, z = (1 - Math.cos(th)) * R * .9;
-        c.style.transform = 'translate3d(' + x + 'px,0,' + z + 'px) rotateY(' + (-th * 57.2958) + 'deg)';
+        c.style.transform = 'translate3d(' + x + 'px,0,' + z + 'px) rotateY(' + (-th * 57.2958) + 'deg)' + (stSk > .05 ? ' skewX(' + (-stSk).toFixed(2) + 'deg) scaleX(' + (1 + stSk / 90).toFixed(3) + ')' : '');
+        c.style.filter = stBl > .3 ? 'blur(' + stBl.toFixed(1) + 'px)' : '';
         c.style.opacity = Math.max(0, Math.min(1, (1.08 - Math.abs(th)) / .22)).toFixed(3);
       });
     }
