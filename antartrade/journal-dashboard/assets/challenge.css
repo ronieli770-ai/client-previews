@@ -1058,3 +1058,9 @@ a.g-eqb{text-decoration:none}
 .g-ptsplus.neg{color:rgba(var(--fg-rgb),.7)}
 .c9-bal .g-ptsplus{inset:auto;right:calc(100% + 12px);top:-2px;margin:0;font-size:17px}
 .c9-bal b .g-ptsplus.neg,.g-pts .g-ptsplus.neg{color:rgba(var(--fg-rgb),.7)}
+
+/* scratch card, final (13.11, option 1): the 3D navy card with gold bulbs; underneath, the coin stack on a soft gold glow */
+.c9-card{height:auto!important;aspect-ratio:1000/566;border-radius:22px!important;box-shadow:none!important;background:radial-gradient(circle at 50% 42%,rgba(247,198,90,.3),rgba(247,198,90,.06) 45%,transparent 70%),var(--block2)!important}
+.c9-under{gap:6px!important}
+.c9-under .c9-stk{width:38%;max-width:200px;height:auto;filter:drop-shadow(0 16px 22px rgba(0,0,0,.55))}
+.c9-card.ok .c9-under .c9-stk{animation:c9Pop .6s .3s cubic-bezier(.3,1.5,.5,1) both}
