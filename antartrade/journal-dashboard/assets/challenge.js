@@ -369,6 +369,8 @@ const GOALS=[[5,"\u05e0\u05e7\u05d5\u05d3\u05d5\u05ea",[["pts",40]]],[10,"\u05d1
   [30,"\u05d4\u05ea\u05d5\u05d1\u05e0\u05d5\u05ea \u05e9\u05dc\u05da + \u05de\u05ea\u05e0\u05d4",[["rep"],["pts",100],["disc"]]],[60,"\u05d1\u05d5\u05e0\u05d5\u05e1",[["pts",150],["tix",1]]],[90,"\u05d4\u05e4\u05e8\u05e1 \u05d4\u05d2\u05d3\u05d5\u05dc",[["pts",400],["cert"],["tix",2]]]];
 const FILLB=[[7,20],[14,30],[30,50],[60,50],[90,100]];
 const SCR=[[15,["pts",60]],[45,["tix",1]],[75,["dblday"]]];
+const WALLET='<path d="M16.5 7V5.8a1.3 1.3 0 0 0-1.6-1.3L6 6.6A2.6 2.6 0 0 0 4 9.1"/><rect x="4" y="7" width="16" height="12.5" rx="2.6"/><path d="M20 11.2h-3.3a2 2 0 0 0 0 4H20"/><path d="M16.8 13.2h.01"/>';
+CI.wallet=WALLET;
 const COIN='<circle cx="12" cy="12" r="8.5"/><path d="M9.3 15.3L12 8.7l2.7 6.6M10.3 13.1h3.4"/>';
 const TIX='<path d="M4 8.5V7a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 20 7v1.5a2.5 2.5 0 0 0 0 5V17a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17v-3.5a2.5 2.5 0 0 0 0-5z"/><path d="M14.5 6v2M14.5 11v2M14.5 16v2"/>';
 const SAVER='<path d="M12 3.5l7 2.6v5.2c0 4.3-2.9 7.6-7 9.2-4.1-1.6-7-4.9-7-9.2V6.1z"/><path d="M12 15.6s-3-1.8-3-3.9c0-1.1.8-2 1.8-2 .5 0 .9.2 1.2.6.3-.4.7-.6 1.2-.6 1 0 1.8.9 1.8 2 0 2.1-3 3.9-3 3.9z"/>';
@@ -428,7 +430,7 @@ function gQuests(v){
 function gGoals(v,g){
   return `<section class="blk chj-sec c9-goals"><div class="bh">${cttl("\u05d4\u05ea\u05d9\u05d1\u05d5\u05ea \u05d1\u05d3\u05e8\u05da","flag","sun")}<span class="hint">\u05ea\u05d9\u05d1\u05d4 \u05d1\u05db\u05dc \u05d9\u05e2\u05d3 \u05e9\u05dc \u05e8\u05e6\u05e3 \u05d4\u05d9\u05de\u05d9\u05dd \u05d4\u05e0\u05e7\u05d9\u05d9\u05dd</span></div>
    <div class="c9-gg">${GOALS.map(G=>{const [n,t]=G,on=g.opened.includes(G),nx=g.next===G;
-     return `<button class="c9-g${on?" on":nx?" nx":""}" data-ggoal="${n}" aria-label="\u05d9\u05e2\u05d3 ${n}, ${t}"><img alt="" src="${GI(on?"chest-open":"chest")}"><small><span class="num">${n}</span> \u05d9\u05de\u05d9\u05dd</small><b>${t}</b><span>${on?"\u05e0\u05e4\u05ea\u05d7\u05d4 \u00b7 \u05de\u05d4 \u05d4\u05d9\u05d4 \u05d1\u05d4":nx?(g.ready?"\u05de\u05d5\u05db\u05e0\u05d4 \u05dc\u05e4\u05ea\u05d9\u05d7\u05d4":`\u05e2\u05d5\u05d3 <span class="num">${Math.max(n-g.streak,1)}</span> \u05d9\u05de\u05d9\u05dd`):SV(JI.lock,"width:12px;height:12px")+"\u05e0\u05e2\u05d5\u05dc\u05d4"}</span></button>`;}).join("")}</div></section>`;}
+     return `<button class="c9-g${on?" on":nx?" nx":""}" data-ggoal="${n}" aria-label="\u05d9\u05e2\u05d3 ${n}, ${t}"><img alt="" src="${GI(on?"chest-open":"chest")}"><small><span class="num">${n}</span> \u05d9\u05de\u05d9\u05dd</small><b>${t}</b><span>${on?"\u05e0\u05e4\u05ea\u05d7\u05d4 \u00b7 \u05de\u05d4 \u05d7\u05d9\u05db\u05d4 \u05d1\u05d4":nx?(g.ready?"\u05de\u05d5\u05db\u05e0\u05d4 \u05dc\u05e4\u05ea\u05d9\u05d7\u05d4":`\u05e2\u05d5\u05d3 <span class="num">${Math.max(n-g.streak,1)}</span> \u05d9\u05de\u05d9\u05dd`):SV(JI.lock,"width:12px;height:12px")+"\u05e0\u05e2\u05d5\u05dc\u05d4"}</span></button>`;}).join("")}</div></section>`;}
 /* the scratch card: only on days 15, 45 and 75, and it waits for the next visit until it is scratched */
 function gScratch(v,g){
   const w=g.scrWait;if(!w)return "";const [d,p]=w;
@@ -441,7 +443,7 @@ function gRewards(v,g){
     [SAVER,"mint","\u05e9\u05d5\u05de\u05e8 \u05e8\u05e6\u05e3",`<b class="num">${g.saver.left}</b>`,g.saver.left?"\u05d9\u05d5\u05dd \u05e2\u05dd \u05d4\u05e4\u05e8\u05d4 \u05dc\u05d0 \u05d9\u05e9\u05d1\u05d5\u05e8 \u05d0\u05ea \u05d4\u05e8\u05e6\u05e3. \u05d0\u05d7\u05d3 \u05dc\u05db\u05dc 30 \u05d9\u05d5\u05dd":`\u05e9\u05d5\u05de\u05e9 \u05d1\u05d9\u05d5\u05dd <span class="num">${g.saver.used}</span>. \u05d4\u05d1\u05d0 \u05d1\u05d9\u05d5\u05dd <span class="num">${g.saver.nextDay}</span>`]];
   if(g.dbl)inv.push([DBL,"mint","\u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05db\u05e4\u05d5\u05dc\u05d5\u05ea",`<b>\u05d1\u05d9\u05e2\u05d3 <span class="num">${g.dbl}</span></b>`,"\u05de\u05d4\u05ea\u05d9\u05d1\u05d4 \u05e9\u05dc \u05d9\u05e2\u05d3 10"]);
   if(g.disc)inv.push([PCT,"sun","15% \u05d4\u05e0\u05d7\u05d4 \u05e2\u05dc \u05d4\u05e7\u05d5\u05e8\u05e1",`<b data-gcd="${g.disc}">${gLeft(g.disc)}</b>`,`<a href="https://antartrade.co.il/full-course" target="_blank" rel="noopener">\u05dc\u05e7\u05d5\u05e8\u05e1${SV(CI.ext,"width:13px;height:13px")}</a>`]);
-  return `<section class="blk chj-sec g-rews c9-wal"><div class="bh">${cttl("\u05d4\u05d0\u05e8\u05e0\u05e7 \u05e9\u05dc\u05da","tag","sun")}<span class="hint"><span class="num">${g.pts.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</span></div>
+  return `<section class="blk chj-sec g-rews c9-wal"><div class="bh">${cttl("\u05d4\u05d0\u05e8\u05e0\u05e7 \u05e9\u05dc\u05da","wallet","sun")}<span class="hint"><span class="num">${g.pts.toLocaleString("en-US")}</span> \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea</span></div>
    <div class="g-earn"><span><b class="num">5</b> \u05e2\u05dc \u05de\u05d9\u05dc\u05d5\u05d9 \u05d4\u05d9\u05d5\u05de\u05df</span><span><b class="num">5</b> \u05e2\u05dc \u05d9\u05d5\u05dd \u05e0\u05e7\u05d9</span><span>\u05ea\u05d9\u05d1\u05d5\u05ea \u05d1\u05d9\u05e2\u05d3\u05d9 \u05d4\u05e8\u05e6\u05e3</span><span>\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05d2\u05d9\u05e8\u05d5\u05d3</span><span>\u05d1\u05d5\u05e0\u05d5\u05e1 \u05e2\u05dc \u05e8\u05e6\u05e3 \u05de\u05d9\u05dc\u05d5\u05d9</span></div>
    <div class="c9-fill"><small>\u05d1\u05d5\u05e0\u05d5\u05e1 \u05e2\u05dc \u05e8\u05e6\u05e3 \u05de\u05d9\u05dc\u05d5\u05d9 \u05d4\u05d9\u05d5\u05de\u05df</small><div class="c9-fr">${FILLB.map(([d,p])=>{const on=g.filled>=d;return `<div class="c9-f${on?" on":""}"><span class="ck2">${on?SV(JI.ok):""}</span><b><span class="num">${d}</span> \u05d9\u05de\u05d9\u05dd</b><em class="num">+${p}</em></div>`;}).join("")}</div></div>
    <div class="c9-inv">${inv.map(i=>`<div class="c9-it" style="--c:var(--c-${i[1]})"><span class="ic">${SV(i[0])}</span><div class="tx"><small>${i[2]}</small>${i[3]}<span>${i[4]}</span></div></div>`).join("")}</div>
@@ -687,7 +689,7 @@ function gOpenChest(img){
     if(G[2].some(([k])=>k==="disc"))C.gDisc[C.view]=Date.now()+7*864e5;view();toast("\u05d4\u05ea\u05d9\u05d1\u05d4 \u05e0\u05e4\u05ea\u05d7\u05d4",`${G[1]} \u00b7 ${pts} \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05e0\u05db\u05e0\u05e1\u05d5 \u05dc\u05d0\u05e8\u05e0\u05e7`,false,true);};
   if(reduce||!img){done();return;}
   const r=img.getBoundingClientRect(),W=innerWidth<760?220:300,ty=innerWidth<760?Math.max(innerHeight*.1,40):innerHeight/2-W*.85,ov=document.createElement("div");ov.className="g-ov c9-ov";ov.dir="rtl";
-  ov.innerHTML=`<div class="g-glow"></div><img class="g-big" alt="" src="${GI("chest")}"><div class="g-coins"></div><div class="g-prize"><small class="c9-pt">\u05d9\u05e2\u05d3 \u05e8\u05e6\u05e3 <span class="num">${n}</span> \u00b7 ${G[1]}</small><b>\u05de\u05d4 \u05d4\u05d9\u05d4 \u05d1\u05ea\u05d9\u05d1\u05d4</b><div class="c9-pl">${G[2].map(przChip).join("")}</div><button class="btn2" data-gprize>\u05dc\u05d0\u05e1\u05d5\u05e3</button></div>`;
+  ov.innerHTML=`<div class="g-glow"></div><img class="g-big" alt="" src="${GI("chest")}"><div class="g-coins"></div><div class="g-prize"><small class="c9-pt">\u05d9\u05e2\u05d3 \u05e8\u05e6\u05e3 <span class="num">${n}</span> \u00b7 ${G[1]}</small><b>\u05d9\u05e9! \u05d6\u05d4 \u05de\u05d4 \u05e9\u05d7\u05d9\u05db\u05d4 \u05dc\u05da</b><div class="c9-pl">${G[2].map(przChip).join("")}</div><button class="btn2" data-gprize>\u05dc\u05d0\u05e1\u05d5\u05e3</button></div>`;
   document.body.appendChild(ov);img.style.visibility="hidden";ov.querySelector(".g-prize").style.top=(ty+W*.98+18)+"px";ov.querySelector(".g-glow").style.top=(ty+W*.42)+"px";
   const big=ov.querySelector(".g-big");Object.assign(big.style,{left:r.left+"px",top:r.top+"px",width:r.width+"px"});
   requestAnimationFrame(()=>requestAnimationFrame(()=>{ov.classList.add("on");Object.assign(big.style,{left:(innerWidth-W)/2+"px",top:ty+"px",width:W+"px"});}));
@@ -703,8 +705,8 @@ function gOpenChest(img){
 function gGoalDlg(n){
   const G=GOALS.find(x=>x[0]===n),g=gStats(SMP[C.view]),on=g.opened.includes(G);if(!G)return;
   if(!on){toast(`\u05d9\u05e2\u05d3 ${n} \u00b7 ${G[1]}`,"\u05de\u05d4 \u05d9\u05e9 \u05d1\u05ea\u05d9\u05d1\u05d4 \u05de\u05ea\u05d2\u05dc\u05d4 \u05e8\u05e7 \u05db\u05e9\u05e4\u05d5\u05ea\u05d7\u05d9\u05dd \u05d0\u05d5\u05ea\u05d4");return;}
-  const ov=document.createElement("div");ov.className="g-cdlg";ov.dir="rtl";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label","\u05de\u05d4 \u05d4\u05d9\u05d4 \u05d1\u05ea\u05d9\u05d1\u05d4");
-  ov.innerHTML=`<div class="box"><button class="x" data-gcx aria-label="\u05e1\u05d2\u05d9\u05e8\u05d4">${SV(JI.x)}</button><img class="ch" alt="" src="${GI("chest-open")}"><small>\u05d9\u05e2\u05d3 \u05e8\u05e6\u05e3 <span class="num">${n}</span> \u00b7 ${G[1]}</small><h3>\u05de\u05d4 \u05d4\u05d9\u05d4 \u05d1\u05ea\u05d9\u05d1\u05d4</h3><div class="c9-pl">${G[2].map(przChip).join("")}</div></div>`;
+  const ov=document.createElement("div");ov.className="g-cdlg";ov.dir="rtl";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label","\u05de\u05d4 \u05d7\u05d9\u05db\u05d4 \u05d1\u05ea\u05d9\u05d1\u05d4");
+  ov.innerHTML=`<div class="box"><button class="x" data-gcx aria-label="\u05e1\u05d2\u05d9\u05e8\u05d4">${SV(JI.x)}</button><img class="ch" alt="" src="${GI("chest-open")}"><small>\u05d9\u05e2\u05d3 \u05e8\u05e6\u05e3 <span class="num">${n}</span> \u00b7 ${G[1]}</small><h3>\u05de\u05d4 \u05d7\u05d9\u05db\u05d4 \u05d1\u05ea\u05d9\u05d1\u05d4</h3><div class="c9-pl">${G[2].map(przChip).join("")}</div></div>`;
   document.body.appendChild(ov);requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add("on")));
   const close=()=>{ov.classList.remove("on");setTimeout(()=>ov.remove(),300);document.removeEventListener("keydown",esc);};
   const esc=e=>{if(e.key==="Escape")close();};document.addEventListener("keydown",esc);
@@ -713,9 +715,11 @@ function gGoalDlg(n){
 function gScrInit(){
   document.querySelectorAll(".c9-card:not(.ok)").forEach(card=>{const cv=card.querySelector("canvas");if(!cv||cv.dataset.on)return;cv.dataset.on=1;
     const r=card.getBoundingClientRect(),dpr=devicePixelRatio||1,W=r.width,H=r.height,x=cv.getContext("2d");cv.width=W*dpr;cv.height=H*dpr;x.scale(dpr,dpr);
-    const gr=x.createLinearGradient(0,0,W,H);gr.addColorStop(0,"#9aa6b6");gr.addColorStop(.5,"#c9d2dd");gr.addColorStop(1,"#8d98a8");x.fillStyle=gr;x.fillRect(0,0,W,H);
-    x.globalAlpha=.16;x.fillStyle="#fff";for(let i=0;i<260;i++)x.fillRect(Math.random()*W,Math.random()*H,1.4,1.4);x.globalAlpha=1;
-    x.fillStyle="rgba(18,22,31,.72)";x.font='500 18px "Fb Reforma",Roboto,sans-serif';x.textAlign="center";x.direction="rtl";x.fillText("\u05de\u05d2\u05e8\u05d3\u05d9\u05dd \u05db\u05d0\u05df",W/2,H/2+6);
+    const gr=x.createLinearGradient(0,0,W,H);gr.addColorStop(0,"#c9922a");gr.addColorStop(.35,"#f7c65a");gr.addColorStop(.55,"#ffe7a8");gr.addColorStop(.75,"#f7c65a");gr.addColorStop(1,"#b9821f");x.fillStyle=gr;x.fillRect(0,0,W,H);
+    const sh=x.createLinearGradient(0,H,W,0);sh.addColorStop(.42,"rgba(255,255,255,0)");sh.addColorStop(.5,"rgba(255,255,255,.35)");sh.addColorStop(.58,"rgba(255,255,255,0)");x.fillStyle=sh;x.fillRect(0,0,W,H);
+    x.globalAlpha=.35;x.fillStyle="#fff6d8";for(let i=0;i<70;i++){const px=Math.random()*W,py=Math.random()*H,r=Math.random()*1.6+.4;x.beginPath();x.arc(px,py,r,0,7);x.fill();}x.globalAlpha=1;
+    x.save();x.translate(W/2-18,H/2-46);x.scale(1.5,1.5);x.strokeStyle="rgba(18,22,31,.7)";x.lineWidth=1.7;x.lineCap="round";x.lineJoin="round";const cp=new Path2D("M20.5 12a8.5 8.5 0 1 1-17 0a8.5 8.5 0 1 1 17 0M9.3 15.3L12 8.7l2.7 6.6M10.3 13.1h3.4");x.stroke(cp);x.restore();
+    x.fillStyle="rgba(18,22,31,.78)";x.font='500 18px "Fb Reforma",Roboto,sans-serif';x.textAlign="center";x.direction="rtl";x.fillText("\u05de\u05d2\u05e8\u05d3\u05d9\u05dd \u05db\u05d0\u05df",W/2,H/2+30);
     x.globalCompositeOperation="destination-out";x.lineCap="round";x.lineJoin="round";x.lineWidth=Math.max(W,H)*.11;
     let down=false,last=null,moves=0,paid=false;
     const pt=e=>{const b=cv.getBoundingClientRect();return [e.clientX-b.left,e.clientY-b.top];};
