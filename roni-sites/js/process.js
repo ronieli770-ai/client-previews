@@ -5,7 +5,8 @@ import * as THREE from 'three';
 const sec = document.getElementById('process');
 const stick = sec.querySelector('.pc-stick'), canvas = sec.querySelector('.pc-gl'), lightEl = sec.querySelector('.pc-light');
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
-const PHONE = matchMedia('(max-width:860px)').matches;
+const MQ = matchMedia('(max-width:860px)');
+let PHONE = MQ.matches;
 
 /* object box on the 1440 x 903 figma frame [x, y, size] and the light ellipse [x, y, w, h, rgb] */
 const STEPS = [
@@ -18,7 +19,10 @@ const STEPS = [
 /* every second step swaps sides: the object on the right, the copy on the left */
 STEPS.forEach((st, i) => { if (i % 2) { const [x, y, z] = st.box; st.box = [1440 - x - z, y, z]; const l = st.light; st.light = [1440 - l[0] - l[2], l[1], l[2], l[3], l[4]]; } });
 /* on a phone the copy runs full width under the object, so every object sits centred in the upper part */
-if (PHONE) STEPS.forEach(st => { st.box = [720 - 560, -60, 1120]; st.light = [253, -157, 935, 359, st.light[4]]; });
+const WIDE = STEPS.map(st => ({ box: st.box.slice(), light: st.light.slice() }));
+/* the layout follows the window: a phone width (or a desktop window made narrow) gets the phone boxes, and back again */
+function placeSteps(){ STEPS.forEach((st, i) => { if (PHONE) { st.box = [720 - 560, -60, 1120]; st.light = [253, -157, 935, 359, WIDE[i].light[4]]; } else { st.box = WIDE[i].box.slice(); st.light = WIDE[i].light.slice(); } }); }
+placeSteps();
 const N = STEPS.length;
 
 let S = 1, OX = 0, OY = 0, W = 0, H = 0;
@@ -172,6 +176,7 @@ const stars = new THREE.Points(sg, new THREE.ShaderMaterial({ uniforms: suni, tr
 stars.renderOrder = -1; scene.add(stars);
 
 function resize(){
+  if (MQ.matches !== PHONE) { PHONE = MQ.matches; placeSteps(); }
   layout();
   renderer.setSize(W, H, false);
   camera.left = 0; camera.right = W; camera.top = 0; camera.bottom = H; camera.updateProjectionMatrix();
