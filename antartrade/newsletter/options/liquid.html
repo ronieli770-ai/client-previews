@@ -43,7 +43,27 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
 .btn:hover{box-shadow:0 12px 26px -10px rgba(18,22,31,.6)}
 .ok{display:none;align-items:center;gap:12px;min-height:52px;font-size:18px;font-weight:500}
 .ok svg{width:28px;height:28px}
-.done .form{display:none}.done .ok{display:flex}
+.done .form{display:none}
+/* after joining (12.11): the form gives way to a confirmation - a check that draws itself, Noam's line as title + sub */
+.ok{display:none;flex-direction:column;align-items:flex-start;gap:6px;min-height:0}
+.done .ok{display:flex;animation:okIn .45s cubic-bezier(.2,.9,.3,1) both}
+@keyframes okIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.ok .okc{width:56px;height:56px;border-radius:50%;background:#fff;color:#12161F;display:grid;place-items:center;margin-bottom:10px;box-shadow:0 14px 30px -12px rgba(18,22,31,.45)}
+.ok .okc svg{width:30px;height:30px}
+.ok .okc path{stroke-dasharray:24;stroke-dashoffset:24}
+.done .ok .okc path{animation:draw .5s .25s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ok b{font-size:30px;font-weight:500;line-height:1.15}
+.ok span{font-size:17px;font-weight:400;color:rgba(255,255,255,.9)}
+/* errors: no frames - a soft lighter fill on the field and a short line under the row */
+.err{display:none;align-items:center;gap:8px;margin:0;font-size:14px;font-weight:500}
+.err svg{width:18px;height:18px;flex:none}
+.bad-name .err.n,.bad-mail .err.m{display:flex}
+.bad-name .in[name=first_name],.bad-mail .in[name=email]{background:rgba(255,255,255,.26)}
+/* sending: the button keeps its size, a small ring turns where the arrow was */
+.btn .spin{display:none;width:18px;height:18px;border-radius:50%;border:2px solid rgba(18,22,31,.2);border-top-color:#12161F;animation:spin .8s linear infinite}
+.sending .btn .spin{display:block}.sending .btn svg{display:none}.sending .btn{pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---- textures: silk folds (Roni, 12.11, direction from the schooliner banner, not a copy) ---- */
 .tx{position:absolute;inset:0;z-index:1;pointer-events:none}
@@ -108,17 +128,17 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
     <div class="box">
       <form class="form" novalidate>
         <div class="row"><input class="in" name="first_name" type="text" placeholder="שם פרטי" aria-label="שם פרטי"><input class="in" name="email" type="email" placeholder="מייל" aria-label="מייל">
-          <button class="btn" type="submit"><span>אני רוצה להצטרף</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button></div>
-        <p class="fine">בלחיצה אני מאשר/ת לקבל דיוור מ-<span class="en">AntarTrade</span>. אפשר להסיר את עצמכם בכל רגע.</p>
+          <button class="btn" type="submit"><span>אני רוצה להצטרף</span><i class="spin"></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button></div>
+        <p class="err n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></svg>צריך למלא שם פרטי</p><p class="err m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></svg>המייל לא נראה תקין, כדאי לבדוק שוב</p><p class="fine">בלחיצה אני מאשר/ת לקבל דיוור מ-<span class="en">AntarTrade</span>. אפשר להסיר את עצמכם בכל רגע.</p>
       </form>
-      <div class="ok" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.4l2.7 2.6L16 9.6"/></svg><span>נרשמת! בדקו את המייל, הודעת הפתיחה כבר בדרך.</span></div>
+      <div class="ok" role="status"><div class="okc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4L18 8"/></svg></div><b>נרשמת!</b><span>בדקו את המייל, הודעת הפתיחה כבר בדרך.</span></div>
     </div>
   </div>
 </template>
 <script>
 const list=document.getElementById("list"),tpl=document.getElementById("tpl");
 list.insertAdjacentHTML("beforebegin",`<div class="wrap ctl" id="ctl">
- <div class="grp"><span>מצב הבאנר</span><button data-st="idle" class="on">רגיל</button><button data-st="hov">עכבר על הכפתור</button><button data-st="done">אחרי הרשמה</button></div>
+ <div class="grp"><span>מצב הבאנר</span><button data-st="idle" class="on">רגיל</button><button data-st="hov">עכבר על הכפתור</button><button data-st="name">בלי שם</button><button data-st="mail">מייל לא תקין</button><button data-st="send">שולח</button><button data-st="done">נרשמת</button></div>
  <div class="grp"><span>חוזק הטקסטורה</span><input type="range" id="str" min="0" max="100" value="41"><output id="strV" class="en">41%</output></div>
  <div class="grp"><span>גרסת הנוזל</span><button data-v="7">1</button><button data-v="8" class="on">2</button><button data-v="9">3</button></div>
  <div class="grp"><span>איך הטקסטורה יושבת על הצבע</span><button data-b="">רגיל</button><button data-b="soft" class="on">רך, רק אור וצל</button><button data-b="lum">שומר על צבעי הלוגו</button></div>
@@ -130,10 +150,17 @@ const set=v=>{c.style.setProperty("--s",v/100);document.getElementById("strV").t
 document.getElementById("str").addEventListener("input",e=>set(+e.target.value));
 document.addEventListener("click",e=>{const v=e.target.closest("[data-v]"),b=e.target.closest("[data-b]");
   if(v){document.querySelectorAll("[data-v]").forEach(x=>x.classList.toggle("on",x===v));document.getElementById("liq").style.backgroundImage=`url(tex/t${v.dataset.v}.jpg)`;}
-  const st=e.target.closest("[data-st]");if(st){document.querySelectorAll("[data-st]").forEach(x=>x.classList.toggle("on",x===st));const bt=c.querySelector(".btn");bt.classList.toggle("hov",st.dataset.st==="hov");c.classList.toggle("done",st.dataset.st==="done");}
+  const st=e.target.closest("[data-st]");if(st){document.querySelectorAll("[data-st]").forEach(x=>x.classList.toggle("on",x===st));show(st.dataset.st);}
   if(b){document.querySelectorAll("[data-b]").forEach(x=>x.classList.toggle("on",x===b));c.classList.remove("soft","lum");if(b.dataset.b)c.classList.add(b.dataset.b);}});
+const STATES={idle:"",hov:"",name:"bad-name",mail:"bad-mail",send:"sending",done:"done"};
+function show(k){c.classList.remove("bad-name","bad-mail","sending","done");if(STATES[k])c.classList.add(STATES[k]);c.querySelector(".btn").classList.toggle("hov",k==="hov");
+  document.querySelectorAll("[data-st]").forEach(x=>x.classList.toggle("on",x.dataset.st===k));}
+/* the real flow: check the fields, send, then the confirmation */
 document.addEventListener("submit",e=>{e.preventDefault();const f=e.target,n=f.elements.first_name,m=f.elements.email;
-  if(!n.value.trim()){n.focus();return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.value.trim())){m.focus();return;}f.closest(".nl").classList.add("done");});
+  if(!n.value.trim()){show("name");n.focus();return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.value.trim())){show("mail");m.focus();return;}
+  show("send");setTimeout(()=>show("done"),1100);});
+document.addEventListener("input",e=>{if(e.target.classList.contains("in"))c.classList.remove("bad-name","bad-mail");});
 </script>
 </body>
 </html>
