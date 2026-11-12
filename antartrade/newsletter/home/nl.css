@@ -30,9 +30,6 @@
 .nl-btn:hover svg{animation:nl-out-in .5s ease forwards}
 @keyframes nl-out-in{0%{transform:none;opacity:1}45%{transform:translateX(-14px);opacity:0}46%{transform:translateX(14px);opacity:0}100%{transform:none;opacity:1}}
 .nl-fine{margin:0;font-size:13px;line-height:1.5;color:rgba(255,255,255,.85)}
-.nl-ok{display:none;align-items:center;gap:12px;min-height:52px;font-size:18px;font-weight:500;color:#fff;position:relative}
-.nl-ok svg{width:28px;height:28px;flex:none}
-.nl-done .nl-form{display:none}.nl-done .nl-ok{display:flex}
 .nl-wrap .en{font-family:Roboto,sans-serif;font-weight:500}
 
 /* 1. banner on the important pages (home, deals, comparisons) */
@@ -79,3 +76,32 @@
 .nl-wrap .nl-form .nl-in{background:rgba(18,22,31,.16)!important}
 .nl-wrap .nl-form .nl-in:hover,.nl-wrap .nl-form .nl-in:focus{background:rgba(18,22,31,.26)!important}
 .nl-wrap .nl-form .nl-btn:focus-visible{outline:none!important}
+
+/* the flow after the click (Roni 12.11): errors without frames, a turning ring while sending, then the confirmation */
+.nl-err{display:none!important;align-items:center;gap:8px;margin:0!important;font-size:14px;font-weight:500;color:#fff}
+.nl-err svg{width:18px;height:18px;flex:none}
+.nl-bad-name .nl-err.n,.nl-bad-mail .nl-err.m{display:flex!important}
+.nl-bad-name .nl-form .nl-in[name=first_name],.nl-bad-mail .nl-form .nl-in[name=email]{background:rgba(255,255,255,.26)!important}
+.nl-spin{display:none;width:18px;height:18px;border-radius:50%;border:2px solid rgba(18,22,31,.2);border-top-color:#12161F;animation:nl-spin .8s linear infinite;position:relative}
+.nl-sending .nl-spin{display:block}.nl-sending .nl-btn svg{display:none}.nl-sending .nl-btn{pointer-events:none}
+@keyframes nl-spin{to{transform:rotate(360deg)}}
+.nl-ok{display:none;flex-direction:column;align-items:flex-start;gap:6px;color:#fff}
+.nl-done .nl-form{display:none}
+.nl-done .nl-ok{display:flex;animation:nl-okIn .45s cubic-bezier(.2,.9,.3,1) both}
+@keyframes nl-okIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.nl-okc{width:56px;height:56px;border-radius:50%;background:#fff;color:#12161F;display:grid;place-items:center;margin-bottom:10px;box-shadow:0 14px 30px -12px rgba(18,22,31,.45)}
+.nl-okc svg{width:30px;height:30px}
+.nl-okc path{stroke-dasharray:24;stroke-dashoffset:24}
+.nl-done .nl-okc path{animation:nl-draw .5s .25s ease forwards}
+@keyframes nl-draw{to{stroke-dashoffset:0}}
+.nl-ok b{font-size:30px;font-weight:500;line-height:1.15;color:#fff}
+.nl-ok span{font-size:17px;font-weight:400;color:rgba(255,255,255,.9)}
+.an-body .nl-art .nl-ok b{font-size:24px}
+
+/* preview only: the state bar */
+#nlDemo{position:fixed;z-index:9999;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;background:rgba(18,22,31,.92);backdrop-filter:blur(10px);box-shadow:0 12px 30px rgba(0,0,0,.45);font:400 13px "Fb Reforma",Roboto,sans-serif;color:#fff;max-width:calc(100% - 24px);overflow-x:auto}
+#nlDemo small{padding:0 8px 0 4px;color:rgba(255,255,255,.6);font-size:13px;white-space:nowrap}
+#nlDemo button{all:unset;cursor:pointer;padding:8px 13px;border-radius:999px;white-space:nowrap;color:rgba(255,255,255,.8)}
+#nlDemo button.on{background:#fff;color:#12161F;font-weight:500}
+#nlDemo [data-nlgo]{background:rgba(125,198,255,.16);color:#fff}
+@media (max-width:760px){#nlDemo{bottom:84px}}
