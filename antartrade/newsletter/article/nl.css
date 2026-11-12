@@ -1,0 +1,60 @@
+/* AntarTrade newsletter, 3 placements (Roni, 12.11). Built from the site's own parts: g-title, .sub, btn-halo sky, frameless fields, IBM Plex for typing.
+   Noam's copy word for word. The form posts nowhere in the preview; on the site it goes to the newsletter-signup function (Noam's Claude). */
+.nl-form{display:grid;gap:10px}
+.nl-row{display:flex;gap:10px}
+.nl-in{flex:1;min-width:0;height:52px;border:0;border-radius:999px;padding:0 22px;background:rgba(255,255,255,.07);color:#fff;font:400 16px "IBM Plex Sans Hebrew",system-ui,sans-serif;outline:none;transition:background .2s}
+.nl-in::placeholder{color:rgba(255,255,255,.5)}
+.nl-in:hover,.nl-in:focus{background:rgba(255,255,255,.11)}
+.nl-in.bad{background:rgba(229,86,106,.16)}
+.nl-form .btn-halo{flex:none;height:52px}
+.nl-fine{margin:0;font-size:13px;line-height:1.5;color:rgba(255,255,255,.55)}
+.nl-ok{display:none;align-items:center;gap:12px;min-height:52px;font-size:17px;font-weight:500;color:#fff}
+.nl-ok svg{width:26px;height:26px;flex:none;color:#7DC6FF}
+.nl-done .nl-form{display:none}.nl-done .nl-ok{display:flex}
+
+/* 1. banner on the important pages (home, deals, comparisons) */
+.nl-banner{background:#12161F;padding:24px 0 88px;position:relative}
+.nl-banner .nl-card{position:relative;overflow:hidden;width:min(1200px,calc(100% - 32px));margin:0 auto;border-radius:32px;padding:56px 64px;
+  background:radial-gradient(120% 140% at 100% 0%,rgba(85,166,230,.16),transparent 55%),#181D29;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.nl-banner .nl-mark{position:absolute;left:-70px;bottom:-90px;width:340px;opacity:.10;filter:blur(2px);pointer-events:none}
+.nl-banner .title{margin:0;text-align:right;font-size:40px;line-height:1.12}
+.nl-banner .sub{margin:14px 0 0;font-size:20px;line-height:1.5;color:rgba(255,255,255,.8)}
+.nl-banner .nl-box{position:relative}
+
+/* 2. strip above the footer, every page that has no banner */
+.nl-strip{background:#12161F;padding:0 0 64px}
+.nl-strip .nl-in-w{width:min(1200px,calc(100% - 32px));margin:0 auto;padding:40px 0 0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:center}
+.nl-strip h2{margin:0;font-size:28px;font-weight:500;line-height:1.15;color:#fff}
+.nl-strip p.sub{margin:8px 0 0;font-size:16px;line-height:1.5;color:rgba(255,255,255,.7)}
+
+/* 3. box inside an article or a guide (on the white text container) */
+.an-body .nl-art{margin:40px 0;padding:32px 36px;border-radius:24px;background:#F3F7FB;color:#12161F;position:relative;overflow:hidden}
+.an-body .nl-art .nl-mark{position:absolute;left:-40px;top:-50px;width:200px;opacity:.07;pointer-events:none}
+.an-body .nl-art h3{margin:0;font-size:24px;font-weight:500;line-height:1.25;color:#12161F}
+.an-body .nl-art p.sub{margin:6px 0 18px;font-size:16px;line-height:1.55;color:#4a5566}
+.an-body .nl-art .nl-in{background:#fff;color:#12161F}
+.an-body .nl-art .nl-in::placeholder{color:#8a94a3}
+.an-body .nl-art .nl-in:hover,.an-body .nl-art .nl-in:focus{background:#fff;box-shadow:0 0 0 2px rgba(97,177,242,.35)}
+.an-body .nl-art .nl-in.bad{box-shadow:0 0 0 2px rgba(229,86,106,.45)}
+.an-body .nl-art .nl-fine{color:#6b7584}
+.an-body .nl-art .nl-ok{color:#12161F}
+.an-body .nl-art .nl-ok svg{color:#2b7fc4}
+
+.nl-form .en,.nl-wrap .en{font-family:Roboto,sans-serif;font-weight:500}
+
+@media (max-width:900px){
+  .nl-banner .nl-card{grid-template-columns:1fr;gap:28px;padding:40px 28px}
+  .nl-strip .nl-in-w{grid-template-columns:1fr;gap:20px}
+}
+@media (max-width:760px){
+  .nl-banner{padding:8px 0 64px}
+  .nl-banner .nl-card{border-radius:24px;padding:32px 20px}
+  .nl-banner .title{font-size:30px}
+  .nl-banner .sub{font-size:17px}
+  .nl-row{flex-direction:column}
+  .nl-form .btn-halo{width:100%;justify-content:center}
+  .nl-strip h2{font-size:24px}
+  .an-body .nl-art{margin:28px 0;padding:24px 18px}
+  .an-body .nl-art h3{font-size:21px}
+}
