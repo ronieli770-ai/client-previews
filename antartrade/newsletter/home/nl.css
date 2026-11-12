@@ -54,7 +54,8 @@
   .nl-banner .title{font-size:30px}
   .nl-banner .sub{font-size:17px}
   .nl-row{flex-direction:column}
-  .nl-form .btn-halo{width:100%;justify-content:center}
+  .nl-wrap .nl-form .nl-in{flex:none}
+  .nl-form .btn-halo{align-self:flex-start}
   .nl-strip h2{font-size:24px}
   .an-body .nl-art{margin:28px 0;padding:24px 18px}
   .an-body .nl-art h3{font-size:21px}
