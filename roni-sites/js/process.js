@@ -24,6 +24,7 @@ const WIDE = STEPS.map(st => ({ box: st.box.slice(), light: st.light.slice() }))
 function placeSteps(){ STEPS.forEach((st, i) => { if (PHONE) { st.box = [720 - 560, -60, 1120]; st.light = [253, -157, 935, 359, WIDE[i].light[4]]; } else { st.box = WIDE[i].box.slice(); st.light = WIDE[i].light.slice(); } }); }
 placeSteps();
 const N = STEPS.length;
+let shown = 0, target = 0;
 
 let S = 1, OX = 0, OY = 0, W = 0, H = 0;
 function layout(){
@@ -58,20 +59,22 @@ function gridOf(img, box){
   const n = Math.floor(dsz / CELL), cv = document.createElement('canvas'); cv.width = cv.height = n;
   const c = cv.getContext('2d'); c.drawImage(img, 0, 0, n, n);
   const d = c.getImageData(0, 0, n, n).data, out = [];
-  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { const i = (y * n + x) * 4, l = Math.max(d[i], d[i + 1], d[i + 2]) / 255; if (l < .035) continue;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { const i = (y * n + x) * 4, l = Math.max(d[i], d[i + 1], d[i + 2]) / 255; if (l < (PHONE ? .06 : .035)) continue;
     const px = (dx0 + (x + .5) * CELL) / DPR, py = (dy0 + (y + .5) * CELL) / DPR; if (px < -8 || py < -8 || px > W + 8 || py > H + 8) continue;
-    out.push([px, py, (x + .5) / n, (y + .5) / n]); }
+    /* on a phone the picture's square edge melts away, so dust that runs to the edge of the source never shows a straight cut */
+    const ed = Math.min(x, y, n - 1 - x, n - 1 - y) / n, fd = PHONE ? Math.min(1, ed / .14) : 1;
+    out.push([px, py, (x + .5) / n, (y + .5) / n, fd * fd * (3 - 2 * fd)]); }
   for (let i = out.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [out[i], out[j]] = [out[j], out[i]]; }
   return { cells: out, cuv: 1 / n };
 }
 const geo = new THREE.BufferGeometry();
-const uni = { uT: { value: 1 }, uMode: { value: 0 }, uTime: { value: 0 }, uMouse: { value: new THREE.Vector3(-9999, -9999, 0) }, uCell: { value: 4 }, uK: { value: 1 },
+const uni = { uT: { value: 1 }, uMode: { value: 0 }, uTime: { value: 0 }, uMouse: { value: new THREE.Vector3(-9999, -9999, 0) }, uCell: { value: 4 }, uK: { value: 1 }, uLoose: { value: 1 },
   uC: { value: new THREE.Vector2() }, texA: { value: texs[0] }, texB: { value: texs[0] }, cuvA: { value: 0 }, cuvB: { value: 0 } };
 const mat = new THREE.ShaderMaterial({ uniforms: uni, transparent: true, depthWrite: false, depthTest: false, blending: THREE.CustomBlending,
   blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor, blendSrcAlpha: THREE.OneFactor, blendDstAlpha: THREE.OneFactor,
   vertexShader: `
     attribute vec3 posB; attribute vec4 uvA; attribute vec4 uvB; attribute float seed;
-    uniform float uT, uMode, uTime, uCell, uK; uniform vec3 uMouse; uniform vec2 uC; uniform sampler2D texA, texB;
+    uniform float uT, uMode, uTime, uCell, uK, uLoose; uniform vec3 uMouse; uniform vec2 uC; uniform sampler2D texA, texB;
     varying vec2 vUvA, vUvB; varying float vMix, vRound, vVisA, vVisB, vGlow;
     float ease(float t){ return t < .5 ? 4.*t*t*t : 1. - pow(-2.*t + 2., 3.) / 2.; }
     vec2 rot(vec2 p, vec2 c, float a){ p -= c; return c + vec2(p.x*cos(a) - p.y*sin(a), p.x*sin(a) + p.y*cos(a)); }
@@ -98,11 +101,12 @@ const mat = new THREE.ShaderMaterial({ uniforms: uni, transparent: true, depthWr
       vec2 dm = p.xy - uMouse.xy; float dist = length(dm), R = 140. * K, f = 0.;
       if (dist < R) { f = pow(1. - dist / R, 2.) * uMouse.z; p.xy += normalize(dm + vec2(.001)) * f * 60. * K + vec2(sin(uTime * 3. + seed * 40.), cos(uTime * 2.6 + seed * 30.)) * f * 6. * K; }
       p.xy += vec2(sin(uTime * .7 + seed * 50.), cos(uTime * .6 + seed * 40.)) * 1.2 * K * moving;
-      float fs = 1. + .035 * sin(uTime * .42), fa = .006 * sin(uTime * .21) + .002 * sin(uTime * .53);
+      /* the slow breathing scale and tilt open seams between the tiles on a small screen, so a phone keeps the picture still */
+      float fs = 1. + .035 * sin(uTime * .42) * uLoose, fa = (.006 * sin(uTime * .21) + .002 * sin(uTime * .53)) * uLoose;
       p.xy = C + rot(p.xy - C, vec2(0.), fa) * fs + vec2(sin(uTime * .31) * 10., sin(uTime * .47) * 14.) * K;
       vec3 tc = mix(texture2D(texA, uvA.xy).rgb, texture2D(texB, uvB.xy).rgb, step(.5, k));
       float lum = max(tc.r, max(tc.g, tc.b));
-      float loose = (1. - smoothstep(.12, .4, lum)) * (.35 + h * .65);
+      float loose = (1. - smoothstep(.12, .4, lum)) * (.35 + h * .65) * uLoose;
       p.xy += vec2(sin(uTime * (.5 + g) + seed * 60.), cos(uTime * (.45 + h) + seed * 70.)) * loose * 9. * K;
       vUvA = uvA.xy; vUvB = uvB.xy; vVisA = uvA.z; vVisB = uvB.z;
       vMix = smoothstep(.35, .65, k);
@@ -128,7 +132,7 @@ const mat = new THREE.ShaderMaterial({ uniforms: uni, transparent: true, depthWr
 });
 scene.add(new THREE.Points(geo, mat));
 let pair = [0, 0];
-const MAXP = PHONE ? 110000 : 240000;
+const MAXP = PHONE ? 150000 : 240000;
 function build(){
   CELL = Math.max(2, Math.round(2 * S * DPR));
   grids = imgs.map((im, i) => gridOf(im, STEPS[i].box));
@@ -137,12 +141,13 @@ function build(){
   ['position', 'posB'].forEach(k => geo.setAttribute(k, new THREE.BufferAttribute(new Float32Array(COUNT * 3), 3)));
   ['uvA', 'uvB'].forEach(k => geo.setAttribute(k, new THREE.BufferAttribute(new Float32Array(COUNT * 4), 4)));
   const sd = new Float32Array(COUNT); for (let i = 0; i < COUNT; i++) sd[i] = Math.random(); geo.setAttribute('seed', new THREE.BufferAttribute(sd, 1));
-  uni.uCell.value = CELL; uni.uK.value = S; uni.uC.value.set(OX + 720 * S, OY + 470 * S);
+  uni.uCell.value = CELL; uni.uK.value = S; uni.uLoose.value = PHONE ? 0 : 1;
+  if (PHONE) uni.uC.value.set(W / 2, H * PCY); else uni.uC.value.set(OX + 720 * S, OY + 470 * S);
   setPair(pair[0], pair[1]);
 }
 function fill(attrPos, attrUv, g){
   const P = attrPos.array, U = attrUv.array, c = g.cells, n = c.length;
-  for (let i = 0; i < COUNT; i++) { const e = c[i % n], vis = i < n ? 1 : 0; P[i * 3] = e[0]; P[i * 3 + 1] = e[1]; P[i * 3 + 2] = 0; U[i * 4] = e[2]; U[i * 4 + 1] = e[3]; U[i * 4 + 2] = vis; }
+  for (let i = 0; i < COUNT; i++) { const e = c[i % n], vis = i < n ? e[4] : 0; P[i * 3] = e[0]; P[i * 3 + 1] = e[1]; P[i * 3 + 2] = 0; U[i * 4] = e[2]; U[i * 4 + 1] = e[3]; U[i * 4 + 2] = vis; }
   attrPos.needsUpdate = attrUv.needsUpdate = true;
 }
 function setPair(a, b){
@@ -175,9 +180,24 @@ const stars = new THREE.Points(sg, new THREE.ShaderMaterial({ uniforms: suni, tr
     float a = mix(smoothstep(.5, .1, r), smoothstep(.5, 0., r) * .8, vSoft); gl_FragColor = vec4(vC, a * vA); }` }));
 stars.renderOrder = -1; scene.add(stars);
 
+/* the lit part of every picture, so on a phone the object itself (not its empty square) is sized to the screen */
+const BB = imgs.map(im => { const n = 160, cv = document.createElement('canvas'); cv.width = cv.height = n; const c = cv.getContext('2d'); c.drawImage(im, 0, 0, n, n);
+  const d = c.getImageData(0, 0, n, n).data; let x0 = n, y0 = n, x1 = 0, y1 = 0;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { const i = (y * n + x) * 4; if (Math.max(d[i], d[i + 1], d[i + 2]) > 70) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
+  return [x0 / n, y0 / n, (x1 + 1) / n, (y1 + 1) / n]; });
+const PCY = .35, PWIDE = [1.06, 1.06, 1.06, 1.06, 1.16];
+function placePhone(){
+  STEPS.forEach((st, i) => { const [x0, y0, x1, y1] = BB[i];
+    let size = W * PWIDE[i] / (x1 - x0); if (i < 4) size = Math.min(size, H * .6 / (y1 - y0));
+    const cx = W / 2, cy = H * (i === 4 ? PCY + .05 : PCY), left = cx - (x0 + x1) / 2 * size, top = cy - (y0 + y1) / 2 * size;
+    st.box = [(left - OX) / S, (top - OY) / S, size / S];
+    st.light = [(cx - OX) / S - 467, (cy - OY) / S - 180, 935, 359, WIDE[i].light[4]]; });
+  Lt = STEPS[target].light;
+}
 function resize(){
   if (MQ.matches !== PHONE) { PHONE = MQ.matches; placeSteps(); }
   layout();
+  if (PHONE) placePhone();
   renderer.setSize(W, H, false);
   camera.left = 0; camera.right = W; camera.top = 0; camera.bottom = H; camera.updateProjectionMatrix();
   suni.uSize.value.set(W, H);
@@ -193,7 +213,7 @@ const smouse = { x: -9999, y: -9999 };
 
 /* the step nearest the middle of the screen drives the visual; the swap plays out on its own clock */
 const steps = [...sec.querySelectorAll('.pc-step')], head = sec.querySelector('.pc-head');
-let shown = 0, target = 0, start = -1, from = 0, spin = 0, last = 0, running = false;
+let start = -1, from = 0, spin = 0, last = 0, running = false;
 const DUR = 900;
 function go(step, now){
   if (start >= 0) { shown = target; start = -1; }
@@ -203,11 +223,19 @@ function go(step, now){
 }
 /* copy is sharp in the middle of the screen and blurs as it rises or while it waits below */
 const fog = (el, d) => { const t = clamp((Math.abs(d) - .2 * innerHeight) / (.25 * innerHeight)), e = t * t * (3 - 2 * t); el.style.filter = e > .01 ? 'blur(' + (e * 8).toFixed(1) + 'px)' : 'none'; el.style.opacity = (1 - e * .75).toFixed(3); };
+const veil = (el, e) => { el.style.filter = e > .01 ? 'blur(' + (e * 10).toFixed(1) + 'px)' : 'none'; el.style.opacity = (1 - e).toFixed(3); };
 function frame(now){
   if (!running) return;
   const mid = innerHeight / 2; let best = 0, bd = 1e9;
+  if (PHONE) {
+    const H0 = innerHeight, line = H0 * .64;
+    steps.forEach((el, i) => { const a = el.getBoundingClientRect().top - line; if (Math.abs(a) < bd) { bd = Math.abs(a); best = i; }
+      const e = a < 0 ? clamp(-a / (H0 * .26)) : clamp((a - H0 * .14) / (H0 * .2)); veil(el, e * e * (3 - 2 * e)); });
+    { const t = clamp(-head.getBoundingClientRect().top / (H0 * .18)); veil(head, t * t * (3 - 2 * t)); }
+  } else {
   steps.forEach((el, i) => { const r = el.getBoundingClientRect(), d = r.top + r.height / 2 - mid; if (Math.abs(d) < bd) { bd = Math.abs(d); best = i; } fog(el, d); });
   { const r = head.getBoundingClientRect(); fog(head, (r.bottom - .4 * innerHeight) * 1.6); }
+  }
   if (best !== target && start < 0) go(best, now);
   if (start >= 0) { const k = clamp((now - start) / DUR); uni.uT.value = k; if (k >= 1) { shown = target; start = -1; setPair(shown, shown); uni.uT.value = 1; } }
   uni.uTime.value = suni.uTime.value = now / 1000;
