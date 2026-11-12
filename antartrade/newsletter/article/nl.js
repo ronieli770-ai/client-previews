@@ -9,9 +9,9 @@ const OK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-widt
 const ARR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
 const MARK=BASE+"/home-new/img/bg-brain-dark.svg";
 const form=()=>`<form class="nl-form" novalidate><div class="nl-row"><input class="nl-in" name="first_name" type="text" autocomplete="given-name" placeholder="${T.name}" aria-label="${T.name}"><input class="nl-in" name="email" type="email" dir="auto" autocomplete="email" placeholder="${T.mail}" aria-label="${T.mail}"><button class="nl-btn" type="submit"><span>${T.btn}</span>${ARR}</button></div><p class="nl-fine">${EN(T.fine)}</p></form><div class="nl-ok" role="status">${OK}<span>${T.ok}</span></div>`;
-const banner=()=>`<section class="nl-banner nl-wrap" data-theme="dark" data-nl="banner"><div class="nl-card"><img class="nl-mark" src="${MARK}" alt=""><div><h2>${EN(T.title)}</h2><p class="sub">${T.sub}</p></div><div class="nl-box">${form()}</div></div></section>`;
-const strip=()=>`<section class="nl-strip nl-wrap" data-theme="dark" data-nl="strip"><div class="nl-card"><img class="nl-mark" src="${MARK}" alt=""><div><h2>${EN(T.title)}</h2><p class="sub">${T.sub}</p></div><div class="nl-box">${form()}</div></div></section>`;
-const art=()=>`<aside class="nl-art nl-card nl-wrap" data-nl="article"><img class="nl-mark" src="${MARK}" alt=""><h3>${EN(T.title)}</h3><p class="sub">${T.sub}</p>${form()}</aside>`;
+const banner=()=>`<section class="nl-banner nl-wrap" data-theme="dark" data-nl="banner"><div class="nl-card"><div><h2>${EN(T.title)}</h2><p class="sub">${T.sub}</p></div><div class="nl-box">${form()}</div></div></section>`;
+const strip=()=>`<section class="nl-strip nl-wrap" data-theme="dark" data-nl="strip"><div class="nl-card"><div><h2>${EN(T.title)}</h2><p class="sub">${T.sub}</p></div><div class="nl-box">${form()}</div></div></section>`;
+const art=()=>`<aside class="nl-art nl-card nl-wrap" data-nl="article"><h3>${EN(T.title)}</h3><p class="sub">${T.sub}</p>${form()}</aside>`;
 function mount(){
   /* banner: home after the deals; deals and comparison pages before their closing parts */
   const deals=document.getElementById("deals");
