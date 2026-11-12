@@ -1048,3 +1048,13 @@ a.g-eqb{text-decoration:none}
 .c9-bal b .num{color:var(--c-sun)}
 .c9-bal>div>span{font-size:14px;color:var(--muted)}
 @media (max-width:760px){.c9-bal img{width:88px}.c9-bal b{font-size:22px}.c9-coinimg{width:40px}}
+/* 13.11 wallet: counts sit on the right, the button number one weight up, and the rolling points counter */
+.c9-it .tx>b{text-align:right}
+.c9-use .g-eqb .num{font-weight:600}
+.c9-bal b{align-self:flex-start;position:relative}
+.c9-od{display:inline-block;height:1.15em;line-height:1.15em;overflow:hidden;vertical-align:top}
+.c9-od>i{display:flex;flex-direction:column;font-style:inherit;will-change:transform}
+.c9-od>i>span{height:1.15em;text-align:center}
+.g-ptsplus.neg{color:rgba(var(--fg-rgb),.7)}
+.c9-bal .g-ptsplus{inset:auto;right:calc(100% + 12px);top:-2px;margin:0;font-size:17px}
+.c9-bal b .g-ptsplus.neg,.g-pts .g-ptsplus.neg{color:rgba(var(--fg-rgb),.7)}

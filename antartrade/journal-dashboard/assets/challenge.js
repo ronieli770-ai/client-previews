@@ -445,7 +445,7 @@ function gRewards(v,g){
   if(g.dbl)inv.push([DBL,"mint","\u05de\u05d8\u05d1\u05e2\u05d5\u05ea \u05db\u05e4\u05d5\u05dc\u05d9\u05dd",`<b>\u05d1\u05d9\u05e2\u05d3 <span class="num">${g.dbl}</span></b>`,"\u05de\u05d4\u05ea\u05d9\u05d1\u05d4 \u05e9\u05dc \u05d9\u05e2\u05d3 10"]);
   if(g.disc)inv.push([PCT,"sun","15% \u05d4\u05e0\u05d7\u05d4 \u05e2\u05dc \u05d4\u05e7\u05d5\u05e8\u05e1",`<b data-gcd="${g.disc}">${gLeft(g.disc)}</b>`,`<a href="https://antartrade.co.il/full-course" target="_blank" rel="noopener">\u05dc\u05e7\u05d5\u05e8\u05e1${SV(CI.ext,"width:13px;height:13px")}</a>`]);
   return `<section class="blk chj-sec g-rews c9-wal"><div class="bh">${cttl("\u05d4\u05d0\u05e8\u05e0\u05e7 \u05e9\u05dc\u05da","wallet","sun")}<span class="hint">\u05de\u05d4 \u05e0\u05e6\u05d1\u05e8 \u05d5\u05de\u05d4 \u05d0\u05e4\u05e9\u05e8 \u05dc\u05e2\u05e9\u05d5\u05ea \u05d0\u05d9\u05ea\u05d5</span></div>
-   <div class="c9-bal"><img alt="" src="${GI("coins-stack")}"><div><small>\u05d1\u05d0\u05e8\u05e0\u05e7 \u05e9\u05dc\u05da</small><b><span class="num">${g.pts.toLocaleString("en-US")}</span> \u05de\u05d8\u05d1\u05e2\u05d5\u05ea</b>${g.tix?`<span>\u05d5\u05e2\u05d5\u05d3 <span class="num">${g.tix}</span> ${g.tix===1?"\u05db\u05e8\u05d8\u05d9\u05e1 \u05d4\u05d2\u05e8\u05dc\u05d4":"\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05d4\u05d2\u05e8\u05dc\u05d4"}</span>`:""}</div></div>
+   <div class="c9-bal"><img alt="" src="${GI("coins-stack")}"><div><small>\u05d1\u05d0\u05e8\u05e0\u05e7 \u05e9\u05dc\u05da</small><b><span class="num" data-gpts="${g.pts}">${g.pts.toLocaleString("en-US")}</span> \u05de\u05d8\u05d1\u05e2\u05d5\u05ea</b>${g.tix?`<span>\u05d5\u05e2\u05d5\u05d3 <span class="num">${g.tix}</span> ${g.tix===1?"\u05db\u05e8\u05d8\u05d9\u05e1 \u05d4\u05d2\u05e8\u05dc\u05d4":"\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05d4\u05d2\u05e8\u05dc\u05d4"}</span>`:""}</div></div>
    <div class="g-earn"><span><b class="num">5</b> \u05e2\u05dc \u05de\u05d9\u05dc\u05d5\u05d9 \u05d4\u05d9\u05d5\u05de\u05df</span><span><b class="num">5</b> \u05e2\u05dc \u05d9\u05d5\u05dd \u05e0\u05e7\u05d9</span><span>\u05ea\u05d9\u05d1\u05d5\u05ea \u05d1\u05d9\u05e2\u05d3\u05d9 \u05d4\u05e8\u05e6\u05e3</span><span>\u05db\u05e8\u05d8\u05d9\u05e1\u05d9 \u05d2\u05d9\u05e8\u05d5\u05d3</span><span>\u05d1\u05d5\u05e0\u05d5\u05e1 \u05e2\u05dc \u05e8\u05e6\u05e3 \u05de\u05d9\u05dc\u05d5\u05d9</span></div>
    <div class="c9-fill"><small>\u05d1\u05d5\u05e0\u05d5\u05e1 \u05e2\u05dc \u05e8\u05e6\u05e3 \u05de\u05d9\u05dc\u05d5\u05d9 \u05d4\u05d9\u05d5\u05de\u05df</small><div class="c9-fr">${FILLB.map(([d,p])=>{const on=g.filled>=d;return `<div class="c9-f${on?" on":""}"><span class="ck2">${on?SV(JI.ok):""}</span><b><span class="num">${d}</span> \u05d9\u05de\u05d9\u05dd</b><em class="num">+${p}</em></div>`;}).join("")}</div></div>
    <div class="c9-inv">${inv.map(i=>`<div class="c9-it" style="--c:var(--c-${i[1]})"><span class="ic">${SV(i[0])}</span><div class="tx"><small>${i[2]}</small>${i[3]}<span>${i[4]}</span></div></div>`).join("")}</div>
@@ -486,14 +486,28 @@ function gDash(){
 
 /* the points: count up when a day is opened, and again with a "+45" when the chest pays out */
 function gCount(){
-  const el=document.querySelector("[data-gpts]");if(!el)return;const to=+el.dataset.gpts;
-  let from=null,plus=0;
-  if(C.gPrevPts!=null&&C.gPrevPts.view===C.view){from=C.gPrevPts.pts;plus=to-from;C.gPrevPts=null;}
+  const els=[...document.querySelectorAll("[data-gpts]")];if(!els.length)return;const to=+els[0].dataset.gpts;
+  let from=null,ev=false;
+  if(C.gPrevPts!=null&&C.gPrevPts.view===C.view){from=C.gPrevPts.pts;ev=true;C.gPrevPts=null;}
   else if(C.gCounted!==C.view){from=Math.max(to-Math.min(to,600),0);}
-  C.gCounted=C.view;if(from==null||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const t0=performance.now(),D=plus?900:1100,fmt=n=>Math.round(n).toLocaleString("en-US");
-  (function f(t){const k=Math.min((t-t0)/D,1),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(f);})(t0);
-  if(plus>0){const b=document.createElement("span");b.className="g-ptsplus num";b.textContent="+"+plus;el.parentNode.appendChild(b);setTimeout(()=>b.remove(),1600);}}
+  C.gCounted=C.view;if(from==null||from===to||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const d=to-from;
+  els.forEach(el=>{gRoll(el,from,to);
+    if(ev){const b=document.createElement("span");b.className="g-ptsplus num"+(d<0?" neg":"");b.textContent=(d>0?"+":"-")+Math.abs(d).toLocaleString("en-US");el.parentNode.appendChild(b);setTimeout(()=>b.remove(),1600);}});}
+/* a rolling counter: every digit is a strip that turns up when the points grow and down when they are spent */
+function gRoll(el,from,to){
+  const fmt=n=>Math.max(Math.round(n),0).toLocaleString("en-US"),B=fmt(to),A=fmt(from),L=Math.max(A.length,B.length),a=A.padStart(L," "),b=B.padStart(L," "),up=to>from,D=1100;
+  let rank=0;const cells=[];
+  for(let i=L-1;i>=0;i--){const o=a[i],n=b[i];
+    if(n===","||(n===" "&&o===",")){cells.unshift(n===","?`<span class="c9-odc">,</span>`:"");continue;}
+    let seq;
+    if(o===" "||o===",")seq=[" ",n];else if(n===" ")seq=[o," "];
+    else{const O=+o,N=+n;let k=up?(N-O+10)%10:(O-N+10)%10;if(rank<2)k+=10;seq=[];for(let t=0;t<=k;t++)seq.push(String((O+(up?t:-t)+100)%10));}
+    rank++;const st=seq.length-1;if(!up)seq.reverse();
+    cells.unshift(`<span class="c9-od"><i style="transform:translateY(${up?0:-st*1.15}em)" data-to="${up?-st*1.15:0}">${seq.map(x=>`<span>${x===" "?"&nbsp;":x}</span>`).join("")}</i></span>`);}
+  el.innerHTML=cells.join("");el.offsetWidth;
+  el.querySelectorAll(".c9-od>i").forEach(x=>{x.style.transition=`transform ${D}ms cubic-bezier(.2,.75,.25,1)`;x.style.transform=`translateY(${x.dataset.to}em)`;});
+  clearTimeout(el._roll);el._roll=setTimeout(()=>{el.textContent=B;},D+80);}
 
 /* claiming a reward code: a small window with the chest, the code to copy and the way to the deals page.
    Prototype: the code itself and its wording come from Noam */
