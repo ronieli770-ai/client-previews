@@ -59,36 +59,11 @@ body.pg-dash #pgSub{display:none}
   .demo2{bottom:calc(128px + env(safe-area-inset-bottom,0px));left:12px;right:12px;transform:none;overflow-x:auto;scrollbar-width:none}.demo2 button{white-space:nowrap;flex:none}
 }
 
-/* ---- trading plan (12.11): the button under Noam's line + the plan dialog ---- */
 .planb{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:38px;margin-top:12px;padding:0 16px;border:0;border-radius:999px;background:rgba(var(--tint),.08);color:var(--fg);font:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
 .planb:hover{background:rgba(var(--tint),.14)}
 .coach .bub .planb span{font-size:inherit;font-weight:inherit;line-height:1.2;color:inherit}
 .planb .i{width:16px;height:16px;color:var(--sky)}
 .dlg.wide:has(.pl){width:min(620px,100%)}
-.pl .pl-seg{display:flex;margin:18px 0 16px}
-.pl .pl-seg button{flex:1}
-.pl-pane{display:grid;gap:8px}
-.pl-pane[hidden]{display:none}
-.pl-tmp{font-size:13px;color:var(--faint)}
-.pl-card{display:flex;align-items:flex-start;gap:12px;width:100%;padding:14px 16px;border:0;border-radius:16px;background:var(--block2);color:var(--fg);font:inherit;text-align:right;cursor:pointer;transition:background .2s}
-.pl-card:hover{background:var(--block2h)}
-.pl-r{width:20px;height:20px;flex:none;margin-top:2px;border-radius:6px;background:rgba(125,198,255,.16);display:grid;place-items:center;color:#fff;transition:background .2s}
-.pl-r svg{width:12px;height:12px;opacity:0}
-.pl-card.on .pl-r{background:var(--royal)}.pl-card.on .pl-r svg{opacity:1}
-.pl-tx{display:grid;gap:8px;min-width:0}
-.pl-tx>b{font-size:16px;font-weight:500}
-.pl-ch{display:flex;flex-wrap:wrap;gap:6px}
-.pl-ch span{font-size:13px;color:var(--muted);background:var(--raised);border-radius:999px;padding:4px 10px}
-.pl-ch b{font-weight:500;color:var(--fg)}
-.pl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.pl .inp{background:var(--block2)}
-.pl .inp:hover,.pl .inp:focus{background:var(--block2h)}
-.pl-in{position:relative}
-.pl-in i{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-style:normal;font-size:14px;color:var(--muted);pointer-events:none}
-.pl-in .inp{padding-left:34px}
-.pl-ck{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:14px;color:var(--fg);cursor:pointer}
-.pl-act{display:flex;gap:8px;margin-top:20px}
-@media (max-width:600px){.planb{height:34px;margin-top:10px;padding:0 12px;font-size:13px}.pl-grid{grid-template-columns:1fr}}
 
 /* ---- Noam on a calendar day (12.11): the coach card, small, inside the day dialog ---- */
 .coach .bub small:empty{display:none}
@@ -112,3 +87,59 @@ body.pg-dash #pgSub{display:none}
   #coach .av img{right:14px;bottom:0;width:128px;-webkit-mask-image:linear-gradient(#000 68%,transparent 100%);mask-image:linear-gradient(#000 68%,transparent 100%)}
   #coach .bub{padding:12px 20px 20px}
 }
+/* plan dialog (12.11, Noam's spec) */
+.pl .sub{margin-top:6px}
+.pl .inp{background:var(--block2)}
+.pl .inp:hover,.pl .inp:focus{background:var(--block2h)}
+.pl-path{display:grid;gap:8px;margin-top:18px}
+.pl-card{display:flex;align-items:flex-start;gap:14px;width:100%;padding:16px 18px;border:0;border-radius:16px;background:var(--block2);color:var(--fg);font:inherit;text-align:right;cursor:pointer;transition:background .2s}
+.pl-card:hover{background:var(--block2h)}
+.pl-ic{width:40px;height:40px;flex:none;border-radius:12px;background:rgba(125,198,255,.12);display:grid;place-items:center;color:var(--sky)}
+.pl-ic .i{width:20px;height:20px}
+.pl-tx{display:grid;gap:4px;min-width:0}
+.pl-tx small{font-size:12px;font-weight:500;color:var(--sky)}
+.pl-tx b{font-size:16px;font-weight:500}
+.pl-tx>span{font-size:14px;color:var(--muted)}
+.pl-q{display:grid;gap:8px;margin-top:18px}
+.pl-q label,.pl-lbl{font-size:14px;color:var(--fg);font-weight:500}
+.pl>.pl-lbl{display:block;margin-top:22px;margin-bottom:8px}
+.pl-in{position:relative}
+.pl-in i{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-style:normal;font-size:14px;color:var(--muted);pointer-events:none}
+.pl-in .inp{padding-left:34px;font-family:var(--en)}
+.pl-link{justify-self:start;border:0;background:none;padding:0;color:var(--sky);font:inherit;font-size:13px;cursor:pointer}
+.pl-link:hover{text-decoration:underline}
+.pl-calc{display:grid;gap:8px;padding:14px 16px;border-radius:16px;background:var(--block2)}
+.pl-calc[hidden]{display:none}
+.pl-calc .inp{background:var(--block)}
+.pl-calc p{margin:0;font-size:13px;color:var(--muted)}
+.pl-calc p .en{color:var(--fg);font-weight:500}
+.pl .pl-calc .pl-use{justify-self:start;height:34px;padding:0 14px;background:rgba(var(--tint),.08);color:var(--fg)}
+.pl-step{display:inline-flex;align-items:center;gap:6px;justify-self:start;padding:4px;border-radius:999px;background:var(--block2)}
+.pl-step button{width:38px;height:38px;border:0;border-radius:999px;background:none;color:var(--fg);display:grid;place-items:center;cursor:pointer;transition:background .2s}
+.pl-step button:hover{background:var(--block2h)}
+.pl-step .i{width:16px;height:16px}
+.pl-step b{min-width:28px;text-align:center;font-size:16px;font-weight:500}
+.pl-rules{display:grid;gap:4px;padding:8px;border-radius:16px;background:var(--block2)}
+.pl-rules[hidden]{display:none}
+.pl-rule{display:flex;align-items:flex-start;gap:12px;padding:10px;border-radius:12px;font-size:14px;color:var(--fg);cursor:pointer;line-height:1.45}
+.pl-rule .ck{flex:none}
+.pl-w2{flex-direction:column;gap:8px;cursor:default}
+.pl-opts{display:flex;flex-wrap:wrap;gap:6px}
+.pl-opts button{border:0;border-radius:999px;padding:8px 14px;background:var(--block);color:var(--muted);font:inherit;font-size:13px;cursor:pointer;text-align:right;transition:color .2s,background .2s}
+.pl-opts button:hover{color:var(--fg)}
+.pl-opts button.on{background:var(--fg);color:var(--ink);font-weight:500}
+.pl .pl-rule .pl-mini{display:inline-block;width:56px;height:34px;padding:0 8px;margin:0 4px;text-align:center;vertical-align:middle;font-family:var(--en)}
+.pl-adv .pl-q{margin:4px 10px 10px}
+.pl-adv .inp{background:var(--block)}
+.pl-adv-t{display:inline-flex;align-items:center;gap:6px;margin-top:16px;margin-bottom:8px;border:0;background:none;padding:0;color:var(--muted);font:inherit;font-size:14px;cursor:pointer}
+.pl-adv-t:hover{color:var(--fg)}
+.pl-adv-t .i{width:16px;height:16px;transition:transform .2s}
+.pl-adv-t[aria-expanded="true"] .i{transform:rotate(180deg)}
+.pl-sum{display:grid;gap:12px;margin-top:18px;padding:18px 20px;border-radius:16px;background:var(--block2)}
+.pl-sum p{margin:0;font-size:16px;line-height:1.55;color:var(--fg)}
+.pl-sum p .en{font-weight:500}
+.pl-sum q{font-size:14px;color:var(--muted);quotes:"\201D" "\201C"}
+.pl-ch{display:flex;flex-wrap:wrap;gap:6px}
+.pl-ch>span{font-size:13px;color:var(--muted);background:var(--raised);border-radius:999px;padding:4px 10px}
+.pl-act{display:flex;gap:8px;margin-top:20px}
+@media (max-width:600px){.planb{height:34px;margin-top:10px;padding:0 12px;font-size:13px}.pl-card{padding:14px}}
