@@ -14,7 +14,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",Roboto,sans-serif;padding:56px 16px 96px}
 .en{font-family:Roboto,sans-serif;font-weight:500}
-.wrap{width:min(1200px,100%);margin:0 auto}
+.wrap{width:min(1171px,100%);margin:0 auto}
 .opt{margin-top:64px}
 .opt:first-of-type{margin-top:0}
 /* option name, for Roni only: label on its own line above, on the right */
@@ -34,7 +34,7 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
 .in{flex:1;min-width:0;height:52px;border:0;border-radius:999px;padding:0 22px;background:rgba(18,22,31,.16);color:#fff;
   font:400 16px "IBM Plex Sans Hebrew",system-ui,sans-serif;outline:none;text-align:right;direction:rtl;transition:background .2s}
 .in::placeholder{color:rgba(255,255,255,.85);text-align:right}
-.in:hover,.in:focus{background:rgba(18,22,31,.24)}
+.in:hover,.in:focus,.in:focus-visible{background:rgba(18,22,31,.26);outline:none;box-shadow:none}
 .in[type=email]:not(:placeholder-shown){direction:ltr;text-align:right}
 .fine{margin:0;font-size:13px;line-height:1.5;color:rgba(255,255,255,.85)}
 .btn{position:relative;overflow:hidden;flex:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border:0;border-radius:999px;
@@ -72,10 +72,10 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
 @keyframes ring{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}100%{box-shadow:0 0 0 14px rgba(255,255,255,0)}}
 /* 4: hover only - the fill turns navy from the right and the arrow slides out and back in */
 .m4{transition:color .35s}
-.m4::before{content:"";position:absolute;inset:0;background:#4F6BFF;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.6,0,.2,1);border-radius:inherit}
+.m4::before{content:"";position:absolute;inset:0;background:#12161F;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.6,0,.2,1);border-radius:inherit}
 .m4>*{position:relative}
-.m4:hover{color:#fff}.m4:hover::before{transform:scaleX(1)}
-.m4:hover svg{animation:out-in .5s ease forwards}
+.m4:hover,.m4.hov{color:#fff}.m4:hover::before,.m4.hov::before{transform:scaleX(1)}
+.m4:hover svg,.m4.hov svg{animation:out-in .5s ease forwards}
 @keyframes out-in{0%{transform:none;opacity:1}45%{transform:translateX(-14px);opacity:0}46%{transform:translateX(14px);opacity:0}100%{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.m1::after,.m2 svg,.m3::before{animation:none}}
 
@@ -118,6 +118,7 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
 <script>
 const list=document.getElementById("list"),tpl=document.getElementById("tpl");
 list.insertAdjacentHTML("beforebegin",`<div class="wrap ctl" id="ctl">
+ <div class="grp"><span>מצב הבאנר</span><button data-st="idle" class="on">רגיל</button><button data-st="hov">עכבר על הכפתור</button><button data-st="done">אחרי הרשמה</button></div>
  <div class="grp"><span>חוזק הטקסטורה</span><input type="range" id="str" min="0" max="100" value="41"><output id="strV" class="en">41%</output></div>
  <div class="grp"><span>גרסת הנוזל</span><button data-v="7">1</button><button data-v="8" class="on">2</button><button data-v="9">3</button></div>
  <div class="grp"><span>איך הטקסטורה יושבת על הצבע</span><button data-b="">רגיל</button><button data-b="soft" class="on">רך, רק אור וצל</button><button data-b="lum">שומר על צבעי הלוגו</button></div>
@@ -129,6 +130,7 @@ const set=v=>{c.style.setProperty("--s",v/100);document.getElementById("strV").t
 document.getElementById("str").addEventListener("input",e=>set(+e.target.value));
 document.addEventListener("click",e=>{const v=e.target.closest("[data-v]"),b=e.target.closest("[data-b]");
   if(v){document.querySelectorAll("[data-v]").forEach(x=>x.classList.toggle("on",x===v));document.getElementById("liq").style.backgroundImage=`url(tex/t${v.dataset.v}.jpg)`;}
+  const st=e.target.closest("[data-st]");if(st){document.querySelectorAll("[data-st]").forEach(x=>x.classList.toggle("on",x===st));const bt=c.querySelector(".btn");bt.classList.toggle("hov",st.dataset.st==="hov");c.classList.toggle("done",st.dataset.st==="done");}
   if(b){document.querySelectorAll("[data-b]").forEach(x=>x.classList.toggle("on",x===b));c.classList.remove("soft","lum");if(b.dataset.b)c.classList.add(b.dataset.b);}});
 document.addEventListener("submit",e=>{e.preventDefault();const f=e.target,n=f.elements.first_name,m=f.elements.email;
   if(!n.value.trim()){n.focus();return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.value.trim())){m.focus();return;}f.closest(".nl").classList.add("done");});
