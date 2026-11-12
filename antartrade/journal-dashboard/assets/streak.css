@@ -58,3 +58,34 @@ body.pg-dash #pgSub{display:none}
   .rs-days{gap:4px}.rs-days .rs-d i{border-radius:7px}
   .demo2{bottom:calc(128px + env(safe-area-inset-bottom,0px));left:12px;right:12px;transform:none;overflow-x:auto;scrollbar-width:none}.demo2 button{white-space:nowrap;flex:none}
 }
+
+/* ---- trading plan (12.11): the button under Noam's line + the plan dialog ---- */
+.planb{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:38px;margin-top:12px;padding:0 16px;border:0;border-radius:999px;background:rgba(var(--tint),.08);color:var(--fg);font:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
+.planb:hover{background:rgba(var(--tint),.14)}
+.coach .bub .planb span{font-size:inherit;font-weight:inherit;line-height:1.2;color:inherit}
+.planb .i{width:16px;height:16px;color:var(--sky)}
+.dlg.wide:has(.pl){width:min(620px,100%)}
+.pl .pl-seg{display:flex;margin:18px 0 16px}
+.pl .pl-seg button{flex:1}
+.pl-pane{display:grid;gap:8px}
+.pl-pane[hidden]{display:none}
+.pl-tmp{font-size:13px;color:var(--faint)}
+.pl-card{display:flex;align-items:flex-start;gap:12px;width:100%;padding:14px 16px;border:0;border-radius:16px;background:var(--block2);color:var(--fg);font:inherit;text-align:right;cursor:pointer;transition:background .2s}
+.pl-card:hover{background:var(--block2h)}
+.pl-r{width:20px;height:20px;flex:none;margin-top:2px;border-radius:6px;background:rgba(125,198,255,.16);display:grid;place-items:center;color:#fff;transition:background .2s}
+.pl-r svg{width:12px;height:12px;opacity:0}
+.pl-card.on .pl-r{background:var(--royal)}.pl-card.on .pl-r svg{opacity:1}
+.pl-tx{display:grid;gap:8px;min-width:0}
+.pl-tx>b{font-size:16px;font-weight:500}
+.pl-ch{display:flex;flex-wrap:wrap;gap:6px}
+.pl-ch span{font-size:13px;color:var(--muted);background:var(--raised);border-radius:999px;padding:4px 10px}
+.pl-ch b{font-weight:500;color:var(--fg)}
+.pl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pl .inp{background:var(--block2)}
+.pl .inp:hover,.pl .inp:focus{background:var(--block2h)}
+.pl-in{position:relative}
+.pl-in i{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-style:normal;font-size:14px;color:var(--muted);pointer-events:none}
+.pl-in .inp{padding-left:34px}
+.pl-ck{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:14px;color:var(--fg);cursor:pointer}
+.pl-act{display:flex;gap:8px;margin-top:20px}
+@media (max-width:600px){.planb{height:34px;margin-top:10px;padding:0 12px;font-size:13px}.pl-grid{grid-template-columns:1fr}}
