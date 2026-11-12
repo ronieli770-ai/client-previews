@@ -1625,6 +1625,13 @@
     .about .af-t .af-a,.about .af-t .af-b{display:inline;position:static;transform:none;translate:none}
     .about .af-p2 .t-m b::before{content:"\A";white-space:pre}
   }
+  /* contact on a phone: the whole question fits one screen - the bar, the title, the answers and the orange horizon under them */
+  @media (max-width:860px){
+    .contact{min-height:0;height:100vh;height:100svh;padding-top:84px;
+      background:radial-gradient(190% 76% at 50% 4%,#030303 86%,#290801 91%,rgba(148,33,0,.65) 95%,rgba(199,51,26,0) 100%),linear-gradient(180deg,#A82912 0%,#C7331A 60%,#E04A21 70%,#FA9154 78%,#FFC4A1 86%,#FFF4EE 92%,#FFF4EE 100%)}
+    .ct-step{top:132px;gap:16px}
+    .ct-step .ct-lead{margin-top:0}
+  }
 </style>
 </head>
 <body>
