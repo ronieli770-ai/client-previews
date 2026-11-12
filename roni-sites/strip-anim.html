@@ -48,11 +48,11 @@ function frame(){
   document.getElementById('hint').style.opacity = scrollY > 20 ? 0 : 1;
   const half = tr.scrollWidth / 2;
   if (O === '1') {          /* rush: scroll speed becomes strip speed, same direction both ways */
-    boost += (Math.abs(dy) * 1.6 - boost) * .12; vel = .5 + boost;
+    boost += (Math.abs(dy) * 1.6 - boost) * .35; vel = .5 + boost;
   } else if (O === '2') {   /* follow: down runs one way, up runs the other */
-    boost += (dy * 1.8 - boost) * .12; vel = .5 + boost;
+    boost += (dy * 1.8 - boost) * .35; vel = .5 + boost;
   } else {                  /* rush with a stretch: the covers lean and blur with the speed */
-    boost += (Math.abs(dy) * 1.6 - boost) * .12; vel = .5 + boost;
+    boost += (Math.abs(dy) * 1.6 - boost) * .35; vel = .5 + boost;
   }
   pos = ((pos + vel) % half + half) % half;
   tr.style.transform = 'translateX(' + pos.toFixed(1) + 'px)';
