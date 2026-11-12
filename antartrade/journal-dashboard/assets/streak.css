@@ -109,6 +109,6 @@ body.pg-dash #pgSub{display:none}
 @media (max-width:600px){
   #coach{flex-direction:column;align-items:stretch;margin-top:104px;min-height:0}
   #coach .av{width:100%;height:30px;margin-top:0;flex:none}
-  #coach .av img{right:14px;bottom:0;width:128px}
+  #coach .av img{right:14px;bottom:0;width:128px;-webkit-mask-image:linear-gradient(#000 68%,transparent 100%);mask-image:linear-gradient(#000 68%,transparent 100%)}
   #coach .bub{padding:12px 20px 20px}
 }
