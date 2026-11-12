@@ -72,7 +72,7 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
 @keyframes ring{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}100%{box-shadow:0 0 0 14px rgba(255,255,255,0)}}
 /* 4: hover only - the fill turns navy from the right and the arrow slides out and back in */
 .m4{transition:color .35s}
-.m4::before{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.6,0,.2,1);border-radius:inherit}
+.m4::before{content:"";position:absolute;inset:0;background:#4F6BFF;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.6,0,.2,1);border-radius:inherit}
 .m4>*{position:relative}
 .m4:hover{color:#fff}.m4:hover::before{transform:scaleX(1)}
 .m4:hover svg{animation:out-in .5s ease forwards}
@@ -118,14 +118,14 @@ body{margin:0;background:var(--navy);color:#fff;font:400 16px/1.5 "Fb Reforma",R
 <script>
 const list=document.getElementById("list"),tpl=document.getElementById("tpl");
 list.insertAdjacentHTML("beforebegin",`<div class="wrap ctl" id="ctl">
- <div class="grp"><span>חוזק הטקסטורה</span><input type="range" id="str" min="0" max="100" value="35"><output id="strV" class="en">35%</output></div>
- <div class="grp"><span>גרסת הנוזל</span><button data-v="7" class="on">1</button><button data-v="8">2</button><button data-v="9">3</button></div>
- <div class="grp"><span>איך הטקסטורה יושבת על הצבע</span><button data-b="" class="on">רגיל</button><button data-b="soft">רך, רק אור וצל</button><button data-b="lum">שומר על צבעי הלוגו</button></div>
+ <div class="grp"><span>חוזק הטקסטורה</span><input type="range" id="str" min="0" max="100" value="41"><output id="strV" class="en">41%</output></div>
+ <div class="grp"><span>גרסת הנוזל</span><button data-v="7">1</button><button data-v="8" class="on">2</button><button data-v="9">3</button></div>
+ <div class="grp"><span>איך הטקסטורה יושבת על הצבע</span><button data-b="">רגיל</button><button data-b="soft" class="on">רך, רק אור וצל</button><button data-b="lum">שומר על צבעי הלוגו</button></div>
 </div>`);
 const c=tpl.content.firstElementChild.cloneNode(true);
-c.insertAdjacentHTML("afterbegin",'<div class="tx liq" id="liq" style="background-image:url(tex/t7.jpg)"></div><div class="tx veil"></div>');
-c.querySelector(".btn").classList.add("m4");list.appendChild(c);
-const set=v=>{c.style.setProperty("--s",v/100);document.getElementById("strV").textContent=v+"%";};set(35);
+c.insertAdjacentHTML("afterbegin",'<div class="tx liq" id="liq" style="background-image:url(tex/t8.jpg)"></div><div class="tx veil"></div>');
+c.querySelector(".btn").classList.add("m4");c.classList.add("soft");list.appendChild(c);
+const set=v=>{c.style.setProperty("--s",v/100);document.getElementById("strV").textContent=v+"%";};set(41);
 document.getElementById("str").addEventListener("input",e=>set(+e.target.value));
 document.addEventListener("click",e=>{const v=e.target.closest("[data-v]"),b=e.target.closest("[data-b]");
   if(v){document.querySelectorAll("[data-v]").forEach(x=>x.classList.toggle("on",x===v));document.getElementById("liq").style.backgroundImage=`url(tex/t${v.dataset.v}.jpg)`;}
