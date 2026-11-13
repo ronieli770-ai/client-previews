@@ -1119,3 +1119,58 @@ a.g-eqb{text-decoration:none}
 @media (max-width:760px){.c9-map .c9-mc img{width:30px}.c9-map .c9-st img{width:44px}.c9-map .c9-st.final img{width:52px}}
 .c9-map .g-wl b{display:flex}
 .c9-bd span small{font-size:12px;color:inherit;line-height:1.3}
+/* the map shows days only; each goal's shield carries its number, and the goal names sit in their own row under the map (Roni 13.11) */
+.c9-map .c9-st i{top:auto;bottom:-6px;left:50%;transform:translateX(-50%);width:24px;height:24px;font-style:normal;font-size:13px;font-weight:600;background:var(--raised);color:#fff;box-shadow:0 0 0 3px var(--block)}
+.c9-map .c9-st.ok i{background:var(--c-mint);color:#12161F}
+.c9-map .c9-st.first:not(.ok) i{background:var(--c-sun);color:#12161F}
+.c9-gl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.c9-gli{display:flex;align-items:center;gap:10px;background:var(--block2);border-radius:16px;padding:12px 14px}
+.c9-gli .n{width:28px;height:28px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--raised);font-size:13px;font-weight:600;color:rgba(var(--fg-rgb),.6)}
+.c9-gli .n .i{width:15px;height:15px;stroke-width:2.6}
+.c9-gli .tx{display:flex;flex-direction:column;gap:1px;min-width:0}
+.c9-gli small{font-size:12px;color:rgba(var(--fg-rgb),.42)}
+.c9-gli b{font-size:14px;font-weight:500;line-height:1.3}
+.c9-gli.first{background:linear-gradient(160deg,rgba(247,198,90,.14),rgba(247,198,90,.02) 60%),var(--block2)}
+.c9-gli.first .n{background:var(--c-sun);color:#12161F}
+.c9-gli.first small{color:var(--c-sun)}
+.c9-gli.ok .n{background:var(--c-mint);color:#12161F}
+.c9-gli.ok small{color:var(--c-mint)}
+.c9-gli.cur:not(.first){background:linear-gradient(160deg,rgba(79,107,255,.2),rgba(125,198,255,.04) 60%),var(--block2)}
+.c9-gli.cur:not(.first) small{color:var(--sky)}
+@media (max-width:760px){.c9-gl{grid-template-columns:minmax(0,1fr);gap:8px}}
+
+/* goal names under the map: one per row, so a long name never wraps */
+.c9-gl{grid-template-columns:minmax(0,1fr)!important;gap:8px}
+/* map chests are buttons; a locked chest wears a lock */
+.c9-map .c9-mc{all:unset;position:absolute;transform:translate(50%,-50%);display:grid;place-items:center;z-index:1;cursor:pointer}
+.c9-map .c9-mc:disabled{cursor:default}
+.c9-map .c9-mc:focus-visible{outline:2px solid var(--sky);outline-offset:3px;border-radius:10px}
+.c9-map .c9-mc img{transition:transform .2s}
+.c9-map .c9-mc:not(:disabled):hover img{transform:translateY(-2px)}
+.c9-lkb{position:absolute;top:-6px;left:-6px;width:20px;height:20px;border-radius:50%;background:var(--c-sun);color:#12161F;display:grid;place-items:center;font-style:normal;box-shadow:0 0 0 3px var(--block)}
+.c9-lkb .i{width:12px;height:12px;stroke-width:2.4}
+.c9-map .c9-mc.lk em{color:var(--c-sun)}
+.c9-gi{position:relative;display:inline-block}
+.c9-g .c9-lkb{top:-2px;left:-4px;box-shadow:0 0 0 3px var(--block2)}
+/* the risk step: two cards, every label above its value, all on the right edge, same paddings */
+.c9-rs{display:flex;flex-direction:column;gap:12px}
+.c9-rc{background:var(--raised);border-radius:18px;padding:18px;display:flex;flex-direction:column;align-items:stretch;gap:12px;text-align:right}
+.c9-rc .lab{font-size:13px;color:rgba(var(--fg-rgb),.42)}
+.c9-rc .nm{font-size:16px;font-weight:500;margin-top:-8px}
+.c9-rc p{margin:0;font-size:14px;color:var(--muted);line-height:1.55}
+.c9-rs .c9-bd{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.c9-rs .c9-bd>div{display:flex;flex-direction:column;align-items:flex-start;gap:2px;border-radius:14px;padding:12px 14px;background:var(--block2)}
+.c9-rs .c9-bd b{font-size:22px;line-height:1.1;color:rgba(var(--fg-rgb),.42)}
+.c9-rs .c9-bd small{font-size:12px;line-height:1.3;color:rgba(var(--fg-rgb),.42)}
+.c9-rs .c9-bd>div.on{background:rgba(125,198,255,.16)}
+.c9-rs .c9-bd>div.on b{color:#fff}
+.c9-rs .c9-bd>div.on small{color:var(--sky)}
+.c9-rv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.c9-rv>div{display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:var(--block2);border-radius:14px;padding:12px 14px}
+.c9-rv small{font-size:12px;color:rgba(var(--fg-rgb),.42)}
+.c9-rv b{font-size:22px;line-height:1.15}
+.c9-rv .r b{color:var(--c-sun)}
+.c9-fx{margin:0;font-size:13px;color:rgba(var(--fg-rgb),.42)}
+.c9-rc{background:var(--block2)!important}
+.c9-rs .c9-bd>div,.c9-rv>div{background:var(--block)!important}
+.c9-rs .c9-bd>div.on{background:rgba(125,198,255,.16)!important}
