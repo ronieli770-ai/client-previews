@@ -2206,7 +2206,8 @@
     stV += ((stHover ? 0 : 22) - stV) * .06; stOff += stV * dt;
     const stPh = innerWidth <= 860, sdy = scrollY - stY; stY = scrollY;
     stB += (Math.abs(sdy) * 1.6 - stB) * .35; stOff += stB;
-    const stSk = Math.min(18, stB * .55), stBl = Math.min(6, stB * .16);
+    /* the stretch and blur are for phones only; on a computer the covers just speed up and stay sharp */
+    const stSk = stPh ? Math.min(18, stB * .55) : 0, stBl = stPh ? Math.min(6, stB * .16) : 0;
     if (scrollY < innerHeight * 1.2){
       const W = innerWidth, TW = stripCards[0].offsetWidth, step = TW + (W < 769 ? 14 : 24), span = stripCards.length * step;
       const R = W * (W < 769 ? 1.15 : .8);
