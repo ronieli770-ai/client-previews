@@ -263,7 +263,11 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-in]");if(!
   if(k==="cal"){const c=document.querySelector(".cal");if(c)c.scrollIntoView({behavior:"smooth",block:"center"});return;}
   if(k==="skip")PLAN.skip=b.dataset.v;else if(k==="rr")PLAN.rr2=1.5;else if(k==="short")PLAN.line="לחשוב פעמיים לפני כניסה לשורט";
   else if(k==="brk")PLAN.brk=15;else if(k==="com"){PLAN.t=2;PLAN.l=Math.min(PLAN.l||2,2);}
-  try{localStorage.setItem("atPlan",JSON.stringify(PLAN))}catch(_){}set(cur);});
+  try{localStorage.setItem("atPlan",JSON.stringify(PLAN))}catch(_){}set(cur);
+  /* say what changed, then bring Noam's card into view so the new line is seen */
+  const MSG={skip:`עודכן בתוכנית: בלי סשן ${SES[PLAN.skip]||""}`,rr:"עודכן בתוכנית: יעד של 1.5 פעמים הסיכון",short:"נוספה תזכורת לתוכנית",brk:`עודכן בתוכנית: הפסקה של ${PLAN.brk} דקות`,com:`עודכן בתוכנית: עד ${PLAN.t} עסקאות ביום`};
+  if(typeof toast==="function")toast(MSG[k],"מעכשיו הרצף והמשפטים של נועם הולכים לפי זה");
+  const co=$$("coach");if(co)setTimeout(()=>co.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"}),400);});
 document.addEventListener("click",e=>{const b=e.target.closest(".demo2 [data-st]");if(!b)return;document.querySelectorAll(".demo2 [data-st]").forEach(x=>x.classList.toggle("on",x===b));set(b.dataset.st);});
 ["before","one","stopped","violation","clean","weekend"].forEach(k=>{const i=new Image();i.src=`avatar/noam-${k}.webp`;});
 set("back");
