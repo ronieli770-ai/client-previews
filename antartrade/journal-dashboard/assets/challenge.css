@@ -1067,3 +1067,5 @@ a.g-eqb{text-decoration:none}
 /* 13.11 drawn prizes on the scratch card: the ticket (day 45) turned flatter, the double coins (day 75) a little smaller; both sit a bit further from the line under them */
 .c9-under .c9-art-tix{width:34%;rotate:22deg;margin-bottom:14px}
 .c9-under .c9-art-dbl{width:30%;margin-bottom:12px}
+/* 13.11 the day tile in the top bar: its three lines sit in the middle of the tile */
+.g-hud>.g-day{justify-content:center!important}
