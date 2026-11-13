@@ -889,7 +889,6 @@ document.addEventListener("input",e=>{
   const pos=e.target.selectionStart;view();const r=$("chRisk");if(r){r.focus();try{r.setSelectionRange(pos,pos);}catch(_){}}
 });
 document.addEventListener("keydown",e=>{if(S.page==="challenge"&&C.wiz&&e.key==="Escape"){C.wiz=0;view();}if(S.page==="challenge"&&(e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("[data-gchest]")){e.preventDefault();gOpenChest(e.target);}});
-if(S.page==="challenge")view();
 /* ---- a prize waiting (Roni 13.11): today a chest or a scratch card only shows when you scroll to it.
    Three signs: a gold dot on the challenge in the menu, a strip at the top of the challenge, and Noam says it on the dashboard ---- */
 function gPend(vk){
@@ -933,4 +932,5 @@ document.addEventListener("click",e=>{const x=e.target.closest("[data-gwait]");i
 (()=>{const hook=()=>{gAlerts();const co=document.getElementById("coach");if(co&&!co._c9){co._c9=1;new MutationObserver(gAlerts).observe(co,{childList:true});}};
   new MutationObserver(hook).observe(document.body,{attributes:true,attributeFilter:["class"]});
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(hook,60));else setTimeout(hook,60);})();
+if(S.page==="challenge")view();
 })();
