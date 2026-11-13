@@ -79,6 +79,7 @@ h1{margin:0;font-size:30px;font-weight:500;line-height:1.1}
     <div class="row"><small>מצב התיבה</small><button data-cs="closed">סגורה, לפני שפותחים</button><button data-cs="open" class="on">נפתחה</button></div>
     <div class="row"><small>כרטיסי גירוד</small><span id="swS"></span></div>
     <div class="row"><small>מצב הכרטיס</small><button data-ss="cover" class="on">לפני גירוד</button><button data-ss="done">אחרי גירוד</button></div>
+    <div class="row" id="artRow"><small>ציור הפרס</small><button data-art="1" class="on">ציור 1</button><button data-art="2">ציור 2</button><button data-art="3">ציור 3</button></div>
   </div>
 
   <div class="state">
@@ -111,7 +112,9 @@ const SCR=[[15,["pts",60]],[45,["tix",1]],[75,["dblday"]]];
 const NOTE={10:"בתוכנית של נועם כתוב כאן \"או\": מטבעות כפולים ביעד הבא, או שומר רצף נוסף. עד שיענה מוצגת האפשרות הראשונה.",
   60:"בתוכנית של נועם כתוב כאן \"או\". עד שיענה מוצגים שני הפרסים יחד.",
   90:"נפתחת גם כשמסיימים את יום 90, ועם קונפטי."};
-let S={mode:"goal",goal:5,cs:"open",scr:15,ss:"cover"};
+let S={mode:"goal",goal:5,cs:"open",scr:15,ss:"cover",art:1};
+/* day 45 and 75: a drawn prize like the coin stack, three options each (assets/game/opt) */
+const ART={tix:"ticket",dblday:"dbl"};
 const swG=document.getElementById("swG"),swS=document.getElementById("swS");
 swG.innerHTML=GOALS.map(([n,t])=>`<button data-g="${n}">${n} ימים · ${t}</button>`).join(" ");
 swS.innerHTML=SCR.map(([d])=>`<button data-s="${d}">יום ${d}</button>`).join(" ");
@@ -121,6 +124,7 @@ function draw(){
   document.querySelectorAll("[data-s]").forEach(b=>b.classList.toggle("on",S.mode==="scr"&&+b.dataset.s===S.scr));
   document.querySelectorAll("[data-cs]").forEach(b=>b.classList.toggle("on",b.dataset.cs===S.cs));
   document.querySelectorAll("[data-ss]").forEach(b=>b.classList.toggle("on",b.dataset.ss===S.ss));
+  document.querySelectorAll("[data-art]").forEach(b=>b.classList.toggle("on",+b.dataset.art===S.art));
   const info=document.getElementById("info"),stage=document.getElementById("stage");
   if(S.mode==="goal"){
     const [n,t,list]=GOALS.find(g=>g[0]===S.goal),open=S.cs==="open";
@@ -138,7 +142,7 @@ function draw(){
       <dt>מתי זה קורה</dt><dd>ביום ${d} של האתגר הכרטיס מופיע בעמוד האתגר. מגרדים עם האצבע או העכבר. כרטיס שלא גורד מחכה לביקור הבא.</dd>
       <dt>${done?"מה רואים":"מה רואים לפני הגירוד"}</dt><dd>${done?"בחצי מגורד השכבה נעלמת, הפרס קופץ, והודעה קטנה אומרת שהוא נכנס לארנק.":"כרטיס נייבי עם הנורות של הלוגו ו\"מגרדים כאן\" בזהב. הפרס מוסתר מתחתיו."}</dd>
       <dt>מה מקבלים</dt></dl>${legend([p])}`;
-    stage.innerHTML=`<span class="tag">${done?"אחרי הגירוד":"לפני הגירוד"}</span><div class="scr c9-scr"><div class="c9-card${done?" ok":""}"><div class="c9-under">${p[0]==="pts"?`<img class="c9-stk" alt="" src="${GI("coins-stack")}">`:przIc(p[0])}<b>${PRZ[p[0]][1](p[1])}</b><small>${p[0]==="pts"?"נכנסו":"נכנס"} לארנק שלך</small></div>${done?"":'<canvas aria-label="כרטיס גירוד"></canvas>'}</div></div>`;
+    stage.innerHTML=`<span class="tag">${done?"אחרי הגירוד":"לפני הגירוד"}</span><div class="scr c9-scr"><div class="c9-card${done?" ok":""}"><div class="c9-under">${p[0]==="pts"?`<img class="c9-stk" alt="" src="${GI("coins-stack")}">`:ART[p[0]]?`<img class="c9-stk" alt="" src="assets/game/opt/${ART[p[0]]}-${S.art}.webp">`:przIc(p[0])}<b>${PRZ[p[0]][1](p[1])}</b><small>${p[0]==="pts"?"נכנסו":"נכנס"} לארנק שלך</small></div>${done?"":'<canvas aria-label="כרטיס גירוד"></canvas>'}</div></div>`;
     if(!done)cover(stage.querySelector("canvas"));
   }
 }
@@ -149,7 +153,7 @@ function cover(cv){const go=()=>{const r=cv.getBoundingClientRect(),dpr=devicePi
   FACE.complete?go():FACE.onload=go;}
 document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
   if(b.dataset.g){S.mode="goal";S.goal=+b.dataset.g;}else if(b.dataset.s){S.mode="scr";S.scr=+b.dataset.s;}
-  else if(b.dataset.cs){S.mode="goal";S.cs=b.dataset.cs;}else if(b.dataset.ss){S.mode="scr";S.ss=b.dataset.ss;}else return;draw();});
+  else if(b.dataset.cs){S.mode="goal";S.cs=b.dataset.cs;}else if(b.dataset.ss){S.mode="scr";S.ss=b.dataset.ss;}else if(b.dataset.art){S.mode="scr";S.ss="done";if(S.scr===15)S.scr=45;S.art=+b.dataset.art;}else return;draw();});
 draw();
 </script>
 </body>
