@@ -1174,3 +1174,37 @@ a.g-eqb{text-decoration:none}
 .c9-rc{background:var(--block2)!important}
 .c9-rs .c9-bd>div,.c9-rv>div{background:var(--block)!important}
 .c9-rs .c9-bd>div.on{background:rgba(125,198,255,.16)!important}
+
+/* a prize waiting (Roni 13.11): the gold dot in the menu, the strip at the top of the challenge, Noam's line on the dashboard */
+.nav a[data-page="challenge"] .c9-dot{margin-inline-start:auto;width:8px;height:8px;border-radius:50%;background:var(--c-sun);flex:none}
+.mnav a[data-page="challenge"]{position:relative}
+.mnav a[data-page="challenge"] .c9-dot{position:absolute;top:3px;left:calc(50% + 7px);width:9px;height:9px;border-radius:50%;background:var(--c-sun)}
+.c9-wait .im,.c9-wco .im{position:relative;flex:none;display:block}
+.c9-wait .im img,.c9-wco .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.c9-wait .im img.cd,.c9-wco .im img.cd{inset:auto;left:-6px;bottom:2px;width:58%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:6px;transform:rotate(-8deg);box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.c9-wait .im.cdo img.cd,.c9-wco .im.cdo img.cd{left:4%;bottom:14%;width:92%}
+.c9-wait{display:flex;align-items:center;gap:20px;border-radius:20px;padding:18px 22px;margin-bottom:16px;background:linear-gradient(135deg,rgba(79,107,255,.22),rgba(125,198,255,.04) 60%),var(--block2)}
+.c9-wait .im{width:84px;height:68px}
+.c9-wait .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;text-align:right}
+.c9-wait .tx small{font-size:13px;color:var(--sky);font-weight:500;line-height:1.3}
+.c9-wait .tx b{font-size:18px;font-weight:500;line-height:1.3}
+.c9-wait .tx p{margin:2px 0 0;font-size:14px;color:var(--muted);line-height:1.5}
+.c9-wait .acts{display:flex;gap:8px;flex-wrap:wrap;flex:none}
+.c9-wait .g-eqb,.c9-wco .g-eqb{margin:0;align-self:center;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.coach .bub .c9-wco{display:flex;align-items:center;gap:14px;margin-top:14px;padding:12px 16px;border-radius:16px;background:rgba(var(--tint),.06)}
+.coach .bub .c9-wco .im{width:52px;height:44px}
+.coach .bub .c9-wco .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.coach .bub .c9-wco .tx small{margin-bottom:2px}
+.coach .bub .c9-wco .tx b{font-size:16px;font-weight:500;line-height:1.3;color:var(--fg)}
+.coach .bub .c9-wco span{font-size:inherit;font-weight:inherit;line-height:inherit;color:inherit}
+@media (max-width:700px){
+  .c9-wait{flex-wrap:wrap;gap:14px;padding:16px}
+  .c9-wait .im{width:64px;height:52px}
+  .c9-wait .tx{flex:1 1 calc(100% - 80px)}
+  .c9-wait .acts{width:100%}
+  .c9-wait .g-eqb{flex:1;justify-content:center}
+  .coach .bub .c9-wco{flex-wrap:wrap;gap:12px;padding:12px}
+  .coach .bub .c9-wco .im{width:44px;height:38px}
+  .coach .bub .c9-wco .tx{flex:1 1 calc(100% - 60px)}
+  .coach .bub .c9-wco .g-eqb{width:100%;justify-content:center}
+}

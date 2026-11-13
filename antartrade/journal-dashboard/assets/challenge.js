@@ -495,6 +495,7 @@ function gDash(){
   const nextTx=v.day===0?"\u05d4\u05d0\u05ea\u05d2\u05e8 \u05de\u05ea\u05d7\u05d9\u05dc \u05d1\u05d9\u05d5\u05dd \u05d4\u05de\u05e1\u05d7\u05e8 \u05d4\u05d1\u05d0 \u05d1\u05d1\u05d5\u05e8\u05e1\u05d4 \u05d4\u05d0\u05de\u05e8\u05d9\u05e7\u05d0\u05d9\u05ea.":g.next?`\u05d4\u05de\u05d8\u05e8\u05d4 \u05e2\u05db\u05e9\u05d9\u05d5: ${st.goal}. \u05d4\u05ea\u05d9\u05d1\u05d4 \u05d4\u05d1\u05d0\u05d4 \u05d1\u05e2\u05d5\u05d3 ${Math.max(g.next[0]-g.plan,1)===1?"\u05d9\u05d5\u05dd \u05d0\u05d7\u05d3":`<span class="num">${g.next[0]-g.plan}</span> \u05d9\u05de\u05d9\u05dd`} \u05dc\u05e4\u05d9 \u05d4\u05ea\u05d5\u05db\u05e0\u05d9\u05ea`:`\u05d4\u05de\u05d8\u05e8\u05d4 \u05e2\u05db\u05e9\u05d9\u05d5: ${st.goal}`;
   const fin=gFinished(v);
   return `<div class="chj g">
+  ${fin?"":gWaitStrip()}
   <div class="g-howrow"><button class="g-howbtn" data-ghow>${SV(CI.compass)}\u05d0\u05d9\u05da \u05d6\u05d4 \u05e2\u05d5\u05d1\u05d3</button></div>
   ${fin?gFinish(v,g):""}
   ${gHud(v,g)}
@@ -824,6 +825,7 @@ function view(){
   document.querySelectorAll("[data-chver]").forEach(b=>b.classList.toggle("on",b.dataset.chver===C.ver));
   document.body.classList.toggle("chj-lock",!!C.wiz);
   if(C.ver==="game")gLinks();
+  gAlerts();
   if(C.ver==="game"&&joined){gRoad();gCount();gScrInit();if(C.view==="d90"&&C.gFin!=="d90"){C.gFin="d90";setTimeout(gFinishFx,350);}}
 }
 window.challengeView=view;
@@ -888,5 +890,47 @@ document.addEventListener("input",e=>{
 });
 document.addEventListener("keydown",e=>{if(S.page==="challenge"&&C.wiz&&e.key==="Escape"){C.wiz=0;view();}if(S.page==="challenge"&&(e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("[data-gchest]")){e.preventDefault();gOpenChest(e.target);}});
 if(S.page==="challenge")view();
+/* ---- a prize waiting (Roni 13.11): today a chest or a scratch card only shows when you scroll to it.
+   Three signs: a gold dot on the challenge in the menu, a strip at the top of the challenge, and Noam says it on the dashboard ---- */
+function gPend(vk){
+  const v=SMP[vk];if(!v||C.ver!=="game"||gFinished(v))return [];
+  const keep=C.view;C.view=vk;let g;try{g=gStats(v);}finally{C.view=keep;}
+  const out=[];if(g.ready&&g.next)out.push({k:"chest",n:g.next[0],t:g.next[1]});if(g.scrWait)out.push({k:"scr",d:g.scrWait[0]});return out;}
+/* the dashboard's demo user is mid-challenge, so before joining it borrows day 23 */
+const gAV=()=>S.page==="challenge"?(C.view==="join"?null:C.view):(C.view==="join"?"d23":C.view);
+const gWImg=P=>P.length>1?`<span class="im"><img alt="" src="${GI("chest")}"><img class="cd" alt="" src="${GI("scratch-face")}"></span>`
+  :P[0].k==="chest"?`<span class="im"><img alt="" src="${GI("chest")}"></span>`:`<span class="im cdo"><img class="cd" alt="" src="${GI("scratch-face")}"></span>`;
+const gWName=p=>p.k==="chest"?`\u05ea\u05d9\u05d1\u05d4 \u05e9\u05dc <span class="num">${p.n}</span> \u05d9\u05de\u05d9\u05dd`:`\u05db\u05e8\u05d8\u05d9\u05e1 \u05d2\u05d9\u05e8\u05d5\u05d3 \u05e9\u05dc \u05d9\u05d5\u05dd <span class="num">${p.d}</span>`;
+function gWaitStrip(){
+  const P=gPend(C.view);if(!P.length)return "";
+  const two=P.length>1,ch=P.find(p=>p.k==="chest");
+  const title=two?`\u05de\u05d7\u05db\u05d9\u05dd \u05dc\u05da <span class="num">2</span> \u05e4\u05e8\u05e1\u05d9\u05dd`:ch?"\u05de\u05d7\u05db\u05d4 \u05dc\u05da \u05ea\u05d9\u05d1\u05d4":"\u05de\u05d7\u05db\u05d4 \u05dc\u05da \u05db\u05e8\u05d8\u05d9\u05e1 \u05d2\u05d9\u05e8\u05d5\u05d3";
+  const sub=two?`${gWName(P[0])} \u05d5${gWName(P[1])}.`:ch?`\u05d4\u05d2\u05e2\u05ea \u05dc-<span class="num">${ch.n}</span> \u05d9\u05de\u05d9\u05dd \u05dc\u05e4\u05d9 \u05d4\u05ea\u05d5\u05db\u05e0\u05d9\u05ea. \u05de\u05d4 \u05d9\u05e9 \u05d1\u05e4\u05e0\u05d9\u05dd \u05de\u05ea\u05d2\u05dc\u05d4 \u05db\u05e9\u05e4\u05d5\u05ea\u05d7\u05d9\u05dd.`:`\u05d4\u05db\u05e8\u05d8\u05d9\u05e1 \u05e9\u05dc \u05d9\u05d5\u05dd <span class="num">${P[0].d}</span> \u05de\u05d7\u05db\u05d4 \u05e2\u05d3 \u05e9\u05de\u05d2\u05e8\u05d3\u05d9\u05dd \u05d0\u05d5\u05ea\u05d5.`;
+  const btn=p=>`<button class="g-eqb" data-gwait="${p.k}">${p.k==="chest"?"\u05dc\u05e4\u05ea\u05d5\u05d7 \u05d0\u05ea \u05d4\u05ea\u05d9\u05d1\u05d4":"\u05dc\u05d2\u05e8\u05d3 \u05d0\u05ea \u05d4\u05db\u05e8\u05d8\u05d9\u05e1"}${SV(CI.left,"width:16px;height:16px")}</button>`;
+  return `<section class="c9-wait" aria-live="polite">${gWImg(P)}<div class="tx"><small>\u05e4\u05e8\u05e1 \u05de\u05d7\u05db\u05d4</small><b>${title}</b><p>${sub}</p></div><div class="acts">${P.map(btn).join("")}</div></section>`;}
+/* Noam's line on the dashboard, under what he says about the day */
+function gWaitCo(P){
+  const two=P.length>1,k=two?"all":P[0].k;
+  return `${gWImg(P)}<div class="tx"><small>\u05de\u05d7\u05db\u05d4 \u05dc\u05da \u05d1\u05d0\u05ea\u05d2\u05e8 <span class="num">90</span></small><b>${two?"\u05ea\u05d9\u05d1\u05d4 \u05d5\u05db\u05e8\u05d8\u05d9\u05e1 \u05d2\u05d9\u05e8\u05d5\u05d3":gWName(P[0])}</b></div><button class="g-eqb" data-gwait="${k}">${k==="chest"?"\u05dc\u05e4\u05ea\u05d5\u05d7":k==="scr"?"\u05dc\u05d2\u05e8\u05d3":"\u05dc\u05d0\u05ea\u05d2\u05e8"}${SV(CI.left,"width:16px;height:16px")}</button>`;}
+function gAlerts(){
+  const vk=gAV(),P=vk?gPend(vk):[],key=P.map(p=>p.k+(p.n||p.d)).join(",");
+  document.querySelectorAll('.nav a[data-page="challenge"],.mnav a[data-page="challenge"]').forEach(a=>{const dot=a.querySelector(".c9-dot");
+    if(P.length&&!dot){a.insertAdjacentHTML("beforeend",'<i class="c9-dot" aria-hidden="true"></i>');a.setAttribute("aria-label","\u05d0\u05ea\u05d2\u05e8 90, \u05de\u05d7\u05db\u05d4 \u05dc\u05da \u05e4\u05e8\u05e1");}
+    else if(!P.length&&dot){dot.remove();a.removeAttribute("aria-label");}});
+  const bub=document.querySelector("#coach .bub");if(!bub)return;let r=bub.querySelector(".c9-wco");
+  if(!P.length){if(r)r.remove();return;}
+  if(!r){r=document.createElement("div");r.className="c9-wco";bub.insertBefore(r,bub.querySelector(".planb"));}
+  if(r.dataset.k!==key){r.dataset.k=key;r.innerHTML=gWaitCo(P);if(typeof robotoDigits==="function")robotoDigits(r);}}
+/* a click on "to open": straight to the prize, and a chest opens by itself */
+function gGoWait(k){
+  const el=document.querySelector(k==="chest"?".c9-gc":k==="scr"?".c9-scr":".c9-wait");if(!el)return;
+  el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:k==="all"?"start":"center"});
+  if(k==="chest")setTimeout(()=>{const i=document.querySelector("[data-gchest]");if(i)gOpenChest(i);},750);}
+document.addEventListener("click",e=>{const x=e.target.closest("[data-gwait]");if(!x)return;e.preventDefault();const k=x.dataset.gwait;
+  if(S.page==="challenge"){gGoWait(k);return;}
+  if(C.view==="join")C.view="d23";C.wiz=0;C.more=null;setPage("challenge");setTimeout(()=>gGoWait(k),450);});
+/* the dashboard's coach card is drawn by streak.js; watch it and the page switches */
+(()=>{const hook=()=>{gAlerts();const co=document.getElementById("coach");if(co&&!co._c9){co._c9=1;new MutationObserver(gAlerts).observe(co,{childList:true});}};
+  new MutationObserver(hook).observe(document.body,{attributes:true,attributeFilter:["class"]});
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(hook,60));else setTimeout(hook,60);})();
 })();
-
