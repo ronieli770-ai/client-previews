@@ -1069,3 +1069,53 @@ a.g-eqb{text-decoration:none}
 .c9-under .c9-art-dbl{width:30%;margin-bottom:12px}
 /* 13.11 the day tile in the top bar: its three lines sit in the middle of the tile */
 .g-hud>.g-day{justify-content:center!important}
+
+/* ---- Noam's answers, 13.11: chests by total days within the plan (partial and locked), the map as 3 goals, the risk wizard ---- */
+.c9-part{display:flex;align-items:center;gap:10px;margin-top:6px;max-width:320px}
+.c9-part .g-bar{flex:1;margin-top:0}
+.c9-part em{font-style:normal;font-size:13px;color:var(--muted);white-space:nowrap}
+.c9-g .c9-gb{width:100%;height:6px;margin-top:2px}
+.c9-g.lk{background:var(--block2)}
+.c9-g.lk img{filter:grayscale(1) brightness(.4) drop-shadow(0 8px 12px rgba(0,0,0,.45))}
+.c9-g.lk>span{color:var(--c-sun)}
+.g-cdlg .box .c9-chlk{filter:grayscale(1) brightness(.5)}
+.c9-why{display:flex;align-items:flex-start;gap:10px;text-align:right;width:100%;background:var(--block2);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--muted);line-height:1.5;margin-top:6px}
+.c9-why .i{width:18px;height:18px;flex:none;color:var(--c-sun);margin-top:2px}
+.c9-fine{font-size:13px;color:var(--muted)}
+/* the map: chests on the road, the 3 goals as shields that get a tick, "you are here" on the last chest reached */
+.c9-map .c9-mc{position:absolute;transform:translate(50%,-50%);display:grid;place-items:center;z-index:1}
+.c9-map .c9-mc img{width:38px;height:auto;filter:grayscale(1) brightness(.45) drop-shadow(0 6px 10px rgba(0,0,0,.45))}
+.c9-map .c9-mc.on img,.c9-map .c9-mc.nx img{filter:drop-shadow(0 6px 10px rgba(0,0,0,.45))}
+.c9-map .c9-mc em{position:absolute;bottom:-14px;font-style:normal;font-size:11px;font-weight:600;color:rgba(var(--fg-rgb),.42)}
+.c9-map .c9-mc.on em{color:var(--c-sun)}.c9-map .c9-mc.nx em{color:var(--sky)}
+.c9-map .c9-here{transform:translate(50%,-130%);z-index:3}
+.c9-map .c9-st{position:absolute;transform:translate(50%,-50%);z-index:1}
+.c9-map .c9-st img{width:56px;height:auto;filter:grayscale(1) brightness(.5) drop-shadow(0 8px 12px rgba(0,0,0,.45))}
+.c9-map .c9-st.ok img{filter:drop-shadow(0 8px 12px rgba(0,0,0,.45))}
+.c9-map .c9-st.final img{width:66px}
+.c9-map .c9-st i{position:absolute;top:-4px;left:-4px;width:22px;height:22px;border-radius:50%;background:var(--c-mint);color:#12161F;display:grid;place-items:center}
+.c9-map .c9-st i .i{width:13px;height:13px;stroke-width:2.6}
+.c9-map .g-wl b{display:inline-flex;align-items:center;gap:4px;justify-content:center}
+.c9-map .g-wl.ok b{color:var(--c-mint)}
+.c9-map .g-wl.first{color:var(--c-sun);font-weight:500}
+.c9-map .g-wl.first b{background:rgba(247,198,90,.14);color:var(--c-sun);border-radius:999px;padding:2px 10px;margin-bottom:2px}
+.c9-map .g-wl.first.ok b{background:rgba(63,216,194,.14);color:var(--c-mint)}
+/* the risk step: bad days, and the risk per account */
+.c9-bad{background:var(--raised);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.c9-bad small{font-size:13px;color:var(--muted)}
+.c9-bad p{margin:0;font-size:14px;color:var(--muted);line-height:1.55}
+.c9-bd{display:flex;gap:8px}
+.c9-bd span{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border-radius:14px;padding:10px 14px;background:var(--block2);font-size:12px;color:rgba(var(--fg-rgb),.42)}
+.c9-bd span b{font-size:22px;color:rgba(var(--fg-rgb),.42)}
+.c9-bd span.on{background:rgba(125,198,255,.16);color:var(--sky)}
+.c9-bd span.on b{color:#fff}
+.c9-rk{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--raised);border-radius:15px;padding:12px 16px;margin-top:10px}
+.c9-rk>div{display:flex;flex-direction:column;gap:2px}
+.c9-rk small{font-size:13px;color:var(--muted)}
+.c9-rk .v{align-items:flex-start}
+.c9-rk .v b{font-size:22px;color:var(--c-sun)}
+.c9-jp{display:flex;align-items:center;gap:10px;background:rgba(63,216,194,.1);color:var(--c-mint);border-radius:14px;padding:10px 14px;font-size:14px;margin-bottom:12px}
+.c9-jp .i{width:18px;height:18px;flex:none}
+@media (max-width:760px){.c9-map .c9-mc img{width:30px}.c9-map .c9-st img{width:44px}.c9-map .c9-st.final img{width:52px}}
+.c9-map .g-wl b{display:flex}
+.c9-bd span small{font-size:12px;color:inherit;line-height:1.3}
