@@ -1064,3 +1064,6 @@ a.g-eqb{text-decoration:none}
 .c9-under{gap:6px!important}
 .c9-under .c9-stk{width:38%;max-width:200px;height:auto;filter:drop-shadow(0 16px 22px rgba(0,0,0,.55))}
 .c9-card.ok .c9-under .c9-stk{animation:c9Pop .6s .3s cubic-bezier(.3,1.5,.5,1) both}
+/* 13.11 drawn prizes on the scratch card: the ticket (day 45) turned flatter, the double coins (day 75) a little smaller; both sit a bit further from the line under them */
+.c9-under .c9-art-tix{width:34%;rotate:22deg;margin-bottom:14px}
+.c9-under .c9-art-dbl{width:30%;margin-bottom:12px}
