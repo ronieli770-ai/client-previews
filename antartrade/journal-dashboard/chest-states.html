@@ -64,6 +64,12 @@ h1{margin:0;font-size:30px;font-weight:500;line-height:1.1}
 .chest b.big{font-size:30px;font-weight:500;line-height:1.1}
 .chest p{margin:0;color:var(--muted);font-size:15px}
 .chest .c9-pl{max-width:560px}
+.chest b.mid{font-size:22px;font-weight:500;line-height:1.2}
+.chest .c9-part{width:min(320px,80%);margin:4px auto 0}
+.chest .c9-why{max-width:440px}
+.chest.lk .pic img{filter:grayscale(1) brightness(.5) drop-shadow(0 30px 50px rgba(0,0,0,.6))}
+.chest .lkb{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:rgba(11,14,20,.75);color:var(--c-sun)}
+.chest .lkb .i{width:28px;height:28px}
 .cx2{position:relative;display:inline-grid;place-items:center;width:22px;height:22px;flex:none}.cx2 img{width:100%;height:100%;object-fit:contain}.cx2 b{position:absolute;bottom:-4px;left:-6px;font-size:9px;font-weight:600;line-height:1;padding:2px 3px;border-radius:6px;background:var(--c-mint);color:#12161f}
 .legend .ic .cx2{width:22px;height:22px}
 .scr{width:min(520px,100%);display:grid;gap:10px}
@@ -78,7 +84,7 @@ h1{margin:0;font-size:30px;font-weight:500;line-height:1.1}
 
   <div class="sw" role="group" aria-label="בחירת מצב">
     <div class="row"><small>תיבות ביעדי רצף</small><span id="swG"></span></div>
-    <div class="row"><small>מצב התיבה</small><button data-cs="closed">סגורה, לפני שפותחים</button><button data-cs="open" class="on">נפתחה</button></div>
+    <div class="row"><small>מצב התיבה</small><button data-cs="partial">בדרך</button><button data-cs="closed">מוכנה לפתיחה</button><button data-cs="open" class="on">נפתחה</button><button data-cs="locked">ננעלה</button></div>
     <div class="row"><small>כרטיסי גירוד</small><span id="swS"></span></div>
     <div class="row"><small>מצב הכרטיס</small><button data-ss="cover" class="on">לפני גירוד</button><button data-ss="done">אחרי גירוד</button></div>
     <div class="row"><small>אייקונים בתיבה</small><button data-ic="0" class="on">היום</button><button data-ic="1">אפשרות א</button><button data-ic="2">אפשרות ב</button></div>
@@ -98,22 +104,23 @@ const DBL='<path d="M4.5 9.5l5 5M9.5 9.5l-5 5"/><path d="M13.5 10.6a2.6 2.6 0 1 
 const PCT='<path d="M18 6L6 18"/><circle cx="7.5" cy="7.5" r="2.2"/><circle cx="16.5" cy="16.5" r="2.2"/>';
 const REP='<path d="M5 19V9M10 19V5M15 19v-7M20 19v-4"/>';
 const CERT='<rect x="4" y="4.5" width="16" height="11" rx="2"/><path d="M9.5 15.5l-1.5 4 2.5-1 1.5 1.5 1.5-1.5 2.5 1-1.5-4"/><path d="M8 8.5h8M8 11.5h5"/>';
+const SAVER='<path d="M12 3.5l7 2.6v5.2c0 4.3-2.9 7.6-7 9.2-4.1-1.6-7-4.9-7-9.2V6.1z"/><path d="M12 15.6s-3-1.8-3-3.9c0-1.1.8-2 1.8-2 .5 0 .9.2 1.2.6.3-.4.7-.6 1.2-.6 1 0 1.8.9 1.8 2 0 2.1-3 3.9-3 3.9z"/>';
+const LOCK='<rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',ALERT='<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>';
 const PRZ={pts:[null,a=>`<span class="num">${a}</span> מטבעות`,"sun","מטבעות","נכנסים לארנק מיד"],
   tix:[TIX,a=>a>1?`<span class="num">${a}</span> כרטיסי הגרלה`:"כרטיס להגרלה החודשית","sky","כרטיס הגרלה","כרטיס להגרלה החודשית, נשמר בארנק"],
   dbl:[DBL,()=>"מטבעות כפולים ביעד הבא","mint","מטבעות כפולים ביעד הבא","כל המטבעות של היעד הבא שווים פי 2. כתוב גם על התיבה הבאה"],
   dblday:[DBL,()=>"יום של מטבעות כפולים","mint","יום של מטבעות כפולים","ביום אחד כל המטבעות שמרוויחים שווים פי 2"],
   disc:[PCT,()=>`<span class="num">15%</span> הנחה על הקורס ל-<span class="num">7</span> ימים`,"sun","הנחה על הקורס","15% על הקורס המלא, לשבעה ימים, עם ספירה לאחור בארנק"],
   rep:[REP,()=>"הדוח: מה הנתונים שלך אומרים","sky","הדוח של 30 יום","התובנה של 30 יום: באילו שעות הוא מרוויח ומה אחוז ההצלחה"],
-  cert:[CERT,()=>"תעודת סיום","sun","תעודת סיום","תעודה על סיום האתגר, עם כפתור שיתוף"]};
+  cert:[CERT,()=>"תעודת סיום","sun","תעודת סיום","תעודה על סיום האתגר, עם כפתור שיתוף"],
+  saver:[SAVER,()=>"שומר רצף נוסף","mint","שומר רצף נוסף","יום אחד שיצא מהתוכנית לא מאפס את הרצף"]};
 const przIc=k=>{if(k==="pts")return `<img class="c9-pi" alt="" src="${GI("coin")}">`;const o=ICSET[S.ic][k];if(o==="COINX2")return `<span class="cx2"><img alt="" src="${GI("coin")}"><b class="num">x2</b></span>`;return SV(o||PRZ[k][0]);};
 const przChip=([k,a])=>`<span class="c9-prz" style="--c:var(--c-${PRZ[k][2]})">${przIc(k)}<span>${PRZ[k][1](a)}</span></span>`;
 /* the goals and scratch cards, copied from challenge.js (GOALS, SCR) */
-const GOALS=[[5,"מטבעות",[["pts",40]]],[10,"בונוס",[["pts",50],["dbl"]]],[20,"הגרלה",[["tix",1],["pts",50]]],
+const GOALS=[[5,"מטבעות",[["pts",40]]],[10,"בונוס",[["pts",50],["saver"]]],[20,"הגרלה",[["tix",1],["pts",50]]],
   [30,"התובנות שלך + מתנה",[["rep"],["pts",100],["disc"]]],[60,"בונוס",[["pts",150],["tix",1]]],[90,"הפרס הגדול",[["pts",400],["cert"],["tix",2]]]];
 const SCR=[[15,["pts",60]],[45,["tix",1]],[75,["dblday"]]];
-const NOTE={10:"בתוכנית של נועם כתוב כאן \"או\": מטבעות כפולים ביעד הבא, או שומר רצף נוסף. עד שיענה מוצגת האפשרות הראשונה.",
-  60:"בתוכנית של נועם כתוב כאן \"או\". עד שיענה מוצגים שני הפרסים יחד.",
-  90:"נפתחת גם כשמסיימים את יום 90, ועם קונפטי."};
+const NOTE={90:"נפתחת גם כשמסיימים את יום 90, ועם קונפטי."};
 let S={mode:"goal",goal:5,cs:"open",scr:15,ss:"cover",ic:0};
 /* day 45 and 75: the drawn prizes Roni picked (ticket 2, double coins 1), as in challenge.js */
 const ART={tix:"prize-ticket",dblday:"prize-dbl"},ARTC={tix:"c9-art-tix",dblday:"c9-art-dbl"};
@@ -133,15 +140,22 @@ function draw(){
   document.querySelectorAll("[data-ic]").forEach(b=>b.classList.toggle("on",+b.dataset.ic===S.ic));
   const info=document.getElementById("info"),stage=document.getElementById("stage");
   if(S.mode==="goal"){
-    const [n,t,list]=GOALS.find(g=>g[0]===S.goal),open=S.cs==="open";
-    info.innerHTML=`<span class="lbl">תיבה · יעד רצף ${n}</span><h2>${t}</h2><dl>
-      <dt>מתי זה קורה</dt><dd>${n} ימים נקיים ברצף. התיבה מופיעה בכרטיס "המשימות של היום", ולוחצים עליה כדי לפתוח.${NOTE[n]?" "+NOTE[n]:""}</dd>
-      <dt>${open?"מה רואים":"מה רואים לפני שפותחים"}</dt><dd>${open?"התיבה קופצת למרכז המסך, מתנדנדת, נפתחת ומטבעות עפים ממנה. מתחת: \"יש! זה מה שחיכה לך\" והפרסים. \"לאסוף\" מכניס הכל לארנק.":"תיבה סגורה עם הסוג כתוב על המכסה. מה יש בפנים לא רואים עד שפותחים."}</dd>
-      <dt>מה מקבלים</dt></dl>${legend(list)}`;
-    stage.innerHTML=`<span class="tag">${open?"החשיפה אחרי הפתיחה":"התיבה הסגורה"}</span><div class="chest">
-      <div class="pic">${open?'<span class="glow"></span>':""}<img alt="" src="${GI(open?"chest-open":"chest")}">${open?"":`<span class="lid">${t}</span>`}</div>
-      ${open?`<small class="c9-pt">יעד רצף <span class="num">${n}</span> · ${t}</small><b class="big">יש! זה מה שחיכה לך</b><div class="c9-pl">${list.map(przChip).join("")}</div><button class="btn2" tabindex="-1">לאסוף</button>`
-        :`<small class="c9-pt">התיבה הבאה · יעד רצף <span class="num">${n}</span></small><p>מה יש בפנים מתגלה כשפותחים.</p>`}</div>`;
+    const k=GOALS.findIndex(g=>g[0]===S.goal),[n,t,list]=GOALS[k],prev=k>0?GOALS[k-1][0]:0,now=Math.round(prev+(n-prev)*.6),nextN=(GOALS[k+1]||GOALS[k])[0],cs=S.cs;
+    const SEE={partial:`התיבה הבאה בכרטיס "המשימות של היום", עם הסוג על המכסה ופס של ${now} מתוך ${n}. בשורת "התיבות בדרך" אותו פס מתחת לתיבה.`,
+      closed:"הגיעו ליעד: התיבה מוכנה לפתיחה, ולוחצים עליה כדי לפתוח. מה יש בפנים לא רואים עד שפותחים.",
+      open:"התיבה קופצת למרכז המסך, מתנדנדת, נפתחת ומטבעות עפים ממנה. מתחת: \"יש! זה מה שחיכה לך\" והפרסים. \"לאסוף\" מכניס הכל לארנק.",
+      locked:"הגיעו ליעד, אבל בדרך נשרף חשבון. התיבה נשארת אפורה עם מנעול, ולחיצה עליה מסבירה למה. על חשבון שנשרף אין פרס."};
+    info.innerHTML=`<span class="lbl">תיבה · ${n} ימים לפי התוכנית</span><h2>${t}</h2><dl>
+      <dt>מתי זה קורה</dt><dd>${n} ימים לפי התוכנית בסך הכול, בלי איפוס. מי שיצא מהתוכנית פעם אחת באמצע מקבל את התיבה כשהוא מגיע ל-${n} ימים לפי התוכנית.${NOTE[n]?" "+NOTE[n]:""}</dd>
+      <dt>מה רואים</dt><dd>${SEE[cs]}</dd>
+      <dt>${cs==="locked"?"מה היה בתיבה":"מה מקבלים"}</dt></dl>${legend(list)}`;
+    const tags={partial:"בדרך ליעד",closed:"מוכנה לפתיחה",open:"החשיפה אחרי הפתיחה",locked:"התיבה ננעלה"};
+    stage.innerHTML=`<span class="tag">${tags[cs]}</span><div class="chest${cs==="locked"?" lk":""}">
+      <div class="pic">${cs==="open"?'<span class="glow"></span>':""}<img alt="" src="${GI(cs==="open"?"chest-open":"chest")}">${cs==="open"||cs==="locked"?"":`<span class="lid">${t}</span>`}</div>
+      ${cs==="open"?`<small class="c9-pt">${n} ימים לפי התוכנית · ${t}</small><b class="big">יש! זה מה שחיכה לך</b><div class="c9-pl">${list.map(przChip).join("")}</div><button class="btn2" tabindex="-1">לאסוף</button>`
+       :cs==="partial"?`<small class="c9-pt">התיבה הבאה · <span class="num">${n}</span> ימים לפי התוכנית</small><b class="mid">עוד <span class="num">${n-now}</span> ימים לפי התוכנית</b><div class="c9-part"><span class="g-bar"><i style="width:${(now-prev)/(n-prev)*100}%"></i></span><em><span class="num">${now}</span> מתוך <span class="num">${n}</span></em></div><p>הימים נספרים בסך הכול, בלי איפוס.</p>`
+       :cs==="closed"?`<small class="c9-pt">הגעת ליעד · <span class="num">${n}</span> ימים לפי התוכנית</small><b class="mid">לחצי על התיבה כדי לפתוח</b>`
+       :`<small class="c9-pt"><span class="num">${n}</span> ימים לפי התוכנית · ${t}</small><b class="mid">התיבה הזאת ננעלה</b><p>הגעת ל-<span class="num">${n}</span> ימים לפי התוכנית, אבל בדרך, ביום <span class="num">${Math.max(prev+2,Math.round(prev+(n-prev)*.5))}</span>, נשרף חשבון. על חשבון שנשרף אין פרס.</p><div class="c9-why">${SV(ALERT)}<span>מה קרה באותו יום: המשך מסחר אחרי <span class="num">2</span> הפסדים ברצף, עד הסטופ היומי של החברה.</span></div><p class="c9-fine">הימים לפי התוכנית לא נמחקים. התיבה הבאה מחכה ב-<span class="num">${nextN}</span> ימים.</p>`}</div>`;
   }else{
     const [d,p]=SCR.find(s=>s[0]===S.scr),done=S.ss==="done";
     info.innerHTML=`<span class="lbl">כרטיס גירוד · יום ${d}</span><h2>${PRZ[p[0]][3]}</h2><dl>
