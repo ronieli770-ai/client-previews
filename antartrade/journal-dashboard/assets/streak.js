@@ -20,33 +20,47 @@ let PLAN=null;try{PLAN=JSON.parse(localStorage.getItem("atPlan")||"null");if(PLA
 const ORD=["","ראשונה","שנייה","שלישית","רביעית","חמישית","שישית","שביעית","שמינית","תשיעית","עשירית","אחת עשרה"];
 const R=()=>PLAN||{t:3,l:2};
 const nTrades=n=>n===1?"עסקה אחת":`${n} עסקאות`,nLoss=n=>n===1?"הפסד אחד":`${n} הפסדים`;
-function states(){const p=R(),T=p.t,L=p.l;return{
+const NUMW=["","אחת","שתיים","שלוש","ארבע","חמש","שש","שבע","שמונה","תשע","עשר"];
+/* the red-news line (Noam 13.11): the release and, when the trader's firm has a news rule, that rule. Sample values; his Claude fills them from the economic calendar and the firm rules on the site */
+const NEWS={t:"15:30",ev:"CPI",firm:"Take Profit",rule:"דקה לפני ודקה אחרי"};
+const newsLine=firm=>firm?`היום ב-${NEWS.t} יוצא ${NEWS.ev}. שים לב: בחשבונות ${NEWS.firm} שלך אסור להיות בעסקה פתוחה ${NEWS.rule} ההודעה.`:`היום ב-${NEWS.t} יוצא ${NEWS.ev}, נתון אדום. התנועות סביבו חדות, אז תחשוב פעמיים לפני שאתה בפנים.`;
+function states(){const p=R(),T=p.t,L=p.l,by=PLAN?"התוכנית":"הכללים",bIn=PLAN?"בתוכנית":"בכללים";
+ const before=PLAN?(PLAN.line?`התזכורת שלך להיום: “${PLAN.line}”`:`התוכנית שלך להיום: עד ${T} עסקאות, $${PLAN.risk.toLocaleString("en-US")} לעסקה${PLAN.stopL?`, ועוצרים אחרי ${L} הפסדים`:""}.`):"בנה לך תוכנית מסחר, ואני אעקוב אחריה איתך כל יום.";
+ return{
  back:{icon:"sun",c:"sky",img:"before",lbl:`מאז הביקור האחרון · לפני ${since().ago} ימים`,msg:backMsg(),today:"p",n:9,t:0,l:0},
- before:{icon:"sun",c:"sky",msg:PLAN?(PLAN.line?`עוד לא נכנסת היום. תזכורת שלך: "${PLAN.line}"`:`עוד לא נכנסת היום. התוכנית: ${sumLine(PLAN).split(". ")[0]}.`):"עוד לא נכנסת היום. בנה לך תוכנית מסחר, ואני אעקוב אחריה איתך כל יום.",today:"p",n:9,t:0,l:0},
- one:{icon:"target",c:"mint",msg:T>1?`עסקה ראשונה בפנים, עם סטופ. ${T-1===1?"נשארה לך עסקה אחת":`נשארו לך ${T-1} עסקאות`} להיום.`:"עסקה ראשונה בפנים, עם סטופ. זו העסקה היחידה שלך להיום.",today:"p",n:9,t:1,l:0},
- stopped:{icon:"shield",c:"mint",msg:`עצרת אחרי ${nLoss(L)}, בדיוק לפי ${PLAN?"התוכנית":"הכללים"}. יום מפסיד עם משמעת לא שובר את הרצף.`,today:"p",n:9,t:Math.min(L,T),l:L},
- violation:{icon:"alert",c:"sun",msg:PLAN?`עסקה ${ORD[T+1]} היום, מעל התוכנית. מחר מתחילים רצף חדש.`:`נפתחה היום עסקה מעבר למקסימום של ${T}. מחר מתחילים רצף חדש.`,today:"v",n:0,t:T+1,l:1},
- clean:{icon:"star",c:"sun",msg:`יום נקי, ועכשיו 10 ימים ברצף לפי ${PLAN?"התוכנית":"הכללים"}. ככה עוברים מבחן.`,today:"c",n:10,t:T,l:Math.min(1,L-1),party:true},
- weekend:{icon:"moon",c:"sky",msg:"השוק סגור. 10 ימים נקיים ברצף, זמן טוב לעבור על השבוע.",today:"c",n:10,t:T,l:Math.min(1,L-1)}};}
+ before:{icon:"sun",c:"sky",msg:before,today:"p",n:9,t:0,l:0},
+ newsA:{icon:"sun",c:"sky",img:"before",msg:before,news:newsLine(true),today:"p",n:9,t:0,l:0},
+ newsB:{icon:"sun",c:"sky",img:"before",msg:before,news:newsLine(false),today:"p",n:9,t:0,l:0},
+ one:{icon:"target",c:"mint",msg:`העסקה נכנסה ליומן. לפי ${by} עד ${T} עסקאות ביום, ואין חובה להגיע ל${NUMW[T]||T}. נכנסים רק כשיש סטאפ שמתאים לך.`,today:"p",n:9,t:1,l:0},
+ nostop:{icon:"target",c:"mint",img:"one",msg:`העסקה נכנסה, אבל בלי סטופ. תוסיף איפה הוא היה, כדי שהיום ייספר לפי ${by}, וכדי שאוכל להגיד לך בהמשך אם כדאי לך לכוון ליעד רחוק יותר.`,today:"p",n:9,t:1,l:0},
+ wins:{icon:"star",c:"sun",img:"clean",msg:PLAN&&PLAN.w2==="stop"?`2 רווחים ברצף, יום מצוין. לפי ${by} עוצרים כאן ושומרים על הרווח.`:`2 רווחים ברצף, יפה! לפי ${by} מותרת עוד עסקה אחת באותו סיכון. רק אם יש סטאפ טוב, לא חובה.`,today:"p",n:9,t:Math.min(2,T),l:0},
+ stopped:{icon:"shield",c:"mint",msg:`עצרת אחרי ${L} הפסדים, בדיוק לפי ${by}. הדבר הכי קשה במסחר הוא לעמוד ${bIn} ביום מפסיד, ועשית את זה. כל הכבוד. ימים כאלה הם חלק מהדרך.`,today:"p",n:9,t:Math.min(L,T),l:L},
+ violation:{icon:"alert",c:"sun",msg:`היום נכנסו ${T+1} עסקאות, יותר מה-${T} ש${bIn}. קורה. מחר מתחילים מחדש.`,today:"v",n:0,t:T+1,l:1},
+ clean:{icon:"star",c:"sun",msg:`יום ברווח והכול לפי ${by}, כל הכבוד. 10 ימים ברצף שאתה עומד ${bIn}.`,today:"c",n:10,t:T,l:Math.min(1,L-1),party:true},
+ cleanloss:{icon:"shield",c:"mint",img:"stopped",msg:`יום בהפסד, אבל עמדת ${bIn}. זה בדיוק מה שבונה סוחר. 10 ימים ברצף.`,today:"c",n:10,t:T,l:Math.min(1,L-1)},
+ weekend:{icon:"moon",c:"sky",msg:`השוק סגור. 10 ימים ברצף שעמדת ${bIn}. זמן טוב לעבור על השבוע.`,today:"c",n:10,t:T,l:Math.min(1,L-1)}};}
 const GOALS=[5,10,20,30,60,90];
 const LET=["א","ב","ג","ד","ה","ו","ש"];
 /* trading days back from today (Mon-Fri) */
 const dayLetters=()=>{const out=[];const d=new Date(2026,10,5);while(out.length<14){const w=d.getDay();if(w>0&&w<6)out.unshift(LET[w]);d.setDate(d.getDate()-1);}return out;};
 const LETS=dayLetters();
 let cur=null;
-const en=t=>t.replace(/-?\$?\d+(?:[.,:]\d+)*%?/g,n=>`<span class="en">${n}</span>`);
+/* numbers in Roboto; a "-" glued to a Hebrew letter (ב-15:30, ב-62%) stays Hebrew, only a real minus joins the number */
+const en=t=>t.replace(/([\u0590-\u05FF]-)?(-?\$?\d+(?:[.,:]\d+)*%?)/g,(m,h,n)=>(h||"")+`<span class="en">${n}</span>`);
 function set(k){
   const s=states()[k];const first=cur===null;cur=k;const P=R();
   const co=$$("coach");
   const im=s.img||k;
-  if(first){co.innerHTML=`<div class="av"><img alt="נועם" src="avatar/noam-${im}.webp"></div><div class="bub"><small id="coLbl">${en(s.lbl||"")}</small><span>${en(s.msg)}</span><button class="planb" id="planBtn"></button></div>`;}
+  const NWI='<svg class="i" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>';
+  if(first){co.innerHTML=`<div class="av"><img alt="נועם" src="avatar/noam-${im}.webp"></div><div class="bub"><small id="coLbl">${en(s.lbl||"")}</small><span>${en(s.msg)}</span><div class="warnbox co-news" id="coNews" hidden>${NWI}<p></p></div><button class="planb" id="planBtn"></button></div>`;}
   else{const img=co.querySelector("img"),bub=co.querySelector(".bub");img.classList.add("out");bub.classList.add("swap");
-    setTimeout(()=>{img.src=`avatar/noam-${im}.webp`;bub.querySelector(":scope>span").innerHTML=en(s.msg);$$("coLbl").innerHTML=en(s.lbl||"");img.classList.remove("out");bub.classList.remove("swap");},260);}
+    setTimeout(()=>{img.src=`avatar/noam-${im}.webp`;bub.querySelector(":scope>span").innerHTML=en(s.msg);$$("coLbl").innerHTML=en(s.lbl||"");setNews(s);img.classList.remove("out");bub.classList.remove("swap");},260);}
+  if(first)setNews(s);
   planUi();
   const n=s.n,goal=GOALS.find(g=>g>n)||90,prev=GOALS.filter(g=>g<=n).pop()||0;
   const nb=$$("stN");nb.textContent=n;$$("stW").textContent=n===1?"יום":"ימים";
   const left=goal-n;
-  $$("stGoal").textContent=n===0?"כל יום נקי מקדם אותך ליעד הראשון":left===1?"עוד יום אחד ליעד הבא":`עוד ${left} ימים ליעד של ${goal}`;
+  $$("stGoal").textContent=n===0?"כל יום לפי התוכנית מקדם אותך ליעד הראשון":left===1?"עוד יום אחד ליעד הבא":`עוד ${left} ימים ליעד של ${goal}`;
   $$("stGoalN").textContent=`${n}/${goal}`;
   $$("stBar").style.width=Math.max(3,n/goal*100)+"%";
   const all=[...PAST,s.today];
@@ -56,6 +70,7 @@ function set(k){
   $$("tdL").innerHTML=`${s.l} <em>/ ${P.l}</em>`;pips("tdLp",s.l,P.l,s.l>=P.l);
   if(s.party&&!first){const av=co.querySelector(".av");av.classList.remove("jump");void av.offsetWidth;av.classList.add("jump");nb.classList.add("pop");setTimeout(()=>nb.classList.remove("pop"),500);confetti();}
 }
+function setNews(s){const b=$$("coNews");if(!b)return;b.hidden=!s.news;b.querySelector("p").innerHTML=s.news?en(s.news):"";}
 /* confetti in the site's blues with a little mint and gold, from both top corners */
 function confetti(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
@@ -83,18 +98,27 @@ function judge(list){
   if(PLAN&&PLAN.w2==="stop"&&wHit>=0&&wHit<n-1)return{k:"violation",n,pnl,why:"wins"};
   if(big)return{k:"violation",n,pnl,why:"size",big:-big.pnl};
   if(PLAN&&PLAN.skip&&t.some(x=>ses(x)===PLAN.skip))return{k:"violation",n,pnl,why:"ses"};
+  /* break after a losing trade: entries ordered by time, the next entry within PLAN.brk minutes of a loss's exit */
+  if(PLAN&&PLAN.brk>0){const e=[...t].sort((a,b)=>a.entry-b.entry);for(let i=1;i<e.length;i++){const pr=e[i-1];if(pr.pnl<0){const m=Math.round((e[i].entry-pr.exit)/6e4);if(m>=0&&m<PLAN.brk)return{k:"violation",n,pnl,why:"brk",m};}}}
+  /* open during a red release where the firm forbids it: x.newsHit comes from the economic calendar (his Claude); the mock has none */
+  const nh=t.find(x=>x.newsHit);if(nh)return{k:"violation",n,pnl,why:"news",ev:nh.newsHit};
+  /* R:R only when a stop was entered (x.complete in the mock); the planned ratio is x.rrPlan in the app, the mock reads a winner closed under 1R */
+  if(PLAN&&PLAN.rr){const min=PLAN.rr2||1,bad=t.find(x=>x.complete&&(x.rrPlan!=null?x.rrPlan<min:(x.pnl>0&&x.actualR<min)));if(bad)return{k:"violation",n,pnl,why:"rr",rr:Math.round((bad.rrPlan!=null?bad.rrPlan:bad.actualR)*10)/10,min};}
   if(hit>=0)return{k:"stopped",n,pnl};
   return{k:pnl>=0?"clean":"lossok",n,pnl};
 }
-function dayMsg(j){const p=R(),by=PLAN?"התוכנית":"הכללים";
-  if(j.k==="violation")return j.why==="trades"?(PLAN?`עסקה ${ORD[p.t+1]} ביום הזה, מעל התוכנית. כאן הרצף נשבר.`:`ביום הזה נפתחו ${j.n} עסקאות, מעבר למקסימום של ${p.t}. כאן הרצף נשבר.`)
-    :j.why==="losses"?`אחרי ${nLoss(p.l)} ברצף המשכת לסחור. לפי ${by} היה צריך לעצור כאן.`
-    :j.why==="wins"?`אחרי 2 רווחים המשכת לסחור. לפי התוכנית היה צריך לעצור כאן.`
-    :j.why==="ses"?`נפתחה עסקה ב${SES[PLAN.skip]}, ולפי התוכנית ויתרת עליה.`
-    :`ההפסד באחת העסקאות היה ${usd(j.big)}, הסיכון המתוכנן ${usd(PLAN.risk)}.`;
-  if(j.k==="stopped")return `עצרת אחרי ${nLoss(p.l)}, בדיוק לפי ${by}. יום מפסיד עם משמעת לא שובר את הרצף.`;
-  if(j.k==="lossok")return `יום בהפסד של ${usd(-j.pnl)}, אבל לפי ${by}. הוא עדיין נספר כיום נקי ברצף.`;
-  return `יום נקי ברווח של ${usd(j.pnl)}, ${j.n===1?"בעסקה אחת":`מתוך ${j.n} עסקאות`}, הכל לפי ${by}.`;}
+function dayMsg(j){const p=R(),by=PLAN?"התוכנית":"הכללים",bIn=PLAN?"בתוכנית":"בכללים";
+  if(j.k==="violation")return j.why==="trades"?`ביום הזה נכנסו ${j.n} עסקאות, יותר מה-${p.t} ש${bIn}.`
+    :j.why==="losses"?`אחרי ${p.l} הפסדים ברצף המשכת לסחור. לפי ${by} היה צריך לעצור כאן.`
+    :j.why==="wins"?`אחרי 2 רווחים המשכת לסחור, ו${PLAN?"התוכנית אמרה":"הכללים אמרו"} לעצור ולשמור על הרווח.`
+    :j.why==="ses"?`נפתחה עסקה בסשן ${SES[PLAN.skip]}, ובתוכנית החלטת לוותר עליו.`
+    :j.why==="brk"?`נפתחה עסקה ${j.m} דקות אחרי הפסד. בתוכנית קבעת הפסקה של ${PLAN.brk} דקות.`
+    :j.why==="news"?`היית בעסקה פתוחה בזמן ${j.ev.ev||NEWS.ev}, ובחשבונות ${j.ev.firm||NEWS.firm} זה אסור.`
+    :j.why==="rr"?`עסקה נכנסה ביחס סיכוי-סיכון של 1:${j.rr}. התוכנית אומרת לפחות 1:${j.min}.`
+    :`ההפסד באחת העסקאות היה ${usd(j.big)}, והסיכון שתכננת היה ${usd(PLAN.risk)}.`;
+  if(j.k==="stopped")return `עצרת אחרי ${p.l} הפסדים, בדיוק לפי ${by}. ככה נראה יום מפסיד נכון.`;
+  if(j.k==="lossok")return `יום בהפסד של ${usd(-j.pnl)}, אבל הכול לפי ${by}. זה עדיין יום טוב בשבילך.`;
+  return `רווח של ${usd(j.pnl)} מתוך ${j.n===1?"עסקה אחת":`${j.n} עסקאות`}, הכול לפי ${by}. כל הכבוד.`;}
 const IMG={violation:"violation",stopped:"stopped",lossok:"stopped",clean:"clean"};
 /* entry summary: the trading days between the last visit and today */
 function since(){
@@ -103,10 +127,13 @@ function since(){
   all.forEach(x=>{if(x.exit>=from&&x.exit<to){const k=dk(x.exit);(days[k]=days[k]||[]).push(x);}});
   const ks=Object.keys(days),js=ks.map(k=>judge(days[k]));
   const n=js.reduce((s,j)=>s+j.n,0),pnl=js.reduce((s,j)=>s+j.pnl,0),bad=js.filter(j=>j.k==="violation").length,up=js.filter(j=>j.pnl>0).length;
-  return{ago:Math.round((to-from)/864e5),days:ks.length,n,pnl,bad,up};}
-function backMsg(){const s=since();
+  const bk=ks.find((k,i)=>js[i].k==="violation"),bday=bk?["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"][new Date(bk+"T12:00:00").getDay()]:"";
+  return{ago:Math.round((to-from)/864e5),days:ks.length,n,pnl,bad,up,bday};}
+function backMsg(){const s=since(),by=PLAN?"התוכנית":"הכללים";
   if(!s.n)return "מאז הביקור האחרון לא נכנסו עסקאות. כשתייבא או תסנכרן, אסכם לך כאן מה קרה.";
-  return `נכנסו ${s.n} עסקאות על פני ${s.days} ימי מסחר, ${s.pnl>=0?"רווח":"הפסד"} של ${usd(Math.abs(s.pnl))} בסך הכל. `+(s.bad?`${s.bad===1?"יום אחד":`${s.bad} ימים`} עם חריגה, ושם הרצף נשבר.`:`כל הימים לפי ${PLAN?"התוכנית":"הכללים"}, והרצף לא נשבר.`);}
+  const head=`נכנסו ${s.n} עסקאות על פני ${s.days} ימי מסחר, ${s.pnl>=0?"רווח":"הפסד"} של ${usd(Math.abs(s.pnl))}. `;
+  if(!s.bad)return head+`כל הימים לפי ${by}, כל הכבוד!`;
+  return head+(s.bad===1?`היה יום אחד שיצא מ${by}, ביום ${s.bday}. שווה להציץ בו.`:`היו ${s.bad} ימים שיצאו מ${by}. שווה להציץ בהם.`);}
 /* the calendar day dialog (openDay in the master) gets Noam's read of that day, as a small coach card above the trades */
 document.addEventListener("click",e=>{const c=e.target.closest(".cal [data-day]");if(!c)return;const k=c.dataset.day;
   setTimeout(()=>{const body=$$("dlgBody");if(!body||body.querySelector(".coach.mini"))return;
@@ -125,7 +152,7 @@ function planUi(){const b=$$("planBtn");if(b)b.innerHTML=PLAN?`${PEN}<span>הת�
   insight();
   const h=document.querySelector("#streak .bh .hint");if(h)h.textContent=PLAN?"ימי מסחר בלי אף חריגה מהתוכנית שלך":"ימי מסחר בלי אף חריגה מהכללים של האתגר";}
 /* the draft while the dialog is open; AntarTrade = Noam's defaults in one click */
-const AT={path:"at",risk:200,t:3,stopL:true,w2:"more",rr:true,news:true,brkOn:false,brk:10,line:""};
+const AT={path:"at",risk:200,t:3,stopL:true,w2:"more",rr:true,news:true,brk:0,line:""};
 let D={...AT};
 const worst=d=>d.risk*(d.stopL?Math.min(2,d.t):d.t);
 const sumLine=d=>`עד ${nTrades(d.t)} ביום, $${d.risk.toLocaleString("en-US")} לעסקה${d.stopL?`, עוצר אחרי ${nLoss(Math.min(2,d.t))}`:""}. היום הכי גרוע שלך: מינוס $${worst(d).toLocaleString("en-US")}.`;
@@ -144,20 +171,20 @@ function step2(){const d=D;pane(`<div class="pl" dir="rtl"><h2>${d.path==="at"?"
    <div class="pl-calc" id="plCalc" hidden><label for="plDD">הדראודאון של החשבון</label><div class="pl-in"><input class="inp" id="plDD" type="text" inputmode="numeric" placeholder="2,000"><i class="en">$</i></div>
     <p id="plCalcR">שליש ממנו לסיכון יומי, חלקי ${nTrades(d.t)}.</p><button class="btn3 pl-use" id="plUse" hidden>להשתמש בסכום הזה</button></div></div>
   <div class="pl-q"><span class="pl-lbl">כמה עסקאות מקסימום ביום?</span><div class="pl-step"><button data-tn="-1" aria-label="פחות">${SVG('<path d="M5 12h14"/>')}</button><b class="en" id="plT">${d.t}</b><button data-tn="1" aria-label="יותר">${SVG('<path d="M12 5v14M5 12h14"/>')}</button></div></div>
+  <div class="pl-q"><label for="plBrk">כמה דקות לא נכנסים אחרי עסקה מפסידה</label><div class="pl-in"><input class="inp" id="plBrk" type="text" inputmode="numeric" placeholder="0" value="${d.brk||""}"></div></div>
   <span class="pl-lbl">כללים</span>
   <div class="pl-rules">
    ${ck("plStopL",d.stopL,"עוצר אחרי 2 הפסדים")}
-   <div class="pl-rule pl-w2"><span>אחרי 2 רווחים</span><div class="pl-opts"><button data-w2="more" class="${d.w2==="more"?"on":""}">ממשיך לעסקה אחת נוספת עם אותו סיכון</button><button data-w2="stop" class="${d.w2==="stop"?"on":""}">עוצר</button></div></div>
+   <div class="pl-rule pl-w2"><span>אחרי 2 רווחים</span><div class="pl-opts"><button data-w2="more" class="${d.w2==="more"?"on":""}">ממשיך לעסקה השלישית</button><button data-w2="stop" class="${d.w2==="stop"?"on":""}">עוצר להיום</button></div></div>
    ${ck("plRR",d.rr,"יחס סיכוי-סיכון: 1:1 בהתחלה")}
    ${ck("plNews",d.news,"לא סוחר סביב חדשות אדומות, לפי הלוח הכלכלי")}
   </div>
   <button class="pl-adv-t" id="plAdvT" aria-expanded="false">מתקדם ${CHEV}</button>
   <div class="pl-rules pl-adv" id="plAdv" hidden>
-   <label class="pl-rule"><input type="checkbox" class="ck" id="plBrkOn" ${d.brkOn?"checked":""}><span>הפסקה של <input class="inp pl-mini" id="plBrk" type="text" inputmode="numeric" value="${d.brk}"> דקות אחרי הפסד</span></label>
    <div class="pl-q"><label for="plLine">משפט אישי שהאווטאר מזכיר</label><input class="inp" id="plLine" type="text" value="${d.line.replace(/"/g,"&quot;")}"></div>
   </div>
   <div class="pl-act"><button class="btn2" id="plNext">המשך</button><button class="btn3" id="plBack">חזרה</button></div></div>`);}
-function step3(){const d=D,tags=[d.w2==="more"?"אחרי 2 רווחים: עסקה אחת נוספת":"אחרי 2 רווחים: עוצר",d.rr?`יחס 1:${d.rr2||1}`:"",d.skip?`בלי ${SES[d.skip]}`:"",d.news?"בלי חדשות אדומות":"",d.brkOn?`הפסקה של ${d.brk} דקות אחרי הפסד`:""].filter(Boolean);
+function step3(){const d=D,tags=[d.w2==="more"?"אחרי 2 רווחים: ממשיך לעסקה השלישית":"אחרי 2 רווחים: עוצר להיום",d.rr?`יחס 1:${d.rr2||1}`:"",d.skip?`בלי ${SES[d.skip]}`:"",d.news?"בלי חדשות אדומות":"",d.brk>0?`הפסקה של ${d.brk} דקות אחרי הפסד`:""].filter(Boolean);
   pane(`<div class="pl" dir="rtl"><h2>התוכנית שלך</h2><p class="sub">${d.path==="at"?"תוכנית AntarTrade":"תוכנית אישית"}</p>
   <div class="pl-sum"><p>${en(sumLine(d))}</p><div class="pl-ch">${tags.map(t=>`<span>${en(t)}</span>`).join("")}</div>${d.line?`<q>${d.line.replace(/</g,"&lt;")}</q>`:""}</div>
   <div class="pl-act"><button class="btn2" id="plSave">שמור תוכנית</button><button class="btn3" id="plEdit">עריכה</button></div></div>`);}
@@ -165,7 +192,7 @@ function planDlg(){D=PLAN?{...PLAN}:{...AT};step1();}
 const closeDlg=()=>{const d=$$("dlg");if(d)d.hidden=true;};
 const num=v=>+String(v).replace(/[^0-9]/g,"")||0;
 const read=()=>{if(!$$("plRisk"))return;D.risk=num($$("plRisk").value)||D.risk;D.stopL=$$("plStopL").checked;D.rr=$$("plRR").checked;D.news=$$("plNews").checked;
-  D.brkOn=$$("plBrkOn").checked;D.brk=num($$("plBrk").value)||10;D.line=$$("plLine").value.trim();};
+  D.brk=num($$("plBrk").value)||0;D.line=$$("plLine").value.trim();};
 const calc=()=>{const dd=num($$("plDD").value),r=$$("plCalcR"),u=$$("plUse");
   if(!dd){r.innerHTML=`שליש ממנו לסיכון יומי, חלקי ${nTrades(D.t)}.`;u.hidden=true;return;}
   const day=Math.floor(dd/3),v=calcRisk(dd,D.t);r.innerHTML=en(`שליש ממנו לסיכון יומי: $${day.toLocaleString("en-US")}. חלקי ${nTrades(D.t)}: $${v.toLocaleString("en-US")} לעסקה.`);u.hidden=!v;u.dataset.v=v;};
@@ -201,26 +228,41 @@ function stats30(){
   const wins=all.filter(x=>x.pnl>0).length;
   return{g,n:all.length,wr:all.length?Math.round(wins/all.length*100):0};}
 /* the mock data is random, so the block shows Noam's own example; stats30() is the real calculation for his site */
-const DEMO30={n:40,wr:58,g:{ldn:{n:24,pnl:2140,lp:38},ny:{n:16,pnl:-860,lp:70}}};
+const DEMO30={n:40,wr:58,g:{ldn:{n:24,pnl:2140,lp:38},ny:{n:16,pnl:-860,lp:70}},ls:{l:62,s:38},dev:{ok:2100,day:"12.11",loss:900},al:60,com:30};
 function insight(){
   const el=$$("insight");if(!el)return;const s=DEMO30||stats30(),g=s.g;
   const best=g.ldn.pnl>=g.ny.pnl?"ldn":"ny",worst=best==="ldn"?"ny":"ldn";
-  const hrsMsg=g[worst].pnl<0?`ב${SES[best]} אתה ברווח, ב${SES[worst]} ${g[worst].lp}% מהעסקאות מפסידות. שווה לשקול לוותר על ${SES[worst]}.`
-    :`גם ב${SES.ldn} וגם ב${SES.ny} אתה ברווח. אין כרגע סיבה לוותר על אחת מהן.`;
-  const rrMsg=s.wr>=50?"אחוז ההצלחה שלך גבוה, וברוב העסקאות המחיר הגיע גם עד 1:1.5. אפשר לשקול לעלות."
-    :"אחוז ההצלחה שלך עוד לא מספיק גבוה כדי לעלות. כדאי להישאר על 1:1.";
+  const risk=PLAN?PLAN.risk:200,ts=n=>`$${n.toLocaleString("en-US")}`;
+  const hrsMsg=g[worst].pnl<0?`בסשן ${SES[best]} אתה ברווח, ובסשן ${SES[worst]} ${g[worst].lp}% מהעסקאות מפסידות. שווה לשקול לוותר על סשן ${SES[worst]}.`
+    :`גם בסשן ${SES.ldn} וגם בסשן ${SES.ny} אתה ברווח. אין סיבה לוותר על אף אחד מהם.`;
+  const rrMsg=s.wr>=50?`אחוז ההצלחה שלך גבוה, ובחלק גדול מהעסקאות המחיר המשיך עד 1.5 פעמים הסיכון. אפשר לשקול להעלות את היעד: לסכן ${ts(risk)} כדי להרוויח ${ts(risk*1.5)}, במקום ${ts(risk)}.`
+    :`כרגע עדיף להישאר עם יעד ששווה לסיכון: מסכנים ${ts(risk)} כדי להרוויח ${ts(risk)}. עם אחוז הצלחה של ${s.wr}%, יעד רחוק יותר יוריד עוד את אחוז ההצלחה.`;
   const row=k=>{const v=g[k];return `<div class="in-row ${v.pnl<0?"neg":"pos"}${PLAN&&PLAN.skip===k?" off":""}"><span class="in-nm">${SES[k]}</span><b class="en pv">${usd(v.pnl)}</b><span class="in-lp"><i style="width:${v.lp}%"></i></span><small><span class="en">${v.lp}%</span> מפסידות</small></div>`;};
   const done=(on,txt)=>on?`<span class="in-done">${SVG('<path d="M5 12.5l4.5 4.5L19 7.5"/>')}<span>${txt}</span></span>`:"";
-  const skipOn=!!(PLAN&&PLAN.skip===worst),rrOn=!!(PLAN&&PLAN.rr2);
+  const btn=(k,txt,v)=>`<button class="planb in-act" data-in="${k}"${v?` data-v="${v}"`:""}>${PEN}<span>${txt}</span></button>`;
+  const skipOn=!!(PLAN&&PLAN.skip===worst),rrOn=!!(PLAN&&PLAN.rr2),SHORT="לחשוב פעמיים לפני כניסה לשורט";
+  const shOn=!!(PLAN&&PLAN.line===SHORT),brkOn=!!(PLAN&&PLAN.brk>=15),comOn=!!(PLAN&&PLAN.t<=2);
+  const big=(n,lbl)=>`<div class="in-wr"><b class="en">${n}</b><span>${lbl}</span></div>`;
   el.querySelector(".in-grid").innerHTML=`
-   <div class="rs-cell in-cell"><span class="rs-l">שעות</span><div class="in-rows">${row("ldn")}${row("ny")}</div><p>${en(hrsMsg)}</p>
-    ${g[worst].pnl<0?(skipOn?done(true,`עודכן בתוכנית: בלי ${SES[worst]}`):`<button class="planb in-act" data-in="skip" data-v="${worst}">${PEN}<span>לוותר על ${SES[worst]} בתוכנית</span></button>`):""}</div>
-   <div class="rs-cell in-cell"><span class="rs-l">יחס סיכוי-סיכון</span><div class="in-wr"><b class="en">${s.wr}%</b><span>אחוז הצלחה, מתוך <span class="en">${s.n}</span> עסקאות</span></div><p>${en(rrMsg)}</p>
-    ${s.wr>=50?(rrOn?done(true,"עודכן בתוכנית: יחס 1:1.5"):`<button class="planb in-act" data-in="rr">${PEN}<span>לעלות ליחס 1:1.5 בתוכנית</span></button>`):""}</div>`;
+   <div class="rs-cell in-cell"><span class="rs-l">סשנים</span><div class="in-rows">${row("ldn")}${row("ny")}</div><p>${en(hrsMsg)}</p>
+    ${g[worst].pnl<0?(skipOn?done(true,`עודכן בתוכנית: בלי סשן ${SES[worst]}`):btn("skip",`לוותר על סשן ${SES[worst]} בתוכנית`,worst)):""}</div>
+   <div class="rs-cell in-cell"><span class="rs-l">יחס סיכוי-סיכון</span>${big(s.wr+"%",`אחוז הצלחה, מתוך <span class="en">${s.n}</span> עסקאות`)}<p>${en(rrMsg)}</p>
+    ${s.wr>=50?(rrOn?done(true,"עודכן בתוכנית: יעד של 1.5 פעמים הסיכון"):btn("rr","להעלות את היעד בתוכנית")):""}</div>
+   <div class="rs-cell in-cell"><span class="rs-l">לונג מול שורט</span>${big(s.ls.l+"%",`הצלחה בלונגים, <span class="en">${s.ls.s}%</span> בשורטים`)}<p>${en(`בלונגים אתה מצליח ב-${s.ls.l}%, ובשורטים רק ב-${s.ls.s}%. חלק מזה תלוי במצב השוק, אבל שווה לחשוב פעמיים לפני כניסה לשורט ולחדד את הכניסות שם.`)}</p>
+    ${shOn?done(true,"נוספה תזכורת לתוכנית"):btn("short","להוסיף תזכורת על שורטים לתוכנית")}</div>
+   <div class="rs-cell in-cell"><span class="rs-l">כמה עלה יום של חריגה</span>${big(usd(-s.dev.loss),`ביום אחד, <span class="en">${s.dev.day}</span>`)}<p>${en(`בימים שעמדת בתוכנית הרווחת ${ts(s.dev.ok)}. ביום אחד שיצאת ממנה, ${s.dev.day}, הפסדת ${ts(s.dev.loss)}: כמעט שבוע של עבודה.`)}</p>
+    ${btn("cal","לראות את היום בלוח השנה")}</div>
+   <div class="rs-cell in-cell"><span class="rs-l">עסקה מיד אחרי הפסד</span>${big(s.al+"%","מהן הפסידו גם")}<p>${en(`ב-${s.al}% מהפעמים שנכנסת לעסקה מיד אחרי הפסד, גם היא הפסידה. ההפסקה אחרי הפסד שווה לך כסף.`)}</p>
+    ${brkOn?done(true,`עודכן בתוכנית: הפסקה של ${PLAN.brk} דקות`):btn("brk","להוסיף הפסקה של 15 דקות לתוכנית")}</div>
+   <div class="rs-cell in-cell"><span class="rs-l">עמלות</span>${big(s.com+"%","מהרווח החודש")}<p>${en(`העמלות לקחו ${s.com}% מהרווח שלך החודש. פחות עסקאות, ורק הטובות, ישאירו לך יותר.`)}</p>
+    ${comOn?done(true,`עודכן בתוכנית: עד ${PLAN.t} עסקאות ביום`):btn("com","לרדת ל-2 עסקאות ביום בתוכנית")}</div>`;
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-in]");if(!b)return;
   if(!PLAN)PLAN={...AT,v:2,name:"AntarTrade",l:2};
-  if(b.dataset.in==="skip")PLAN.skip=b.dataset.v;else PLAN.rr2=1.5;
+  const k=b.dataset.in;
+  if(k==="cal"){const c=document.querySelector(".cal");if(c)c.scrollIntoView({behavior:"smooth",block:"center"});return;}
+  if(k==="skip")PLAN.skip=b.dataset.v;else if(k==="rr")PLAN.rr2=1.5;else if(k==="short")PLAN.line="לחשוב פעמיים לפני כניסה לשורט";
+  else if(k==="brk")PLAN.brk=15;else if(k==="com"){PLAN.t=2;PLAN.l=Math.min(PLAN.l||2,2);}
   try{localStorage.setItem("atPlan",JSON.stringify(PLAN))}catch(_){}set(cur);});
 document.addEventListener("click",e=>{const b=e.target.closest(".demo2 [data-st]");if(!b)return;document.querySelectorAll(".demo2 [data-st]").forEach(x=>x.classList.toggle("on",x===b));set(b.dataset.st);});
 ["before","one","stopped","violation","clean","weekend"].forEach(k=>{const i=new Image();i.src=`avatar/noam-${k}.webp`;});
@@ -232,8 +274,8 @@ const mountAll=()=>{
   const sub=document.getElementById("pgSub"),kpis=document.getElementById("kpis");
   if(!sub||!kpis)return;
   sub.insertAdjacentHTML("beforebegin","<div class=\"coach\" id=\"coach\"></div>");
-  kpis.insertAdjacentHTML("afterend","\n  <section class=\"blk streak dashonly\" id=\"streak\">\n    <div class=\"bh\"><div class=\"ttl\"><span class=\"ico\" style=\"--c:var(--c-sun)\"><svg class=\"i\" viewBox=\"0 0 24 24\"><path d=\"M12 3.5c.5 3-2.5 4.5-2.5 7.5a2.5 2.5 0 0 0 5 0c0-1-.4-1.8-1-2.5 2.6 1 4.5 3.6 4.5 6.5a6 6 0 0 1-12 0c0-4.6 4.5-7.4 6-11.5z\"/></svg></span><h2>רצף משמעת</h2></div><span class=\"hint\">ימי מסחר בלי אף חריגה מהכללים של האתגר</span></div>\n    <div class=\"rs-grid3\">\n      <div class=\"rs-cell\">\n        <span class=\"rs-l\">ימים נקיים ברצף</span>\n        <div class=\"rs-num\"><b class=\"en\" id=\"stN\">9</b><span id=\"stW\">ימים</span></div>\n        <div class=\"rs-goal\"><span id=\"stGoal\">עוד יום אחד ליעד הבא</span><span class=\"en\" id=\"stGoalN\">9/10</span></div>\n        <div class=\"rs-bar\"><i id=\"stBar\" style=\"width:90%\"></i></div>\n      </div>\n      <div class=\"rs-cell\">\n        <span class=\"rs-l\">14 ימי המסחר האחרונים</span>\n        <div class=\"rs-days\" id=\"stDays\"></div>\n        <div class=\"rs-legend\"><span class=\"c\"><i></i>יום נקי</span><span class=\"v\"><i></i>חריגה</span><span><i></i>בלי עסקאות</span></div>\n      </div>\n      <div class=\"rs-cell\">\n        <span class=\"rs-l\">היום, לפי הכללים שלך</span>\n        <div class=\"rs-today\">\n          <div class=\"rs-tc2\"><small>עסקאות</small><b id=\"tdT\">0 <em>/ 3</em></b><div class=\"rs-pips\" id=\"tdTp\"></div></div>\n          <div class=\"rs-tc2\"><small>הפסדים ברצף</small><b id=\"tdL\">0 <em>/ 2</em></b><div class=\"rs-pips\" id=\"tdLp\"></div></div>\n          <div class=\"rs-best\"><svg class=\"i\" viewBox=\"0 0 24 24\" style=\"width:16px;height:16px;color:var(--c-sun)\"><path d=\"M8 4h8v4a4 4 0 0 1-8 0zM8 6H5a2 2 0 0 0 3 3.5M16 6h3a2 2 0 0 1-3 3.5M12 12v4M8.5 20h7M10 16h4v4h-4z\"/></svg><span>השיא שלך: <b class=\"en\" id=\"stBest\">12</b> ימים נקיים</span></div>\n        </div>\n      </div>\n    </div>\n  </section>\n  <section class=\"blk insight dashonly\" id=\"insight\">\n    <div class=\"bh\"><div class=\"ttl\"><span class=\"ico\" style=\"--c:var(--c-sky)\"><svg class=\"i\" viewBox=\"0 0 24 24\"><path d=\"M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z\"/></svg></span><h2>מה הנתונים שלך אומרים</h2></div><span class=\"hint\">30 הימים האחרונים. אתה מחליט מה לשנות</span></div>\n    <div class=\"in-grid\"></div>\n  </section>\n");
-  document.body.insertAdjacentHTML("beforeend","<div class=\"demo demo2 dashonly\" dir=\"rtl\" aria-label=\"מצב היום בהדמיה\"><small>היום:</small><button class=\"on\" data-st=\"back\">חזרה אחרי כמה ימים</button><button data-st=\"before\">לפני המסחר</button><button data-st=\"one\">אחרי עסקה</button><button data-st=\"stopped\">עצר אחרי 2 הפסדים</button><button data-st=\"violation\">חריגה</button><button data-st=\"clean\">סוף יום נקי</button><button data-st=\"weekend\">סופ\"ש</button></div>\n<canvas id=\"confetti\" hidden></canvas>");
+  kpis.insertAdjacentHTML("afterend","\n  <section class=\"blk streak dashonly\" id=\"streak\">\n    <div class=\"bh\"><div class=\"ttl\"><span class=\"ico\" style=\"--c:var(--c-sun)\"><svg class=\"i\" viewBox=\"0 0 24 24\"><path d=\"M12 3.5c.5 3-2.5 4.5-2.5 7.5a2.5 2.5 0 0 0 5 0c0-1-.4-1.8-1-2.5 2.6 1 4.5 3.6 4.5 6.5a6 6 0 0 1-12 0c0-4.6 4.5-7.4 6-11.5z\"/></svg></span><h2>רצף משמעת</h2></div><span class=\"hint\">ימי מסחר בלי אף חריגה מהכללים של האתגר</span></div>\n    <div class=\"rs-grid3\">\n      <div class=\"rs-cell\">\n        <span class=\"rs-l\">ימים ברצף לפי התוכנית</span>\n        <div class=\"rs-num\"><b class=\"en\" id=\"stN\">9</b><span id=\"stW\">ימים</span></div>\n        <div class=\"rs-goal\"><span id=\"stGoal\">עוד יום אחד ליעד הבא</span><span class=\"en\" id=\"stGoalN\">9/10</span></div>\n        <div class=\"rs-bar\"><i id=\"stBar\" style=\"width:90%\"></i></div>\n      </div>\n      <div class=\"rs-cell\">\n        <span class=\"rs-l\">14 ימי המסחר האחרונים</span>\n        <div class=\"rs-days\" id=\"stDays\"></div>\n        <div class=\"rs-legend\"><span class=\"c\"><i></i>יום לפי התוכנית</span><span class=\"v\"><i></i>חריגה</span><span><i></i>בלי עסקאות</span></div>\n      </div>\n      <div class=\"rs-cell\">\n        <span class=\"rs-l\">היום, לפי הכללים שלך</span>\n        <div class=\"rs-today\">\n          <div class=\"rs-tc2\"><small>עסקאות</small><b id=\"tdT\">0 <em>/ 3</em></b><div class=\"rs-pips\" id=\"tdTp\"></div></div>\n          <div class=\"rs-tc2\"><small>הפסדים ברצף</small><b id=\"tdL\">0 <em>/ 2</em></b><div class=\"rs-pips\" id=\"tdLp\"></div></div>\n          <div class=\"rs-best\"><svg class=\"i\" viewBox=\"0 0 24 24\" style=\"width:16px;height:16px;color:var(--c-sun)\"><path d=\"M8 4h8v4a4 4 0 0 1-8 0zM8 6H5a2 2 0 0 0 3 3.5M16 6h3a2 2 0 0 1-3 3.5M12 12v4M8.5 20h7M10 16h4v4h-4z\"/></svg><span>השיא שלך: <b class=\"en\" id=\"stBest\">12</b> ימים ברצף</span></div>\n        </div>\n      </div>\n    </div>\n  </section>\n  <section class=\"blk insight dashonly\" id=\"insight\">\n    <div class=\"bh\"><div class=\"ttl\"><span class=\"ico\" style=\"--c:var(--c-sky)\"><svg class=\"i\" viewBox=\"0 0 24 24\"><path d=\"M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z\"/></svg></span><h2>מה הנתונים שלך אומרים</h2></div><span class=\"hint\">30 הימים האחרונים. אתה מחליט מה לשנות</span></div>\n    <div class=\"in-grid\"></div>\n  </section>\n");
+  document.body.insertAdjacentHTML("beforeend","<div class=\"demo demo2 dashonly\" dir=\"rtl\" aria-label=\"מצב היום בהדמיה\"><small>היום:</small><button class=\"on\" data-st=\"back\">חזרה אחרי כמה ימים</button><button data-st=\"before\">לפני המסחר</button><button data-st=\"newsA\">נתון אדום · חוק חברה</button><button data-st=\"newsB\">נתון אדום · בלי חוק</button><button data-st=\"one\">אחרי עסקה</button><button data-st=\"nostop\">אחרי עסקה בלי סטופ</button><button data-st=\"wins\">אחרי 2 רווחים</button><button data-st=\"stopped\">עצר אחרי 2 הפסדים</button><button data-st=\"violation\">חריגה</button><button data-st=\"clean\">סוף יום ברווח</button><button data-st=\"cleanloss\">סוף יום בהפסד</button><button data-st=\"weekend\">סופ\"ש</button></div>\n<canvas id=\"confetti\" hidden></canvas>");
   run();
 };
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mountAll);else mountAll();

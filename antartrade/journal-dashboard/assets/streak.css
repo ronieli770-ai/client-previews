@@ -173,3 +173,8 @@ table.tbl th,table.tbl td,.mini th,.mini td,.mini .c{text-align:right!important}
 .rr>*{text-align:right!important}
 /* 13.11 the 14-day row sits in the middle of its cell, the label stays at the top */
 .streak .rs-cell .rs-days{margin-block:auto}
+/* 13.11 the red-news line in the coach card, in the journal warning box */
+.coach .co-news{margin-top:12px;max-width:520px}
+.coach .co-news p{margin:0;font-size:15px;line-height:1.5;color:var(--fg)}
+.coach .co-news .i{width:18px;height:18px}
+.coach .co-news p span{font-size:inherit!important;line-height:inherit;font-weight:500}
