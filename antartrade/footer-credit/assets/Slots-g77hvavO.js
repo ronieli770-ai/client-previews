@@ -1,0 +1,1 @@
+import{j as s}from"./react-vendor-xAhqJu7B.js";function m({text:n,slots:o}){return s.jsx(s.Fragment,{children:n.split(/(\{\d+\})/).map(t=>{const r=t.match(/^\{(\d+)\}$/);return r?o[Number(r[1])]:t})})}export{m as S};

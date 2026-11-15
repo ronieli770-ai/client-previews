@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>מפת הגמא</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&family=Heebo:wght@400;600;700&display=swap">
+<style>
+/* Layout: one RTL reading column (article), small inline figures between paragraphs, the interactive gamma map at the end */
+:root{
+  --bg:#f4f7fb; --surface:#ffffff; --surface2:#eaf0f7; --fg:#131a26; --muted:#56647a; --line:#d3dce8;
+  --accent:#2b78b8; --brake:#2b78b8; --brake-soft:#e2eefa; --gas:#c96f1c; --gas-soft:#fbeedf; --wall:#56647a; --flip:#a8841c;
+  --display:"Rubik","Heebo",system-ui,sans-serif; --body:"Heebo",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f141d; --surface:#16202f; --surface2:#1c2939; --fg:#e9eef5; --muted:#9eadc2; --line:#2a3a50;
+  --accent:#7dc4fb; --brake:#62b2f0; --brake-soft:#14283d; --gas:#f2a65a; --gas-soft:#33240f; --wall:#9eadc2; --flip:#e8c56a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f141d; --surface:#16202f; --surface2:#1c2939; --fg:#e9eef5; --muted:#9eadc2; --line:#2a3a50;
+  --accent:#7dc4fb; --brake:#62b2f0; --brake-soft:#14283d; --gas:#f2a65a; --gas-soft:#33240f; --wall:#9eadc2; --flip:#e8c56a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:18px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px}
+.ox{direction:rtl;max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+.ox h1,.ox h2,.ox h3{font-family:var(--display);margin:0;line-height:1.25;text-wrap:balance}
+.ox h1{font-size:2.2rem}
+.ox h2{font-size:1.5rem}
+.ox h3{font-size:1.08rem}
+.ox p{margin:0}
+.ox section{display:flex;flex-direction:column;gap:16px}
+.ox .lead{color:var(--muted);font-size:1.08rem}
+.ox .meta{font-size:.9rem;color:var(--muted)}
+.ox b{font-weight:700}
+.ox .fig{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.ox .fig svg{width:100%;height:auto;display:block}
+.ox .cap{font-size:.88rem;color:var(--muted)}
+.ox .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ox .box{border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ox .box.b{background:var(--brake-soft)}.ox .box.g{background:var(--gas-soft)}
+.ox .box .t{font-family:var(--display);font-size:1.3rem}
+.ox .box.b .t{color:var(--brake)}.ox .box.g .t{color:var(--gas)}
+.ox .note{background:var(--surface2);border-radius:12px;padding:12px 16px}
+.ox .tw{overflow-x:auto}
+.ox table{border-collapse:collapse;width:100%;min-width:440px;font-variant-numeric:tabular-nums}
+.ox th,.ox td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right}
+.ox th{font-size:.85rem;color:var(--muted);font-weight:600}
+.ox .num{font-family:var(--display);color:var(--accent)}
+.ox .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ox .gr{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.ox .gr .s{font-family:var(--display);font-size:1.8rem}
+.ox .gr.hot{border:2px solid var(--accent)}.ox .gr.hot .s{color:var(--accent)}
+.ox .gr .d{font-size:.88rem;color:var(--muted)}
+.ox hr{border:0;border-top:1px solid var(--line);margin:0}
+.ox .cta{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.ox .code{display:inline-block;font-family:var(--display);background:var(--accent);color:var(--bg);border-radius:999px;padding:0 14px;letter-spacing:1px}
+.ox a{color:var(--accent)}
+.ox a:focus-visible,.ox button:focus-visible,.ox input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* map */
+.ox .chain{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ox .lane{display:flex;flex-direction:column;border-radius:16px;padding:14px}
+.ox .lane.b{background:var(--brake-soft)}.ox .lane.g{background:var(--gas-soft)}
+.ox .step{background:var(--surface);border-radius:10px;padding:8px 12px;text-align:center}
+.ox .lane .arrow{text-align:center;color:var(--muted)}
+.ox .lane .end{font-family:var(--display);font-size:1.2rem;text-align:center;padding-top:6px}
+.ox .lane.b .end{color:var(--brake)}.ox .lane.g .end{color:var(--gas)}
+.ox .cases{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ox .case{font:inherit;text-align:right;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;color:var(--fg);display:flex;flex-direction:column;gap:2px;line-height:1.5}
+.ox .case .k{font-size:.85rem;color:var(--muted)}
+.ox .case b{font-family:var(--display)}
+.ox .case[aria-pressed="true"]{outline:2px solid var(--accent);outline-offset:1px}
+.ox .case.b .tag{color:var(--brake)}.ox .case.g .tag{color:var(--gas)}
+.ox .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.ox .row{display:flex;flex-wrap:wrap;gap:10px}
+.ox .btn{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--surface2);color:var(--fg);border-radius:10px;padding:6px 14px;cursor:pointer}
+.ox .btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.ox .story{display:flex;flex-direction:column;gap:6px}
+.ox .story .ln{display:flex;gap:10px;align-items:flex-start}
+.ox .story .ln i{flex:none;font-style:normal;font-family:var(--display);color:var(--accent);width:1.4em}
+.ox .verdict{border-radius:12px;padding:10px 16px;font-family:var(--display);font-size:1.08rem}
+.ox .verdict.b{background:var(--brake-soft);color:var(--brake)}.ox .verdict.g{background:var(--gas-soft);color:var(--gas)}
+.ox .ladderwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:16px}
+.ox .ladder{position:relative;height:400px;border-radius:14px;overflow:hidden;background:var(--surface);border:1px solid var(--line)}
+.ox .zone{position:absolute;left:0;right:0}
+.ox .zone.b{background:var(--brake-soft)}.ox .zone.g{background:var(--gas-soft)}
+.ox .lvl{position:absolute;left:0;right:0;border-top:2px dashed var(--wall);font-size:.82rem;padding:2px 8px;display:flex;justify-content:space-between;line-height:1.4}
+.ox .lvl.zero{border-top:3px solid var(--flip)}
+.ox .lvl span{background:var(--surface);border-radius:6px;padding:0 6px}
+.ox .price{position:absolute;left:0;right:0;height:0;border-top:3px solid var(--accent);transition:top .12s}
+.ox .price span{position:absolute;left:8px;top:-14px;background:var(--accent);color:var(--bg);font-weight:600;font-size:.85rem;border-radius:999px;padding:0 10px;font-variant-numeric:tabular-nums;line-height:1.6}
+.ox .ctl{display:flex;flex-direction:column;gap:4px}
+.ox .ctl label{font-size:.92rem;color:var(--muted);display:flex;justify-content:space-between}
+.ox .ctl label b{color:var(--fg);font-variant-numeric:tabular-nums}
+.ox input[type=range]{width:100%;accent-color:var(--accent)}
+.ox .side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.ox .defs{display:grid;gap:10px}
+.ox .def{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+@media (max-width:560px){.ox .two,.ox .chain,.ox .cases,.ox .ladderwrap{grid-template-columns:1fr}.ox .ladder{height:360px}.ox h1{font-size:1.8rem}}
+@media (prefers-reduced-motion:reduce){.ox .price{transition:none}}
+</style>
+<style>body{margin:0;padding:16px}</style>
+</head><body>
+<div class="ox">
+<section aria-labelledby="map-title">
+  <h2 id="map-title">מפת הגמא</h2>
+  <p class="lead">אני יודע שזה מבלבל בהתחלה, ולכן הכנתי לכם מפה. תשחקו איתה: בחרו מקרה, הזיזו את המחיר, ותראו מה עושה השוק עושה. כל המספרים כאן לדוגמה בלבד.</p>
+
+  <h3>מי מחזיק את האופציה</h3>
+  <p>עושה השוק תמיד בצד ההפוך של הציבור. לכן לא משנה אם מדובר בקול או בפוט, משנה רק מי מחזיק את האופציה.</p>
+  <div class="chain">
+    <div class="lane g">
+      <div class="step">הציבור <b>קונה</b> אופציות</div><div class="arrow">↓</div>
+      <div class="step">עושה השוק <b>מכר</b> אותן</div><div class="arrow">↓</div>
+      <div class="step">גמא <b>שלילית</b></div><div class="arrow">↓</div>
+      <div class="step">השוק עולה: קונה · יורד: מוכר</div>
+      <div class="end">גז · מאיץ את התנועה</div>
+    </div>
+    <div class="lane b">
+      <div class="step">הציבור <b>מוכר</b> אופציות</div><div class="arrow">↓</div>
+      <div class="step">עושה השוק <b>קנה</b> אותן</div><div class="arrow">↓</div>
+      <div class="step">גמא <b>חיובית</b></div><div class="arrow">↓</div>
+      <div class="step">השוק עולה: מוכר · יורד: קונה</div>
+      <div class="end">בלם · מרסן את התנועה</div>
+    </div>
+  </div>
+
+  <h3>ארבעת המקרים, צעד אחר צעד</h3>
+  <div class="cases" role="group" aria-label="בחר מקרה">
+    <button class="case g" data-c="0" aria-pressed="true"><span class="k">הציבור קונה קול</span><b>עושה השוק מכר קול</b><span class="tag">גמא שלילית · גז</span></button>
+    <button class="case g" data-c="1" aria-pressed="false"><span class="k">הציבור קונה פוט</span><b>עושה השוק מכר פוט</b><span class="tag">גמא שלילית · גז</span></button>
+    <button class="case b" data-c="2" aria-pressed="false"><span class="k">הציבור מוכר קול</span><b>עושה השוק קנה קול</b><span class="tag">גמא חיובית · בלם</span></button>
+    <button class="case b" data-c="3" aria-pressed="false"><span class="k">הציבור מוכר פוט</span><b>עושה השוק קנה פוט</b><span class="tag">גמא חיובית · בלם</span></button>
+  </div>
+  <div class="panel">
+    <div class="row" role="group" aria-label="תזוזת מחיר"><button class="btn" id="ox-up" aria-pressed="true">הנאסדק עולה 100 ↑</button><button class="btn" id="ox-dn" aria-pressed="false">הנאסדק יורד 100 ↓</button></div>
+    <div class="story" id="ox-story" aria-live="polite"></div>
+    <div class="verdict" id="ox-verdict"></div>
+  </div>
+
+  <h3>רמות הגמא על הגרף</h3>
+  <p>בשוק האמיתי כל ארבעת המקרים קורים בבת אחת, בכל סטרייק. כלי כמו TradeGEX סוכם את כולם ומסמן על הגרף איפה הבלם הכי חזק, איפה הגז הכי חזק, ואיפה המצב מתהפך. הזיזו את המחיר:</p>
+  <div class="ladderwrap">
+    <div class="ladder" aria-label="סולם מחירים עם רמות גמא">
+      <div class="zone b" id="ox-zb"></div><div class="zone g" id="ox-zg"></div>
+      <div class="lvl" id="ox-lcw"><span>קיר קולים</span><span>21,500</span></div>
+      <div class="lvl zero" id="ox-lzg"><span>אפס גמא</span><span>20,900</span></div>
+      <div class="lvl" id="ox-lpw"><span>קיר פוטים</span><span>20,500</span></div>
+      <div class="price" id="ox-px"><span id="ox-pxl"></span></div>
+    </div>
+    <div class="side">
+      <div class="ctl"><label for="ox-sp">מחיר הנאסדק <b id="ox-spv"></b></label><input type="range" id="ox-sp" min="20200" max="21800" step="25" value="21250"></div>
+      <div class="verdict" id="ox-lv"></div>
+      <p id="ox-ltxt"></p>
+    </div>
+  </div>
+  <div class="defs">
+    <div class="def"><h3>קיר קולים</h3><p>הסטרייק עם הכי הרבה גמא בצד הקולים, לרוב מעל המחיר. מתנהג לעיתים קרובות כמו <b>התנגדות</b>.</p></div>
+    <div class="def"><h3>אפס גמא, נקודת ההיפוך</h3><p>המחיר שבו הסך הכל של הגמא מתחלף מחיובי לשלילי. מעליו בלם, מתחתיו גז. <b>הרמה הכי חשובה</b> להבנת אופי היום.</p></div>
+    <div class="def"><h3>קיר פוטים</h3><p>הסטרייק עם הכי הרבה גמא בצד הפוטים, לרוב מתחת למחיר. מתנהג לעיתים קרובות כמו <b>תמיכה</b>, אבל אם נשבר, הירידה עלולה להאיץ.</p></div>
+  </div>
+  <p class="cap">על קירות הקולים והפוטים נרחיב בשיעור הבא בקורס.</p>
+</section>
+</div>
+<script>
+(function(){
+const cases=[
+ {who:'עושה השוק מכר 100 קולים',start:'הקולים שמכר שווים נגדו כמו 50 חוזים בשורט, אז הוא קנה 50 חוזים כדי להתאזן.',
+  up:['הקולים מתקרבים לרווח, הדלתא עולה מ־0.5 ל־0.6','עכשיו הוא חשוף כמו מי שמכר 60 חוזים, ומחזיק רק 50','הוא קונה עוד 10 חוזים'],
+  dn:['הקולים מתרחקים מרווח, הדלתא יורדת ל־0.4','עכשיו הוא צריך רק 40 חוזים, ומחזיק 50','הוא מוכר 10 חוזים'],g:true},
+ {who:'עושה השוק מכר 100 פוטים',start:'מי שמכר פוטים מרוויח בעלייה, כאילו קנה 50 חוזים. אז הוא מכר 50 חוזים כדי להתאזן.',
+  up:['הפוטים מתרחקים מרווח, הדלתא שלהם מתכווצת מ־0.5 ל־0.4','עכשיו הוא צריך רק 40 חוזים במכירה, ומכר 50','הוא קונה בחזרה 10 חוזים'],
+  dn:['הפוטים מתקרבים לרווח, הדלתא שלהם גדלה ל־0.6','עכשיו הוא צריך 60 חוזים במכירה, ומכר רק 50','הוא מוכר עוד 10 חוזים'],g:true},
+ {who:'עושה השוק קנה 100 קולים',start:'הקולים שקנה מרוויחים בעלייה, כאילו קנה 50 חוזים. אז הוא מכר 50 חוזים כדי להתאזן.',
+  up:['הקולים שלו מתקרבים לרווח, הדלתא עולה ל־0.6','עכשיו הם שווים כמו 60 חוזים, והוא מכר רק 50','הוא מוכר עוד 10 חוזים'],
+  dn:['הקולים שלו מתרחקים מרווח, הדלתא יורדת ל־0.4','עכשיו הם שווים 40 חוזים, והוא מכר 50','הוא קונה בחזרה 10 חוזים'],g:false},
+ {who:'עושה השוק קנה 100 פוטים',start:'הפוטים שקנה מרוויחים בירידה, כאילו מכר 50 חוזים. אז הוא קנה 50 חוזים כדי להתאזן.',
+  up:['הפוטים שלו מתרחקים מרווח, הדלתא מתכווצת ל־0.4','עכשיו הם שווים כמו מכירה של 40 חוזים, והוא קנה 50','הוא מוכר 10 חוזים'],
+  dn:['הפוטים שלו מתקרבים לרווח, הדלתא גדלה ל־0.6','עכשיו הם שווים כמו מכירה של 60, והוא קנה רק 50','הוא קונה עוד 10 חוזים'],g:false}
+];
+let ci=0,dir='up';
+const $=id=>document.getElementById(id);
+const story=$('ox-story'),verdict=$('ox-verdict');
+function render(){const c=cases[ci];const steps=c[dir];
+  story.innerHTML='<div class="ln"><i>0</i><span><b>'+c.who+'.</b> '+c.start+'</span></div>'+steps.map((s,i)=>'<div class="ln"><i>'+(i+1)+'</i><span>'+(i===steps.length-1?'<b>'+s+'</b>':s)+'</span></div>').join('');
+  const buying=steps[steps.length-1].indexOf('קונה')>-1;
+  const withMove=(dir==='up')===buying;
+  verdict.className='verdict '+(c.g?'g':'b');
+  verdict.textContent=(dir==='up'?'השוק עלה':'השוק ירד')+', והוא '+(buying?'קונה':'מוכר')+': '+(withMove?'עם התנועה. גז.':'נגד התנועה. בלם.');
+  document.querySelectorAll('.ox .case').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.c===ci));
+  $('ox-up').setAttribute('aria-pressed',dir==='up');$('ox-dn').setAttribute('aria-pressed',dir==='dn')}
+document.querySelectorAll('.ox .case').forEach(b=>b.addEventListener('click',()=>{ci=+b.dataset.c;render()}));
+$('ox-up').addEventListener('click',()=>{dir='up';render()});
+$('ox-dn').addEventListener('click',()=>{dir='dn';render()});
+render();
+
+const MIN=20200,MAX=21800,CW=21500,ZG=20900,PW=20500;
+const pct=v=>(MAX-v)/(MAX-MIN)*100;
+$('ox-zb').style.top='0';$('ox-zb').style.height=pct(ZG)+'%';$('ox-zg').style.top=pct(ZG)+'%';$('ox-zg').style.bottom='0';
+$('ox-lcw').style.top=pct(CW)+'%';$('ox-lzg').style.top=pct(ZG)+'%';$('ox-lpw').style.top=pct(PW)+'%';
+const sp=$('ox-sp'),fmt=n=>n.toLocaleString('en-US');
+function lad(){const v=+sp.value;$('ox-spv').textContent=fmt(v);$('ox-pxl').textContent=fmt(v);
+  $('ox-px').style.top=pct(v)+'%';
+  const lv=$('ox-lv'),t=$('ox-ltxt');let txt;
+  if(v>=ZG){lv.className='verdict b';lv.textContent='מעל אפס הגמא: בלם';
+    txt=v>=CW-60&&v<=CW+60?'צמוד לקיר הקולים. כאן הבלימה הכי חזקה, והסיכוי להיעצר או להסתובב גבוה.':v>CW+60?'מעל קיר הקולים. השוק פרץ את ההתנגדות הגדולה. לפעמים זה סימן לשינוי, וכדאי לבדוק את המפה מחדש.':v<ZG+100?'קרוב לנקודת ההיפוך. עדיין בלם, אבל ירידה קטנה תעביר את השוק לגז.':'אזור רגוע. תנועות נוטות להיבלם, ומסחר בטווח עובד טוב יותר מרדיפה אחרי פריצות.'}
+  else{lv.className='verdict g';lv.textContent='מתחת לאפס הגמא: גז';
+    txt=v<=PW+60&&v>=PW-60?'צמוד לקיר הפוטים. לעיתים קרובות תמיכה, אבל אם נשבר, הירידה עלולה להאיץ.':v<PW-60?'מתחת לקיר הפוטים. האזור הכי תנודתי במפה. זהירות עם תפיסת תחתיות.':'השוק תנודתי יותר. מהלכים מתארכים, ועדיף לסחור עם הכיוון.'}
+  t.textContent=txt}
+sp.addEventListener('input',lad);lad();
+})();
+</script>
+</body></html>
