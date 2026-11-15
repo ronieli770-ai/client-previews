@@ -36,7 +36,7 @@ import{bk as t,bl as e,bm as a,bn as o,bo as n,bp as s,bq as r,br as i,bs as h,b
 <li><strong>Stop:</strong> above the entry, because if price goes up you're losing. In a short the stop is a buy order: <span class="en">Buy Stop Market</span>.</li>
 <li><strong>Target:</strong> below the entry, with a <span class="en">Buy Limit</span> order. To close a short you have to buy.</li>
 </ul>
-<figure><img src="/blog/long-short/ls-short-chart.jpg" alt="A short trade on the chart in NinjaTrader: a stop order above the entry and a target below it" loading="lazy" /></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/long-short/ls-short-chart.jpg" alt="A short trade on the chart in NinjaTrader: a stop order above the entry and a target below it" loading="lazy" /></figure>
 <p>I explained every order type, and when to use each one, in the article <a href="/blog/order-types">Order types: market, limit and stop</a>.</p>
 
 <h2>What is a short squeeze?</h2>
@@ -107,7 +107,7 @@ import{bk as t,bl as e,bm as a,bn as o,bo as n,bp as s,bq as r,br as i,bs as h,b
 </tbody>
 </table>
 <p>In a short everything is reversed, because to close a short you have to buy. There's a full explanation of shorting in the article <a href="/blog/long-short">Long and short</a>.</p>
-<figure><img src="/blog/order-types/ot-chart-orders.jpg" alt="Orders on the chart in NinjaTrader: the right-click order menu, with limit and stop orders" loading="lazy" /></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/order-types/ot-chart-orders.jpg" alt="Orders on the chart in NinjaTrader: the right-click order menu, with limit and stop orders" loading="lazy" /></figure>
 <p>In NinjaTrader, for example, you place most orders with a right-click on the chart, at the price level you want. Other platforms look a little different, but the orders are the same. If you trade a prop firm account on <span class="en">Tradovate</span>, you can also set a <a href="/blog/tradovate-daily-stop">daily stop</a> there, so one bad day doesn't blow the account.</p>
 
 <div class="cta"><h2>Know your orders? Now manage the risk</h2><p>Once the orders are clear, the next step is <a href="/blog/risk-reward-1-to-3-losing-streaks">managing the risk on every trade</a>.</p></div>
@@ -697,7 +697,7 @@ import{bk as t,bl as e,bm as a,bn as o,bo as n,bp as s,bq as r,br as i,bs as h,b
   <li>Choose <span class="en">Volume Footprint</span>. If it doesn't appear, search for it and mark it with a star.</li>
   <li>Zoom in on the chart to see the numbers inside the candles.</li>
 </ol>
-<figure><img src="/blog/footprint/fp-04.jpg" alt="A footprint chart on TradingView" loading="lazy" /></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/footprint/fp-04.jpg" alt="A footprint chart on TradingView" loading="lazy" /></figure>
 <div class="box warn"><strong>Note</strong>I teach this on TradingView because that's where footprint is easiest to see and understand visually - but the data TradingView shows in footprint isn't as accurate as in dedicated order flow software. For learning and understanding it's excellent; for trading based on footprint I work with ATAS.</div>
 
 <h3>The important settings</h3>
@@ -710,12 +710,12 @@ import{bk as t,bl as e,bm as a,bn as o,bo as n,bp as s,bq as r,br as i,bs as h,b
   <li><strong>Imbalance</strong> - the ratio that counts as an imbalance. Mine is 300% (3 times). 250% is looser and will show more imbalances; 400% is stricter and will show only the significant ones.</li>
   <li><strong>Stacked levels</strong> - how many imbalances in a row are needed to mark an area. At 1, every imbalance is marked; at 3, only a run of three or more.</li>
 </ul>
-<figure><img src="/blog/footprint/fp-07.jpg" alt="A footprint chart on TradingView with imbalance areas marked" loading="lazy" /></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/footprint/fp-07.jpg" alt="A footprint chart on TradingView with imbalance areas marked" loading="lazy" /></figure>
 
 <h2 id="atas">Footprint in ATAS</h2>
 <p>ATAS is the order flow software I work with, and probably one of the most advanced today. It shows footprint more accurately, and you can go over a candle with a magnifying glass and see the numbers at every level. It also has a heatmap (Heat Map) that shows where the Limit orders sit in the order book.</p>
-<figure><img src="/blog/footprint/fp-10.jpg" alt="A footprint chart in ATAS" loading="lazy" /></figure>
-<figure><img src="/blog/footprint/fp-09.jpg" alt="The heatmap (Heat Map) in ATAS" loading="lazy" /></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/footprint/fp-10.jpg" alt="A footprint chart in ATAS" loading="lazy" /></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/footprint/fp-09.jpg" alt="The heatmap (Heat Map) in ATAS" loading="lazy" /></figure>
 
 <h2 id="next">What's next?</h2>
 <p>In this guide we got to know what you see in footprint: who's aggressive and who's passive, imbalance, POC, Value Area, delta and absorption. The next step is understanding how to use it in practice - where to look for them on the chart, and how to combine them with a strategy.</p>
@@ -951,27 +951,27 @@ import{bk as t,bl as e,bm as a,bn as o,bo as n,bp as s,bq as r,br as i,bs as h,b
 
 <h3><span class="n">1</span>Click Close account</h3>
 <p>In TakeProfit's dashboard (<span class="en">Control Center</span>), choose the account and click <span class="en">Close account</span> on the right side of the account card.</p>
-<figure><img src="/blog/takeprofit-buffer/tp-01-account.jpg" alt="The account card in TakeProfit's dashboard with the Close account button" loading="lazy" /><figcaption>The account and login details are hidden in the picture.</figcaption></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/takeprofit-buffer/tp-01-account.jpg" alt="The account card in TakeProfit's dashboard with the Close account button" loading="lazy" /><figcaption>The account and login details are hidden in the picture.</figcaption></figure>
 
 <h3><span class="n">2</span>Confirm the closing</h3>
 <p>A message appears warning that after closing you won't be able to reset the account, trade it or access it, and that the action can't be undone. If you've decided, click <span class="en">YES</span>.</p>
-<figure><img src="/blog/takeprofit-buffer/tp-02-confirm.jpg" alt="The confirmation window for closing a PRO account at TakeProfit with the NO and YES buttons" loading="lazy" /></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/takeprofit-buffer/tp-02-confirm.jpg" alt="The confirmation window for closing a PRO account at TakeProfit with the NO and YES buttons" loading="lazy" /></figure>
 
 <h3><span class="n">3</span>A Withdraw button appears</h3>
 <p>After closing, a <span class="en">Withdraw</span> button appears instead of <span class="en">Close account</span>, and the account card shows how much is available to withdraw (<span class="en">Available for Withdrawal</span>). For me it was $422.</p>
-<figure><img src="/blog/takeprofit-buffer/tp-03-withdraw-btn.jpg" alt="The account card after closing with Available for Withdrawal and the Withdraw button" loading="lazy" /></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/takeprofit-buffer/tp-03-withdraw-btn.jpg" alt="The account card after closing with Available for Withdrawal and the Withdraw button" loading="lazy" /></figure>
 
 <h3><span class="n">4</span>If an error appears, wait until the next day</h3>
 <p>When I tried to withdraw right after closing, I got a message that withdrawals are unavailable while the trading session is active. As with regular payouts at TakeProfit, the system updates the day after. I came back the next day, and the withdrawal went through.</p>
-<figure><img src="/blog/takeprofit-buffer/tp-04-error.jpg" alt="The error message Withdrawals are unavailable while your trading session is active" loading="lazy" /></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/takeprofit-buffer/tp-04-error.jpg" alt="The error message Withdrawals are unavailable while your trading session is active" loading="lazy" /></figure>
 
 <h3><span class="n">5</span>Enter the amount and confirm</h3>
 <p>In the <span class="en">Withdraw</span> window, enter the amount you want to withdraw. You don't have to withdraw it all, and you can also withdraw later. The window shows the profit split and the amount you'll receive. For me: a $422 withdrawal, of which $211 went to me, that is 50%. Click <span class="en">Confirm &amp; Withdraw</span>.</p>
-<figure class="narrow"><img src="/blog/takeprofit-buffer/tp-05-withdraw.jpg" alt="The Withdraw window at TakeProfit: a withdrawal amount of 422, the profit split and the 211 received" loading="lazy" /></figure>
+<figure class="narrow"><img src="/client-previews/antartrade/footer-credit/blog/takeprofit-buffer/tp-05-withdraw.jpg" alt="The Withdraw window at TakeProfit: a withdrawal amount of 422, the profit split and the 211 received" loading="lazy" /></figure>
 
 <h3><span class="n">6</span>The money is in the wallet</h3>
 <p>Go to the wallet, and you'll see the deposit there. From there you withdraw it like any regular payout from TakeProfit.</p>
-<figure><img src="/blog/takeprofit-buffer/tp-06-wallet.jpg" alt="The TakeProfit wallet with a $211 deposit in the history" loading="lazy" /><figcaption>The wallet balance and wallet number are hidden in the picture.</figcaption></figure>
+<figure><img src="/client-previews/antartrade/footer-credit/blog/takeprofit-buffer/tp-06-wallet.jpg" alt="The TakeProfit wallet with a $211 deposit in the history" loading="lazy" /><figcaption>The wallet balance and wallet number are hidden in the picture.</figcaption></figure>
 
 <div class="cta">
   <h2>Buying a TakeProfit account?</h2>
