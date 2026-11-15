@@ -1,0 +1,1 @@
+const e={label:"Language",switchTo:"Switch to {{language}}"},a={title:"404 - Page not found | AntarTrade",heading:"Page not found",text:"The address may have changed, or the page was removed.",home:"Back to the homepage"},o={language:e,notFound:a};export{o as default,e as language,a as notFound};
