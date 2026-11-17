@@ -256,7 +256,7 @@ body.bk-open header .cta-pill{visibility:hidden}
 .bk-times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .bk-time{height:42px;background:rgba(59,42,32,.05);font-weight:700;font-size:16px}
 .bk-time.sel{background:#3b2a20;color:#f4ede6}
-.bk-time:disabled{opacity:.35;cursor:default}
+.bk-time:disabled{opacity:.35;cursor:default;text-decoration:line-through}
 .bk-sum{background:rgba(59,42,32,.06);border-radius:4px;padding:12px 14px;font-weight:700;font-size:14px}
 .bk-field{display:flex;flex-direction:column;gap:6px}
 .bk-field label{font-weight:700;font-size:12px}
@@ -512,7 +512,7 @@ addEventListener('scroll', onScroll, { passive:true }); onScroll();
  const loadSlots = async () => {
   $('[data-tlbl]').textContent = 'שעות פנויות'; $('[data-days]').innerHTML = ''; $('[data-times]').innerHTML = '<div class="bk-wait">בודקת שעות פנויות ביומן...</div>';
   try {
-   const r = await call({ action:'slots' });
+   const r = await getSlots();
    if (!r.ok) throw 0;
    days = r.days;
    if (!days.find(x => x.key === st.key)) { const d = days[0]; st.key = d ? d.key : ''; st.day = d ? `${d.dow} ${d.date}` : ''; st.time = ''; }
@@ -520,6 +520,10 @@ addEventListener('scroll', onScroll, { passive:true }); onScroll();
    drawDays(); drawTimes(); sync();
   } catch (e) { $('[data-times]').innerHTML = '<div class="bk-wait">לא הצלחתי לטעון את השעות. נסי שוב בעוד רגע.</div>'; }
  };
+
+ /* ask the calendar as soon as the page opens, so the times are ready by step 2 */
+ let warm = call({ action:'slots' }).catch(() => null);
+ const getSlots = async () => { if (warm) { const r = await warm; warm = null; if (r && r.ok) return r; } return call({ action:'slots' }); };
 
  const open = e => { e.preventDefault(); go(1); sync(); B.classList.add('bk-open'); };
  const close = () => B.classList.remove('bk-open');
