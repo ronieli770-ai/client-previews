@@ -1,0 +1,12 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Not found</title>
+<script>
+/* single-page previews (AntarTrade club demo): send deep links to the app with the path in ?p=, the app puts it back */
+(function () {
+  var base = "/client-previews/antartrade/club-demo/";
+  var l = window.location;
+  if (l.pathname.indexOf(base) === 0) {
+    var rest = l.pathname.slice(base.length);
+    l.replace(base + "?p=" + encodeURIComponent(rest) + (l.search ? "&q=" + encodeURIComponent(l.search.slice(1)) : "") + l.hash);
+  }
+})();
+</script></head><body style="font-family:sans-serif;padding:40px">Page not found.</body></html>
