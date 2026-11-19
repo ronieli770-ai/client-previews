@@ -113,12 +113,13 @@ const PRZ={pts:[null,a=>`<span class="num">${a}</span> מטבעות`,"sun","מט
   disc:[PCT,()=>`<span class="num">15%</span> הנחה על הקורס ל-<span class="num">7</span> ימים`,"sun","הנחה על הקורס","15% על הקורס המלא, לשבעה ימים, עם ספירה לאחור בארנק"],
   rep:[REP,()=>"הדוח: מה הנתונים שלך אומרים","sky","הדוח של 30 יום","התובנה של 30 יום: באילו שעות הוא מרוויח ומה אחוז ההצלחה"],
   cert:[CERT,()=>"תעודת סיום","sun","תעודת סיום","תעודה על סיום האתגר, עם כפתור שיתוף"],
-  saver:[SAVER,()=>"שומר רצף נוסף","mint","שומר רצף נוסף","יום אחד שיצא מהתוכנית לא מאפס את הרצף"]};
-const przIc=k=>{if(k==="pts")return `<img class="c9-pi" alt="" src="${GI("coin")}">`;const o=ICSET[S.ic][k];if(o==="COINX2")return `<span class="cx2"><img alt="" src="${GI("coin")}"><b class="num">x2</b></span>`;return SV(o||PRZ[k][0]);};
+  saver:[SAVER,()=>"שומר רצף נוסף","mint","שומר רצף נוסף","יום אחד שיצא מהתוכנית לא מאפס את הרצף"],
+  badge:[null,()=>"תג סיים אתגר <span class=\"num\">90</span>","sun","תג סיים אתגר <span class=\"num\">90</span>","נכנס לפרופיל במועדון ומופיע ליד השם"]};
+const przIc=k=>{if(k==="pts")return `<img class="c9-pi" alt="" src="${GI("coin")}">`;if(k==="badge")return `<img class="c9-pi" alt="" src="${GI("badge-c90")}">`;const o=ICSET[S.ic][k];if(o==="COINX2")return `<span class="cx2"><img alt="" src="${GI("coin")}"><b class="num">x2</b></span>`;return SV(o||PRZ[k][0]);};
 const przChip=([k,a])=>`<span class="c9-prz" style="--c:var(--c-${PRZ[k][2]})">${przIc(k)}<span>${PRZ[k][1](a)}</span></span>`;
 /* the goals and scratch cards, copied from challenge.js (GOALS, SCR) */
 const GOALS=[[5,"מטבעות",[["pts",40]]],[10,"בונוס",[["pts",50],["saver"]]],[20,"הגרלה",[["tix",1],["pts",50]]],
-  [30,"התובנות שלך + מתנה",[["rep"],["pts",100],["disc"]]],[60,"בונוס",[["pts",150],["tix",1]]],[90,"הפרס הגדול",[["pts",400],["cert"],["tix",2]]]];
+  [30,"התובנות שלך + מתנה",[["rep"],["pts",100],["disc"]]],[60,"בונוס",[["pts",150],["tix",1]]],[90,"הפרס הגדול",[["pts",900],["badge"],["tix",2]]]];
 const SCR=[[15,["pts",60]],[45,["tix",1]],[75,["dblday"]]];
 const NOTE={90:"נפתחת גם כשמסיימים את יום 90, ועם קונפטי."};
 let S={mode:"goal",goal:5,cs:"open",scr:15,ss:"cover",ic:0};

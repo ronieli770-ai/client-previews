@@ -1208,3 +1208,13 @@ a.g-eqb{text-decoration:none}
   .coach .bub .c9-wco .tx{flex:1 1 calc(100% - 60px)}
   .coach .bub .c9-wco .g-eqb{width:100%;justify-content:center}
 }
+
+/* 19.11: the "סיים אתגר 90" badge (the club's art) in the finish moment and on the summary */
+.g-fbadge{display:flex;align-items:center;gap:14px;margin:16px auto 4px;padding:12px 18px 12px 14px;border-radius:18px;background:rgba(var(--tint),.07);text-align:right;max-width:460px}
+.g-fbadge img{width:64px;height:64px;flex:none;object-fit:contain;filter:drop-shadow(0 10px 16px rgba(0,0,0,.45))}
+.g-fbadge b{display:block;color:#eef3fa;font-size:16px;font-weight:500;white-space:nowrap}
+.g-fbadge div>span{display:block;color:var(--muted);font-size:14px;margin-top:2px}
+.g-fin .g-fbadge{margin:14px 0 4px}
+.g-lur .g-lub{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 8px}
+.g-lub img{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
+.g-lub span{text-align:right}
