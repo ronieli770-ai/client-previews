@@ -1,0 +1,1 @@
+import{j as e,r as s}from"./react-vendor-E9sCIgAP.js";function c({text:n,slots:m}){return e.jsx(e.Fragment,{children:n.split(/(\{\d+\})/).map((t,o)=>{const r=t.match(/^\{(\d+)\}$/);return s.createElement(s.Fragment,{key:o},r?m[Number(r[1])]:t)})})}export{c as S};

@@ -1,0 +1,1 @@
+import{u as n,aM as m,bj as i}from"./index-mrg-xRe4.js";import{f as u}from"./useToolPromotion-3ycr3Tst.js";import{p as c,a as f}from"./useMonitorCheck-J7ZCtupV.js";function F(){const r=n(),{isHebrew:e}=m(),o=i(),t=s=>e?u(s):o.date(s,{day:"numeric",month:"short",year:"numeric"});return{tx:r,isHebrew:e,date:t,freshness:(s,a)=>e?c(s,a):f(s,a,r,t)}}export{F as u};

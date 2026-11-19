@@ -1,0 +1,1 @@
+import{r as n}from"./react-vendor-E9sCIgAP.js";import{a0 as o,a5 as s}from"./index-mrg-xRe4.js";function a(r,u,t){return r===s?u??null:(t==null?void 0:t[r])??null}function l(){const r=o();return n.useCallback((u,t)=>a(r,u,t),[r])}export{l as u};
