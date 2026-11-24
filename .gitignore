@@ -31,3 +31,9 @@ amitzi/media/up/
 amitzi/media/grid.jpg
 amitzi/*.md
 amitzi/*.txt
+
+# internal call script template
+*.md
+
+# Broides demo: keep the call notes local
+broides/הכנה-לשיחה.md
