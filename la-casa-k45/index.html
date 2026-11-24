@@ -412,6 +412,7 @@ if (window.Lenis && !/[?&]rec/.test(location.search)) {
   if (phone && !sessionStorage.getItem('gatePassed')) { g.classList.add('show'); document.documentElement.style.overflow = 'hidden'; }
   document.getElementById('gateGo').onclick = () => { sessionStorage.setItem('gatePassed','1'); g.classList.remove('show'); g.querySelector('video').pause(); document.documentElement.style.overflow = ''; };
 })();
+if(/[?&]clean/.test(location.search)){const rb=document.querySelector('.ribbon'); if(rb) rb.remove();}
 </script>
 </body>
 </html>
