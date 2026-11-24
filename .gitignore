@@ -24,3 +24,10 @@ blumenfeld-moore/media/p/
 blumenfeld-moore/media/*.jpg
 blumenfeld-moore/*.md
 blumenfeld-moore/*.txt
+
+# Amitzi demo: keep source photos, AI upscales and check sheets out of the public repo
+amitzi/media/p/
+amitzi/media/up/
+amitzi/media/grid.jpg
+amitzi/*.md
+amitzi/*.txt
