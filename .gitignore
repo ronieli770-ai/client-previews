@@ -13,3 +13,14 @@ yaron-eldad/media/grid.jpg
 yaron-eldad/media/sheet-hh.jpg
 yaron-eldad/*.md
 yaron-eldad/*.txt
+
+# Blumenfeld Moore demo: only the new page and its light media go public
+blumenfeld-moore/index-v1.html
+blumenfeld-moore/frames/
+blumenfeld-moore/media/clips/
+blumenfeld-moore/media/raw/
+blumenfeld-moore/media/full/
+blumenfeld-moore/media/p/
+blumenfeld-moore/media/*.jpg
+blumenfeld-moore/*.md
+blumenfeld-moore/*.txt
