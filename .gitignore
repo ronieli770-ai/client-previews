@@ -1,1 +1,7 @@
 antartrade/
+
+# La Casa demo: keep originals, check images and the big desktop video out of the public repo
+la-casa-k45/media/orig/
+la-casa-k45/media/sheet.jpg
+la-casa-k45/media/pins-check.jpg
+la-casa-k45/*.mp4
