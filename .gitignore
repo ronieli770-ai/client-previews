@@ -37,3 +37,7 @@ amitzi/*.txt
 
 # Broides demo: keep the call notes local
 broides/הכנה-לשיחה.md
+amitzi/תסריט-שיחה.html
+
+# Amitzi asked (24.11) not to use their photos: the demo stays local only
+amitzi/
