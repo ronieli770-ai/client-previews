@@ -41,3 +41,12 @@ amitzi/תסריט-שיחה.html
 
 # Amitzi asked (24.11) not to use their photos: the demo stays local only
 amitzi/
+
+# Demo agent: source photos, check screenshots, configs, messages and lead data stay local
+*/src/
+*/_check/
+*/demo.json
+*/message.txt
+*/lead.json
+_enginetest/
+_morning/
