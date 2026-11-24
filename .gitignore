@@ -5,3 +5,11 @@ la-casa-k45/media/orig/
 la-casa-k45/media/sheet.jpg
 la-casa-k45/media/pins-check.jpg
 la-casa-k45/*.mp4
+
+# Yaron Eldad demo: keep source photos, AI upscales, check sheets and call notes out of the public repo
+yaron-eldad/media/raw/
+yaron-eldad/media/up/
+yaron-eldad/media/grid.jpg
+yaron-eldad/media/sheet-hh.jpg
+yaron-eldad/*.md
+yaron-eldad/*.txt
