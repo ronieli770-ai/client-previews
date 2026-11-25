@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>נאורה גולדברג אדריכלית · בית פרטי עם בריכה (הדמיה)</title>
+<link rel="preload" as="image" type="image/webp" imagesrcset="media/rooms/s1-1200.webp 1200w, media/rooms/s1-2400.webp 2400w" imagesizes="100vw">
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"Fb Ogen";src:url(../fonts/FbOgen-Bold.otf) format("opentype");font-weight:700;font-display:swap}
+@font-face{font-family:"Fb Ogen";src:url(../fonts/FbOgen-Regular.otf) format("opentype");font-weight:400;font-display:swap}
+:root{--ux:calc(100vw/1728);--uy:calc(100vh/1117);--u:min(var(--ux),var(--uy));--gold:#111;--ink:#111}
+*{box-sizing:border-box;margin:0;padding:0}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto !important}
+body{font-family:"Fb Ogen","Heebo",sans-serif;background:#111;color:var(--ink);-webkit-font-smoothing:antialiased}
+.ogen{font-family:"Fb Ogen","Heebo",sans-serif;font-weight:700}
+.ribbon{position:fixed;bottom:calc(14*var(--uy));left:50%;transform:translateX(-50%);z-index:60;background:rgba(0,0,0,.55);color:#e8e1d4;font-size:12px;padding:6px 14px;border-radius:999px;backdrop-filter:blur(8px);white-space:nowrap}
+
+.tour{position:relative}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#000}
+.scene{position:absolute;inset:0;opacity:0;transition:opacity .45s ease}
+.scene.on{opacity:1}
+.scene img{position:absolute;left:50%;top:50%;width:max(100vw, calc(100vh * 1.5));height:max(100vh, calc(100vw / 1.5));transform:translate(-50%,-50%);transform-origin:50% 50%;will-change:transform;backface-visibility:hidden}
+.grad-top,.grad-bot{position:absolute;left:0;right:0;height:calc(332*var(--uy));pointer-events:none;z-index:1}
+.grad-top{top:0;background:linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,0))}
+.grad-bot{bottom:0;background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,0))}
+
+.txtlogo{position:absolute;left:calc(47*var(--ux));bottom:calc(49*var(--uy));z-index:5;direction:ltr;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;color:#fff;font-family:"Roboto",sans-serif;letter-spacing:.18em;line-height:1.2}
+.txtlogo b{font-weight:500;font-size:calc(22*var(--u))}
+.txtlogo span{font-weight:300;font-size:calc(10*var(--u));opacity:.85;line-height:1.3}
+
+.tabs{position:absolute;left:50%;transform:translateX(-50%);top:calc(52*var(--uy));display:flex;gap:calc(36*var(--u));z-index:5}
+.tab{all:unset;cursor:pointer;display:flex;align-items:center}
+.tab img{width:calc(96*var(--u));height:calc(96*var(--u));display:block;border-radius:50%;position:relative;z-index:1;transition:transform .35s;object-fit:cover}
+.tab .lbl{font-size:calc(30*var(--u));line-height:1.075;color:#fff;white-space:nowrap;background:rgba(255,255,255,.2);backdrop-filter:blur(37.7px);-webkit-backdrop-filter:blur(37.7px);border-radius:125px;padding:calc(8*var(--u)) calc(56*var(--u)) calc(8*var(--u)) calc(30*var(--u));margin-right:calc(-26*var(--u));transition:background .3s}
+.tab.on .lbl{background:rgba(255,255,255,.34)}
+.tab.on img{transform:scale(1.06)}
+.tab:hover .lbl{background:rgba(255,255,255,.3)}
+
+.panel{position:absolute;left:calc(64*var(--ux));top:calc(219*var(--uy));width:calc(372*var(--u));z-index:5;background:rgba(255,255,255,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:calc(27*var(--u));padding:calc(40*var(--u)) calc(49*var(--u)) calc(39*var(--u)) calc(45*var(--u));transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .35s}
+.panel h3{font-size:calc(40*var(--u));line-height:1.03;color:#000;margin-bottom:calc(22*var(--u))}
+#mats{display:flex;flex-direction:column;gap:calc(26*var(--u))}
+.mat{display:flex;gap:calc(20*var(--u));align-items:flex-start;cursor:default;transition:opacity .3s}
+.mat .sq{width:calc(28*var(--u));height:calc(29*var(--u));border-radius:calc(5*var(--u));background:var(--gold);flex:none;transition:transform .25s}
+.mat div{font-family:"Fb Ogen","Heebo",sans-serif;font-size:calc(22*var(--u));line-height:1.18;color:#000}
+.mat b{display:block;font-weight:700}
+.mat span{display:block;font-weight:400}
+.mat.hi .sq,.mat.on .sq{transform:scale(1.15)}
+#mats:has(.mat.on) .mat:not(.on){opacity:.55}
+.handle{all:unset;cursor:pointer;position:absolute;left:0;top:calc(366*var(--uy));width:calc(40*var(--u));height:calc(76*var(--u));z-index:6;display:grid;place-items:center;background:rgba(255,255,255,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:0 calc(18*var(--u)) calc(18*var(--u)) 0;transition:background .25s,width .25s}
+.handle:hover{background:#fff;width:calc(46*var(--u))}
+.handle svg{width:calc(22*var(--u));height:calc(22*var(--u));stroke:var(--gold);stroke-width:2.2;transition:transform .35s}
+.closed .panel{transform:translateX(calc(-100% - 64*var(--ux)));opacity:0}
+.closed .handle svg{transform:rotate(180deg)}
+
+.pin{position:absolute;z-index:4;width:calc(24*var(--u));height:calc(24*var(--u));transform:translate(-50%,-50%);transition:opacity .4s}
+.pin .dot{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle,#000 0 calc(9*var(--u)),transparent calc(9.5*var(--u)));box-shadow:inset 0 0 0 1px #000;position:relative;cursor:pointer}
+.pin .dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(0,0,0,.55);animation:ping 2.4s ease-out infinite}
+@keyframes ping{from{transform:scale(.8);opacity:1}to{transform:scale(2.1);opacity:0}}
+.pin .card{position:absolute;top:50%;right:calc(100% + 15*var(--u));transform:translateY(-50%);width:calc(252*var(--u));min-height:calc(105*var(--u));background:rgba(255,255,255,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:calc(8*var(--u));padding:calc(28*var(--u));display:flex;flex-direction:column;justify-content:center;font-family:"Fb Ogen","Heebo",sans-serif;color:#000;line-height:1.2}
+.pin.flip .card{right:auto;left:calc(100% + 15*var(--u))}
+.pin .card b{font-weight:700;font-size:calc(18*var(--u))}
+.pin .card span{font-weight:400;font-size:calc(16*var(--u))}
+.pin.light .dot{background:radial-gradient(circle,#fff 0 calc(9*var(--u)),transparent calc(9.5*var(--u)));box-shadow:inset 0 0 0 1px #fff}
+.pin.light .dot::after{border-color:rgba(255,255,255,.7)}
+.pin.off{opacity:0;pointer-events:none}
+.pin.hi .card{box-shadow:0 0 0 2px var(--gold)}
+
+.bars{position:absolute;right:calc(81*var(--ux));bottom:calc(49*var(--uy));display:flex;gap:calc(35*var(--ux));z-index:5}
+.bars i{display:block;width:calc(176*var(--ux));height:calc(11*var(--u));background:#fff;position:relative;overflow:hidden;cursor:pointer}
+.bars i b{position:absolute;inset:0;background:var(--gold);transform-origin:right;transform:scaleX(0)}
+
+.intro{position:absolute;inset:0;z-index:4;pointer-events:none;color:#fff;font-family:"Fb Ogen","Heebo",sans-serif;transition:opacity .6s ease}
+.intro::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.6) 100%);z-index:-1}
+.intro .in-text{position:absolute;right:calc(110*var(--ux));bottom:calc(150*var(--uy));max-width:900px}
+.intro .in-k{display:block;font-size:20px;opacity:.85;margin-bottom:14px}
+.intro h1{font-weight:700;font-size:clamp(54px,7vw,120px);line-height:.95}
+.intro .in-meta{display:flex;gap:28px;margin-top:26px;font-size:18px;opacity:.9;flex-wrap:wrap}
+.intro .in-meta span+span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#fff;opacity:.7;margin-left:28px;vertical-align:middle}
+.intro .in-hint{position:absolute;left:50%;bottom:calc(90*var(--uy));transform:translateX(-50%);font-size:15px;opacity:.85;display:flex;flex-direction:column;align-items:center;gap:10px}
+.intro .in-hint i{width:22px;height:36px;border:2px solid #fff;border-radius:12px;position:relative}
+.intro .in-hint i::after{content:"";position:absolute;left:50%;top:6px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:#fff;animation:in-wh 1.4s ease-in-out infinite}
+@keyframes in-wh{0%{transform:translateY(0);opacity:1}70%{transform:translateY(11px);opacity:0}100%{opacity:0}}
+.intro.off{opacity:0}
+.stage .panel,.stage .handle{transition:opacity .6s ease, transform .45s cubic-bezier(.2,.7,.2,1)}
+.stage.intro-on .panel,.stage.intro-on .handle{opacity:0;pointer-events:none}
+
+.after{background:#fff;color:#000;font-family:"Fb Ogen","Heebo",sans-serif;padding:120px calc(110*var(--ux)) 110px;display:flex;flex-direction:column;gap:120px}
+.k{display:block;font-weight:400;font-size:18px;line-height:1.25;color:var(--gold)}
+.after h2{font-weight:700;font-size:50px;line-height:1}
+.after .lead{font-weight:400;font-size:24px;line-height:1.25;color:#3b3732}
+.incl{display:flex;gap:80px;align-items:flex-start}
+.incl .txt{width:560px;flex:none;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.items{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.item{background:#f4f2ee;border-radius:18px;padding:24px 22px;display:flex;gap:16px;align-items:flex-start}
+.item .sq{width:28px;height:29px;border-radius:5px;background:var(--gold);flex:none}
+.item div{flex:1;display:flex;flex-direction:column;gap:4px;font-size:18px;line-height:1.25}
+.item b{font-weight:700;color:#000}
+.item span{font-weight:400;color:#4a453f}
+.gallery{display:flex;flex-direction:column;gap:40px}
+.gal-head{display:flex;flex-direction:column;gap:14px}
+/* uneven grid: every photo keeps its own shape, nothing is cropped */
+.gal{columns:3;column-gap:18px}
+.gal figure{margin:0 0 28px;display:flex;flex-direction:column;gap:10px;break-inside:avoid}
+.gal img{width:100%;height:auto;display:block;border-radius:14px;background:#e7e1d7}
+.gal figcaption{font-size:18px;line-height:1.25;display:flex;gap:10px;align-items:center}
+.gal figcaption::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--gold);flex:none}
+.final{position:relative;overflow:hidden;background:#000;color:#fff;border-radius:27px;padding:64px 70px;display:flex;justify-content:space-between;align-items:center;gap:40px;isolation:isolate}
+.final::before{content:"";position:absolute;inset:0;z-index:-1;background:url(media/rooms/s5-1200.webp) center 60%/cover no-repeat;opacity:.28}
+.final .txt{display:flex;flex-direction:column;gap:16px}
+.final h2{color:#fff}
+.final p{font-size:18px;line-height:1.25;color:#fff;max-width:620px}
+.final .addr{font-size:18px;line-height:1.25;color:rgba(255,255,255,.8)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:58px;padding:0 28px;border-radius:999px;background:#fff;color:#111;text-decoration:none;font-weight:700;font-size:22px;line-height:1.25;white-space:nowrap;transition:transform .25s,box-shadow .25s}
+.btn svg{width:24px;height:24px;flex:none;color:var(--gold)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px -12px rgba(255,255,255,.5)}
+
+@media (max-width:860px){
+  :root{--u:calc(100vw/900)}
+  .intro .in-text{right:22px;left:22px;bottom:150px}.intro .in-meta{gap:12px;font-size:15px}.intro .in-meta span+span::before{margin-left:12px}
+  .tabs{right:12px;left:12px;transform:none;top:64px;gap:10px;justify-content:center}
+  .tab .lbl{font-size:15px;padding:6px 26px 6px 14px;margin-right:-14px}
+  .tab img{width:44px;height:44px}
+  .txtlogo{left:auto;right:12px;bottom:auto;top:14px}
+  .panel{left:12px;right:12px;top:auto;bottom:40px;width:auto;padding:14px 16px;display:flex;gap:16px;overflow-x:auto;border-radius:16px}
+  .panel h3{display:none}
+  .mat{min-width:200px}
+  .mat b{font-size:15px}.mat span{font-size:13px}
+  .handle{display:none}
+  .pin .card{display:none}
+  .bars{right:12px;left:12px;bottom:16px;gap:6px}
+  .bars i{flex:1;width:auto;height:4px}
+  .after{padding:64px 20px;gap:64px}
+  .after h2{font-size:34px}
+  .after .lead{font-size:19px}
+  .incl{flex-direction:column;gap:32px}
+  .incl .txt{width:auto}
+  .items{grid-template-columns:1fr}
+  .gal{columns:2;column-gap:10px}
+  .gal figcaption{font-size:15px}
+  .final{flex-direction:column;align-items:flex-start;padding:34px 24px}
+  .ribbon{bottom:auto;top:12px;left:12px;transform:none;font-size:10px;padding:5px 10px}
+}
+</style>
+</head>
+<body>
+<div class="ribbon">הדמיה פרטית של רוני אליהו · לא האתר הפעיל של נאורה גולדברג אדריכלית</div>
+
+<div class="tour" id="tour">
+  <div class="stage" id="stage">
+    <div id="scenes"></div>
+    <div class="grad-top"></div><div class="grad-bot"></div>
+    <div id="pins"></div>
+    <div class="intro" id="intro">
+      <div class="in-text">
+        <span class="in-k">פרויקט נבחר</span>
+        <h1>בית פרטי עם בריכה</h1>
+        <div class="in-meta"><span>בית פרטי</span><span>אדריכלות</span></div>
+      </div>
+      <div class="in-hint"><i></i>גללו לסיור בבית</div>
+    </div>
+
+    <div class="txtlogo"><b>NEORA GOLDBERG</b><span>ARCHITECT</span></div>
+
+    <nav class="tabs"><button class="tab" data-g="0"><img src="media/tabs/t0.png" alt=""><span class="lbl ogen">מבחוץ</span></button><button class="tab" data-g="1"><img src="media/tabs/t1.png" alt=""><span class="lbl ogen">בפנים</span></button><button class="tab" data-g="2"><img src="media/tabs/t2.png" alt=""><span class="lbl ogen">הבריכה</span></button></nav>
+
+    <aside class="panel" id="panel">
+      <h3 class="ogen">מה תוכנן כאן</h3>
+      <div id="mats"></div>
+    </aside>
+    <button class="handle" id="handle" aria-label="הסתרת הרשימה">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+
+    <div class="bars" id="bars"></div>
+  </div>
+</div>
+
+<div class="after">
+  <section class="incl">
+    <div class="txt">
+      <span class="k">על הפרויקט</span>
+      <h2>מדרגות ספירלה בפנים.<br>בריכה בחצר.</h2>
+      <p class="lead">בית פרטי עם בריכה, בתכנון של נאורה גולדברג. המשרד פועל כ-30 שנה ברעננה ותכנן כ-700 בתים.</p>
+    </div>
+    <div class="items"><div class="item"><i class="sq"></i><div><b>מדרגות ספירלה</b><span>מחברות את כל הקומות</span></div></div><div class="item"><i class="sq"></i><div><b>חלל אחד פתוח</b><span>מדרגות, פינת אוכל וסלון</span></div></div><div class="item"><i class="sq"></i><div><b>פרגולות</b><span>מעל המרפסות ובחצר</span></div></div><div class="item"><i class="sq"></i><div><b>בריכה בחצר</b><span>ליד מרפסת מקורה</span></div></div><div class="item"><i class="sq"></i><div><b>חדר שינה בקומת הגג</b><span>מתחת לתקרה משופעת</span></div></div></div>
+  </section>
+
+  <section class="gallery">
+    <div class="gal-head"><div><span class="k">גלריה</span><h2>מהכניסה ועד הבריכה.</h2></div></div>
+    <div class="gal"><figure><img src="media/gallery/g01.webp" width="1200" height="800" alt="" loading="lazy" decoding="async"><figcaption>החזית</figcaption></figure><figure><img src="media/gallery/g02.webp" width="1200" height="800" alt="" loading="lazy" decoding="async"><figcaption>הכניסה</figcaption></figure><figure><img src="media/gallery/g03.webp" width="1200" height="800" alt="" loading="lazy" decoding="async"></figure><figure><img src="media/gallery/g04.webp" width="1200" height="800" alt="" loading="lazy" decoding="async"><figcaption>הסלון ופינת האוכל</figcaption></figure><figure><img src="media/gallery/g05.webp" width="1200" height="776" alt="" loading="lazy" decoding="async"><figcaption>המדרגות</figcaption></figure><figure><img src="media/gallery/g06.webp" width="1200" height="800" alt="" loading="lazy" decoding="async"><figcaption>מבט למעלה בחדר המדרגות</figcaption></figure><figure><img src="media/gallery/g07.webp" width="1200" height="800" alt="" loading="lazy" decoding="async"><figcaption>הבריכה</figcaption></figure></div>
+  </section>
+
+  <div class="final">
+    <div class="txt">
+      <h2>מתכננים בית?</h2>
+      <p>אשמח להכיר ולשמוע איזה בית אתם רוצים.</p>
+      <div class="addr">רעננה</div>
+    </div>
+    <a class="btn" href="https://wa.me/972522649926"><span>לתיאום פגישת היכרות</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg></a>
+  </div>
+</div>
+
+<script>
+/* One sharp photo per room; the camera move is a CSS transform driven by scroll.
+   g = tab group. pins: x,y in % of the photo. z = zoom at the end of the room, dx = drift in % of the photo width. */
+const ROOMS = [{"id": "s1", "g": 0, "z": 1.1, "dx": 0, "w": 2400, "pins": [{"x": 66, "y": 33, "t": "פרגולות מעל המרפסות", "s": "צל על החלונות בשעות החמות", "light": true}, {"x": 43, "y": 70, "t": "דלת כניסה עם פאנל מעוטר", "s": "הכניסה בולטת כבר מהרחוב", "light": true}], "intro": true, "zmax": 1.15}, {"id": "s2", "g": 0, "z": 1.1, "dx": 0, "w": 2400, "pins": [{"x": 49, "y": 52, "t": "כניסה מקורה", "s": "נכנסים הביתה יבשים גם בגשם", "light": true}, {"x": 40, "y": 82, "t": "מדרגות אבן רחבות", "s": "עלייה נוחה עד הדלת"}], "zmax": 1.15}, {"id": "s3", "g": 1, "z": 1.1, "dx": 0, "w": 2400, "pins": [{"x": 40, "y": 32, "t": "מדרגות ספירלה בלב הבית", "s": "מחברות בין הקומות בלי לחסום את החלל"}, {"x": 62, "y": 57, "t": "פינת אוכל ליד החלונות", "s": "הרבה אור יום על השולחן"}, {"x": 88, "y": 56, "t": "סלון באותו חלל", "s": "מהמדרגות ועד הספה בלי קירות", "light": true}], "zmax": 1.15}, {"id": "s4", "g": 1, "z": 1.1, "dx": 0, "w": 2400, "pins": [{"x": 61, "y": 70, "t": "חלונות מהרצפה עד התקרה", "s": "אור טבעי בחדר המדרגות"}, {"x": 67, "y": 40, "t": "מעקה מתכת דק", "s": "המדרגות נשארות פתוחות לאור"}], "zmax": 1.15}, {"id": "s5", "g": 2, "z": 1.1, "dx": 0, "w": 2400, "pins": [{"x": 27, "y": 57, "t": "בריכה בחצר", "s": "יוצאים אליה ישר מהבית", "light": true, "flip": true}, {"x": 56, "y": 50, "t": "תריסים לכל גובה הקיר", "s": "שולטים בכמות האור בפנים"}], "zmax": 1.15}];
+const INTRO = {"x": 0.5, "y": 0.6, "z": 1.12};
+const IW = 3600, IH = 2400;
+const tour = document.getElementById('tour'), stage = document.getElementById('stage');
+const scenesEl = document.getElementById('scenes'), pinsEl = document.getElementById('pins'), matsEl = document.getElementById('mats');
+const tabs = [...document.querySelectorAll('.tab')], barsEl = document.getElementById('bars');
+/* each room gets scroll length by how many dots it shows, so every card stays on screen long enough to read */
+const RVH = ROOMS.map(r => 60 + 75*r.pins.length + (r.intro ? 90 : 0));
+const RSTART = RVH.map((v,i) => RVH.slice(0,i).reduce((a,b)=>a+b,0));
+tour.style.height = (RVH.reduce((a,b)=>a+b,0) + 100) + 'vh';
+const vh = v => innerHeight*v/100;
+window.roomStarts = () => RSTART.map(v => tour.offsetTop + vh(v));
+window.roomSpans = () => RVH.map(vh);
+window.ROOMS = ROOMS;
+const goRoom = ri => { const y = tour.offsetTop + vh(RSTART[ri]) + 2; if (window.lenis) lenis.scrollTo(y, {duration: 1.4}); else scrollTo({top: y, behavior:'smooth'}); };
+
+const set = r => 'media/rooms/'+r.id+'-1200.webp 1200w, media/rooms/'+r.id+'-2400.webp '+(r.w||2400)+'w';
+const scenes = ROOMS.map((r,ri) => {
+  const d = document.createElement('div'); d.className = 'scene';
+  const im = document.createElement('img'); im.alt = ''; im.decoding = 'async'; im.sizes = '100vw';
+  if(ri === 0){ im.fetchPriority = 'high'; im.srcset = set(r); }
+  d.appendChild(im); scenesEl.appendChild(d); return {d, im};
+});
+const want = ri => { const sc = scenes[ri]; if(sc && !sc.im.srcset) sc.im.srcset = set(ROOMS[ri]); };
+
+ROOMS.forEach((r,ri) => { const i = document.createElement('i'); i.innerHTML = '<b></b>'; i.onclick = () => goRoom(ri); barsEl.appendChild(i); });
+tabs.forEach(t => t.onclick = () => goRoom(ROOMS.findIndex(r => r.g === +t.dataset.g)));
+document.getElementById('handle').onclick = () => { stage.classList.toggle('closed'); render(); };
+
+let curRoom = -1, curT = 0;
+function buildRoom(ri){
+  const r = ROOMS[ri];
+  scenes.forEach((sc,k) => sc.d.classList.toggle('on', k === ri));
+  want(ri); want(ri+1);
+  tabs.forEach(t => t.classList.toggle('on', +t.dataset.g === r.g));
+  /* new dots are created hidden, so nothing flashes when the room changes */
+  pinsEl.innerHTML = r.pins.map((p,k) => '<div class="pin off'+(p.flip?' flip':'')+(p.light?' light':'')+'" data-k="'+k+'"><div class="dot"></div><div class="card"><b>'+p.t+'</b><span>'+p.s+'</span></div></div>').join('');
+  matsEl.innerHTML = r.pins.map((p,k) => '<div class="mat" data-k="'+k+'"><i class="sq"></i><div><b>'+p.t+'</b><span>'+p.s+'</span></div></div>').join('');
+  const hi = (k,on) => { pinsEl.querySelector('[data-k="'+k+'"]').classList.toggle('hi',on); matsEl.querySelector('[data-k="'+k+'"]').classList.toggle('hi',on); };
+  [...matsEl.children, ...pinsEl.children].forEach(el => { el.onmouseenter = () => hi(el.dataset.k,true); el.onmouseleave = () => hi(el.dataset.k,false); });
+}
+const ease = t => t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+/* the free area: below the tabs, above the bars, right of the panel */
+function safeArea(){
+  const W = innerWidth, H = innerHeight, m = 24, mob = W <= 860;
+  const tb = document.querySelector('.tabs').getBoundingClientRect();
+  const bars = barsEl.getBoundingClientRect();
+  const panel = document.getElementById('panel').getBoundingClientRect();
+  const closed = stage.classList.contains('closed');
+  return { l: mob || closed ? m : panel.right + m, r: W - m, t: tb.bottom + m, b: mob ? panel.top - m : bars.top - m };
+}
+window.safeArea = safeArea;
+function render(){
+  /* The photo always covers the screen. Dots appear one after another while scrolling, and for each one
+     the photo zooms/shifts just enough to bring it and its card into the free area. */
+  const r = ROOMS[curRoom], W = innerWidth, H = innerHeight, e = ease(curT), mob = W <= 860;
+  const s = Math.max(W/IW, H/IH), bw = IW*s, bh = IH*s, k = Math.min(W/1728, H/1117);
+  const cardW = mob ? 14 : (252+15)*k + 12, half = mob ? 14 : 105/2*k + 6;
+  const S = safeArea(), z0 = 1 + (r.z-1)*e, wantX = r.dx/100*bw*e, ZMAX = r.zmax || 1.4;
+  const P = r.pins.map(p => ({px:p.x/100, py:p.y/100, L: p.flip ? 14 : cardW, R: p.flip ? cardW : 14}));
+  const fit = q => {
+    let z = Math.min(ZMAX, Math.max(z0,
+      (S.l + q.L) / (bw*q.px), (W - S.r + q.R) / (bw*(1-q.px)),
+      (S.t + half) / (bh*q.py), (H - S.b + half) / (bh*(1-q.py))));
+    const mx = Math.max(0,(bw*z-W)/2), my = Math.max(0,(bh*z-H)/2);
+    const bx = W/2 + (q.px-.5)*bw*z, by = H/2 + (q.py-.5)*bh*z;
+    const c = (v,lo,hi) => Math.min(hi, Math.max(lo, v));
+    return {z, tx: c(c(wantX, S.l + q.L - bx, S.r - q.R - bx), -mx, mx), ty: c(c(0, S.t + half - by, S.b - half - by), -my, my)};
+  };
+  const n = P.length, a0 = r.intro ? .55 : .16, a1 = .9, L = (a1-a0)/Math.max(1,n), w = Math.min(.12, L*.4);
+  let i = Math.min(n-1, Math.max(0, Math.floor((curT-a0)/L)));
+  const local = curT - (a0 + i*L);
+  let F = n ? fit(P[i]) : {z:z0, tx:0, ty:0}, vis = n > 0 && curT > a0 && curT < a1;
+  if (r.intro && curT < a0 - .08) {  /* hero framing while the title shows */
+    const zi = INTRO.z, mx = Math.max(0,(bw*zi-W)/2), my = Math.max(0,(bh*zi-H)/2), c = (v,m) => Math.min(m, Math.max(-m, v));
+    F = {z: zi, tx: c((.5-INTRO.x)*bw*zi, mx), ty: c((.5-INTRO.y)*bh*zi, my)};
+  }
+  if (n && local > L - w && i < n-1) {
+    const G = fit(P[i+1]), m = (local - (L-w)) / w, sm = m*m*(3-2*m);
+    F = {z: F.z+(G.z-F.z)*sm, tx: F.tx+(G.tx-F.tx)*sm, ty: F.ty+(G.ty-F.ty)*sm};
+    vis = false;
+  }
+  if (local < w*.4 && i > 0) vis = false;
+  if (!window._sm || _sm.room !== curRoom) window._sm = {room: curRoom, z: F.z, tx: F.tx, ty: F.ty};
+  else { const q = .12; _sm.z += (F.z-_sm.z)*q; _sm.tx += (F.tx-_sm.tx)*q; _sm.ty += (F.ty-_sm.ty)*q; }
+  F = {z: _sm.z, tx: _sm.tx, ty: _sm.ty};
+  scenes[curRoom].im.style.transform = 'translate(-50%,-50%) translate3d('+F.tx+'px,'+F.ty+'px,0) scale('+F.z+')';
+  pinsEl.querySelectorAll('.pin').forEach((el,j) => {
+    const q = P[j], x = W/2 + (q.px-.5)*bw*F.z + F.tx, y = H/2 + (q.py-.5)*bh*F.z + F.ty;
+    el.style.left = x+'px'; el.style.top = y+'px';
+    el.classList.toggle('off', !(vis && j === i));
+  });
+  matsEl.querySelectorAll('.mat').forEach((m,j) => m.classList.toggle('on', vis && j === i));
+}
+function onScroll(){
+  const total = tour.offsetHeight - innerHeight, y = Math.min(total, Math.max(0, scrollY - tour.offsetTop));
+  let ri = 0; while (ri < ROOMS.length-1 && y >= vh(RSTART[ri+1])) ri++;
+  const t = Math.min(1, (y - vh(RSTART[ri])) / vh(RVH[ri]));
+  if(ri !== curRoom){ curRoom = ri; buildRoom(ri); }
+  curT = t;
+  const introOn = ri === 0 && ROOMS[0].intro && t < .42;
+  document.getElementById('intro').classList.toggle('off', !introOn);
+  stage.classList.toggle('intro-on', introOn);
+  render();
+  [...barsEl.children].forEach((b,k) => b.firstChild.style.transform = 'scaleX(' + (k < ri ? 1 : k === ri ? t : 0) + ')');
+}
+let lenis = null;
+if (window.Lenis && !/[?&]rec/.test(location.search)) {
+  lenis = window.lenis = new Lenis({lerp: .08, smoothWheel: true});
+  document.documentElement.classList.add('lenis');
+}
+(function frame(t){ if (lenis) lenis.raf(t); onScroll(); requestAnimationFrame(frame); })(performance.now());
+if(/[?&]clean/.test(location.search)){const rb=document.querySelector('.ribbon'); if(rb) rb.remove();}
+</script>
+</body>
+</html>
